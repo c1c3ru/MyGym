@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, ScrollView } from 'react-native';
 import { Text, Chip, Card, ActivityIndicator } from 'react-native-paper';
-import { useAuthMigration } from '../presentation/hooks/useAuthMigration';
+import useAuthMigration from '../hooks/useAuthMigration';
 import academyCollectionsService from '../../infrastructure/services/academyCollectionsService';
 
 export default function ModalityPicker({ 
