@@ -1,0 +1,422 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // ============================================================================
+    // COLEÇÃO GLOBAL DE USUÁRIOS
+    // ============================================================================
+    match /users/{userId} {
+      // Usuário pode ler e escrever seus próprios dados
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+      
+      // Admin pode ler usuários da mesma academia (para gerenciamento)
+      allow read: if request.auth != null && 
+                     isAdmin() && 
+                     hasValidAcademia() &&
+                     (resource == null || 
+                      !exists(/databases/$(database)/documents/users/$(userId)) ||
+                      resource.data.academiaId == getAcademiaId());
+    }
+    
+    // ============================================================================
+    // COLEÇÃO GLOBAL DE ACADEMIAS/GYMS
+    // ============================================================================
+    match /gyms/{gymId} {
+      // Admin pode ler e escrever APENAS dados da própria academia
+      allow read, write: if request.auth != null && 
+                           isAdmin() && 
+                           hasValidAcademia() &&
+                           gymId == getAcademiaId();
+      
+      // Usuários podem ler APENAS dados básicos da própria academia (para navegação)
+      allow read: if request.auth != null && 
+                     hasValidAcademia() &&
+                     gymId == getAcademiaId() &&
+                     (isAdmin() || isInstructor() || isStudent());
+    }
+    
+    // ============================================================================
+    // SUBCOLEÇÕES POR ACADEMIA - ISOLAMENTO COMPLETO
+    // ============================================================================
+    
+    // Alunos da academia
+    match /gyms/{gymId}/students/{studentId} {
+      // Admin e instrutor podem ler/escrever alunos da própria academia
+      allow read, write: if request.auth != null && 
+                           hasValidAcademia() &&
+                           gymId == getAcademiaId() && 
+                           isAdminOrInstructor();
+      
+      // Aluno pode ler APENAS seus próprios dados
+      allow read: if request.auth != null && 
+                     hasValidAcademia() &&
+                     gymId == getAcademiaId() && 
+                     isStudent() && 
+                     request.auth.uid == studentId;
+      
+      // Validação rigorosa ao criar/atualizar (apenas admin)
+      allow create, update: if request.auth != null && 
+                              hasValidAcademia() &&
+                              gymId == getAcademiaId() && 
+                              isAdmin() &&
+                              validateStudentData();
+    }
+    
+    // Turmas da academia
+    match /gyms/{gymId}/classes/{classId} {
+      // Admin pode ler e escrever todas as turmas da academia
+      allow read, write: if request.auth != null && 
+                           hasValidAcademia() &&
+                           gymId == getAcademiaId() && 
+                           isAdmin();
+      
+      // Instrutor pode ler e escrever APENAS suas próprias turmas
+      allow read, write: if request.auth != null && 
+                           hasValidAcademia() &&
+                           gymId == getAcademiaId() && 
+                           isInstructor() && 
+                           (resource == null || resource.data.instructorId == request.auth.uid);
+      
+      // Alunos podem ler dados das turmas da própria academia
+      // (Frontend controla quais turmas o aluno pode ver)
+      allow read: if request.auth != null && 
+                     hasValidAcademia() &&
+                     gymId == getAcademiaId() && 
+                     isStudent();
+      
+      // Validação rigorosa de dados da turma
+      allow create, update: if request.auth != null && 
+                              hasValidAcademia() &&
+                              gymId == getAcademiaId() && 
+                              (isAdmin() || isInstructor()) &&
+                              validateClassData();
+    }
+    
+    // Pagamentos da academia
+    match /gyms/{gymId}/payments/{paymentId} {
+      // Admin pode ler e escrever todos os pagamentos da própria academia
+      allow read, write: if request.auth != null && 
+                           hasValidAcademia() &&
+                           gymId == getAcademiaId() && 
+                           isAdmin();
+      
+      // Aluno pode ler APENAS seus próprios pagamentos
+      allow read: if request.auth != null && 
+                     hasValidAcademia() &&
+                     gymId == getAcademiaId() && 
+                     isStudent() && 
+                     (resource == null || resource.data.studentId == request.auth.uid);
+    }
+    
+    // Check-ins da academia
+    match /gyms/{gymId}/checkIns/{checkInId} {
+      // Admin e instrutor podem ler todos os check-ins da própria academia
+      allow read: if request.auth != null && 
+                     hasValidAcademia() &&
+                     gymId == getAcademiaId() && 
+                     isAdminOrInstructor();
+      
+      // Instrutor pode criar check-ins para suas turmas
+      allow create: if request.auth != null && 
+                      hasValidAcademia() &&
+                      gymId == getAcademiaId() && 
+                      isInstructor() && 
+                      validateCheckInData();
+      
+      // Aluno pode criar check-in APENAS para si mesmo
+      allow create: if request.auth != null && 
+                      hasValidAcademia() &&
+                      gymId == getAcademiaId() && 
+                      isStudent() && 
+                      request.resource.data.studentId == request.auth.uid;
+    }
+    
+    // Graduações da academia
+    match /gyms/{gymId}/graduations/{graduationId} {
+      // Admin pode ler e escrever todas as graduações da própria academia
+      allow read, write: if request.auth != null && 
+                           hasValidAcademia() &&
+                           gymId == getAcademiaId() && 
+                           isAdmin();
+      
+      // Instrutor pode criar graduações para seus alunos
+      allow create: if request.auth != null && 
+                      hasValidAcademia() &&
+                      gymId == getAcademiaId() && 
+                      isInstructor() && 
+                      validateGraduationData();
+      
+      // Aluno pode ler APENAS suas próprias graduações
+      allow read: if request.auth != null && 
+                     hasValidAcademia() &&
+                     gymId == getAcademiaId() && 
+                     isStudent() && 
+                     (resource == null || resource.data.studentId == request.auth.uid);
+    }
+    
+    // Modalidades da academia
+    match /gyms/{gymId}/modalities/{modalityId} {
+      // Admin pode ler e escrever modalidades da própria academia
+      allow read, write: if request.auth != null && 
+                           hasValidAcademia() &&
+                           gymId == getAcademiaId() && 
+                           isAdmin();
+      
+      // Instrutor e aluno podem ler modalidades da própria academia
+      allow read: if request.auth != null && 
+                     hasValidAcademia() &&
+                     gymId == getAcademiaId() &&
+                     (isInstructor() || isStudent());
+    }
+    
+    // Planos da academia
+    match /gyms/{gymId}/plans/{planId} {
+      // Admin pode ler e escrever planos da própria academia
+      allow read, write: if request.auth != null && 
+                           hasValidAcademia() &&
+                           gymId == getAcademiaId() && 
+                           isAdmin();
+      
+      // Instrutor e aluno podem ler planos da própria academia
+      allow read: if request.auth != null && 
+                     hasValidAcademia() &&
+                     gymId == getAcademiaId() &&
+                     (isInstructor() || isStudent());
+    }
+    
+    // Avisos da academia
+    match /gyms/{gymId}/announcements/{announcementId} {
+      // Admin pode ler e escrever avisos da própria academia
+      allow read, write: if request.auth != null && 
+                           hasValidAcademia() &&
+                           gymId == getAcademiaId() && 
+                           isAdmin();
+      
+      // Instrutor e aluno podem ler avisos da própria academia
+      allow read: if request.auth != null && 
+                     hasValidAcademia() &&
+                     gymId == getAcademiaId() &&
+                     (isInstructor() || isStudent());
+    }
+    
+    // Instrutores da academia
+    match /gyms/{gymId}/instructors/{instructorId} {
+      // Admin pode ler e escrever dados de instrutores da própria academia
+      allow read, write: if request.auth != null && 
+                           hasValidAcademia() &&
+                           gymId == getAcademiaId() && 
+                           isAdmin();
+      
+      // Instrutor pode ler APENAS seus próprios dados
+      allow read: if request.auth != null && 
+                     hasValidAcademia() &&
+                     gymId == getAcademiaId() && 
+                     isInstructor() && 
+                     request.auth.uid == instructorId;
+    }
+    
+    // Avaliações físicas da academia
+    match /gyms/{gymId}/physicalEvaluations/{evaluationId} {
+      // Admin pode ler e escrever todas as avaliações da própria academia
+      allow read, write: if request.auth != null && 
+                           hasValidAcademia() &&
+                           gymId == getAcademiaId() && 
+                           isAdmin();
+      
+      // Instrutor pode criar e ler avaliações de seus alunos
+      allow read, create: if request.auth != null && 
+                            hasValidAcademia() &&
+                            gymId == getAcademiaId() && 
+                            isInstructor() &&
+                            (request.resource == null || validatePhysicalEvaluationData());
+      
+      // Aluno pode ler APENAS suas próprias avaliações
+      allow read: if request.auth != null && 
+                     hasValidAcademia() &&
+                     gymId == getAcademiaId() && 
+                     isStudent() && 
+                     (resource == null || resource.data.studentId == request.auth.uid);
+    }
+    
+    // Lesões da academia
+    match /gyms/{gymId}/injuries/{injuryId} {
+      // Admin pode ler e escrever todas as lesões da própria academia
+      allow read, write: if request.auth != null && 
+                           hasValidAcademia() &&
+                           gymId == getAcademiaId() && 
+                           isAdmin();
+      
+      // Instrutor pode criar e ler lesões de seus alunos
+      allow read, create: if request.auth != null && 
+                            hasValidAcademia() &&
+                            gymId == getAcademiaId() && 
+                            isInstructor() &&
+                            (request.resource == null || validateInjuryData());
+      
+      // Aluno pode ler e criar APENAS suas próprias lesões
+      allow read, create: if request.auth != null && 
+                            hasValidAcademia() &&
+                            gymId == getAcademiaId() && 
+                            isStudent() && 
+                            (resource == null || resource.data.studentId == request.auth.uid) &&
+                            (request.resource == null || validateInjuryData());
+    }
+    
+    // Notificações da academia
+    match /gyms/{gymId}/notifications/{notificationId} {
+      // Admin pode ler e escrever todas as notificações da própria academia
+      allow read, write: if request.auth != null && 
+                           hasValidAcademia() &&
+                           gymId == getAcademiaId() && 
+                           isAdmin();
+      
+      // Usuários podem ler e atualizar APENAS suas próprias notificações
+      allow read, update: if request.auth != null && 
+                            hasValidAcademia() &&
+                            gymId == getAcademiaId() && 
+                            (resource == null || resource.data.userId == request.auth.uid);
+    }
+    
+    // Logs de auditoria da academia
+    match /gyms/{gymId}/logs/{logId} {
+      // Apenas admin pode ler logs da própria academia
+      allow read: if request.auth != null && 
+                     hasValidAcademia() &&
+                     gymId == getAcademiaId() && 
+                     isAdmin();
+      
+      // Admin e instrutor podem criar logs
+      allow create: if request.auth != null && 
+                      hasValidAcademia() &&
+                      gymId == getAcademiaId() && 
+                      isAdminOrInstructor() &&
+                      validateLogData();
+    }
+    
+    // ============================================================================
+    // FUNÇÕES AUXILIARES - USANDO CUSTOM CLAIMS (SEM GET CALLS)
+    // ============================================================================
+    
+    // Verificar se é admin
+    function isAdmin() {
+      return request.auth.token.role == 'admin';
+    }
+    
+    // Verificar se é instrutor
+    function isInstructor() {
+      return request.auth.token.role == 'instructor';
+    }
+    
+    // Verificar se é aluno
+    function isStudent() {
+      return request.auth.token.role == 'student';
+    }
+    
+    // Verificar se é admin ou instrutor
+    function isAdminOrInstructor() {
+      return request.auth.token.role in ['admin', 'instructor'];
+    }
+    
+    // Obter ID da academia do usuário com validação
+    function getAcademiaId() {
+      return request.auth.token.academiaId != null && 
+             request.auth.token.academiaId != '' && 
+             request.auth.token.academiaId is string ? 
+             request.auth.token.academiaId : null;
+    }
+    
+    // Verificar se o usuário tem academia válida
+    function hasValidAcademia() {
+      return getAcademiaId() != null;
+    }
+    
+    // REMOVIDO: Funções com get() calls para melhor performance
+    // O controle de acesso é feito via custom claims e validação no frontend
+    
+    // Verificar se é o próprio usuário ou admin/instrutor da academia
+    function canAccessUserData(userId) {
+      return request.auth.uid == userId || 
+             (hasValidAcademia() && isAdminOrInstructor());
+    }
+    
+    // Verificar se pode modificar dados de outro usuário
+    function canModifyUserData(userId) {
+      return request.auth.uid == userId || 
+             (hasValidAcademia() && isAdmin());
+    }
+    
+    // ============================================================================
+    // VALIDAÇÕES DE DADOS
+    // ============================================================================
+    
+    // Validar dados do aluno
+    function validateStudentData() {
+      let data = request.resource.data;
+      return data.keys().hasAll(['name', 'email', 'academiaId']) &&
+             data.academiaId == getAcademiaId() &&
+             data.name is string && data.name.size() > 0 &&
+             data.email is string && data.email.matches('.*@.*');
+    }
+    
+    // Validar dados da turma
+    function validateClassData() {
+      let data = request.resource.data;
+      return data.keys().hasAll(['name', 'modality', 'instructorId', 'academiaId']) &&
+             data.academiaId == getAcademiaId() &&
+             data.name is string && data.name.size() > 0;
+    }
+    
+    // Validar dados do check-in
+    function validateCheckInData() {
+      let data = request.resource.data;
+      return data.keys().hasAll(['studentId', 'classId', 'timestamp']) &&
+             data.timestamp is timestamp;
+    }
+    
+    // Validar dados da graduação
+    function validateGraduationData() {
+      let data = request.resource.data;
+      return data.keys().hasAll(['studentId', 'belt', 'date']) &&
+             data.date is timestamp;
+    }
+    
+    // Validar dados de avaliação física
+    function validatePhysicalEvaluationData() {
+      let data = request.resource.data;
+      return data.keys().hasAll(['studentId', 'weight', 'height']) &&
+             data.studentId is string &&
+             data.weight is number && data.weight > 0 &&
+             data.height is number && data.height > 0;
+    }
+    
+    // Validar dados de lesão
+    function validateInjuryData() {
+      let data = request.resource.data;
+      return data.keys().hasAll(['studentId', 'bodyPart', 'description', 'date']) &&
+             data.studentId is string &&
+             data.bodyPart is string && data.bodyPart.size() > 0 &&
+             data.description is string && data.description.size() > 0 &&
+             data.date is timestamp;
+    }
+    
+    // Validar dados de notificação
+    function validateNotificationData() {
+      let data = request.resource.data;
+      return data.keys().hasAll(['userId', 'type', 'title', 'message']) &&
+             data.userId is string &&
+             data.type is string &&
+             data.title is string && data.title.size() > 0 &&
+             data.message is string && data.message.size() > 0;
+    }
+    
+    // Validar dados de log
+    function validateLogData() {
+      let data = request.resource.data;
+      return data.keys().hasAll(['type', 'performedBy', 'timestamp']) &&
+             data.type is string &&
+             data.performedBy is string &&
+             data.timestamp is timestamp;
+    }
+  }
+}
+
