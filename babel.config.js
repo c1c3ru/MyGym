@@ -17,7 +17,8 @@ module.exports = function(api) {
           '@utils': './src/shared/utils',
           '@assets': './assets',
           '@domain': './src/domain',
-          '@features': './src/features'
+          '@features': './src/features',
+          '@/auth': './src/presentation/auth'
         }
       }],
       // Transform import.meta to prevent syntax errors

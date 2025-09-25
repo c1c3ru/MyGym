@@ -1,7 +1,7 @@
 // Sign out use case
 
 import { BaseUseCase } from './base';
-import { AuthRepository } from '@components/repositories';
+import { AuthRepository } from '@/domain/repositories';
 import { mapFirebaseError } from '../errors';
 
 export class SignOutUseCase extends BaseUseCase<void, void> {

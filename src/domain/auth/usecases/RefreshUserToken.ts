@@ -1,8 +1,8 @@
 // Refresh user token use case
 
 import { BaseUseCase } from './base';
-import { AuthRepository } from '@components/repositories';
-import { User, Claims } from '@components/entities';
+import { AuthRepository } from '@/domain/repositories';
+import { User, Claims } from '@/domain/entities';
 import { mapFirebaseError } from '../errors';
 
 export class RefreshUserTokenUseCase extends BaseUseCase<User, Claims> {

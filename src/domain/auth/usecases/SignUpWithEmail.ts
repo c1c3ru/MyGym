@@ -1,8 +1,8 @@
 // Sign up with email use case
 
 import { BaseUseCase } from './base';
-import { AuthRepository } from '@components/repositories';
-import { User, AuthSession, UserType } from '@components/entities';
+import { AuthRepository } from '@/domain/repositories';
+import { User, AuthSession, UserType } from '@/domain/entities';
 import { mapFirebaseError } from '../errors';
 import { signUpSchema, SignUpInput } from './schemas';
 

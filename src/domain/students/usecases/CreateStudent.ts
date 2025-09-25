@@ -1,8 +1,8 @@
 // Create student use case
 
 import { BaseUseCase } from '../../auth/usecases/base';
-import { StudentsRepository } from '@components/repositories';
-import { Student, CreateStudentData } from '@components/entities';
+import { StudentsRepository } from '@/domain/repositories';
+import { Student, CreateStudentData } from '@/domain/entities';
 import { z } from 'zod';
 
 const addressSchema = z.object({

@@ -3,8 +3,7 @@ import { View, StyleSheet, Alert, Platform, ScrollView } from 'react-native';
 import { 
   TextInput, 
   Card, 
-  Title, 
-  Paragraph,
+  Typography, 
   Divider,
   ActivityIndicator,
   Button,
@@ -18,15 +17,15 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useAuthFacade } from '@components/auth/AuthFacade';
+import { useAuthFacade } from '../auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
-import AnimatedCard from '@components/components/AnimatedCard';
-import AnimatedButton from '@components/components/AnimatedButton';
-import EnhancedErrorBoundary from '@components/components/EnhancedErrorBoundary';
+import AnimatedCard from '@components/AnimatedCard';
+import AnimatedButton from '@components/AnimatedButton';
+import EnhancedErrorBoundary from '@components/EnhancedErrorBoundary';
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import { useFormValidation } from '@hooks/useFormValidation';
 import { rateLimitService } from '@services/rateLimitService';
-import LoginSkeleton from '@components/components/skeletons/LoginSkeleton';
+import LoginSkeleton from '@components/skeletons/LoginSkeleton';
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
