@@ -17,7 +17,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useAuthFacade } from '../auth/AuthFacade';
+import { useAuthFacade } from '@components/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
 import AnimatedCard from '@components/AnimatedCard';
 import AnimatedButton from '@components/AnimatedButton';

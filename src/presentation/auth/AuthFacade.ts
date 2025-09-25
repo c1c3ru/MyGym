@@ -18,7 +18,7 @@ import {
 import { FirebaseAuthRepository } from '@/data/auth';
 import { initializeFirebaseServices } from '@/infrastructure/firebase';
 // import { AuthError } from '@/domain/auth/errors'; // Unused for now
-import crashlyticsService from '@services/crashlyticsService';
+import crashlyticsService from '@/infrastructure/services/crashlyticsService';
 
 // Global variables to control initialization
 let authListenerInitialized = false;

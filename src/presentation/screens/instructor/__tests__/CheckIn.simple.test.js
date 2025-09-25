@@ -22,7 +22,7 @@ jest.mock('../../../../infrastructure/services/academyFirestoreService', () => (
 }));
 
 // Mock do contexto de autenticação
-jest.mock('../../../contexts/AuthProvider', () => ({
+jest.mock('@contexts/AuthProvider', () => ({
   useAuth: () => ({
     user: { uid: 'test-user-id', email: 'test@example.com' },
     userProfile: { 

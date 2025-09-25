@@ -24,7 +24,7 @@ jest.mock('../../../services/academyFirestoreService', () => ({
 }));
 
 // Mock do contexto de autenticação
-jest.mock('../../../contexts/AuthProvider', () => ({
+jest.mock('@contexts/AuthProvider', () => ({
   useAuth: () => ({
     user: TestSprite.mockAuthUser(),
     userProfile: TestSprite.mockUserProfile({ role: 'instructor' }),

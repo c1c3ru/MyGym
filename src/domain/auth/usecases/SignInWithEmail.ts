@@ -3,7 +3,7 @@
 import { BaseUseCase } from './base';
 import { AuthRepository } from '@/domain/repositories';
 import { User, AuthSession } from '@/domain/entities';
-import { mapFirebaseError } from '../errors';
+import { mapFirebaseError } from '@components/errors';
 import { signInSchema, SignInInput } from './schemas';
 
 export class SignInWithEmailUseCase extends BaseUseCase<SignInInput, AuthSession> {

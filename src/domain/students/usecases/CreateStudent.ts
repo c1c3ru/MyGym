@@ -1,6 +1,6 @@
 // Create student use case
 
-import { BaseUseCase } from '../../auth/usecases/base';
+import { BaseUseCase } from '@/auth/usecases/base';
 import { StudentsRepository } from '@/domain/repositories';
 import { Student, CreateStudentData } from '@/domain/entities';
 import { z } from 'zod';

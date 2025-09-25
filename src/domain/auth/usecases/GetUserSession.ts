@@ -3,7 +3,7 @@
 import { BaseUseCase } from './base';
 import { AuthRepository } from '@/domain/repositories';
 import { AuthSession, User } from '@/domain/entities';
-import { mapFirebaseError, UserProfileNotFoundError } from '../errors';
+import { mapFirebaseError, UserProfileNotFoundError } from '@components/errors';
 
 export class GetUserSessionUseCase extends BaseUseCase<User, AuthSession> {
   constructor(private authRepository: AuthRepository) {

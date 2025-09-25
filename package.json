@@ -4,11 +4,11 @@
   "main": "index.js",
   "scripts": {
     "start": "node scripts/start-replit.js",
-    "start:expo": "npx expo start --web --port 5000 --host 0.0.0.0",
-    "start:dev": "npx expo start --web --port 5000 --host 0.0.0.0 --clear",
+    "start:expo": "npx expo start --web --port 5000",
+    "start:dev": "npx expo start --web --port 5000 --clear",
     "android": "npx expo run:android",
     "ios": "npx expo run:ios",
-    "web": "npx expo start --web --port 5000 --host 0.0.0.0",
+    "web": "npx expo start --web --port 5000",
     "build:web": "npx expo export --platform web",
     "build:android": "node scripts/build-android.js production",
     "build:android:apk": "node scripts/build-android.js production-apk",
@@ -75,13 +75,13 @@
     "reset": "npm run clean && npm install",
     "serve:dist": "npx serve dist -l 5000",
     "start:prod": "npm run build:prod && npm run serve:dist",
-    "dev": "npx expo start --web --port 5000 --host 0.0.0.0",
-    "dev:clear": "npx expo start --web --port 5000 --host 0.0.0.0 --clear",
+    "dev": "npx expo start --web --port 5000",
+    "dev:clear": "npx expo start --web --port 5000 --clear",
     "dev:tunnel": "npx expo start --tunnel",
     "build": "npx expo export --platform web --output-dir dist",
     "build:prod": "NODE_ENV=production npx expo export --platform web --output-dir dist",
     "build:analyze": "npm run build && npx bundlesize",
-    "start:simple": "npx expo start --web --port 5000 --host 0.0.0.0"
+    "start:simple": "npx expo start --web --port 5000"
   },
   "dependencies": {
     "@expo/metro-runtime": "~5.0.5",
