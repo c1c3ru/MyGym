@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Card, Title, Paragraph, Button } from 'react-native-paper';
+import { Card, Button, Text } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 import { Logger } from '@utils/logger';
 
@@ -40,10 +40,10 @@ class ErrorBoundary extends React.Component {
           <Card style={styles.card}>
             <Card.Content style={styles.content}>
               <Ionicons name="alert-circle-outline" size={64} color="#F44336" />
-              <Title style={styles.title}>Ops! Algo deu errado</Title>
-              <Paragraph style={styles.message}>
+              <Text style={styles.title}>Ops! Algo deu errado</Text>
+              <Text style={styles.message}>
                 Ocorreu um erro inesperado. Tente novamente ou reinicie o aplicativo.
-              </Paragraph>
+              </Text>
               <Button 
                 mode="contained" 
                 onPress={this.handleRetry}

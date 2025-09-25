@@ -6,11 +6,11 @@ const path = require('path');
 // Mapeamento de correções para imports incorretos
 const incorrectImportFixes = [
   // Corrigir @components/../domain para @domain
-  { pattern: /@components\/\.\.\//g, replacement: '@/' },
+  { pattern: /@components\/\.\.\//g, replacement: '@' },
   
   // Corrigir outros padrões incorretos
-  { pattern: /from '@components\/\.\.\//g, replacement: "from '@/" },
-  { pattern: /import.*from '@components\/\.\.\//g, replacement: match => match.replace('@components/../', '@/') },
+  { pattern: /from '@components\/\.\.\//g, replacement: "from '@" },
+  { pattern: /import.*from '@components\/\.\.\//g, replacement: match => match.replace('@components/../', '@') },
 ];
 
 function fixFile(filePath) {

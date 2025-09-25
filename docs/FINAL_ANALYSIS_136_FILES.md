@@ -74,7 +74,7 @@ import Component from '@components/Component';
 import { User } from '@components/../domain/entities/User';
 
 // ✅ Correto (corrigido pelo script de correção)
-import { User } from '@/domain/entities/User';
+import { User } from '@domain/entities/User';
 ```
 
 **Arquivos corrigidos pelo script de correção:**

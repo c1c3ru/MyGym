@@ -9,9 +9,9 @@ import {
 import { Card, Text, Button, TextInput, HelperText, Chip, RadioButton, Snackbar } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 // import { Picker } from '@react-native-picker/picker'; // Removido - dependência não disponível
-import { useAuth } from '@/contexts/AuthProvider';
+import { useAuth } from '@contexts/AuthProvider';
 import { academyFirestoreService, academyClassService } from '@services/academyFirestoreService';
-import ActionButton, { ActionButtonGroup } from '@/components/ActionButton';
+import ActionButton, { ActionButtonGroup } from '@components/ActionButton';
 
 const EditClassScreen = ({ route, navigation }) => {
   const { classId } = route.params;

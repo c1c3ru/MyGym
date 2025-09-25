@@ -1,5 +1,5 @@
-import { AuthRepository } from '@/domain/repositories/AuthRepository';
-import { FirebaseAuthDataSource } from '@/data/datasources/FirebaseAuthDataSource';
+import { AuthRepository } from '@domain/repositories/AuthRepository';
+import { FirebaseAuthDataSource } from '@data/datasources/FirebaseAuthDataSource';
 
 /**
  * AuthRepositoryImpl - Data Layer

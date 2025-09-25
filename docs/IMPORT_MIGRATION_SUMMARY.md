@@ -53,7 +53,7 @@ import useAuthStore from '../../../presentation/stores/AuthUIStore';
 
 // ✅ Depois
 import { auth, db } from '@services/firebase';
-import useAuthStore from '@/presentation/stores/AuthUIStore';
+import useAuthStore from '@presentation/stores/AuthUIStore';
 ```
 
 #### **3. Data Layer**
@@ -165,7 +165,7 @@ import icon from '@assets/icon.png';
 ```
 
 #### **Quando Usar Cada Alias**
-- **`@/`** - Para caminhos absolutos dentro de src
+- **`@`** - Para caminhos absolutos dentro de src
 - **`@components`** - Componentes reutilizáveis
 - **`@screens`** - Telas específicas
 - **`@services`** - Serviços de infraestrutura

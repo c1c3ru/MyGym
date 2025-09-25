@@ -5,8 +5,8 @@ const path = require('path');
 
 // Correções para o domain
 const domainFixes = [
-  { pattern: /@components\/entities/g, replacement: '@/domain/entities' },
-  { pattern: /@components\/repositories/g, replacement: '@/domain/repositories' },
+  { pattern: /@components\/entities/g, replacement: '@domain/entities' },
+  { pattern: /@components\/repositories/g, replacement: '@domain/repositories' },
 ];
 
 function fixFile(filePath) {

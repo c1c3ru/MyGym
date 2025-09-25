@@ -14,8 +14,8 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Calendar } from 'react-native-calendars';
 import { Ionicons } from '@expo/vector-icons';
-import { useAuth } from '@/contexts/AuthProvider';
-import { useTheme } from '@/contexts/ThemeContext';
+import { useAuth } from '@contexts/AuthProvider';
+import { useTheme } from '@contexts/ThemeContext';
 import { academyFirestoreService, academyClassService } from '@services/academyFirestoreService';
 
 const StudentCalendar = ({ navigation }) => {

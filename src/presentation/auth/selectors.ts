@@ -1,6 +1,6 @@
 // Selectors for auth presentation layer
 
-import { AuthSession, User, UserProfile, Claims, Academia, UserType } from '@/domain/auth/entities';
+import { AuthSession, User, UserProfile, Claims, Academia, UserType } from '@domain/auth/entities';
 
 export interface AuthState {
   user: User | null;

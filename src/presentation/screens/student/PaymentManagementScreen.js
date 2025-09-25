@@ -16,10 +16,10 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { useAuth } from '@/contexts/AuthProvider';
-import { useCustomClaims } from '@/hooks/useCustomClaims';
+import { useAuth } from '@contexts/AuthProvider';
+import { useCustomClaims } from '@hooks/useCustomClaims';
 import { firestoreService } from '@services/firestoreService';
-import { getThemeColors } from '@/theme/professionalTheme';
+import { getThemeColors } from '@theme/professionalTheme';
 
 const PaymentManagementScreen = ({ navigation }) => {
   const { user, userProfile, academia } = useAuth();

@@ -3,7 +3,6 @@ import { View, StyleSheet, Alert, Platform, ScrollView } from 'react-native';
 import { 
   TextInput, 
   Card, 
-  Typography, 
   Divider,
   ActivityIndicator,
   Button,
@@ -17,7 +16,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useAuthFacade } from '@components/auth/AuthFacade';
+import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
 import AnimatedCard from '@components/AnimatedCard';
 import AnimatedButton from '@components/AnimatedButton';
@@ -224,7 +223,7 @@ export default function LoginScreen({ navigation }) {
     return (
       <View style={[styles.loadingContainer, { backgroundColor: theme.colors.background }]}>
         <ActivityIndicator size="large" color={theme.colors.primary} />
-        <Paragraph style={[styles.loadingText, { color: theme.colors.text }]}>{getString('loggingIn')}</Paragraph>
+        <Text style={[styles.loadingText, { color: theme.colors.text }]}>{getString('loggingIn')}</Text>
       </View>
     );
   }
@@ -297,10 +296,10 @@ export default function LoginScreen({ navigation }) {
               color="white" 
               style={styles.headerIcon}
             />
-            <Title style={styles.headerTitle}>{getString('appName')}</Title>
-            <Paragraph style={styles.headerSubtitle}>
+            <Text style={styles.headerTitle}>{getString('appName')}</Text>
+            <Text style={styles.headerSubtitle}>
               {getString('welcome')}
-            </Paragraph>
+            </Text>
           </View>
 
           <View style={styles.content}>

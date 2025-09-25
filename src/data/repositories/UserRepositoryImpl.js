@@ -1,6 +1,6 @@
-import { UserRepository } from '@/domain/repositories/UserRepository';
-import { FirestoreUserDataSource } from '@/data/datasources/FirestoreUserDataSource';
-import { UserModel } from '@/data/models/UserModel';
+import { UserRepository } from '@domain/repositories/UserRepository';
+import { FirestoreUserDataSource } from '@data/datasources/FirestoreUserDataSource';
+import { UserModel } from '@data/models/UserModel';
 
 /**
  * UserRepositoryImpl - Data Layer

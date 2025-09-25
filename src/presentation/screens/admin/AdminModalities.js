@@ -17,9 +17,9 @@ import {
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { useAuth } from '@/contexts/AuthProvider';
-import { useAuthMigration } from '@/hooks/useAuthMigration';
-import { useTheme } from '@/contexts/ThemeContext';
+import { useAuth } from '@contexts/AuthProvider';
+import { useAuthMigration } from '@hooks/useAuthMigration';
+import { useTheme } from '@contexts/ThemeContext';
 import academyCollectionsService from '@services/academyCollectionsService';
 
 const AdminModalities = ({ navigation }) => {

@@ -23,34 +23,34 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@/*": [
+      "@*": [
         "./src/*"
       ],
-      "@/components/*": [
+      "@components/*": [
         "./src/components/*"
       ],
-      "@/screens/*": [
+      "@screens/*": [
         "./src/screens/*"
       ],
-      "@/services/*": [
+      "@services/*": [
         "./src/services/*"
       ],
-      "@/utils/*": [
+      "@utils/*": [
         "./src/utils/*"
       ],
-      "@/hooks/*": [
+      "@hooks/*": [
         "./src/hooks/*"
       ],
-      "@/contexts/*": [
+      "@contexts/*": [
         "./src/contexts/*"
       ],
-      "@/stores/*": [
+      "@stores/*": [
         "./src/stores/*"
       ],
-      "@/navigation/*": [
+      "@navigation/*": [
         "./src/navigation/*"
       ],
-      "@/types/*": [
+      "@types/*": [
         "./src/types/*"
       ]
     }

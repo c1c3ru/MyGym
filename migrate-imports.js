@@ -24,15 +24,15 @@ const importMappings = [
   { pattern: /from ['"]\.\.\/([^'"]+)['"]/g, replacement: "from '@components/$1'" },
   
   // Data
-  { pattern: /from ['"]\.\.\/\.\.\/data\/([^'"]+)['"]/g, replacement: "from '@/data/$1'" },
+  { pattern: /from ['"]\.\.\/\.\.\/data\/([^'"]+)['"]/g, replacement: "from '@data/$1'" },
   
   // Domain
   { pattern: /from ['"]\.\.\/\.\.\/domain\/([^'"]+)['"]/g, replacement: "from '@domain/$1'" },
   { pattern: /from ['"]\.\.\/\.\.\/\.\.\/domain\/([^'"]+)['"]/g, replacement: "from '@domain/$1'" },
   
   // Shared types
-  { pattern: /from ['"]\.\.\/shared\/([^'"]+)['"]/g, replacement: "from '@/shared/$1'" },
-  { pattern: /from ['"]\.\.\/\.\.\/shared\/([^'"]+)['"]/g, replacement: "from '@/shared/$1'" },
+  { pattern: /from ['"]\.\.\/shared\/([^'"]+)['"]/g, replacement: "from '@shared/$1'" },
+  { pattern: /from ['"]\.\.\/\.\.\/shared\/([^'"]+)['"]/g, replacement: "from '@shared/$1'" },
 ];
 
 function migrateFile(filePath) {

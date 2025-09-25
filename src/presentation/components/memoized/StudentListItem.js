@@ -1,6 +1,6 @@
 import React, { memo, useCallback } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Card, Title, Text, Avatar, Chip, Divider, IconButton, Menu } from 'react-native-paper';
+import { Card, Text, Avatar, Chip, Divider, IconButton, Menu } from 'react-native-paper';
 import ActionButton, { ActionButtonGroup } from '@components/ActionButton';
 
 const StudentListItem = memo(({ 
@@ -38,7 +38,7 @@ const StudentListItem = memo(({
               style={styles.avatar}
             />
             <View style={styles.studentDetails}>
-              <Title style={styles.studentName}>{student.name}</Title>
+              <Text style={styles.studentName}>{student.name}</Text>
               <Text style={styles.studentEmail}>{student.email}</Text>
               <Text style={styles.studentPhone}>
                 {student.phone || 'Telefone não informado'}

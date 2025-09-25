@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
-import { Card, Title, Paragraph, Button, Chip, Divider } from 'react-native-paper';
+import { Card, Button, Chip, Divider, Text } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 
 class EnhancedErrorBoundary extends React.Component {
@@ -137,11 +137,11 @@ class EnhancedErrorBoundary extends React.Component {
                 color="#F44336" 
               />
               
-              <Title style={styles.title}>Ops! Algo deu errado</Title>
+              <Text style={styles.title}>Ops! Algo deu errado</Text>
               
-              <Paragraph style={styles.message}>
+              <Text style={styles.message}>
                 {errorMessage}
-              </Paragraph>
+              </Text>
 
               <View style={styles.errorMeta}>
                 <Chip icon="identifier" mode="outlined" style={styles.errorIdChip}>
@@ -178,15 +178,15 @@ class EnhancedErrorBoundary extends React.Component {
                 <>
                   <Divider style={styles.divider} />
                   <View style={styles.errorDetails}>
-                    <Title style={styles.detailsTitle}>Detalhes Técnicos</Title>
-                    <Paragraph style={styles.errorText}>
+                    <Text style={styles.detailsTitle}>Detalhes Técnicos</Text>
+                    <Text style={styles.errorText}>
                       <Text style={styles.errorLabel}>Erro:</Text> {this.state.error?.message}
-                    </Paragraph>
+                    </Text>
                     {this.state.error?.stack && (
-                      <Paragraph style={styles.stackTrace}>
+                      <Text style={styles.stackTrace}>
                         <Text style={styles.errorLabel}>Stack Trace:</Text>
                         {'\n'}{this.state.error.stack}
-                      </Paragraph>
+                      </Text>
                     )}
                   </View>
                 </>

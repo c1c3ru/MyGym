@@ -1,4 +1,4 @@
-import { User } from '@/domain/entities/User';
+import { User } from '@domain/entities/User';
 
 /**
  * UserModel - Data Layer

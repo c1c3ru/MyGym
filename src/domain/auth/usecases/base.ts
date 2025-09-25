@@ -19,4 +19,4 @@ export abstract class BaseUseCase<TInput, TOutput> implements UseCase<TInput, TO
   }
 }
 
-import { ValidationError } from '@components/errors';
+import { ValidationError } from '../errors';

@@ -1,28 +1,23 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, ScrollView, Alert, Platform } from 'react-native';
+import { View, StyleSheet, ScrollView, Alert } from 'react-native';
 import { 
   Card, 
-  Title, 
-  Paragraph, 
   Button, 
   TextInput,
   Dialog,
   Portal,
-  ActivityIndicator,
   Divider,
   Text,
   Chip
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { useAuth } from '@/contexts/AuthProvider';
-import { useTheme } from '@/contexts/ThemeContext';
+import { useAuth } from '@contexts/AuthProvider';
 import { httpsCallable } from 'firebase/functions';
 import { functions } from '@services/firebase';
 
-const AcademyOnboardingScreen = ({ navigation }) => {
-  const { userProfile, user, refreshClaimsAndProfile } = useAuth();
-  const { getString } = useTheme();
+const AcademyOnboardingScreen = () => {
+  const { refreshClaimsAndProfile } = useAuth();
   
   // Estados para criação de academia
   const [createAcademyVisible, setCreateAcademyVisible] = useState(false);
@@ -141,11 +136,11 @@ const AcademyOnboardingScreen = ({ navigation }) => {
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.header}>
           <Ionicons name="school-outline" size={64} color="#4CAF50" />
-          <Title style={styles.title}>Bem-vindo ao MyGym!</Title>
-          <Paragraph style={styles.subtitle}>
+          <Text style={styles.title}>Bem-vindo ao MyGym!</Text>
+          <Text style={styles.subtitle}>
             Para começar, você precisa estar associado a uma academia. 
             Escolha uma das opções abaixo:
-          </Paragraph>
+          </Text>
         </View>
 
         <View style={styles.optionsContainer}>
@@ -154,12 +149,12 @@ const AcademyOnboardingScreen = ({ navigation }) => {
             <Card.Content>
               <View style={styles.optionHeader}>
                 <Ionicons name="add-circle-outline" size={32} color="#2196F3" />
-                <Title style={styles.optionTitle}>Criar Minha Academia</Title>
+                <Text style={styles.optionTitle}>Criar Minha Academia</Text>
               </View>
-              <Paragraph style={styles.optionDescription}>
+              <Text style={styles.optionDescription}>
                 Crie uma nova academia e torne-se o administrador. 
                 Você poderá gerenciar alunos, instrutores e todas as configurações.
-              </Paragraph>
+              </Text>
               <Button 
                 mode="contained" 
                 onPress={() => setCreateAcademyVisible(true)}
@@ -178,12 +173,12 @@ const AcademyOnboardingScreen = ({ navigation }) => {
             <Card.Content>
               <View style={styles.optionHeader}>
                 <Ionicons name="ticket-outline" size={32} color="#FF9800" />
-                <Title style={styles.optionTitle}>Tenho um Código de Convite</Title>
+                <Text style={styles.optionTitle}>Tenho um Código de Convite</Text>
               </View>
-              <Paragraph style={styles.optionDescription}>
+              <Text style={styles.optionDescription}>
                 Se você recebeu um código de convite de uma academia, 
                 use-o para se associar como aluno ou instrutor.
-              </Paragraph>
+              </Text>
               <Button 
                 mode="outlined" 
                 onPress={() => setUseInviteVisible(true)}
@@ -199,7 +194,7 @@ const AcademyOnboardingScreen = ({ navigation }) => {
         {/* Informações adicionais */}
         <Card style={styles.infoCard}>
           <Card.Content>
-            <Title style={styles.infoTitle}>Como funciona?</Title>
+            <Text style={styles.infoTitle}>Como funciona?</Text>
             <View style={styles.infoItem}>
               <Chip icon="shield-check" style={styles.infoChip}>Seguro</Chip>
               <Text style={styles.infoText}>
@@ -313,9 +308,9 @@ const AcademyOnboardingScreen = ({ navigation }) => {
         >
           <Dialog.Title>Usar Código de Convite</Dialog.Title>
           <Dialog.Content>
-            <Paragraph style={styles.inviteDescription}>
+            <Text style={styles.inviteDescription}>
               Digite o código de convite que você recebeu do administrador da academia:
-            </Paragraph>
+            </Text>
             <TextInput
               label="Código de Convite *"
               value={inviteCode}

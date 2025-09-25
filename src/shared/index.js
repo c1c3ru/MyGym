@@ -26,7 +26,7 @@ export { default as NotificationBell } from '@components/NotificationBell';
 export { default as NotificationManager } from '@components/NotificationManager';
 
 // Stores
-export { default as useAuthStore } from '@/presentation/stores/AuthUIStore';
+export { default as useAuthStore } from '@presentation/stores/AuthUIStore';
 export { default as useUIStore } from './stores/uiStore';
 export { default as useAcademiaStore } from './stores/academiaStore';
 

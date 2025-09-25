@@ -7,9 +7,9 @@ import {
 import { Card, Text, Button, TextInput, HelperText, Chip, RadioButton, Snackbar } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 // import * as FileSystem from 'expo-file-system'; // Removido - dependência não disponível
-import { useAuth } from '@/contexts/AuthProvider';
+import { useAuth } from '@contexts/AuthProvider';
 import { academyFirestoreService } from '@services/academyFirestoreService';
-import { useCustomClaims } from '@/hooks/useCustomClaims';
+import { useCustomClaims } from '@hooks/useCustomClaims';
 
 const AddClassScreen = ({ navigation }) => {
   const { user, userProfile, academia } = useAuth();

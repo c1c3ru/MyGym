@@ -3,25 +3,24 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { View, StyleSheet, ScrollView, Alert, Dimensions, ActivityIndicator, Text, RefreshControl } from 'react-native';
 import { 
   Card, 
-  Title, 
-  Paragraph, 
   Chip, 
   Divider,
   List,
   Avatar,
+  Text as PaperText,
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useAuth } from '@/contexts/AuthProvider';
+import { useAuth } from '@contexts/AuthProvider';
 import { announcementService } from '@services/firestoreService';
 import { academyFirestoreService } from '@services/academyFirestoreService';
-import AnimatedCard from '@/components/AnimatedCard';
-import AnimatedButton from '@/components/AnimatedButton';
+import AnimatedCard from '@components/AnimatedCard';
+import AnimatedButton from '@components/AnimatedButton';
 import { ResponsiveUtils } from '@utils/animations';
 import { Ionicons } from '@expo/vector-icons';
-import EnhancedErrorBoundary from '@/components/EnhancedErrorBoundary';
+import EnhancedErrorBoundary from '@components/EnhancedErrorBoundary';
 import cacheService, { CACHE_KEYS, CACHE_TTL } from '@services/cacheService';
-import { useScreenTracking, useUserActionTracking } from '@/hooks/useAnalytics';
-import StudentDashboardSkeleton from '@/components/skeletons/StudentDashboardSkeleton';
+import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
+import StudentDashboardSkeleton from '@components/skeletons/StudentDashboardSkeleton';
 
 const StudentDashboard = ({ navigation }) => {
   const { user, userProfile } = useAuth();
@@ -249,12 +248,12 @@ const StudentDashboard = ({ navigation }) => {
               style={styles.avatar}
             />
             <View style={styles.welcomeText}>
-              <Title style={styles.welcomeTitle}>
+              <Text style={styles.welcomeTitle}>
                 Olá, {userProfile?.name || 'Aluno'}!
-              </Title>
-              <Paragraph style={styles.welcomeSubtitle}>
+              </Text>
+              <Text style={styles.welcomeSubtitle}>
                 Bem-vindo de volta à academia
-              </Paragraph>
+              </Text>
             </View>
           </Card.Content>
         </AnimatedCard>
@@ -262,7 +261,7 @@ const StudentDashboard = ({ navigation }) => {
         {/* Status da Graduação */}
         <AnimatedCard style={styles.card} animationType="slideInRight" delay={100}>
           <Card.Content>
-            <Title style={styles.cardTitle}>Status da Graduação</Title>
+            <Text style={styles.cardTitle}>Status da Graduação</Text>
             <View style={styles.graduationStatus}>
               <Chip 
                 icon="trophy" 
@@ -271,9 +270,9 @@ const StudentDashboard = ({ navigation }) => {
               >
                 {dashboardData.graduationStatus}
               </Chip>
-              <Paragraph style={styles.graduationText}>
+              <Text style={styles.graduationText}>
                 Próxima avaliação em {dashboardData.nextEvaluation}
-              </Paragraph>
+              </Text>
             </View>
           </Card.Content>
         </AnimatedCard>
@@ -281,7 +280,7 @@ const StudentDashboard = ({ navigation }) => {
         {/* Próximas Aulas */}
         <AnimatedCard style={styles.card} animationType="fadeIn" delay={200}>
           <Card.Content>
-            <Title style={styles.cardTitle}>Próximas Aulas</Title>
+            <Text style={styles.cardTitle}>Próximas Aulas</Text>
             {nextClasses.length > 0 ? (
               nextClasses.map((classItem, index) => (
                 <List.Item
@@ -293,9 +292,9 @@ const StudentDashboard = ({ navigation }) => {
                 />
               ))
             ) : (
-              <Paragraph style={styles.emptyText}>
+              <Text style={styles.emptyText}>
                 Nenhuma aula agendada
-              </Paragraph>
+              </Text>
             )}
             
             <AnimatedButton 
@@ -312,7 +311,7 @@ const StudentDashboard = ({ navigation }) => {
         <AnimatedCard style={styles.card} animationType="scaleIn" delay={300}>
           <Card.Content>
             <View style={styles.sectionHeader}>
-              <Title style={styles.cardTitle}>Avisos</Title>
+              <Text style={styles.cardTitle}>Avisos</Text>
               <AnimatedButton
                 icon="refresh"
                 mode="text"
@@ -328,7 +327,7 @@ const StudentDashboard = ({ navigation }) => {
             {loadingAnnouncements ? (
               <View style={styles.loadingContainer}>
                 <ActivityIndicator size="small" color="#2196F3" />
-                <Paragraph style={styles.loadingText}>Carregando avisos...</Paragraph>
+                <Text style={styles.loadingText}>Carregando avisos...</Text>
               </View>
             ) : announcements.length > 0 ? (
               <View style={styles.announcementsContainer}>
@@ -346,12 +345,12 @@ const StudentDashboard = ({ navigation }) => {
                         <Text style={styles.priorityText}>Importante</Text>
                       </View>
                     )}
-                    <Paragraph style={styles.announcementTitle}>
+                    <Text style={styles.announcementTitle}>
                       {announcement.title}
-                    </Paragraph>
-                    <Paragraph style={styles.announcementMessage}>
+                    </Text>
+                    <Text style={styles.announcementMessage}>
                       {announcement.message}
-                    </Paragraph>
+                    </Text>
                     <View style={styles.announcementFooter}>
                       <Text style={styles.announcementDate}>
                         {announcement.date}
@@ -367,9 +366,9 @@ const StudentDashboard = ({ navigation }) => {
             ) : (
               <View style={styles.emptyState}>
                 <Ionicons name="notifications-off-outline" size={48} color="#BDBDBD" />
-                <Paragraph style={styles.emptyText}>
+                <Text style={styles.emptyText}>
                   Nenhum aviso no momento
-                </Paragraph>
+                </Text>
               </View>
             )}
           </Card.Content>
@@ -378,7 +377,7 @@ const StudentDashboard = ({ navigation }) => {
         {/* Ações Rápidas */}
         <AnimatedCard style={styles.card} animationType="bounceIn" delay={400}>
           <Card.Content>
-            <Title style={styles.cardTitle}>Ações Rápidas</Title>
+            <Text style={styles.cardTitle}>Ações Rápidas</Text>
             <View style={styles.quickActions}>
               <AnimatedButton
                 mode="outlined"

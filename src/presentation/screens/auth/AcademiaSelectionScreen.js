@@ -16,15 +16,15 @@ import {
 } from 'react-native-paper';
 import { collection, addDoc, query, where, getDocs, updateDoc, doc } from 'firebase/firestore';
 import { db } from '@services/firebase';
-import { useAuth } from '@/contexts/AuthProvider';
-import { useTheme } from '@/contexts/ThemeContext';
-import { useCustomClaims } from '@/hooks/useCustomClaims';
+import { useAuth } from '@contexts/AuthProvider';
+import { useTheme } from '@contexts/ThemeContext';
+import { useCustomClaims } from '@hooks/useCustomClaims';
 import { initializeAcademySubcollections } from '@services/academyInitializationService';
 import { isAdmin, getCanonicalUserType } from '@utils/userTypeHelpers';
-import QRCodeScanner from '@/components/QRCodeScanner';
-import CountryStatePicker from '@/components/CountryStatePicker';
-import PhonePicker from '@/components/PhonePicker';
-import ModalityPicker from '@/components/ModalityPicker';
+import QRCodeScanner from '@components/QRCodeScanner';
+import CountryStatePicker from '@components/CountryStatePicker';
+import PhonePicker from '@components/PhonePicker';
+import ModalityPicker from '@components/ModalityPicker';
 
 export default function AcademiaSelectionScreen({ navigation, route }) {
   const { user, userProfile, setUserProfile, signOut } = useAuth();

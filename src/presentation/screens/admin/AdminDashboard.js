@@ -3,8 +3,6 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { View, StyleSheet, RefreshControl, Animated, Dimensions, Platform, TouchableOpacity } from 'react-native';
 import { 
   Card, 
-  Title, 
-  Paragraph, 
   Button, 
   Avatar,
   Text,
@@ -15,18 +13,18 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { SafeIonicons, SafeMaterialCommunityIcons } from '@components/SafeIcon';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useAuth } from '@/contexts/AuthProvider';
-import { ADMIN_COLORS, ADMIN_ICONS } from '@components/theme/adminTheme';
+import { useAuth } from '@contexts/AuthProvider';
+import { ADMIN_COLORS, ADMIN_ICONS } from '@presentation/theme/adminTheme';
 import { academyFirestoreService } from '@services/academyFirestoreService';
-import AnimatedCard from '@/components/AnimatedCard';
-import AnimatedButton from '@/components/AnimatedButton';
+import AnimatedCard from '@components/AnimatedCard';
+import AnimatedButton from '@components/AnimatedButton';
 import { useAnimation, ResponsiveUtils } from '@utils/animations';
-import QRCodeGenerator from '@/components/QRCodeGenerator';
-import EnhancedErrorBoundary from '@/components/EnhancedErrorBoundary';
+import QRCodeGenerator from '@components/QRCodeGenerator';
+import EnhancedErrorBoundary from '@components/EnhancedErrorBoundary';
 import cacheService, { CACHE_KEYS, CACHE_TTL } from '@services/cacheService';
 import batchFirestoreService from '@services/batchFirestoreService';
-import { useScreenTracking, useUserActionTracking } from '@/hooks/useAnalytics';
-import DashboardSkeleton from '@/components/skeletons/DashboardSkeleton';
+import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
+import DashboardSkeleton from '@components/skeletons/DashboardSkeleton';
 
 const AdminDashboard = ({ navigation }) => {
   const { user, userProfile, logout, academia } = useAuth();
@@ -389,9 +387,9 @@ const AdminDashboard = ({ navigation }) => {
           <Card.Content>
             <View style={styles.cardHeader}>
               <SafeIonicons name="cash-outline" size={24} color="#4CAF50" />
-              <Title style={[styles.cardTitle, { fontSize: ResponsiveUtils.fontSize.medium }]}>
+              <Text style={[styles.cardTitle, { fontSize: ResponsiveUtils.fontSize.medium }]}>
                 Financeiro do Mês
-              </Title>
+              </Text>
             </View>
             
             <View style={styles.financialInfo}>
@@ -460,7 +458,7 @@ const AdminDashboard = ({ navigation }) => {
                 <SafeMaterialCommunityIcons name="lightning-bolt" size={24} color={ADMIN_COLORS.accentWarning} />
               </View>
               <View>
-                <Title style={styles.modernCardTitle}>Ações Rápidas</Title>
+                <Text style={styles.modernCardTitle}>Ações Rápidas</Text>
                 <Text style={styles.modernCardSubtitle}>Acesso direto às principais funcionalidades</Text>
               </View>
             </View>
@@ -499,9 +497,9 @@ const AdminDashboard = ({ navigation }) => {
           <Card.Content>
             <View style={styles.cardHeader}>
               <SafeIonicons name="time-outline" size={24} color="#666" />
-              <Title style={[styles.cardTitle, { fontSize: ResponsiveUtils.fontSize.medium }]}>
+              <Text style={[styles.cardTitle, { fontSize: ResponsiveUtils.fontSize.medium }]}>
                 Atividades Recentes
-              </Title>
+              </Text>
             </View>
             
             {dashboardData.recentActivities.map((activity, index) => (
@@ -548,21 +546,21 @@ const AdminDashboard = ({ navigation }) => {
             <Card.Content>
               <View style={styles.cardHeader}>
                 <SafeIonicons name="warning-outline" size={24} color="#FF9800" />
-                <Title style={[styles.cardTitle, { fontSize: ResponsiveUtils.fontSize.medium }]}>
+                <Text style={[styles.cardTitle, { fontSize: ResponsiveUtils.fontSize.medium }]}>
                   Alertas
-                </Title>
+                </Text>
               </View>
               
               {dashboardData.overduePayments > 0 && (
-                <Paragraph style={[styles.alertText, { fontSize: ResponsiveUtils.fontSize.small }]}>
+                <Text style={[styles.alertText, { fontSize: ResponsiveUtils.fontSize.small }]}>
                   • {dashboardData.overduePayments} pagamento(s) em atraso
-                </Paragraph>
+                </Text>
               )}
               
               {dashboardData.pendingPayments > 5 && (
-                <Paragraph style={[styles.alertText, { fontSize: ResponsiveUtils.fontSize.small }]}>
+                <Text style={[styles.alertText, { fontSize: ResponsiveUtils.fontSize.small }]}>
                   • Muitos pagamentos pendentes ({dashboardData.pendingPayments})
-                </Paragraph>
+                </Text>
               )}
             </Card.Content>
           </AnimatedCard>

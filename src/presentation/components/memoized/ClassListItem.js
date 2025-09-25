@@ -1,6 +1,6 @@
 import React, { memo, useCallback } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Card, Title, Text, Chip, Divider, IconButton } from 'react-native-paper';
+import { Card, Text, Chip, Divider, IconButton } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 import ActionButton, { ActionButtonGroup } from '@components/ActionButton';
 
@@ -61,7 +61,7 @@ const ClassListItem = memo(({
       <Card.Content>
         <View style={styles.classHeader}>
           <View style={styles.classInfo}>
-            <Title style={styles.className}>{classItem.name}</Title>
+            <Text style={styles.className}>{classItem.name}</Text>
             <Chip mode="outlined" style={styles.modalityChip}>
               {classItem.modality}
             </Chip>

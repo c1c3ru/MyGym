@@ -17,8 +17,8 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useAuthFacade } from '@/auth/AuthFacade';
-import { useTheme } from '@/contexts/ThemeContext';
+import { useAuthFacade } from '@presentation/auth/AuthFacade';
+import { useTheme } from '@contexts/ThemeContext';
 
 const { width } = Dimensions.get('window');
 

@@ -10,17 +10,17 @@ import {
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { useAuthFacade } from '@/auth/AuthFacade';
+import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { academyFirestoreService } from '@services/academyFirestoreService';
 import firestoreService from '@services/firestoreService';
-import StudentDisassociationDialog from '@/components/StudentDisassociationDialog';
-import EnhancedFlashList from '@/components/EnhancedFlashList';
-import StudentListItem from '@/components/memoized/StudentListItem';
-import EnhancedErrorBoundary from '@/components/EnhancedErrorBoundary';
+import StudentDisassociationDialog from '@components/StudentDisassociationDialog';
+import EnhancedFlashList from '@components/EnhancedFlashList';
+import StudentListItem from '@components/memoized/StudentListItem';
+import EnhancedErrorBoundary from '@components/EnhancedErrorBoundary';
 import batchFirestoreService from '@services/batchFirestoreService';
 import cacheService, { CACHE_KEYS, CACHE_TTL } from '@services/cacheService';
-import { useScreenTracking, useUserActionTracking } from '@/hooks/useAnalytics';
-import StudentListSkeleton from '@/components/skeletons/StudentListSkeleton';
+import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
+import StudentListSkeleton from '@components/skeletons/StudentListSkeleton';
 import { useFocusEffect } from '@react-navigation/native';
 
 const AdminStudents = ({ navigation }) => {

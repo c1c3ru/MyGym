@@ -1,8 +1,8 @@
 import React, { Component, ReactNode } from 'react';
 import { View, StyleSheet, Platform } from 'react-native';
-import { Card, Title, Paragraph, Button } from 'react-native-paper';
+import { Card, Button, Text } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
-import crashlyticsService from '@services/crashlyticsService';
+// import crashlyticsService from '@services/crashlyticsService'; // Serviço não implementado
 
 interface ErrorInfo {
   componentStack: string;
@@ -61,14 +61,14 @@ class EnhancedErrorBoundary extends Component<Props, State> {
   }
 
   reportError = (error: Error, errorInfo: ErrorInfo) => {
-    // Reportar para Crashlytics
-    crashlyticsService.recordError(error, {
-      errorType: 'react_error_boundary',
-      componentStack: errorInfo.componentStack,
-      errorBoundary: true
-    });
+    // TODO: Implementar reportagem para Crashlytics quando o serviço estiver disponível
+    // crashlyticsService.recordError(error, {
+    //   errorType: 'react_error_boundary',
+    //   componentStack: errorInfo.componentStack,
+    //   errorBoundary: true
+    // });
 
-    console.log('📊 Erro reportado para Crashlytics:', {
+    console.log('📊 Erro capturado (Crashlytics não implementado):', {
       message: error.message,
       stack: error.stack,
       componentStack: errorInfo.componentStack,
@@ -109,15 +109,15 @@ class EnhancedErrorBoundary extends Component<Props, State> {
                 size={64} 
                 color="#F44336" 
               />
-              <Title style={styles.title}>
+              <Text style={styles.title}>
                 Ops! Algo deu errado
-              </Title>
-              <Paragraph style={styles.message}>
+              </Text>
+              <Text style={styles.message}>
                 {__DEV__ 
                   ? `Erro: ${this.state.error?.message || 'Erro desconhecido'}`
                   : 'Ocorreu um erro inesperado. Tente novamente ou reinicie o aplicativo.'
                 }
-              </Paragraph>
+              </Text>
               
               <View style={styles.buttonContainer}>
                 <Button 
@@ -141,9 +141,9 @@ class EnhancedErrorBoundary extends Component<Props, State> {
 
               {__DEV__ && this.state.error && (
                 <View style={styles.debugContainer}>
-                  <Paragraph style={styles.debugText}>
+                  <Text style={styles.debugText}>
                     Debug Info: {this.state.error.stack}
-                  </Paragraph>
+                  </Text>
                 </View>
               )}
             </Card.Content>

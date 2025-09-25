@@ -10,7 +10,7 @@ import {
   OAuthProvider
 } from 'firebase/auth';
 import { auth } from '@services/firebase';
-import { AuthResult } from '@/domain/entities/AuthCredentials';
+import { AuthResult } from '@domain/entities/AuthCredentials';
 
 /**
  * FirebaseAuthDataSource - Data Layer

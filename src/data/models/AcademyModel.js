@@ -1,4 +1,4 @@
-import { Academy } from '@/domain/entities/Academy';
+import { Academy } from '@domain/entities/Academy';
 
 /**
  * AcademyModel - Data Layer

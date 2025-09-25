@@ -2,7 +2,7 @@ import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { Text, Card, Button, Divider } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import ActionButton from '@/components/ActionButton';
+import ActionButton from '@components/ActionButton';
 
 const PrivacyPolicyScreen = ({ navigation }) => {
   const lastUpdated = new Date().toLocaleDateString('pt-BR');

@@ -21,13 +21,13 @@ import {
   Chip,
   Divider
 } from 'react-native-paper';
-import { useAuth } from '@/contexts/AuthProvider';
+import { useAuth } from '@contexts/AuthProvider';
 import { academyFirestoreService } from '@services/academyFirestoreService';
 import { refreshManager } from '@utils/refreshManager';
-import EnhancedErrorBoundary from '@/components/EnhancedErrorBoundary';
-import { useFormValidation } from '@/hooks/useFormValidation';
-import { useStudentCreationRateLimit } from '@/hooks/useRateLimit';
-import { useScreenTracking, useUserActionTracking } from '@/hooks/useAnalytics';
+import EnhancedErrorBoundary from '@components/EnhancedErrorBoundary';
+import { useFormValidation } from '@hooks/useFormValidation';
+import { useStudentCreationRateLimit } from '@hooks/useRateLimit';
+import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import cacheService, { CACHE_KEYS } from '@services/cacheService';
 import { formValidator, commonSchemas } from '@utils/formValidation';
 

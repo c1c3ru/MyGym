@@ -12,10 +12,10 @@ import {
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { useAuth } from '@/contexts/AuthProvider';
-import { useCustomClaims } from '@/hooks/useCustomClaims';
+import { useAuth } from '@contexts/AuthProvider';
+import { useCustomClaims } from '@hooks/useCustomClaims';
 import { academyFirestoreService } from '@services/academyFirestoreService';
-import { getThemeColors } from '@/theme/professionalTheme';
+import { getThemeColors } from '@theme/professionalTheme';
 
 const { width } = Dimensions.get('window');
 

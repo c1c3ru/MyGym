@@ -20,8 +20,8 @@ const componentsFixes = [
   // Corrigir @components/presentation/navigation para @navigation
   { pattern: /@components\/presentation\/navigation\//g, replacement: '@navigation/' },
   
-  // Corrigir @components/presentation/stores para @/presentation/stores
-  { pattern: /@components\/presentation\/stores\//g, replacement: '@/presentation/stores/' },
+  // Corrigir @components/presentation/stores para @presentation/stores
+  { pattern: /@components\/presentation\/stores\//g, replacement: '@presentation/stores/' },
   
   // Corrigir @components/infrastructure/services para @services
   { pattern: /@components\/infrastructure\/services\//g, replacement: '@services/' },
@@ -29,20 +29,20 @@ const componentsFixes = [
   // Corrigir @components/shared/utils para @utils
   { pattern: /@components\/shared\/utils\//g, replacement: '@utils/' },
   
-  // Corrigir @components/shared/ para @/shared/
-  { pattern: /@components\/shared\//g, replacement: '@/shared/' },
+  // Corrigir @components/shared/ para @shared/
+  { pattern: /@components\/shared\//g, replacement: '@shared/' },
   
-  // Corrigir @components/datasources para @/data/datasources
-  { pattern: /@components\/datasources\//g, replacement: '@/data/datasources/' },
+  // Corrigir @components/datasources para @data/datasources
+  { pattern: /@components\/datasources\//g, replacement: '@data/datasources/' },
   
-  // Corrigir @components/models para @/data/models
-  { pattern: /@components\/models\//g, replacement: '@/data/models/' },
+  // Corrigir @components/models para @data/models
+  { pattern: /@components\/models\//g, replacement: '@data/models/' },
   
-  // Corrigir @components/stores para @/presentation/stores
-  { pattern: /@components\/stores\//g, replacement: '@/presentation/stores/' },
+  // Corrigir @components/stores para @presentation/stores
+  { pattern: /@components\/stores\//g, replacement: '@presentation/stores/' },
   
-  // Corrigir @components/index para @/infrastructure/index
-  { pattern: /@components\/index/g, replacement: '@/infrastructure/index' },
+  // Corrigir @components/index para @infrastructure/index
+  { pattern: /@components\/index/g, replacement: '@infrastructure/index' },
 ];
 
 function fixFile(filePath) {

@@ -6,7 +6,7 @@ import {
   FirebaseClaimsModel, 
   FirestoreAcademiaModel 
 } from './models';
-import { ValidationError } from '@/domain/auth/errors';
+import { ValidationError } from '@domain/auth/errors';
 
 export class AuthValidators {
   static validateFirebaseUser(data: any) {

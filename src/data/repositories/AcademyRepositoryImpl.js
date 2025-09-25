@@ -1,6 +1,6 @@
-import { AcademyRepository } from '@/domain/repositories/AcademyRepository';
-import { FirestoreAcademyDataSource } from '@/data/datasources/FirestoreAcademyDataSource';
-import { AcademyModel } from '@/data/models/AcademyModel';
+import { AcademyRepository } from '@domain/repositories/AcademyRepository';
+import { FirestoreAcademyDataSource } from '@data/datasources/FirestoreAcademyDataSource';
+import { AcademyModel } from '@data/models/AcademyModel';
 
 /**
  * AcademyRepositoryImpl - Data Layer

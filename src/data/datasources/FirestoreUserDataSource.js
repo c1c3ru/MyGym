@@ -1,6 +1,6 @@
 import { doc, getDoc, setDoc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '@services/firebase';
-import { User } from '@/domain/entities/User';
+import { User } from '@domain/entities/User';
 
 /**
  * FirestoreUserDataSource - Data Layer

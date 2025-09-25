@@ -3,15 +3,15 @@ import {
   AuthRepositoryImpl, 
   UserRepositoryImpl, 
   AcademyRepositoryImpl 
-} from '@/data';
+} from '@data';
 import { 
   SignInUseCase, 
   SignUpUseCase, 
   SignOutUseCase,
   GetCurrentUserUseCase,
   RefreshTokenUseCase 
-} from '@/domain';
-import { FirebaseAdapter, StorageAdapter, NetworkAdapter } from '@/infrastructure/index';
+} from '@domain';
+import { FirebaseAdapter, StorageAdapter, NetworkAdapter } from '@infrastructure/index';
 
 /**
  * AuthDIContainer - Infrastructure Layer

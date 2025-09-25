@@ -3,7 +3,7 @@ import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
 import LoginScreen from '../LoginScreen';
-import { AuthProvider } from '../../contexts/AuthProvider';
+import { AuthProvider } from '@contexts/AuthProvider';
 
 const TestWrapper = ({ children }) => (
   <NavigationContainer>

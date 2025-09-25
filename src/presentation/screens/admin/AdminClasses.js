@@ -13,17 +13,17 @@ import {
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { useAuth } from '@/contexts/AuthProvider';
-import { useTheme } from '@/contexts/ThemeContext';
+import { useAuth } from '@contexts/AuthProvider';
+import { useTheme } from '@contexts/ThemeContext';
 import { academyFirestoreService, academyClassService, academyStudentService } from '@services/academyFirestoreService';
-import EnhancedFlashList from '@/components/EnhancedFlashList';
-import ClassListItem from '@/components/memoized/ClassListItem';
-import ClassListSkeleton from '@/components/skeletons/ClassListSkeleton';
-import EnhancedErrorBoundary from '@/components/EnhancedErrorBoundary';
+import EnhancedFlashList from '@components/EnhancedFlashList';
+import ClassListItem from '@components/memoized/ClassListItem';
+import ClassListSkeleton from '@components/skeletons/ClassListSkeleton';
+import EnhancedErrorBoundary from '@components/EnhancedErrorBoundary';
 import cacheService, { CACHE_KEYS, CACHE_TTL } from '@services/cacheService';
 import batchFirestoreService from '@services/batchFirestoreService';
-import { useScreenTracking, useUserActionTracking } from '@/hooks/useAnalytics';
-import { useClassCreationRateLimit } from '@/hooks/useRateLimit';
+import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
+import { useClassCreationRateLimit } from '@hooks/useRateLimit';
 
 const AdminClasses = ({ navigation }) => {
   const { user, userProfile, academia } = useAuth();

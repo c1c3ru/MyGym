@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import analyticsService, { ANALYTICS_EVENTS } from '@services/analyticsService';
-import { useAuthFacade } from '@components/auth/AuthFacade';
+import { useAuthFacade } from '@presentation/auth/AuthFacade';
 
 /**
  * Hook principal para usar analytics nos componentes

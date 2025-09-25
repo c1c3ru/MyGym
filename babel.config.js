@@ -18,7 +18,7 @@ module.exports = function(api) {
           '@assets': './assets',
           '@domain': './src/domain',
           '@features': './src/features',
-          '@/auth': './src/presentation/auth'
+          '@auth': './src/presentation/auth'
         }
       }],
       // Transform import.meta to prevent syntax errors

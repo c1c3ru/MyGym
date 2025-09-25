@@ -21,4 +21,4 @@ export { default as studentService } from '@services/studentService';
 export { useStudentData } from '@hooks/useStudentData';
 
 // Types/Constants
-export * from '@/shared/types/studentTypes';
+export * from '@shared/types/studentTypes';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { ActivityIndicator, Text, Title } from 'react-native-paper';
+import { ActivityIndicator, Text } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const LoadingScreen = () => {
@@ -8,7 +8,7 @@ const LoadingScreen = () => {
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
         <ActivityIndicator size="large" color="#2196F3" style={styles.spinner} />
-        <Title style={styles.title}>MyGym</Title>
+        <Text style={styles.title}>MyGym</Text>
         <Text style={styles.subtitle}>Carregando...</Text>
       </View>
     </SafeAreaView>

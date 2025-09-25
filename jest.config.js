@@ -33,11 +33,11 @@ module.exports = {
       ')/)'
   ],
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/src/$1',
-    '^@/hooks/(.*)$': '<rootDir>/src/presentation/hooks/$1',
-    '^@/components/(.*)$': '<rootDir>/src/presentation/components/$1',
-    '^@/contexts/(.*)$': '<rootDir>/src/presentation/contexts/$1',
-    '^@/screens/(.*)$': '<rootDir>/src/presentation/screens/$1',
+    '^@(.*)$': '<rootDir>/src/$1',
+    '^@hooks/(.*)$': '<rootDir>/src/presentation/hooks/$1',
+    '^@components/(.*)$': '<rootDir>/src/presentation/components/$1',
+    '^@contexts/(.*)$': '<rootDir>/src/presentation/contexts/$1',
+    '^@screens/(.*)$': '<rootDir>/src/presentation/screens/$1',
     '^@components/(.*)$': '<rootDir>/src/presentation/components/$1',
     '^@screens/(.*)$': '<rootDir>/src/presentation/screens/$1',
     '^@hooks/(.*)$': '<rootDir>/src/presentation/hooks/$1',

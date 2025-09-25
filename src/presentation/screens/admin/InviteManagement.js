@@ -12,10 +12,10 @@ import {
   Portal,
   Divider
 } from 'react-native-paper';
-import { useAuth } from '@/contexts/AuthProvider';
+import { useAuth } from '@contexts/AuthProvider';
 import { InviteService } from '@services/inviteService';
-import QRCodeGenerator from '@/components/QRCodeGenerator';
-import ActionButton, { ActionButtonGroup } from '@/components/ActionButton';
+import QRCodeGenerator from '@components/QRCodeGenerator';
+import ActionButton, { ActionButtonGroup } from '@components/ActionButton';
 
 export default function InviteManagement({ navigation }) {
   const { user, userProfile, academia } = useAuth();

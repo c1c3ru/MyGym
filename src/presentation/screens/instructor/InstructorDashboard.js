@@ -3,8 +3,6 @@ import { View, StyleSheet, Animated, Dimensions, RefreshControl, Platform, Activ
 import { useFocusEffect } from '@react-navigation/native';
 import { 
   Card, 
-  Title, 
-  Paragraph, 
   Button, 
   Avatar,
   Chip,
@@ -16,16 +14,16 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useAuth } from '@/contexts/AuthProvider';
-import { useTheme } from '@/contexts/ThemeContext';
+import { useAuth } from '@contexts/AuthProvider';
+import { useTheme } from '@contexts/ThemeContext';
 import { academyFirestoreService, academyClassService, academyStudentService, academyAnnouncementService } from '@services/academyFirestoreService';
-import AnimatedCard from '@/components/AnimatedCard';
-import AnimatedButton from '@/components/AnimatedButton';
+import AnimatedCard from '@components/AnimatedCard';
+import AnimatedButton from '@components/AnimatedButton';
 import { useAnimation, ResponsiveUtils } from '@utils/animations';
-import EnhancedErrorBoundary from '@/components/EnhancedErrorBoundary';
+import EnhancedErrorBoundary from '@components/EnhancedErrorBoundary';
 import cacheService, { CACHE_KEYS, CACHE_TTL } from '@services/cacheService';
-import { useScreenTracking, useUserActionTracking } from '@/hooks/useAnalytics';
-import InstructorDashboardSkeleton from '@/components/skeletons/InstructorDashboardSkeleton';
+import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
+import InstructorDashboardSkeleton from '@components/skeletons/InstructorDashboardSkeleton';
 
 const InstructorDashboard = ({ navigation }) => {
   const { user, userProfile } = useAuth();
@@ -407,7 +405,7 @@ const InstructorDashboard = ({ navigation }) => {
                 <MaterialCommunityIcons name="clock-time-four" size={24} color="#2196F3" />
               </View>
               <View>
-                <Title style={styles.modernCardTitle}>{getString('todaySchedule')}</Title>
+                <Text style={styles.modernCardTitle}>{getString('todaySchedule')}</Text>
                 <Text style={styles.modernCardSubtitle}>
                   {dashboardData.todayClasses.length} {getString('classesScheduled')}
                 </Text>
@@ -488,7 +486,7 @@ const InstructorDashboard = ({ navigation }) => {
                 <MaterialCommunityIcons name="lightning-bolt" size={24} color="#FF9800" />
               </View>
               <View>
-                <Title style={styles.modernCardTitle}>{getString('quickActions')}</Title>
+                <Text style={styles.modernCardTitle}>{getString('quickActions')}</Text>
                 <Text style={styles.modernCardSubtitle}>{getString('directAccessFunctionalities')}</Text>
               </View>
             </View>
@@ -568,7 +566,7 @@ const InstructorDashboard = ({ navigation }) => {
                 <MaterialCommunityIcons name="bullhorn" size={24} color="#FF5722" />
               </View>
               <View style={styles.headerTitleContainer}>
-                <Title style={styles.modernCardTitle}>{getString('announcements')}</Title>
+                <Text style={styles.modernCardTitle}>{getString('announcements')}</Text>
                 <Text style={styles.modernCardSubtitle}>{getString('importantCommunications')}</Text>
               </View>
               <AnimatedButton
@@ -637,9 +635,9 @@ const InstructorDashboard = ({ navigation }) => {
           <Card.Content>
             <View style={styles.cardHeader}>
               <Ionicons name="trophy-outline" size={24} color="#FFD700" />
-              <Title style={[styles.cardTitle, { fontSize: ResponsiveUtils.fontSize.medium }]}>
+              <Text style={[styles.cardTitle, { fontSize: ResponsiveUtils.fontSize.medium }]}>
                 {getString('recentGraduations')}
-              </Title>
+              </Text>
             </View>
             
             {dashboardData.recentGraduations.length > 0 ? (
@@ -666,9 +664,9 @@ const InstructorDashboard = ({ navigation }) => {
                 </Animated.View>
               ))
             ) : (
-              <Paragraph style={[styles.emptyText, { fontSize: ResponsiveUtils.fontSize.small }]}>
+              <Text style={[styles.emptyText, { fontSize: ResponsiveUtils.fontSize.small }]}>
                 {getString('noRecentGraduations')}
-              </Paragraph>
+              </Text>
             )}
             
             <AnimatedButton 
@@ -686,9 +684,9 @@ const InstructorDashboard = ({ navigation }) => {
           <Card.Content>
             <View style={styles.cardHeader}>
               <Ionicons name="calendar-outline" size={24} color="#FF9800" />
-              <Title style={[styles.cardTitle, { fontSize: ResponsiveUtils.fontSize.medium }]}>
+              <Text style={[styles.cardTitle, { fontSize: ResponsiveUtils.fontSize.medium }]}>
                 {getString('upcomingClasses')}
-              </Title>
+              </Text>
             </View>
             
             {dashboardData.upcomingClasses.length > 0 ? (
@@ -722,9 +720,9 @@ const InstructorDashboard = ({ navigation }) => {
                 </Animated.View>
               ))
             ) : (
-              <Paragraph style={[styles.emptyText, { fontSize: ResponsiveUtils.fontSize.small }]}>
+              <Text style={[styles.emptyText, { fontSize: ResponsiveUtils.fontSize.small }]}>
                 {getString('noUpcomingClasses')}
-              </Paragraph>
+              </Text>
             )}
             
             <AnimatedButton 

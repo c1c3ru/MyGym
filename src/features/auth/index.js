@@ -19,4 +19,4 @@ export { default as authService } from '@services/authService';
 export { useAuthMigration } from '@hooks/useAuthMigration';
 
 // Store
-export { default as useAuthStore } from '@/presentation/stores/AuthUIStore';
+export { default as useAuthStore } from '@presentation/stores/AuthUIStore';

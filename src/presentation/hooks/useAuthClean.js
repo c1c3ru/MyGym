@@ -1,9 +1,9 @@
 import { useEffect, useCallback, useRef } from 'react';
 import { useAuthActions } from './useAuthActions';
 import { useAuthUI } from './useAuthUI';
-import useAuthStore from '@/presentation/stores/AuthUIStore';
-import { loginSchema, signUpSchema } from '@/shared/validation';
-import { validateWithSchema } from '@/shared/validation/helpers/ValidationHelpers';
+import useAuthStore from '@presentation/stores/AuthUIStore';
+import { loginSchema, signUpSchema } from '@shared/validation';
+import { validateWithSchema } from '@shared/validation/helpers/ValidationHelpers';
 
 /**
  * useAuthClean - Presentation Layer

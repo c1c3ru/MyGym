@@ -2,7 +2,7 @@ import React, { useEffect, memo } from 'react';
 import { View, StyleSheet, Alert, TouchableOpacity, Platform } from 'react-native';
 import { Appbar, Avatar, Menu, Divider, Modal, Button, Text } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useAuthFacade } from '@components/auth/AuthFacade';
+import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { ResponsiveUtils } from '@utils/animations';
 // import NotificationBell from './NotificationBell';
 import { useTheme } from '@contexts/ThemeContext';

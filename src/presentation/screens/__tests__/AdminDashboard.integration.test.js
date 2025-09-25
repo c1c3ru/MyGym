@@ -3,7 +3,7 @@ import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
 import AdminDashboard from '../admin/AdminDashboard';
-import { AuthProvider } from '../../contexts/AuthProvider';
+import { AuthProvider } from '@contexts/AuthProvider';
 import { firestoreService } from '@services/firestoreService';
 
 const TestWrapper = ({ children }) => (
@@ -25,8 +25,8 @@ const mockNavigation = {
 };
 
 // Mock Auth Context
-jest.mock('../../contexts/AuthProvider', () => ({
-  ...jest.requireActual('../../contexts/AuthProvider'),
+jest.mock('@contexts/AuthProvider', () => ({
+  ...jest.requireActual('@contexts/AuthProvider'),
   useAuth: () => ({
     user: global.mockFirebaseUser,
     userProfile: { ...global.mockUserProfile, userType: 'admin' },

@@ -3,7 +3,7 @@ import { getFinalUserType } from '@utils/userTypeHelpers';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import { useAuthFacade } from '@/presentation/auth/AuthFacade';
+import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
 
 // Navegadores Modulares

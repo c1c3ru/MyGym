@@ -18,14 +18,14 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useFocusEffect } from '@react-navigation/native';
-import { useAuth } from '@/contexts/AuthProvider';
+import { useAuth } from '@contexts/AuthProvider';
 import { academyFirestoreService, academyClassService } from '@services/academyFirestoreService';
 import { ResponsiveUtils } from '@utils/animations';
-import EnhancedErrorBoundary from '@/components/EnhancedErrorBoundary';
+import EnhancedErrorBoundary from '@components/EnhancedErrorBoundary';
 import cacheService, { CACHE_KEYS, CACHE_TTL } from '@services/cacheService';
-import { useScreenTracking, useUserActionTracking } from '@/hooks/useAnalytics';
-import CheckInSkeleton from '@/components/skeletons/CheckInSkeleton';
-import { EnhancedFlashList } from '@/components/EnhancedFlashList';
+import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
+import CheckInSkeleton from '@components/skeletons/CheckInSkeleton';
+import { EnhancedFlashList } from '@components/EnhancedFlashList';
 
 const CheckIn = ({ navigation }) => {
   const { user, userProfile } = useAuth();
