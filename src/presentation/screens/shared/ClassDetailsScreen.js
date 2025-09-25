@@ -15,9 +15,9 @@ import {
 } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { academyFirestoreService } from '../../../infrastructure/services/academyFirestoreService';
-import { useAuth } from '../../contexts/AuthProvider';
-import { useCustomClaims } from '../../hooks/useCustomClaims';
+import { academyFirestoreService } from '@services/academyFirestoreService';
+import { useAuth } from '@/contexts/AuthProvider';
+import { useCustomClaims } from '@/hooks/useCustomClaims';
 
 const { width } = Dimensions.get('window');
 

@@ -1,10 +1,10 @@
 import React from 'react';
-import { getFinalUserType } from '../../shared/utils/userTypeHelpers';
+import { getFinalUserType } from '@utils/userTypeHelpers';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import { useAuthFacade } from '../auth/AuthFacade';
-import { useTheme } from '../contexts/ThemeContext';
+import { useTheme } from '@contexts/ThemeContext';
 
 // Navegadores Modulares
 import AuthNavigator from './AuthNavigator';
@@ -14,10 +14,10 @@ import AdminNavigator from './AdminNavigator';
 import SharedNavigator from './SharedNavigator';
 
 // Telas Especiais
-import LoadingScreen from '../screens/shared/LoadingScreen';
-import UserTypeSelectionScreen from '../screens/auth/UserTypeSelectionScreen';
-import AcademiaSelectionScreen from '../screens/auth/AcademiaSelectionScreen';
-import AcademyOnboardingScreen from '../screens/onboarding/AcademyOnboardingScreen';
+import LoadingScreen from '@screens/shared/LoadingScreen';
+import UserTypeSelectionScreen from '@screens/auth/UserTypeSelectionScreen';
+import AcademiaSelectionScreen from '@screens/auth/AcademiaSelectionScreen';
+import AcademyOnboardingScreen from '@screens/onboarding/AcademyOnboardingScreen';
 
 const Stack = createStackNavigator();
 

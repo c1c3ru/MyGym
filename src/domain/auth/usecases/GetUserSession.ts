@@ -1,8 +1,8 @@
 // Get complete user session use case
 
 import { BaseUseCase } from './base';
-import { AuthRepository } from '../repositories';
-import { AuthSession, User } from '../entities';
+import { AuthRepository } from '@components/repositories';
+import { AuthSession, User } from '@components/entities';
 import { mapFirebaseError, UserProfileNotFoundError } from '../errors';
 
 export class GetUserSessionUseCase extends BaseUseCase<User, AuthSession> {

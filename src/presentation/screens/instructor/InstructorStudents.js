@@ -19,14 +19,14 @@ import {
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { useAuthFacade } from '../../auth/AuthFacade';
-import { useTheme } from '../../contexts/ThemeContext';
-import { academyFirestoreService, academyStudentService } from '../../../infrastructure/services/academyFirestoreService';
-import EnhancedErrorBoundary from '../../components/EnhancedErrorBoundary';
-import cacheService, { CACHE_KEYS, CACHE_TTL } from '../../../infrastructure/services/cacheService';
-import { useScreenTracking, useUserActionTracking } from '../../hooks/useAnalytics';
-import InstructorStudentsSkeleton from '../../components/skeletons/InstructorStudentsSkeleton';
-import { EnhancedFlashList } from '../../components/EnhancedFlashList';
+import { useAuthFacade } from '@/auth/AuthFacade';
+import { useTheme } from '@/contexts/ThemeContext';
+import { academyFirestoreService, academyStudentService } from '@services/academyFirestoreService';
+import EnhancedErrorBoundary from '@/components/EnhancedErrorBoundary';
+import cacheService, { CACHE_KEYS, CACHE_TTL } from '@services/cacheService';
+import { useScreenTracking, useUserActionTracking } from '@/hooks/useAnalytics';
+import InstructorStudentsSkeleton from '@/components/skeletons/InstructorStudentsSkeleton';
+import { EnhancedFlashList } from '@/components/EnhancedFlashList';
 
 const InstructorStudents = ({ navigation }) => {
   const { user, userProfile, academia } = useAuthFacade();

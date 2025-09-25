@@ -11,8 +11,8 @@ import {
   signInWithPopup
 } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { auth, db } from '../../infrastructure/services/firebase';
-import { getUserClaims, refreshUserToken, needsOnboarding } from '../shared/utils/customClaimsHelper';
+import { auth, db } from '@services/firebase';
+import { getUserClaims, refreshUserToken, needsOnboarding } from '@utils/customClaimsHelper';
 
 const AuthContext = createContext();
 

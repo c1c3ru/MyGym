@@ -1,5 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
+import { Text, Animated } from 'react-native';
 import { 
   StudentCardSkeleton, 
   StudentListSkeleton, 
@@ -8,12 +9,15 @@ import {
   ContentSkeleton 
 } from '../SkeletonLoader';
 
+// Prevent running animations during tests
+jest.spyOn(Animated, 'timing').mockImplementation(() => ({ start: jest.fn(), stop: jest.fn() }));
+jest.spyOn(Animated, 'loop').mockImplementation(() => ({ start: jest.fn(), stop: jest.fn() }));
+
 describe('SkeletonLoader Components', () => {
   describe('StudentCardSkeleton', () => {
     it('should render correctly', () => {
-      const { getByTestId } = render(<StudentCardSkeleton />);
-      // Test that the skeleton structure is rendered
-      expect(render(<StudentCardSkeleton />)).toBeTruthy();
+      const { toJSON } = render(<StudentCardSkeleton />);
+      expect(toJSON()).toBeTruthy();
     });
   });
 

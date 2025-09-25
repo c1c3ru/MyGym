@@ -24,6 +24,10 @@ describe('PaymentService', () => {
     notificationService.notifyPaymentDue.mockResolvedValue();
   });
 
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
   describe('createPixPayment', () => {
     it('should create PIX payment successfully', async () => {
       firestoreService.addDocument.mockResolvedValue('payment-id-123');
@@ -74,7 +78,7 @@ describe('PaymentService', () => {
     it('should process card payment successfully', async () => {
       // Mock Math.random to ensure approval (return value < 0.1 means denied, > 0.1 means approved)
       jest.spyOn(Math, 'random').mockReturnValue(0.5);
-      jest.spyOn(paymentService, 'confirmPayment').mockResolvedValue(true);
+      const confirmSpy = jest.spyOn(paymentService, 'confirmPayment').mockResolvedValue(true);
 
       const result = await paymentService.processCardPayment(mockPaymentData, mockCardData);
 
@@ -84,6 +88,7 @@ describe('PaymentService', () => {
       
       // Restore Math.random
       Math.random.mockRestore();
+      confirmSpy.mockRestore();
     });
 
     it('should reject payment with invalid card number', async () => {

@@ -16,16 +16,16 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useAuth } from '../../contexts/AuthProvider';
-import { useTheme } from '../../contexts/ThemeContext';
-import { academyFirestoreService, academyClassService, academyStudentService, academyAnnouncementService } from '../../../infrastructure/services/academyFirestoreService';
-import AnimatedCard from '../../components/AnimatedCard';
-import AnimatedButton from '../../components/AnimatedButton';
-import { useAnimation, ResponsiveUtils } from '../../../shared/utils/animations';
-import EnhancedErrorBoundary from '../../components/EnhancedErrorBoundary';
-import cacheService, { CACHE_KEYS, CACHE_TTL } from '../../../infrastructure/services/cacheService';
-import { useScreenTracking, useUserActionTracking } from '../../hooks/useAnalytics';
-import InstructorDashboardSkeleton from '../../components/skeletons/InstructorDashboardSkeleton';
+import { useAuth } from '@/contexts/AuthProvider';
+import { useTheme } from '@/contexts/ThemeContext';
+import { academyFirestoreService, academyClassService, academyStudentService, academyAnnouncementService } from '@services/academyFirestoreService';
+import AnimatedCard from '@/components/AnimatedCard';
+import AnimatedButton from '@/components/AnimatedButton';
+import { useAnimation, ResponsiveUtils } from '@utils/animations';
+import EnhancedErrorBoundary from '@/components/EnhancedErrorBoundary';
+import cacheService, { CACHE_KEYS, CACHE_TTL } from '@services/cacheService';
+import { useScreenTracking, useUserActionTracking } from '@/hooks/useAnalytics';
+import InstructorDashboardSkeleton from '@/components/skeletons/InstructorDashboardSkeleton';
 
 const InstructorDashboard = ({ navigation }) => {
   const { user, userProfile } = useAuth();

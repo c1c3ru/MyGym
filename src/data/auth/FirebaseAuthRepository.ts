@@ -19,7 +19,7 @@ import {
   updateDoc 
 } from 'firebase/firestore';
 
-import { AuthRepository } from '../../domain/auth/repositories';
+import { AuthRepository } from '@domain/auth/repositories';
 import { 
   User, 
   UserProfile, 
@@ -27,14 +27,14 @@ import {
   Academia, 
   SignInCredentials,
   SignUpData
-} from '../../domain/auth/entities';
+} from '@domain/auth/entities';
 import { 
   mapFirebaseError
-} from '../../domain/auth/errors';
+} from '@domain/auth/errors';
 
 import { AuthMappers } from './mappers';
 import { AuthValidators } from './validators';
-import { getUserClaims, refreshUserToken } from '../../shared/utils/customClaimsHelper';
+import { getUserClaims, refreshUserToken } from '@utils/customClaimsHelper';
 
 export class FirebaseAuthRepository implements AuthRepository {
   constructor(

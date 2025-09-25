@@ -2,19 +2,20 @@ import { renderHook, act } from '@testing-library/react-native';
 import { useDebounce, useDebouncedCallback } from '../useDebounce';
 
 // Mock timers
-jest.useFakeTimers();
+// Avoid RN Firebase auth persistence setup interfering with hook tests
+jest.mock('firebase/auth', () => ({
+  getAuth: () => ({ currentUser: null })
+}));
 
 describe('useDebounce', () => {
-  afterEach(() => {
-    jest.clearAllTimers();
-  });
+  afterEach(() => {});
 
   it('should return initial value immediately', () => {
     const { result } = renderHook(() => useDebounce('initial', 300));
     expect(result.current).toBe('initial');
   });
 
-  it('should debounce value changes', () => {
+  it('should debounce value changes', async () => {
     const { result, rerender } = renderHook(
       ({ value, delay }) => useDebounce(value, delay),
       { initialProps: { value: 'initial', delay: 300 } }
@@ -27,14 +28,14 @@ describe('useDebounce', () => {
     expect(result.current).toBe('initial'); // Should still be initial
 
     // Fast forward time
-    act(() => {
-      jest.advanceTimersByTime(300);
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 310));
     });
 
     expect(result.current).toBe('changed'); // Should now be changed
   });
 
-  it('should reset timer on rapid changes', () => {
+  it('should reset timer on rapid changes', async () => {
     const { result, rerender } = renderHook(
       ({ value }) => useDebounce(value, 300),
       { initialProps: { value: 'initial' } }
@@ -57,8 +58,8 @@ describe('useDebounce', () => {
     expect(result.current).toBe('initial');
 
     // Complete the debounce
-    act(() => {
-      jest.advanceTimersByTime(300);
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 310));
     });
 
     expect(result.current).toBe('final');
@@ -70,7 +71,7 @@ describe('useDebouncedCallback', () => {
     jest.clearAllTimers();
   });
 
-  it('should debounce callback execution', () => {
+  it('should debounce callback execution', async () => {
     const mockCallback = jest.fn();
     const { result } = renderHook(() => 
       useDebouncedCallback(mockCallback, 300)
@@ -87,8 +88,8 @@ describe('useDebouncedCallback', () => {
     expect(mockCallback).not.toHaveBeenCalled();
 
     // Fast forward time
-    act(() => {
-      jest.advanceTimersByTime(300);
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 310));
     });
 
     // Callback should have been called once with last arguments
@@ -96,7 +97,7 @@ describe('useDebouncedCallback', () => {
     expect(mockCallback).toHaveBeenCalledWith('arg3');
   });
 
-  it('should clear timeout on unmount', () => {
+  it('should clear timeout on unmount', async () => {
     const mockCallback = jest.fn();
     const { result, unmount } = renderHook(() => 
       useDebouncedCallback(mockCallback, 300)
@@ -108,8 +109,8 @@ describe('useDebouncedCallback', () => {
 
     unmount();
 
-    act(() => {
-      jest.advanceTimersByTime(300);
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 310));
     });
 
     // Callback should not be called after unmount

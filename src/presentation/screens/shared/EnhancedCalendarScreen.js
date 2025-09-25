@@ -14,16 +14,16 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 import { Ionicons } from '@expo/vector-icons';
-import { useAuth } from '../../contexts/AuthProvider';
-import { useTheme } from '../../contexts/ThemeContext';
-import { academyFirestoreService, academyStudentService } from '../../../infrastructure/services/academyFirestoreService';
-import { useCustomClaims } from '../../hooks/useCustomClaims';
-import { getThemeColors } from '../../theme/professionalTheme';
-import notificationService from '../../../infrastructure/services/notificationService';
-import EnhancedErrorBoundary from '../../components/EnhancedErrorBoundary';
-import cacheService, { CACHE_KEYS, CACHE_TTL } from '../../../infrastructure/services/cacheService';
-import { useScreenTracking, useUserActionTracking } from '../../hooks/useAnalytics';
-import CalendarSkeleton from '../../components/skeletons/CalendarSkeleton';
+import { useAuth } from '@/contexts/AuthProvider';
+import { useTheme } from '@/contexts/ThemeContext';
+import { academyFirestoreService, academyStudentService } from '@services/academyFirestoreService';
+import { useCustomClaims } from '@/hooks/useCustomClaims';
+import { getThemeColors } from '@/theme/professionalTheme';
+import notificationService from '@services/notificationService';
+import EnhancedErrorBoundary from '@/components/EnhancedErrorBoundary';
+import cacheService, { CACHE_KEYS, CACHE_TTL } from '@services/cacheService';
+import { useScreenTracking, useUserActionTracking } from '@/hooks/useAnalytics';
+import CalendarSkeleton from '@/components/skeletons/CalendarSkeleton';
 
 // Configurar localização para português
 LocaleConfig.locales['pt'] = {

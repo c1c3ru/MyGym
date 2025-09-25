@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { TextInput, HelperText } from 'react-native-paper';
-import { formatters } from '../../shared/utils/validation';
+import { formatters } from '@utils/validation';
 
 const FormInput = ({
   label,

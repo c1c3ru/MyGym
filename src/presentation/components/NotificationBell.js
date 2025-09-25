@@ -13,7 +13,7 @@ import {
   List
 } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
-import { useNotification } from '../contexts/NotificationContext';
+import { useNotification } from '@contexts/NotificationContext';
 
 const NotificationBell = ({ color = '#fff', size = 24 }) => {
   const { 

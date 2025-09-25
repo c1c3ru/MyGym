@@ -15,13 +15,13 @@ import {
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { useAuth } from '../../contexts/AuthProvider';
-import { academyFirestoreService } from '../../../infrastructure/services/academyFirestoreService';
-import EnhancedErrorBoundary from '../../components/EnhancedErrorBoundary';
-import cacheService, { CACHE_KEYS, CACHE_TTL } from '../../../infrastructure/services/cacheService';
-import batchFirestoreService from '../../../infrastructure/services/batchFirestoreService';
-import { useScreenTracking, useUserActionTracking } from '../../hooks/useAnalytics';
-import ReportsSkeleton from '../../components/skeletons/ReportsSkeleton';
+import { useAuth } from '@/contexts/AuthProvider';
+import { academyFirestoreService } from '@services/academyFirestoreService';
+import EnhancedErrorBoundary from '@/components/EnhancedErrorBoundary';
+import cacheService, { CACHE_KEYS, CACHE_TTL } from '@services/cacheService';
+import batchFirestoreService from '@services/batchFirestoreService';
+import { useScreenTracking, useUserActionTracking } from '@/hooks/useAnalytics';
+import ReportsSkeleton from '@/components/skeletons/ReportsSkeleton';
 
 const ReportsScreen = ({ navigation }) => {
   const { user, userProfile, academia } = useAuth();

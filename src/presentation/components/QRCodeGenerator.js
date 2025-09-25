@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Share, Alert, Platform } from 'react-native';
 import { Card, Text, Button, IconButton, TextInput, Dialog, Portal } from 'react-native-paper';
 import QRCode from 'react-native-qrcode-svg';
-import { useAuth } from '../contexts/AuthProvider';
+import { useAuth } from '@contexts/AuthProvider';
 
 export default function QRCodeGenerator({ size = 200, showActions = true, academiaId, academiaNome }) {
   // Verificar se está dentro do AuthProvider antes de usar o hook
@@ -197,7 +197,7 @@ MyGym`;
             size={size}
             backgroundColor="white"
             color="black"
-            logo={require('../../assets/icon.png')}
+            logo={require('../../../assets/icon.png')}
             logoSize={size * 0.15}
             logoBackgroundColor="white"
             logoMargin={2}

@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Card, Text, Button } from 'react-native-paper';
-import { useAuth } from '../contexts/AuthProvider';
-import { useCustomClaims } from '../presentation/hooks/useCustomClaims';
+import { useAuth } from '@contexts/AuthProvider';
+import { useCustomClaims } from '@hooks/useCustomClaims';
 
 /**
  * Componente para proteger rotas que exigem autenticação e associação com academia

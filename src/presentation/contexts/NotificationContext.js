@@ -1,9 +1,9 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Platform } from 'react-native';
-import notificationService from '../../infrastructure/services/notificationService';
+import notificationService from '@services/notificationService';
 import { useAuth } from './AuthProvider';
-import { firestoreService } from '../../infrastructure/services/firestoreService';
+import { firestoreService } from '@services/firestoreService';
 
 const NotificationContext = createContext();
 

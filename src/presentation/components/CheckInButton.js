@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { View, StyleSheet, Alert } from 'react-native';
 import { Button, Text, Card, ActivityIndicator } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import locationService from '../../infrastructure/services/locationService';
-import { firestoreService } from '../../infrastructure/services/firestoreService';
-import { academyFirestoreService } from '../../infrastructure/services/academyFirestoreService';
-import { useAuth } from '../contexts/AuthProvider';
-import { useUserProfile } from '../presentation/hooks/useUserProfile';
+import locationService from '@services/locationService';
+import { firestoreService } from '@services/firestoreService';
+import { academyFirestoreService } from '@services/academyFirestoreService';
+import { useAuth } from '@contexts/AuthProvider';
+import { useUserProfile } from '@hooks/useUserProfile';
 
 const CheckInButton = ({ classId, className, onCheckInSuccess }) => {
   const [loading, setLoading] = useState(false);

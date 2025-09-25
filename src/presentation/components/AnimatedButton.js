@@ -2,7 +2,7 @@
 import React from 'react';
 import { Animated, TouchableOpacity, Platform } from 'react-native';
 import { Button } from 'react-native-paper';
-import { ShadowUtils } from '../shared/utils/animations';
+import { ShadowUtils } from '@utils/animations';
 
 const AnimatedButton = ({ 
   children, 

@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Card, Title, Paragraph, Button } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
+import { Logger } from '@utils/logger';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -14,7 +15,18 @@ class ErrorBoundary extends React.Component {
   }
 
   componentDidCatch(error, errorInfo) {
-    console.error('ErrorBoundary caught an error:', error, errorInfo);
+    // Log detalhado do erro
+    Logger.errorWithContext(error, {
+      componentStack: errorInfo.componentStack,
+      errorBoundary: this.constructor.name,
+      props: this.props,
+    });
+    
+    // Em produção, enviar para serviço de crash analytics
+    if (!__DEV__) {
+      // Aqui você pode integrar com Sentry, Firebase Crashlytics, etc.
+      // Sentry.captureException(error, { extra: errorInfo });
+    }
   }
 
   handleRetry = () => {

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useAuth } from '../contexts/AuthProvider';
-import { getUserClaims } from '../../shared/utils/customClaimsHelper';
+import { useAuth } from '@contexts/AuthProvider';
+import { getUserClaims } from '@utils/customClaimsHelper';
 
 /**
  * Hook para acessar Custom Claims de forma consistente

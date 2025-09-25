@@ -2,24 +2,24 @@
 // Exportações centralizadas para o módulo de administração
 
 // Screens
-export { default as AdminDashboardSimple } from '../presentation/screens/AdminDashboardSimple';
-export { default as AdminStudents } from '../presentation/screens/AdminStudents';
-export { default as AdminClasses } from '../presentation/screens/AdminClasses';
-export { default as AdminModalities } from '../presentation/screens/AdminModalities';
-export { default as AddClassScreen } from '../presentation/screens/AddClassScreen';
-export { default as EditClassScreen } from '../presentation/screens/EditClassScreen';
-export { default as AddStudentScreen } from '../presentation/screens/AddStudentScreen';
-export { default as EditStudentScreen } from '../presentation/screens/EditStudentScreen';
-export { default as ReportsScreen } from '../presentation/screens/ReportsScreen';
-export { default as InviteManagement } from '../presentation/screens/InviteManagement';
+export { default as AdminDashboardSimple } from '@screens/admin/AdminDashboardSimple';
+export { default as AdminStudents } from '@screens/admin/AdminStudents';
+export { default as AdminClasses } from '@screens/admin/AdminClasses';
+export { default as AdminModalities } from '@screens/admin/AdminModalities';
+export { default as AddClassScreen } from '@screens/admin/AddClassScreen';
+export { default as EditClassScreen } from '@screens/admin/EditClassScreen';
+export { default as AddStudentScreen } from '@screens/admin/AddStudentScreen';
+export { default as EditStudentScreen } from '@screens/admin/EditStudentScreen';
+export { default as ReportsScreen } from '@screens/admin/ReportsScreen';
+export { default as InviteManagement } from '@screens/admin/InviteManagement';
 
 // Components
-export { default as AdminCard } from '../presentation/components/AdminCard';
-export { default as UserManagement } from '../presentation/components/UserManagement';
-export { default as ReportsChart } from '../presentation/components/ReportsChart';
+export { default as AdminCard } from '@components/AdminCard';
+export { default as UserManagement } from '@components/UserManagement';
+export { default as ReportsChart } from '@components/ReportsChart';
 
 // Services
-export { default as adminService } from '../infrastructure/services/adminService';
+export { default as adminService } from '@services/adminService';
 
 // Hooks
-export { useAdminData } from '../presentation/hooks/useAdminData';
+export { useAdminData } from '@hooks/useAdminData';

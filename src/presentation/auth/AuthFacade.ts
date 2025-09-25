@@ -1,7 +1,7 @@
 // AuthFacade - Maintains compatibility with existing API while using Clean Architecture
 
 import { useEffect } from 'react';
-import useAuthStore from '../stores/AuthUIStore';
+import useAuthStore from '@/presentation/stores/AuthUIStore';
 import { AuthState, AuthSelectors } from './selectors';
 
 // Import Clean Architecture components
@@ -13,12 +13,12 @@ import {
   GetUserSessionUseCase,
   SendPasswordResetEmailUseCase,
   RefreshUserTokenUseCase
-} from '../../domain/auth/usecases';
+} from '@/domain/auth/usecases';
 
-import { FirebaseAuthRepository } from '../../data/auth';
-import { initializeFirebaseServices } from '../../infrastructure/firebase';
-// import { AuthError } from '../../domain/auth/errors'; // Unused for now
-import crashlyticsService from '../../infrastructure/services/crashlyticsService';
+import { FirebaseAuthRepository } from '@/data/auth';
+import { initializeFirebaseServices } from '@/infrastructure/firebase';
+// import { AuthError } from '@/domain/auth/errors'; // Unused for now
+import crashlyticsService from '@services/crashlyticsService';
 
 // Global variables to control initialization
 let authListenerInitialized = false;

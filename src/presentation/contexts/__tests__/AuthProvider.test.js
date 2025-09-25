@@ -9,7 +9,7 @@ const mockCreateUserWithEmailAndPassword = jest.fn();
 const mockSignOut = jest.fn();
 const mockOnAuthStateChanged = jest.fn();
 
-jest.mock('../../services/firebase', () => ({
+jest.mock('../../../infrastructure/services/firebase', () => ({
   auth: {
     currentUser: null,
     signInWithEmailAndPassword: mockSignInWithEmailAndPassword,
@@ -20,7 +20,7 @@ jest.mock('../../services/firebase', () => ({
 }));
 
 // Mock Custom Claims Helper
-jest.mock('../../utils/customClaimsHelper', () => ({
+jest.mock('../../../shared/utils/customClaimsHelper', () => ({
   getUserClaims: jest.fn(),
   hasValidClaims: jest.fn(),
   needsOnboarding: jest.fn()

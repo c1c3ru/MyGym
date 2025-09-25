@@ -2,21 +2,21 @@
 // Exportações centralizadas para o módulo de autenticação
 
 // Screens
-export { default as LoginScreen } from '../presentation/screens/LoginScreen';
-export { default as RegisterScreen } from '../presentation/screens/RegisterScreen';
-export { default as ForgotPasswordScreen } from '../presentation/screens/ForgotPasswordScreen';
-export { default as UserTypeSelectionScreen } from '../presentation/screens/UserTypeSelectionScreen';
-export { default as AcademiaSelectionScreen } from '../presentation/screens/AcademiaSelectionScreen';
+export { default as LoginScreen } from '@screens/LoginScreen';
+export { default as RegisterScreen } from '@screens/RegisterScreen';
+export { default as ForgotPasswordScreen } from '@screens/ForgotPasswordScreen';
+export { default as UserTypeSelectionScreen } from '@screens/UserTypeSelectionScreen';
+export { default as AcademiaSelectionScreen } from '@screens/AcademiaSelectionScreen';
 
 // Components
-export { default as ForgotPasswordButton } from '../presentation/components/ForgotPasswordButton';
-export { default as LoginDebugger } from '../presentation/components/LoginDebugger';
+export { default as ForgotPasswordButton } from '@components/ForgotPasswordButton';
+export { default as LoginDebugger } from '@components/LoginDebugger';
 
 // Services
-export { default as authService } from '../infrastructure/services/authService';
+export { default as authService } from '@services/authService';
 
 // Hooks
-export { useAuthMigration } from '../presentation/hooks/useAuthMigration';
+export { useAuthMigration } from '@hooks/useAuthMigration';
 
 // Store
-export { default as useAuthStore } from '../../presentation/stores/AuthUIStore';
+export { default as useAuthStore } from '@/presentation/stores/AuthUIStore';

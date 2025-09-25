@@ -3,6 +3,23 @@ module.exports = function(api) {
   return {
     presets: ['babel-preset-expo'],
     plugins: [
+      // Module resolver for import aliases
+      ['module-resolver', {
+        root: ['./src'],
+        alias: {
+          '@': './src',
+          '@components': './src/presentation/components',
+          '@screens': './src/presentation/screens',
+          '@hooks': './src/presentation/hooks',
+          '@contexts': './src/presentation/contexts',
+          '@navigation': './src/presentation/navigation',
+          '@services': './src/infrastructure/services',
+          '@utils': './src/shared/utils',
+          '@assets': './assets',
+          '@domain': './src/domain',
+          '@features': './src/features'
+        }
+      }],
       // Transform import.meta to prevent syntax errors
       ['babel-plugin-transform-define', {
         'import.meta.url': 'typeof window !== "undefined" ? window.location.href : "file:///"',

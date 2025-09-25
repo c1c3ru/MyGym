@@ -1,5 +1,5 @@
 import { academyFirestoreService } from './academyFirestoreService';
-import { userContext, academyUtils, validators } from '../shared/utils/academyValidation';
+import { userContext, academyUtils, validators } from '@utils/academyValidation';
 
 /**
  * Serviço de auditoria para registrar operações críticas no sistema

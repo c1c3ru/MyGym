@@ -1,4 +1,4 @@
-import { auth } from '../infrastructure/services/firebase';
+import { auth } from '@services/firebase';
 
 /**
  * Utilitário para gerenciar Custom Claims do Firebase Authentication

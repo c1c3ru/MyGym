@@ -24,12 +24,12 @@ import {
   RadioButton
 } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { useAuth } from '../../contexts/AuthProvider';
-import { useTheme } from '../../contexts/ThemeContext';
-import academyCollectionsService from '../../../infrastructure/services/academyCollectionsService';
+import { useAuth } from '@/contexts/AuthProvider';
+import { useTheme } from '@/contexts/ThemeContext';
+import academyCollectionsService from '@services/academyCollectionsService';
 import { LinearGradient } from 'expo-linear-gradient';
-import SelectionField from '../../components/SelectionField';
-import graduationRepository from '../../repositories/graduationRepository';
+import SelectionField from '@/components/SelectionField';
+import graduationRepository from '@/repositories/graduationRepository';
 
 const { width } = Dimensions.get('window');
 

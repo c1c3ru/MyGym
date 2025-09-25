@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
 import { Button as PaperButton, Text } from 'react-native-paper';
-import { useAccessibility } from '../presentation/hooks/useAccessibility';
+import { useAccessibility } from '@hooks/useAccessibility';
 
 const AccessibleButton = memo(({
   children,

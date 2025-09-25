@@ -1,7 +1,7 @@
 import React, { memo, useCallback } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Card, Title, Text, Avatar, Chip, Divider, IconButton, Menu } from 'react-native-paper';
-import ActionButton, { ActionButtonGroup } from '../ActionButton';
+import ActionButton, { ActionButtonGroup } from '@components/ActionButton';
 
 const StudentListItem = memo(({ 
   student, 

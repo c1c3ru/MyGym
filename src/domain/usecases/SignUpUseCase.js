@@ -1,5 +1,5 @@
-import { AuthCredentials } from '../entities/AuthCredentials.js';
-import { User } from '../entities/User.js';
+import { AuthCredentials } from '@components/entities/AuthCredentials.js';
+import { User } from '@components/entities/User.js';
 
 /**
  * SignUpUseCase - Domain Layer

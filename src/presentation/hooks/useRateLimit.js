@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { Alert } from 'react-native';
-import rateLimiter from '../../shared/utils/rateLimiter';
-import { useAuthFacade } from '../presentation/auth/AuthFacade';
+import rateLimiter from '@utils/rateLimiter';
+import { useAuthFacade } from '@components/auth/AuthFacade';
 
 /**
  * Hook para usar rate limiting em componentes

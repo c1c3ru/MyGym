@@ -1,4 +1,4 @@
-import { auth, db } from '../../infrastructure/services/firebase';
+import { auth, db } from '@services/firebase';
 
 /**
  * FirebaseAdapter - Infrastructure Layer

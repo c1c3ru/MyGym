@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { Card } from 'react-native-paper';
-import { useAccessibility } from '../presentation/hooks/useAccessibility';
+import { useAccessibility } from '@hooks/useAccessibility';
 
 const AccessibleCard = memo(({
   children,

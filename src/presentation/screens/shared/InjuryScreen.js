@@ -16,8 +16,8 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { useAuth } from '../../contexts/AuthProvider';
-import { firestoreService } from '../../../infrastructure/services/firestoreService';
+import { useAuth } from '@/contexts/AuthProvider';
+import { firestoreService } from '@services/firestoreService';
 
 const InjuryScreen = ({ navigation, route }) => {
   const { user, academia } = useAuth();

@@ -6,7 +6,7 @@
 import React from 'react';
 import { Platform } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { IconWithFallback } from '../../shared/utils/iconFallback';
+import { IconWithFallback } from '@utils/iconFallback';
 
 // Componente para Ionicons com fallback
 export const SafeIonicons = ({ name, size = 24, color = '#000', style = {}, ...props }) => {

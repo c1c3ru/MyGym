@@ -1,5 +1,5 @@
 import React, { createContext, useContext } from 'react';
-import useAuthMigrationV2 from '../hooks/useAuthMigrationV2';
+import useAuthMigrationV2 from '@hooks/useAuthMigrationV2';
 
 // Criar contexto para compartilhar o estado
 const AuthContext = createContext();

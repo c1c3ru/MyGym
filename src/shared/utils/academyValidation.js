@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { auth } from '../infrastructure/services/firebase';
+import { auth } from '@services/firebase';
 
 /**
  * Middleware e utilitários para validação de academias

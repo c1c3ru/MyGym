@@ -6,12 +6,12 @@ import {
   SignOutUseCase,
   GetCurrentUserUseCase,
   RefreshTokenUseCase 
-} from '../../domain';
+} from '@/domain';
 import { 
   AuthRepositoryImpl, 
   UserRepositoryImpl, 
   AcademyRepositoryImpl 
-} from '../../data';
+} from '@/data';
 
 /**
  * useAuthActions - Presentation Layer

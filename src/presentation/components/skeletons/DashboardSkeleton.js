@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import SkeletonLoader from './SkeletonLoader';
-import { ResponsiveUtils } from '../../../shared/utils/animations';
+import { ResponsiveUtils } from '@utils/animations';
 
 const DashboardSkeleton = () => {
   return (

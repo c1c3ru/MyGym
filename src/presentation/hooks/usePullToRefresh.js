@@ -7,6 +7,8 @@ export const usePullToRefresh = (onRefresh) => {
     setRefreshing(true);
     try {
       await onRefresh();
+    } catch (error) {
+      // Swallow errors to avoid unhandled rejections in UI; state will still reset
     } finally {
       setRefreshing(false);
     }

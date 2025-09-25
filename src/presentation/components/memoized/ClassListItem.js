@@ -2,7 +2,7 @@ import React, { memo, useCallback } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Card, Title, Text, Chip, Divider, IconButton } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
-import ActionButton, { ActionButtonGroup } from '../ActionButton';
+import ActionButton, { ActionButtonGroup } from '@components/ActionButton';
 
 const ClassListItem = memo(({ 
   classItem, 

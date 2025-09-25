@@ -13,20 +13,20 @@ import {
   Divider
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { SafeIonicons, SafeMaterialCommunityIcons } from '../../components/SafeIcon';
+import { SafeIonicons, SafeMaterialCommunityIcons } from '@components/SafeIcon';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useAuth } from '../../contexts/AuthProvider';
-import { ADMIN_COLORS, ADMIN_ICONS } from '../theme/adminTheme';
-import { academyFirestoreService } from '../../../infrastructure/services/academyFirestoreService';
-import AnimatedCard from '../../components/AnimatedCard';
-import AnimatedButton from '../../components/AnimatedButton';
-import { useAnimation, ResponsiveUtils } from '../../../shared/utils/animations';
-import QRCodeGenerator from '../../components/QRCodeGenerator';
-import EnhancedErrorBoundary from '../../components/EnhancedErrorBoundary';
-import cacheService, { CACHE_KEYS, CACHE_TTL } from '../../../infrastructure/services/cacheService';
-import batchFirestoreService from '../../../infrastructure/services/batchFirestoreService';
-import { useScreenTracking, useUserActionTracking } from '../../hooks/useAnalytics';
-import DashboardSkeleton from '../../components/skeletons/DashboardSkeleton';
+import { useAuth } from '@/contexts/AuthProvider';
+import { ADMIN_COLORS, ADMIN_ICONS } from '@components/theme/adminTheme';
+import { academyFirestoreService } from '@services/academyFirestoreService';
+import AnimatedCard from '@/components/AnimatedCard';
+import AnimatedButton from '@/components/AnimatedButton';
+import { useAnimation, ResponsiveUtils } from '@utils/animations';
+import QRCodeGenerator from '@/components/QRCodeGenerator';
+import EnhancedErrorBoundary from '@/components/EnhancedErrorBoundary';
+import cacheService, { CACHE_KEYS, CACHE_TTL } from '@services/cacheService';
+import batchFirestoreService from '@services/batchFirestoreService';
+import { useScreenTracking, useUserActionTracking } from '@/hooks/useAnalytics';
+import DashboardSkeleton from '@/components/skeletons/DashboardSkeleton';
 
 const AdminDashboard = ({ navigation }) => {
   const { user, userProfile, logout, academia } = useAuth();

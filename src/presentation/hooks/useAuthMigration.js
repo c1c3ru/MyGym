@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react';
 import { onAuthStateChanged, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider, OAuthProvider, signOut, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { auth, db } from '../../infrastructure/services/firebase';
-import useAuthStore from '../stores/AuthUIStore';
-import { normalizeUserProfile } from '../../shared/utils/userTypeHelpers';
-import { getUserClaims, refreshUserToken } from '../../shared/utils/customClaimsHelper';
+import { auth, db } from '@services/firebase';
+import useAuthStore from '@/presentation/stores/AuthUIStore';
+import { normalizeUserProfile } from '@utils/userTypeHelpers';
+import { getUserClaims, refreshUserToken } from '@utils/customClaimsHelper';
 
 // Variável global para controlar a inicialização do listener
 let authListenerInitialized = false;

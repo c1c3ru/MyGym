@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 
 /**
  * Hook para debounce de valores
@@ -36,30 +36,26 @@ export const useDebounce = (value, delay = 300) => {
  * @returns {Function} - Função debounced
  */
 export const useDebouncedCallback = (callback, delay = 300, deps = []) => {
-  const [timeoutId, setTimeoutId] = useState(null);
+  const timeoutRef = useRef(null);
 
-  const debouncedCallback = (...args) => {
-    // Limpar timeout anterior se existir
-    if (timeoutId) {
-      clearTimeout(timeoutId);
+  const debouncedCallback = useCallback((...args) => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
     }
 
-    // Criar novo timeout
-    const newTimeoutId = setTimeout(() => {
+    timeoutRef.current = setTimeout(() => {
       callback(...args);
     }, delay);
+  }, [callback, delay, ...deps]);
 
-    setTimeoutId(newTimeoutId);
-  };
-
-  // Limpar timeout quando o componente for desmontado
   useEffect(() => {
     return () => {
-      if (timeoutId) {
-        clearTimeout(timeoutId);
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
       }
     };
-  }, [timeoutId]);
+  }, []);
 
   return debouncedCallback;
 };

@@ -15,11 +15,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { sendPasswordResetEmail } from 'firebase/auth';
-import { auth } from '../../../infrastructure/services/firebase';
-import AnimatedCard from '../../components/AnimatedCard';
-import AnimatedButton from '../../components/AnimatedButton';
-import { ResponsiveUtils } from '../../../shared/utils/animations';
-import { useTheme } from '../../contexts/ThemeContext';
+import { auth } from '@services/firebase';
+import AnimatedCard from '@/components/AnimatedCard';
+import AnimatedButton from '@/components/AnimatedButton';
+import { ResponsiveUtils } from '@utils/animations';
+import { useTheme } from '@/contexts/ThemeContext';
 
 export default function ForgotPasswordScreen({ navigation }) {
   const { getString } = useTheme();

@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { View, ScrollView } from 'react-native';
-import { useResponsive } from '../presentation/hooks/useResponsive';
+import { useResponsive } from '@hooks/useResponsive';
 
 const ResponsiveContainer = ({ 
   children, 

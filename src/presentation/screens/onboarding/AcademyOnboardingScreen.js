@@ -15,10 +15,10 @@ import {
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { useAuth } from '../../contexts/AuthProvider';
-import { useTheme } from '../../contexts/ThemeContext';
+import { useAuth } from '@/contexts/AuthProvider';
+import { useTheme } from '@/contexts/ThemeContext';
 import { httpsCallable } from 'firebase/functions';
-import { functions } from '../../../infrastructure/services/firebase';
+import { functions } from '@services/firebase';
 
 const AcademyOnboardingScreen = ({ navigation }) => {
   const { userProfile, user, refreshClaimsAndProfile } = useAuth();

@@ -16,11 +16,11 @@ import {
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { useAuth } from '../../contexts/AuthProvider';
-import { useTheme } from '../../contexts/ThemeContext';
-import { useCustomClaims } from '../../hooks/useCustomClaims';
-import { firestoreService } from '../../../infrastructure/services/firestoreService';
-import PaymentDueDateEditor from '../../components/PaymentDueDateEditor';
+import { useAuth } from '@/contexts/AuthProvider';
+import { useTheme } from '@/contexts/ThemeContext';
+import { useCustomClaims } from '@/hooks/useCustomClaims';
+import { firestoreService } from '@services/firestoreService';
+import PaymentDueDateEditor from '@/components/PaymentDueDateEditor';
 
 const { width } = Dimensions.get('window');
 

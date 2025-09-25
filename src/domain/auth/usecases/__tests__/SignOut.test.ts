@@ -40,7 +40,7 @@ describe('SignOutUseCase', () => {
       mockRepository.signOut.mockRejectedValue(unknownError);
 
       // Act & Assert
-      await expect(useCase.execute()).rejects.toThrow('Unknown error');
+    await expect(useCase.execute()).rejects.toThrow('Unauthorized access');
     });
   });
 });

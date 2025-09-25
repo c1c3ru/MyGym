@@ -4,7 +4,7 @@ import { Provider as PaperProvider } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
 import AdminDashboard from '../admin/AdminDashboard';
 import { AuthProvider } from '../../contexts/AuthProvider';
-import { firestoreService } from '../../../infrastructure/services/firestoreService';
+import { firestoreService } from '@services/firestoreService';
 
 const TestWrapper = ({ children }) => (
   <NavigationContainer>
@@ -36,7 +36,7 @@ jest.mock('../../contexts/AuthProvider', () => ({
 }));
 
 // Mock Firestore Service
-jest.mock('../../services/firestoreService', () => ({
+jest.mock('@services/firestoreService', () => ({
   firestoreService: {
     getAll: jest.fn(),
   },

@@ -1,4 +1,4 @@
-import { AuthCredentials } from '../entities/AuthCredentials.js';
+import { AuthCredentials } from '@domain/entities/AuthCredentials.js';
 
 /**
  * SignInUseCase - Domain Layer

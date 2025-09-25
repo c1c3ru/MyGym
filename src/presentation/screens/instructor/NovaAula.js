@@ -12,7 +12,7 @@ import {
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { ResponsiveUtils } from '../../../shared/utils/animations';
+import { ResponsiveUtils } from '@utils/animations';
 
 const NovaAula = ({ navigation }) => {
   const [formData, setFormData] = useState({

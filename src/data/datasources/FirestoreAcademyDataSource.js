@@ -1,6 +1,6 @@
 import { doc, getDoc, collection, query, where, getDocs, setDoc, updateDoc, deleteDoc } from 'firebase/firestore';
-import { db } from '../../infrastructure/services/firebase';
-import { Academy } from '../../domain/entities/Academy';
+import { db } from '@services/firebase';
+import { Academy } from '@/domain/entities/Academy';
 
 /**
  * FirestoreAcademyDataSource - Data Layer

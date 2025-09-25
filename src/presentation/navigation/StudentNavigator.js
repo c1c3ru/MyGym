@@ -2,22 +2,22 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
-import { useTheme } from '../contexts/ThemeContext';
-import UniversalHeader from '../components/UniversalHeader';
+import { useTheme } from '@contexts/ThemeContext';
+import UniversalHeader from '@components/UniversalHeader';
 
 // Telas do Aluno
-import StudentDashboard from '../screens/student/StudentDashboard';
-import StudentPayments from '../screens/student/StudentPayments';
-import StudentEvolution from '../screens/student/StudentEvolution';
-import StudentCalendar from '../screens/student/StudentCalendar';
+import StudentDashboard from '@screens/student/StudentDashboard';
+import StudentPayments from '@screens/student/StudentPayments';
+import StudentEvolution from '@screens/student/StudentEvolution';
+import StudentCalendar from '@screens/student/StudentCalendar';
 
 // Telas Compartilhadas
-import ProfileScreen from '../screens/shared/ProfileScreen';
-import ChangePasswordScreen from '../screens/shared/ChangePasswordScreen';
-import PhysicalEvaluationScreen from '../screens/shared/PhysicalEvaluationScreen';
-import PhysicalEvaluationHistoryScreen from '../screens/shared/PhysicalEvaluationHistoryScreen';
-import NotificationSettingsScreen from '../screens/shared/NotificationSettingsScreen';
-import PrivacySettingsScreen from '../screens/shared/PrivacySettingsScreen';
+import ProfileScreen from '@screens/shared/ProfileScreen';
+import ChangePasswordScreen from '@screens/shared/ChangePasswordScreen';
+import PhysicalEvaluationScreen from '@screens/shared/PhysicalEvaluationScreen';
+import PhysicalEvaluationHistoryScreen from '@screens/shared/PhysicalEvaluationHistoryScreen';
+import NotificationSettingsScreen from '@screens/shared/NotificationSettingsScreen';
+import PrivacySettingsScreen from '@screens/shared/PrivacySettingsScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();

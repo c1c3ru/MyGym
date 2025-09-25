@@ -1,6 +1,6 @@
 // Mappers between Firebase data and domain entities
 
-import { User, UserProfile, Claims, Academia, UserType } from '../../domain/auth/entities';
+import { User, UserProfile, Claims, Academia, UserType } from '@/domain/auth/entities';
 import { 
   FirebaseUserData, 
   FirestoreUserProfileData, 

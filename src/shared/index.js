@@ -2,52 +2,52 @@
 // Exportações centralizadas para componentes e utilitários compartilhados
 
 // UI Components
-export { default as OptimizedImage } from '../presentation/components/OptimizedImage';
-export { default as LazyScreen, LazyLoadingFallback, withLazyLoading } from '../presentation/components/LazyScreen';
-export { default as UniversalHeader } from '../presentation/components/UniversalHeader';
-export { default as ErrorBoundary } from '../presentation/components/ErrorBoundary';
-export { default as LoadingButton } from '../presentation/components/LoadingButton';
-export { default as FormInput } from '../presentation/components/FormInput';
-export { default as FormSelect } from '../presentation/components/FormSelect';
-export { default as ActionButton } from '../presentation/components/ActionButton';
-export { default as AnimatedButton } from '../presentation/components/AnimatedButton';
-export { default as AnimatedCard } from '../presentation/components/AnimatedCard';
-export { default as ResponsiveContainer } from '../presentation/components/ResponsiveContainer';
+export { default as OptimizedImage } from '@components/OptimizedImage';
+export { default as LazyScreen, LazyLoadingFallback, withLazyLoading } from '@components/LazyScreen';
+export { default as UniversalHeader } from '@components/UniversalHeader';
+export { default as ErrorBoundary } from '@components/ErrorBoundary';
+export { default as LoadingButton } from '@components/LoadingButton';
+export { default as FormInput } from '@components/FormInput';
+export { default as FormSelect } from '@components/FormSelect';
+export { default as ActionButton } from '@components/ActionButton';
+export { default as AnimatedButton } from '@components/AnimatedButton';
+export { default as AnimatedCard } from '@components/AnimatedCard';
+export { default as ResponsiveContainer } from '@components/ResponsiveContainer';
 
 // Form Components
-export { default as CountryStatePicker } from '../presentation/components/CountryStatePicker';
-export { default as PhonePicker } from '../presentation/components/PhonePicker';
-export { default as ModalityPicker } from '../presentation/components/ModalityPicker';
+export { default as CountryStatePicker } from '@components/CountryStatePicker';
+export { default as PhonePicker } from '@components/PhonePicker';
+export { default as ModalityPicker } from '@components/ModalityPicker';
 
 // Utility Components
-export { default as QRCodeGenerator } from '../presentation/components/QRCodeGenerator';
-export { default as QRCodeScanner } from '../presentation/components/QRCodeScanner';
-export { default as NotificationBell } from '../presentation/components/NotificationBell';
-export { default as NotificationManager } from '../presentation/components/NotificationManager';
+export { default as QRCodeGenerator } from '@components/QRCodeGenerator';
+export { default as QRCodeScanner } from '@components/QRCodeScanner';
+export { default as NotificationBell } from '@components/NotificationBell';
+export { default as NotificationManager } from '@components/NotificationManager';
 
 // Stores
-export { default as useAuthStore } from '../presentation/stores/AuthUIStore';
+export { default as useAuthStore } from '@/presentation/stores/AuthUIStore';
 export { default as useUIStore } from './stores/uiStore';
 export { default as useAcademiaStore } from './stores/academiaStore';
 
 // Services
-export { default as firebase } from '../infrastructure/services/firebase';
-export { default as firestoreService } from '../infrastructure/services/firestoreService';
-export { default as notificationService } from '../infrastructure/services/notificationService';
+export { default as firebase } from '@services/firebase';
+export { default as firestoreService } from '@services/firestoreService';
+export { default as notificationService } from '@services/notificationService';
 
 // Utils
-export { default as performanceMonitor, usePerformanceMonitor, withPerformanceMonitoring } from '../shared/utils/performanceMonitor';
-export * from '../shared/utils/validation';
-export * from '../shared/utils/constants';
-export * from '../shared/utils/platform';
+export { default as performanceMonitor, usePerformanceMonitor, withPerformanceMonitoring } from '@utils/performanceMonitor';
+export * from '@utils/validation';
+export * from '@utils/constants';
+export * from '@utils/platform';
 
 // Hooks
-export { useResponsive } from '../presentation/hooks/useResponsive';
+export { useResponsive } from '@hooks/useResponsive';
 
 // Navigation
-export { default as AuthNavigator } from '../presentation/navigation/AuthNavigator';
-export { default as SharedNavigator } from '../presentation/navigation/SharedNavigator';
+export { default as AuthNavigator } from '@navigation/AuthNavigator';
+export { default as SharedNavigator } from '@navigation/SharedNavigator';
 
 // Contexts (Legacy - para compatibilidade)
-export { ThemeProvider, useTheme } from '../presentation/contexts/ThemeContext';
-export { NotificationProvider } from '../presentation/contexts/NotificationContext';
+export { ThemeProvider, useTheme } from '@contexts/ThemeContext';
+export { NotificationProvider } from '@contexts/NotificationContext';

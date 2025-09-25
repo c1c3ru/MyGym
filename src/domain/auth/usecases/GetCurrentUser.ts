@@ -1,8 +1,8 @@
 // Get current user use case
 
 import { BaseUseCase } from './base';
-import { AuthRepository } from '../repositories';
-import { User } from '../entities';
+import { AuthRepository } from '@components/repositories';
+import { User } from '@components/entities';
 import { mapFirebaseError } from '../errors';
 
 export class GetCurrentUserUseCase extends BaseUseCase<void, User | null> {

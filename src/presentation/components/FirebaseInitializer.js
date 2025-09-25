@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, ActivityIndicator } from 'react-native';
-import { auth, db } from '../../infrastructure/services/firebase';
+import { auth, db } from '@services/firebase';
 
 const FirebaseInitializer = ({ children }) => {
   const [isFirebaseReady, setIsFirebaseReady] = useState(false);

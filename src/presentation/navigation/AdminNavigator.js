@@ -2,34 +2,34 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
-import { useTheme } from '../contexts/ThemeContext';
-import UniversalHeader from '../components/UniversalHeader';
+import { useTheme } from '@contexts/ThemeContext';
+import UniversalHeader from '@components/UniversalHeader';
 
 // Telas do Admin
-import AdminDashboard from '../screens/admin/AdminDashboard';
-import AdminStudents from '../screens/admin/AdminStudents';
-import AdminClasses from '../screens/admin/AdminClasses';
-import AdminModalities from '../screens/admin/AdminModalities';
-import AddClassScreen from '../screens/admin/AddClassScreen';
-import EditClassScreen from '../screens/admin/EditClassScreen';
-import AddStudentScreen from '../screens/admin/AddStudentScreen';
-import EditStudentScreen from '../screens/admin/EditStudentScreen';
-import ReportsScreen from '../screens/admin/ReportsScreen';
-import InviteManagement from '../screens/admin/InviteManagement';
+import AdminDashboard from '@screens/admin/AdminDashboard';
+import AdminStudents from '@screens/admin/AdminStudents';
+import AdminClasses from '@screens/admin/AdminClasses';
+import AdminModalities from '@screens/admin/AdminModalities';
+import AddClassScreen from '@screens/admin/AddClassScreen';
+import EditClassScreen from '@screens/admin/EditClassScreen';
+import AddStudentScreen from '@screens/admin/AddStudentScreen';
+import EditStudentScreen from '@screens/admin/EditStudentScreen';
+import ReportsScreen from '@screens/admin/ReportsScreen';
+import InviteManagement from '@screens/admin/InviteManagement';
 
 // Telas Compartilhadas
-import ClassDetailsScreen from '../screens/shared/ClassDetailsScreen';
-import StudentDetailsScreen from '../screens/shared/StudentDetailsScreen';
-import StudentProfileScreen from '../screens/shared/StudentProfileScreen';
-import ProfileScreen from '../screens/shared/ProfileScreen';
-import AddGraduationScreen from '../screens/shared/AddGraduationScreen';
-import ChangePasswordScreen from '../screens/shared/ChangePasswordScreen';
-import PhysicalEvaluationScreen from '../screens/shared/PhysicalEvaluationScreen';
-import PhysicalEvaluationHistoryScreen from '../screens/shared/PhysicalEvaluationHistoryScreen';
-import NotificationSettingsScreen from '../screens/shared/NotificationSettingsScreen';
-import PrivacySettingsScreen from '../screens/shared/PrivacySettingsScreen';
-import StudentPayments from '../screens/student/StudentPayments';
-import CheckIn from '../screens/instructor/CheckIn';
+import ClassDetailsScreen from '@screens/shared/ClassDetailsScreen';
+import StudentDetailsScreen from '@screens/shared/StudentDetailsScreen';
+import StudentProfileScreen from '@screens/shared/StudentProfileScreen';
+import ProfileScreen from '@screens/shared/ProfileScreen';
+import AddGraduationScreen from '@screens/shared/AddGraduationScreen';
+import ChangePasswordScreen from '@screens/shared/ChangePasswordScreen';
+import PhysicalEvaluationScreen from '@screens/shared/PhysicalEvaluationScreen';
+import PhysicalEvaluationHistoryScreen from '@screens/shared/PhysicalEvaluationHistoryScreen';
+import NotificationSettingsScreen from '@screens/shared/NotificationSettingsScreen';
+import PrivacySettingsScreen from '@screens/shared/PrivacySettingsScreen';
+import StudentPayments from '@screens/student/StudentPayments';
+import CheckIn from '@screens/instructor/CheckIn';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();

@@ -13,8 +13,8 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { LineChart } from 'react-native-chart-kit';
-import { useAuth } from '../../contexts/AuthProvider';
-import { firestoreService } from '../../../infrastructure/services/firestoreService';
+import { useAuth } from '@/contexts/AuthProvider';
+import { firestoreService } from '@services/firestoreService';
 
 const { width } = Dimensions.get('window');
 

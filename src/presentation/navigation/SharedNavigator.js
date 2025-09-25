@@ -1,18 +1,18 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { useTheme } from '../contexts/ThemeContext';
-import UniversalHeader from '../components/UniversalHeader';
+import { useTheme } from '@contexts/ThemeContext';
+import UniversalHeader from '@components/UniversalHeader';
 
 // Telas Compartilhadas
-import ProfileScreen from '../screens/shared/ProfileScreen';
-import ChangePasswordScreen from '../screens/shared/ChangePasswordScreen';
-import PhysicalEvaluationScreen from '../screens/shared/PhysicalEvaluationScreen';
-import PhysicalEvaluationHistoryScreen from '../screens/shared/PhysicalEvaluationHistoryScreen';
-import InjuryScreen from '../screens/shared/InjuryScreen';
-import InjuryHistoryScreen from '../screens/shared/InjuryHistoryScreen';
-import PrivacyPolicyScreen from '../screens/shared/PrivacyPolicyScreen';
-import NotificationSettingsScreen from '../screens/shared/NotificationSettingsScreen';
-import PrivacySettingsScreen from '../screens/shared/PrivacySettingsScreen';
+import ProfileScreen from '@screens/shared/ProfileScreen';
+import ChangePasswordScreen from '@screens/shared/ChangePasswordScreen';
+import PhysicalEvaluationScreen from '@screens/shared/PhysicalEvaluationScreen';
+import PhysicalEvaluationHistoryScreen from '@screens/shared/PhysicalEvaluationHistoryScreen';
+import InjuryScreen from '@screens/shared/InjuryScreen';
+import InjuryHistoryScreen from '@screens/shared/InjuryHistoryScreen';
+import PrivacyPolicyScreen from '@screens/shared/PrivacyPolicyScreen';
+import NotificationSettingsScreen from '@screens/shared/NotificationSettingsScreen';
+import PrivacySettingsScreen from '@screens/shared/PrivacySettingsScreen';
 
 const Stack = createStackNavigator();
 

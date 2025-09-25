@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
+jest.mock('react-native-qrcode-svg', () => 'MockedQRCode');
 import { Provider as PaperProvider } from 'react-native-paper';
 import QRCodeGenerator from '../QRCodeGenerator';
 

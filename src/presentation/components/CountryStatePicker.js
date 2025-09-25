@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View } from 'react-native';
 import { Menu, Button, List } from 'react-native-paper';
-import { countries, getStatesByCountry } from '../../data/countries';
+import { countries, getStatesByCountry } from '@/data/countries';
 
 export default function CountryStatePicker({ 
   selectedCountry, 

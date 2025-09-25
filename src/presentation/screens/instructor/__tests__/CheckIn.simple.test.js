@@ -8,7 +8,7 @@ import { render } from '@testing-library/react-native';
 import { Provider as PaperProvider } from 'react-native-paper';
 
 // Mock básico dos serviços
-jest.mock('../../../services/academyFirestoreService', () => ({
+jest.mock('../../../../infrastructure/services/academyFirestoreService', () => ({
   academyFirestoreService: {
     getWhere: jest.fn().mockResolvedValue([]),
     getDocuments: jest.fn().mockResolvedValue([]),
@@ -63,7 +63,7 @@ describe('TestSprite - CheckIn Screen (Teste Simples)', () => {
   });
 
   it('deve ter mocks configurados corretamente', () => {
-    const { academyFirestoreService } = require('../../../../../infrastructure/services/academyFirestoreService');
+    const { academyFirestoreService } = require('../../../../infrastructure/services/academyFirestoreService');
     
     expect(academyFirestoreService.getAll).toBeDefined();
     expect(typeof academyFirestoreService.getAll).toBe('function');

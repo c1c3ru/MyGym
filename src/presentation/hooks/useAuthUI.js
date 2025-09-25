@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
-import useAuthUIStore from '../stores/AuthUIStore';
-import useAppUIStore from '../stores/AppUIStore';
+import useAuthUIStore from '@/presentation/stores/AuthUIStore';
+import useAppUIStore from '@/presentation/stores/AppUIStore';
 
 /**
  * useAuthUI - Presentation Layer

@@ -15,9 +15,9 @@ import {
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useAuth } from '../../contexts/AuthProvider';
-import { useTheme } from '../../contexts/ThemeContext';
-import { firestoreService } from '../../../infrastructure/services/firestoreService';
+import { useAuth } from '@/contexts/AuthProvider';
+import { useTheme } from '@/contexts/ThemeContext';
+import { firestoreService } from '@services/firestoreService';
 
 const AddGraduationScreen = ({ route, navigation }) => {
   const { studentId, studentName } = route.params || {};

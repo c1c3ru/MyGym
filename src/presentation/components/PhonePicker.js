@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
 import { TextInput, Menu, Button } from 'react-native-paper';
-import { useTheme } from '../contexts/ThemeContext';
-import { countries } from '../../data/countries';
+import { useTheme } from '@contexts/ThemeContext';
+import { countries } from '@/data/countries';
 
 export default function PhonePicker({ 
   selectedCountry, 

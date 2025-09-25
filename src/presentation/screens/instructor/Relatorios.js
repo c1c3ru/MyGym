@@ -12,13 +12,13 @@ import {
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { ResponsiveUtils } from '../../../shared/utils/animations';
-import { useAuth } from '../../contexts/AuthProvider';
-import { academyFirestoreService } from '../../../infrastructure/services/academyFirestoreService';
-import EnhancedErrorBoundary from '../../components/EnhancedErrorBoundary';
-import cacheService, { CACHE_KEYS, CACHE_TTL } from '../../../infrastructure/services/cacheService';
-import { useScreenTracking, useUserActionTracking } from '../../hooks/useAnalytics';
-import ReportsSkeleton from '../../components/skeletons/ReportsSkeleton';
+import { ResponsiveUtils } from '@utils/animations';
+import { useAuth } from '@/contexts/AuthProvider';
+import { academyFirestoreService } from '@services/academyFirestoreService';
+import EnhancedErrorBoundary from '@/components/EnhancedErrorBoundary';
+import cacheService, { CACHE_KEYS, CACHE_TTL } from '@services/cacheService';
+import { useScreenTracking, useUserActionTracking } from '@/hooks/useAnalytics';
+import ReportsSkeleton from '@/components/skeletons/ReportsSkeleton';
 
 const Relatorios = ({ navigation }) => {
   const { user, userProfile } = useAuth();

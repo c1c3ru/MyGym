@@ -2,7 +2,7 @@ import React, { Component, ReactNode } from 'react';
 import { View, StyleSheet, Platform } from 'react-native';
 import { Card, Title, Paragraph, Button } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
-import crashlyticsService from '../../infrastructure/services/crashlyticsService';
+import crashlyticsService from '@services/crashlyticsService';
 
 interface ErrorInfo {
   componentStack: string;

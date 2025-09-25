@@ -61,7 +61,7 @@ describe('SendPasswordResetEmailUseCase', () => {
       mockRepository.sendPasswordResetEmail.mockRejectedValue(unknownError);
 
       // Act & Assert
-      await expect(useCase.execute(input)).rejects.toThrow('Unknown error');
+      await expect(useCase.execute(input)).rejects.toThrow('Unauthorized access');
     });
   });
 });

@@ -112,24 +112,19 @@ export const preloadData = {
   user: async (userId) => {
     // Preload user data
     return Promise.all([
-      import('../services/academyFirestoreService').then(service => 
+      import('@services/academyFirestoreService').then(service => 
         service.academyFirestoreService.get('users', userId)
       ),
-      import('../services/academyFirestoreService').then(service =>
+      import('@services/academyFirestoreService').then(service =>
         service.academyFirestoreService.getWhere('academies', 'ownerId', '==', userId)
       )
     ]);
-  },
   
   academy: async (academyId) => {
     // Preload academy data
     return Promise.all([
-      import('../services/academyFirestoreService').then(service =>
-        service.academyFirestoreService.get('academies', academyId)
-      ),
-      import('../services/academyFirestoreService').then(service =>
-        service.academyFirestoreService.getAll('students', academyId)
-      )
+      academyFirestoreService.get('academies', academyId),
+      academyFirestoreService.getAll('students', academyId)
     ]);
   }
 };

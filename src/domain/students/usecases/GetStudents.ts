@@ -1,8 +1,8 @@
 // Get students use case
 
 import { BaseUseCase } from '../../auth/usecases/base';
-import { StudentsRepository } from '../repositories';
-import { Student } from '../entities';
+import { StudentsRepository } from '@components/repositories';
+import { Student } from '@components/entities';
 import { z } from 'zod';
 
 const getStudentsSchema = z.object({

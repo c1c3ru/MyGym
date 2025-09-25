@@ -1,6 +1,4 @@
-import { firestoreService, studentService, classService, paymentService } from '../firestoreService';
-
-// Mock Firebase Firestore
+// Mock Firebase Firestore BEFORE importing the module under test
 const mockCollection = jest.fn();
 const mockDoc = jest.fn();
 const mockAddDoc = jest.fn();
@@ -13,21 +11,33 @@ const mockWhere = jest.fn();
 const mockOrderBy = jest.fn();
 
 jest.mock('firebase/firestore', () => ({
-  collection: mockCollection,
-  doc: mockDoc,
-  addDoc: mockAddDoc,
-  updateDoc: mockUpdateDoc,
-  deleteDoc: mockDeleteDoc,
-  getDoc: mockGetDoc,
-  getDocs: mockGetDocs,
-  query: mockQuery,
-  where: mockWhere,
-  orderBy: mockOrderBy
+  collection: (...args) => mockCollection(...args),
+  doc: (...args) => mockDoc(...args),
+  addDoc: (...args) => mockAddDoc(...args),
+  updateDoc: (...args) => mockUpdateDoc(...args),
+  deleteDoc: (...args) => mockDeleteDoc(...args),
+  getDoc: (...args) => mockGetDoc(...args),
+  getDocs: (...args) => mockGetDocs(...args),
+  query: (...args) => mockQuery(...args),
+  where: (...args) => mockWhere(...args),
+  orderBy: (...args) => mockOrderBy(...args),
+  initializeFirestore: jest.fn(() => ({})),
 }));
+
+// Mock Firebase app/db used inside firestoreService
+jest.mock('../firebase', () => ({
+  db: {},
+}));
+
+// Now import the module under test
+import { firestoreService, studentService, classService, paymentService } from '../firestoreService';
 
 describe('firestoreService', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    // Ensure firestore helpers return reference objects
+    mockCollection.mockReturnValue({});
+    mockDoc.mockReturnValue({});
   });
 
   describe('create', () => {
@@ -155,9 +165,7 @@ describe('studentService', () => {
         'array-contains',
         'class1'
       );
-      expect(result).toEqual([
-        { id: 'user1', userType: 'student', classIds: ['class1'] }
-      ]);
+      expect(result).toEqual(mockUsers);
     });
   });
 });
@@ -185,21 +193,10 @@ describe('classService', () => {
   });
 
   describe('checkIn', () => {
-    it('creates a check-in record', async () => {
-      jest.spyOn(firestoreService, 'create').mockResolvedValue('checkin-id');
-
-      const result = await classService.checkIn('class1', 'student1');
-
-      expect(firestoreService.create).toHaveBeenCalledWith(
-        'checkIns',
-        expect.objectContaining({
-          classId: 'class1',
-          studentId: 'student1',
-          timestamp: expect.any(Date),
-          date: expect.any(String)
-        })
+    it('throws because check-ins are subcollections now', async () => {
+      await expect(classService.checkIn('class1', 'student1')).rejects.toThrow(
+        'CheckIns agora são subcoleções'
       );
-      expect(result).toBe('checkin-id');
     });
   });
 });
@@ -210,7 +207,7 @@ describe('paymentService', () => {
   });
 
   describe('getPaymentsByStudent', () => {
-    it('returns payments for a student', async () => {
+    it('returns payments for a student (scoped by academia)', async () => {
       const mockPayments = [
         { id: 'payment1', studentId: 'student1', amount: 100 },
         { id: 'payment2', studentId: 'student1', amount: 150 }
@@ -218,10 +215,10 @@ describe('paymentService', () => {
 
       jest.spyOn(firestoreService, 'getWhere').mockResolvedValue(mockPayments);
 
-      const result = await paymentService.getPaymentsByStudent('student1');
+      const result = await paymentService.getPaymentsByStudent('student1', 'academy1');
 
       expect(firestoreService.getWhere).toHaveBeenCalledWith(
-        'payments',
+        'gyms/academy1/payments',
         'studentId',
         '==',
         'student1'

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Alert, TextInput } from 'react-native';
 import { Text, Button, Card } from 'react-native-paper';
-import { useTheme } from '../contexts/ThemeContext';
+import { useTheme } from '@contexts/ThemeContext';
 
 export default function QRCodeScanner({ onScan, onCancel }) {
   const [manualCode, setManualCode] = useState('');

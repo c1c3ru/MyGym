@@ -17,10 +17,10 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useAuth } from '../../contexts/AuthProvider';
-import { useTheme } from '../../contexts/ThemeContext';
-import { academyFirestoreService } from '../../../infrastructure/services/academyFirestoreService';
-import SafeCardContent from '../../components/SafeCardContent';
+import { useAuth } from '@/contexts/AuthProvider';
+import { useTheme } from '@/contexts/ThemeContext';
+import { academyFirestoreService } from '@services/academyFirestoreService';
+import SafeCardContent from '@/components/SafeCardContent';
 
 const { width } = Dimensions.get('window');
 

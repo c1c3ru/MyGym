@@ -1,5 +1,5 @@
 import { academyFirestoreService } from './academyFirestoreService';
-import { academyUtils, validators } from '../shared/utils/academyValidation';
+import { academyUtils, validators } from '@utils/academyValidation';
 import notificationService from './notificationService';
 
 class AcademyPaymentService {

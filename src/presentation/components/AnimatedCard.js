@@ -2,7 +2,7 @@
 import React from 'react';
 import { Animated, Platform } from 'react-native';
 import { Card } from 'react-native-paper';
-import { ShadowUtils } from '../../shared/utils/animations';
+import { ShadowUtils } from '@utils/animations';
 
 const AnimatedCard = ({
   children,

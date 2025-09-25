@@ -2,7 +2,7 @@ import React, { memo, useMemo, useCallback } from 'react';
 import { FlashList } from '@shopify/flash-list';
 import { View, StyleSheet } from 'react-native';
 import { ActivityIndicator, Text } from 'react-native-paper';
-import { flashListConfig } from '../../shared/utils/performanceOptimizations';
+import { flashListConfig } from '@utils/performanceOptimizations';
 
 const LoadingFooter = memo(() => (
   <View style={styles.loadingFooter}>

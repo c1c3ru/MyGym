@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Alert } from 'react-native';
-import { useTheme } from '../contexts/ThemeContext';
+import { useTheme } from '@contexts/ThemeContext';
 import { 
   Dialog, 
   Button, 
@@ -10,10 +10,10 @@ import {
   Chip
 } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
-import { useAuth } from '../contexts/AuthProvider';
-import { useCustomClaims } from '../presentation/hooks/useCustomClaims';
-import { useNotification } from '../contexts/NotificationContext';
-import { firestoreService } from '../../infrastructure/services/firestoreService';
+import { useAuth } from '@contexts/AuthProvider';
+import { useCustomClaims } from '@hooks/useCustomClaims';
+import { useNotification } from '@contexts/NotificationContext';
+import { firestoreService } from '@services/firestoreService';
 
 const StudentDisassociationDialog = ({ visible, onDismiss, student, onSuccess }) => {
   const { user, userProfile, academia } = useAuth();

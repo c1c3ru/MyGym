@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
-import formValidator from '../../shared/utils/formValidation';
+import formValidator from '@utils/formValidation';
 
 /**
  * Hook personalizado para validação de formulários
