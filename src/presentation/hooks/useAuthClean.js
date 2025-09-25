@@ -18,13 +18,13 @@ export const useAuthClean = () => {
   const {
     user,
     userProfile,
-    academia,
+    gym: academia,
     customClaims,
     loading,
     isAuthenticated,
     setUser,
     setUserProfile,
-    setAcademia,
+    setGym,
     setCustomClaims,
     setLoading,
     login,
@@ -63,7 +63,7 @@ export const useAuthClean = () => {
       try {
         setUser(authData.user);
         setUserProfile(authData.userProfile);
-        setAcademia(authData.academy);
+        setGym(authData.academy);
         setCustomClaims(authData.customClaims);
         
         if (authData.user && authData.userProfile) {
@@ -247,15 +247,15 @@ export const useAuthClean = () => {
       // Por enquanto, vamos usar a lógica existente através do getCurrentUser
       const result = await authActions.getCurrentUser();
       if (result.academy) {
-        setAcademia(result.academy);
+        setGym(result.academy);
       }
       return result.academy;
     } catch (error) {
       console.error('❌ useAuthClean.fetchAcademiaData:', error);
-      setAcademia(null);
+      setGym(null);
       return null;
     }
-  }, [authActions, setAcademia]);
+  }, [authActions, setGym]);
 
   const fetchUserProfile = useCallback(async (userId, firebaseUser) => {
     try {

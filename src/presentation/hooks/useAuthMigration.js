@@ -100,7 +100,7 @@ export const useAuthMigration = () => {
       }
     } catch (error) {
       console.error('❌ fetchAcademiaData: Erro ao buscar dados da academia:', error);
-      setAcademia(null);
+      setGym(null);
     }
   };
 

@@ -69,14 +69,14 @@ export function useAuthFacade() {
   const {
     setUser,
     setUserProfile,
-    setAcademia,
+    setGym: setGym,
     setCustomClaims,
     setLoading,
     // login, // Unused for now
     logout,
     user,
     userProfile,
-    academia,
+    gym: academia,
     customClaims,
     loading,
     isAuthenticated,
@@ -141,7 +141,7 @@ export function useAuthFacade() {
         setUserProfile(session.userProfile);
         setCustomClaims(session.claims);
         if (session.academia) {
-          setAcademia(session.academia);
+          setGym(session.academia);
         }
 
         // Log successful authentication to Crashlytics
@@ -244,7 +244,7 @@ export function useAuthFacade() {
           setUserProfile(session.userProfile);
           setCustomClaims(session.claims);
           if (session.academia) {
-            setAcademia(session.academia);
+            setGym(session.academia);
           }
         } catch (sessionError: any) {
           // Se o perfil não existe, apenas definir o usuário
@@ -253,7 +253,7 @@ export function useAuthFacade() {
           setUser(user);
           setUserProfile(null);
           setCustomClaims(null);
-          setAcademia(null);
+          setGym(null);
         }
         
         return user;
@@ -277,7 +277,7 @@ export function useAuthFacade() {
         setUserProfile(session.userProfile);
         setCustomClaims(session.claims);
         if (session.academia) {
-          setAcademia(session.academia);
+          setGym(session.academia);
         }
         
         return user;
@@ -329,7 +329,7 @@ export function useAuthFacade() {
                 setUserProfile(session.userProfile);
                 setCustomClaims(session.claims);
                 if (session.academia) {
-                  setAcademia(session.academia);
+                  setGym(session.academia);
                 }
               } catch (error) {
                 console.error('Error loading user session:', error);

@@ -33,7 +33,7 @@ export default function AcademiaSelectionScreen({ navigation, route }) {
   const forceCreate = route?.params?.forceCreate || false;
   const [loading, setLoading] = useState(false);
   const [searchLoading, setSearchLoading] = useState(false);
-  const [academias, setAcademias] = useState([]);
+  const [academias, setGyms] = useState([]);
   const [searchCode, setSearchCode] = useState('');
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [newAcademiaData, setNewAcademiaData] = useState({
@@ -116,14 +116,14 @@ export default function AcademiaSelectionScreen({ navigation, route }) {
       if (!querySnapshot.empty) {
         const academiaDoc = querySnapshot.docs[0];
         const academiaData = academiaDoc.data();
-        setAcademias([{
+        setGyms([{
           id: academiaDoc.id,
           ...academiaData
         }]);
         showSnackbar(getString('academyFoundSuccess'), 'success');
       } else {
         showSnackbar(getString('academyNotFound'), 'error');
-        setAcademias([]);
+        setGyms([]);
       }
     } catch (error) {
       console.error(getString('logoutError'), error);

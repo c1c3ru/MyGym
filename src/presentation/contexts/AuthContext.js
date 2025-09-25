@@ -27,7 +27,7 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
-  const [academia, setAcademia] = useState(null);
+  const [academia, setGym] = useState(null);
   const [customClaims, setCustomClaims] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -37,13 +37,13 @@ export const AuthProvider = ({ children }) => {
       const academiaDoc = await getDoc(doc(db, 'gyms', academiaId));
       if (academiaDoc.exists()) {
         console.log('✅ fetchAcademiaData: Academia encontrada');
-        setAcademia({
+        setGym({
           id: academiaId,
           ...academiaDoc.data()
         });
       } else {
         console.log('❌ fetchAcademiaData: Academia não encontrada');
-        setAcademia(null);
+        setGym(null);
       }
     } catch (error) {
       console.error('❌ fetchAcademiaData: Erro ao buscar dados da academia:', error);
@@ -83,12 +83,12 @@ export const AuthProvider = ({ children }) => {
           await fetchAcademiaData(userData.academiaId);
         } else {
           console.log('⚠️ fetchUserProfile: Usuário SEM academiaId - será redirecionado para seleção');
-          setAcademia(null);
+          setGym(null);
         }
       } else {
         console.log('❌ fetchUserProfile: Usuário não encontrado em nenhuma coleção');
         setUserProfile(null);
-        setAcademia(null);
+        setGym(null);
       }
     } catch (error) {
       console.error('❌ fetchUserProfile: Erro ao buscar perfil do usuário:', error);
@@ -145,7 +145,7 @@ export const AuthProvider = ({ children }) => {
         console.log('🔐 AuthContext: Usuário deslogado, limpando estados');
         setUser(null);
         setUserProfile(null);
-        setAcademia(null);
+        setGym(null);
         setCustomClaims(null);
       }
       setLoading(false);
@@ -400,7 +400,7 @@ export const AuthProvider = ({ children }) => {
       console.log('🔐 AuthContext: Limpando estados locais...');
       setUser(null);
       setUserProfile(null);
-      setAcademia(null);
+      setGym(null);
       setCustomClaims(null);
       
       console.log('🔐 AuthContext: Logout completo - estados limpos');
