@@ -79,6 +79,9 @@ const AppNavigator = () => {
   console.log('🧭 AppNavigator: User:', !!user);
   console.log('🧭 AppNavigator: UserProfile:', !!userProfile);
   console.log('🧭 AppNavigator: Academia:', !!academia);
+  console.log('🧭 AppNavigator: hasValidClaims:', hasValidClaims);
+  console.log('🧭 AppNavigator: profileCompleted:', userProfile?.profileCompleted);
+  console.log('🧭 AppNavigator: customClaims:', customClaims);
 
   if (loading) {
     console.log('🧭 AppNavigator: Mostrando LoadingScreen - LOADING TRUE');
@@ -102,9 +105,16 @@ const AppNavigator = () => {
   }
 
   // Se usuário não completou o perfil, mostrar seleção de tipo
-  // Agora verificamos se não tem custom claims válidos ou perfil incompleto
-  if (!hasValidClaims || userProfile.profileCompleted === false) {
-    console.log('🧭 AppNavigator: Usuário sem claims válidos ou perfil incompleto, mostrando seleção de tipo');
+  // Verificar se realmente precisa completar o perfil (não apenas se profileCompleted é false)
+  const needsProfileCompletion = userProfile.profileCompleted === false && 
+    (!customClaims?.role || !userProfile.userType);
+  
+  if (!hasValidClaims && needsProfileCompletion) {
+    console.log('🧭 AppNavigator: Usuário precisa completar perfil, mostrando seleção de tipo');
+    console.log('🧭 AppNavigator: hasValidClaims:', hasValidClaims);
+    console.log('🧭 AppNavigator: profileCompleted:', userProfile.profileCompleted);
+    console.log('🧭 AppNavigator: customClaims.role:', customClaims?.role);
+    console.log('🧭 AppNavigator: userProfile.userType:', userProfile.userType);
     return (
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>

@@ -77,25 +77,35 @@ const AdminStudents = ({ navigation }) => {
                       return {
                         ...student,
                         paymentStatus: 'unknown',
-                        totalPayments: 0
+                        totalPayments: 0,
+                        modalities: []
                       };
                     }
 
                     // Buscar pagamentos do aluno
                     const payments = await academyFirestoreService.getWhere('payments', 'studentId', '==', student.id, academiaId);
                     
+                    // Buscar turmas do aluno para determinar modalidades
+                    const studentClasses = await academyFirestoreService.getWhere('classes', 'students', 'array-contains', student.id, academiaId);
+                    
+                    // Extrair modalidades únicas das turmas
+                    const studentModalities = [...new Set(studentClasses.map(cls => cls.modality).filter(Boolean))];
+                    
                     const latestPayment = payments[0];
                     return {
                       ...student,
                       paymentStatus: latestPayment?.status || 'unknown',
                       lastPaymentDate: latestPayment?.createdAt,
-                      totalPayments: payments.length
+                      totalPayments: payments.length,
+                      modalities: studentModalities
                     };
                   } catch (error) {
+                    console.error('❌ Erro ao enriquecer dados do aluno:', error);
                     return {
                       ...student,
                       paymentStatus: 'unknown',
-                      totalPayments: 0
+                      totalPayments: 0,
+                      modalities: []
                     };
                   }
                 })

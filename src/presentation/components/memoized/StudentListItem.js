@@ -93,18 +93,21 @@ const StudentListItem = memo(({
             icon="eye"
             onPress={handleView}
             variant="outline"
+            size="small"
           />
           <ActionButton
             title="Editar"
             icon="pencil"
             onPress={handleEdit}
             variant="primary"
+            size="small"
           />
           <ActionButton
             title="Desassociar"
             icon="account-remove"
             onPress={handleDelete}
             variant="danger"
+            size="small"
           />
         </ActionButtonGroup>
       </Card.Content>

@@ -62,19 +62,22 @@ const ActionButton = ({
         return {
           minHeight: 32,
           paddingHorizontal: 12,
-          fontSize: 12
+          fontSize: 12,
+          iconSize: 16
         };
       case 'large':
         return {
           minHeight: 48,
           paddingHorizontal: 24,
-          fontSize: 16
+          fontSize: 16,
+          iconSize: 24
         };
       default: // medium
         return {
           minHeight: 40,
           paddingHorizontal: 16,
-          fontSize: 14
+          fontSize: 14,
+          iconSize: 20
         };
     }
   };
@@ -94,6 +97,7 @@ const ActionButton = ({
           <Button
             mode="text"
             icon={icon}
+            iconSize={sizeStyles.iconSize}
             onPress={onPress}
             loading={loading}
             disabled={disabled}
@@ -119,6 +123,7 @@ const ActionButton = ({
     <Button
       mode={mode}
       icon={icon}
+      iconSize={sizeStyles.iconSize}
       onPress={onPress}
       loading={loading}
       disabled={disabled}

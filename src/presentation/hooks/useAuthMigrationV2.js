@@ -72,19 +72,27 @@ export const useAuthMigrationV2 = () => {
     },
 
     // Usar método de logout com interface original
-    signOut: authClean.signOut,
+    signOut: async () => {
+      const result = await authClean.signOut();
+      if (!result?.success) {
+        throw new Error(result?.error?.message || 'Erro no logout');
+      }
+      return result;
+    },
     logout: async () => {
       const result = await authClean.signOut();
-      if (!result.success) {
-        throw new Error(result.error?.message || 'Erro no logout');
+      if (!result?.success) {
+        throw new Error(result?.error?.message || 'Erro no logout');
       }
+      return result;
     },
 
     logoutUser: async () => {
       const result = await authClean.signOut();
-      if (!result.success) {
-        throw new Error(result.error?.message || 'Erro no logout');
+      if (!result?.success) {
+        throw new Error(result?.error?.message || 'Erro no logout');
       }
+      return result;
     },
 
     // Atualização de perfil e associação de academia
