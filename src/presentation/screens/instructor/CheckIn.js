@@ -55,22 +55,6 @@ const CheckIn = ({ navigation }) => {
   });
   const { trackButtonClick, trackFeatureUsage } = useUserActionTracking();
 
-  // Auto-refresh quando a tela ganha foco
-  useFocusEffect(
-    useCallback(() => {
-      loadData();
-    }, [loadData])
-  );
-
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    // Invalidar cache
-    if (userProfile?.academiaId) {
-      cacheService.invalidatePattern(`checkin_data:${userProfile.academiaId}:${user.uid}`);
-    }
-    loadData();
-  }, [loadData, userProfile?.academiaId, user.uid]);
-
   const loadData = useCallback(async () => {
     try {
       setLoading(true);
@@ -153,6 +137,22 @@ const CheckIn = ({ navigation }) => {
       setRefreshing(false);
     }
   }, [user.uid, userProfile?.academiaId, user.email, trackFeatureUsage]);
+
+  // Auto-refresh quando a tela ganha foco
+  useFocusEffect(
+    useCallback(() => {
+      loadData();
+    }, [loadData])
+  );
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    // Invalidar cache
+    if (userProfile?.academiaId) {
+      cacheService.invalidatePattern(`checkin_data:${userProfile.academiaId}:${user.uid}`);
+    }
+    loadData();
+  }, [loadData, userProfile?.academiaId, user.uid]);
 
   const loadActiveCheckIns = useCallback(async () => {
     try {
