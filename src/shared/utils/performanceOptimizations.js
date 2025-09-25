@@ -119,6 +119,7 @@ export const preloadData = {
         service.academyFirestoreService.getWhere('academies', 'ownerId', '==', userId)
       )
     ]);
+  },
   
   academy: async (academyId) => {
     // Preload academy data
