@@ -56,10 +56,11 @@ console.log('\n✅ Setup completed. Starting Expo dev server...\n');
 
 // Iniciar o servidor Expo na porta 5000 para Replit
 try {
-  // Para Replit, usar --host localhost funciona com o proxy do ambiente
-  execSync('npx expo start --web --port 5000 --host localhost --clear', { 
+  // Para Replit, usar --host lan e CI=1 para modo não-interativo
+  execSync('npx expo start --web --port 5000 --host lan --clear', { 
     cwd: rootDir, 
-    stdio: 'inherit' 
+    stdio: 'inherit',
+    env: { ...process.env, CI: '1' }
   });
 } catch (error) {
   console.error('❌ Error starting Expo server:', error.message);

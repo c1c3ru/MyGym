@@ -1,4 +1,4 @@
-import { GraduationRule } from '../entities/GraduationAlert';
+import { GraduationRule } from '@domain/entities/GraduationAlert';
 
 /**
  * Regras oficiais de graduação por modalidade

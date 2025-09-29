@@ -104,9 +104,12 @@ const RegisterScreen = ({ navigation }) => {
         name: formData.name.trim(),
         phone: formData.phone.trim(),
         isActive: true,
-        currentGraduation: 'Iniciante', // Todos começam como iniciantes
+        currentBelt: 'white', // Usando padrão internacional
+        currentGraduation: 'Beginner', // Compatível com backend
+        beltHistory: [],
         graduations: [],
-        classIds: []
+        classIds: [],
+        userType: formData.userType
       };
 
       await signUp(formData.email, formData.password, userData);

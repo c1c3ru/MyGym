@@ -92,10 +92,10 @@ const StudentDashboard = ({ navigation }) => {
           
           // Dados do dashboard
           const dashboardInfo = {
-            graduationStatus: studentProfile?.currentBelt || 'Faixa Branca',
-            nextEvaluation: '2 meses', // Calcular baseado em dados reais
+            graduationStatus: studentProfile?.currentBelt || studentProfile?.currentGraduation || 'Faixa Branca',
+            nextEvaluation: studentProfile?.nextEvaluationDate || '2 meses', // Usar dados do backend
             totalClasses: userClasses.length,
-            attendanceRate: 85 // Calcular baseado em check-ins reais
+            attendanceRate: studentProfile?.attendanceRate || 0 // Usar dados reais do backend
           };
           
           return {

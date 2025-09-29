@@ -3,7 +3,7 @@
  * Defines the contract for student data operations
  */
 
-import { Student, StudentProfile, CreateStudentData, UpdateStudentData, StudentStats } from '../students/entities';
+import { Student, StudentProfile, CreateStudentData, UpdateStudentData, StudentStats } from '@components/students/entities';
 
 export interface StudentsRepository {
   // CRUD operations

@@ -97,13 +97,15 @@ export default function LoginScreen({ navigation }) {
 
     setLoading(true);
     try {
-      // Track login attempt
-      trackButtonClick('login_attempt', { email: email.trim() });
+      // Track login attempt (without exposing email)
+      const emailDomain = email.trim().split('@')[1] || 'unknown';
+      trackButtonClick('login_attempt', { emailDomain });
       
       await signIn(email.trim(), password);
       
-      // Track successful login
-      trackFeatureUsage('login_success', { email: email.trim() });
+      // Track successful login (without exposing email)
+      const emailDomain = email.trim().split('@')[1] || 'unknown';
+      trackFeatureUsage('login_success', { emailDomain });
       showSnackbar(getString('loginSuccess') || 'Login realizado com sucesso!', 'success');
       
       // Reset rate limit on success
@@ -112,11 +114,12 @@ export default function LoginScreen({ navigation }) {
     } catch (error) {
       console.error('Erro no login:', error);
       
-      // Track failed login
+      // Track failed login (without exposing email)
+      const emailDomain = email.trim().split('@')[1] || 'unknown';
       trackFeatureUsage('login_failed', { 
-        email: email.trim(), 
+        emailDomain, 
         errorCode: error.code,
-        errorMessage: error.message 
+        errorType: error.code?.split('/')[1] || 'unknown'
       });
       
       let errorMessage = getString('checkCredentials') || 'Verifique suas credenciais';

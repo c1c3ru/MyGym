@@ -1,8 +1,8 @@
-import { GraduationAlert, GraduationRule, GraduationExam, GraduationBoard } from '../entities/GraduationAlert';
-import { GraduationRepository } from '../repositories/GraduationRepository';
-import { GraduationCalculationService, StudentTrainingData } from '../services/GraduationCalculationService';
-import { GraduationNotificationService, NotificationRecipient } from '../services/GraduationNotificationService';
-import { GRADUATION_RULES } from '../data/GraduationRules';
+import { GraduationAlert, GraduationRule, GraduationExam, GraduationBoard } from '@domain/entities/GraduationAlert';
+import { GraduationRepository } from '@domain/repositories/GraduationRepository';
+import { GraduationCalculationService, StudentTrainingData } from '@components/services/GraduationCalculationService';
+import { GraduationNotificationService, NotificationRecipient } from '@components/services/GraduationNotificationService';
+import { GRADUATION_RULES } from '@components/data/GraduationRules';
 
 export class GraduationManagementUseCase {
   private graduationRepository: GraduationRepository;

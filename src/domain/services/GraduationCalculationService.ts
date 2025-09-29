@@ -1,4 +1,4 @@
-import { GraduationAlert, GraduationRule } from '../entities/GraduationAlert';
+import { GraduationAlert, GraduationRule } from '@domain/entities/GraduationAlert';
 
 export interface StudentTrainingData {
   id: string;

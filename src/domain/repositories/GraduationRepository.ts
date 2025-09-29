@@ -1,4 +1,4 @@
-import { GraduationAlert, GraduationRule, GraduationExam, GraduationBoard } from '../entities/GraduationAlert';
+import { GraduationAlert, GraduationRule, GraduationExam, GraduationBoard } from '@domain/entities/GraduationAlert';
 
 export interface GraduationRepository {
   // Alertas de graduação

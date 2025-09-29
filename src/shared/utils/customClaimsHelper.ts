@@ -1,5 +1,5 @@
-import { firebaseAuth } from '../../infrastructure/firebase';
-import { Claims } from '../../domain/auth/entities';
+import { firebaseAuth } from '@infrastructure/firebase';
+import { Claims } from '@domain/auth/entities';
 
 /**
  * Utilitário para gerenciar Custom Claims do Firebase Authentication

@@ -12,9 +12,9 @@ import {
   limit,
   Timestamp 
 } from 'firebase/firestore';
-import { firebaseApp, firebaseFirestore } from '../firebase';
-import { GraduationAlert, GraduationRule, GraduationExam, GraduationBoard, ModalityGraduationStats } from '../../domain/entities/GraduationAlert';
-import { GraduationRepository } from '../../domain/repositories/GraduationRepository';
+import { firebaseApp, firebaseFirestore } from '@components/firebase';
+import { GraduationAlert, GraduationRule, GraduationExam, GraduationBoard, ModalityGraduationStats } from '@domain/entities/GraduationAlert';
+import { GraduationRepository } from '@domain/repositories/GraduationRepository';
 
 interface GraduationResult {
   studentId: string;
