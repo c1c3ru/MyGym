@@ -167,22 +167,22 @@ const ScheduleSelector = ({
         key={dayKey}
         style={[
           styles.dayCard,
-          hasHours && { backgroundColor: colors.primary + '20' }
+          hasHours && { backgroundColor: (colors?.primary || '#6200ea') + '20' }
         ]}
         onPress={() => !disabled && handleDayPress(dayKey)}
         disabled={disabled}
       >
         <Card.Content style={styles.dayCardContent}>
           <View style={styles.dayHeader}>
-            <Text style={[styles.dayName, hasHours && { color: colors.primary }]}>
+            <Text style={[styles.dayName, hasHours && { color: colors?.primary || '#6200ea' }]}>
               {shortName}
             </Text>
             {hasHours && (
               <Chip
                 mode="flat"
                 compact
-                style={[styles.hourChip, { backgroundColor: colors.primary }]}
-                textStyle={{ color: colors.onPrimary, fontSize: 10 }}
+                style={[styles.hourChip, { backgroundColor: colors?.primary || '#6200ea' }]}
+                textStyle={{ color: colors?.onPrimary || '#ffffff', fontSize: 10 }}
               >
                 {schedule.hours[dayKey].length}h
               </Chip>
@@ -190,7 +190,7 @@ const ScheduleSelector = ({
           </View>
           <Text style={[
             styles.daySchedule,
-            hasHours ? { color: colors.primary } : { color: colors.onSurfaceVariant }
+            hasHours ? { color: colors?.primary || '#6200ea' } : { color: colors?.onSurfaceVariant || '#666666' }
           ]}>
             {getDayScheduleText(dayKey)}
           </Text>
@@ -218,14 +218,14 @@ const ScheduleSelector = ({
       <View style={styles.header}>
         <Text style={styles.label}>
           {label}
-          {required && <Text style={{ color: colors.error }}> *</Text>}
+          {required && <Text style={{ color: colors?.error || '#f44336' }}> *</Text>}
         </Text>
         {hasAnySchedule() && !disabled && (
           <Button
             mode="text"
             compact
             onPress={clearAllSchedule}
-            textColor={colors.error}
+            textColor={colors?.error || '#f44336'}
           >
             Limpar Tudo
           </Button>
@@ -241,7 +241,7 @@ const ScheduleSelector = ({
               {scheduleToDisplayString({ ...schedule, duration, timezone })}
             </Text>
             {isValidating && (
-              <Text style={[styles.validatingText, { color: colors.primary }]}>
+              <Text style={[styles.validatingText, { color: colors?.primary || '#6200ea' }]}>
                 🔍 Verificando conflitos...
               </Text>
             )}
@@ -268,7 +268,7 @@ const ScheduleSelector = ({
         <Modal
           visible={modalVisible}
           onDismiss={() => setModalVisible(false)}
-          contentContainerStyle={[styles.modal, { backgroundColor: colors.surface }]}
+          contentContainerStyle={[styles.modal, { backgroundColor: colors?.surface || '#ffffff' }]}
         >
           <View style={styles.modalHeader}>
             <Text style={styles.modalTitle}>
@@ -298,13 +298,13 @@ const ScheduleSelector = ({
                       {...props}
                       name={isSelected ? 'checkmark-circle' : 'time-outline'}
                       size={24}
-                      color={isSelected ? colors.primary : colors.onSurfaceVariant}
+                      color={isSelected ? (colors?.primary || '#6200ea') : (colors?.onSurfaceVariant || '#666666')}
                     />
                   )}
                   onPress={() => handleTimeToggle(time)}
                   style={[
                     styles.timeSlot,
-                    isSelected && { backgroundColor: colors.primary + '10' }
+                    isSelected && { backgroundColor: (colors?.primary || '#6200ea') + '10' }
                   ]}
                 />
               );
