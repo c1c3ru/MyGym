@@ -2,7 +2,7 @@
 
 import { BaseUseCase } from './base';
 import { AuthRepository } from '../repositories';
-import { mapFirebaseError } from '@components/errors';
+import { mapFirebaseError } from '../errors';
 import { emailSchema, EmailInput } from './schemas';
 
 export class SendPasswordResetEmailUseCase extends BaseUseCase<EmailInput, void> {

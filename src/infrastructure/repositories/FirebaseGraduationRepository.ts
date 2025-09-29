@@ -12,7 +12,7 @@ import {
   limit,
   Timestamp 
 } from 'firebase/firestore';
-import { firebaseApp, firebaseFirestore } from '@components/firebase';
+import { firebaseApp, firebaseFirestore } from '@infrastructure/firebase';
 import { GraduationAlert, GraduationRule, GraduationExam, GraduationBoard, ModalityGraduationStats } from '@domain/entities/GraduationAlert';
 import { GraduationRepository } from '@domain/repositories/GraduationRepository';
 

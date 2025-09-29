@@ -9,7 +9,7 @@ const mockCreateUserWithEmailAndPassword = jest.fn();
 const mockSignOut = jest.fn();
 const mockOnAuthStateChanged = jest.fn();
 
-jest.mock('../../../infrastructure/services/firebase', () => ({
+jest.mock('@services/firebase', () => ({
   auth: {
     currentUser: null,
     signInWithEmailAndPassword: mockSignInWithEmailAndPassword,

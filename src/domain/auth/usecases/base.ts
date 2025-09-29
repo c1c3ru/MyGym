@@ -1,6 +1,6 @@
 // Base use case interface and implementations
 
-import { ValidationError } from '@components/errors';
+import { ValidationError } from '../errors';
 
 export interface UseCase<TInput, TOutput> {
   execute(input: TInput): Promise<TOutput>;

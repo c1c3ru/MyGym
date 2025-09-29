@@ -104,7 +104,6 @@ export default function LoginScreen({ navigation }) {
       await signIn(email.trim(), password);
       
       // Track successful login (without exposing email)
-      const emailDomain = email.trim().split('@')[1] || 'unknown';
       trackFeatureUsage('login_success', { emailDomain });
       showSnackbar(getString('loginSuccess') || 'Login realizado com sucesso!', 'success');
       

@@ -33,6 +33,9 @@ module.exports = {
       ')/)'
   ],
   moduleNameMapper: {
+    '^@presentation/(.*)$': '<rootDir>/src/presentation/$1',
+    '^@data/(.*)$': '<rootDir>/src/data/$1',
+    '^@infrastructure/(.*)$': '<rootDir>/src/infrastructure/$1',
     '^@hooks/(.*)$': '<rootDir>/src/presentation/hooks/$1',
     '^@components/(.*)$': '<rootDir>/src/presentation/components/$1',
     '^@contexts/(.*)$': '<rootDir>/src/presentation/contexts/$1',

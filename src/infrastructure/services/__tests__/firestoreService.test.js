@@ -25,7 +25,7 @@ jest.mock('firebase/firestore', () => ({
 }));
 
 // Mock Firebase app/db used inside firestoreService
-jest.mock('../../../services/firebase', () => ({
+jest.mock('@services/firebase', () => ({
   db: {},
 }));
 

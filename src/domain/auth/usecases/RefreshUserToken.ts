@@ -3,7 +3,7 @@
 import { BaseUseCase } from './base';
 import { AuthRepository } from '../repositories';
 import { User, Claims } from '@domain/entities';
-import { mapFirebaseError } from '@components/errors';
+import { mapFirebaseError } from '../errors';
 
 export class RefreshUserTokenUseCase extends BaseUseCase<User, Claims> {
   constructor(private authRepository: AuthRepository) {

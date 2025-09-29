@@ -2,7 +2,7 @@
 
 import { BaseUseCase } from './base';
 import { AuthRepository } from '../repositories';
-import { mapFirebaseError } from '@components/errors';
+import { mapFirebaseError } from '../errors';
 
 export class SignOutUseCase extends BaseUseCase<void, void> {
   constructor(private authRepository: AuthRepository) {
