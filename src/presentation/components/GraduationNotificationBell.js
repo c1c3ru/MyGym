@@ -13,7 +13,7 @@ import {
   Surface
 } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
-import { useGraduation } from '../hooks/useGraduation';
+import { useGraduation } from '@hooks/useGraduation';
 
 const GraduationNotificationBell = ({ onNotificationPress }) => {
   const {

@@ -14,11 +14,14 @@ const mockGetIdTokenResult = jest.fn();
 const mockCurrentUser = {
   uid: 'test-uid',
   email: 'test@example.com',
+  displayName: 'Test User',
+  emailVerified: true,
+  isAnonymous: false,
   getIdToken: mockGetIdToken,
   getIdTokenResult: mockGetIdTokenResult
 };
 
-jest.mock('../../../infrastructure/services/firebase', () => ({
+jest.mock('@services/firebase', () => ({
   auth: {
     currentUser: mockCurrentUser
   }
@@ -27,7 +30,7 @@ jest.mock('../../../infrastructure/services/firebase', () => ({
 describe('customClaimsHelper', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    auth.currentUser = mockCurrentUser;
+    (auth as any).currentUser = mockCurrentUser;
   });
 
   describe('refreshUserToken', () => {
@@ -41,7 +44,7 @@ describe('customClaimsHelper', () => {
     });
 
     it('should return null when no user is logged in', async () => {
-      auth.currentUser = null;
+      (auth as any).currentUser = null;
 
       const result = await refreshUserToken();
 
@@ -92,7 +95,7 @@ describe('customClaimsHelper', () => {
     });
 
     it('should return null when no user is logged in', async () => {
-      auth.currentUser = null;
+      (auth as any).currentUser = null;
 
       const result = await getUserClaims();
 
@@ -139,7 +142,7 @@ describe('customClaimsHelper', () => {
     });
 
     it('should return false when no user is logged in', async () => {
-      auth.currentUser = null;
+      (auth as any).currentUser = null;
 
       const result = await hasValidClaims();
 
@@ -209,7 +212,7 @@ describe('customClaimsHelper', () => {
     });
 
     it('should return true when no user is logged in', async () => {
-      auth.currentUser = null;
+      (auth as any).currentUser = null;
 
       const result = await needsOnboarding();
 
@@ -252,7 +255,7 @@ describe('customClaimsHelper', () => {
 
     it('should log message when no user is logged in', async () => {
       const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
-      auth.currentUser = null;
+      (auth as any).currentUser = null;
 
       await debugUserClaims();
 

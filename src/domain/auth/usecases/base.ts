@@ -1,5 +1,7 @@
 // Base use case interface and implementations
 
+import { ValidationError } from '../errors';
+
 export interface UseCase<TInput, TOutput> {
   execute(input: TInput): Promise<TOutput>;
 }
@@ -18,5 +20,3 @@ export abstract class BaseUseCase<TInput, TOutput> implements UseCase<TInput, TO
     return result.data;
   }
 }
-
-import { ValidationError } from '../errors';

@@ -2,9 +2,9 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { View, StyleSheet, Alert } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { Text, FAB, Portal, Dialog, Button } from 'react-native-paper';
-import GraduationBoard from '../components/GraduationBoard';
-import LoadingSpinner from '../components/LoadingSpinner';
-import { useAuth } from '../contexts/AuthContext';
+import GraduationBoard from '@components/GraduationBoard';
+import LoadingSpinner from '@components/LoadingSpinner';
+import { useAuth } from '@contexts/AuthProvider';
 
 const GraduationBoardScreen = ({ navigation }) => {
   const { user } = useAuth();

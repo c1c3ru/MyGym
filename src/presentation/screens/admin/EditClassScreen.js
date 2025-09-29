@@ -12,8 +12,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '@contexts/AuthProvider';
 import { academyFirestoreService, academyClassService } from '@services/academyFirestoreService';
 import ActionButton, { ActionButtonGroup } from '@components/ActionButton';
-import ScheduleSelector from '@components/ScheduleSelector';
-import { createEmptySchedule, isValidSchedule, scheduleToDisplayString } from '@utils/scheduleUtils';
+// import ScheduleSelector from '@components/ScheduleSelector';
+// import { createEmptySchedule, isValidSchedule, scheduleToDisplayString } from '@utils/scheduleUtils';
 
 const EditClassScreen = ({ route, navigation }) => {
   const { classId } = route.params;
@@ -41,7 +41,7 @@ const EditClassScreen = ({ route, navigation }) => {
     maxStudents: '',
     instructorId: '',
     instructorName: '',
-    schedule: createEmptySchedule(),
+    schedule: '',
     price: '',
     status: 'active',
     ageCategory: ''
@@ -94,9 +94,7 @@ const EditClassScreen = ({ route, navigation }) => {
           instructorId: classData.instructorId || '',
           instructorName: classData.instructorName || '',
           ageCategory: classData.ageCategory || '',
-          schedule: isValidSchedule(classData.schedule) 
-            ? classData.schedule 
-            : createEmptySchedule(),
+          schedule: classData.schedule || '',
           price: classData.price?.toString() || '',
           status: classData.status || 'active'
         });
@@ -152,8 +150,8 @@ const EditClassScreen = ({ route, navigation }) => {
       newErrors.instructorId = 'Instrutor é obrigatório';
     }
 
-    if (!isValidSchedule(formData.schedule) || !Object.values(formData.schedule.hours).some(hours => hours.length > 0)) {
-      newErrors.schedule = 'Pelo menos um horário deve ser selecionado';
+    if (!formData.schedule.trim()) {
+      newErrors.schedule = 'Horário é obrigatório';
     }
 
     if (!formData.price || isNaN(formData.price) || parseFloat(formData.price) < 0) {
@@ -183,9 +181,7 @@ const EditClassScreen = ({ route, navigation }) => {
         maxStudents: parseInt(formData.maxStudents),
         instructorId: formData.instructorId,
         instructorName: formData.instructorName,
-        // Armazenar formato estruturado
-        schedule: formData.schedule,
-        scheduleText: scheduleToDisplayString(formData.schedule),
+        schedule: formData.schedule.trim(),
         price: parseFloat(formData.price),
         status: formData.status,
         ageCategory: formData.ageCategory,
@@ -373,19 +369,13 @@ const EditClassScreen = ({ route, navigation }) => {
             </View>
 
             {/* Horário */}
-            <ScheduleSelector
+            <TextInput
+              label="Horário (ex: Segunda-feira 08:00-09:00)"
               value={formData.schedule}
-              onScheduleChange={(schedule) => updateFormData('schedule', schedule)}
-              duration={60}
-              timezone="America/Fortaleza"
-              startHour={6}
-              endHour={22}
-              required={true}
-              label="Horários da Turma"
-              enableConflictValidation={true}
-              instructorId={formData.instructorId}
-              excludeClassId={classId}
+              onChangeText={(value) => updateFormData('schedule', value)}
+              mode="outlined"
               style={styles.input}
+              error={!!errors.schedule}
             />
             {errors.schedule && <HelperText type="error">{errors.schedule}</HelperText>}
 

@@ -2,13 +2,12 @@
 
 import { BaseUseCase } from '@auth/usecases/base';
 import { StudentsRepository } from '@domain/repositories';
-import { Student, CreateStudentData } from '@domain/entities';
+import { Student, CreateStudentData } from '@domain/students/entities';
 import { z } from 'zod';
 
 const addressSchema = z.object({
   street: z.string().min(1, 'Rua é obrigatória'),
   number: z.string().min(1, 'Número é obrigatório'),
-  complement: z.string().optional(),
   neighborhood: z.string().min(1, 'Bairro é obrigatório'),
   city: z.string().min(1, 'Cidade é obrigatória'),
   state: z.string().min(2, 'Estado é obrigatório'),

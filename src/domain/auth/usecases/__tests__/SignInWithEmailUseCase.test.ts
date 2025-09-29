@@ -12,11 +12,13 @@ const mockAuthRepository: jest.Mocked<AuthRepository> = {
   updateUserProfile: jest.fn(),
   getUserClaims: jest.fn(),
   refreshUserToken: jest.fn(),
-  sendPasswordResetEmail: jest.fn(),
-  getAcademiaByCode: jest.fn(),
-  createAcademia: jest.fn(),
-  updateAcademia: jest.fn(),
   getAcademia: jest.fn(),
+  signInWithGoogle: jest.fn(),
+  signInWithFacebook: jest.fn(),
+  signInWithMicrosoft: jest.fn(),
+  signInWithApple: jest.fn(),
+  sendPasswordResetEmail: jest.fn(),
+  onAuthStateChanged: jest.fn(),
 };
 
 describe('SignInWithEmailUseCase', () => {
@@ -28,16 +30,31 @@ describe('SignInWithEmailUseCase', () => {
   });
 
   it('should sign in successfully with valid credentials', async () => {
-    const mockUser = { id: '123', email: 'test@test.com' };
+    const mockUser = { 
+      id: '123', 
+      email: 'test@test.com',
+      emailVerified: true,
+      createdAt: new Date(),
+      lastSignInAt: new Date()
+    };
     const mockUserProfile = { 
       id: '123', 
-      userType: 'admin', 
+      userType: 'admin' as const,
       academiaId: 'academia123',
       name: 'Test User',
-      email: 'test@test.com'
+      email: 'test@test.com',
+      isActive: true,
+      graduations: [],
+      classIds: [],
+      createdAt: new Date(),
+      updatedAt: new Date()
     };
     const mockClaims = { role: 'admin', academiaId: 'academia123' };
-    const mockAcademia = { id: 'academia123', name: 'Test Academia' };
+    const mockAcademia = { 
+      id: 'academia123', 
+      name: 'Test Academia',
+      isActive: true
+    };
 
     mockAuthRepository.signInWithEmail.mockResolvedValue(mockUser);
     mockAuthRepository.getUserProfile.mockResolvedValue(mockUserProfile);

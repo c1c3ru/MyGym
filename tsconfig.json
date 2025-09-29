@@ -11,6 +11,7 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
     "resolveJsonModule": true,
     "noEmit": true,
     "jsx": "react-jsx",
@@ -36,7 +37,7 @@
         "./src/services/*"
       ],
       "@utils/*": [
-        "./src/utils/*"
+        "./src/shared/utils/*"
       ],
       "@hooks/*": [
         "./src/hooks/*"
@@ -52,6 +53,9 @@
       ],
       "@types/*": [
         "./src/types/*"
+      ],
+      "@domain/*": [
+        "./src/domain/*"
       ]
     }
   },
@@ -63,6 +67,8 @@
   ],
   "exclude": [
     "node_modules",
+    "node_modules/**/*",
+    "**/node_modules/**",
     "babel.config.js",
     "metro.config.js",
     "jest.config.js",

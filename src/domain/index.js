@@ -3,6 +3,7 @@
 export { User } from './entities/User.js';
 export { Academy } from './entities/Academy.js';
 export { AuthCredentials, AuthResult } from './entities/AuthCredentials.js';
+export { Student } from './students/entities.js';
 
 // Repository Interfaces
 export { AuthRepository } from './repositories/AuthRepository.js';

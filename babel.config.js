@@ -13,7 +13,7 @@ module.exports = function(api) {
           '@hooks': './src/presentation/hooks',
           '@contexts': './src/presentation/contexts',
           '@navigation': './src/presentation/navigation',
-          '@services': './src/infrastructure/services',
+          '@services': './src/services',
           '@utils': './src/shared/utils',
           '@assets': './assets',
           '@domain': './src/domain',

@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import { Card, Text, Button, TextInput, HelperText, Chip, RadioButton, Snackbar } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
-// import * as FileSystem from 'expo-file-system'; // Removido - dependência não disponível
+import * as FileSystem from 'expo-file-system'; // Removido - dependência não disponível
 import { useAuth } from '@contexts/AuthProvider';
 import { academyFirestoreService } from '@services/academyFirestoreService';
 import { useCustomClaims } from '@hooks/useCustomClaims';
@@ -251,12 +251,12 @@ const AddClassScreen = ({ navigation }) => {
       console.log('✅ Turma criada com ID:', newClassId);
       
       // Enviar notificações sobre nova turma
-      try {
-        await notifyNewClass({ ...classData, id: newClassId }, academiaId);
-        console.log('📱 Notificações de nova turma enviadas');
-      } catch (notificationError) {
-        console.warn('⚠️ Erro ao enviar notificações:', notificationError);
-      }
+      // try {
+      //   await notifyNewClass({ ...classData, id: newClassId }, academiaId);
+      //   console.log('📱 Notificações de nova turma enviadas');
+      // } catch (notificationError) {
+      //   console.warn('⚠️ Erro ao enviar notificações:', notificationError);
+      // }
       
       setSnackbar({ 
         visible: true, 

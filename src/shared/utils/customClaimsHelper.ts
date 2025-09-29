@@ -1,19 +1,26 @@
-import { auth } from '@services/firebase';
+import { firebaseAuth } from '../../infrastructure/firebase';
+import { Claims } from '../../domain/auth/entities';
 
 /**
  * Utilitário para gerenciar Custom Claims do Firebase Authentication
  * Integra com a nova arquitetura sem superAdmin
  */
 
+interface CustomClaimsResult {
+  role: string | null;
+  academiaId: string | null;
+  customClaims: Record<string, any>;
+}
+
 /**
  * Força a atualização do ID Token para obter os Custom Claims mais recentes
  * Deve ser chamado após operações que modificam claims (createAcademy, useInvite, etc.)
  */
-export const refreshUserToken = async () => {
+export const refreshUserToken = async (): Promise<string | null> => {
   try {
     console.log('🔄 refreshUserToken: Forçando atualização do ID Token...');
     
-    const currentUser = auth.currentUser;
+    const currentUser = firebaseAuth.getAuth().currentUser;
     if (!currentUser) {
       console.log('⚠️ refreshUserToken: Nenhum usuário logado');
       return null;
@@ -33,11 +40,11 @@ export const refreshUserToken = async () => {
 /**
  * Obtém os Custom Claims do usuário atual
  */
-export const getUserClaims = async () => {
+export const getUserClaims = async (): Promise<CustomClaimsResult | null> => {
   try {
     console.log('🔍 getUserClaims: Obtendo claims do usuário...');
     
-    const currentUser = auth.currentUser;
+    const currentUser = firebaseAuth.getAuth().currentUser;
     if (!currentUser) {
       console.log('⚠️ getUserClaims: Nenhum usuário logado');
       return null;
@@ -55,9 +62,9 @@ export const getUserClaims = async () => {
     });
     
     return {
-      role: claims.role || null,
-      academiaId: claims.academiaId || null,
-      customClaims: claims
+      role: (claims as any).role || null,
+      academiaId: (claims as any).academiaId || null,
+      customClaims: claims as any
     };
   } catch (error) {
     console.error('❌ getUserClaims: Erro ao obter claims:', error);
@@ -68,7 +75,7 @@ export const getUserClaims = async () => {
 /**
  * Verifica se o usuário tem Custom Claims configurados
  */
-export const hasValidClaims = async () => {
+export const hasValidClaims = async (): Promise<boolean> => {
   try {
     const claims = await getUserClaims();
     
@@ -95,7 +102,11 @@ export const hasValidClaims = async () => {
  * Aguarda até que os Custom Claims sejam atualizados
  * Útil após chamar Cloud Functions que modificam claims
  */
-export const waitForClaimsUpdate = async (expectedAcademiaId, maxAttempts = 10, delayMs = 1000) => {
+export const waitForClaimsUpdate = async (
+  expectedAcademiaId: string, 
+  maxAttempts: number = 10, 
+  delayMs: number = 1000
+): Promise<CustomClaimsResult | null> => {
   console.log('⏳ waitForClaimsUpdate: Aguardando atualização dos claims...', {
     expectedAcademiaId,
     maxAttempts,
@@ -137,9 +148,9 @@ export const waitForClaimsUpdate = async (expectedAcademiaId, maxAttempts = 10, 
 /**
  * Verifica se o usuário precisa de onboarding (sem claims válidos)
  */
-export const needsOnboarding = async () => {
+export const needsOnboarding = async (): Promise<boolean> => {
   try {
-    const currentUser = auth.currentUser;
+    const currentUser = firebaseAuth.getAuth().currentUser;
     if (!currentUser) {
       return true; // Não logado = precisa de onboarding
     }
@@ -163,9 +174,9 @@ export const needsOnboarding = async () => {
 /**
  * Utilitário para debug - mostra todos os claims do usuário
  */
-export const debugUserClaims = async () => {
+export const debugUserClaims = async (): Promise<void> => {
   try {
-    const currentUser = auth.currentUser;
+    const currentUser = firebaseAuth.getAuth().currentUser;
     if (!currentUser) {
       console.log('🐛 debugUserClaims: Nenhum usuário logado');
       return;

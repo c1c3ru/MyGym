@@ -12,15 +12,15 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { ResponsiveUtils } from '@utils/animations';
-import ScheduleSelector from '@components/ScheduleSelector';
-import { createEmptySchedule } from '@utils/scheduleUtils';
+// import ScheduleSelector from '@components/ScheduleSelector';
+// import { createEmptySchedule } from '@utils/scheduleUtils';
 
 const NovaAula = ({ navigation }) => {
   const [formData, setFormData] = useState({
     nome: '',
     modalidade: '',
     capacidade: '',
-    horario: createEmptySchedule(),
+    horario: '',
     descricao: ''
   });
 
@@ -73,16 +73,13 @@ const NovaAula = ({ navigation }) => {
               keyboardType="numeric"
             />
             
-            <ScheduleSelector
+            <TextInput
+              label="Horário"
               value={formData.horario}
-              onScheduleChange={(schedule) => setFormData({...formData, horario: schedule})}
-              duration={60}
-              timezone="America/Fortaleza"
-              startHour={6}
-              endHour={22}
-              required={true}
-              label="Horários da Aula"
+              onChangeText={(text) => setFormData({...formData, horario: text})}
               style={styles.input}
+              mode="outlined"
+              placeholder="Ex: Segunda 19:00"
             />
             
             <TextInput

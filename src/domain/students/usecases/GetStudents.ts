@@ -2,7 +2,7 @@
 
 import { BaseUseCase } from '@auth/usecases/base';
 import { StudentsRepository } from '@domain/repositories';
-import { Student } from '@domain/entities';
+import { Student } from '@domain/students/entities';
 import { z } from 'zod';
 
 const getStudentsSchema = z.object({
