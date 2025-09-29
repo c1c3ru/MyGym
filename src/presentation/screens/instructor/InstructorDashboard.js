@@ -53,13 +53,6 @@ const InstructorDashboard = ({ navigation }) => {
   const { trackButtonClick, trackFeatureUsage } = useUserActionTracking();
 
   useEffect(() => {
-    if (loading) {
-      return (
-        <SafeAreaView style={styles.container}>
-          <InstructorDashboardSkeleton />
-        </SafeAreaView>
-      );
-    }
     loadDashboardData();
     loadAnnouncements();
     startEntryAnimation();

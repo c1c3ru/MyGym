@@ -282,12 +282,8 @@ const AddClassScreen = ({ navigation }) => {
       
       // Voltar após pequeno atraso para permitir ver o feedback
       setTimeout(() => {
-        // Se for instrutor, redirecionar para o dashboard dele
-        if (isInstructor()) {
-          navigation.navigate('InstructorDashboard');
-        } else {
-          navigation.goBack();
-        }
+        // Sempre voltar para a tela anterior, independente do tipo de usuário
+        navigation.goBack();
       }, 2000);
 
     } catch (error) {
