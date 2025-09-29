@@ -2,8 +2,6 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import {
   Card,
-  Title,
-  Paragraph,
   Chip,
   Avatar,
   Text,
@@ -131,8 +129,8 @@ const GraduationAlertCard = ({
             />
             
             <View style={styles.studentDetails}>
-              <Title style={styles.studentName}>{alert.studentName}</Title>
-              <Paragraph style={styles.modality}>{alert.modality}</Paragraph>
+              <Text style={styles.studentName}>{alert.studentName}</Text>
+              <Text style={styles.modality}>{alert.modality}</Text>
             </View>
           </View>
           

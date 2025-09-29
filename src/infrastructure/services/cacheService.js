@@ -397,7 +397,17 @@ export const CACHE_KEYS = {
   ACADEMY_DATA: (academiaId) => `academy:${academiaId}`,
   NOTIFICATIONS: (userId) => `notifications:${userId}`,
   GRADUATIONS: (academiaId) => `graduations:${academiaId}`,
-  DASHBOARD: (academiaId) => `dashboard:${academiaId}`
+  DASHBOARD: (academiaId) => `dashboard:${academiaId}`,
+  CHECKIN_DATA: (academiaId, instructorId) => `checkin_data:${academiaId}:${instructorId}`,
+  ANNOUNCEMENTS: (academiaId, userType) => `announcements:${academiaId}:${userType}`,
+  CALENDAR_CLASSES: (academiaId, role) => `calendar_classes:${academiaId}:${role}`,
+  STUDENT_DASHBOARD: (academiaId, studentId) => `student_dashboard:${academiaId}:${studentId}`,
+  REPORTS: (academiaId) => `reports:${academiaId}`,
+  STUDENT_DETAILS: (academiaId, studentId) => `student_details:${academiaId}:${studentId}`,
+  INSTRUCTOR_CLASSES: (academiaId, instructorId) => `instructor_classes:${academiaId}:${instructorId}`,
+  CLASS_STUDENT_COUNTS: (academiaId, instructorId) => `class_student_counts:${academiaId}:${instructorId}`,
+  INSTRUCTOR_STUDENTS: (academiaId, instructorId) => `instructor_students:${academiaId}:${instructorId}`,
+  INSTRUCTOR_REPORTS: (academiaId, instructorId, period) => `instructor_reports:${academiaId}:${instructorId}:${period}`
 };
 
 // TTLs recomendados para diferentes tipos de dados

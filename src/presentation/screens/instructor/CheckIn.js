@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { View, StyleSheet, ScrollView, Alert, RefreshControl, Platform } from 'react-native';
 import { 
   Card, 
-  Title, 
   Text,
   Button,
   List,
@@ -433,6 +432,16 @@ const CheckIn = ({ navigation }) => {
     setSelectedStudents(allStudentIds);
   };
 
+  const toggleStudentSelection = (studentId) => {
+    const newSelection = new Set(selectedStudents);
+    if (newSelection.has(studentId)) {
+      newSelection.delete(studentId);
+    } else {
+      newSelection.add(studentId);
+    }
+    setSelectedStudents(newSelection);
+  };
+
   const handleBatchCheckIn = async () => {
     if (selectedStudents.size === 0) {
       Alert.alert('Atenção', 'Selecione pelo menos um aluno para fazer check-in');
@@ -509,7 +518,7 @@ const CheckIn = ({ navigation }) => {
           <Card.Content>
             <View style={styles.header}>
               <MaterialCommunityIcons name="school" size={32} color="#4CAF50" />
-              <Title style={styles.title}>Minhas Turmas</Title>
+              <Text style={styles.title}>Minhas Turmas</Text>
             </View>
             
             {classes.length > 0 ? (
@@ -582,7 +591,7 @@ const CheckIn = ({ navigation }) => {
             <Card.Content>
               <View style={styles.header}>
                 <MaterialCommunityIcons name="qrcode-scan" size={32} color="#2196F3" />
-                <Title style={styles.title}>Sessões Ativas</Title>
+                <Text style={styles.title}>Sessões Ativas</Text>
               </View>
               
               {activeCheckIns.map((session) => (
@@ -638,7 +647,7 @@ const CheckIn = ({ navigation }) => {
           <Card.Content>
             <View style={styles.header}>
               <MaterialCommunityIcons name="history" size={32} color="#FF9800" />
-              <Title style={styles.title}>Check-ins de Hoje</Title>
+              <Text style={styles.title}>Check-ins de Hoje</Text>
             </View>
             
             {recentCheckIns.length > 0 ? (
@@ -681,7 +690,7 @@ const CheckIn = ({ navigation }) => {
           onDismiss={() => setManualCheckInVisible(false)}
           contentContainerStyle={styles.modalContainer}
         >
-          <Title style={styles.modalTitle}>Check-in Manual</Title>
+          <Text style={styles.modalTitle}>Check-in Manual</Text>
           
           {/* Seleção de Turma */}
           <View style={styles.classSelectionContainer}>
