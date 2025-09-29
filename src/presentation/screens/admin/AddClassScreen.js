@@ -10,6 +10,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '@contexts/AuthProvider';
 import { academyFirestoreService } from '@services/academyFirestoreService';
 import { useCustomClaims } from '@hooks/useCustomClaims';
+import ScheduleSelector from '@components/ScheduleSelector';
+import { createEmptySchedule, isValidSchedule, scheduleToDisplayString } from '@utils/scheduleUtils';
 
 const AddClassScreen = ({ navigation }) => {
   const { user, userProfile, academia } = useAuth();
@@ -36,7 +38,7 @@ const AddClassScreen = ({ navigation }) => {
     maxStudents: '',
     instructorId: '',
     instructorName: '',
-    schedule: '',
+    schedule: createEmptySchedule(),
     price: '',
     status: 'active',
     ageCategory: ''
@@ -44,35 +46,6 @@ const AddClassScreen = ({ navigation }) => {
 
   const [errors, setErrors] = useState({});
 
-  // Utilitário: converte texto de horário em array estruturado [{ dayOfWeek, hour, minute }]
-  const parseScheduleTextToArray = (text) => {
-    if (!text || typeof text !== 'string') return [];
-    const dayMap = {
-      'domingo': 0, 'dom': 0,
-      'segunda': 1, 'segunda-feira': 1, 'seg': 1,
-      'terca': 2, 'terça': 2, 'terça-feira': 2, 'ter': 2,
-      'quarta': 3, 'quarta-feira': 3, 'qua': 3,
-      'quinta': 4, 'quinta-feira': 4, 'qui': 4,
-      'sexta': 5, 'sexta-feira': 5, 'sex': 5,
-      'sabado': 6, 'sábado': 6, 'sab': 6, 'sáb': 6
-    };
-    // Suporta múltiplos horários separados por "," ou "\n"
-    const parts = text.split(/[\,\n]+/).map(p => p.trim()).filter(Boolean);
-    const items = [];
-    for (const part of parts) {
-      // Ex: "Seg 08:00-09:00" ou "Segunda-feira 08:00"
-      const m = part.match(/^(\D+?)\s+(\d{1,2}):(\d{2})/i);
-      if (!m) continue;
-      const dayRaw = m[1].trim().toLowerCase();
-      const hour = parseInt(m[2], 10);
-      const minute = parseInt(m[3], 10) || 0;
-      const dayOfWeek = dayMap[dayRaw];
-      if (typeof dayOfWeek === 'number' && !isNaN(hour)) {
-        items.push({ dayOfWeek, hour, minute });
-      }
-    }
-    return items;
-  };
 
   useEffect(() => {
     loadInstructors();
@@ -190,8 +163,8 @@ const AddClassScreen = ({ navigation }) => {
       newErrors.instructorId = 'Instrutor selecionado não encontrado. Informe o nome manualmente.';
     }
 
-    if (!formData.schedule.trim()) {
-      newErrors.schedule = 'Horário é obrigatório';
+    if (!isValidSchedule(formData.schedule) || !Object.values(formData.schedule.hours).some(hours => hours.length > 0)) {
+      newErrors.schedule = 'Pelo menos um horário deve ser selecionado';
     }
 
     if (!formData.price || isNaN(formData.price) || parseFloat(formData.price) < 0) {
@@ -222,9 +195,9 @@ const AddClassScreen = ({ navigation }) => {
         currentStudents: 0,
         instructorId: formData.instructorId || user.uid, // Usar instrutor selecionado ou usuário atual como fallback
         instructorName: formData.instructorName || userProfile?.name || user.displayName || user.email,
-        // Armazenar formato estruturado e manter texto para compatibilidade
-        schedule: parseScheduleTextToArray(formData.schedule.trim()),
-        scheduleText: formData.schedule.trim(),
+        // Armazenar formato estruturado
+        schedule: formData.schedule,
+        scheduleText: scheduleToDisplayString(formData.schedule),
         price: parseFloat(formData.price),
         status: formData.status,
         ageCategory: formData.ageCategory,
@@ -473,20 +446,18 @@ const AddClassScreen = ({ navigation }) => {
             </View>
 
             {/* Horário */}
-            <TextInput
-              label="Horário (ex: Segunda-feira 08:00-09:00)"
+            <ScheduleSelector
               value={formData.schedule}
-              onChangeText={(value) => updateFormData('schedule', value)}
-              mode="outlined"
+              onScheduleChange={(schedule) => updateFormData('schedule', schedule)}
+              duration={60}
+              timezone="America/Fortaleza"
+              startHour={6}
+              endHour={22}
+              required={true}
+              label="Horários da Turma"
               style={styles.input}
-              error={!!errors.schedule}
             />
             {errors.schedule && <HelperText type="error">{errors.schedule}</HelperText>}
-            {!errors.schedule && (
-              <Text style={styles.helperTip}>
-                Dica: você pode informar vários horários separados por vírgula. Exemplos: "Seg 08:00, Qua 19:30" ou "Terça-feira 07:15".
-              </Text>
-            )}
 
             {/* Preço */}
             <TextInput
