@@ -59,26 +59,7 @@ const InstructorStudents = ({ navigation }) => {
   });
   const { trackButtonClick, trackFeatureUsage } = useUserActionTracking();
 
-  // Auto-refresh quando a tela ganha foco
-  useFocusEffect(
-    useCallback(() => {
-      loadInitialData();
-    }, [loadInitialData])
-  );
-
-  useEffect(() => {
-    filterStudents();
-  }, [searchQuery, selectedFilter, students, selectedGender, selectedModalityId, ageMin, ageMax, enrollmentStart, enrollmentEnd]);
-
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    // Invalidar cache
-    if (userProfile?.academiaId) {
-      cacheService.invalidatePattern(`instructor_students:${userProfile.academiaId}:${user.uid}`);
-    }
-    loadInitialData();
-  }, [loadInitialData, userProfile?.academiaId, user.uid]);
-
+  // Declarar loadInitialData antes de usar
   const loadInitialData = useCallback(async () => {
     try {
       setLoading(true);
@@ -147,6 +128,26 @@ const InstructorStudents = ({ navigation }) => {
       setRefreshing(false);
     }
   }, [user.uid, userProfile?.academiaId, getString, trackFeatureUsage]);
+
+  // Auto-refresh quando a tela ganha foco
+  useFocusEffect(
+    useCallback(() => {
+      loadInitialData();
+    }, [loadInitialData])
+  );
+
+  useEffect(() => {
+    filterStudents();
+  }, [searchQuery, selectedFilter, students, selectedGender, selectedModalityId, ageMin, ageMax, enrollmentStart, enrollmentEnd]);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    // Invalidar cache
+    if (userProfile?.academiaId) {
+      cacheService.invalidatePattern(`instructor_students:${userProfile.academiaId}:${user.uid}`);
+    }
+    loadInitialData();
+  }, [loadInitialData, userProfile?.academiaId, user.uid]);
 
   const toDate = useCallback((val) => {
     if (!val) return null;
