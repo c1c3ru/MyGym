@@ -14,6 +14,12 @@ export const signUpSchema = z.object({
   phone: z.string().optional(),
   userType: z.enum(['student', 'instructor', 'admin'], {
     errorMap: () => ({ message: 'Tipo de usuário inválido' })
+  }),
+  acceptTerms: z.boolean().refine(val => val === true, {
+    message: 'Você deve aceitar os termos de uso'
+  }),
+  acceptPrivacyPolicy: z.boolean().refine(val => val === true, {
+    message: 'Você deve aceitar a política de privacidade'
   })
 });
 

@@ -4,7 +4,7 @@ import { Provider as PaperProvider } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
 import AdminStudents from '../admin/AdminStudents';
 import { AuthProvider } from '@contexts/AuthProvider';
-import { firestoreService, paymentService } from '../../../infrastructure/services/firestoreService';
+import { firestoreService, paymentService } from '@services/firestoreService';
 
 const TestWrapper = ({ children }) => (
   <NavigationContainer>

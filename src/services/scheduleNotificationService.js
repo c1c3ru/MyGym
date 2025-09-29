@@ -3,7 +3,7 @@
  */
 
 import { useState, useCallback } from 'react';
-import { notificationService } from '@infrastructure/services/notificationService';
+import notificationService from '@services/notificationService';
 import { academyFirestoreService } from '@services/academyFirestoreService';
 import { scheduleToDisplayString } from '@utils/scheduleUtils';
 

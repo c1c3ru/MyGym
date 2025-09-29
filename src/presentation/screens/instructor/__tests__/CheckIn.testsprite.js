@@ -10,7 +10,7 @@ import { Provider as PaperProvider } from 'react-native-paper';
 import CheckIn from '../CheckIn';
 
 // Mock dos serviços
-jest.mock('../../../services/academyFirestoreService', () => ({
+jest.mock('@services/academyFirestoreService', () => ({
   academyFirestoreService: {
     getWhere: jest.fn(),
     getDocuments: jest.fn(),

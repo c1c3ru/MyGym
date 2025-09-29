@@ -5,7 +5,9 @@ import { User, UserProfile, Claims, Academia, SignInCredentials, SignUpData, Aut
 export interface AuthRepository {
   // Authentication methods
   signInWithEmail(credentials: SignInCredentials): Promise<User>;
+  signInWithEmailAndPassword(credentials: SignInCredentials): Promise<User>;
   signUpWithEmail(data: SignUpData): Promise<User>;
+  signUpWithEmailAndPassword(data: SignUpData): Promise<User>;
   signOut(): Promise<void>;
   getCurrentUser(): Promise<User | null>;
   
@@ -16,7 +18,9 @@ export interface AuthRepository {
   
   // Claims methods
   getUserClaims(user: User): Promise<Claims | null>;
+  getCustomClaims(): Promise<Claims | null>;
   refreshUserToken(user: User): Promise<void>;
+  refreshToken(): Promise<void>;
   
   // Academia methods
   getAcademia(academiaId: string): Promise<Academia | null>;

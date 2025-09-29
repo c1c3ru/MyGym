@@ -10,6 +10,6 @@ export { UserModel } from './models/UserModel.js';
 export { AcademyModel } from './models/AcademyModel.js';
 
 // Repository Implementations
-export { AuthRepositoryImpl } from './repositories/AuthRepositoryImpl.js';
+export { AuthRepositoryImpl } from './repositories/AuthRepositoryImpl.ts';
 export { UserRepositoryImpl } from './repositories/UserRepositoryImpl.js';
 export { AcademyRepositoryImpl } from './repositories/AcademyRepositoryImpl.js';

@@ -4,6 +4,9 @@ import { Card, Text, Button, IconButton, TextInput, Dialog, Portal } from 'react
 import QRCode from 'react-native-qrcode-svg';
 import { useAuth } from '@contexts/AuthProvider';
 
+// Import do logo usando alias
+const logoIcon = require('@assets/icon.png');
+
 export default function QRCodeGenerator({ size = 200, showActions = true, academiaId, academiaNome }) {
   // Verificar se está dentro do AuthProvider antes de usar o hook
   let authContext = null;
@@ -197,7 +200,7 @@ MyGym`;
             size={size}
             backgroundColor="white"
             color="black"
-            logo={require('../../../assets/icon.png')}
+            logo={logoIcon}
             logoSize={size * 0.15}
             logoBackgroundColor="white"
             logoMargin={2}

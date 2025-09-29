@@ -1,10 +1,10 @@
 // Sign up with email use case
 
 import { BaseUseCase } from './base';
-import { AuthRepository } from '@domain/repositories';
+import { AuthRepository } from '../repositories';
 import { User, UserType } from '@domain/entities';
-import { AuthSession } from '@domain/entities';
-import { mapFirebaseError } from '@components/errors';
+import { AuthSession } from '../entities';
+import { mapFirebaseError } from '../errors';
 import { signUpSchema, SignUpInput } from './schemas';
 
 export class SignUpWithEmailUseCase extends BaseUseCase<SignUpInput, AuthSession> {
@@ -23,7 +23,9 @@ export class SignUpWithEmailUseCase extends BaseUseCase<SignUpInput, AuthSession
         password: validatedInput.password,
         name: validatedInput.name,
         phone: validatedInput.phone,
-        userType: validatedInput.userType
+        userType: validatedInput.userType,
+        acceptTerms: validatedInput.acceptTerms,
+        acceptPrivacyPolicy: validatedInput.acceptPrivacyPolicy
       });
 
       // Create user profile

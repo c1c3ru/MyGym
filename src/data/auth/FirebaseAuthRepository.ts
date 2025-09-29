@@ -57,6 +57,11 @@ export class FirebaseAuthRepository implements AuthRepository {
     }
   }
 
+  async signInWithEmailAndPassword(credentials: SignInCredentials): Promise<User> {
+    // Alias for signInWithEmail to maintain compatibility
+    return this.signInWithEmail(credentials);
+  }
+
   async signUpWithEmail(data: SignUpData): Promise<User> {
     try {
       const userCredential = await createUserWithEmailAndPassword(
@@ -70,6 +75,11 @@ export class FirebaseAuthRepository implements AuthRepository {
     } catch (error: any) {
       throw mapFirebaseError(error);
     }
+  }
+
+  async signUpWithEmailAndPassword(data: SignUpData): Promise<User> {
+    // Alias for signUpWithEmail to maintain compatibility
+    return this.signUpWithEmail(data);
   }
 
   async signOut(): Promise<void> {
@@ -170,9 +180,34 @@ export class FirebaseAuthRepository implements AuthRepository {
     }
   }
 
+  async getCustomClaims(): Promise<Claims | null> {
+    try {
+      // Use existing claims helper without user parameter (legacy compatibility)
+      const claims = await getUserClaims();
+      if (!claims) {
+        return null;
+      }
+      
+      const validatedClaims = AuthValidators.validateFirebaseClaims(claims);
+      return AuthMappers.toDomainClaims(validatedClaims);
+    } catch (error: any) {
+      console.error('Error getting custom claims:', error);
+      return null;
+    }
+  }
+
   async refreshUserToken(_user: User): Promise<void> {
     try {
       // Use existing token refresh helper
+      await refreshUserToken();
+    } catch (error: any) {
+      throw mapFirebaseError(error);
+    }
+  }
+
+  async refreshToken(): Promise<void> {
+    try {
+      // Use existing token refresh helper without user parameter (legacy compatibility)
       await refreshUserToken();
     } catch (error: any) {
       throw mapFirebaseError(error);

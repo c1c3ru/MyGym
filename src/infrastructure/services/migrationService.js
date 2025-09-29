@@ -12,7 +12,7 @@ import {
   orderBy,
   limit
 } from 'firebase/firestore';
-import { db } from './firebase';
+import { db } from '@services/firebase';
 
 /**
  * Service para migrar dados de coleções globais para coleções específicas de academia

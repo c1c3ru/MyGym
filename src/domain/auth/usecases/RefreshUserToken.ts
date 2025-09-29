@@ -1,7 +1,7 @@
 // Refresh user token use case
 
 import { BaseUseCase } from './base';
-import { AuthRepository } from '@domain/repositories';
+import { AuthRepository } from '../repositories';
 import { User, Claims } from '@domain/entities';
 import { mapFirebaseError } from '@components/errors';
 

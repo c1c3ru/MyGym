@@ -1,5 +1,5 @@
 import { collection, addDoc, doc, getDoc, updateDoc, query, where, getDocs } from 'firebase/firestore';
-import { db } from './firebase';
+import { db } from '@services/firebase';
 
 /**
  * Serviço para gerenciar convites de academia

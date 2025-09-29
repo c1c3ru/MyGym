@@ -1,5 +1,5 @@
 // Domain Repository Interfaces Exports
-export { AuthRepository } from './AuthRepository';
+export { AuthRepository } from '../auth/repositories';
 export { UserRepository } from './UserRepository';
 export { AcademyRepository } from './AcademyRepository';
 export { GraduationRepository } from './GraduationRepository';

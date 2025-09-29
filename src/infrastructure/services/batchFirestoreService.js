@@ -11,7 +11,7 @@ import {
   limit,
   orderBy
 } from 'firebase/firestore';
-import { db } from './firebase';
+import { db } from '@services/firebase';
 
 class BatchFirestoreService {
   constructor() {
