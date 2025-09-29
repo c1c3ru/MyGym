@@ -12,6 +12,7 @@ import { academyFirestoreService } from '@services/academyFirestoreService';
 import { useCustomClaims } from '@hooks/useCustomClaims';
 import ScheduleSelector from '@components/ScheduleSelector';
 import { createEmptySchedule, isValidSchedule, scheduleToDisplayString } from '@utils/scheduleUtils';
+import { notifyNewClass } from '@services/scheduleNotificationService';
 
 const AddClassScreen = ({ navigation }) => {
   const { user, userProfile, academia } = useAuth();
@@ -244,7 +245,17 @@ const AddClassScreen = ({ navigation }) => {
           academiaId: savedClass.academiaId
         });
       } catch (verifyError) {
-        console.error('❌ Erro ao verificar turma salva:', verifyError);
+        console.warn('⚠️ Erro ao verificar turma criada:', verifyError);
+      }
+      
+      console.log('✅ Turma criada com ID:', newClassId);
+      
+      // Enviar notificações sobre nova turma
+      try {
+        await notifyNewClass({ ...classData, id: newClassId }, academiaId);
+        console.log('📱 Notificações de nova turma enviadas');
+      } catch (notificationError) {
+        console.warn('⚠️ Erro ao enviar notificações:', notificationError);
       }
       
       setSnackbar({ 

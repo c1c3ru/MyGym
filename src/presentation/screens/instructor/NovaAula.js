@@ -2,24 +2,25 @@ import React, { useState } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { 
   Card, 
-  Title, 
+  Text, 
   TextInput, 
   Button, 
   Chip, 
-  Text,
   Surface,
   Divider 
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { ResponsiveUtils } from '@utils/animations';
+import ScheduleSelector from '@components/ScheduleSelector';
+import { createEmptySchedule } from '@utils/scheduleUtils';
 
 const NovaAula = ({ navigation }) => {
   const [formData, setFormData] = useState({
     nome: '',
     modalidade: '',
     capacidade: '',
-    horario: '',
+    horario: createEmptySchedule(),
     descricao: ''
   });
 
@@ -38,7 +39,7 @@ const NovaAula = ({ navigation }) => {
           <Card.Content>
             <View style={styles.header}>
               <MaterialCommunityIcons name="plus-circle" size={32} color="#4CAF50" />
-              <Title style={styles.title}>Nova Aula</Title>
+              <Text style={styles.title}>Nova Aula</Text>
             </View>
             
             <TextInput
@@ -72,13 +73,16 @@ const NovaAula = ({ navigation }) => {
               keyboardType="numeric"
             />
             
-            <TextInput
-              label="Horário"
+            <ScheduleSelector
               value={formData.horario}
-              onChangeText={(text) => setFormData({...formData, horario: text})}
+              onScheduleChange={(schedule) => setFormData({...formData, horario: schedule})}
+              duration={60}
+              timezone="America/Fortaleza"
+              startHour={6}
+              endHour={22}
+              required={true}
+              label="Horários da Aula"
               style={styles.input}
-              mode="outlined"
-              placeholder="Ex: Segunda 19:00"
             />
             
             <TextInput
