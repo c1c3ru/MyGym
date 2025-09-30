@@ -60,7 +60,7 @@ const NotificationBell = ({ color = 'COLORS.COLORS.white', size = 24 }) => {
       case 'graduation':
         return '#ff9800';
       case 'general':
-        return '#4caf50';
+        return COLORS.primary[500];
       default:
         return 'COLORS.gray[600]';
     }
@@ -107,7 +107,7 @@ const NotificationBell = ({ color = 'COLORS.COLORS.white', size = 24 }) => {
             <Card.Title
               title="Notificações"
               subtitle={`${unreadCount} não lida${unreadCount !== 1 ? 's' : ''}`}
-              left={(props) => <Ionicons name="notifications" size={24} color="#2196f3" />}
+              left={(props) => <Ionicons name="notifications" size={24} color={COLORS.info[500]} />}
               right={(props) => (
                 <IconButton
                   icon="close"
@@ -121,7 +121,7 @@ const NotificationBell = ({ color = 'COLORS.COLORS.white', size = 24 }) => {
             {!pushNotificationsEnabled && (
               <Card.Content style={styles.permissionCard}>
                 <View style={styles.permissionContent}>
-                  <Ionicons name="notifications-off" size={32} color="#ff9800" />
+                  <Ionicons name="notifications-off" size={32} color={COLORS.warning[500]} />
                   <Text style={styles.permissionTitle}>
                     Notificações Desabilitadas
                   </Text>
@@ -142,7 +142,7 @@ const NotificationBell = ({ color = 'COLORS.COLORS.white', size = 24 }) => {
             <ScrollView style={styles.notificationsList} showsVerticalScrollIndicator={false}>
               {unreadNotifications.length === 0 ? (
                 <Card.Content style={styles.emptyState}>
-                  <Ionicons name="checkmark-circle" size={48} color="#4caf50" />
+                  <Ionicons name="checkmark-circle" size={48} color={COLORS.primary[500]} />
                   <Text style={styles.emptyText}>
                     Todas as notificações foram lidas!
                   </Text>
@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 4,
     right: 4,
-    backgroundColor: '#f44336',
+    backgroundColor: COLORS.error[500],
   },
   modalContainer: {
     flex: 1,
@@ -241,7 +241,7 @@ const styles = StyleSheet.create({
     fontWeight: FONT_WEIGHT.bold,
     marginTop: SPACING.sm,
     marginBottom: SPACING.xs,
-    color: '#ff9800',
+    color: COLORS.warning[500],
   },
   permissionText: {
     fontSize: FONT_SIZE.base,
@@ -250,7 +250,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   permissionButton: {
-    backgroundColor: '#ff9800',
+    backgroundColor: COLORS.warning[500],
   },
   notificationsList: {
     maxHeight: 400,
@@ -290,7 +290,7 @@ const styles = StyleSheet.create({
     width: 8,
     height: 8,
     borderRadius: BORDER_RADIUS.sm,
-    backgroundColor: '#2196f3',
+    backgroundColor: COLORS.info[500],
     marginLeft: 8,
     marginTop: SPACING.sm,
   },

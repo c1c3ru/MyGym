@@ -195,11 +195,11 @@ const InjuryScreen = ({ navigation, route }) => {
   };
 
   const getSeverityColor = (severity) => {
-    return severityLevels.find(s => s.value === severity)?.color || '#9E9E9E';
+    return severityLevels.find(s => s.value === severity)?.color || COLORS.gray[500];
   };
 
   const getStatusColor = (status) => {
-    return statusOptions.find(s => s.value === status)?.color || '#9E9E9E';
+    return statusOptions.find(s => s.value === status)?.color || COLORS.gray[500];
   };
 
   return (
@@ -481,7 +481,7 @@ const InjuryScreen = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: COLORS.gray[100],
   },
   scrollView: {
     flex: 1,
@@ -541,7 +541,7 @@ const styles = StyleSheet.create({
     marginVertical: 16,
     borderRadius: BORDER_RADIUS.md,
     elevation: 2,
-    backgroundColor: '#E3F2FD',
+    backgroundColor: COLORS.info[50],
   },
   summaryHeader: {
     flexDirection: 'row',

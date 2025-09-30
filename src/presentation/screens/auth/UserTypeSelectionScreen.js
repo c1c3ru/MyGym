@@ -137,7 +137,7 @@ const UserTypeSelectionScreen = ({ navigation, route }) => {
 
         <Button
           mode={selectedType === userType.id ? "contained" : "outlined"}
-          buttonColor={selectedType === userType.id ? userType.color : '#E0E0E0'}
+          buttonColor={selectedType === userType.id ? userType.color : COLORS.gray[300]}
           textColor={selectedType === userType.id ? 'COLORS.COLORS.white' : 'COLORS.text.secondary'}
           style={styles.selectButton}
           onPress={() => setSelectedType(userType.id)}
@@ -256,7 +256,7 @@ const UserTypeSelectionScreen = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: COLORS.gray[100],
   },
   headerTop: {
     width: '100%',
@@ -274,7 +274,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     ...Platform.select({
       ios: {
-        shadowColor: '#000',
+        shadowColor: COLORS.black,
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
         shadowRadius: 4,
@@ -311,7 +311,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     padding: SPACING.lg,
     borderWidth: 1,
-    borderColor: '#E0E0E0',
+    borderColor: COLORS.gray[300],
   },
   cardHeader: {
     flexDirection: 'row',

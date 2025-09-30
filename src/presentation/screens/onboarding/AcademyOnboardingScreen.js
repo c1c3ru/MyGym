@@ -351,7 +351,7 @@ const AcademyOnboardingScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: COLORS.gray[100],
   },
   scrollContent: {
     padding: SPACING.lg,
@@ -405,12 +405,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#ddd',
   },
   infoCard: {
-    backgroundColor: '#e8f5e8',
+    backgroundColor: COLORS.primary[50],
     elevation: 2,
   },
   infoTitle: {
     fontSize: FONT_SIZE.lg,
-    color: '#2e7d32',
+    color: COLORS.primary[800],
     marginBottom: 16,
   },
   infoItem: {
@@ -420,12 +420,12 @@ const styles = StyleSheet.create({
   },
   infoChip: {
     marginRight: 12,
-    backgroundColor: '#4caf50',
+    backgroundColor: COLORS.primary[500],
   },
   infoText: {
     flex: 1,
     fontSize: FONT_SIZE.base,
-    color: '#2e7d32',
+    color: COLORS.primary[800],
   },
   dialog: {
     maxWidth: 500,

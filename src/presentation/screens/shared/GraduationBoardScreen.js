@@ -77,17 +77,17 @@ const GraduationBoardScreen = ({ navigation }) => {
 
   const getBeltColor = (belt) => {
     const colors = {
-      'Branca': '#FFFFFF',
+      'Branca': COLORS.white,
       'Cinza': '#808080',
-      'Amarela': '#FFEB3B',
+      'Amarela': COLORS.warning[400],
       'Laranja': 'COLORS.warning[500]',
       'Verde': 'COLORS.primary[500]',
       'Azul': 'COLORS.info[500]',
       'Roxa': 'COLORS.secondary[500]',
-      'Marrom': '#795548',
-      'Preta': '#000000'
+      'Marrom': COLORS.gray[700],
+      'Preta': COLORS.black
     };
-    return colors[belt] || '#E0E0E0';
+    return colors[belt] || COLORS.gray[300];
   };
 
   const getAlertColor = (alertLevel) => {
@@ -96,7 +96,7 @@ const GraduationBoardScreen = ({ navigation }) => {
       'warning': 'COLORS.warning[500]',
       'info': 'COLORS.info[500]'
     };
-    return colors[alertLevel] || '#E0E0E0';
+    return colors[alertLevel] || COLORS.gray[300];
   };
 
   const formatDate = (date) => {
@@ -447,7 +447,7 @@ const GraduationBoardScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: COLORS.gray[100],
   },
   header: {
     paddingHorizontal: 20,

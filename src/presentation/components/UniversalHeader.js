@@ -137,10 +137,10 @@ const UniversalHeader = ({
   //   switch (userType) {
   //     case 'admin':
   //     case 'administrador':
-  //       return ['COLORS.warning[500]', '#F57C00'];
+  //       return ['COLORS.warning[500]', COLORS.warning[600]];
   //     case 'instructor':
   //     case 'instrutor':
-  //       return ['COLORS.primary[500]', '#388E3C'];
+  //       return ['COLORS.primary[500]', COLORS.primary[700]];
   //     case 'student':
   //     case 'aluno':
   //     default:

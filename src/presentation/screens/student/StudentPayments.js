@@ -94,7 +94,7 @@ const StudentPayments = ({ navigation }) => {
       case 'paid': return 'COLORS.primary[500]';
       case 'pending': return 'COLORS.warning[500]';
       case 'overdue': return 'COLORS.error[500]';
-      default: return '#9E9E9E';
+      default: return COLORS.gray[500];
     }
   };
 
@@ -250,7 +250,7 @@ const StudentPayments = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: COLORS.gray[100],
   },
   scrollView: {
     flex: 1,
@@ -259,7 +259,7 @@ const styles = StyleSheet.create({
     margin: SPACING.base,
     marginBottom: SPACING.sm,
     elevation: 4,
-    backgroundColor: '#E3F2FD',
+    backgroundColor: COLORS.info[50],
   },
   card: {
     margin: SPACING.base,

@@ -114,7 +114,7 @@ export default function ForgotPasswordScreen({ navigation }) {
 
   return (
     <LinearGradient
-      colors={['#667eea', '#764ba2']}
+      colors={[COLORS.secondary[400], COLORS.secondary[600]]}
       style={styles.gradient}
     >
       <SafeAreaView style={styles.container}>
@@ -322,17 +322,17 @@ const styles = StyleSheet.create({
     margin: SPACING.base,
   },
   snackbarSuccess: {
-    backgroundColor: '#4caf50',
+    backgroundColor: COLORS.primary[500],
   },
   snackbarError: {
-    backgroundColor: '#f44336',
+    backgroundColor: COLORS.error[500],
   },
   spamWarning: {
     textAlign: 'center',
     color: 'COLORS.warning[500]',
     marginTop: SPACING.md,
     fontSize: FONT_SIZE.base,
-    backgroundColor: '#FFF3E0',
+    backgroundColor: COLORS.warning[50],
     padding: SPACING.md,
     borderRadius: BORDER_RADIUS.md,
     borderLeftWidth: 4,
@@ -340,6 +340,6 @@ const styles = StyleSheet.create({
   },
   spamWarningBold: {
     fontWeight: FONT_WEIGHT.bold,
-    color: '#F57C00',
+    color: COLORS.warning[600],
   },
 });

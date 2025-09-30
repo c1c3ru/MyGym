@@ -222,7 +222,7 @@ const InstructorClasses = ({ navigation }) => {
           <View style={styles.cardHeader}>
             <Title style={styles.className}>{classItem.name}</Title>
             <Chip 
-              style={[styles.statusChip, { backgroundColor: classItem.status === 'active' ? 'COLORS.primary[500]' : '#FFC107' }]}
+              style={[styles.statusChip, { backgroundColor: classItem.status === 'active' ? 'COLORS.primary[500]' : COLORS.warning[400] }]}
               textStyle={{ color: 'COLORS.white', fontSize: FONT_SIZE.sm }}
             >
               {classItem.status === 'active' ? 'Ativa' : 'Inativa'}
@@ -345,7 +345,7 @@ const InstructorClasses = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: COLORS.gray[100],
   },
   searchbar: {
     margin: SPACING.base,

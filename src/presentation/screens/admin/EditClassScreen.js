@@ -460,7 +460,7 @@ const EditClassScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: COLORS.gray[100],
   },
   scrollView: {
     flex: 1,
@@ -534,7 +534,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 8,
   },
   deleteButton: {
-    borderColor: '#d32f2f',
+    borderColor: COLORS.error[700],
   },
   helperTip: {
     marginTop: -4,

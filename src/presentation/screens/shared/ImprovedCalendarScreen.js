@@ -9,6 +9,7 @@ import EnhancedErrorBoundary from '@components/EnhancedErrorBoundary';
 import cacheService, { CACHE_KEYS, CACHE_TTL } from '@services/cacheService';
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import FreeGymScheduler from '@components/FreeGymScheduler';
+import { COLORS } from '@presentation/theme/designTokens';
 
 /**
  * Tela de calendário melhorada usando o FreeGymScheduler
@@ -166,7 +167,7 @@ const ImprovedCalendarScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5'
+    backgroundColor: COLORS.gray[100]
   }
 });
 

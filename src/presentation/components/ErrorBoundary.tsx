@@ -107,7 +107,7 @@ class EnhancedErrorBoundary extends Component<Props, State> {
               <Ionicons 
                 name="alert-circle-outline" 
                 size={64} 
-                color="#F44336" 
+                color={COLORS.error[500]} 
               />
               <Text style={styles.title}>
                 Ops! Algo deu errado
@@ -197,10 +197,10 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   retryButton: {
-    backgroundColor: '#2196F3',
+    backgroundColor: COLORS.info[500],
   },
   reloadButton: {
-    borderColor: '#2196F3',
+    borderColor: COLORS.info[500],
   },
   debugContainer: {
     marginTop: 16,

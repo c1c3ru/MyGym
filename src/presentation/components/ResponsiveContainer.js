@@ -2,6 +2,7 @@
 import React from 'react';
 import { View, ScrollView } from 'react-native';
 import { useResponsive } from '@hooks/useResponsive';
+import { COLORS } from '@presentation/theme/designTokens';
 
 const ResponsiveContainer = ({ 
   children, 
@@ -16,7 +17,7 @@ const ResponsiveContainer = ({
   const getContainerStyle = () => {
     const baseStyle = {
       flex: 1,
-      backgroundColor: '#f5f5f5',
+      backgroundColor: COLORS.gray[100],
     };
 
     if (padding) {

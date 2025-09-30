@@ -430,7 +430,7 @@ const EditStudentScreen = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: COLORS.gray[100],
   },
   scrollView: {
     flex: 1,
@@ -503,7 +503,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'COLORS.primary[500]',
   },
   deleteButton: {
-    borderColor: '#d32f2f',
+    borderColor: COLORS.error[700],
     marginTop: 20,
   },
 });

@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     padding: SPACING.base,
     marginVertical: 8,
     elevation: 2,
-    shadowColor: '#000',
+    shadowColor: COLORS.black,
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.22,
     shadowRadius: 2.22,
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
   },
   divider: {
     height: 1,
-    backgroundColor: '#E0E0E0',
+    backgroundColor: COLORS.gray[300],
     marginVertical: 12,
   },
   actions: {

@@ -79,7 +79,7 @@ export const GRADUATION_COLORS = {
   'Roxa': BELT_COLORS.roxa,
   'Marrom': BELT_COLORS.marrom,
   'Preta': BELT_COLORS.preta,
-  'Coral': '#FF5722',
+  'Coral': COLORS.error[500],
   'Vermelha': STATUS_COLORS.error,
   'Vermelha e Preta': '#B71C1C'
 };

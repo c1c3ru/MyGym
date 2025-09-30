@@ -289,7 +289,7 @@ const AdminStudents = ({ navigation }) => {
       case 'paid': return 'COLORS.primary[500]';
       case 'pending': return 'COLORS.warning[500]';
       case 'overdue': return 'COLORS.error[500]';
-      default: return '#9E9E9E';
+      default: return COLORS.gray[500];
     }
   };
 
@@ -401,7 +401,7 @@ const AdminStudents = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: COLORS.gray[100],
   },
   header: {
     backgroundColor: 'COLORS.COLORS.white',
@@ -411,7 +411,7 @@ const styles = StyleSheet.create({
   },
   searchbar: {
     elevation: 0,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: COLORS.gray[100],
     marginBottom: SPACING.sm,
   },
   filterRow: {

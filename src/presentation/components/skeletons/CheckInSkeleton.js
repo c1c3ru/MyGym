@@ -80,7 +80,7 @@ const CheckInSkeleton = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: COLORS.gray[100],
   },
   statsContainer: {
     flexDirection: 'row',
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'COLORS.COLORS.white',
     borderRadius: BORDER_RADIUS.md,
     elevation: 2,
-    shadowColor: '#000',
+    shadowColor: COLORS.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'COLORS.COLORS.white',
     borderRadius: BORDER_RADIUS.md,
     elevation: 2,
-    shadowColor: '#000',
+    shadowColor: COLORS.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,

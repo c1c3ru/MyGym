@@ -76,7 +76,7 @@ export const LazyImage = memo(({ source, style, ...props }) => {
     <View style={style}>
       {!loaded && (
         <View style={[StyleSheet.absoluteFill, { backgroundColor: '#f0f0f0', justifyContent: 'center', alignItems: 'center' }]}>
-          <ActivityIndicator size="small" color="#2196F3" />
+          <ActivityIndicator size="small" color={COLORS.info[500]} />
         </View>
       )}
       <Image

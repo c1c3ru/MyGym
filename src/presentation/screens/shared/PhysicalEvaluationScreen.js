@@ -98,10 +98,10 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
       case 'Abaixo do peso': return 'COLORS.warning[500]';
       case 'Peso normal': return 'COLORS.primary[500]';
       case 'Sobrepeso': return 'COLORS.warning[500]';
-      case 'Obesidade grau I': return '#FF5722';
+      case 'Obesidade grau I': return COLORS.error[500];
       case 'Obesidade grau II': return 'COLORS.error[500]';
       case 'Obesidade grau III': return 'COLORS.secondary[500]';
-      default: return '#9E9E9E';
+      default: return COLORS.gray[500];
     }
   };
 
@@ -449,7 +449,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: COLORS.gray[100],
   },
   scrollView: {
     flex: 1,
@@ -504,7 +504,7 @@ const styles = StyleSheet.create({
     marginVertical: 16,
     borderRadius: BORDER_RADIUS.md,
     elevation: 2,
-    backgroundColor: '#E3F2FD',
+    backgroundColor: COLORS.info[50],
   },
   imcHeader: {
     flexDirection: 'row',

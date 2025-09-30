@@ -40,8 +40,8 @@ const FreeGymScheduler = ({
 
   // Cores por modalidade (adaptado para seu sistema)
   const modalityColors = {
-    'karate': '#FF5722',
-    'karatê': '#FF5722',
+    'karate': COLORS.error[500],
+    'karatê': COLORS.error[500],
     'jiu-jitsu': 'COLORS.secondary[500]',
     'jiu jitsu': 'COLORS.secondary[500]',
     'muay-thai': 'COLORS.error[500]',
@@ -49,7 +49,7 @@ const FreeGymScheduler = ({
     'judo': '#3F51B5',
     'judô': '#3F51B5',
     'taekwondo': 'COLORS.warning[500]',
-    'boxe': '#795548',
+    'boxe': COLORS.gray[700],
     'default': '#607D8B'
   };
 
@@ -442,7 +442,7 @@ const FreeGymScheduler = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5'
+    backgroundColor: COLORS.gray[100]
   },
   filtersCard: {
     margin: SPACING.base,

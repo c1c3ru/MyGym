@@ -410,7 +410,7 @@ const AddClassScreen = ({ navigation }) => {
               {/* Mostrar nome do usuário atual quando selecionado */}
               {!formData.instructorId && (
                 <View style={{ backgroundColor: '#E8F5E8', padding: SPACING.sm, borderRadius: BORDER_RADIUS.sm, marginBottom: SPACING.sm }}>
-                  <Text style={{ color: '#2E7D32', fontSize: FONT_SIZE.sm }}>
+                  <Text style={{ color: COLORS.primary[800], fontSize: FONT_SIZE.sm }}>
                     ✅ Instrutor: {userProfile?.name || user.displayName || user.email}
                   </Text>
                 </View>
@@ -549,7 +549,7 @@ const AddClassScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: COLORS.gray[100],
   },
   scrollView: {
     flex: 1,

@@ -233,7 +233,7 @@ export default function LoginScreen({ navigation }) {
 
   return (
     <LinearGradient
-      colors={isDarkMode ? ['#1a1a1a', '#2d2d30'] : ['#667eea', '#764ba2']}
+      colors={isDarkMode ? [COLORS.gray[900], '#2d2d30'] : [COLORS.secondary[400], COLORS.secondary[600]]}
       style={styles.gradient}
     >
       <SafeAreaView style={styles.container}>
@@ -558,7 +558,7 @@ const styles = StyleSheet.create({
   loginCard: {
     marginHorizontal: 20,
     elevation: 8,
-    shadowColor: '#000',
+    shadowColor: COLORS.black,
     shadowOffset: {
       width: 0,
       height: 4,
@@ -632,10 +632,10 @@ const styles = StyleSheet.create({
     margin: SPACING.base,
   },
   snackbarSuccess: {
-    backgroundColor: '#4caf50',
+    backgroundColor: COLORS.primary[500],
   },
   snackbarError: {
-    backgroundColor: '#f44336',
+    backgroundColor: COLORS.error[500],
   },
   snackbarText: {
     color: 'COLORS.COLORS.white',

@@ -254,7 +254,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 4,
     right: 4,
-    backgroundColor: '#f44336',
+    backgroundColor: COLORS.error[500],
   },
   modalContainer: {
     backgroundColor: 'COLORS.COLORS.COLORS.white',
@@ -299,7 +299,7 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: BORDER_RADIUS.lg,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: COLORS.gray[100],
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 12,

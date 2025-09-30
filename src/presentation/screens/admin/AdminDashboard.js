@@ -212,7 +212,7 @@ const AdminDashboard = ({ navigation }) => {
     const colors = {
       'new_student': 'COLORS.primary[500]',
       'payment': 'COLORS.info[500]',
-      'graduation': '#FFD700',
+      'graduation': COLORS.warning[300],
       'class': 'COLORS.warning[500]',
       'announcement': 'COLORS.secondary[500]'
     };
@@ -601,7 +601,7 @@ const AdminDashboard = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: COLORS.gray[100],
   },
   scrollView: {
     flex: 1,
@@ -749,7 +749,7 @@ const styles = StyleSheet.create({
     ...ResponsiveUtils.elevation,
   },
   alertCard: {
-    backgroundColor: '#FFF3E0',
+    backgroundColor: COLORS.warning[50],
   },
   cardHeader: {
     flexDirection: 'row',

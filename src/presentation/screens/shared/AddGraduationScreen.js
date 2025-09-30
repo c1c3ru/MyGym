@@ -64,18 +64,18 @@ const AddGraduationScreen = ({ route, navigation }) => {
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   const defaultGraduationLevels = [
-    { id: 'COLORS.COLORS.white', name: 'Faixa Branca', color: '#FFFFFF', order: 1 },
-    { id: 'yellow', name: 'Faixa Amarela', color: '#FFEB3B', order: 2 },
+    { id: 'COLORS.COLORS.white', name: 'Faixa Branca', color: COLORS.white, order: 1 },
+    { id: 'yellow', name: 'Faixa Amarela', color: COLORS.warning[400], order: 2 },
     { id: 'orange', name: 'Faixa Laranja', color: 'COLORS.warning[500]', order: 3 },
     { id: 'green', name: 'Faixa Verde', color: 'COLORS.primary[500]', order: 4 },
     { id: 'blue', name: 'Faixa Azul', color: 'COLORS.info[500]', order: 5 },
     { id: 'purple', name: 'Faixa Roxa', color: 'COLORS.secondary[500]', order: 6 },
-    { id: 'brown', name: 'Faixa Marrom', color: '#795548', order: 7 },
-    { id: 'black-1', name: 'Faixa Preta 1º Dan', color: '#000000', order: 8 },
-    { id: 'black-2', name: 'Faixa Preta 2º Dan', color: '#000000', order: 9 },
-    { id: 'black-3', name: 'Faixa Preta 3º Dan', color: '#000000', order: 10 },
-    { id: 'black-4', name: 'Faixa Preta 4º Dan', color: '#000000', order: 11 },
-    { id: 'black-5', name: 'Faixa Preta 5º Dan', color: '#000000', order: 12 },
+    { id: 'brown', name: 'Faixa Marrom', color: COLORS.gray[700], order: 7 },
+    { id: 'black-1', name: 'Faixa Preta 1º Dan', color: COLORS.black, order: 8 },
+    { id: 'black-2', name: 'Faixa Preta 2º Dan', color: COLORS.black, order: 9 },
+    { id: 'black-3', name: 'Faixa Preta 3º Dan', color: COLORS.black, order: 10 },
+    { id: 'black-4', name: 'Faixa Preta 4º Dan', color: COLORS.black, order: 11 },
+    { id: 'black-5', name: 'Faixa Preta 5º Dan', color: COLORS.black, order: 12 },
   ];
 
   useEffect(() => {
@@ -123,17 +123,17 @@ const AddGraduationScreen = ({ route, navigation }) => {
 
   const getGraduationColor = (levelName, index) => {
     const colorMap = {
-      'Branca': '#FFFFFF',
-      'Amarela': '#FFEB3B',
+      'Branca': COLORS.white,
+      'Amarela': COLORS.warning[400],
       'Laranja': 'COLORS.warning[500]',
       'Verde': 'COLORS.primary[500]',
       'Azul': 'COLORS.info[500]',
       'Roxa': 'COLORS.secondary[500]',
-      'Marrom': '#795548',
-      'Preta': '#000000',
+      'Marrom': COLORS.gray[700],
+      'Preta': COLORS.black,
       'Vermelha': 'COLORS.error[500]',
-      'Crua': '#8D6E63',
-      'Cordão': '#FFD700'
+      'Crua': COLORS.gray[600],
+      'Cordão': COLORS.warning[300]
     };
     
     // Procurar por cor baseada no nome
@@ -144,8 +144,8 @@ const AddGraduationScreen = ({ route, navigation }) => {
     }
     
     // Cores padrão baseadas no índice se não encontrar correspondência
-    const defaultColors = ['#FFFFFF', '#FFEB3B', 'COLORS.warning[500]', 'COLORS.primary[500]', 'COLORS.info[500]', 'COLORS.secondary[500]', '#795548', '#000000'];
-    return defaultColors[index % defaultColors.length] || '#E0E0E0';
+    const defaultColors = [COLORS.white, COLORS.warning[400], 'COLORS.warning[500]', 'COLORS.primary[500]', 'COLORS.info[500]', 'COLORS.secondary[500]', COLORS.gray[700], COLORS.black];
+    return defaultColors[index % defaultColors.length] || COLORS.gray[300];
   };
 
   const selectModality = (modality) => {
@@ -420,7 +420,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
                 onChangeText={(text) => setFormData(prev => ({ ...prev, notes: text }))}
                 placeholder="Adicione observações sobre a graduação..."
                 style={styles.notesInput}
-                outlineColor="#E0E0E0"
+                outlineColor=COLORS.gray[300]
                 activeOutlineColor="COLORS.info[700]"
               />
             </View>
@@ -434,7 +434,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
                 onChangeText={(text) => setFormData(prev => ({ ...prev, certificate: text }))}
                 placeholder="Ex: CERT-2024-001"
                 style={styles.certificateInput}
-                outlineColor="#E0E0E0"
+                outlineColor=COLORS.gray[300]
                 activeOutlineColor="COLORS.warning[500]"
                 left={<TextInput.Icon icon="certificate" />}
               />
@@ -539,7 +539,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
                     }}
                   >
                     <View style={styles.graduationItem}>
-                      <View style={[styles.colorIndicator, { backgroundColor: level.color || '#E0E0E0' }]} />
+                      <View style={[styles.colorIndicator, { backgroundColor: level.color || COLORS.gray[300] }]} />
                       <Text style={styles.dialogItemText}>{level.name || 'Graduação sem nome'}</Text>
                     </View>
                   </TouchableOpacity>
@@ -615,7 +615,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F8F9FA',
+    backgroundColor: COLORS.background.light,
   },
   header: {
     paddingTop: Platform.OS === 'ios' ? 50 : 30,
@@ -696,17 +696,17 @@ const styles = StyleSheet.create({
   },
   selectionButton: {
     borderWidth: 1,
-    borderColor: '#E0E0E0',
+    borderColor: COLORS.gray[300],
     borderRadius: BORDER_RADIUS.md,
     backgroundColor: 'COLORS.COLORS.white',
   },
   selectionButtonSelected: {
     borderColor: 'COLORS.info[700]',
-    backgroundColor: '#F3F8FF',
+    backgroundColor: COLORS.info[50],
   },
   selectionButtonDisabled: {
-    borderColor: '#E0E0E0',
-    backgroundColor: '#F5F5F5',
+    borderColor: COLORS.gray[300],
+    backgroundColor: COLORS.gray[100],
   },
   selectionButtonContent: {
     flexDirection: 'row',
@@ -750,7 +750,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#E0E0E0',
+    borderColor: COLORS.gray[300],
     borderRadius: BORDER_RADIUS.md,
     backgroundColor: 'COLORS.COLORS.white',
     paddingVertical: SPACING.sm,
@@ -819,7 +819,7 @@ const styles = StyleSheet.create({
   dialogItem: {
     padding: SPACING.base,
     borderBottomWidth: 1,
-    borderBottomColor: '#F0F0F0',
+    borderBottomColor: COLORS.gray[100],
   },
   dialogItemText: {
     fontSize: FONT_SIZE.md,

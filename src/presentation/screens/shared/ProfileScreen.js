@@ -226,7 +226,7 @@ const ProfileScreen = ({ navigation }) => {
       case 'student': return 'COLORS.info[500]';
       case 'instructor': return 'COLORS.primary[500]';
       case 'admin': return 'COLORS.warning[500]';
-      default: return '#9E9E9E';
+      default: return COLORS.gray[500];
     }
   };
 
@@ -424,7 +424,7 @@ const ProfileScreen = ({ navigation }) => {
                 <List.Item
                   title={getString('currentGraduation')}
                   description={userProfile?.currentGraduation || getString('beginner')}
-                  left={() => <List.Icon icon="trophy" color="#FFD700" />}
+                  left={() => <List.Icon icon="trophy" color={COLORS.warning[300]} />}
                 />
                 <Divider />
                 
@@ -704,7 +704,7 @@ const ProfileScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: COLORS.gray[100],
   },
   scrollView: {
     flex: 1,
@@ -739,7 +739,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   warningCard: {
-    backgroundColor: '#FFF3E0',
+    backgroundColor: COLORS.warning[50],
     borderLeftWidth: 4,
     borderLeftColor: 'COLORS.warning[500]',
   },

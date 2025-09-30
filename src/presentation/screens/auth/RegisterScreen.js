@@ -183,7 +183,7 @@ const RegisterScreen = ({ navigation }) => {
 
   return (
     <LinearGradient
-      colors={['#667eea', '#764ba2']}
+      colors={[COLORS.secondary[400], COLORS.secondary[600]]}
       style={styles.gradient}
     >
       <SafeAreaView style={styles.container}>
@@ -450,7 +450,7 @@ const styles = StyleSheet.create({
         boxShadow: '0 2px 3.84px rgba(0, 0, 0, 0.25)'
       },
       default: {
-        shadowColor: '#000',
+        shadowColor: COLORS.black,
         shadowOffset: {
           width: 0,
           height: 2,
@@ -501,7 +501,7 @@ const styles = StyleSheet.create({
       },
       default: {
         elevation: 8,
-        shadowColor: '#000',
+        shadowColor: COLORS.black,
         shadowOffset: {
           width: 0,
           height: 4,
@@ -530,7 +530,7 @@ const styles = StyleSheet.create({
   },
   divider: {
     marginVertical: 24,
-    backgroundColor: '#E0E0E0',
+    backgroundColor: COLORS.gray[300],
   },
   userTypeContainer: {
     marginBottom: 16,

@@ -94,16 +94,16 @@ const StudentEvolution = ({ navigation }) => {
 
   const getGraduationColor = (graduation) => {
     const colors = {
-      'Branca': '#FFFFFF',
-      'Cinza': '#9E9E9E',
-      'Amarela': '#FFEB3B',
+      'Branca': COLORS.white,
+      'Cinza': COLORS.gray[500],
+      'Amarela': COLORS.warning[400],
       'Laranja': 'COLORS.warning[500]',
       'Verde': 'COLORS.primary[500]',
       'Azul': 'COLORS.info[500]',
       'Roxa': 'COLORS.secondary[500]',
-      'Marrom': '#795548',
-      'Preta': '#424242',
-      'Coral': '#FF7043',
+      'Marrom': COLORS.gray[700],
+      'Preta': COLORS.gray[800],
+      'Coral': COLORS.error[400],
       'Vermelha': 'COLORS.error[500]'
     };
     return colors[graduation] || 'COLORS.info[500]';
@@ -133,7 +133,7 @@ const StudentEvolution = ({ navigation }) => {
         <Card style={styles.statsCard}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <Ionicons name="trophy-outline" size={24} color="#FFD700" />
+              <Ionicons name="trophy-outline" size={24} color={COLORS.warning[300]} />
               <Title style={styles.cardTitle}>Minha Evolução</Title>
             </View>
             
@@ -281,7 +281,7 @@ const StudentEvolution = ({ navigation }) => {
             <List.Item
               title={getString('nextGraduation')}
               description="Continue se dedicando para a próxima faixa"
-              left={() => <List.Icon icon="trophy" color="#FFD700" />}
+              left={() => <List.Icon icon="trophy" color={COLORS.warning[300]} />}
             />
           </Card.Content>
         </Card>
@@ -293,7 +293,7 @@ const StudentEvolution = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: COLORS.gray[100],
   },
   scrollView: {
     flex: 1,
@@ -302,7 +302,7 @@ const styles = StyleSheet.create({
     margin: SPACING.base,
     marginBottom: SPACING.sm,
     elevation: 4,
-    backgroundColor: '#E8F5E8',
+    backgroundColor: COLORS.primary[50],
   },
   card: {
     margin: SPACING.base,

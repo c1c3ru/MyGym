@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     borderColor: 'COLORS.error[500]',
   },
   buttonDisabled: {
-    backgroundColor: '#f5f5f5',
+    backgroundColor: COLORS.gray[100],
   },
   buttonContent: {
     flexDirection: 'row-reverse',

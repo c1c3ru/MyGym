@@ -400,7 +400,7 @@ export default function AcademiaSelectionScreen({ navigation, route }) {
       case 'free': return '#e8f5e8';
       case 'premium': return 'COLORS.COLORS.white3e0';
       case 'enterprise': return '#f3e5f5';
-      default: return '#f5f5f5';
+      default: return COLORS.gray[100];
     }
   };
 
@@ -816,7 +816,7 @@ export default function AcademiaSelectionScreen({ navigation, route }) {
 const styles = {
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: COLORS.gray[100],
   },
   loadingContainer: {
     flex: 1,
@@ -977,7 +977,7 @@ const styles = {
     elevation: 10,
     minWidth: 300,
     maxWidth: '90%',
-    shadowColor: '#000',
+    shadowColor: COLORS.black,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -1007,12 +1007,12 @@ const styles = {
     marginBottom: 16,
   },
   snackbarSuccess: {
-    backgroundColor: '#4caf50',
+    backgroundColor: COLORS.primary[500],
   },
   snackbarError: {
-    backgroundColor: '#f44336',
+    backgroundColor: COLORS.error[500],
   },
   snackbarInfo: {
-    backgroundColor: '#2196f3',
+    backgroundColor: COLORS.info[500],
   },
 };

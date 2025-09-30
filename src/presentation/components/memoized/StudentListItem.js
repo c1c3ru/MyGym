@@ -60,10 +60,10 @@ const StudentListItem = memo(({
               mode="outlined"
               style={[
                 styles.statusChip,
-                { backgroundColor: student.isActive ? '#E8F5E8' : '#FFEBEE' }
+                { backgroundColor: student.isActive ? '#E8F5E8' : COLORS.error[50] }
               ]}
               textStyle={{ 
-                color: student.isActive ? '#2E7D32' : '#C62828',
+                color: student.isActive ? COLORS.primary[800] : '#C62828',
                 fontSize: FONT_SIZE.sm 
               }}
             >

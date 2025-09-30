@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '@contexts/ThemeContext';
 import UniversalHeader from '@components/UniversalHeader';
 import { PROFILE_COLORS } from '@shared/constants/colors';
+import { COLORS } from '@presentation/theme/designTokens';
 
 // Telas do Professor
 import InstructorDashboard from '@screens/instructor/InstructorDashboard';

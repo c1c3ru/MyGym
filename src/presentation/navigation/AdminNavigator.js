@@ -31,6 +31,7 @@ import NotificationSettingsScreen from '@screens/shared/NotificationSettingsScre
 import PrivacySettingsScreen from '@screens/shared/PrivacySettingsScreen';
 import StudentPayments from '@screens/student/StudentPayments';
 import CheckIn from '@screens/instructor/CheckIn';
+import { COLORS } from '@presentation/theme/designTokens';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();

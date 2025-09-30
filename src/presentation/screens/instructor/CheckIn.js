@@ -626,7 +626,7 @@ const CheckIn = ({ navigation }) => {
                     <Button
                       mode="outlined"
                       onPress={() => handleStopCheckIn(session.id)}
-                      buttonColor="#FFEBEE"
+                      buttonColor={COLORS.error[50]}
                       textColor="COLORS.error[500]"
                       compact
                     >
@@ -1015,7 +1015,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: SPACING.md,
     paddingHorizontal: 16,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: COLORS.gray[100],
     borderRadius: BORDER_RADIUS.md,
     marginBottom: 16,
   },
@@ -1069,7 +1069,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   checkInChip: {
-    backgroundColor: '#E8F5E8',
+    backgroundColor: COLORS.primary[50],
     marginLeft: 8,
   },
   checkInChipText: {
@@ -1087,10 +1087,10 @@ const styles = StyleSheet.create({
   studentItem: {
     borderRadius: BORDER_RADIUS.md,
     marginVertical: 2,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: COLORS.white,
   },
   studentItemCheckedIn: {
-    backgroundColor: '#F8F9FA',
+    backgroundColor: COLORS.background.light,
     borderLeftWidth: 4,
     borderLeftColor: 'COLORS.primary[500]',
   },
@@ -1098,7 +1098,7 @@ const styles = StyleSheet.create({
     opacity: 0.5,
   },
   alreadyCheckedInButton: {
-    backgroundColor: '#E8F5E8',
+    backgroundColor: COLORS.primary[50],
     borderColor: 'COLORS.primary[500]',
   },
   modalSubtitle: {
@@ -1157,7 +1157,7 @@ const styles = StyleSheet.create({
     gap: 12,
     paddingTop: 16,
     borderTopWidth: 1,
-    borderTopColor: '#E0E0E0',
+    borderTopColor: COLORS.gray[300],
   },
   modalButton: {
     flex: 1,

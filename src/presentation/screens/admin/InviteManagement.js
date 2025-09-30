@@ -145,7 +145,7 @@ export default function InviteManagement({ navigation }) {
       case 'pending': return 'COLORS.warning[500]';
       case 'accepted': return 'COLORS.primary[500]';
       case 'expired': return 'COLORS.error[500]';
-      default: return '#9E9E9E';
+      default: return COLORS.gray[500];
     }
   };
 
@@ -386,7 +386,7 @@ export default function InviteManagement({ navigation }) {
 const styles = {
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: COLORS.gray[100],
   },
   scrollView: {
     flex: 1,

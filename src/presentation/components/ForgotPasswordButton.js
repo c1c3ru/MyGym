@@ -42,12 +42,12 @@ const ForgotPasswordButton = ({ onPress, disabled = false, style }) => {
         <MaterialCommunityIcons 
           name="lock-question" 
           size={16} 
-          color="#667eea"
+          color=COLORS.secondary[400]
           style={{ marginRight: 6 }}
         />
         <Text
           style={{
-            color: disabled ? '#ccc' : '#667eea',
+            color: disabled ? '#ccc' : COLORS.secondary[400],
             fontSize: FONT_SIZE.base,
             fontWeight: FONT_WEIGHT.medium,
           }}

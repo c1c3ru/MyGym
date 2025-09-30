@@ -245,7 +245,7 @@ const SettingsScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: COLORS.gray[100],
   },
   scrollView: {
     flex: 1,
@@ -270,7 +270,7 @@ const styles = StyleSheet.create({
     }),
   },
   dangerCard: {
-    backgroundColor: '#FFF5F5',
+    backgroundColor: COLORS.error[50],
     borderColor: 'COLORS.error[500]',
     borderWidth: 1,
   },

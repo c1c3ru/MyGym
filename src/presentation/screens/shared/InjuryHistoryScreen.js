@@ -65,7 +65,7 @@ const InjuryHistoryScreen = ({ navigation }) => {
       case 'recuperando': return 'COLORS.warning[500]';
       case 'recuperado': return 'COLORS.primary[500]';
       case 'cronico': return 'COLORS.secondary[500]';
-      default: return '#9E9E9E';
+      default: return COLORS.gray[500];
     }
   };
 
@@ -74,7 +74,7 @@ const InjuryHistoryScreen = ({ navigation }) => {
       case 'leve': return 'COLORS.primary[500]';
       case 'moderada': return 'COLORS.warning[500]';
       case 'grave': return 'COLORS.error[500]';
-      default: return '#9E9E9E';
+      default: return COLORS.gray[500];
     }
   };
 
@@ -178,17 +178,17 @@ const InjuryHistoryScreen = ({ navigation }) => {
                 <Text style={styles.statLabel}>Total</Text>
               </Surface>
               
-              <Surface style={[styles.statItem, { backgroundColor: '#FFEBEE' }]}>
+              <Surface style={[styles.statItem, { backgroundColor: COLORS.error[50] }]}>
                 <Text style={[styles.statNumber, { color: 'COLORS.error[500]' }]}>{stats.active}</Text>
                 <Text style={styles.statLabel}>Ativas</Text>
               </Surface>
               
-              <Surface style={[styles.statItem, { backgroundColor: '#FFF3E0' }]}>
+              <Surface style={[styles.statItem, { backgroundColor: COLORS.warning[50] }]}>
                 <Text style={[styles.statNumber, { color: 'COLORS.warning[500]' }]}>{stats.recovering}</Text>
                 <Text style={styles.statLabel}>Recuperando</Text>
               </Surface>
               
-              <Surface style={[styles.statItem, { backgroundColor: '#E8F5E8' }]}>
+              <Surface style={[styles.statItem, { backgroundColor: COLORS.primary[50] }]}>
                 <Text style={[styles.statNumber, { color: 'COLORS.primary[500]' }]}>{stats.recovered}</Text>
                 <Text style={styles.statLabel}>Recuperadas</Text>
               </Surface>
@@ -339,7 +339,7 @@ const InjuryHistoryScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: COLORS.gray[100],
   },
   scrollView: {
     flex: 1,
@@ -372,7 +372,7 @@ const styles = StyleSheet.create({
     borderRadius: BORDER_RADIUS.md,
     alignItems: 'center',
     elevation: 2,
-    backgroundColor: '#F5F5F5',
+    backgroundColor: COLORS.gray[100],
   },
   statNumber: {
     fontSize: FONT_SIZE.xxl,
@@ -448,7 +448,7 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
   tipContainer: {
-    backgroundColor: '#F1F8E9',
+    backgroundColor: COLORS.primary[50],
     padding: SPACING.base,
     borderRadius: BORDER_RADIUS.md,
     borderLeftWidth: 4,
@@ -457,7 +457,7 @@ const styles = StyleSheet.create({
   },
   tipText: {
     fontSize: FONT_SIZE.base,
-    color: '#2E7D32',
+    color: COLORS.primary[800],
     lineHeight: 20,
   },
   fab: {

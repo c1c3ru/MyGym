@@ -276,7 +276,7 @@ const ChangePasswordScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: COLORS.gray[100],
   },
   scrollView: {
     flex: 1,
@@ -315,17 +315,17 @@ const styles = StyleSheet.create({
   },
   tipsCard: {
     marginTop: 24,
-    backgroundColor: '#E8F5E8',
+    backgroundColor: COLORS.primary[50],
   },
   tipsTitle: {
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.bold,
     marginBottom: SPACING.md,
-    color: '#2E7D32',
+    color: COLORS.primary[800],
   },
   tipsText: {
     fontSize: FONT_SIZE.base,
-    color: '#1B5E20',
+    color: COLORS.primary[900],
     lineHeight: 20,
   },
 });

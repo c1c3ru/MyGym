@@ -6,6 +6,7 @@ import { useTheme } from '@contexts/ThemeContext';
 import { academyFirestoreService } from '@services/academyFirestoreService';
 import FreeGymScheduler from '@components/FreeGymScheduler';
 import { useCustomClaims } from '@hooks/useCustomClaims';
+import { COLORS } from '@presentation/theme/designTokens';
 
 /**
  * Calendário do Aluno usando FreeGymScheduler
@@ -88,7 +89,7 @@ const StudentCalendar = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5'
+    backgroundColor: COLORS.gray[100]
   }
 });
 

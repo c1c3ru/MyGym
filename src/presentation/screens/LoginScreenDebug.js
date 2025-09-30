@@ -184,7 +184,7 @@ const LoginScreenDebug = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: COLORS.gray[100],
   },
   scrollContainer: {
     flexGrow: 1,
@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
   debugCard: {
-    backgroundColor: '#f8f8f8',
+    backgroundColor: COLORS.background.light,
   },
   debugText: {
     fontFamily: 'monospace',

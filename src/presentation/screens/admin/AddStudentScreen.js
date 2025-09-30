@@ -618,7 +618,7 @@ const AddStudentScreen = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: COLORS.gray[100],
   },
   scrollView: {
     flex: 1,
@@ -694,7 +694,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: '#E3F2FD',
+    backgroundColor: COLORS.info[50],
     padding: SPACING.md,
     borderRadius: BORDER_RADIUS.md,
     marginTop: SPACING.sm,
@@ -711,7 +711,7 @@ const styles = StyleSheet.create({
   emptyStateContainer: {
     alignItems: 'center',
     padding: 32,
-    backgroundColor: '#F5F5F5',
+    backgroundColor: COLORS.gray[100],
     borderRadius: BORDER_RADIUS.md,
     marginVertical: 16,
   },
@@ -783,7 +783,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'COLORS.error[500]',
   },
   validationBanner: {
-    backgroundColor: '#ffebee',
+    backgroundColor: COLORS.error[50],
   },
   loadingOverlay: {
     position: 'absolute',
@@ -806,10 +806,10 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   snackbarSuccess: {
-    backgroundColor: '#4caf50',
+    backgroundColor: COLORS.primary[500],
   },
   snackbarError: {
-    backgroundColor: '#f44336',
+    backgroundColor: COLORS.error[500],
   },
 });
 

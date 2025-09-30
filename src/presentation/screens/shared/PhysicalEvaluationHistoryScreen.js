@@ -70,10 +70,10 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
       case 'Abaixo do peso': return 'COLORS.warning[500]';
       case 'Peso normal': return 'COLORS.primary[500]';
       case 'Sobrepeso': return 'COLORS.warning[500]';
-      case 'Obesidade grau I': return '#FF5722';
+      case 'Obesidade grau I': return COLORS.error[500];
       case 'Obesidade grau II': return 'COLORS.error[500]';
       case 'Obesidade grau III': return 'COLORS.secondary[500]';
-      default: return '#9E9E9E';
+      default: return COLORS.gray[500];
     }
   };
 
@@ -232,7 +232,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
                   <Text style={styles.progressLabel}>Peso</Text>
                   <Text style={[
                     styles.progressValue,
-                    { color: progress.weight > 0 ? '#FF5722' : progress.weight < 0 ? 'COLORS.primary[500]' : 'COLORS.text.secondary' }
+                    { color: progress.weight > 0 ? COLORS.error[500] : progress.weight < 0 ? 'COLORS.primary[500]' : 'COLORS.text.secondary' }
                   ]}>
                     {progress.weight > 0 ? '+' : ''}{progress.weight.toFixed(1)} kg
                   </Text>
@@ -242,7 +242,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
                   <Text style={styles.progressLabel}>IMC</Text>
                   <Text style={[
                     styles.progressValue,
-                    { color: progress.imc > 0 ? '#FF5722' : progress.imc < 0 ? 'COLORS.primary[500]' : 'COLORS.text.secondary' }
+                    { color: progress.imc > 0 ? COLORS.error[500] : progress.imc < 0 ? 'COLORS.primary[500]' : 'COLORS.text.secondary' }
                   ]}>
                     {progress.imc > 0 ? '+' : ''}{progress.imc.toFixed(2)}
                   </Text>
@@ -253,7 +253,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
                     <Text style={styles.progressLabel}>Gordura</Text>
                     <Text style={[
                       styles.progressValue,
-                      { color: progress.bodyFat > 0 ? '#FF5722' : progress.bodyFat < 0 ? 'COLORS.primary[500]' : 'COLORS.text.secondary' }
+                      { color: progress.bodyFat > 0 ? COLORS.error[500] : progress.bodyFat < 0 ? 'COLORS.primary[500]' : 'COLORS.text.secondary' }
                     ]}>
                       {progress.bodyFat > 0 ? '+' : ''}{progress.bodyFat.toFixed(1)}%
                     </Text>
@@ -265,7 +265,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
                     <Text style={styles.progressLabel}>Músculo</Text>
                     <Text style={[
                       styles.progressValue,
-                      { color: progress.muscleMass > 0 ? 'COLORS.primary[500]' : progress.muscleMass < 0 ? '#FF5722' : 'COLORS.text.secondary' }
+                      { color: progress.muscleMass > 0 ? 'COLORS.primary[500]' : progress.muscleMass < 0 ? COLORS.error[500] : 'COLORS.text.secondary' }
                     ]}>
                       {progress.muscleMass > 0 ? '+' : ''}{progress.muscleMass.toFixed(1)} kg
                     </Text>
@@ -378,7 +378,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: COLORS.gray[100],
   },
   scrollView: {
     flex: 1,

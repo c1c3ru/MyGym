@@ -95,7 +95,7 @@ export const EmptyState = memo(({
   onAction 
 }) => (
   <View style={styles.emptyContainer}>
-    <Ionicons name={icon} size={48} color="#9E9E9E" style={styles.emptyIcon} />
+    <Ionicons name={icon} size={48} color={COLORS.gray[500]} style={styles.emptyIcon} />
     <Text style={styles.emptyTitle}>{title}</Text>
     <Text style={styles.emptyMessage}>{message}</Text>
     {action && onAction && (
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f5f5f5',
+    backgroundColor: COLORS.gray[100],
     paddingHorizontal: 20,
   },
   logo: {
@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 20,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: COLORS.gray[100],
   },
   errorIcon: {
     marginBottom: 16,
@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 20,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: COLORS.gray[100],
   },
   emptyIcon: {
     marginBottom: 16,

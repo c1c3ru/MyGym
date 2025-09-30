@@ -519,7 +519,7 @@ const AdminClasses = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: COLORS.gray[100],
   },
   header: {
     padding: SPACING.base,
@@ -528,7 +528,7 @@ const styles = StyleSheet.create({
   },
   searchbar: {
     elevation: 0,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: COLORS.gray[100],
     marginBottom: SPACING.sm,
   },
   filterRow: {
@@ -616,7 +616,7 @@ const styles = StyleSheet.create({
     margin: SPACING.base,
     marginTop: SPACING.sm,
     elevation: 2,
-    backgroundColor: '#FFF3E0',
+    backgroundColor: COLORS.warning[50],
   },
   statsTitle: {
     textAlign: 'center',

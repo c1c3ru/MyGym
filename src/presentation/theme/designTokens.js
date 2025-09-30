@@ -154,9 +154,9 @@ export const COLORS = {
     200: '#CE93D8',
     300: '#BA68C8',
     400: '#AB47BC',
-    500: 'COLORS.secondary[500]', // Principal
+    500: '#9C27B0', // Principal
     600: '#8E24AA',
-    700: 'COLORS.secondary[700]',
+    700: '#7B1FA2',
     800: '#6A1B9A',
     900: '#4A148C',
   },
@@ -168,7 +168,7 @@ export const COLORS = {
     200: '#FFCC80',
     300: '#FFB74D',
     400: '#FFA726',
-    500: 'COLORS.warning[500]', // Principal
+    500: '#FF9800', // Principal
     600: '#FB8C00',
     700: '#F57C00',
     800: '#EF6C00',
@@ -182,7 +182,7 @@ export const COLORS = {
     200: '#A5D6A7',
     300: '#81C784',
     400: '#66BB6A',
-    500: 'COLORS.primary[500]', // Principal
+    500: '#4CAF50', // Principal
     600: '#43A047',
     700: '#388E3C',
     800: '#2E7D32',
@@ -196,7 +196,7 @@ export const COLORS = {
     200: '#EF9A9A',
     300: '#E57373',
     400: '#EF5350',
-    500: 'COLORS.error[500]', // Principal
+    500: '#F44336', // Principal
     600: '#E53935',
     700: '#D32F2F',
     800: '#C62828',
@@ -224,9 +224,9 @@ export const COLORS = {
     200: '#90CAF9',
     300: '#64B5F6',
     400: '#42A5F5',
-    500: 'COLORS.info[500]', // Principal
+    500: '#2196F3', // Principal
     600: '#1E88E5',
-    700: 'COLORS.info[700]',
+    700: '#1976D2',
     800: '#1565C0',
     900: '#0D47A1',
   },
@@ -239,14 +239,14 @@ export const COLORS = {
     300: '#E0E0E0',
     400: '#BDBDBD',
     500: '#9E9E9E',
-    600: 'COLORS.gray[600]',
+    600: '#757575',
     700: '#616161',
     800: '#424242',
     900: '#212121',
   },
   
   // Cores neutras
-  COLORS.white: '#FFFFFF',
+  white: '#FFFFFF',
   black: '#000000',
   transparent: 'transparent',
   
@@ -271,7 +271,7 @@ export const COLORS = {
   border: {
     light: '#E0E0E0',
     default: '#BDBDBD',
-    dark: 'COLORS.gray[600]',
+    dark: '#757575',
   },
   
   // Cores de overlay

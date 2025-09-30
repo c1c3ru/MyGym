@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   },
   selectionButton: {
     borderWidth: 1,
-    borderColor: '#E0E0E0',
+    borderColor: COLORS.gray[300],
     borderRadius: BORDER_RADIUS.md,
     backgroundColor: 'COLORS.COLORS.white',
   },
@@ -72,8 +72,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#F3F8FF',
   },
   selectionButtonDisabled: {
-    borderColor: '#E0E0E0',
-    backgroundColor: '#F5F5F5',
+    borderColor: COLORS.gray[300],
+    backgroundColor: COLORS.gray[100],
   },
   selectionButtonContent: {
     flexDirection: 'row',

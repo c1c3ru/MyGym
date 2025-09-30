@@ -211,7 +211,7 @@ const styles = {
   errorTitle: {
     textAlign: 'center',
     marginBottom: 16,
-    color: '#d32f2f',
+    color: COLORS.error[700],
   },
   errorMessage: {
     textAlign: 'center',

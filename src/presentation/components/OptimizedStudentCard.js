@@ -25,7 +25,7 @@ const OptimizedStudentCard = memo(({
       case 'paid': return 'COLORS.primary[500]';
       case 'pending': return 'COLORS.warning[500]';
       case 'overdue': return 'COLORS.error[500]';
-      default: return '#9E9E9E';
+      default: return COLORS.gray[500];
     }
   };
 

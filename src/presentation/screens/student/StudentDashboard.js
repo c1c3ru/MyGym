@@ -342,7 +342,7 @@ const StudentDashboard = ({ navigation }) => {
                   >
                     {announcement.priority > 0 && (
                       <View style={styles.priorityBadge}>
-                        <Ionicons name="alert-circle" size={16} color="#FFC107" />
+                        <Ionicons name="alert-circle" size={16} color={COLORS.warning[400]} />
                         <Text style={styles.priorityText}>Importante</Text>
                       </View>
                     )}
@@ -366,7 +366,7 @@ const StudentDashboard = ({ navigation }) => {
               </View>
             ) : (
               <View style={styles.emptyState}>
-                <Ionicons name="notifications-off-outline" size={48} color="#BDBDBD" />
+                <Ionicons name="notifications-off-outline" size={48} color={COLORS.gray[400]} />
                 <Text style={styles.emptyText}>
                   Nenhum aviso no momento
                 </Text>
@@ -410,7 +410,7 @@ const StudentDashboard = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: COLORS.gray[100],
   },
   scrollView: {
     flex: 1,
@@ -517,7 +517,7 @@ const styles = StyleSheet.create({
   },
   priorityText: {
     fontSize: FONT_SIZE.sm,
-    color: '#FF8F00',
+    color: COLORS.warning[600],
     marginLeft: SPACING.xs,
     fontWeight: FONT_WEIGHT.medium,
   },

@@ -36,7 +36,7 @@ const LoginSkeleton = () => {
       {/* Divider */}
       <View style={styles.dividerContainer}>
         <SkeletonLoader width="100%" height={1} style={{ marginVertical: 24 }} />
-        <SkeletonLoader width="20%" height={16} style={{ alignSelf: 'center', marginTop: -16, backgroundColor: '#f5f5f5' }} />
+        <SkeletonLoader width="20%" height={16} style={{ alignSelf: 'center', marginTop: -16, backgroundColor: COLORS.gray[100] }} />
       </View>
 
       {/* Social Login Buttons */}
@@ -62,7 +62,7 @@ const LoginSkeleton = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: COLORS.gray[100],
   },
   headerContainer: {
     padding: SPACING.xl,
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'COLORS.white',
     borderRadius: BORDER_RADIUS.md,
     elevation: 2,
-    shadowColor: '#000',
+    shadowColor: COLORS.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,

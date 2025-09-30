@@ -440,7 +440,7 @@ const styles = StyleSheet.create({
   className: {
     fontSize: FONT_SIZE.xxl,
     fontWeight: FONT_WEIGHT.bold,
-    color: '#1a1a1a',
+    color: COLORS.gray[900],
     marginBottom: SPACING.sm,
   },
   modalityChip: {
@@ -471,7 +471,7 @@ const styles = StyleSheet.create({
   statNumber: {
     fontSize: FONT_SIZE.xl,
     fontWeight: FONT_WEIGHT.bold,
-    color: '#1a1a1a',
+    color: COLORS.gray[900],
     marginTop: SPACING.xs,
   },
   statLabel: {
@@ -494,7 +494,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
-    color: '#1a1a1a',
+    color: COLORS.gray[900],
     marginBottom: 16,
   },
   infoRow: {
@@ -514,7 +514,7 @@ const styles = StyleSheet.create({
   },
   infoValue: {
     fontSize: FONT_SIZE.md,
-    color: '#1a1a1a',
+    color: COLORS.gray[900],
   },
   descriptionContainer: {
     marginTop: SPACING.sm,
@@ -576,7 +576,7 @@ const styles = StyleSheet.create({
   studentName: {
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.semibold,
-    color: '#1a1a1a',
+    color: COLORS.gray[900],
   },
   studentEmail: {
     fontSize: FONT_SIZE.base,

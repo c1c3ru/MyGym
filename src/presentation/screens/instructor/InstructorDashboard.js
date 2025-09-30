@@ -318,7 +318,7 @@ const InstructorDashboard = ({ navigation }) => {
         <Animated.View style={[headerTransform]}>
           <View style={styles.headerContainer}>
             <LinearGradient
-              colors={['COLORS.primary[500]', 'COLORS.primary[600]', '#388E3C']}
+              colors={['COLORS.primary[500]', 'COLORS.primary[600]', COLORS.primary[700]]}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 1 }}
               style={styles.headerGradient}
@@ -385,7 +385,7 @@ const InstructorDashboard = ({ navigation }) => {
 
           <Animated.View style={[styles.statCard, { opacity: animations.fadeAnim }]}>
             <LinearGradient
-              colors={['COLORS.warning[500]', '#F57C00']}
+              colors={['COLORS.warning[500]', COLORS.warning[600]]}
               style={styles.statGradient}
             >
               <MaterialCommunityIcons name="calendar-today" size={32} color="COLORS.white" />
@@ -587,7 +587,7 @@ const InstructorDashboard = ({ navigation }) => {
           <Card.Content>
             <View style={styles.modernCardHeader}>
               <View style={styles.headerIconContainer}>
-                <MaterialCommunityIcons name="bullhorn" size={24} color="#FF5722" />
+                <MaterialCommunityIcons name="bullhorn" size={24} color={COLORS.error[500]} />
               </View>
               <View style={styles.headerTitleContainer}>
                 <Text style={styles.modernCardTitle}>{getString('announcements')}</Text>
@@ -622,7 +622,7 @@ const InstructorDashboard = ({ navigation }) => {
                   >
                     {announcement.priority > 0 && (
                       <View style={styles.priorityBadge}>
-                        <MaterialCommunityIcons name="alert-circle" size={16} color="#FFC107" />
+                        <MaterialCommunityIcons name="alert-circle" size={16} color={COLORS.warning[400]} />
                         <Text style={styles.priorityText}>{getString('important')}</Text>
                       </View>
                     )}
@@ -646,7 +646,7 @@ const InstructorDashboard = ({ navigation }) => {
               </View>
             ) : (
               <View style={styles.emptyState}>
-                <MaterialCommunityIcons name="bell-off-outline" size={48} color="#BDBDBD" />
+                <MaterialCommunityIcons name="bell-off-outline" size={48} color={COLORS.gray[400]} />
                 <Text style={styles.emptyStateText}>{getString('noAnnouncementsNow')}</Text>
                 <Text style={styles.emptyStateSubtext}>{getString('notifyNewCommunications')}</Text>
               </View>
@@ -658,7 +658,7 @@ const InstructorDashboard = ({ navigation }) => {
         <AnimatedCard delay={400} style={styles.card}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <Ionicons name="trophy-outline" size={24} color="#FFD700" />
+              <Ionicons name="trophy-outline" size={24} color={COLORS.warning[300]} />
               <Text style={[styles.cardTitle, { fontSize: ResponsiveUtils.fontSize.medium }]}>
                 {getString('recentGraduations')}
               </Text>
@@ -683,7 +683,7 @@ const InstructorDashboard = ({ navigation }) => {
                     description={`${graduation.modality} • ${graduation.date.toLocaleDateString('pt-BR')}`}
                     titleStyle={{ fontSize: ResponsiveUtils.fontSize.medium }}
                     descriptionStyle={{ fontSize: ResponsiveUtils.fontSize.small }}
-                    left={() => <List.Icon icon="trophy" color="#FFD700" />}
+                    left={() => <List.Icon icon="trophy" color={COLORS.warning[300]} />}
                   />
                 </Animated.View>
               ))

@@ -190,7 +190,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
         {/* Header do Perfil com Gradiente */}
         <View style={styles.headerContainer}>
           <LinearGradient
-            colors={['#667eea', '#764ba2']}
+            colors={[COLORS.secondary[400], COLORS.secondary[600]]}
             style={styles.gradientHeader}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 1 }}
@@ -232,7 +232,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
                 
                 {studentInfo?.currentGraduation && (
                   <View style={styles.graduationContainer}>
-                    <Ionicons name="trophy" size={16} color="#FFD700" />
+                    <Ionicons name="trophy" size={16} color={COLORS.warning[300]} />
                     <Text style={styles.graduationText}>
                       {studentInfo.currentGraduation}
                     </Text>
@@ -255,7 +255,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
           
           <View style={styles.statCard}>
             <View style={styles.statIconContainer}>
-              <Ionicons name="trophy-outline" size={24} color="#FFD700" />
+              <Ionicons name="trophy-outline" size={24} color={COLORS.warning[300]} />
             </View>
             <Text style={styles.statNumber}>{graduations.length}</Text>
             <Text style={styles.statLabel}>Graduações</Text>
@@ -275,7 +275,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
           <SafeCardContent source="StudentProfile/personalInfo">
             <View style={styles.modernCardHeader}>
               <View style={styles.cardIconContainer}>
-                <Ionicons name="person-outline" size={24} color="#667eea" />
+                <Ionicons name="person-outline" size={24} color=COLORS.secondary[400] />
               </View>
               <Title style={styles.modernCardTitle}>Informações Pessoais</Title>
             </View>
@@ -283,7 +283,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
             <View style={styles.modernInfoGrid}>
               <View style={styles.modernInfoItem}>
                 <View style={styles.infoIconContainer}>
-                  <Ionicons name="call-outline" size={20} color="#667eea" />
+                  <Ionicons name="call-outline" size={20} color=COLORS.secondary[400] />
                 </View>
                 <View style={styles.infoContent}>
                   <Text style={styles.modernInfoLabel}>Telefone</Text>
@@ -295,7 +295,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
               
               <View style={styles.modernInfoItem}>
                 <View style={styles.infoIconContainer}>
-                  <Ionicons name="location-outline" size={20} color="#667eea" />
+                  <Ionicons name="location-outline" size={20} color=COLORS.secondary[400] />
                 </View>
                 <View style={styles.infoContent}>
                   <Text style={styles.modernInfoLabel}>Endereço</Text>
@@ -307,7 +307,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
               
               <View style={styles.modernInfoItem}>
                 <View style={styles.infoIconContainer}>
-                  <Ionicons name="calendar-outline" size={20} color="#667eea" />
+                  <Ionicons name="calendar-outline" size={20} color=COLORS.secondary[400] />
                 </View>
                 <View style={styles.infoContent}>
                   <Text style={styles.modernInfoLabel}>Data de Nascimento</Text>
@@ -319,7 +319,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
               
               <View style={styles.modernInfoItem}>
                 <View style={styles.infoIconContainer}>
-                  <Ionicons name="time-outline" size={20} color="#667eea" />
+                  <Ionicons name="time-outline" size={20} color=COLORS.secondary[400] />
                 </View>
                 <View style={styles.infoContent}>
                   <Text style={styles.modernInfoLabel}>Membro desde</Text>
@@ -367,7 +367,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
                       <IconButton
                         icon="chevron-right"
                         size={20}
-                        iconColor="#667eea"
+                        iconColor=COLORS.secondary[400]
                         onPress={() => navigation.navigate('ClassDetails', { 
                           classId: classItem.id, 
                           classData: classItem 
@@ -396,7 +396,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
           <SafeCardContent source="StudentProfile/graduations">
             <View style={styles.modernCardHeader}>
               <View style={styles.cardIconContainer}>
-                <Ionicons name="trophy-outline" size={24} color="#FFD700" />
+                <Ionicons name="trophy-outline" size={24} color={COLORS.warning[300]} />
               </View>
               <Title style={styles.modernCardTitle}>Timeline de Graduações</Title>
               <Badge style={styles.countBadge}>{graduations.length}</Badge>
@@ -407,7 +407,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
                 {graduations.map((graduation, index) => (
                   <View key={graduation.id || index} style={styles.timelineItem}>
                     <View style={styles.timelineDot}>
-                      <Ionicons name="trophy" size={16} color="#FFD700" />
+                      <Ionicons name="trophy" size={16} color={COLORS.warning[300]} />
                     </View>
                     
                     <View style={styles.timelineContent}>
@@ -444,7 +444,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
               onPress={handleAddGraduation}
               style={styles.modernAddButton}
               icon="plus"
-              buttonColor="#FFD700"
+              buttoncolor={COLORS.warning[300]}
               textColor="COLORS.text.primary"
             >
               Nova Graduação
@@ -519,7 +519,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
                     mode="text"
                     onPress={() => navigation.navigate('StudentPayments', { studentId })}
                     style={styles.viewAllPaymentsButton}
-                    textColor="#667eea"
+                    textColor=COLORS.secondary[400]
                   >
                     Ver Todos os Pagamentos ({payments.length})
                   </Button>
@@ -550,7 +550,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
               })}
               style={styles.primaryActionButton}
               icon="pencil"
-              buttonColor="#667eea"
+              buttonColor=COLORS.secondary[400]
             >
               Editar Perfil
             </Button>
@@ -565,7 +565,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
               })}
               style={styles.primaryActionButton}
               icon="trophy"
-              buttonColor="#FFD700"
+              buttoncolor={COLORS.warning[300]}
               textColor="COLORS.text.primary"
             >
               Nova Graduação
@@ -606,7 +606,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 30,
     ...Platform.select({
       ios: {
-        shadowColor: '#000',
+        shadowColor: COLORS.black,
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.15,
         shadowRadius: 8,
@@ -681,7 +681,7 @@ const styles = StyleSheet.create({
   },
   graduationText: {
     fontSize: FONT_SIZE.base,
-    color: '#FFD700',
+    color: COLORS.warning[300],
     fontWeight: FONT_WEIGHT.semibold,
   },
 
@@ -700,7 +700,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     ...Platform.select({
       ios: {
-        shadowColor: '#000',
+        shadowColor: COLORS.black,
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
         shadowRadius: 8,
@@ -743,7 +743,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'COLORS.COLORS.white',
     ...Platform.select({
       ios: {
-        shadowColor: '#000',
+        shadowColor: COLORS.black,
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
         shadowRadius: 8,
@@ -780,7 +780,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   countBadge: {
-    backgroundColor: '#667eea',
+    backgroundColor: COLORS.secondary[400],
   },
 
   // Informações pessoais
@@ -892,7 +892,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 2,
-    borderColor: '#FFD700',
+    borderColor: COLORS.warning[300],
   },
   timelineContent: {
     marginLeft: 20,
@@ -910,7 +910,7 @@ const styles = StyleSheet.create({
     borderRadius: BORDER_RADIUS.md,
     padding: SPACING.base,
     borderLeftWidth: 4,
-    borderLeftColor: '#FFD700',
+    borderLeftColor: COLORS.warning[300],
   },
   graduationTitle: {
     fontSize: FONT_SIZE.md,

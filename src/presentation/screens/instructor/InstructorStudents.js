@@ -271,7 +271,7 @@ const InstructorStudents = ({ navigation }) => {
       case 'paid': return 'COLORS.primary[500]';
       case 'pending': return 'COLORS.warning[500]';
       case 'overdue': return 'COLORS.error[500]';
-      default: return '#9E9E9E';
+      default: return COLORS.gray[500];
     }
   };
 
@@ -677,7 +677,7 @@ const InstructorStudents = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: COLORS.gray[100],
   },
   header: {
     padding: SPACING.base,
@@ -686,7 +686,7 @@ const styles = StyleSheet.create({
   },
   searchbar: {
     elevation: 0,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: COLORS.gray[100],
     marginBottom: SPACING.sm,
   },
   // Novos estilos para filtros melhorados
@@ -711,7 +711,7 @@ const styles = StyleSheet.create({
     maxWidth: 140,
     borderRadius: BORDER_RADIUS.lg,
     elevation: 2,
-    shadowColor: '#000',
+    shadowColor: COLORS.black,
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.2,
     shadowRadius: 2,
@@ -752,7 +752,7 @@ const styles = StyleSheet.create({
   clearButtonImproved: {
     flex: 1,
     borderRadius: BORDER_RADIUS.lg,
-    borderColor: '#FF5722',
+    borderColor: COLORS.error[500],
     borderWidth: 1.5,
   },
   applyButtonImproved: {
@@ -770,7 +770,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'COLORS.COLORS.white',
     borderRadius: BORDER_RADIUS.md,
     elevation: 8,
-    shadowColor: '#000',
+    shadowColor: COLORS.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 4,
@@ -800,7 +800,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'COLORS.COLORS.white',
     borderRadius: BORDER_RADIUS.md,
     elevation: 10,
-    shadowColor: '#000',
+    shadowColor: COLORS.black,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 8,
@@ -825,7 +825,7 @@ const styles = StyleSheet.create({
     color: 'COLORS.text.primary',
   },
   dropdownItemTextSelected: {
-    color: '#1976d2',
+    color: COLORS.info[700],
     fontWeight: FONT_WEIGHT.semibold,
   },
   advancedFilterInput: {
@@ -947,7 +947,7 @@ const styles = StyleSheet.create({
     margin: SPACING.base,
     marginTop: SPACING.sm,
     elevation: 2,
-    backgroundColor: '#E8F5E8',
+    backgroundColor: COLORS.primary[50],
   },
   statsTitle: {
     textAlign: 'center',

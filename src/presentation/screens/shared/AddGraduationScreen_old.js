@@ -48,18 +48,18 @@ const AddGraduationScreen = ({ route, navigation }) => {
 
   // Níveis de graduação comuns para artes marciais
   const defaultGraduationLevels = [
-    { id: 'COLORS.white', name: 'Faixa Branca', color: '#FFFFFF', order: 1 },
-    { id: 'yellow', name: 'Faixa Amarela', color: '#FFEB3B', order: 2 },
+    { id: 'COLORS.white', name: 'Faixa Branca', color: COLORS.white, order: 1 },
+    { id: 'yellow', name: 'Faixa Amarela', color: COLORS.warning[400], order: 2 },
     { id: 'orange', name: 'Faixa Laranja', color: 'COLORS.warning[500]', order: 3 },
     { id: 'green', name: 'Faixa Verde', color: 'COLORS.primary[500]', order: 4 },
     { id: 'blue', name: 'Faixa Azul', color: 'COLORS.info[500]', order: 5 },
     { id: 'purple', name: 'Faixa Roxa', color: 'COLORS.secondary[500]', order: 6 },
-    { id: 'brown', name: 'Faixa Marrom', color: '#795548', order: 7 },
-    { id: 'black-1', name: 'Faixa Preta 1º Dan', color: '#000000', order: 8 },
-    { id: 'black-2', name: 'Faixa Preta 2º Dan', color: '#000000', order: 9 },
-    { id: 'black-3', name: 'Faixa Preta 3º Dan', color: '#000000', order: 10 },
-    { id: 'black-4', name: 'Faixa Preta 4º Dan', color: '#000000', order: 11 },
-    { id: 'black-5', name: 'Faixa Preta 5º Dan', color: '#000000', order: 12 },
+    { id: 'brown', name: 'Faixa Marrom', color: COLORS.gray[700], order: 7 },
+    { id: 'black-1', name: 'Faixa Preta 1º Dan', color: COLORS.black, order: 8 },
+    { id: 'black-2', name: 'Faixa Preta 2º Dan', color: COLORS.black, order: 9 },
+    { id: 'black-3', name: 'Faixa Preta 3º Dan', color: COLORS.black, order: 10 },
+    { id: 'black-4', name: 'Faixa Preta 4º Dan', color: COLORS.black, order: 11 },
+    { id: 'black-5', name: 'Faixa Preta 5º Dan', color: COLORS.black, order: 12 },
   ];
 
   useEffect(() => {
@@ -187,7 +187,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
         <Card style={styles.headerCard}>
           <Card.Content>
             <View style={styles.header}>
-              <MaterialCommunityIcons name="trophy" size={32} color="#FFD700" />
+              <MaterialCommunityIcons name="trophy" size={32} color={COLORS.warning[300]} />
               <View style={styles.headerText}>
                 <Title style={styles.title}>Nova Graduação</Title>
                 <Text style={styles.subtitle}>Aluno: {studentName}</Text>
@@ -386,7 +386,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: COLORS.gray[100],
   },
   scrollView: {
     flex: 1,

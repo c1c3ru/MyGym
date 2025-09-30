@@ -388,7 +388,7 @@ const PrivacyPolicyScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: COLORS.gray[100],
   },
   scrollView: {
     flex: 1,
@@ -439,18 +439,18 @@ const styles = StyleSheet.create({
   subSectionTitle: {
     fontWeight: FONT_WEIGHT.bold,
     marginBottom: SPACING.sm,
-    color: '#424242',
+    color: COLORS.gray[800],
   },
   listItem: {
     marginBottom: SPACING.xs,
     lineHeight: 20,
-    color: '#424242',
+    color: COLORS.gray[800],
   },
   bold: {
     fontWeight: FONT_WEIGHT.bold,
   },
   warningBox: {
-    backgroundColor: '#FFF3E0',
+    backgroundColor: COLORS.warning[50],
     padding: SPACING.md,
     borderRadius: BORDER_RADIUS.md,
     borderLeftWidth: 4,
@@ -458,7 +458,7 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   warningText: {
-    color: '#E65100',
+    color: COLORS.warning[800],
     lineHeight: 18,
   },
   rightsGrid: {
@@ -484,10 +484,10 @@ const styles = StyleSheet.create({
   rightDescription: {
     fontSize: FONT_SIZE.sm,
     lineHeight: 16,
-    color: '#424242',
+    color: COLORS.gray[800],
   },
   contactBox: {
-    backgroundColor: '#E3F2FD',
+    backgroundColor: COLORS.info[50],
     padding: SPACING.base,
     borderRadius: BORDER_RADIUS.md,
     marginTop: SPACING.md,
@@ -499,7 +499,7 @@ const styles = StyleSheet.create({
   },
   contactItem: {
     marginBottom: SPACING.xs,
-    color: '#424242',
+    color: COLORS.gray[800],
   },
   actionButtons: {
     flexDirection: 'row',

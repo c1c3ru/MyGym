@@ -14,6 +14,7 @@ import InjuryHistoryScreen from '@screens/shared/InjuryHistoryScreen';
 import PrivacyPolicyScreen from '@screens/shared/PrivacyPolicyScreen';
 import NotificationSettingsScreen from '@screens/shared/NotificationSettingsScreen';
 import PrivacySettingsScreen from '@screens/shared/PrivacySettingsScreen';
+import { COLORS } from '@presentation/theme/designTokens';
 
 const Stack = createStackNavigator();
 
