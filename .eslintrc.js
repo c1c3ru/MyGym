@@ -6,6 +6,7 @@ module.exports = {
     'plugin:react-hooks/recommended',
   ],
   parser: '@babel/eslint-parser',
+  plugins: ['react', 'react-native', 'react-hooks'],
   parserOptions: {
     ecmaVersion: 2020,
     sourceType: 'module',
@@ -22,7 +23,6 @@ module.exports = {
     jest: true,
     node: true,
   },
-  plugins: ['react', 'react-native', 'react-hooks'],
   rules: {
     // Regras gerais
     'no-console': ['warn', { allow: ['warn', 'error', 'info'] }],
@@ -48,6 +48,10 @@ module.exports = {
         selector: "TemplateLiteral[quasis.0.value.raw=/#[0-9A-Fa-f]{3,6}/]",
         message: '🎨 Evite cores hardcoded. Use COLORS do @presentation/theme/designTokens',
       },
+      {
+        selector: "Literal[value=/^COLORS\\./]",
+        message: '⚠️ COLORS deve ser usado sem aspas. Use {COLORS.xxx} em JSX ou COLORS.xxx em código',
+      },
     ],
     
     // Previne valores de fontSize hardcoded
@@ -55,7 +59,7 @@ module.exports = {
       'warn',
       {
         ignore: [0, 1, -1, 2],
-        ignoreArrayIndexes': true,
+        ignoreArrayIndexes: true,
         enforceConst: true,
         detectObjects: false,
         ignoreDefaultValues: true,

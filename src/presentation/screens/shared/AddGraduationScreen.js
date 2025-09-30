@@ -420,7 +420,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
                 onChangeText={(text) => setFormData(prev => ({ ...prev, notes: text }))}
                 placeholder="Adicione observações sobre a graduação..."
                 style={styles.notesInput}
-                outlineColor={COLORS.g}ray[300]
+                outlineColor={COLORS.gray[300]}
                 activeOutlineColor={COLORS.info[700]}
               />
             </View>
@@ -434,7 +434,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
                 onChangeText={(text) => setFormData(prev => ({ ...prev, certificate: text }))}
                 placeholder="Ex: CERT-2024-001"
                 style={styles.certificateInput}
-                outlineColor={COLORS.g}ray[300]
+                outlineColor={COLORS.gray[300]}
                 activeOutlineColor={COLORS.warning[500]}
                 left={<TextInput.Icon icon="certificate" />}
               />

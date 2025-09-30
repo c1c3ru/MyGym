@@ -367,7 +367,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
                       <IconButton
                         icon="chevron-right"
                         size={20}
-                        iconColor={COLORS.secondary[400]
+                        iconColor={COLORS.secondary[400]}
                         onPress={() => navigation.navigate('ClassDetails', { 
                           classId: classItem.id, 
                           classData: classItem 
@@ -519,7 +519,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
                     mode="text"
                     onPress={() => navigation.navigate('StudentPayments', { studentId })}
                     style={styles.viewAllPaymentsButton}
-                    textColor={COLORS.secondary[400]
+                    textColor={COLORS.secondary[400]}
                   >
                     Ver Todos os Pagamentos ({payments.length})
                   </Button>
@@ -550,7 +550,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
               })}
               style={styles.primaryActionButton}
               icon="pencil"
-              buttonColor={COLORS.secondary[400]
+              buttonColor={COLORS.secondary[400]}
             >
               Editar Perfil
             </Button>

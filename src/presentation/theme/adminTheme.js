@@ -1,5 +1,5 @@
-import {
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import {
   APP_COLORS,
   PROFILE_COLORS,
   STATUS_COLORS,
@@ -16,7 +16,7 @@ export const ADMIN_COLORS = {
   gold: [PROFILE_COLORS.admin.primary, PROFILE_COLORS.admin.primaryDark],
   vibrantRed: APP_COLORS.vibrantRed,
   grayLight: APP_COLORS.gray[100],
-  COLORS.white: APP_COLORS.white,
+  white: APP_COLORS.white,
   textDark: TEXT_COLORS.primary,
   textMuted: TEXT_COLORS.secondary,
   textDisabled: TEXT_COLORS.disabled,

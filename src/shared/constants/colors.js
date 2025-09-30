@@ -7,6 +7,7 @@
  * - Cores de status e utilidades
  */
 
+import { COLORS } from '@presentation/theme/designTokens';
 // ============================================
 // PALETA PRINCIPAL (BASE DO APLICATIVO)
 // ============================================
@@ -22,9 +23,9 @@ export const APP_COLORS = {
     100: '#F5F5F5',
     200: '#EEEEEE',
     300: '#E0E0E0',
-    400: COLORS.gray[400],
-    500: COLORS.gray[500],
-    600: COLORS.gray[600],
+    400: '#BDBDBD',
+    500: '#9E9E9E',
+    600: '#757575',
     700: '#616161',
     800: '#424242',
     900: '#262626',
