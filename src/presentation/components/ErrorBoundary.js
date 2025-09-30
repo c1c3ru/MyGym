@@ -84,15 +84,15 @@ const styles = StyleSheet.create({
     marginTop: 16,
     marginBottom: SPACING.sm,
     textAlign: 'center',
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   message: {
     textAlign: 'center',
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginBottom: 24,
   },
   button: {
-    backgroundColor: 'COLORS.info[500]',
+    backgroundColor: COLORS.info[500],
   },
 });
 

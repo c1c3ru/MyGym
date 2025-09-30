@@ -223,9 +223,9 @@ const ProfileScreen = ({ navigation }) => {
 
   const getUserTypeColor = (userType) => {
     switch (userType) {
-      case 'student': return 'COLORS.info[500]';
-      case 'instructor': return 'COLORS.primary[500]';
-      case 'admin': return 'COLORS.warning[500]';
+      case 'student': return COLORS.info[500];
+      case 'instructor': return COLORS.primary[500];
+      case 'admin': return COLORS.warning[500];
       default: return COLORS.gray[500];
     }
   };
@@ -261,7 +261,7 @@ const ProfileScreen = ({ navigation }) => {
             <Card.Content>
               <View style={styles.cardHeader}>
                 <Ionicons name="warning-outline" size={24} color="COLORS.warning[500]" />
-                <Title style={[styles.cardTitle, { color: 'COLORS.warning[500]' }]}>{getString('paymentNearDue')}</Title>
+                <Title style={[styles.cardTitle, { color: COLORS.warning[500] }]}>{getString('paymentNearDue')}</Title>
               </View>
               
               <View style={styles.paymentWarning}>
@@ -593,7 +593,7 @@ const ProfileScreen = ({ navigation }) => {
               onPress={handleLogout}
               style={styles.logoutButton}
               icon="logout"
-              textColor="COLORS.error[500]"
+              textColor={COLORS.error[500]}
             >
               Sair da Conta
             </Button>
@@ -731,7 +731,7 @@ const styles = StyleSheet.create({
   },
   userEmail: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginBottom: SPACING.sm,
   },
   userTypeChip: {
@@ -741,7 +741,7 @@ const styles = StyleSheet.create({
   warningCard: {
     backgroundColor: COLORS.warning[50],
     borderLeftWidth: 4,
-    borderLeftColor: 'COLORS.warning[500]',
+    borderLeftColor: COLORS.warning[500],
   },
   paymentWarning: {
     marginTop: SPACING.sm,
@@ -749,15 +749,15 @@ const styles = StyleSheet.create({
   warningText: {
     fontSize: FONT_SIZE.md,
     marginBottom: SPACING.sm,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   warningDays: {
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.warning[500]',
+    color: COLORS.warning[500],
   },
   warningDetails: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginBottom: 16,
   },
   warningButtons: {
@@ -767,12 +767,12 @@ const styles = StyleSheet.create({
   editDateButton: {
     flex: 1,
     marginRight: 8,
-    borderColor: 'COLORS.warning[500]',
+    borderColor: COLORS.warning[500],
   },
   payNowButton: {
     flex: 1,
     marginLeft: 8,
-    backgroundColor: 'COLORS.primary[500]',
+    backgroundColor: COLORS.primary[500],
   },
   card: {
     margin: SPACING.base,
@@ -794,10 +794,10 @@ const styles = StyleSheet.create({
   },
   saveButton: {
     marginTop: SPACING.sm,
-    backgroundColor: 'COLORS.primary[500]',
+    backgroundColor: COLORS.primary[500],
   },
   logoutButton: {
-    borderColor: 'COLORS.error[500]',
+    borderColor: COLORS.error[500],
     marginTop: SPACING.sm,
   },
   weekDays: {
@@ -809,18 +809,18 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: BORDER_RADIUS.lg,
-    backgroundColor: 'COLORS.gray[100]',
+    backgroundColor: COLORS.gray[100],
     justifyContent: 'center',
     alignItems: 'center',
   },
   dayText: {
     fontSize: FONT_SIZE.sm,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
   },
   noTrainingText: {
     textAlign: 'center',
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     fontStyle: 'italic',
   },
   modalContainer: {
@@ -841,7 +841,7 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.xxl,
     fontWeight: FONT_WEIGHT.bold,
     marginHorizontal: 20,
-    color: 'COLORS.info[500]',
+    color: COLORS.info[500],
   },
   monthsContainer: {
     maxHeight: 400,
@@ -853,7 +853,7 @@ const styles = StyleSheet.create({
   },
   monthCard: {
     width: '48%',
-    backgroundColor: 'COLORS.background.light',
+    backgroundColor: COLORS.background.light,
     borderRadius: BORDER_RADIUS.md,
     padding: SPACING.md,
     marginBottom: SPACING.md,
@@ -867,14 +867,14 @@ const styles = StyleSheet.create({
   monthName: {
     fontSize: FONT_SIZE.base,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   monthChip: {
-    backgroundColor: 'COLORS.info[500]',
+    backgroundColor: COLORS.info[500],
     height: 24,
   },
   monthChipText: {
-    color: 'COLORS.white',
+    color: COLORS.white,
     fontSize: FONT_SIZE.sm,
   },
   monthDays: {
@@ -889,10 +889,10 @@ const styles = StyleSheet.create({
     margin: 1,
   },
   trainingDay: {
-    backgroundColor: 'COLORS.primary[500]',
+    backgroundColor: COLORS.primary[500],
   },
   noTrainingDay: {
-    backgroundColor: 'COLORS.gray[300]',
+    backgroundColor: COLORS.gray[300],
   },
 });
 

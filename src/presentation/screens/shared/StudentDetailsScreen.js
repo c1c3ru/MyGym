@@ -135,11 +135,11 @@ const StudentDetailsScreen = ({ route, navigation }) => {
   // Memoized utility functions
   const getPaymentStatusColor = useCallback((status) => {
     const colors = {
-      'paid': 'COLORS.primary[500]',
-      'pending': 'COLORS.warning[500]',
-      'overdue': 'COLORS.error[500]'
+      'paid': COLORS.primary[500],
+      'pending': COLORS.warning[500],
+      'overdue': COLORS.error[500]
     };
-    return colors[status] || 'COLORS.text.secondary';
+    return colors[status] || COLORS.text.secondary;
   }, []);
 
   const getPaymentStatusText = useCallback((status) => {
@@ -232,7 +232,7 @@ const StudentDetailsScreen = ({ route, navigation }) => {
               <Text style={styles.studentEmail}>{studentInfo?.email}</Text>
               <Text style={[
                 styles.statusBadge,
-                { color: studentInfo?.isActive ? 'COLORS.primary[500]' : 'COLORS.error[500]' }
+                { color: studentInfo?.isActive ? COLORS.primary[500] : COLORS.error[500] }
               ]}>
                 {studentInfo?.isActive ? 'Ativo' : 'Inativo'}
               </Text>
@@ -356,7 +356,7 @@ const StudentDetailsScreen = ({ route, navigation }) => {
             <Button
               mode="contained"
               onPress={handleEditStudent}
-              style={[styles.actionButton, { backgroundColor: 'COLORS.info[500]' }]}
+              style={[styles.actionButton, { backgroundColor: COLORS.info[500] }]}
               icon="pencil"
             >
               Editar Aluno
@@ -365,7 +365,7 @@ const StudentDetailsScreen = ({ route, navigation }) => {
             <Button
               mode="contained"
               onPress={handleAddGraduation}
-              style={[styles.actionButton, { backgroundColor: 'COLORS.primary[500]' }]}
+              style={[styles.actionButton, { backgroundColor: COLORS.primary[500] }]}
               icon="trophy"
             >
               {getString('addGraduation')}
@@ -415,10 +415,10 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   avatar: {
-    backgroundColor: 'COLORS.info[500]',
+    backgroundColor: COLORS.info[500],
   },
   avatarText: {
-    color: 'COLORS.white',
+    color: COLORS.white,
     fontWeight: FONT_WEIGHT.semibold,
   },
   studentInfo: {
@@ -428,11 +428,11 @@ const styles = StyleSheet.create({
   studentName: {
     fontSize: FONT_SIZE.xl,
     fontWeight: FONT_WEIGHT.semibold,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   studentEmail: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginTop: SPACING.xs,
   },
   statusBadge: {
@@ -453,7 +453,7 @@ const styles = StyleSheet.create({
   infoText: {
     marginLeft: 12,
     fontSize: FONT_SIZE.md,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   cardHeader: {
     flexDirection: 'row',
@@ -466,14 +466,14 @@ const styles = StyleSheet.create({
   },
   noDataText: {
     textAlign: 'center',
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     fontStyle: 'italic',
     padding: SPACING.lg,
   },
   listItem: {
     paddingVertical: SPACING.sm,
     borderBottomWidth: 1,
-    borderBottomColor: 'COLORS.gray[300]',
+    borderBottomColor: COLORS.gray[300],
   },
   listItemContent: {
     flexDirection: 'row',
@@ -491,11 +491,11 @@ const styles = StyleSheet.create({
   listTitle: {
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.medium,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   listSubtitle: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginTop: 2,
   },
   viewAllButton: {

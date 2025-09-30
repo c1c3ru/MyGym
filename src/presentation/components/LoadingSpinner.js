@@ -5,7 +5,7 @@ import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@present
 
 const LoadingSpinner = ({ 
   size = 'large', 
-  color = 'COLORS.info[500]', 
+  color = COLORS.info[500], 
   message = 'Carregando...', 
   style 
 }) => {
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
   message: {
     marginTop: 16,
     fontSize: FONT_SIZE.md,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     textAlign: 'center',
   },
 });

@@ -105,7 +105,7 @@ const RegisterScreen = ({ navigation }) => {
         name: formData.name.trim(),
         phone: formData.phone.trim(),
         isActive: true,
-        currentBelt: 'COLORS.white', // Usando padrão internacional
+        currentBelt: COLORS.white, // Usando padrão internacional
         currentGraduation: 'Beginner', // Compatível com backend
         beltHistory: [],
         graduations: [],
@@ -174,10 +174,10 @@ const RegisterScreen = ({ navigation }) => {
 
   const getUserTypeColor = (type) => {
     switch (type) {
-      case 'student': return 'COLORS.primary[500]';
-      case 'instructor': return 'COLORS.warning[500]';
-      case 'admin': return 'COLORS.error[500]';
-      default: return 'COLORS.info[500]';
+      case 'student': return COLORS.primary[500];
+      case 'instructor': return COLORS.warning[500];
+      case 'admin': return COLORS.error[500];
+      default: return COLORS.info[500];
     }
   };
 
@@ -464,7 +464,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 32,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.white',
+    color: COLORS.white,
     marginBottom: SPACING.sm,
     ...Platform.select({
       web: {
@@ -494,7 +494,7 @@ const styles = StyleSheet.create({
   },
   card: {
     borderRadius: BORDER_RADIUS.lg,
-    backgroundColor: 'COLORS.white',
+    backgroundColor: COLORS.white,
     ...Platform.select({
       web: {
         boxShadow: '0 4px 4.65px rgba(0, 0, 0, 0.3)'
@@ -514,19 +514,19 @@ const styles = StyleSheet.create({
   cardTitle: {
     textAlign: 'center',
     marginBottom: 24,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
     fontSize: FONT_SIZE.xl,
     fontWeight: FONT_WEIGHT.semibold,
   },
   sectionTitle: {
     fontSize: FONT_SIZE.lg,
     marginBottom: 16,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
     fontWeight: FONT_WEIGHT.semibold,
   },
   input: {
     marginBottom: SPACING.sm,
-    backgroundColor: 'COLORS.white',
+    backgroundColor: COLORS.white,
   },
   divider: {
     marginVertical: 24,
@@ -539,7 +539,7 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.md,
     elevation: 2,
     borderRadius: BORDER_RADIUS.md,
-    backgroundColor: 'COLORS.white',
+    backgroundColor: COLORS.white,
   },
   userTypeCardContent: {
     flexDirection: 'row',
@@ -559,16 +559,16 @@ const styles = StyleSheet.create({
   userTypeLabel: {
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.semibold,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   userTypeDescription: {
     fontSize: FONT_SIZE.sm,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginTop: 2,
   },
   passwordHint: {
     fontSize: FONT_SIZE.sm,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginBottom: 20,
     fontStyle: 'italic',
     textAlign: 'center',
@@ -588,7 +588,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   loadingText: {
-    color: 'COLORS.white',
+    color: COLORS.white,
     marginLeft: 8,
     fontSize: FONT_SIZE.md,
   },
@@ -603,10 +603,10 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   successSnackbar: {
-    backgroundColor: 'COLORS.primary[500]',
+    backgroundColor: COLORS.primary[500],
   },
   errorSnackbar: {
-    backgroundColor: 'COLORS.error[500]',
+    backgroundColor: COLORS.error[500],
   },
 });
 

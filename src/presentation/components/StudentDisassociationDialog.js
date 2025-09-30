@@ -211,7 +211,7 @@ const StudentDisassociationDialog = ({ visible, onDismiss, student, onSuccess })
             onPress={handleDisassociation}
             loading={loading}
             disabled={loading || !reason.trim()}
-            buttonColor="COLORS.error[500]"
+            buttonColor={COLORS.error[500]}
           >
             {getString('delete')}
           </Button>
@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
     marginLeft: 8,
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.error[500]',
+    color: COLORS.error[500],
   },
   studentInfo: {
     flexDirection: 'row',
@@ -243,11 +243,11 @@ const styles = StyleSheet.create({
     minWidth: 60,
   },
   studentChip: {
-    borderColor: 'COLORS.info[500]',
+    borderColor: COLORS.info[500],
   },
   studentEmail: {
     fontSize: FONT_SIZE.md,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
   },
   divider: {
     marginVertical: 16,
@@ -258,12 +258,12 @@ const styles = StyleSheet.create({
   warningText: {
     fontSize: FONT_SIZE.base,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.error[500]',
+    color: COLORS.error[500],
     marginBottom: SPACING.sm,
   },
   warningItem: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginLeft: 16,
     marginBottom: SPACING.xs,
   },

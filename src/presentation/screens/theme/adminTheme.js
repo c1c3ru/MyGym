@@ -1,7 +1,7 @@
 import { COLORS } from '@presentation/theme/designTokens';
 
 export const ADMIN_COLORS = {
-  headerGradient: ['COLORS.info[700]', '#1565C0'],
+  headerGradient: [COLORS.info[700], '#1565C0'],
   blue: ['#42A5F5', '#1E88E5'],
   green: ['#66BB6A', '#43A047'],
   orange: ['#FFA726', '#FB8C00'],

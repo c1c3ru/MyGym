@@ -97,16 +97,16 @@ const StudentEvolution = ({ navigation }) => {
       'Branca': COLORS.white,
       'Cinza': COLORS.gray[500],
       'Amarela': COLORS.warning[400],
-      'Laranja': 'COLORS.warning[500]',
-      'Verde': 'COLORS.primary[500]',
-      'Azul': 'COLORS.info[500]',
-      'Roxa': 'COLORS.secondary[500]',
+      'Laranja': COLORS.warning[500],
+      'Verde': COLORS.primary[500],
+      'Azul': COLORS.info[500],
+      'Roxa': COLORS.secondary[500],
       'Marrom': COLORS.gray[700],
       'Preta': COLORS.gray[800],
       'Coral': COLORS.error[400],
-      'Vermelha': 'COLORS.error[500]'
+      'Vermelha': COLORS.error[500]
     };
-    return colors[graduation] || 'COLORS.info[500]';
+    return colors[graduation] || COLORS.info[500];
   };
 
   const getGraduationIcon = (modality) => {
@@ -328,16 +328,16 @@ const styles = StyleSheet.create({
     padding: SPACING.md,
     borderRadius: BORDER_RADIUS.md,
     elevation: 1,
-    backgroundColor: 'COLORS.white',
+    backgroundColor: COLORS.white,
   },
   statNumber: {
     fontSize: FONT_SIZE.xxl,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.info[500]',
+    color: COLORS.info[500],
   },
   statLabel: {
     fontSize: FONT_SIZE.sm,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginTop: SPACING.xs,
   },
   currentGraduation: {
@@ -356,7 +356,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   timelineContent: {
-    backgroundColor: 'COLORS.white',
+    backgroundColor: COLORS.white,
     padding: SPACING.md,
     borderRadius: BORDER_RADIUS.md,
     elevation: 1,
@@ -379,16 +379,16 @@ const styles = StyleSheet.create({
   },
   graduationDate: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
   },
   instructorText: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginBottom: SPACING.xs,
   },
   observationsText: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
     fontStyle: 'italic',
   },
   timelineLine: {
@@ -404,13 +404,13 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: FONT_SIZE.md,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginTop: 16,
     textAlign: 'center',
   },
   emptySubtext: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.gray[500]',
+    color: COLORS.gray[500],
     textAlign: 'center',
     marginTop: SPACING.sm,
   },

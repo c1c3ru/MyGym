@@ -63,7 +63,7 @@ export default function QRCodeGenerator({ size = 200, showActions = true, academ
         position: fixed;
         top: 20px;
         right: 20px;
-        background: ${type === 'success' ? 'COLORS.primary[500]' : 'COLORS.error[500]'};
+        background: ${type === 'success' ? COLORS.primary[500] : COLORS.error[500]};
         color: COLORS.white;
         padding: SPACING.mdpx 20px;
         border-radius: 8px;
@@ -199,11 +199,11 @@ MyGym`;
           <QRCode
             value={qrValue}
             size={size}
-            backgroundColor="COLORS.white"
+            backgroundColor={COLORS.white}
             color="black"
             logo={logoIcon}
             logoSize={size * 0.15}
-            logoBackgroundColor="COLORS.white"
+            logoBackgroundColor={COLORS.white}
             logoMargin={2}
             logoBorderRadius={8}
           />
@@ -306,7 +306,7 @@ const styles = {
   },
   qrContainer: {
     padding: SPACING.lg,
-    backgroundColor: 'COLORS.white',
+    backgroundColor: COLORS.white,
     borderRadius: BORDER_RADIUS.md,
     marginBottom: 20,
     elevation: 2,
@@ -333,7 +333,7 @@ const styles = {
     opacity: 0.8,
     marginBottom: 16,
     fontWeight: FONT_WEIGHT.bold,
-    backgroundColor: 'COLORS.gray[100]',
+    backgroundColor: COLORS.gray[100],
     padding: SPACING.sm,
     borderRadius: BORDER_RADIUS.sm,
   },

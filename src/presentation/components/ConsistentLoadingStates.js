@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
   loadingText: {
     marginTop: 16,
     fontSize: FONT_SIZE.md,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     textAlign: 'center',
   },
   sectionContainer: {
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
   sectionText: {
     marginLeft: 12,
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
   },
   skeletonCard: {
     marginHorizontal: 16,
@@ -171,14 +171,14 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-    backgroundColor: 'COLORS.gray[300]',
+    backgroundColor: COLORS.gray[300],
     marginRight: 12,
   },
   skeletonTextContainer: {
     flex: 1,
   },
   skeletonText: {
-    backgroundColor: 'COLORS.gray[300]',
+    backgroundColor: COLORS.gray[300],
     borderRadius: BORDER_RADIUS.sm,
     marginBottom: SPACING.sm,
   },
@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
   skeletonButton: {
     width: 80,
     height: 32,
-    backgroundColor: 'COLORS.gray[300]',
+    backgroundColor: COLORS.gray[300],
     borderRadius: BORDER_RADIUS.lg,
   },
   formLoadingContainer: {
@@ -209,7 +209,7 @@ const styles = StyleSheet.create({
   formLoadingText: {
     marginLeft: 8,
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
   },
   errorContainer: {
     flex: 1,
@@ -224,19 +224,19 @@ const styles = StyleSheet.create({
   errorTitle: {
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
     textAlign: 'center',
     marginBottom: SPACING.sm,
   },
   errorMessage: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     textAlign: 'center',
     marginBottom: 20,
     lineHeight: 20,
   },
   retryButton: {
-    borderColor: 'COLORS.info[500]',
+    borderColor: COLORS.info[500],
   },
   emptyContainer: {
     flex: 1,
@@ -251,19 +251,19 @@ const styles = StyleSheet.create({
   emptyTitle: {
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
     textAlign: 'center',
     marginBottom: SPACING.sm,
   },
   emptyMessage: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     textAlign: 'center',
     marginBottom: 20,
     lineHeight: 20,
   },
   actionButton: {
-    backgroundColor: 'COLORS.primary[500]',
+    backgroundColor: COLORS.primary[500],
   },
 });
 

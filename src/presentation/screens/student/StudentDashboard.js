@@ -421,7 +421,7 @@ const styles = StyleSheet.create({
   },
   welcomeCard: {
     marginBottom: ResponsiveUtils?.spacing?.sm || 8,
-    backgroundColor: 'COLORS.info[500]',
+    backgroundColor: COLORS.info[500],
   },
   welcomeContent: {
     flexDirection: 'row',
@@ -435,7 +435,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   welcomeTitle: {
-    color: 'COLORS.white',
+    color: COLORS.white,
     fontSize: ResponsiveUtils?.fontSize?.large || 20,
     fontWeight: FONT_WEIGHT.bold,
   },
@@ -450,7 +450,7 @@ const styles = StyleSheet.create({
     fontSize: ResponsiveUtils?.fontSize?.large || 18,
     fontWeight: FONT_WEIGHT.semibold,
     marginBottom: ResponsiveUtils?.spacing?.md || 12,
-    color: 'COLORS.info[500]',
+    color: COLORS.info[500],
   },
   graduationStatus: {
     alignItems: 'center',
@@ -460,10 +460,10 @@ const styles = StyleSheet.create({
   },
   graduationText: {
     textAlign: 'center',
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
   },
   emptyText: {
-    color: 'COLORS.gray[600]',
+    color: COLORS.gray[600],
     textAlign: 'center',
     marginVertical: 16,
   },
@@ -479,7 +479,7 @@ const styles = StyleSheet.create({
   },
   loadingText: {
     marginTop: SPACING.sm,
-    color: 'COLORS.gray[600]',
+    color: COLORS.gray[600],
   },
   sectionHeader: {
     flexDirection: 'row',
@@ -499,7 +499,7 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   highPriorityAnnouncement: {
-    backgroundColor: 'COLORS.warning[50]',
+    backgroundColor: COLORS.warning[50],
     borderRadius: BORDER_RADIUS.md,
     marginHorizontal: -8,
     paddingHorizontal: SPACING.sm,
@@ -508,7 +508,7 @@ const styles = StyleSheet.create({
   priorityBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'COLORS.warning[100]',
+    backgroundColor: COLORS.warning[100],
     paddingHorizontal: SPACING.sm,
     paddingVertical: SPACING.xs,
     borderRadius: BORDER_RADIUS.md,
@@ -529,15 +529,15 @@ const styles = StyleSheet.create({
   },
   announcementTitle: {
     fontWeight: FONT_WEIGHT.semibold,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
     marginBottom: ResponsiveUtils?.spacing?.xs || 4,
   },
   announcementMessage: {
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginBottom: ResponsiveUtils?.spacing?.xs || 4,
   },
   announcementDate: {
-    color: 'COLORS.gray[500]',
+    color: COLORS.gray[500],
     fontSize: ResponsiveUtils?.fontSize?.small || 12,
   },
   announcementDivider: {

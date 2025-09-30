@@ -42,13 +42,13 @@ const FreeGymScheduler = ({
   const modalityColors = {
     'karate': COLORS.error[500],
     'karatê': COLORS.error[500],
-    'jiu-jitsu': 'COLORS.secondary[500]',
-    'jiu jitsu': 'COLORS.secondary[500]',
-    'muay-thai': 'COLORS.error[500]',
-    'muay thai': 'COLORS.error[500]',
+    'jiu-jitsu': COLORS.secondary[500],
+    'jiu jitsu': COLORS.secondary[500],
+    'muay-thai': COLORS.error[500],
+    'muay thai': COLORS.error[500],
     'judo': '#3F51B5',
     'judô': '#3F51B5',
-    'taekwondo': 'COLORS.warning[500]',
+    'taekwondo': COLORS.warning[500],
     'boxe': COLORS.gray[700],
     'default': '#607D8B'
   };

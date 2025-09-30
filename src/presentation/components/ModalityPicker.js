@@ -207,7 +207,7 @@ const styles = {
     fontWeight: FONT_WEIGHT.semibold,
   },
   card: {
-    backgroundColor: 'COLORS.background.light',
+    backgroundColor: COLORS.background.light,
   },
   loadingContainer: {
     flexDirection: 'row',
@@ -216,7 +216,7 @@ const styles = {
   },
   loadingText: {
     marginLeft: 8,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
   },
   scrollView: {
     marginBottom: SPACING.md,
@@ -234,7 +234,7 @@ const styles = {
   },
   chip: {
     marginRight: 10,
-    backgroundColor: 'COLORS.white',
+    backgroundColor: COLORS.white,
     minWidth: 100,
     justifyContent: 'center',
   },
@@ -242,24 +242,24 @@ const styles = {
     marginRight: 20,
   },
   selectedChip: {
-    backgroundColor: 'COLORS.primary[500]',
+    backgroundColor: COLORS.primary[500],
   },
   chipText: {
     fontSize: FONT_SIZE.base,
   },
   selectedChipText: {
-    color: 'COLORS.white',
+    color: COLORS.white,
     fontWeight: FONT_WEIGHT.semibold,
   },
   selectedContainer: {
     marginTop: SPACING.md,
     paddingTop: 12,
     borderTopWidth: 1,
-    borderTopColor: 'COLORS.gray[300]',
+    borderTopColor: COLORS.gray[300],
   },
   selectedLabel: {
     marginBottom: SPACING.sm,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     fontWeight: FONT_WEIGHT.semibold,
   },
   selectedChips: {
@@ -269,7 +269,7 @@ const styles = {
   },
   emptyText: {
     textAlign: 'center',
-    color: 'COLORS.gray[500]',
+    color: COLORS.gray[500],
     fontStyle: 'italic',
     marginTop: SPACING.sm,
   },

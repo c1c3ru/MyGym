@@ -156,12 +156,12 @@ const ClassDetailsScreen = ({ route, navigation }) => {
 
   const getModalityColor = (modality) => {
     const colors = {
-      'Jiu-Jitsu': 'COLORS.info[500]',
-      'Muay Thai': 'COLORS.error[500]',
-      'MMA': 'COLORS.warning[500]',
-      'Boxe': 'COLORS.primary[500]'
+      'Jiu-Jitsu': COLORS.info[500],
+      'Muay Thai': COLORS.error[500],
+      'MMA': COLORS.warning[500],
+      'Boxe': COLORS.primary[500]
     };
-    return colors[modality] || 'COLORS.text.secondary';
+    return colors[modality] || COLORS.text.secondary;
   };
 
   if (loading && !classInfo) {
@@ -343,7 +343,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
                     classId: classId, 
                     className: classInfo?.name 
                   })}
-                  style={[styles.actionButton, { backgroundColor: 'COLORS.info[500]' }]}
+                  style={[styles.actionButton, { backgroundColor: COLORS.info[500] }]}
                   contentStyle={styles.actionButtonContent}
                   labelStyle={styles.actionButtonLabel}
                 >
@@ -364,7 +364,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
                       setShowStudents(!showStudents);
                     }
                   }}
-                  style={[styles.actionButton, { backgroundColor: 'COLORS.primary[500]' }]}
+                  style={[styles.actionButton, { backgroundColor: COLORS.primary[500] }]}
                   contentStyle={styles.actionButtonContent}
                   labelStyle={styles.actionButtonLabel}
                 >
@@ -394,7 +394,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
         onDismiss={() => setSnackbar({ ...snackbar, visible: false })}
         duration={3000}
         style={{
-          backgroundColor: snackbar.type === 'success' ? 'COLORS.primary[500]' : 'COLORS.error[500]'
+          backgroundColor: snackbar.type === 'success' ? COLORS.primary[500] : COLORS.error[500]
         }}
       >
         {snackbar.message}
@@ -406,7 +406,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'COLORS.background.light',
+    backgroundColor: COLORS.background.light,
   },
   scrollContent: {
     paddingBottom: 20,
@@ -422,7 +422,7 @@ const styles = StyleSheet.create({
     margin: SPACING.base,
     marginBottom: SPACING.md,
     borderRadius: BORDER_RADIUS.lg,
-    backgroundColor: 'COLORS.white',
+    backgroundColor: COLORS.white,
   },
   headerContent: {
     padding: SPACING.lg,
@@ -448,19 +448,19 @@ const styles = StyleSheet.create({
     borderRadius: BORDER_RADIUS.lg,
   },
   modalityText: {
-    color: 'COLORS.white',
+    color: COLORS.white,
     fontWeight: FONT_WEIGHT.semibold,
     fontSize: FONT_SIZE.sm,
   },
   classAvatar: {
-    backgroundColor: 'COLORS.info[500]',
+    backgroundColor: COLORS.info[500],
   },
   
   // Stats Container
   statsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    backgroundColor: 'COLORS.background.light',
+    backgroundColor: COLORS.background.light,
     borderRadius: BORDER_RADIUS.md,
     padding: SPACING.base,
   },
@@ -476,12 +476,12 @@ const styles = StyleSheet.create({
   },
   statLabel: {
     fontSize: FONT_SIZE.sm,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginTop: 2,
   },
   statDivider: {
     width: 1,
-    backgroundColor: 'COLORS.gray[300]',
+    backgroundColor: COLORS.gray[300],
     marginHorizontal: 16,
   },
   
@@ -509,7 +509,7 @@ const styles = StyleSheet.create({
   infoLabel: {
     fontSize: FONT_SIZE.base,
     fontWeight: FONT_WEIGHT.semibold,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginBottom: SPACING.xs,
   },
   infoValue: {
@@ -521,7 +521,7 @@ const styles = StyleSheet.create({
   },
   descriptionText: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     lineHeight: 20,
     marginTop: SPACING.xs,
   },
@@ -543,7 +543,7 @@ const styles = StyleSheet.create({
   },
   studentsCount: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginTop: SPACING.xs,
   },
   toggleButton: {
@@ -559,7 +559,7 @@ const styles = StyleSheet.create({
     padding: SPACING.md,
     marginBottom: SPACING.sm,
     borderRadius: BORDER_RADIUS.md,
-    backgroundColor: 'COLORS.white',
+    backgroundColor: COLORS.white,
   },
   studentInfo: {
     flexDirection: 'row',
@@ -567,7 +567,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   studentAvatar: {
-    backgroundColor: 'COLORS.info[500]',
+    backgroundColor: COLORS.info[500],
   },
   studentDetails: {
     marginLeft: 12,
@@ -580,7 +580,7 @@ const styles = StyleSheet.create({
   },
   studentEmail: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginTop: 2,
   },
   studentButton: {
@@ -593,7 +593,7 @@ const styles = StyleSheet.create({
   emptyText: {
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.semibold,
-    color: 'COLORS.gray[500]',
+    color: COLORS.gray[500],
     marginTop: SPACING.md,
   },
   emptySubtext: {
@@ -618,7 +618,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: 4,
     borderRadius: BORDER_RADIUS.md,
-    backgroundColor: 'COLORS.white',
+    backgroundColor: COLORS.white,
   },
   actionButton: {
     borderRadius: BORDER_RADIUS.md,
@@ -636,7 +636,7 @@ const styles = StyleSheet.create({
     marginVertical: 16,
   },
   deleteButton: {
-    backgroundColor: 'COLORS.error[500]',
+    backgroundColor: COLORS.error[500],
     borderRadius: BORDER_RADIUS.md,
     marginHorizontal: 0,
     maxWidth: '100%',

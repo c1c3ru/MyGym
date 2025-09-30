@@ -122,7 +122,7 @@ const SettingsScreen = ({ navigation }) => {
               <Switch 
                 value={notifications} 
                 onValueChange={setNotifications}
-                trackColor={{ false: '#767577', true: 'COLORS.info[500]' }}
+                trackColor={{ false: '#767577', true: COLORS.info[500] }}
               />
             )}
           />
@@ -135,7 +135,7 @@ const SettingsScreen = ({ navigation }) => {
               <Switch 
                 value={darkMode} 
                 onValueChange={setDarkMode}
-                trackColor={{ false: '#767577', true: 'COLORS.info[500]' }}
+                trackColor={{ false: '#767577', true: COLORS.info[500] }}
               />
             )}
           />
@@ -148,7 +148,7 @@ const SettingsScreen = ({ navigation }) => {
               <Switch 
                 value={autoBackup} 
                 onValueChange={setAutoBackup}
-                trackColor={{ false: '#767577', true: 'COLORS.info[500]' }}
+                trackColor={{ false: '#767577', true: COLORS.info[500] }}
               />
             )}
           />
@@ -218,8 +218,8 @@ const SettingsScreen = ({ navigation }) => {
           <Button
             mode="contained"
             onPress={handleLogout}
-            buttonColor="COLORS.warning[500]"
-            textColor="COLORS.white"
+            buttonColor={COLORS.warning[500]}
+            textColor={COLORS.white}
             icon={() => <Ionicons name="log-out" size={20} color="COLORS.white" />}
             style={styles.dangerButton}
           >
@@ -229,8 +229,8 @@ const SettingsScreen = ({ navigation }) => {
           <Button
             mode="contained"
             onPress={handleDeleteAccount}
-            buttonColor="COLORS.error[500]"
-            textColor="COLORS.white"
+            buttonColor={COLORS.error[500]}
+            textColor={COLORS.white}
             icon={() => <Ionicons name="trash" size={20} color="COLORS.white" />}
             style={[styles.dangerButton, { marginTop: SPACING.md }]}
           >
@@ -271,7 +271,7 @@ const styles = StyleSheet.create({
   },
   dangerCard: {
     backgroundColor: COLORS.error[50],
-    borderColor: 'COLORS.error[500]',
+    borderColor: COLORS.error[500],
     borderWidth: 1,
   },
   cardHeader: {
@@ -284,7 +284,7 @@ const styles = StyleSheet.create({
     fontSize: ResponsiveUtils?.fontSize?.large || 18,
   },
   dangerTitle: {
-    color: 'COLORS.error[500]',
+    color: COLORS.error[500],
   },
   dangerButton: {
     borderRadius: ResponsiveUtils?.borderRadius?.medium || 12,

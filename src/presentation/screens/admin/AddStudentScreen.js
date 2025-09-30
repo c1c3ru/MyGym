@@ -641,11 +641,11 @@ const styles = StyleSheet.create({
     fontWeight: FONT_WEIGHT.bold,
     marginTop: 20,
     marginBottom: 16,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   sectionSubtitle: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginBottom: 16,
     fontStyle: 'italic',
   },
@@ -662,14 +662,14 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.sm,
   },
   selectedChip: {
-    backgroundColor: 'COLORS.info[500]',
+    backgroundColor: COLORS.info[500],
   },
   selectedChipText: {
-    color: 'COLORS.white',
+    color: COLORS.white,
   },
   noClassesText: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.gray[500]',
+    color: COLORS.gray[500],
     fontStyle: 'italic',
     textAlign: 'center',
     padding: SPACING.lg,
@@ -688,7 +688,7 @@ const styles = StyleSheet.create({
   loadingText: {
     marginTop: SPACING.md,
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
   },
   selectedClassesContainer: {
     flexDirection: 'row',
@@ -701,7 +701,7 @@ const styles = StyleSheet.create({
   },
   selectedClassesInfo: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.info[700]',
+    color: COLORS.info[700],
     fontWeight: FONT_WEIGHT.medium,
     flex: 1,
   },
@@ -721,7 +721,7 @@ const styles = StyleSheet.create({
   },
   noClassesSubtext: {
     fontSize: FONT_SIZE.sm,
-    color: 'COLORS.gray[500]',
+    color: COLORS.gray[500],
     textAlign: 'center',
     marginTop: SPACING.xs,
     marginBottom: 16,
@@ -736,14 +736,14 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.medium,
     marginBottom: SPACING.sm,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   fieldLabel: {
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.semibold,
     marginBottom: SPACING.sm,
     marginTop: SPACING.sm,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   radioContainer: {
     flexDirection: 'row',
@@ -777,10 +777,10 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   snackbarSuccess: {
-    backgroundColor: 'COLORS.primary[500]',
+    backgroundColor: COLORS.primary[500],
   },
   snackbarError: {
-    backgroundColor: 'COLORS.error[500]',
+    backgroundColor: COLORS.error[500],
   },
   validationBanner: {
     backgroundColor: COLORS.error[50],
@@ -799,7 +799,7 @@ const styles = StyleSheet.create({
   loadingText: {
     marginTop: 16,
     fontSize: FONT_SIZE.md,
-    color: 'COLORS.white',
+    color: COLORS.white,
     fontWeight: FONT_WEIGHT.medium,
   },
   snackbar: {

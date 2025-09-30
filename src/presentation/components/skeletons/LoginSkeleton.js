@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
   formContainer: {
     margin: SPACING.xl,
     padding: SPACING.xl,
-    backgroundColor: 'COLORS.white',
+    backgroundColor: COLORS.white,
     borderRadius: BORDER_RADIUS.md,
     elevation: 2,
     shadowColor: COLORS.black,

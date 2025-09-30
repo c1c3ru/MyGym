@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
   },
   loadingText: {
     marginLeft: 8,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     fontSize: FONT_SIZE.base,
   },
   emptyContainer: {
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: FONT_SIZE.md,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     textAlign: 'center',
   },
 });

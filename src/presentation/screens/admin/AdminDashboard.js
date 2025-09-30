@@ -210,13 +210,13 @@ const AdminDashboard = ({ navigation }) => {
 
   const getActivityColor = (type) => {
     const colors = {
-      'new_student': 'COLORS.primary[500]',
-      'payment': 'COLORS.info[500]',
+      'new_student': COLORS.primary[500],
+      'payment': COLORS.info[500],
       'graduation': COLORS.warning[300],
-      'class': 'COLORS.warning[500]',
-      'announcement': 'COLORS.secondary[500]'
+      'class': COLORS.warning[500],
+      'announcement': COLORS.secondary[500]
     };
-    return colors[type] || 'COLORS.text.secondary';
+    return colors[type] || COLORS.text.secondary;
   };
 
   const headerTransform = {
@@ -453,7 +453,7 @@ const AdminDashboard = ({ navigation }) => {
                   <Text style={[
                     styles.paymentNumber, 
                     { 
-                      color: 'COLORS.error[500]',
+                      color: COLORS.error[500],
                       fontSize: ResponsiveUtils.fontSize.large 
                     }
                   ]}>
@@ -507,7 +507,7 @@ const AdminDashboard = ({ navigation }) => {
                       onPress={action.onPress}
                       style={styles.modernActionButton}
                       buttonColor="COLORS.white + '33'"
-                      textColor="COLORS.white"
+                      textColor={COLORS.white}
                       compact
                     >
                       Abrir
@@ -621,7 +621,7 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: BORDER_RADIUS.full,
-    backgroundColor: 'COLORS.gray[100]',
+    backgroundColor: COLORS.gray[100],
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: ResponsiveUtils.spacing.md,
@@ -629,12 +629,12 @@ const styles = StyleSheet.create({
   modernCardTitle: {
     fontSize: ResponsiveUtils.fontSize.large,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
     marginBottom: 2,
   },
   modernCardSubtitle: {
     fontSize: ResponsiveUtils.fontSize.small,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
   },
   // Header moderno
   headerContainer: {
@@ -652,9 +652,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   avatarModern: {
-    backgroundColor: 'COLORS.white + '33'',
+    backgroundColor: COLORS.white + '33',
     borderWidth: 2,
-    borderColor: 'COLORS.white + '4D'',
+    borderColor: COLORS.white + '4D',
   },
   headerTextModern: {
     marginLeft: ResponsiveUtils.spacing.md,
@@ -663,25 +663,25 @@ const styles = StyleSheet.create({
   welcomeTextModern: {
     fontSize: ResponsiveUtils.fontSize.large,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.white',
+    color: COLORS.white,
     marginBottom: SPACING.xs,
   },
   roleTextModern: {
     fontSize: ResponsiveUtils.fontSize.medium,
-    color: 'COLORS.white + 'E6'',
+    color: COLORS.white + 'E6',
     marginBottom: SPACING.sm,
   },
   statusBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'COLORS.white + '33'',
+    backgroundColor: COLORS.white + '33',
     paddingHorizontal: SPACING.sm,
     paddingVertical: SPACING.xs,
     borderRadius: BORDER_RADIUS.md,
     alignSelf: 'flex-start',
   },
   statusText: {
-    color: 'COLORS.white',
+    color: COLORS.white,
     fontSize: FONT_SIZE.sm,
     marginLeft: SPACING.xs,
     fontWeight: FONT_WEIGHT.medium,
@@ -697,7 +697,7 @@ const styles = StyleSheet.create({
     padding: ResponsiveUtils.spacing.md,
   },
   avatar: {
-    backgroundColor: 'COLORS.warning[500]',
+    backgroundColor: COLORS.warning[500],
   },
   headerText: {
     marginLeft: ResponsiveUtils.spacing.md,
@@ -708,7 +708,7 @@ const styles = StyleSheet.create({
     marginBottom: ResponsiveUtils.spacing.xs,
   },
   roleText: {
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
   },
   // Estatísticas modernas (cards com gradiente)
   statsContainer: {
@@ -734,12 +734,12 @@ const styles = StyleSheet.create({
   statNumberModern: {
     fontSize: FONT_SIZE.xxl,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.white',
+    color: COLORS.white,
     marginTop: SPACING.sm,
   },
   statLabelModern: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.white + 'E6'',
+    color: COLORS.white + 'E6',
     textAlign: 'center',
     marginTop: SPACING.xs,
   },
@@ -771,15 +771,15 @@ const styles = StyleSheet.create({
     padding: ResponsiveUtils.spacing.md,
     borderRadius: ResponsiveUtils.borderRadius.medium,
     ...ResponsiveUtils.elevation,
-    backgroundColor: 'COLORS.white',
+    backgroundColor: COLORS.white,
     marginBottom: ResponsiveUtils.spacing.sm,
   },
   statNumber: {
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.info[500]',
+    color: COLORS.info[500],
   },
   statLabel: {
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginTop: ResponsiveUtils.spacing.xs,
     textAlign: 'center',
   },
@@ -794,11 +794,11 @@ const styles = StyleSheet.create({
     borderRadius: ResponsiveUtils.borderRadius.medium,
   },
   revenueLabel: {
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
   },
   revenueValue: {
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.primary[500]',
+    color: COLORS.primary[500],
     marginTop: ResponsiveUtils.spacing.xs,
   },
   paymentsRow: {
@@ -809,17 +809,17 @@ const styles = StyleSheet.create({
   paymentItem: {
     alignItems: 'center',
     padding: ResponsiveUtils.spacing.sm,
-    backgroundColor: 'COLORS.gray[50]',
+    backgroundColor: COLORS.gray[50],
     borderRadius: ResponsiveUtils.borderRadius.small,
     flex: 1,
     marginHorizontal: ResponsiveUtils.spacing.xs,
   },
   paymentNumber: {
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.warning[500]',
+    color: COLORS.warning[500],
   },
   paymentLabel: {
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginTop: ResponsiveUtils.spacing.xs,
   },
   divider: {
@@ -848,12 +848,12 @@ const styles = StyleSheet.create({
   actionTitle: {
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.white',
+    color: COLORS.white,
     marginTop: SPACING.sm,
   },
   actionSubtitle: {
     fontSize: FONT_SIZE.sm,
-    color: 'COLORS.white + 'CC'',
+    color: 'COLORS.white',
     textAlign: 'center',
     marginBottom: SPACING.sm,
   },
@@ -865,12 +865,12 @@ const styles = StyleSheet.create({
     marginTop: ResponsiveUtils.spacing.sm,
   },
   alertText: {
-    color: 'COLORS.warning[500]',
+    color: COLORS.warning[500],
     marginBottom: ResponsiveUtils.spacing.xs,
   },
   // Skeletons
   skeletonBlock: {
-    backgroundColor: 'COLORS.gray[300]',
+    backgroundColor: COLORS.gray[300],
     borderRadius: BORDER_RADIUS.md,
   },
   skeletonHeader: {
@@ -899,7 +899,7 @@ const styles = StyleSheet.create({
     marginTop: SPACING.sm,
   },
   academiaCodeText: {
-    color: 'COLORS.white + 'E6'',
+    color: COLORS.white + 'E6',
     fontSize: FONT_SIZE.sm,
     fontWeight: FONT_WEIGHT.semibold,
     marginLeft: SPACING.xs,
@@ -907,7 +907,7 @@ const styles = StyleSheet.create({
   
   // Estilos do modal do calendário
   calendarModalContainer: {
-    backgroundColor: 'COLORS.white',
+    backgroundColor: COLORS.white,
     margin: SPACING.lg,
     borderRadius: BORDER_RADIUS.md,
     maxHeight: '90%',
@@ -919,12 +919,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: SPACING.base,
     borderBottomWidth: 1,
-    borderBottomColor: 'COLORS.gray[300]',
+    borderBottomColor: COLORS.gray[300],
   },
   calendarModalTitle: {
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.semibold,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   calendarContainer: {
     flex: 1,
@@ -933,7 +933,7 @@ const styles = StyleSheet.create({
   
   // Modal do QR Code
   modalContainer: {
-    backgroundColor: 'COLORS.white',
+    backgroundColor: COLORS.white,
     margin: SPACING.lg,
     borderRadius: BORDER_RADIUS.lg,
     padding: SPACING.lg,

@@ -48,12 +48,12 @@ const AddGraduationScreen = ({ route, navigation }) => {
 
   // Níveis de graduação comuns para artes marciais
   const defaultGraduationLevels = [
-    { id: 'COLORS.white', name: 'Faixa Branca', color: COLORS.white, order: 1 },
+    { id: COLORS.white, name: 'Faixa Branca', color: COLORS.white, order: 1 },
     { id: 'yellow', name: 'Faixa Amarela', color: COLORS.warning[400], order: 2 },
-    { id: 'orange', name: 'Faixa Laranja', color: 'COLORS.warning[500]', order: 3 },
-    { id: 'green', name: 'Faixa Verde', color: 'COLORS.primary[500]', order: 4 },
-    { id: 'blue', name: 'Faixa Azul', color: 'COLORS.info[500]', order: 5 },
-    { id: 'purple', name: 'Faixa Roxa', color: 'COLORS.secondary[500]', order: 6 },
+    { id: 'orange', name: 'Faixa Laranja', color: COLORS.warning[500], order: 3 },
+    { id: 'green', name: 'Faixa Verde', color: COLORS.primary[500], order: 4 },
+    { id: 'blue', name: 'Faixa Azul', color: COLORS.info[500], order: 5 },
+    { id: 'purple', name: 'Faixa Roxa', color: COLORS.secondary[500], order: 6 },
     { id: 'brown', name: 'Faixa Marrom', color: COLORS.gray[700], order: 7 },
     { id: 'black-1', name: 'Faixa Preta 1º Dan', color: COLORS.black, order: 8 },
     { id: 'black-2', name: 'Faixa Preta 2º Dan', color: COLORS.black, order: 9 },
@@ -370,14 +370,14 @@ const AddGraduationScreen = ({ route, navigation }) => {
         onDismiss={() => setSnackbarVisible(false)}
         duration={snackbarType === 'success' ? 2000 : 4000}
         style={{
-          backgroundColor: snackbarType === 'success' ? 'COLORS.primary[500]' : 'COLORS.error[500]'
+          backgroundColor: snackbarType === 'success' ? COLORS.primary[500] : COLORS.error[500]
         }}
         action={{
           label: 'OK',
           onPress: () => setSnackbarVisible(false),
         }}
       >
-        <Text style={{ color: 'COLORS.white' }}>{snackbarMessage}</Text>
+        <Text style={{ color: COLORS.white }}>{snackbarMessage}</Text>
       </Snackbar>
     </SafeAreaView>
   );
@@ -412,28 +412,28 @@ const styles = StyleSheet.create({
   title: {
     fontSize: FONT_SIZE.xl,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   subtitle: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginTop: SPACING.xs,
   },
   sectionTitle: {
     fontSize: FONT_SIZE.lg,
     marginBottom: 16,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   previousGraduation: {
     marginBottom: 16,
     padding: SPACING.md,
-    backgroundColor: 'COLORS.background.light',
+    backgroundColor: COLORS.background.light,
     borderRadius: BORDER_RADIUS.md,
   },
   label: {
     fontSize: FONT_SIZE.base,
     fontWeight: FONT_WEIGHT.medium,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
     marginBottom: SPACING.sm,
   },
   previousChip: {
@@ -464,7 +464,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   submitButton: {
-    backgroundColor: 'COLORS.primary[500]',
+    backgroundColor: COLORS.primary[500],
   },
   dialogScroll: {
     maxHeight: 300,

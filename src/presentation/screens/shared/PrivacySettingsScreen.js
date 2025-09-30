@@ -400,7 +400,7 @@ const PrivacySettingsScreen = ({ navigation }) => {
               left={() => <List.Icon icon="delete-forever" color="COLORS.error[500]" />}
               right={() => <List.Icon icon="chevron-right" />}
               onPress={requestDataDeletion}
-              titleStyle={{ color: 'COLORS.error[500]' }}
+              titleStyle={{ color: COLORS.error[500] }}
             />
           </Card.Content>
         </Card>
@@ -465,11 +465,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   statusChip: {
-    borderColor: 'COLORS.primary[500]',
+    borderColor: COLORS.primary[500],
   },
   lgpdInfo: {
     marginBottom: SPACING.md,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     lineHeight: 20,
   },
   consentDate: {
@@ -479,14 +479,14 @@ const styles = StyleSheet.create({
   },
   infoText: {
     marginBottom: SPACING.sm,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     fontSize: FONT_SIZE.base,
   },
   buttonContainer: {
     margin: SPACING.base,
   },
   saveButton: {
-    backgroundColor: 'COLORS.primary[500]',
+    backgroundColor: COLORS.primary[500],
   },
 });
 

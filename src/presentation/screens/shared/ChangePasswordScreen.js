@@ -264,7 +264,7 @@ const ChangePasswordScreen = ({ navigation }) => {
         onDismiss={() => setSnackbar({ ...snackbar, visible: false })}
         duration={snackbar.type === 'success' ? 3000 : 5000}
         style={{
-          backgroundColor: snackbar.type === 'success' ? 'COLORS.primary[500]' : 'COLORS.error[500]'
+          backgroundColor: snackbar.type === 'success' ? COLORS.primary[500] : COLORS.error[500]
         }}
       >
         {snackbar.message}
@@ -296,7 +296,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: FONT_SIZE.md,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginBottom: 24,
     textAlign: 'center',
     lineHeight: 22,

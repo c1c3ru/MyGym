@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     margin: SPACING.base,
     marginTop: SPACING.sm,
     padding: SPACING.base,
-    backgroundColor: 'COLORS.white',
+    backgroundColor: COLORS.white,
     borderRadius: BORDER_RADIUS.md,
     elevation: 2,
     shadowColor: COLORS.black,
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
   },
   divider: {
     height: 1,
-    backgroundColor: 'COLORS.gray[300]',
+    backgroundColor: COLORS.gray[300],
     marginVertical: 16,
   },
   infoRow: {

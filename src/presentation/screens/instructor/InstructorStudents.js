@@ -268,9 +268,9 @@ const InstructorStudents = ({ navigation }) => {
 
   const getPaymentStatusColor = (status) => {
     switch (status) {
-      case 'paid': return 'COLORS.primary[500]';
-      case 'pending': return 'COLORS.warning[500]';
-      case 'overdue': return 'COLORS.error[500]';
+      case 'paid': return COLORS.primary[500];
+      case 'pending': return COLORS.warning[500];
+      case 'overdue': return COLORS.error[500];
       default: return COLORS.gray[500];
     }
   };
@@ -500,10 +500,10 @@ const InstructorStudents = ({ navigation }) => {
                       mode="outlined"
                       style={[
                         styles.statusChip,
-                        { borderColor: student.isActive !== false ? 'COLORS.primary[500]' : 'COLORS.error[500]' }
+                        { borderColor: student.isActive !== false ? COLORS.primary[500] : COLORS.error[500] }
                       ]}
                       textStyle={{ 
-                        color: student.isActive !== false ? 'COLORS.primary[500]' : 'COLORS.error[500]',
+                        color: student.isActive !== false ? COLORS.primary[500] : COLORS.error[500],
                         fontSize: FONT_SIZE.sm
                       }}
                     >
@@ -681,7 +681,7 @@ const styles = StyleSheet.create({
   },
   header: {
     padding: SPACING.base,
-    backgroundColor: 'COLORS.white',
+    backgroundColor: COLORS.white,
     elevation: 2,
   },
   searchbar: {
@@ -718,8 +718,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 2,
   },
   filterButtonActive: {
-    backgroundColor: 'COLORS.primary[500]',
-    borderColor: 'COLORS.primary[500]',
+    backgroundColor: COLORS.primary[500],
+    borderColor: COLORS.primary[500],
   },
   filterButtonLabel: {
     fontSize: FONT_SIZE.sm,
@@ -735,7 +735,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   filterButton: {
-    borderColor: 'COLORS.primary[500]',
+    borderColor: COLORS.primary[500],
   },
   advancedFilterRow: {
     flexDirection: 'row',
@@ -758,7 +758,7 @@ const styles = StyleSheet.create({
   applyButtonImproved: {
     flex: 1,
     borderRadius: BORDER_RADIUS.lg,
-    backgroundColor: 'COLORS.primary[500]',
+    backgroundColor: COLORS.primary[500],
     elevation: 3,
   },
   actionButtonLabel: {
@@ -767,7 +767,7 @@ const styles = StyleSheet.create({
   },
   menuContent: {
     maxHeight: 300,
-    backgroundColor: 'COLORS.white',
+    backgroundColor: COLORS.white,
     borderRadius: BORDER_RADIUS.md,
     elevation: 8,
     shadowColor: COLORS.black,
@@ -797,7 +797,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   modalDropdownList: {
-    backgroundColor: 'COLORS.white',
+    backgroundColor: COLORS.white,
     borderRadius: BORDER_RADIUS.md,
     elevation: 10,
     shadowColor: COLORS.black,
@@ -806,7 +806,7 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     maxHeight: 300,
     borderWidth: 1,
-    borderColor: 'COLORS.gray[300]',
+    borderColor: COLORS.gray[300],
   },
   dropdownScroll: {
     maxHeight: 300,
@@ -815,14 +815,14 @@ const styles = StyleSheet.create({
     paddingVertical: SPACING.md,
     paddingHorizontal: 16,
     borderBottomWidth: 1,
-    borderBottomColor: 'COLORS.gray[100]',
+    borderBottomColor: COLORS.gray[100],
   },
   dropdownItemSelected: {
-    backgroundColor: 'COLORS.info[50]',
+    backgroundColor: COLORS.info[50],
   },
   dropdownItemText: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   dropdownItemTextSelected: {
     color: COLORS.info[700],
@@ -860,7 +860,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   avatar: {
-    backgroundColor: 'COLORS.primary[500]',
+    backgroundColor: COLORS.primary[500],
   },
   studentDetails: {
     marginLeft: 12,
@@ -872,7 +872,7 @@ const styles = StyleSheet.create({
   },
   studentEmail: {
     fontSize: FONT_SIZE.sm,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginBottom: SPACING.xs,
   },
   graduationChip: {
@@ -891,14 +891,14 @@ const styles = StyleSheet.create({
   },
   statLabel: {
     fontSize: FONT_SIZE.sm,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginBottom: SPACING.xs,
   },
   statusChip: {
     borderWidth: 1,
   },
   graduationsInfo: {
-    backgroundColor: 'COLORS.background.light',
+    backgroundColor: COLORS.background.light,
     padding: SPACING.sm,
     borderRadius: BORDER_RADIUS.sm,
     marginBottom: SPACING.md,
@@ -914,7 +914,7 @@ const styles = StyleSheet.create({
   },
   graduationDate: {
     fontSize: FONT_SIZE.sm,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
   },
   divider: {
     marginVertical: 12,
@@ -941,7 +941,7 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     textAlign: 'center',
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
   },
   statsCard: {
     margin: SPACING.base,
@@ -960,14 +960,14 @@ const styles = StyleSheet.create({
   statNumber: {
     fontSize: FONT_SIZE.xl,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.primary[500]',
+    color: COLORS.primary[500],
   },
   fab: {
     position: 'absolute',
     margin: SPACING.base,
     right: 0,
     bottom: 0,
-    backgroundColor: 'COLORS.primary[500]',
+    backgroundColor: COLORS.primary[500],
   },
 });
 

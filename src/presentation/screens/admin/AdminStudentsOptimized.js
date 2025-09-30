@@ -342,21 +342,21 @@ const styles = StyleSheet.create({
   },
   header: {
     padding: SPACING.base,
-    backgroundColor: 'COLORS.white',
+    backgroundColor: COLORS.white,
     borderBottomWidth: 1,
-    borderBottomColor: 'COLORS.gray[300]',
+    borderBottomColor: COLORS.gray[300],
   },
   searchbar: {
     marginBottom: SPACING.md,
     elevation: 0,
-    backgroundColor: 'COLORS.background.light',
+    backgroundColor: COLORS.background.light,
   },
   filterRow: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
   },
   filterButton: {
-    borderColor: 'COLORS.info[500]',
+    borderColor: COLORS.info[500],
   },
   statsCard: {
     marginHorizontal: 16,
@@ -367,7 +367,7 @@ const styles = StyleSheet.create({
   statsTitle: {
     textAlign: 'center',
     marginBottom: 16,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   statsGrid: {
     flexDirection: 'row',
@@ -380,11 +380,11 @@ const styles = StyleSheet.create({
   statNumber: {
     fontSize: FONT_SIZE.xxl,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.info[500]',
+    color: COLORS.info[500],
   },
   statLabel: {
     fontSize: FONT_SIZE.sm,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginTop: SPACING.xs,
   },
   emptyCard: {
@@ -401,18 +401,18 @@ const styles = StyleSheet.create({
     marginTop: 16,
     marginBottom: SPACING.sm,
     textAlign: 'center',
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   emptyText: {
     textAlign: 'center',
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
   },
   fab: {
     position: 'absolute',
     margin: SPACING.base,
     right: 0,
     bottom: 0,
-    backgroundColor: 'COLORS.primary[500]',
+    backgroundColor: COLORS.primary[500],
   },
 });
 

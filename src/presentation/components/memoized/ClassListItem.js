@@ -50,11 +50,11 @@ const ClassListItem = memo(({
   }, [getString]);
 
   const getCapacityColor = useCallback((current, max) => {
-    if (!max) return 'COLORS.text.secondary';
+    if (!max) return COLORS.text.secondary;
     const percentage = (current / max) * 100;
-    if (percentage >= 90) return 'COLORS.error[500]';
-    if (percentage >= 70) return 'COLORS.warning[500]';
-    return 'COLORS.primary[500]';
+    if (percentage >= 90) return COLORS.error[500];
+    if (percentage >= 70) return COLORS.warning[500];
+    return COLORS.primary[500];
   }, []);
 
   return (
@@ -112,10 +112,10 @@ const ClassListItem = memo(({
             mode="outlined"
             style={[
               styles.statusChip,
-              { borderColor: classItem.isActive !== false ? 'COLORS.primary[500]' : 'COLORS.error[500]' }
+              { borderColor: classItem.isActive !== false ? COLORS.primary[500] : COLORS.error[500] }
             ]}
             textStyle={{ 
-              color: classItem.isActive !== false ? 'COLORS.primary[500]' : 'COLORS.error[500]',
+              color: classItem.isActive !== false ? COLORS.primary[500] : COLORS.error[500],
               fontSize: FONT_SIZE.sm
             }}
           >
@@ -125,8 +125,8 @@ const ClassListItem = memo(({
           {classItem.currentStudents >= (classItem.maxCapacity || 999) && (
             <Chip 
               mode="outlined"
-              style={[styles.statusChip, { borderColor: 'COLORS.error[500]' }]}
-              textStyle={{ color: 'COLORS.error[500]', fontSize: FONT_SIZE.sm }}
+              style={[styles.statusChip, { borderColor: COLORS.error[500] }]}
+              textStyle={{ color: COLORS.error[500], fontSize: FONT_SIZE.sm }}
             >
               {getString('full')}
             </Chip>
@@ -135,8 +135,8 @@ const ClassListItem = memo(({
           {!classItem.instructorId && (
             <Chip 
               mode="outlined"
-              style={[styles.statusChip, { borderColor: 'COLORS.warning[500]' }]}
-              textStyle={{ color: 'COLORS.warning[500]', fontSize: FONT_SIZE.sm }}
+              style={[styles.statusChip, { borderColor: COLORS.warning[500] }]}
+              textStyle={{ color: COLORS.warning[500], fontSize: FONT_SIZE.sm }}
             >
               {getString('withoutInstructor')}
             </Chip>
@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
   },
   detailText: {
     marginLeft: 8,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     flex: 1,
   },
   statusRow: {

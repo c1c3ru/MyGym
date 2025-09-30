@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.semibold,
     marginLeft: 8,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   statusContainer: {
     flexDirection: 'row',
@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
   },
   description: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginBottom: 16,
     textAlign: 'center',
   },
@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
   },
   hint: {
     fontSize: FONT_SIZE.sm,
-    color: 'COLORS.gray[500]',
+    color: COLORS.gray[500],
     textAlign: 'center',
     marginTop: SPACING.sm,
     fontStyle: 'italic',

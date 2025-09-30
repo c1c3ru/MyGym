@@ -386,11 +386,11 @@ const AdminClasses = ({ navigation }) => {
   };
 
   const getCapacityColor = (current, max) => {
-    if (!max) return 'COLORS.text.secondary';
+    if (!max) return COLORS.text.secondary;
     const percentage = (current / max) * 100;
-    if (percentage >= 90) return 'COLORS.error[500]';
-    if (percentage >= 70) return 'COLORS.warning[500]';
-    return 'COLORS.primary[500]';
+    if (percentage >= 90) return COLORS.error[500];
+    if (percentage >= 70) return COLORS.warning[500];
+    return COLORS.primary[500];
   };
 
   const getFilterText = (filter) => {
@@ -523,7 +523,7 @@ const styles = StyleSheet.create({
   },
   header: {
     padding: SPACING.base,
-    backgroundColor: 'COLORS.white',
+    backgroundColor: COLORS.white,
     elevation: 2,
   },
   searchbar: {
@@ -536,7 +536,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   filterButton: {
-    borderColor: 'COLORS.warning[500]',
+    borderColor: COLORS.warning[500],
   },
   scrollView: {
     flex: 1,
@@ -574,7 +574,7 @@ const styles = StyleSheet.create({
   },
   detailText: {
     marginLeft: 8,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     flex: 1,
   },
   statusRow: {
@@ -610,7 +610,7 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     textAlign: 'center',
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
   },
   statsCard: {
     margin: SPACING.base,
@@ -632,11 +632,11 @@ const styles = StyleSheet.create({
   statNumber: {
     fontSize: FONT_SIZE.xl,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.warning[500]',
+    color: COLORS.warning[500],
   },
   statLabel: {
     fontSize: FONT_SIZE.sm,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     textAlign: 'center',
   },
   fab: {
@@ -644,7 +644,7 @@ const styles = StyleSheet.create({
     margin: SPACING.base,
     right: 0,
     bottom: 0,
-    backgroundColor: 'COLORS.warning[500]',
+    backgroundColor: COLORS.warning[500],
   },
   listContainer: {
     paddingHorizontal: 0,
@@ -654,10 +654,10 @@ const styles = StyleSheet.create({
     margin: SPACING.base,
     right: 0,
     bottom: 80, // Acima do FAB principal
-    backgroundColor: 'COLORS.info[500]',
+    backgroundColor: COLORS.info[500],
   },
   calendarModalContainer: {
-    backgroundColor: 'COLORS.white',
+    backgroundColor: COLORS.white,
     margin: SPACING.lg,
     borderRadius: BORDER_RADIUS.md,
     maxHeight: '90%',
@@ -669,12 +669,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: SPACING.base,
     borderBottomWidth: 1,
-    borderBottomColor: 'COLORS.gray[300]',
+    borderBottomColor: COLORS.gray[300],
   },
   calendarModalTitle: {
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.semibold,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   calendarContainer: {
     flex: 1,

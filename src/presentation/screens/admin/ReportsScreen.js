@@ -184,11 +184,11 @@ const ReportsScreen = ({ navigation }) => {
 
   const getActivityColor = useCallback((type) => {
     switch (type) {
-      case 'student': return 'COLORS.info[500]';
-      case 'payment': return 'COLORS.primary[500]';
-      case 'class': return 'COLORS.warning[500]';
-      case 'checkin': return 'COLORS.secondary[500]';
-      default: return 'COLORS.text.secondary';
+      case 'student': return COLORS.info[500];
+      case 'payment': return COLORS.primary[500];
+      case 'class': return COLORS.warning[500];
+      case 'checkin': return COLORS.secondary[500];
+      default: return COLORS.text.secondary;
     }
   }, []);
 
@@ -236,7 +236,7 @@ const ReportsScreen = ({ navigation }) => {
             
             <View style={styles.statsGrid}>
               <View style={styles.statItem}>
-                <View style={[styles.statIcon, { backgroundColor: 'COLORS.info[500]' }]}>
+                <View style={[styles.statIcon, { backgroundColor: COLORS.info[500] }]}>
                   <Ionicons name="people" size={24} color="COLORS.white" />
                 </View>
                 <View style={styles.statContent}>
@@ -247,7 +247,7 @@ const ReportsScreen = ({ navigation }) => {
               </View>
 
               <View style={styles.statItem}>
-                <View style={[styles.statIcon, { backgroundColor: 'COLORS.primary[500]' }]}>
+                <View style={[styles.statIcon, { backgroundColor: COLORS.primary[500] }]}>
                   <Ionicons name="school" size={24} color="COLORS.white" />
                 </View>
                 <View style={styles.statContent}>
@@ -258,7 +258,7 @@ const ReportsScreen = ({ navigation }) => {
               </View>
 
               <View style={styles.statItem}>
-                <View style={[styles.statIcon, { backgroundColor: 'COLORS.warning[500]' }]}>
+                <View style={[styles.statIcon, { backgroundColor: COLORS.warning[500] }]}>
                   <Ionicons name="card" size={24} color="COLORS.white" />
                 </View>
                 <View style={styles.statContent}>
@@ -269,7 +269,7 @@ const ReportsScreen = ({ navigation }) => {
               </View>
 
               <View style={styles.statItem}>
-                <View style={[styles.statIcon, { backgroundColor: 'COLORS.error[500]' }]}>
+                <View style={[styles.statIcon, { backgroundColor: COLORS.error[500] }]}>
                   <Ionicons name="time" size={24} color="COLORS.white" />
                 </View>
                 <View style={styles.statContent}>
@@ -372,7 +372,7 @@ const ReportsScreen = ({ navigation }) => {
               <Button
                 mode="contained"
                 onPress={() => navigation.navigate('AddStudent')}
-                style={[styles.actionButton, { backgroundColor: 'COLORS.info[500]' }]}
+                style={[styles.actionButton, { backgroundColor: COLORS.info[500] }]}
                 icon={<MaterialCommunityIcons name="account-plus" size={18} color="COLORS.white" />}
               >
                 Novo Aluno
@@ -381,7 +381,7 @@ const ReportsScreen = ({ navigation }) => {
               <Button
                 mode="contained"
                 onPress={() => navigation.navigate('AddClass')}
-                style={[styles.actionButton, { backgroundColor: 'COLORS.primary[500]' }]}
+                style={[styles.actionButton, { backgroundColor: COLORS.primary[500] }]}
                 icon={<MaterialCommunityIcons name="school-outline" size={18} color="COLORS.white" />}
               >
                 Nova Turma
@@ -418,11 +418,11 @@ const styles = StyleSheet.create({
   title: {
     fontSize: FONT_SIZE.xxl,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   subtitle: {
     fontSize: FONT_SIZE.md,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginTop: SPACING.xs,
   },
   card: {
@@ -433,7 +433,7 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
     marginBottom: 16,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   statsGrid: {
     flexDirection: 'row',
@@ -446,7 +446,7 @@ const styles = StyleSheet.create({
     width: '48%',
     marginBottom: 16,
     padding: SPACING.md,
-    backgroundColor: 'COLORS.background.light',
+    backgroundColor: COLORS.background.light,
     borderRadius: BORDER_RADIUS.md,
   },
   statIcon: {
@@ -463,16 +463,16 @@ const styles = StyleSheet.create({
   statNumber: {
     fontSize: FONT_SIZE.xl,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   statLabel: {
     fontSize: FONT_SIZE.sm,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginTop: 2,
   },
   statSubtext: {
     fontSize: 10,
-    color: 'COLORS.gray[500]',
+    color: COLORS.gray[500],
     marginTop: 2,
   },
   occupancyContainer: {
@@ -480,7 +480,7 @@ const styles = StyleSheet.create({
   },
   occupancyLabel: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
     marginBottom: SPACING.sm,
   },
   progressBar: {
@@ -490,12 +490,12 @@ const styles = StyleSheet.create({
   },
   occupancyPercentage: {
     fontSize: FONT_SIZE.sm,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     textAlign: 'right',
   },
   noDataText: {
     textAlign: 'center',
-    color: 'COLORS.gray[500]',
+    color: COLORS.gray[500],
     fontStyle: 'italic',
     marginTop: 16,
   },
@@ -520,12 +520,12 @@ const styles = StyleSheet.create({
   },
   activityAction: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
     fontWeight: FONT_WEIGHT.medium,
   },
   activityTime: {
     fontSize: FONT_SIZE.sm,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginTop: 2,
   },
   actionsContainer: {

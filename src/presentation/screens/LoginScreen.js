@@ -468,7 +468,7 @@ export default function LoginScreen({ navigation }) {
           action={{
             label: 'Fechar',
             onPress: hideSnackbar,
-            textColor: 'COLORS.white'
+            textColor: COLORS.white
           }}
         >
           <Text style={styles.snackbarText}>{snackbar.message}</Text>
@@ -514,7 +514,7 @@ const styles = StyleSheet.create({
     marginRight: SPACING.xs,
   },
   languageButtonText: {
-    color: 'COLORS.white',
+    color: COLORS.white,
     fontSize: FONT_SIZE.base,
     marginRight: SPACING.xs,
   },
@@ -530,7 +530,7 @@ const styles = StyleSheet.create({
     marginRight: 6,
   },
   darkModeText: {
-    color: 'COLORS.white',
+    color: COLORS.white,
     fontSize: FONT_SIZE.base,
     marginRight: 8,
   },
@@ -544,12 +544,12 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 32,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.white',
+    color: COLORS.white,
     marginBottom: SPACING.sm,
   },
   headerSubtitle: {
     fontSize: FONT_SIZE.md,
-    color: 'COLORS.white + 'CC'',
+    color: 'COLORS.white',
   },
   content: {
     flex: 1,
@@ -638,7 +638,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.error[500],
   },
   snackbarText: {
-    color: 'COLORS.white',
+    color: COLORS.white,
     fontSize: FONT_SIZE.md,
   },
 });

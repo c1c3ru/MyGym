@@ -216,14 +216,14 @@ const StudentProfileScreen = ({ route, navigation }) => {
                 
                 <View style={styles.statusRow}>
                   <View style={styles.statusItem}>
-                    <Ionicons name="time-outline" size={16} color="COLORS.white + 'CC'" />
+                    <Ionicons name="time-outline" size={16} color="COLORS.white" />
                     <Text style={styles.statusText}>
                       {calculateAge(studentInfo?.birthDate) || '--'} anos
                     </Text>
                   </View>
                   
                   <View style={styles.statusItem}>
-                    <Ionicons name="calendar-outline" size={16} color="COLORS.white + 'CC'" />
+                    <Ionicons name="calendar-outline" size={16} color="COLORS.white" />
                     <Text style={styles.statusText}>
                       Desde {formatDate(studentInfo?.createdAt, 'short')}
                     </Text>
@@ -670,7 +670,7 @@ const styles = StyleSheet.create({
   },
   statusText: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.white + 'CC'',
+    color: 'COLORS.white',
     fontWeight: FONT_WEIGHT.medium,
   },
   graduationContainer: {

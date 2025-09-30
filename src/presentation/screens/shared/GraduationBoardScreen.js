@@ -80,10 +80,10 @@ const GraduationBoardScreen = ({ navigation }) => {
       'Branca': COLORS.white,
       'Cinza': '#808080',
       'Amarela': COLORS.warning[400],
-      'Laranja': 'COLORS.warning[500]',
-      'Verde': 'COLORS.primary[500]',
-      'Azul': 'COLORS.info[500]',
-      'Roxa': 'COLORS.secondary[500]',
+      'Laranja': COLORS.warning[500],
+      'Verde': COLORS.primary[500],
+      'Azul': COLORS.info[500],
+      'Roxa': COLORS.secondary[500],
       'Marrom': COLORS.gray[700],
       'Preta': COLORS.black
     };
@@ -92,9 +92,9 @@ const GraduationBoardScreen = ({ navigation }) => {
 
   const getAlertColor = (alertLevel) => {
     const colors = {
-      'ready': 'COLORS.primary[500]',
-      'warning': 'COLORS.warning[500]',
-      'info': 'COLORS.info[500]'
+      'ready': COLORS.primary[500],
+      'warning': COLORS.warning[500],
+      'info': COLORS.info[500]
     };
     return colors[alertLevel] || COLORS.gray[300];
   };
@@ -415,7 +415,7 @@ const GraduationBoardScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <LinearGradient
-        colors={['COLORS.info[500]', 'COLORS.info[700]']}
+        colors={[COLORS.info[500], COLORS.info[700]]}
         style={styles.header}
       >
         <View style={styles.headerContent}>
@@ -459,12 +459,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headerTitle: {
-    color: 'COLORS.white',
+    color: COLORS.white,
     fontSize: FONT_SIZE.xxl,
     fontWeight: FONT_WEIGHT.bold,
   },
   headerSubtitle: {
-    color: 'COLORS.white + 'CC'',
+    color: 'COLORS.white',
     fontSize: FONT_SIZE.base,
   },
   content: {
@@ -509,7 +509,7 @@ const styles = StyleSheet.create({
   },
   summaryLabel: {
     fontSize: FONT_SIZE.sm,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
   },
   filterContainer: {
     marginBottom: 16,
@@ -528,7 +528,7 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.sm,
   },
   badge: {
-    backgroundColor: 'COLORS.info[500]',
+    backgroundColor: COLORS.info[500],
   },
   divider: {
     marginBottom: 16,
@@ -557,7 +557,7 @@ const styles = StyleSheet.create({
   },
   studentModality: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginBottom: SPACING.xs,
   },
   beltProgression: {
@@ -595,17 +595,17 @@ const styles = StyleSheet.create({
   },
   examDate: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.info[500]',
+    color: COLORS.info[500],
     fontWeight: FONT_WEIGHT.bold,
   },
   examDetails: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginBottom: 2,
   },
   examCandidates: {
     fontSize: FONT_SIZE.sm,
-    color: 'COLORS.gray[500]',
+    color: COLORS.gray[500],
   },
   addButton: {
     marginTop: 16,
@@ -633,11 +633,11 @@ const styles = StyleSheet.create({
   statEligible: {
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.primary[500]',
+    color: COLORS.primary[500],
   },
   statTotal: {
     fontSize: FONT_SIZE.md,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
   },
   progressBar: {
     height: 6,
@@ -650,7 +650,7 @@ const styles = StyleSheet.create({
   },
   statDetail: {
     fontSize: FONT_SIZE.sm,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
   },
 });
 

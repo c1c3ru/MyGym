@@ -527,9 +527,9 @@ const CheckIn = ({ navigation }) => {
                       mode="flat"
                       style={[
                         styles.statusChip,
-                        { backgroundColor: 'COLORS.info[500]' }
+                        { backgroundColor: COLORS.info[500] }
                       ]}
-                      textStyle={{ color: 'COLORS.white' }}
+                      textStyle={{ color: COLORS.white }}
                     >
                       {typeof classItem.modality === 'object' && classItem.modality
                         ? classItem.modality.name || 'Modalidade'
@@ -565,7 +565,7 @@ const CheckIn = ({ navigation }) => {
                     <Button
                       mode="contained"
                       onPress={() => handleStartCheckIn(classItem.id)}
-                      buttonColor="COLORS.primary[500]"
+                      buttonColor={COLORS.primary[500]}
                       compact
                     >
                       Iniciar Check-in
@@ -599,9 +599,9 @@ const CheckIn = ({ navigation }) => {
                       mode="flat"
                       style={[
                         styles.statusChip,
-                        { backgroundColor: 'COLORS.primary[500]' }
+                        { backgroundColor: COLORS.primary[500] }
                       ]}
-                      textStyle={{ color: 'COLORS.white' }}
+                      textStyle={{ color: COLORS.white }}
                     >
                       Ativo
                     </Chip>
@@ -627,7 +627,7 @@ const CheckIn = ({ navigation }) => {
                       mode="outlined"
                       onPress={() => handleStopCheckIn(session.id)}
                       buttonColor={COLORS.error[50]}
-                      textColor="COLORS.error[500]"
+                      textColor={COLORS.error[500]}
                       compact
                     >
                       Parar Check-in
@@ -899,7 +899,7 @@ const CheckIn = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'COLORS.background.light',
+    backgroundColor: COLORS.background.light,
   },
   scrollView: {
     flex: 1,
@@ -918,13 +918,13 @@ const styles = StyleSheet.create({
     marginLeft: ResponsiveUtils.spacing.md,
     fontSize: ResponsiveUtils.fontSize.large,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   checkInItem: {
     padding: ResponsiveUtils.spacing.md,
     marginBottom: ResponsiveUtils.spacing.sm,
     borderRadius: ResponsiveUtils.borderRadius.medium,
-    backgroundColor: 'COLORS.background.light',
+    backgroundColor: COLORS.background.light,
   },
   checkInHeader: {
     flexDirection: 'row',
@@ -935,7 +935,7 @@ const styles = StyleSheet.create({
   aulaName: {
     fontSize: ResponsiveUtils.fontSize.medium,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
     flex: 1,
   },
   statusChip: {
@@ -953,7 +953,7 @@ const styles = StyleSheet.create({
   detailText: {
     marginLeft: SPACING.xs,
     fontSize: ResponsiveUtils.fontSize.small,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
   },
   actionButtons: {
     alignItems: 'flex-end',
@@ -964,12 +964,12 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: ResponsiveUtils.fontSize.medium,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginTop: ResponsiveUtils.spacing.sm,
   },
   emptySubtext: {
     fontSize: ResponsiveUtils.fontSize.small,
-    color: 'COLORS.gray[500]',
+    color: COLORS.gray[500],
     marginTop: SPACING.xs,
   },
   fab: {
@@ -977,11 +977,11 @@ const styles = StyleSheet.create({
     margin: SPACING.base,
     right: 0,
     bottom: 0,
-    backgroundColor: 'COLORS.info[500]',
+    backgroundColor: COLORS.info[500],
   },
   // Modal styles
   modalContainer: {
-    backgroundColor: 'COLORS.white',
+    backgroundColor: COLORS.white,
     padding: SPACING.lg,
     margin: SPACING.lg,
     borderRadius: BORDER_RADIUS.md,
@@ -997,7 +997,7 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.semibold,
     marginBottom: SPACING.sm,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   classSelection: {
     maxHeight: 60,
@@ -1022,7 +1022,7 @@ const styles = StyleSheet.create({
   selectionCount: {
     fontSize: FONT_SIZE.base,
     fontWeight: FONT_WEIGHT.semibold,
-    color: 'COLORS.info[500]',
+    color: COLORS.info[500],
   },
   batchButtons: {
     flexDirection: 'row',
@@ -1054,7 +1054,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   batchCheckInButton: {
-    backgroundColor: 'COLORS.primary[500]',
+    backgroundColor: COLORS.primary[500],
   },
   // Estilos para indicadores visuais de check-in
   studentDescription: {
@@ -1065,7 +1065,7 @@ const styles = StyleSheet.create({
   },
   studentEmail: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     flex: 1,
   },
   checkInChip: {
@@ -1073,7 +1073,7 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   checkInChipText: {
-    color: 'COLORS.primary[500]',
+    color: COLORS.primary[500],
     fontSize: FONT_SIZE.sm,
     fontWeight: FONT_WEIGHT.semibold,
   },
@@ -1092,20 +1092,20 @@ const styles = StyleSheet.create({
   studentItemCheckedIn: {
     backgroundColor: COLORS.background.light,
     borderLeftWidth: 4,
-    borderLeftColor: 'COLORS.primary[500]',
+    borderLeftColor: COLORS.primary[500],
   },
   selectButtonDisabled: {
     opacity: 0.5,
   },
   alreadyCheckedInButton: {
     backgroundColor: COLORS.primary[50],
-    borderColor: 'COLORS.primary[500]',
+    borderColor: COLORS.primary[500],
   },
   modalSubtitle: {
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
     marginBottom: 16,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
     textAlign: 'center',
   },
   classSelectionContainer: {
@@ -1131,7 +1131,7 @@ const styles = StyleSheet.create({
     }),
   },
   classButtonSelected: {
-    backgroundColor: 'COLORS.primary[500]',
+    backgroundColor: COLORS.primary[500],
     elevation: 4,
     ...Platform.select({
       web: {
@@ -1165,7 +1165,7 @@ const styles = StyleSheet.create({
     borderRadius: BORDER_RADIUS.md,
   },
   closeButton: {
-    backgroundColor: 'COLORS.info[500]',
+    backgroundColor: COLORS.info[500],
   },
 });
 

@@ -126,7 +126,7 @@ const Relatorios = ({ navigation }) => {
     // Implementar exportação Excel
   }, [trackButtonClick, selectedPeriod]);
 
-  const StatCard = useCallback(({ icon, title, value, subtitle, color = 'COLORS.primary[500]' }) => (
+  const StatCard = useCallback(({ icon, title, value, subtitle, color = COLORS.primary[500] }) => (
     <Surface style={[styles.statCard, { borderLeftColor: color }]}>
       <View style={styles.statHeader}>
         <MaterialCommunityIcons name={icon} size={24} color={color} />
@@ -312,7 +312,7 @@ const Relatorios = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'COLORS.background.light',
+    backgroundColor: COLORS.background.light,
   },
   scrollView: {
     flex: 1,
@@ -331,12 +331,12 @@ const styles = StyleSheet.create({
     marginLeft: ResponsiveUtils.spacing.md,
     fontSize: ResponsiveUtils.fontSize.large,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   sectionTitle: {
     fontSize: ResponsiveUtils.fontSize.medium,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
     marginBottom: ResponsiveUtils.spacing.md,
   },
   periodSelector: {
@@ -353,7 +353,7 @@ const styles = StyleSheet.create({
     marginBottom: ResponsiveUtils.spacing.sm,
     borderRadius: ResponsiveUtils.borderRadius.medium,
     borderLeftWidth: 4,
-    backgroundColor: 'COLORS.white',
+    backgroundColor: COLORS.white,
   },
   statHeader: {
     flexDirection: 'row',
@@ -363,23 +363,23 @@ const styles = StyleSheet.create({
   statTitle: {
     marginLeft: ResponsiveUtils.spacing.xs,
     fontSize: ResponsiveUtils.fontSize.small,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
   },
   statValue: {
     fontSize: ResponsiveUtils.fontSize.extraLarge,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   statSubtitle: {
     fontSize: ResponsiveUtils.fontSize.small,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginTop: 2,
   },
   aulaItem: {
     padding: ResponsiveUtils.spacing.md,
     marginBottom: ResponsiveUtils.spacing.sm,
     borderRadius: ResponsiveUtils.borderRadius.medium,
-    backgroundColor: 'COLORS.background.light',
+    backgroundColor: COLORS.background.light,
   },
   aulaHeader: {
     flexDirection: 'row',
@@ -390,11 +390,11 @@ const styles = StyleSheet.create({
   aulaNome: {
     fontSize: ResponsiveUtils.fontSize.medium,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
     flex: 1,
   },
   frequenciaChip: {
-    backgroundColor: 'COLORS.info[50]',
+    backgroundColor: COLORS.info[50],
   },
   aulaDetails: {
     flexDirection: 'row',
@@ -404,29 +404,29 @@ const styles = StyleSheet.create({
   aulaAlunos: {
     marginLeft: SPACING.xs,
     fontSize: ResponsiveUtils.fontSize.small,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
   },
   progressBar: {
     height: 4,
-    backgroundColor: 'COLORS.gray[300]',
+    backgroundColor: COLORS.gray[300],
     borderRadius: 2,
     overflow: 'hidden',
   },
   progressFill: {
     height: '100%',
-    backgroundColor: 'COLORS.primary[500]',
+    backgroundColor: COLORS.primary[500],
   },
   evolucaoItem: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: ResponsiveUtils.spacing.sm,
     borderBottomWidth: 1,
-    borderBottomColor: 'COLORS.gray[100]',
+    borderBottomColor: COLORS.gray[100],
   },
   evolucaoMes: {
     fontSize: ResponsiveUtils.fontSize.medium,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
     width: 50,
   },
   evolucaoData: {
@@ -441,7 +441,7 @@ const styles = StyleSheet.create({
   evolucaoValue: {
     marginLeft: SPACING.xs,
     fontSize: ResponsiveUtils.fontSize.small,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
   },
   exportButtons: {
     flexDirection: 'row',

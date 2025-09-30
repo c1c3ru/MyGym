@@ -90,12 +90,12 @@ const GraduationNotificationBell = ({ onNotificationPress }) => {
 
   const getNotificationColor = (type) => {
     const colors = {
-      'student_eligible': 'COLORS.primary[500]',
-      'exam_reminder': 'COLORS.warning[500]',
-      'graduation_completed': 'COLORS.info[500]',
-      'bulk_eligible': 'COLORS.secondary[500]'
+      'student_eligible': COLORS.primary[500],
+      'exam_reminder': COLORS.warning[500],
+      'graduation_completed': COLORS.info[500],
+      'bulk_eligible': COLORS.secondary[500]
     };
-    return colors[type] || 'COLORS.text.secondary';
+    return colors[type] || COLORS.text.secondary;
   };
 
   const formatNotificationTime = (date) => {
@@ -285,7 +285,7 @@ const styles = StyleSheet.create({
   },
   unreadCard: {
     borderLeftWidth: 4,
-    borderLeftColor: 'COLORS.info[500]',
+    borderLeftColor: COLORS.info[500],
   },
   notificationContent: {
     paddingVertical: SPACING.md,
@@ -317,25 +317,25 @@ const styles = StyleSheet.create({
   },
   notificationTime: {
     fontSize: FONT_SIZE.sm,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
   },
   unreadIndicator: {
     width: 8,
     height: 8,
     borderRadius: BORDER_RADIUS.sm,
-    backgroundColor: 'COLORS.info[500]',
+    backgroundColor: COLORS.info[500],
     marginLeft: 8,
     marginTop: SPACING.xs,
   },
   notificationMessage: {
     fontSize: 13,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
     lineHeight: 18,
     marginBottom: SPACING.sm,
   },
   modalityChip: {
     alignSelf: 'flex-start',
-    backgroundColor: 'COLORS.info[50]',
+    backgroundColor: COLORS.info[50],
   },
   modalFooter: {
     padding: SPACING.base,
@@ -353,13 +353,13 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: FONT_SIZE.md,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginTop: SPACING.md,
     textAlign: 'center',
   },
   emptySubtext: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.gray[500]',
+    color: COLORS.gray[500],
     marginTop: SPACING.xs,
     textAlign: 'center',
   },

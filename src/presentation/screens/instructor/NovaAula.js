@@ -108,7 +108,7 @@ const NovaAula = ({ navigation }) => {
                 mode="contained"
                 onPress={handleSubmit}
                 style={styles.submitButton}
-                buttonColor="COLORS.primary[500]"
+                buttonColor={COLORS.primary[500]}
               >
                 Criar Aula
               </Button>
@@ -123,7 +123,7 @@ const NovaAula = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'COLORS.background.light',
+    backgroundColor: COLORS.background.light,
   },
   scrollView: {
     flex: 1,
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     marginLeft: ResponsiveUtils.spacing.md,
     fontSize: ResponsiveUtils.fontSize.large,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   input: {
     marginBottom: ResponsiveUtils.spacing.md,
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: ResponsiveUtils.fontSize.medium,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
     marginBottom: ResponsiveUtils.spacing.sm,
     marginTop: ResponsiveUtils.spacing.sm,
   },

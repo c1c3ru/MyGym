@@ -197,11 +197,11 @@ const styles = StyleSheet.create({
   title: {
     fontSize: FONT_SIZE.xxl,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   subtitle: {
     fontSize: FONT_SIZE.md,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     textAlign: 'center',
   },
   card: {
@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
   debugText: {
     fontFamily: 'monospace',
     fontSize: FONT_SIZE.sm,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
     lineHeight: 18,
   },
 });

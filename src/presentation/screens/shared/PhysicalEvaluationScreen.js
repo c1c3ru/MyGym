@@ -95,12 +95,12 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
 
   const getIMCColor = (classification) => {
     switch (classification) {
-      case 'Abaixo do peso': return 'COLORS.warning[500]';
-      case 'Peso normal': return 'COLORS.primary[500]';
-      case 'Sobrepeso': return 'COLORS.warning[500]';
+      case 'Abaixo do peso': return COLORS.warning[500];
+      case 'Peso normal': return COLORS.primary[500];
+      case 'Sobrepeso': return COLORS.warning[500];
       case 'Obesidade grau I': return COLORS.error[500];
-      case 'Obesidade grau II': return 'COLORS.error[500]';
-      case 'Obesidade grau III': return 'COLORS.secondary[500]';
+      case 'Obesidade grau II': return COLORS.error[500];
+      case 'Obesidade grau III': return COLORS.secondary[500];
       default: return COLORS.gray[500];
     }
   };
@@ -316,7 +316,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
                   <Chip 
                     mode="flat"
                     style={[styles.imcChip, { backgroundColor: getIMCColor(imcClassification) }]}
-                    textStyle={{ color: 'COLORS.white', fontWeight: FONT_WEIGHT.bold }}
+                    textStyle={{ color: COLORS.white, fontWeight: FONT_WEIGHT.bold }}
                   >
                     {imcClassification}
                   </Chip>
@@ -437,7 +437,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
         onDismiss={() => setSnackbar({ ...snackbar, visible: false })}
         duration={snackbar.type === 'success' ? 3000 : 5000}
         style={{
-          backgroundColor: snackbar.type === 'success' ? 'COLORS.primary[500]' : 'COLORS.error[500]'
+          backgroundColor: snackbar.type === 'success' ? COLORS.primary[500] : COLORS.error[500]
         }}
       >
         {snackbar.message}
@@ -474,7 +474,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: FONT_SIZE.md,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     textAlign: 'center',
     lineHeight: 22,
   },
@@ -483,7 +483,7 @@ const styles = StyleSheet.create({
     fontWeight: FONT_WEIGHT.bold,
     marginTop: 16,
     marginBottom: SPACING.md,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   input: {
     marginBottom: SPACING.sm,
@@ -515,7 +515,7 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.bold,
     marginLeft: 8,
-    color: 'COLORS.info[700]',
+    color: COLORS.info[700],
   },
   imcResult: {
     flexDirection: 'row',
@@ -525,7 +525,7 @@ const styles = StyleSheet.create({
   imcValue: {
     fontSize: 32,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.info[700]',
+    color: COLORS.info[700],
   },
   imcChip: {
     elevation: 2,

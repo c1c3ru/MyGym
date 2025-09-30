@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     margin: SPACING.base,
     marginTop: SPACING.sm,
     padding: SPACING.base,
-    backgroundColor: 'COLORS.white',
+    backgroundColor: COLORS.white,
     borderRadius: BORDER_RADIUS.md,
     elevation: 2,
     shadowColor: COLORS.black,
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     width: '48%',
     marginBottom: 16,
     padding: SPACING.md,
-    backgroundColor: 'COLORS.background.light',
+    backgroundColor: COLORS.background.light,
     borderRadius: BORDER_RADIUS.md,
   },
   statContent: {

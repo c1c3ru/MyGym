@@ -65,16 +65,16 @@ const InjuryScreen = ({ navigation, route }) => {
   ];
 
   const severityLevels = [
-    { value: 'leve', label: 'Leve', color: 'COLORS.primary[500]', description: 'Desconforto mínimo, sem limitação' },
-    { value: 'moderada', label: 'Moderada', color: 'COLORS.warning[500]', description: 'Dor perceptível, limitação parcial' },
-    { value: 'grave', label: 'Grave', color: 'COLORS.error[500]', description: 'Dor intensa, limitação significativa' }
+    { value: 'leve', label: 'Leve', color: COLORS.primary[500], description: 'Desconforto mínimo, sem limitação' },
+    { value: 'moderada', label: 'Moderada', color: COLORS.warning[500], description: 'Dor perceptível, limitação parcial' },
+    { value: 'grave', label: 'Grave', color: COLORS.error[500], description: 'Dor intensa, limitação significativa' }
   ];
 
   const statusOptions = [
-    { value: 'ativo', label: 'Ativo', color: 'COLORS.error[500]', description: 'Lesão atual em tratamento' },
-    { value: 'recuperando', label: 'Recuperando', color: 'COLORS.warning[500]', description: 'Em processo de recuperação' },
-    { value: 'recuperado', label: 'Recuperado', color: 'COLORS.primary[500]', description: 'Totalmente recuperado' },
-    { value: 'cronico', label: 'Crônico', color: 'COLORS.secondary[500]', description: 'Condição permanente ou recorrente' }
+    { value: 'ativo', label: 'Ativo', color: COLORS.error[500], description: 'Lesão atual em tratamento' },
+    { value: 'recuperando', label: 'Recuperando', color: COLORS.warning[500], description: 'Em processo de recuperação' },
+    { value: 'recuperado', label: 'Recuperado', color: COLORS.primary[500], description: 'Totalmente recuperado' },
+    { value: 'cronico', label: 'Crônico', color: COLORS.secondary[500], description: 'Condição permanente ou recorrente' }
   ];
 
   useEffect(() => {
@@ -426,14 +426,14 @@ const InjuryScreen = ({ navigation, route }) => {
                 <Chip 
                   mode="flat"
                   style={[styles.summaryChip, { backgroundColor: getSeverityColor(formData.severity) }]}
-                  textStyle={{ color: 'COLORS.white', fontWeight: FONT_WEIGHT.bold }}
+                  textStyle={{ color: COLORS.white, fontWeight: FONT_WEIGHT.bold }}
                 >
                   {severityLevels.find(s => s.value === formData.severity)?.label}
                 </Chip>
                 <Chip 
                   mode="flat"
                   style={[styles.summaryChip, { backgroundColor: getStatusColor(formData.status) }]}
-                  textStyle={{ color: 'COLORS.white', fontWeight: FONT_WEIGHT.bold }}
+                  textStyle={{ color: COLORS.white, fontWeight: FONT_WEIGHT.bold }}
                 >
                   {statusOptions.find(s => s.value === formData.status)?.label}
                 </Chip>
@@ -469,7 +469,7 @@ const InjuryScreen = ({ navigation, route }) => {
         onDismiss={() => setSnackbar({ ...snackbar, visible: false })}
         duration={snackbar.type === 'success' ? 3000 : 5000}
         style={{
-          backgroundColor: snackbar.type === 'success' ? 'COLORS.primary[500]' : 'COLORS.error[500]'
+          backgroundColor: snackbar.type === 'success' ? COLORS.primary[500] : COLORS.error[500]
         }}
       >
         {snackbar.message}
@@ -506,7 +506,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: FONT_SIZE.md,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     textAlign: 'center',
     lineHeight: 22,
   },
@@ -515,7 +515,7 @@ const styles = StyleSheet.create({
     fontWeight: FONT_WEIGHT.bold,
     marginTop: 16,
     marginBottom: SPACING.md,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   input: {
     marginBottom: SPACING.sm,
@@ -531,7 +531,7 @@ const styles = StyleSheet.create({
   },
   radioDescription: {
     fontSize: FONT_SIZE.sm,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginLeft: 32,
     marginTop: -8,
     marginBottom: SPACING.sm,
@@ -552,7 +552,7 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.bold,
     marginLeft: 8,
-    color: 'COLORS.info[700]',
+    color: COLORS.info[700],
   },
   summaryContent: {
     flexDirection: 'row',

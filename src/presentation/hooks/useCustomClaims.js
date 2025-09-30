@@ -49,11 +49,11 @@ export const useCustomClaims = () => {
       case 'admin':
         return '#6A1B9A';  // Purple
       case 'instructor':
-        return 'COLORS.warning[500]';  // Orange
+        return COLORS.warning[500];  // Orange
       case 'student':
-        return 'COLORS.primary[500]';  // Green
+        return COLORS.primary[500];  // Green
       default:
-        return 'COLORS.gray[600]';  // Gray
+        return COLORS.gray[600];  // Gray
     }
   };
 

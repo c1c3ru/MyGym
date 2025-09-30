@@ -22,9 +22,9 @@ const OptimizedStudentCard = memo(({
 }) => {
   const getPaymentStatusColor = (status) => {
     switch (status) {
-      case 'paid': return 'COLORS.primary[500]';
-      case 'pending': return 'COLORS.warning[500]';
-      case 'overdue': return 'COLORS.error[500]';
+      case 'paid': return COLORS.primary[500];
+      case 'pending': return COLORS.warning[500];
+      case 'overdue': return COLORS.error[500];
       default: return COLORS.gray[500];
     }
   };
@@ -79,10 +79,10 @@ const OptimizedStudentCard = memo(({
               mode="outlined"
               style={[
                 styles.statusChip,
-                { borderColor: student.isActive !== false ? 'COLORS.primary[500]' : 'COLORS.error[500]' }
+                { borderColor: student.isActive !== false ? COLORS.primary[500] : COLORS.error[500] }
               ]}
               textStyle={{ 
-                color: student.isActive !== false ? 'COLORS.primary[500]' : 'COLORS.error[500]',
+                color: student.isActive !== false ? COLORS.primary[500] : COLORS.error[500],
                 fontSize: FONT_SIZE.sm
               }}
               accessible={true}
@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   avatar: {
-    backgroundColor: 'COLORS.info[500]',
+    backgroundColor: COLORS.info[500],
     marginRight: 12,
   },
   studentDetails: {
@@ -226,22 +226,22 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
     marginBottom: SPACING.xs,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   studentEmail: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginBottom: 2,
   },
   studentPhone: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
   },
   studentStats: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: SPACING.md,
-    backgroundColor: 'COLORS.background.light',
+    backgroundColor: COLORS.background.light,
     borderRadius: BORDER_RADIUS.md,
     padding: SPACING.md,
   },
@@ -251,7 +251,7 @@ const styles = StyleSheet.create({
   },
   statLabel: {
     fontSize: FONT_SIZE.sm,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginBottom: SPACING.xs,
     fontWeight: FONT_WEIGHT.medium,
   },
@@ -261,17 +261,17 @@ const styles = StyleSheet.create({
   graduationText: {
     fontSize: FONT_SIZE.sm,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   additionalInfo: {
-    backgroundColor: 'COLORS.background.light',
+    backgroundColor: COLORS.background.light,
     borderRadius: BORDER_RADIUS.md,
     padding: SPACING.md,
     marginBottom: SPACING.md,
   },
   infoText: {
     fontSize: FONT_SIZE.sm,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginBottom: 2,
   },
   divider: {

@@ -234,12 +234,12 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: FONT_SIZE.md,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
   },
   currentDate: {
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.info[500]',
+    color: COLORS.info[500],
   },
   planName: {
     fontSize: FONT_SIZE.md,
@@ -250,7 +250,7 @@ const styles = StyleSheet.create({
   },
   helpText: {
     fontSize: FONT_SIZE.sm,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     fontStyle: 'italic',
     marginBottom: 24,
   },
@@ -265,7 +265,7 @@ const styles = StyleSheet.create({
   saveButton: {
     flex: 1,
     marginLeft: 8,
-    backgroundColor: 'COLORS.info[500]',
+    backgroundColor: COLORS.info[500],
   },
 });
 

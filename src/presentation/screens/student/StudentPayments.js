@@ -91,9 +91,9 @@ const StudentPayments = ({ navigation }) => {
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'paid': return 'COLORS.primary[500]';
-      case 'pending': return 'COLORS.warning[500]';
-      case 'overdue': return 'COLORS.error[500]';
+      case 'paid': return COLORS.primary[500];
+      case 'pending': return COLORS.warning[500];
+      case 'overdue': return COLORS.error[500];
       default: return COLORS.gray[500];
     }
   };
@@ -286,7 +286,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: FONT_SIZE.md,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
   },
   value: {
     fontSize: FONT_SIZE.md,
@@ -300,24 +300,24 @@ const styles = StyleSheet.create({
     height: 24,
   },
   payButton: {
-    backgroundColor: 'COLORS.primary[500]',
+    backgroundColor: COLORS.primary[500],
     marginTop: SPACING.sm,
   },
   emptyText: {
     textAlign: 'center',
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     fontStyle: 'italic',
   },
   infoText: {
     marginBottom: SPACING.sm,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
   },
   fab: {
     position: 'absolute',
     margin: SPACING.base,
     right: 0,
     bottom: 0,
-    backgroundColor: 'COLORS.info[500]',
+    backgroundColor: COLORS.info[500],
   },
 });
 

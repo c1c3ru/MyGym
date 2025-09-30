@@ -286,9 +286,9 @@ const AdminStudents = ({ navigation }) => {
 
   const getPaymentStatusColor = (status) => {
     switch (status) {
-      case 'paid': return 'COLORS.primary[500]';
-      case 'pending': return 'COLORS.warning[500]';
-      case 'overdue': return 'COLORS.error[500]';
+      case 'paid': return COLORS.primary[500];
+      case 'pending': return COLORS.warning[500];
+      case 'overdue': return COLORS.error[500];
       default: return COLORS.gray[500];
     }
   };
@@ -404,7 +404,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.gray[100],
   },
   header: {
-    backgroundColor: 'COLORS.white',
+    backgroundColor: COLORS.white,
     paddingHorizontal: 16,
     paddingVertical: SPACING.md,
     elevation: 2,
@@ -419,7 +419,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   filterButton: {
-    borderColor: 'COLORS.warning[500]',
+    borderColor: COLORS.warning[500],
   },
   studentCard: {
     marginVertical: 8,
@@ -437,7 +437,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   avatar: {
-    backgroundColor: 'COLORS.warning[500]',
+    backgroundColor: COLORS.warning[500],
   },
   studentDetails: {
     marginLeft: 12,
@@ -449,12 +449,12 @@ const styles = StyleSheet.create({
   },
   studentEmail: {
     fontSize: FONT_SIZE.sm,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginBottom: 2,
   },
   studentPhone: {
     fontSize: FONT_SIZE.sm,
-    color: 'COLORS.gray[500]',
+    color: COLORS.gray[500],
   },
   studentStats: {
     flexDirection: 'row',
@@ -467,13 +467,13 @@ const styles = StyleSheet.create({
   },
   statLabel: {
     fontSize: FONT_SIZE.sm,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginBottom: SPACING.xs,
   },
   statValue: {
     fontSize: FONT_SIZE.base,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   statusChip: {
     height: 24,
@@ -486,7 +486,7 @@ const styles = StyleSheet.create({
     margin: SPACING.base,
     right: 0,
     bottom: 0,
-    backgroundColor: 'COLORS.warning[500]',
+    backgroundColor: COLORS.warning[500],
   },
   listContainer: {
     paddingHorizontal: 16,
@@ -499,13 +499,13 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: FONT_SIZE.lg,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginTop: 16,
     textAlign: 'center',
   },
   emptySubtext: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.gray[500]',
+    color: COLORS.gray[500],
     marginTop: SPACING.sm,
     textAlign: 'center',
   },

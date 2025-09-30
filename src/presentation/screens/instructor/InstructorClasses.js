@@ -222,8 +222,8 @@ const InstructorClasses = ({ navigation }) => {
           <View style={styles.cardHeader}>
             <Title style={styles.className}>{classItem.name}</Title>
             <Chip 
-              style={[styles.statusChip, { backgroundColor: classItem.status === 'active' ? 'COLORS.primary[500]' : COLORS.warning[400] }]}
-              textStyle={{ color: 'COLORS.white', fontSize: FONT_SIZE.sm }}
+              style={[styles.statusChip, { backgroundColor: classItem.status === 'active' ? COLORS.primary[500] : COLORS.warning[400] }]}
+              textStyle={{ color: COLORS.white, fontSize: FONT_SIZE.sm }}
             >
               {classItem.status === 'active' ? 'Ativa' : 'Inativa'}
             </Chip>
@@ -384,7 +384,7 @@ const styles = StyleSheet.create({
   },
   modalityText: {
     fontSize: FONT_SIZE.md,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginBottom: SPACING.md,
   },
   classInfo: {
@@ -416,14 +416,14 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: FONT_SIZE.lg,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     textAlign: 'center',
     marginTop: 16,
     marginBottom: SPACING.sm,
   },
   emptySubtext: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.gray[500]',
+    color: COLORS.gray[500],
     textAlign: 'center',
   },
   fab: {
@@ -431,7 +431,7 @@ const styles = StyleSheet.create({
     margin: SPACING.base,
     right: 0,
     bottom: 0,
-    backgroundColor: 'COLORS.primary[500]',
+    backgroundColor: COLORS.primary[500],
   },
 });
 

@@ -404,7 +404,7 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: FONT_WEIGHT.bold,
     textAlign: 'center',
-    color: 'COLORS.info[700]',
+    color: COLORS.info[700],
   },
   subtitle: {
     textAlign: 'center',
@@ -415,7 +415,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: SPACING.sm,
     fontStyle: 'italic',
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
   },
   sectionCard: {
     margin: SPACING.base,
@@ -425,7 +425,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontWeight: FONT_WEIGHT.bold,
     marginBottom: SPACING.md,
-    color: 'COLORS.info[700]',
+    color: COLORS.info[700],
   },
   bodyText: {
     lineHeight: 22,
@@ -454,7 +454,7 @@ const styles = StyleSheet.create({
     padding: SPACING.md,
     borderRadius: BORDER_RADIUS.md,
     borderLeftWidth: 4,
-    borderLeftColor: 'COLORS.warning[500]',
+    borderLeftColor: COLORS.warning[500],
     marginTop: 16,
   },
   warningText: {
@@ -469,17 +469,17 @@ const styles = StyleSheet.create({
   },
   rightCard: {
     width: '48%',
-    backgroundColor: 'COLORS.background.light',
+    backgroundColor: COLORS.background.light,
     padding: SPACING.md,
     borderRadius: BORDER_RADIUS.md,
     marginBottom: SPACING.sm,
     borderLeftWidth: 4,
-    borderLeftColor: 'COLORS.info[500]',
+    borderLeftColor: COLORS.info[500],
   },
   rightTitle: {
     fontWeight: FONT_WEIGHT.bold,
     marginBottom: SPACING.xs,
-    color: 'COLORS.info[700]',
+    color: COLORS.info[700],
   },
   rightDescription: {
     fontSize: FONT_SIZE.sm,
@@ -495,7 +495,7 @@ const styles = StyleSheet.create({
   contactTitle: {
     fontWeight: FONT_WEIGHT.bold,
     marginBottom: SPACING.sm,
-    color: 'COLORS.info[700]',
+    color: COLORS.info[700],
   },
   contactItem: {
     marginBottom: SPACING.xs,

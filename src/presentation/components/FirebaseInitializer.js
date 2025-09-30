@@ -35,10 +35,10 @@ const FirebaseInitializer = ({ children }) => {
         <Text style={{ fontSize: FONT_SIZE.lg, color: 'red', textAlign: 'center', marginBottom: 20 }}>
           Erro ao inicializar o Firebase
         </Text>
-        <Text style={{ fontSize: FONT_SIZE.base, color: 'COLORS.text.secondary', textAlign: 'center' }}>
+        <Text style={{ fontSize: FONT_SIZE.base, color: COLORS.text.secondary, textAlign: 'center' }}>
           {error}
         </Text>
-        <Text style={{ fontSize: FONT_SIZE.sm, color: 'COLORS.gray[500]', textAlign: 'center', marginTop: 20 }}>
+        <Text style={{ fontSize: FONT_SIZE.sm, color: COLORS.gray[500], textAlign: 'center', marginTop: 20 }}>
           Verifique sua conexão com a internet e tente novamente
         </Text>
       </View>
@@ -49,7 +49,7 @@ const FirebaseInitializer = ({ children }) => {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <ActivityIndicator size="large" color="COLORS.info[500]" />
-        <Text style={{ marginTop: 20, fontSize: FONT_SIZE.md, color: 'COLORS.text.secondary' }}>
+        <Text style={{ marginTop: 20, fontSize: FONT_SIZE.md, color: COLORS.text.secondary }}>
           Inicializando...
         </Text>
       </View>

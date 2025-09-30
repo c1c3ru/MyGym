@@ -309,8 +309,8 @@ const InstructorDashboard = ({ navigation }) => {
           <RefreshControl
             refreshing={refreshing}
             onRefresh={onRefresh}
-            colors={['COLORS.primary[500]']}
-            tintColor="COLORS.primary[500]"
+            colors={[COLORS.primary[500]]}
+            tintColor={COLORS.primary[500]}
           />
         }
       >
@@ -318,7 +318,7 @@ const InstructorDashboard = ({ navigation }) => {
         <Animated.View style={[headerTransform]}>
           <View style={styles.headerContainer}>
             <LinearGradient
-              colors={['COLORS.primary[500]', 'COLORS.primary[600]', COLORS.primary[700]]}
+              colors={[COLORS.primary[500], COLORS.primary[600], COLORS.primary[700]]}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 1 }}
               style={styles.headerGradient}
@@ -351,7 +351,7 @@ const InstructorDashboard = ({ navigation }) => {
                   <MaterialCommunityIcons 
                     name="account-star" 
                     size={24} 
-                    color="COLORS.white + 'CC'" 
+                    color="COLORS.white" 
                   />
                 </Animated.View>
               </View>
@@ -363,7 +363,7 @@ const InstructorDashboard = ({ navigation }) => {
         <View style={styles.statsContainer}>
           <Animated.View style={[styles.statCard, { opacity: animations.fadeAnim }]}>
             <LinearGradient
-              colors={['COLORS.primary[500]', 'COLORS.primary[600]']}
+              colors={[COLORS.primary[500], COLORS.primary[600]]}
               style={styles.statGradient}
             >
               <MaterialCommunityIcons name="school-outline" size={32} color="COLORS.white" />
@@ -374,7 +374,7 @@ const InstructorDashboard = ({ navigation }) => {
 
           <Animated.View style={[styles.statCard, { opacity: animations.fadeAnim }]}>
             <LinearGradient
-              colors={['COLORS.info[500]', 'COLORS.info[700]']}
+              colors={[COLORS.info[500], COLORS.info[700]]}
               style={styles.statGradient}
             >
               <MaterialCommunityIcons name="account-group" size={32} color="COLORS.white" />
@@ -385,7 +385,7 @@ const InstructorDashboard = ({ navigation }) => {
 
           <Animated.View style={[styles.statCard, { opacity: animations.fadeAnim }]}>
             <LinearGradient
-              colors={['COLORS.warning[500]', COLORS.warning[600]]}
+              colors={[COLORS.warning[500], COLORS.warning[600]]}
               style={styles.statGradient}
             >
               <MaterialCommunityIcons name="calendar-today" size={32} color="COLORS.white" />
@@ -396,7 +396,7 @@ const InstructorDashboard = ({ navigation }) => {
 
           <Animated.View style={[styles.statCard, { opacity: animations.fadeAnim }]}>
             <LinearGradient
-              colors={['COLORS.secondary[500]', 'COLORS.secondary[700]']}
+              colors={[COLORS.secondary[500], COLORS.secondary[700]]}
               style={styles.statGradient}
             >
               <MaterialCommunityIcons name="check-circle" size={32} color="COLORS.white" />
@@ -503,7 +503,7 @@ const InstructorDashboard = ({ navigation }) => {
             <View style={styles.modernQuickActions}>
               <Animated.View style={[styles.actionCard, { opacity: animations.fadeAnim }]}>
                 <LinearGradient
-                  colors={['COLORS.primary[500]', 'COLORS.primary[600]']}
+                  colors={[COLORS.primary[500], COLORS.primary[600]]}
                   style={styles.actionGradient}
                 >
                   <MaterialCommunityIcons name="calendar-plus" size={28} color="COLORS.white" />
@@ -529,7 +529,7 @@ const InstructorDashboard = ({ navigation }) => {
                     }}
                     style={styles.modernActionButton}
                     buttonColor="COLORS.white + '33'"
-                    textColor="COLORS.white"
+                    textColor={COLORS.white}
                     compact
                   >
                     Agendar
@@ -539,7 +539,7 @@ const InstructorDashboard = ({ navigation }) => {
               
               <Animated.View style={[styles.actionCard, { opacity: animations.fadeAnim }]}>
                 <LinearGradient
-                  colors={['COLORS.info[500]', 'COLORS.info[700]']}
+                  colors={[COLORS.info[500], COLORS.info[700]]}
                   style={styles.actionGradient}
                 >
                   <MaterialCommunityIcons name="qrcode-scan" size={28} color="COLORS.white" />
@@ -550,7 +550,7 @@ const InstructorDashboard = ({ navigation }) => {
                     onPress={() => navigation.navigate('CheckIn')}
                     style={styles.modernActionButton}
                     buttonColor="COLORS.white + '33'"
-                    textColor="COLORS.white"
+                    textColor={COLORS.white}
                     compact
                   >
                     {getString('open')}
@@ -560,7 +560,7 @@ const InstructorDashboard = ({ navigation }) => {
               
               <Animated.View style={[styles.actionCard, { opacity: animations.fadeAnim }]}>
                 <LinearGradient
-                  colors={['COLORS.secondary[500]', 'COLORS.secondary[700]']}
+                  colors={[COLORS.secondary[500], COLORS.secondary[700]]}
                   style={styles.actionGradient}
                 >
                   <MaterialCommunityIcons name="chart-line" size={28} color="COLORS.white" />
@@ -571,7 +571,7 @@ const InstructorDashboard = ({ navigation }) => {
                     onPress={() => navigation.navigate('Relatorios')}
                     style={styles.modernActionButton}
                     buttonColor="COLORS.white + '33'"
-                    textColor="COLORS.white"
+                    textColor={COLORS.white}
                     compact
                   >
                     {getString('view')}
@@ -915,7 +915,7 @@ const styles = StyleSheet.create({
   },
   actionSubtitle: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.white + 'CC',
+    color: COLORS.white,
     textAlign: 'center',
     marginBottom: SPACING.sm,
   },
@@ -1148,7 +1148,7 @@ const styles = StyleSheet.create({
   },
   logoutButton: {
     width: ResponsiveUtils.isTablet() ? '40%' : '60%',
-    borderColor: 'COLORS.error[500]',
+    borderColor: COLORS.error[500],
   },
   upcomingClass: {
     marginBottom: ResponsiveUtils.spacing.sm,

@@ -30,7 +30,7 @@ const UserTypeSelectionScreen = ({ navigation, route }) => {
       title: 'Aluno',
       description: 'Sou um praticante que quer treinar e acompanhar meu progresso',
       icon: 'school',
-      color: 'COLORS.info[500]',
+      color: COLORS.info[500],
       features: [
         'Acompanhar treinos e frequência',
         'Ver evolução e graduações',
@@ -44,7 +44,7 @@ const UserTypeSelectionScreen = ({ navigation, route }) => {
       title: 'Instrutor',
       description: 'Sou um instrutor que ministra aulas e acompanha alunos',
       icon: 'fitness-center',
-      color: 'COLORS.warning[500]',
+      color: COLORS.warning[500],
       features: [
         'Gerenciar turmas e horários',
         'Acompanhar progresso dos alunos',
@@ -58,7 +58,7 @@ const UserTypeSelectionScreen = ({ navigation, route }) => {
       title: 'Administrador',
       description: 'Sou responsável pela gestão completa da academia',
       icon: 'business',
-      color: 'COLORS.primary[500]',
+      color: COLORS.primary[500],
       features: [
         'Gestão completa da academia',
         'Gerenciar instrutores e alunos',
@@ -138,7 +138,7 @@ const UserTypeSelectionScreen = ({ navigation, route }) => {
         <Button
           mode={selectedType === userType.id ? "contained" : "outlined"}
           buttonColor={selectedType === userType.id ? userType.color : COLORS.gray[300]}
-          textColor={selectedType === userType.id ? 'COLORS.white' : 'COLORS.text.secondary'}
+          textColor={selectedType === userType.id ? COLORS.white : COLORS.text.secondary}
           style={styles.selectButton}
           onPress={() => setSelectedType(userType.id)}
         >
@@ -210,7 +210,7 @@ const UserTypeSelectionScreen = ({ navigation, route }) => {
             mode="text"
             onPress={handleLogout}
             icon="logout"
-            textColor="COLORS.text.secondary"
+            textColor={COLORS.text.secondary}
             style={styles.logoutButton}
           >
             Sair
@@ -236,7 +236,7 @@ const UserTypeSelectionScreen = ({ navigation, route }) => {
       <View style={styles.footer}>
         <Button
           mode="contained"
-          buttonColor={selectedType ? 'COLORS.info[500]' : '#CCCCCC'}
+          buttonColor={selectedType ? COLORS.info[500] : '#CCCCCC'}
           style={styles.continueButton}
           onPress={handleSelectType}
           loading={loading}
@@ -270,7 +270,7 @@ const styles = StyleSheet.create({
   header: {
     alignItems: 'center',
     padding: SPACING.xl,
-    backgroundColor: 'COLORS.white',
+    backgroundColor: COLORS.white,
     marginBottom: 16,
     ...Platform.select({
       ios: {
@@ -293,13 +293,13 @@ const styles = StyleSheet.create({
   welcomeText: {
     fontSize: FONT_SIZE.xxl,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
     marginBottom: SPACING.sm,
     textAlign: 'center',
   },
   subtitle: {
     fontSize: FONT_SIZE.md,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     textAlign: 'center',
     lineHeight: 22,
   },
@@ -332,12 +332,12 @@ const styles = StyleSheet.create({
   typeTitle: {
     fontSize: FONT_SIZE.xl,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
     marginBottom: SPACING.xs,
   },
   typeDescription: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     lineHeight: 20,
   },
   featuresContainer: {
@@ -367,7 +367,7 @@ const styles = StyleSheet.create({
     paddingBottom: 40,
   },
   continueButton: {
-    backgroundColor: 'COLORS.info[500]',
+    backgroundColor: COLORS.info[500],
     borderRadius: BORDER_RADIUS.md,
     paddingVertical: 16,
     marginBottom: 16,
@@ -381,7 +381,7 @@ const styles = StyleSheet.create({
   },
   footerNote: {
     fontSize: FONT_SIZE.sm,
-    color: 'COLORS.gray[500]',
+    color: COLORS.gray[500],
     textAlign: 'center',
     lineHeight: 16,
   },

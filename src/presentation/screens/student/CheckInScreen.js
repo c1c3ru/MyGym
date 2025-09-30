@@ -334,7 +334,7 @@ const styles = StyleSheet.create({
   },
   todayCard: {
     borderLeftWidth: 4,
-    borderLeftColor: 'COLORS.primary[500]',
+    borderLeftColor: COLORS.primary[500],
   },
   todayHeader: {
     flexDirection: 'row',
@@ -353,7 +353,7 @@ const styles = StyleSheet.create({
   },
   todaySubtitle: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginBottom: SPACING.sm,
   },
   classChip: {
@@ -389,7 +389,7 @@ const styles = StyleSheet.create({
   },
   classModality: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
   },
   checkInButton: {
     borderRadius: BORDER_RADIUS.lg,
@@ -399,7 +399,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: SPACING.md,
     borderBottomWidth: 1,
-    borderBottomColor: 'COLORS.gray[100]',
+    borderBottomColor: COLORS.gray[100],
   },
   historyIcon: {
     width: 40,
@@ -420,7 +420,7 @@ const styles = StyleSheet.create({
   },
   historyDate: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
   },
   emptyState: {
     alignItems: 'center',
@@ -429,7 +429,7 @@ const styles = StyleSheet.create({
   emptyText: {
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.semibold,
-    color: 'COLORS.gray[500]',
+    color: COLORS.gray[500],
     marginTop: SPACING.md,
   },
   emptySubtext: {

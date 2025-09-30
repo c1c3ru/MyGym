@@ -372,7 +372,7 @@ const styles = StyleSheet.create({
   },
   infoText: {
     marginBottom: SPACING.sm,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     fontSize: FONT_SIZE.base,
   },
   buttonContainer: {
@@ -380,10 +380,10 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   resetButton: {
-    borderColor: 'COLORS.warning[500]',
+    borderColor: COLORS.warning[500],
   },
   saveButton: {
-    backgroundColor: 'COLORS.primary[500]',
+    backgroundColor: COLORS.primary[500],
   },
 });
 

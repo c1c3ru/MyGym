@@ -41,7 +41,7 @@ const SelectionField = ({
           ]}>
             {value || placeholder}
           </Text>
-          <IconButton icon="chevron-right" size={16} iconColor="COLORS.gray[500]" />
+          <IconButton icon="chevron-right" size={16} iconColor={COLORS.gray[500]} />
         </View>
       </TouchableOpacity>
       {helperText ? (
@@ -58,17 +58,17 @@ const styles = StyleSheet.create({
   selectionLabel: {
     fontSize: FONT_SIZE.base,
     fontWeight: FONT_WEIGHT.medium,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginBottom: SPACING.sm,
   },
   selectionButton: {
     borderWidth: 1,
     borderColor: COLORS.gray[300],
     borderRadius: BORDER_RADIUS.md,
-    backgroundColor: 'COLORS.white',
+    backgroundColor: COLORS.white,
   },
   selectionButtonSelected: {
-    borderColor: 'COLORS.info[700]',
+    borderColor: COLORS.info[700],
     backgroundColor: '#F3F8FF',
   },
   selectionButtonDisabled: {
@@ -84,18 +84,18 @@ const styles = StyleSheet.create({
   selectionButtonText: {
     flex: 1,
     fontSize: FONT_SIZE.md,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
   },
   selectionButtonTextSelected: {
-    color: 'COLORS.info[700]',
+    color: COLORS.info[700],
     fontWeight: FONT_WEIGHT.medium,
   },
   selectionButtonTextDisabled: {
-    color: 'COLORS.gray[500]',
+    color: COLORS.gray[500],
   },
   helperText: {
     fontSize: FONT_SIZE.sm,
-    color: 'COLORS.gray[500]',
+    color: COLORS.gray[500],
     marginTop: SPACING.xs,
     fontStyle: 'italic',
   },

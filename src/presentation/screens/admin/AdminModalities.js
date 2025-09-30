@@ -240,7 +240,7 @@ const AdminModalities = ({ navigation }) => {
         position: fixed;
         top: 20px;
         right: 20px;
-        background: ${type === 'success' ? 'COLORS.primary[500]' : 'COLORS.error[500]'};
+        background: ${type === 'success' ? COLORS.primary[500] : COLORS.error[500]};
         color: COLORS.white;
         padding: SPACING.mdpx 20px;
         border-radius: 8px;
@@ -622,7 +622,7 @@ const AdminModalities = ({ navigation }) => {
                         <Button 
                           mode="text" 
                           onPress={() => handleEditModality(modality)}
-                          textColor="COLORS.info[500]"
+                          textColor={COLORS.info[500]}
                           icon="pencil"
                           compact
                         >
@@ -684,7 +684,7 @@ const AdminModalities = ({ navigation }) => {
                         <Button 
                           mode="text" 
                           onPress={() => handleEditPlan(plan)}
-                          textColor="COLORS.info[500]"
+                          textColor={COLORS.info[500]}
                           icon="pencil"
                           compact
                         >
@@ -743,7 +743,7 @@ const AdminModalities = ({ navigation }) => {
                         <Button 
                           mode="text" 
                           onPress={() => handleEditAnnouncement(announcement)}
-                          textColor="COLORS.info[500]"
+                          textColor={COLORS.info[500]}
                           icon="pencil"
                           compact
                         >
@@ -980,7 +980,7 @@ const styles = StyleSheet.create({
   },
   loadingText: {
     fontSize: FONT_SIZE.md,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
   },
   scrollView: {
     flex: 1,
@@ -1001,11 +1001,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   addButton: {
-    backgroundColor: 'COLORS.primary[500]',
+    backgroundColor: COLORS.primary[500],
   },
   emptyText: {
     textAlign: 'center',
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     fontStyle: 'italic',
     marginVertical: 20,
   },
@@ -1015,7 +1015,7 @@ const styles = StyleSheet.create({
   },
   announcementDate: {
     fontSize: FONT_SIZE.sm,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginLeft: 56,
     marginTop: -8,
     marginBottom: SPACING.sm,
@@ -1040,11 +1040,11 @@ const styles = StyleSheet.create({
   statNumber: {
     fontSize: FONT_SIZE.xxl,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.primary[500]',
+    color: COLORS.primary[500],
   },
   statLabel: {
     fontSize: FONT_SIZE.sm,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     textAlign: 'center',
   },
   dialogInput: {
@@ -1055,7 +1055,7 @@ const styles = StyleSheet.create({
     fontWeight: FONT_WEIGHT.bold,
     marginTop: 16,
     marginBottom: SPACING.sm,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   audienceContainer: {
     flexDirection: 'row',

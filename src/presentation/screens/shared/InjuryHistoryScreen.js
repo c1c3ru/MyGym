@@ -61,19 +61,19 @@ const InjuryHistoryScreen = ({ navigation }) => {
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'ativo': return 'COLORS.error[500]';
-      case 'recuperando': return 'COLORS.warning[500]';
-      case 'recuperado': return 'COLORS.primary[500]';
-      case 'cronico': return 'COLORS.secondary[500]';
+      case 'ativo': return COLORS.error[500];
+      case 'recuperando': return COLORS.warning[500];
+      case 'recuperado': return COLORS.primary[500];
+      case 'cronico': return COLORS.secondary[500];
       default: return COLORS.gray[500];
     }
   };
 
   const getSeverityColor = (severity) => {
     switch (severity) {
-      case 'leve': return 'COLORS.primary[500]';
-      case 'moderada': return 'COLORS.warning[500]';
-      case 'grave': return 'COLORS.error[500]';
+      case 'leve': return COLORS.primary[500];
+      case 'moderada': return COLORS.warning[500];
+      case 'grave': return COLORS.error[500];
       default: return COLORS.gray[500];
     }
   };
@@ -179,17 +179,17 @@ const InjuryHistoryScreen = ({ navigation }) => {
               </Surface>
               
               <Surface style={[styles.statItem, { backgroundColor: COLORS.error[50] }]}>
-                <Text style={[styles.statNumber, { color: 'COLORS.error[500]' }]}>{stats.active}</Text>
+                <Text style={[styles.statNumber, { color: COLORS.error[500] }]}>{stats.active}</Text>
                 <Text style={styles.statLabel}>Ativas</Text>
               </Surface>
               
               <Surface style={[styles.statItem, { backgroundColor: COLORS.warning[50] }]}>
-                <Text style={[styles.statNumber, { color: 'COLORS.warning[500]' }]}>{stats.recovering}</Text>
+                <Text style={[styles.statNumber, { color: COLORS.warning[500] }]}>{stats.recovering}</Text>
                 <Text style={styles.statLabel}>Recuperando</Text>
               </Surface>
               
               <Surface style={[styles.statItem, { backgroundColor: COLORS.primary[50] }]}>
-                <Text style={[styles.statNumber, { color: 'COLORS.primary[500]' }]}>{stats.recovered}</Text>
+                <Text style={[styles.statNumber, { color: COLORS.primary[500] }]}>{stats.recovered}</Text>
                 <Text style={styles.statLabel}>Recuperadas</Text>
               </Surface>
             </View>
@@ -261,7 +261,7 @@ const InjuryHistoryScreen = ({ navigation }) => {
                               mode="flat"
                               compact
                               style={[styles.statusChip, { backgroundColor: getStatusColor(injury.status) }]}
-                              textStyle={{ color: 'COLORS.white', fontSize: 10 }}
+                              textStyle={{ color: COLORS.white, fontSize: 10 }}
                             >
                               {getStatusLabel(injury.status)}
                             </Chip>
@@ -269,7 +269,7 @@ const InjuryHistoryScreen = ({ navigation }) => {
                               mode="flat"
                               compact
                               style={[styles.severityChip, { backgroundColor: getSeverityColor(injury.severity) }]}
-                              textStyle={{ color: 'COLORS.white', fontSize: 10 }}
+                              textStyle={{ color: COLORS.white, fontSize: 10 }}
                             >
                               {getSeverityLabel(injury.severity)}
                             </Chip>
@@ -285,7 +285,7 @@ const InjuryHistoryScreen = ({ navigation }) => {
                           color={getStatusColor(injury.status)} 
                         />
                         {injury.status === 'ativo' && (
-                          <Badge size={8} style={[styles.activeBadge, { backgroundColor: 'COLORS.error[500]' }]} />
+                          <Badge size={8} style={[styles.activeBadge, { backgroundColor: COLORS.error[500] }]} />
                         )}
                       </View>
                     )}
@@ -377,11 +377,11 @@ const styles = StyleSheet.create({
   statNumber: {
     fontSize: FONT_SIZE.xxl,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   statLabel: {
     fontSize: FONT_SIZE.sm,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginTop: SPACING.xs,
   },
   filtersContainer: {
@@ -395,7 +395,7 @@ const styles = StyleSheet.create({
   },
   descriptionText: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginBottom: SPACING.sm,
   },
   injuryMeta: {
@@ -436,7 +436,7 @@ const styles = StyleSheet.create({
   emptyText: {
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginTop: 16,
     textAlign: 'center',
   },
@@ -453,7 +453,7 @@ const styles = StyleSheet.create({
     borderRadius: BORDER_RADIUS.md,
     borderLeftWidth: 4,
     borderStyle: 'solid',
-    borderLeftColor: 'COLORS.primary[500]',
+    borderLeftColor: COLORS.primary[500],
   },
   tipText: {
     fontSize: FONT_SIZE.base,
@@ -465,7 +465,7 @@ const styles = StyleSheet.create({
     margin: SPACING.base,
     right: 0,
     bottom: 0,
-    backgroundColor: 'COLORS.error[500]',
+    backgroundColor: COLORS.error[500],
   },
 });
 

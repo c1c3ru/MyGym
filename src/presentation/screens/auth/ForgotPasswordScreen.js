@@ -223,7 +223,7 @@ export default function ForgotPasswordScreen({ navigation }) {
           action={{
             label: getString('close'),
             onPress: hideSnackbar,
-            textColor: 'COLORS.white'
+            textColor: COLORS.white
           }}
         >
           {snackbar.message}
@@ -262,7 +262,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: ResponsiveUtils?.fontSize?.xlarge || 28,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.white',
+    color: COLORS.white,
     marginBottom: ResponsiveUtils?.spacing?.sm || 8,
     textAlign: 'center',
   },
@@ -283,7 +283,7 @@ const styles = StyleSheet.create({
   },
   input: {
     marginBottom: ResponsiveUtils?.spacing?.md || 16,
-    backgroundColor: 'COLORS.white',
+    backgroundColor: COLORS.white,
   },
   resetButton: {
     marginTop: ResponsiveUtils?.spacing?.sm || 8,
@@ -298,13 +298,13 @@ const styles = StyleSheet.create({
     marginBottom: ResponsiveUtils?.spacing?.md || 16,
   },
   successTitle: {
-    color: 'COLORS.primary[500]',
+    color: COLORS.primary[500],
     marginBottom: ResponsiveUtils?.spacing?.sm || 8,
     textAlign: 'center',
   },
   successText: {
     textAlign: 'center',
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
   },
   backContainer: {
     alignItems: 'center',
@@ -329,14 +329,14 @@ const styles = StyleSheet.create({
   },
   spamWarning: {
     textAlign: 'center',
-    color: 'COLORS.warning[500]',
+    color: COLORS.warning[500],
     marginTop: SPACING.md,
     fontSize: FONT_SIZE.base,
     backgroundColor: COLORS.warning[50],
     padding: SPACING.md,
     borderRadius: BORDER_RADIUS.md,
     borderLeftWidth: 4,
-    borderLeftColor: 'COLORS.warning[500]',
+    borderLeftColor: COLORS.warning[500],
   },
   spamWarningBold: {
     fontWeight: FONT_WEIGHT.bold,

@@ -142,9 +142,9 @@ export default function InviteManagement({ navigation }) {
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'pending': return 'COLORS.warning[500]';
-      case 'accepted': return 'COLORS.primary[500]';
-      case 'expired': return 'COLORS.error[500]';
+      case 'pending': return COLORS.warning[500];
+      case 'accepted': return COLORS.primary[500];
+      case 'expired': return COLORS.error[500];
       default: return COLORS.gray[500];
     }
   };
@@ -172,7 +172,7 @@ export default function InviteManagement({ navigation }) {
           </View>
           <Chip 
             style={[styles.statusChip, { backgroundColor: getStatusColor(invite.status) }]}
-            textStyle={{ color: 'COLORS.white' }}
+            textStyle={{ color: COLORS.white }}
           >
             {getStatusText(invite.status)}
           </Chip>
@@ -469,13 +469,13 @@ const styles = {
     marginVertical: 20,
   },
   modal: {
-    backgroundColor: 'COLORS.white',
+    backgroundColor: COLORS.white,
     padding: SPACING.xl,
     margin: SPACING.lg,
     borderRadius: BORDER_RADIUS.md,
   },
   qrModal: {
-    backgroundColor: 'COLORS.white',
+    backgroundColor: COLORS.white,
     padding: SPACING.xl,
     margin: SPACING.lg,
     borderRadius: BORDER_RADIUS.md,

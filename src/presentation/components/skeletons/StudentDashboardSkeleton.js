@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
   welcomeCard: {
     margin: SPACING.sm,
     padding: SPACING.base,
-    backgroundColor: 'COLORS.info[500]',
+    backgroundColor: COLORS.info[500],
     borderRadius: BORDER_RADIUS.md,
     elevation: 2,
     shadowColor: COLORS.black,
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
   cardContainer: {
     margin: SPACING.sm,
     padding: SPACING.base,
-    backgroundColor: 'COLORS.white',
+    backgroundColor: COLORS.white,
     borderRadius: BORDER_RADIUS.md,
     elevation: 2,
     shadowColor: COLORS.black,

@@ -357,7 +357,7 @@ const GraduationManagementScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <LinearGradient
-        colors={['COLORS.info[500]', 'COLORS.info[700]']}
+        colors={[COLORS.info[500], COLORS.info[700]]}
         style={styles.header}
       >
         <Title style={styles.headerTitle}>Gerenciamento de Graduações</Title>
@@ -396,13 +396,13 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 20,
   },
   headerTitle: {
-    color: 'COLORS.white',
+    color: COLORS.white,
     fontSize: FONT_SIZE.xxl,
     fontWeight: FONT_WEIGHT.bold,
     textAlign: 'center',
   },
   headerSubtitle: {
-    color: 'COLORS.white + 'CC'',
+    color: 'COLORS.white',
     fontSize: FONT_SIZE.base,
     textAlign: 'center',
   },
@@ -444,7 +444,7 @@ const styles = StyleSheet.create({
   },
   summaryLabel: {
     fontSize: FONT_SIZE.sm,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
   },
   summaryPercentage: {
     fontSize: 10,
@@ -475,7 +475,7 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.md,
   },
   countChip: {
-    backgroundColor: 'COLORS.info[500]',
+    backgroundColor: COLORS.info[500],
   },
   emptyCard: {
     elevation: 2,

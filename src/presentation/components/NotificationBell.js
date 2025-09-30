@@ -16,7 +16,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNotification } from '@contexts/NotificationContext';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
-const NotificationBell = ({ color = 'COLORS.white', size = 24 }) => {
+const NotificationBell = ({ color = COLORS.white, size = 24 }) => {
   const { 
     unreadNotifications, 
     unreadCount, 
@@ -62,7 +62,7 @@ const NotificationBell = ({ color = 'COLORS.white', size = 24 }) => {
       case 'general':
         return COLORS.primary[500];
       default:
-        return 'COLORS.gray[600]';
+        return COLORS.gray[600];
     }
   };
 
@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
   },
   modalCard: {
     maxHeight: '80%',
-    backgroundColor: 'COLORS.white',
+    backgroundColor: COLORS.white,
   },
   permissionCard: {
     backgroundColor: 'COLORS.white3e0',
@@ -246,7 +246,7 @@ const styles = StyleSheet.create({
   permissionText: {
     fontSize: FONT_SIZE.base,
     textAlign: 'center',
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginBottom: 16,
   },
   permissionButton: {
@@ -259,8 +259,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     padding: SPACING.base,
     borderBottomWidth: 1,
-    borderBottomColor: 'COLORS.gray[100]',
-    backgroundColor: 'COLORS.background.light',
+    borderBottomColor: COLORS.gray[100],
+    backgroundColor: COLORS.background.light,
   },
   notificationContent: {
     flex: 1,
@@ -272,18 +272,18 @@ const styles = StyleSheet.create({
   },
   notificationTime: {
     fontSize: FONT_SIZE.sm,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginLeft: 8,
   },
   notificationTitle: {
     fontSize: FONT_SIZE.base,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
     marginBottom: SPACING.xs,
   },
   notificationMessage: {
     fontSize: 13,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     lineHeight: 18,
   },
   unreadIndicator: {
@@ -300,7 +300,7 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: FONT_SIZE.md,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginTop: 16,
     textAlign: 'center',
   },

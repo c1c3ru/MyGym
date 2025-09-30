@@ -328,7 +328,7 @@ const AddClassScreen = ({ navigation }) => {
               <Text style={styles.label}>Modalidade</Text>
               <View style={styles.chipContainer}>
                 {modalities.length === 0 && (
-                  <Text style={{ color: 'COLORS.text.secondary' }}>Nenhuma modalidade cadastrada</Text>
+                  <Text style={{ color: COLORS.text.secondary }}>Nenhuma modalidade cadastrada</Text>
                 )}
                 {modalities.map((m) => (
                   <Chip
@@ -439,7 +439,7 @@ const AddClassScreen = ({ navigation }) => {
               )}
 
               {instructors.length === 0 && (
-                <Text style={{ color: 'COLORS.text.secondary', fontSize: FONT_SIZE.sm, marginTop: SPACING.sm }}>
+                <Text style={{ color: COLORS.text.secondary, fontSize: FONT_SIZE.sm, marginTop: SPACING.sm }}>
                   Nenhum outro instrutor cadastrado na academia
                 </Text>
               )}
@@ -531,13 +531,13 @@ const AddClassScreen = ({ navigation }) => {
         onDismiss={() => setSnackbar((s) => ({ ...s, visible: false }))}
         duration={3000}
         style={{
-          backgroundColor: snackbar.type === 'success' ? 'COLORS.primary[500]' : 
-                          snackbar.type === 'error' ? 'COLORS.error[500]' : 'COLORS.info[500]'
+          backgroundColor: snackbar.type === 'success' ? COLORS.primary[500] : 
+                          snackbar.type === 'error' ? COLORS.error[500] : COLORS.info[500]
         }}
         action={{
           label: 'OK',
           onPress: () => setSnackbar((s) => ({ ...s, visible: false })),
-          labelStyle: { color: 'COLORS.white' }
+          labelStyle: { color: COLORS.white }
         }}
       >
         {snackbar.message}
@@ -574,7 +574,7 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.medium,
     marginBottom: SPACING.sm,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   pickerContainer: {
     marginBottom: 16,
@@ -591,7 +591,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: BORDER_RADIUS.sm,
-    backgroundColor: 'COLORS.white',
+    backgroundColor: COLORS.white,
   },
   pickerStyle: {
     height: 50,
@@ -620,7 +620,7 @@ const styles = StyleSheet.create({
   helperTip: {
     marginTop: -4,
     marginBottom: SPACING.md,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     fontSize: FONT_SIZE.sm,
   },
 });

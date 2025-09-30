@@ -418,7 +418,7 @@ const EditStudentScreen = ({ navigation, route }) => {
         onDismiss={() => setSnackbarVisible(false)}
         duration={3000}
         style={{
-          backgroundColor: snackbarType === 'success' ? 'COLORS.primary[500]' : 'COLORS.error[500]'
+          backgroundColor: snackbarType === 'success' ? COLORS.primary[500] : COLORS.error[500]
         }}
       >
         {snackbarMessage}
@@ -447,7 +447,7 @@ const styles = StyleSheet.create({
   loadingText: {
     marginTop: 16,
     fontSize: FONT_SIZE.md,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
   },
   card: {
     marginBottom: 20,
@@ -463,7 +463,7 @@ const styles = StyleSheet.create({
     fontWeight: FONT_WEIGHT.bold,
     marginTop: 20,
     marginBottom: 16,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   input: {
     marginBottom: SPACING.md,
@@ -472,7 +472,7 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.medium,
     marginBottom: SPACING.sm,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   radioContainer: {
     marginBottom: 20,
@@ -497,10 +497,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   cancelButton: {
-    borderColor: 'COLORS.text.secondary',
+    borderColor: COLORS.text.secondary,
   },
   saveButton: {
-    backgroundColor: 'COLORS.primary[500]',
+    backgroundColor: COLORS.primary[500],
   },
   deleteButton: {
     borderColor: COLORS.error[700],

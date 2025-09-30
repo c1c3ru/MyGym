@@ -176,7 +176,7 @@ const GraduationBoard = ({
               icon={result.passed ? "checkmark-circle" : "close-circle"}
               style={[
                 styles.resultChip,
-                { backgroundColor: result.passed ? 'COLORS.primary[500]' : 'COLORS.error[500]' }
+                { backgroundColor: result.passed ? COLORS.primary[500] : COLORS.error[500] }
               ]}
             >
               {result.passed ? 'Aprovado' : 'Reprovado'}
@@ -342,13 +342,13 @@ const styles = StyleSheet.create({
   },
   examDate: {
     fontSize: FONT_SIZE.md,
-    color: 'COLORS.info[500]',
+    color: COLORS.info[500],
     fontWeight: FONT_WEIGHT.semibold,
     marginBottom: 2,
   },
   examLocation: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
   },
   modalityChip: {
     alignSelf: 'flex-start',
@@ -367,7 +367,7 @@ const styles = StyleSheet.create({
   examDetailText: {
     marginLeft: 8,
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   examActions: {
     flexDirection: 'row',
@@ -397,7 +397,7 @@ const styles = StyleSheet.create({
   },
   graduationBelt: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
   },
   resultChip: {
     alignSelf: 'flex-start',
@@ -405,12 +405,12 @@ const styles = StyleSheet.create({
   graduationScore: {
     fontSize: FONT_SIZE.base,
     fontWeight: FONT_WEIGHT.semibold,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
     marginBottom: SPACING.xs,
   },
   graduationNotes: {
     fontSize: FONT_SIZE.sm,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     fontStyle: 'italic',
   },
   statCard: {
@@ -437,12 +437,12 @@ const styles = StyleSheet.create({
   },
   statLabel: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
   },
   statValue: {
     fontSize: FONT_SIZE.base,
     fontWeight: FONT_WEIGHT.semibold,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   emptyState: {
     alignItems: 'center',
@@ -453,13 +453,13 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: FONT_SIZE.md,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginTop: SPACING.md,
     textAlign: 'center',
   },
   emptySubtext: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.gray[500]',
+    color: COLORS.gray[500],
     marginTop: SPACING.xs,
     textAlign: 'center',
   },

@@ -549,7 +549,7 @@ const styles = StyleSheet.create({
   },
   headerSubtitle: {
     fontSize: FONT_SIZE.md,
-    color: 'COLORS.white + 'CC'',
+    color: 'COLORS.white',
   },
   content: {
     flex: 1,

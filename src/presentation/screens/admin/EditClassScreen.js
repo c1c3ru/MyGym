@@ -288,7 +288,7 @@ const EditClassScreen = ({ route, navigation }) => {
               <Text style={styles.label}>Modalidade</Text>
               <View style={styles.chipContainer}>
                 {modalities.length === 0 && (
-                  <Text style={{ color: 'COLORS.text.secondary' }}>Nenhuma modalidade cadastrada</Text>
+                  <Text style={{ color: COLORS.text.secondary }}>Nenhuma modalidade cadastrada</Text>
                 )}
                 {modalities.map((m) => (
                   <Chip
@@ -352,7 +352,7 @@ const EditClassScreen = ({ route, navigation }) => {
               <Text style={styles.label}>Instrutor</Text>
               <View style={styles.chipContainer}>
                 {instructors.length === 0 && (
-                  <Text style={{ color: 'COLORS.text.secondary' }}>Nenhum instrutor encontrado</Text>
+                  <Text style={{ color: COLORS.text.secondary }}>Nenhum instrutor encontrado</Text>
                 )}
                 {instructors.map((instructor) => (
                   <Chip
@@ -490,7 +490,7 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.medium,
     marginBottom: SPACING.sm,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   pickerContainer: {
     marginBottom: 16,
@@ -507,7 +507,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: BORDER_RADIUS.sm,
-    backgroundColor: 'COLORS.white',
+    backgroundColor: COLORS.white,
   },
   pickerStyle: {
     height: 50,
@@ -539,7 +539,7 @@ const styles = StyleSheet.create({
   helperTip: {
     marginTop: -4,
     marginBottom: SPACING.md,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     fontSize: FONT_SIZE.sm,
   },
 });

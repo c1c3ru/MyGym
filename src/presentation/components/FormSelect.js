@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: FONT_SIZE.sm,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginBottom: SPACING.xs,
     marginLeft: SPACING.xs,
   },
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   buttonError: {
-    borderColor: 'COLORS.error[500]',
+    borderColor: COLORS.error[500],
   },
   buttonDisabled: {
     backgroundColor: COLORS.gray[100],
@@ -115,16 +115,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: SPACING.sm,
   },
   buttonLabel: {
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
     textAlign: 'left',
     flex: 1,
   },
   placeholderText: {
-    color: 'COLORS.gray[500]',
+    color: COLORS.gray[500],
   },
   selectedOption: {
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.info[500]',
+    color: COLORS.info[500],
   },
   errorText: {
     fontSize: FONT_SIZE.sm,

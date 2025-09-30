@@ -42,7 +42,7 @@ const MIGRATIONS = {
     '#f9f9f9': 'COLORS.gray[50]',
     'rgba(255,255,255,0.2)': "COLORS.white + '33'",
     'rgba(255,255,255,0.3)': "COLORS.white + '4D'",
-    'rgba(255,255,255,0.8)': "COLORS.white + 'CC'",
+    'rgba(255,255,255,0.8)': "COLORS.white",
     'rgba(255,255,255,0.9)': "COLORS.white + 'E6'",
     'rgba(255, 152, 0, 0.05)': 'COLORS.warning[50]',
     'rgba(255, 193, 7, 0.2)': 'COLORS.warning[100]',

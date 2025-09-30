@@ -163,11 +163,11 @@ const PaymentManagementScreen = ({ navigation }) => {
   const getPaymentStatusColor = (status) => {
     const colors = {
       'paid': themeColors.success,
-      'pending': 'COLORS.warning[500]',
-      'overdue': 'COLORS.error[500]',
+      'pending': COLORS.warning[500],
+      'overdue': COLORS.error[500],
       'active': themeColors.primary
     };
-    return colors[status] || 'COLORS.text.secondary';
+    return colors[status] || COLORS.text.secondary;
   };
 
   const getPaymentStatusText = (status) => {
@@ -207,7 +207,7 @@ const PaymentManagementScreen = ({ navigation }) => {
                 <Chip 
                   mode="flat"
                   style={[styles.statusChip, { backgroundColor: getPaymentStatusColor(currentPlan.status) }]}
-                  textStyle={{ color: 'COLORS.white', fontWeight: FONT_WEIGHT.bold }}
+                  textStyle={{ color: COLORS.white, fontWeight: FONT_WEIGHT.bold }}
                 >
                   {getPaymentStatusText(currentPlan.status)}
                 </Chip>
@@ -222,7 +222,7 @@ const PaymentManagementScreen = ({ navigation }) => {
                     <Text style={styles.dueDateLabel}>Próximo vencimento:</Text>
                     <Text style={[
                       styles.dueDateValue,
-                      { color: getDaysUntilDue(currentPlan.dueDate) <= 3 ? 'COLORS.error[500]' : 'COLORS.text.secondary' }
+                      { color: getDaysUntilDue(currentPlan.dueDate) <= 3 ? COLORS.error[500] : COLORS.text.secondary }
                     ]}>
                       {formatDate(currentPlan.dueDate)}
                       {getDaysUntilDue(currentPlan.dueDate) !== null && (
@@ -425,7 +425,7 @@ const styles = StyleSheet.create({
   },
   currentPlanCard: {
     borderLeftWidth: 4,
-    borderLeftColor: 'COLORS.primary[500]',
+    borderLeftColor: COLORS.primary[500],
   },
   cardHeader: {
     flexDirection: 'row',
@@ -452,17 +452,17 @@ const styles = StyleSheet.create({
   planValue: {
     fontSize: FONT_SIZE.xxl,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.primary[500]',
+    color: COLORS.primary[500],
     marginBottom: SPACING.md,
   },
   dueDateContainer: {
-    backgroundColor: 'COLORS.background.light',
+    backgroundColor: COLORS.background.light,
     padding: SPACING.md,
     borderRadius: BORDER_RADIUS.md,
   },
   dueDateLabel: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginBottom: SPACING.xs,
   },
   dueDateValue: {
@@ -494,12 +494,12 @@ const styles = StyleSheet.create({
   paymentAmount: {
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.warning[500]',
+    color: COLORS.warning[500],
     marginBottom: SPACING.xs,
   },
   paymentDue: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
   },
   payButton: {
     borderRadius: BORDER_RADIUS.lg,
@@ -525,7 +525,7 @@ const styles = StyleSheet.create({
   },
   historyDate: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
   },
   historyStatus: {
     marginLeft: 12,
@@ -537,7 +537,7 @@ const styles = StyleSheet.create({
   emptyText: {
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.semibold,
-    color: 'COLORS.gray[500]',
+    color: COLORS.gray[500],
     marginTop: SPACING.md,
   },
   emptySubtext: {
@@ -552,7 +552,7 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
   modal: {
-    backgroundColor: 'COLORS.white',
+    backgroundColor: COLORS.white,
     margin: SPACING.lg,
     borderRadius: BORDER_RADIUS.md,
     maxHeight: '80%',
@@ -563,7 +563,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     padding: SPACING.lg,
     borderBottomWidth: 1,
-    borderBottomColor: 'COLORS.gray[100]',
+    borderBottomColor: COLORS.gray[100],
   },
   modalContent: {
     padding: SPACING.lg,
@@ -590,17 +590,17 @@ const styles = StyleSheet.create({
   planOptionValue: {
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.primary[500]',
+    color: COLORS.primary[500],
     marginBottom: SPACING.xs,
   },
   planOptionDescription: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
   },
   dueDateSection: {
     marginTop: 20,
     padding: SPACING.base,
-    backgroundColor: 'COLORS.background.light',
+    backgroundColor: COLORS.background.light,
     borderRadius: BORDER_RADIUS.md,
   },
   dueDateSectionTitle: {
@@ -609,14 +609,14 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.md,
   },
   dateButton: {
-    borderColor: 'COLORS.info[500]',
+    borderColor: COLORS.info[500],
   },
   modalActions: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: SPACING.lg,
     borderTopWidth: 1,
-    borderTopColor: 'COLORS.gray[100]',
+    borderTopColor: COLORS.gray[100],
   },
   modalButton: {
     flex: 1,

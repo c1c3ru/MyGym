@@ -16,7 +16,7 @@ const UniversalHeader = ({
   navigation, 
   showBack = false,
   showMenu = true,
-  backgroundColor = 'COLORS.primary[500]'
+  backgroundColor = COLORS.primary[500]
 }) => {
   const { user, userProfile, signOut } = useAuthFacade();
   const { getString, theme, updateUserTheme } = useTheme();
@@ -115,7 +115,7 @@ const UniversalHeader = ({
     }
     
     // Fallback to professional colors from custom claims
-    return getClaimsTypeColor() || 'COLORS.primary[500]'; // Default green
+    return getClaimsTypeColor() || COLORS.primary[500]; // Default green
   };
 
   const getUserTypeColor = () => {
@@ -137,14 +137,14 @@ const UniversalHeader = ({
   //   switch (userType) {
   //     case 'admin':
   //     case 'administrador':
-  //       return ['COLORS.warning[500]', COLORS.warning[600]];
+  //       return [COLORS.warning[500], COLORS.warning[600]];
   //     case 'instructor':
   //     case 'instrutor':
-  //       return ['COLORS.primary[500]', COLORS.primary[700]];
+  //       return [COLORS.primary[500], COLORS.primary[700]];
   //     case 'student':
   //     case 'aluno':
   //     default:
-  //       return ['COLORS.info[500]', 'COLORS.info[700]'];
+  //       return [COLORS.info[500], COLORS.info[700]];
   //   }
   // };
 
@@ -185,7 +185,7 @@ const UniversalHeader = ({
                 <Avatar.Text 
                   size={ResponsiveUtils?.isTablet?.() ? 40 : 36}
                   label={userProfile?.name?.charAt(0) || 'U'}
-                  style={[styles.avatar, { backgroundColor: 'COLORS.white + '33'' }]}
+                  style={[styles.avatar, { backgroundColor: COLORS.white + '33' }]}
                   labelStyle={styles.avatarLabel}
                 />
               </TouchableOpacity>
@@ -247,7 +247,7 @@ const UniversalHeader = ({
                 leadingIcon={() => (
                   <MaterialCommunityIcons name="logout" size={20} color="COLORS.error[500]" />
                 )}
-                titleStyle={[styles.menuItemTitle, { color: 'COLORS.error[500]' }]}
+                titleStyle={[styles.menuItemTitle, { color: COLORS.error[500] }]}
               />
             </Menu>
         )}
@@ -277,7 +277,7 @@ const UniversalHeader = ({
               mode="contained"
               onPress={confirmLogout}
               style={[styles.modalButton, styles.logoutButton]}
-              buttonColor="COLORS.error[500]"
+              buttonColor={COLORS.error[500]}
             >
               Sair
             </Button>
@@ -309,12 +309,12 @@ const styles = StyleSheet.create({
     minHeight: ResponsiveUtils?.isTablet?.() ? 64 : 56,
   },
   appName: {
-    color: 'COLORS.white',
+    color: COLORS.white,
     fontSize: ResponsiveUtils?.fontSize?.large || 20,
     fontWeight: FONT_WEIGHT.bold,
   },
   subtitle: {
-    color: 'COLORS.white + 'E6'',
+    color: COLORS.white + 'E6',
     fontSize: ResponsiveUtils?.fontSize?.small || 12,
   },
   menuAnchor: {
@@ -323,15 +323,15 @@ const styles = StyleSheet.create({
   },
   avatar: {
     borderWidth: 2,
-    borderColor: 'COLORS.white + '4D'',
+    borderColor: COLORS.white + '4D',
   },
   avatarLabel: {
-    color: 'COLORS.white',
+    color: COLORS.white,
     fontSize: ResponsiveUtils?.fontSize?.medium || 16,
     fontWeight: FONT_WEIGHT.bold,
   },
   menuContent: {
-    backgroundColor: 'COLORS.white',
+    backgroundColor: COLORS.white,
     borderRadius: ResponsiveUtils?.borderRadius?.medium || 8,
     minWidth: 280,
     marginTop: SPACING.sm,
@@ -340,13 +340,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: ResponsiveUtils?.spacing?.md || 16,
-    backgroundColor: 'COLORS.background.light',
+    backgroundColor: COLORS.background.light,
   },
   menuAvatar: {
     marginRight: ResponsiveUtils?.spacing?.md || 16,
   },
   menuAvatarLabel: {
-    color: 'COLORS.white',
+    color: COLORS.white,
     fontSize: ResponsiveUtils?.fontSize?.medium || 16,
     fontWeight: FONT_WEIGHT.bold,
   },
@@ -356,12 +356,12 @@ const styles = StyleSheet.create({
   menuUserName: {
     fontSize: ResponsiveUtils?.fontSize?.medium || 16,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
     marginBottom: -8,
   },
   menuUserType: {
     fontSize: ResponsiveUtils?.fontSize?.small || 12,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginTop: -8,
   },
   menuDivider: {
@@ -369,10 +369,10 @@ const styles = StyleSheet.create({
   },
   menuItemTitle: {
     fontSize: ResponsiveUtils?.fontSize?.medium || 16,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   modalContainer: {
-    backgroundColor: 'COLORS.white',
+    backgroundColor: COLORS.white,
     padding: SPACING.xl,
     marginHorizontal: 20,
     marginTop: 320,
@@ -397,13 +397,13 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.xl,
     fontWeight: FONT_WEIGHT.bold,
     marginBottom: 16,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   modalMessage: {
     fontSize: FONT_SIZE.md,
     textAlign: 'center',
     marginBottom: 24,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
   },
   modalButtons: {
     flexDirection: 'row',
@@ -417,7 +417,7 @@ const styles = StyleSheet.create({
     borderRadius: BORDER_RADIUS.md,
   },
   logoutButton: {
-    backgroundColor: 'COLORS.error[500]',
+    backgroundColor: COLORS.error[500],
   },
   gradientHeader: {
     elevation: ResponsiveUtils?.elevation?.small || 4,

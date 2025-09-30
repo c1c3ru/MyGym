@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   cardContainer: {
-    backgroundColor: 'COLORS.white',
+    backgroundColor: COLORS.white,
     marginVertical: 8,
     marginHorizontal: 16,
     padding: SPACING.base,
@@ -207,13 +207,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     paddingTop: 12,
     borderTopWidth: 1,
-    borderTopColor: 'COLORS.gray[100]',
+    borderTopColor: COLORS.gray[100],
   },
   listContainer: {
     flex: 1,
   },
   headerContainer: {
-    backgroundColor: 'COLORS.white',
+    backgroundColor: COLORS.white,
     padding: SPACING.base,
     elevation: 2,
   },
@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
   },
   statCard: {
     alignItems: 'center',
-    backgroundColor: 'COLORS.white',
+    backgroundColor: COLORS.white,
     padding: SPACING.base,
     borderRadius: BORDER_RADIUS.md,
     elevation: 2,
@@ -236,7 +236,7 @@ const styles = StyleSheet.create({
   scheduleItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'COLORS.white',
+    backgroundColor: COLORS.white,
     padding: SPACING.md,
     borderRadius: BORDER_RADIUS.md,
     marginBottom: SPACING.sm,

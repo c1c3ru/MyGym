@@ -61,8 +61,8 @@ const FormInput = ({
         ]}
         theme={{
           colors: {
-            primary: hasError ? 'COLORS.error[500]' : 'COLORS.info[500]',
-            error: 'COLORS.error[500]'
+            primary: hasError ? COLORS.error[500] : COLORS.info[500],
+            error: COLORS.error[500]
           }
         }}
         {...props}
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'COLORS.COLORS.white',
   },
   inputError: {
-    borderColor: 'COLORS.error[500]',
+    borderColor: COLORS.error[500],
   },
   inputFocused: {
     borderWidth: 2,

@@ -69,11 +69,11 @@ export const NotificationProvider = ({ children }) => {
 
   const getSnackbarColor = (type) => {
     switch (type) {
-      case 'success': return 'COLORS.primary[500]';
-      case 'error': return 'COLORS.error[500]';
-      case 'warning': return 'COLORS.warning[500]';
+      case 'success': return COLORS.primary[500];
+      case 'error': return COLORS.error[500];
+      case 'warning': return COLORS.warning[500];
       case 'info': 
-      default: return 'COLORS.info[500]';
+      default: return COLORS.info[500];
     }
   };
 
@@ -103,7 +103,7 @@ export const NotificationProvider = ({ children }) => {
             action={{
               label: 'Fechar',
               onPress: () => hideNotification(notification.id),
-              textColor: 'COLORS.white'
+              textColor: COLORS.white
             }}
           >
             {notification.message}

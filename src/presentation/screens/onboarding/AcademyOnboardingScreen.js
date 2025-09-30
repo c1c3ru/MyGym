@@ -365,13 +365,13 @@ const styles = StyleSheet.create({
     fontWeight: FONT_WEIGHT.bold,
     textAlign: 'center',
     marginTop: 16,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   subtitle: {
     fontSize: FONT_SIZE.md,
     textAlign: 'center',
     marginTop: SPACING.sm,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     lineHeight: 24,
   },
   optionsContainer: {
@@ -389,11 +389,11 @@ const styles = StyleSheet.create({
   optionTitle: {
     marginLeft: 12,
     fontSize: FONT_SIZE.xl,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   optionDescription: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     lineHeight: 20,
     marginBottom: 16,
   },
@@ -436,7 +436,7 @@ const styles = StyleSheet.create({
   },
   inviteDescription: {
     marginBottom: 16,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
   },
 });
 

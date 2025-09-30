@@ -351,7 +351,7 @@ const InstructorDashboard = ({ navigation }) => {
                   <MaterialCommunityIcons 
                     name="account-star" 
                     size={24} 
-                    color="COLORS.white + 'CC'" 
+                    color="COLORS.white" 
                   />
                 </Animated.View>
               </View>
@@ -915,7 +915,7 @@ const styles = StyleSheet.create({
   },
   actionSubtitle: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.white + 'CC',
+    color: COLORS.white,
     textAlign: 'center',
     marginBottom: SPACING.sm,
   },

@@ -226,11 +226,11 @@ const styles = StyleSheet.create({
     marginTop: 16,
     marginBottom: SPACING.sm,
     textAlign: 'center',
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   message: {
     textAlign: 'center',
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginBottom: 16,
     lineHeight: 20,
   },
@@ -252,10 +252,10 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   retryButton: {
-    backgroundColor: 'COLORS.info[500]',
+    backgroundColor: COLORS.info[500],
   },
   detailsButton: {
-    borderColor: 'COLORS.text.secondary',
+    borderColor: COLORS.text.secondary,
   },
   divider: {
     width: '100%',
@@ -263,29 +263,29 @@ const styles = StyleSheet.create({
   },
   errorDetails: {
     width: '100%',
-    backgroundColor: 'COLORS.gray[50]',
+    backgroundColor: COLORS.gray[50],
     padding: SPACING.base,
     borderRadius: BORDER_RADIUS.md,
   },
   detailsTitle: {
     fontSize: FONT_SIZE.md,
     marginBottom: SPACING.md,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   errorText: {
     fontSize: FONT_SIZE.sm,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginBottom: SPACING.sm,
   },
   errorLabel: {
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   stackTrace: {
     fontSize: 10,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     fontFamily: 'monospace',
-    backgroundColor: 'COLORS.white',
+    backgroundColor: COLORS.white,
     padding: SPACING.sm,
     borderRadius: BORDER_RADIUS.sm,
     marginTop: SPACING.sm,

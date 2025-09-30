@@ -302,7 +302,7 @@ const styles = StyleSheet.create({
   loadingText: {
     marginTop: 16,
     fontSize: FONT_SIZE.md,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
   },
   errorContainer: {
     flex: 1,
@@ -320,7 +320,7 @@ const styles = StyleSheet.create({
   },
   errorMessage: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     textAlign: 'center',
     marginBottom: 24,
   },

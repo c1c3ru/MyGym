@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     margin: ResponsiveUtils.spacing.md,
     marginTop: ResponsiveUtils.spacing.sm,
     padding: ResponsiveUtils.spacing.md,
-    backgroundColor: 'COLORS.white',
+    backgroundColor: COLORS.white,
     borderRadius: ResponsiveUtils.borderRadius.medium,
     elevation: 2,
     shadowColor: COLORS.black,

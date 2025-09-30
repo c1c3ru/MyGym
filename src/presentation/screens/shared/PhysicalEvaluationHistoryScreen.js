@@ -67,12 +67,12 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
 
   const getIMCColor = (classification) => {
     switch (classification) {
-      case 'Abaixo do peso': return 'COLORS.warning[500]';
-      case 'Peso normal': return 'COLORS.primary[500]';
-      case 'Sobrepeso': return 'COLORS.warning[500]';
+      case 'Abaixo do peso': return COLORS.warning[500];
+      case 'Peso normal': return COLORS.primary[500];
+      case 'Sobrepeso': return COLORS.warning[500];
       case 'Obesidade grau I': return COLORS.error[500];
-      case 'Obesidade grau II': return 'COLORS.error[500]';
-      case 'Obesidade grau III': return 'COLORS.secondary[500]';
+      case 'Obesidade grau II': return COLORS.error[500];
+      case 'Obesidade grau III': return COLORS.secondary[500];
       default: return COLORS.gray[500];
     }
   };
@@ -208,7 +208,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
                 <Chip 
                   mode="flat"
                   style={[styles.imcChip, { backgroundColor: getIMCColor(latestEvaluation.imcClassification) }]}
-                  textStyle={{ color: 'COLORS.white', fontWeight: FONT_WEIGHT.bold }}
+                  textStyle={{ color: COLORS.white, fontWeight: FONT_WEIGHT.bold }}
                 >
                   {latestEvaluation.imcClassification}
                 </Chip>
@@ -232,7 +232,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
                   <Text style={styles.progressLabel}>Peso</Text>
                   <Text style={[
                     styles.progressValue,
-                    { color: progress.weight > 0 ? COLORS.error[500] : progress.weight < 0 ? 'COLORS.primary[500]' : 'COLORS.text.secondary' }
+                    { color: progress.weight > 0 ? COLORS.error[500] : progress.weight < 0 ? COLORS.primary[500] : COLORS.text.secondary }
                   ]}>
                     {progress.weight > 0 ? '+' : ''}{progress.weight.toFixed(1)} kg
                   </Text>
@@ -242,7 +242,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
                   <Text style={styles.progressLabel}>IMC</Text>
                   <Text style={[
                     styles.progressValue,
-                    { color: progress.imc > 0 ? COLORS.error[500] : progress.imc < 0 ? 'COLORS.primary[500]' : 'COLORS.text.secondary' }
+                    { color: progress.imc > 0 ? COLORS.error[500] : progress.imc < 0 ? COLORS.primary[500] : COLORS.text.secondary }
                   ]}>
                     {progress.imc > 0 ? '+' : ''}{progress.imc.toFixed(2)}
                   </Text>
@@ -253,7 +253,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
                     <Text style={styles.progressLabel}>Gordura</Text>
                     <Text style={[
                       styles.progressValue,
-                      { color: progress.bodyFat > 0 ? COLORS.error[500] : progress.bodyFat < 0 ? 'COLORS.primary[500]' : 'COLORS.text.secondary' }
+                      { color: progress.bodyFat > 0 ? COLORS.error[500] : progress.bodyFat < 0 ? COLORS.primary[500] : COLORS.text.secondary }
                     ]}>
                       {progress.bodyFat > 0 ? '+' : ''}{progress.bodyFat.toFixed(1)}%
                     </Text>
@@ -265,7 +265,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
                     <Text style={styles.progressLabel}>Músculo</Text>
                     <Text style={[
                       styles.progressValue,
-                      { color: progress.muscleMass > 0 ? 'COLORS.primary[500]' : progress.muscleMass < 0 ? COLORS.error[500] : 'COLORS.text.secondary' }
+                      { color: progress.muscleMass > 0 ? COLORS.primary[500] : progress.muscleMass < 0 ? COLORS.error[500] : COLORS.text.secondary }
                     ]}>
                       {progress.muscleMass > 0 ? '+' : ''}{progress.muscleMass.toFixed(1)} kg
                     </Text>
@@ -317,7 +317,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
                   propsForDots: {
                     r: '6',
                     strokeWidth: '2',
-                    stroke: 'COLORS.info[500]',
+                    stroke: COLORS.info[500],
                     fill: 'COLORS.whitefff'
                   },
                   formatXLabel: (value) => value,
@@ -401,11 +401,11 @@ const styles = StyleSheet.create({
   },
   dateText: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
   },
   subtitle: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
   },
   statsGrid: {
     flexDirection: 'row',
@@ -424,11 +424,11 @@ const styles = StyleSheet.create({
   statValue: {
     fontSize: FONT_SIZE.xl,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.text.primary',
+    color: COLORS.text.primary,
   },
   statLabel: {
     fontSize: FONT_SIZE.sm,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginTop: SPACING.xs,
   },
   imcContainer: {
@@ -449,7 +449,7 @@ const styles = StyleSheet.create({
   },
   progressLabel: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginBottom: SPACING.xs,
   },
   progressValue: {
@@ -473,7 +473,7 @@ const styles = StyleSheet.create({
   emptyText: {
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.text.secondary',
+    color: COLORS.text.secondary,
     marginTop: 16,
     textAlign: 'center',
   },
@@ -489,7 +489,7 @@ const styles = StyleSheet.create({
     margin: SPACING.base,
     right: 0,
     bottom: 0,
-    backgroundColor: 'COLORS.primary[500]',
+    backgroundColor: COLORS.primary[500],
   },
 });
 
