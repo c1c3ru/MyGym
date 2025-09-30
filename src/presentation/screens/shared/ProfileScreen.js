@@ -25,7 +25,7 @@ import PaymentDueDateEditor from '@components/PaymentDueDateEditor';
 const { width } = Dimensions.get('window');
 
 const ProfileScreen = ({ navigation }) => {
-  const { user, userProfile, signOut } = useAuth();
+  const { user, userProfile, signOut, updateProfile } = useAuth();
   const { getString } = useTheme();
   const { getUserTypeColor: getClaimsTypeColor, getUserTypeText: getClaimsTypeText, isStudent } = useCustomClaims();
   const [editing, setEditing] = useState(false);
@@ -184,11 +184,15 @@ const ProfileScreen = ({ navigation }) => {
 
   const handleSave = async () => {
     try {
-      await updateUserProfile(formData);
+      setLoading(true);
+      await updateProfile(formData);
       setEditing(false);
       Alert.alert(getString('success'), getString('profileUpdatedSuccess'));
     } catch (error) {
+      console.error('Erro ao salvar perfil:', error);
       Alert.alert(getString('error'), getString('cannotUpdateProfile'));
+    } finally {
+      setLoading(false);
     }
   };
 

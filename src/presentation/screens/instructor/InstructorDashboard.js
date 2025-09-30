@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { View, StyleSheet, Animated, Dimensions, RefreshControl, Platform, ActivityIndicator, ScrollView } from 'react-native';
+import { View, StyleSheet, Animated, Dimensions, RefreshControl, Platform, ActivityIndicator, ScrollView, Alert } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { 
   Card, 
@@ -174,6 +174,12 @@ const InstructorDashboard = ({ navigation }) => {
       // Buscar turmas do professor com tratamento de erro
       let instructorClasses = [];
       try {
+        // Verificar se user está disponível
+        if (!user?.uid || !userProfile?.academiaId) {
+          console.warn('⚠️ User ou userProfile não disponível ainda');
+          return;
+        }
+        
         console.log('🔍 Buscando turmas para instrutor:', user.uid, 'na academia:', userProfile.academiaId);
         instructorClasses = await academyClassService.getClassesByInstructor(user.uid, userProfile.academiaId, user?.email);
         console.log('✅ Turmas encontradas:', instructorClasses.length);
@@ -499,18 +505,33 @@ const InstructorDashboard = ({ navigation }) => {
                   colors={['#4CAF50', '#45A049']}
                   style={styles.actionGradient}
                 >
-                  <MaterialCommunityIcons name="plus-circle" size={28} color="white" />
-                  <Text style={styles.actionTitle}>{getString('newClass')}</Text>
-                  <Text style={styles.actionSubtitle}>{getString('createNewClass')}</Text>
+                  <MaterialCommunityIcons name="calendar-plus" size={28} color="white" />
+                  <Text style={styles.actionTitle}>Agendar Aulas</Text>
+                  <Text style={styles.actionSubtitle}>Adicione aulas às suas turmas</Text>
                   <AnimatedButton
                     mode="contained"
-                    onPress={() => navigation.navigate('NovaAula')}
+                    onPress={() => {
+                      if (dashboardData.classes?.length > 0) {
+                        navigation.navigate('ScheduleClasses', { 
+                          classes: dashboardData.classes 
+                        });
+                      } else {
+                        Alert.alert(
+                          'Nenhuma Turma', 
+                          'Você precisa ter pelo menos uma turma criada para agendar aulas.',
+                          [
+                            { text: 'Cancelar', style: 'cancel' },
+                            { text: 'Criar Turma', onPress: () => navigation.navigate('AddClass') }
+                          ]
+                        );
+                      }
+                    }}
                     style={styles.modernActionButton}
                     buttonColor="rgba(255,255,255,0.2)"
                     textColor="white"
                     compact
                   >
-                    {getString('create')}
+                    Agendar
                   </AnimatedButton>
                 </LinearGradient>
               </Animated.View>

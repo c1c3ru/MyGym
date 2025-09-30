@@ -14,12 +14,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { LineChart } from 'react-native-chart-kit';
 import { useAuth } from '@contexts/AuthProvider';
-import { firestoreService } from '@services/firestoreService';
+import { academyFirestoreService } from '@services/academyFirestoreService';
 
 const { width } = Dimensions.get('window');
 
 const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
-  const { user, academia } = useAuth();
+  const { user, academia, userProfile } = useAuth();
   
   const [evaluations, setEvaluations] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -34,10 +34,20 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
     try {
       setLoading(true);
       
-      const evaluationData = await firestoreService.getDocuments(
-        `gyms/${academia.id}/physicalEvaluations`,
-        [{ field: 'userId', operator: '==', value: user.uid }],
-        { field: 'date', direction: 'desc' }
+      // Verificar se academia está disponível
+      const academiaId = academia?.id || userProfile?.academiaId;
+      if (!academiaId) {
+        console.error('Academia não identificada');
+        setEvaluations([]);
+        return;
+      }
+      
+      const evaluationData = await academyFirestoreService.getWhere(
+        'physicalEvaluations',
+        'userId',
+        '==',
+        user.uid,
+        academiaId
       );
       
       setEvaluations(evaluationData);

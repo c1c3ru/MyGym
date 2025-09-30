@@ -218,6 +218,7 @@ export const useFormValidation = (initialData = {}, validationSchema = {}, optio
   return {
     // Estado
     data,
+    formData: data, // Alias para compatibilidade
     errors,
     touched,
     isValidating,
@@ -228,6 +229,7 @@ export const useFormValidation = (initialData = {}, validationSchema = {}, optio
     setFieldTouched,
     setFieldError,
     setFormData,
+    updateFormData: setFieldValue, // Alias para compatibilidade
     validateField,
     validateForm,
     clearErrors,

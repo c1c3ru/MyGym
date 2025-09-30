@@ -12,6 +12,7 @@ import InstructorStudents from '@screens/instructor/InstructorStudents';
 import NovaAula from '@screens/instructor/NovaAula';
 import CheckIn from '@screens/instructor/CheckIn';
 import Relatorios from '@screens/instructor/Relatorios';
+import ScheduleClassesScreen from '@screens/instructor/ScheduleClassesScreen';
 
 // Telas Compartilhadas
 import ClassDetailsScreen from '@screens/shared/ClassDetailsScreen';
@@ -93,6 +94,21 @@ const InstructorNavigator = () => {
           header: ({ navigation }) => (
             <UniversalHeader
               title={getString('newLesson')}
+              navigation={navigation}
+              showBack={true}
+              backgroundColor="#4CAF50"
+            />
+          ),
+        }}
+      />
+      <Stack.Screen 
+        name="ScheduleClasses" 
+        component={ScheduleClassesScreen}
+        options={{
+          headerShown: true,
+          header: ({ navigation }) => (
+            <UniversalHeader
+              title="Agendar Aulas"
               navigation={navigation}
               showBack={true}
               backgroundColor="#4CAF50"

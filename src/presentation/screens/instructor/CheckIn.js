@@ -59,13 +59,9 @@ const CheckIn = ({ navigation }) => {
       setLoading(true);
       
       if (!userProfile?.academiaId || !user?.uid) {
-        console.warn('⚠️ Usuário sem academiaId ou uid definido:', { academiaId: userProfile?.academiaId, uid: user?.uid });
         return;
       }
-
-      console.log('🔄 CheckIn: Carregando dados para instrutor:', user.uid, 'academia:', userProfile.academiaId);
-
-      // Usar cache inteligente para dados de check-in
+      
       const cacheKey = CACHE_KEYS.CHECKIN_DATA(userProfile.academiaId, user.uid);
       
       const checkInData = await cacheService.getOrSet(
@@ -845,7 +841,11 @@ const CheckIn = ({ navigation }) => {
           <View style={styles.modalActions}>
             <Button
               mode="outlined"
-              onPress={() => setManualCheckInVisible(false)}
+              onPress={() => {
+                setManualCheckInVisible(false);
+                setSelectedStudents(new Set());
+                setSearchQuery('');
+              }}
               style={styles.modalButton}
               icon="close"
             >
@@ -853,24 +853,28 @@ const CheckIn = ({ navigation }) => {
             </Button>
             <Button
               mode="contained"
-              onPress={() => setManualCheckInVisible(false)}
-              style={[styles.modalButton, styles.closeButton]}
-              icon="check"
+              onPress={async () => {
+                if (!selectedClass) {
+                  Alert.alert('Atenção', 'Selecione uma turma primeiro');
+                  return;
+                }
+                if (selectedStudents.size === 0) {
+                  Alert.alert('Atenção', 'Selecione pelo menos um aluno para fazer check-in');
+                  return;
+                }
+                await handleBatchCheckIn();
+                setManualCheckInVisible(false);
+              }}
+              loading={batchProcessing}
+              disabled={batchProcessing}
+              style={[styles.modalButton, styles.batchCheckInButton]}
+              icon="account-multiple-check"
             >
-              Concluir
+              {selectedStudents.size > 0 
+                ? `Confirmar Check-in (${selectedStudents.size})`
+                : 'Selecione Alunos'
+              }
             </Button>
-            {selectedStudents.size > 0 && (
-              <Button
-                mode="contained"
-                onPress={handleBatchCheckIn}
-                loading={batchProcessing}
-                disabled={!selectedClass || batchProcessing}
-                style={[styles.modalButton, styles.batchCheckInButton]}
-                icon="account-multiple-check"
-              >
-                Check-in em Lote ({selectedStudents.size})
-              </Button>
-            )}
           </View>
         </Modal>
       </Portal>

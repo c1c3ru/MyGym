@@ -14,10 +14,10 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '@contexts/AuthProvider';
-import { firestoreService } from '@services/firestoreService';
+import { academyFirestoreService } from '@services/academyFirestoreService';
 
 const PhysicalEvaluationScreen = ({ navigation, route }) => {
-  const { user, academia } = useAuth();
+  const { user, academia, userProfile } = useAuth();
   const { evaluation, isEditing = false } = route.params || {};
   
   const [loading, setLoading] = useState(false);
@@ -61,12 +61,17 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
     calculateIMC();
   }, [formData.weight, formData.height]);
 
+  const normalizeNumber = (value) => {
+    // Substitui vírgula por ponto e remove espaços
+    return value.replace(/,/g, '.').replace(/\s/g, '');
+  };
+
   const calculateIMC = () => {
-    const weight = parseFloat(formData.weight);
-    const height = parseFloat(formData.height);
+    const weight = parseFloat(normalizeNumber(formData.weight));
+    const height = parseFloat(normalizeNumber(formData.height));
     
     if (weight > 0 && height > 0) {
-      // Assumir altura em centímetros, converter para metros
+      // Assumir altura em centímetros se > 3, converter para metros
       const heightInMeters = height > 3 ? height / 100 : height;
       const imc = weight / (heightInMeters * heightInMeters);
       
@@ -104,14 +109,20 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
 
     if (!formData.weight.trim()) {
       newErrors.weight = 'Peso é obrigatório';
-    } else if (isNaN(formData.weight) || parseFloat(formData.weight) <= 0) {
-      newErrors.weight = 'Peso deve ser um número válido maior que 0';
+    } else {
+      const normalizedWeight = normalizeNumber(formData.weight);
+      if (isNaN(normalizedWeight) || parseFloat(normalizedWeight) <= 0) {
+        newErrors.weight = 'Peso deve ser um número válido maior que 0 (ex: 70 ou 70,5)';
+      }
     }
 
     if (!formData.height.trim()) {
       newErrors.height = 'Altura é obrigatória';
-    } else if (isNaN(formData.height) || parseFloat(formData.height) <= 0) {
-      newErrors.height = 'Altura deve ser um número válido maior que 0';
+    } else {
+      const normalizedHeight = normalizeNumber(formData.height);
+      if (isNaN(normalizedHeight) || parseFloat(normalizedHeight) <= 0) {
+        newErrors.height = 'Altura deve ser um número válido maior que 0 (ex: 1,74 ou 174)';
+      }
     }
 
     if (!formData.age.trim()) {
@@ -142,20 +153,31 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
       return;
     }
 
+    // Verificar se academia está disponível
+    const academiaId = academia?.id || userProfile?.academiaId;
+    if (!academiaId) {
+      setSnackbar({
+        visible: true,
+        message: 'Erro: Academia não identificada. Faça login novamente.',
+        type: 'error'
+      });
+      return;
+    }
+
     try {
       setLoading(true);
 
       const evaluationData = {
         userId: user.uid,
-        weight: parseFloat(formData.weight),
-        height: parseFloat(formData.height),
+        weight: parseFloat(normalizeNumber(formData.weight)),
+        height: parseFloat(normalizeNumber(formData.height)),
         age: parseInt(formData.age),
-        bodyFat: formData.bodyFat ? parseFloat(formData.bodyFat) : null,
-        muscleMass: formData.muscleMass ? parseFloat(formData.muscleMass) : null,
-        boneMass: formData.boneMass ? parseFloat(formData.boneMass) : null,
-        viscFat: formData.viscFat ? parseFloat(formData.viscFat) : null,
-        basalMetabolism: formData.basalMetabolism ? parseFloat(formData.basalMetabolism) : null,
-        bodyWater: formData.bodyWater ? parseFloat(formData.bodyWater) : null,
+        bodyFat: formData.bodyFat ? parseFloat(normalizeNumber(formData.bodyFat)) : null,
+        muscleMass: formData.muscleMass ? parseFloat(normalizeNumber(formData.muscleMass)) : null,
+        boneMass: formData.boneMass ? parseFloat(normalizeNumber(formData.boneMass)) : null,
+        viscFat: formData.viscFat ? parseFloat(normalizeNumber(formData.viscFat)) : null,
+        basalMetabolism: formData.basalMetabolism ? parseFloat(normalizeNumber(formData.basalMetabolism)) : null,
+        bodyWater: formData.bodyWater ? parseFloat(normalizeNumber(formData.bodyWater)) : null,
         notes: formData.notes.trim(),
         imc: parseFloat(calculatedIMC),
         imcClassification,
@@ -165,10 +187,11 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
       };
 
       if (isEditing && evaluation) {
-        await firestoreService.update(
-          `gyms/${academia.id}/physicalEvaluations`, 
+        await academyFirestoreService.update(
+          'physicalEvaluations', 
           evaluation.id, 
-          evaluationData
+          evaluationData,
+          academiaId
         );
         setSnackbar({
           visible: true,
@@ -177,9 +200,10 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
         });
       } else {
         evaluationData.createdAt = new Date();
-        await firestoreService.create(
-          `gyms/${academia.id}/physicalEvaluations`, 
-          evaluationData
+        await academyFirestoreService.create(
+          'physicalEvaluations', 
+          evaluationData,
+          academiaId
         );
         setSnackbar({
           visible: true,

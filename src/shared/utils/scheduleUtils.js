@@ -1,2 +1,2 @@
 // Re-export do scheduleUtils
-export * from '@utils/scheduleUtils';
+export * from '../../utils/scheduleUtils';

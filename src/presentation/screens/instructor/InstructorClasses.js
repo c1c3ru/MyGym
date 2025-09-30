@@ -58,6 +58,14 @@ const InstructorClasses = ({ navigation }) => {
         return;
       }
       
+      // Verificar se user está disponível
+      if (!user?.uid || !userProfile?.academiaId) {
+        console.warn('⚠️ User ou userProfile não disponível ainda');
+        setClasses([]);
+        setLoading(false);
+        return;
+      }
+      
       // Usar cache inteligente para turmas do instrutor
       const cacheKey = CACHE_KEYS.INSTRUCTOR_CLASSES(userProfile.academiaId, user.uid);
       
