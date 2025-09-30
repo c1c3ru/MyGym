@@ -2,6 +2,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useTheme } from '@contexts/ThemeContext';
 import UniversalHeader from '@components/UniversalHeader';
+import { PROFILE_COLORS } from '@shared/constants/colors';
 
 // Telas Compartilhadas
 import ProfileScreen from '@screens/shared/ProfileScreen';
@@ -20,12 +21,12 @@ const Stack = createStackNavigator();
 const getHeaderColor = (userType) => {
   switch (userType) {
     case 'admin':
-      return '#FF9800';
+      return PROFILE_COLORS.admin.primary;
     case 'instructor':
-      return '#4CAF50';
+      return PROFILE_COLORS.instructor.primary;
     case 'student':
     default:
-      return '#2196F3';
+      return PROFILE_COLORS.student.primary;
   }
 };
 

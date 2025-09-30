@@ -7,6 +7,7 @@ import { firestoreService } from '@services/firestoreService';
 import { academyFirestoreService } from '@services/academyFirestoreService';
 import { useAuth } from '@contexts/AuthProvider';
 import { useUserProfile } from '@hooks/useUserProfile';
+import { PROFILE_COLORS, STATUS_COLORS, APP_COLORS } from '@shared/constants/colors';
 
 const CheckInButton = ({ classId, className, onCheckInSuccess }) => {
   const [loading, setLoading] = useState(false);
@@ -113,9 +114,9 @@ const CheckInButton = ({ classId, className, onCheckInSuccess }) => {
   };
 
   const getStatusColor = () => {
-    if (locationStatus?.includes('inválida')) return '#F44336';
-    if (locationStatus?.includes('realizado')) return '#4CAF50';
-    return '#FF9800';
+    if (locationStatus?.includes('inválida')) return STATUS_COLORS.error;
+    if (locationStatus?.includes('realizado')) return STATUS_COLORS.success;
+    return STATUS_COLORS.warning;
   };
 
   return (
@@ -125,7 +126,7 @@ const CheckInButton = ({ classId, className, onCheckInSuccess }) => {
           <MaterialCommunityIcons 
             name="map-marker-check" 
             size={24} 
-            color="#2196F3" 
+            color={PROFILE_COLORS.student.primary} 
           />
           <Text style={styles.title}>Check-in com Localização</Text>
         </View>
@@ -157,7 +158,7 @@ const CheckInButton = ({ classId, className, onCheckInSuccess }) => {
         >
           {loading ? (
             <View style={styles.loadingContainer}>
-              <ActivityIndicator color="white" size="small" />
+              <ActivityIndicator color={APP_COLORS.white} size="small" />
               <Text style={styles.loadingText}>Verificando...</Text>
             </View>
           ) : (
@@ -222,7 +223,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   loadingText: {
-    color: 'white',
+    color: APP_COLORS.white,
     marginLeft: 8,
     fontSize: 16,
   },

@@ -1,22 +1,28 @@
-// Professional color palettes for Admin screens - Updated to use new professional colors
+import {
+  APP_COLORS,
+  PROFILE_COLORS,
+  STATUS_COLORS,
+  TEXT_COLORS,
+} from '@shared/constants/colors';
+
 export const ADMIN_COLORS = {
-  headerGradient: ['#6A1B9A', '#8E24AA', '#AB47BC'], // Professional Purple gradient
-  primary: '#6A1B9A',                                  // Professional Purple
-  secondary: '#8E24AA',
-  accent: '#AB47BC',
-  blue: ['#1976D2', '#1565C0'],                       // Professional Blue
-  green: ['#2E7D32', '#388E3C'],                      // Professional Green
-  purple: ['#6A1B9A', '#8E24AA'],                     // Professional Purple
-  orange: ['#F57C00', '#FF9800'],                     // Professional Orange
-  grayLight: '#f3f3f3',
-  white: '#FFFFFF',
-  textDark: '#1A1A1A',                                // Darker, more professional text
-  textMuted: '#424242',                               // Better contrast
-  textDisabled: '#9E9E9E',
-  surface: '#F3E5F5',                                 // Light purple surface
-  card: '#FFFFFF',
-  background: '#FAFAFA',
-  accentWarning: '#F57C00',
+  headerGradient: PROFILE_COLORS.admin.gradient,
+  primary: PROFILE_COLORS.admin.primary,
+  secondary: PROFILE_COLORS.admin.primaryLight,
+  accent: PROFILE_COLORS.admin.primaryDark,
+  blue: [PROFILE_COLORS.student.primary, PROFILE_COLORS.student.primaryDark],
+  green: [PROFILE_COLORS.instructor.primary, PROFILE_COLORS.instructor.primaryDark],
+  gold: [PROFILE_COLORS.admin.primary, PROFILE_COLORS.admin.primaryDark],
+  vibrantRed: APP_COLORS.vibrantRed,
+  grayLight: APP_COLORS.gray[100],
+  white: APP_COLORS.white,
+  textDark: TEXT_COLORS.primary,
+  textMuted: TEXT_COLORS.secondary,
+  textDisabled: TEXT_COLORS.disabled,
+  surface: PROFILE_COLORS.admin.surface,
+  card: APP_COLORS.white,
+  background: PROFILE_COLORS.admin.background,
+  accentWarning: STATUS_COLORS.warning,
 };
 
 export const ADMIN_ICONS = {

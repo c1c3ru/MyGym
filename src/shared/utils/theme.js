@@ -1,101 +1,108 @@
-
 import { MD3LightTheme, MD3DarkTheme } from 'react-native-paper';
+import { 
+  PROFILE_COLORS, 
+  APP_COLORS, 
+  TEXT_COLORS, 
+  STATUS_COLORS,
+  LIGHT_THEME,
+  DARK_THEME
+} from '@shared/constants/colors';
 
 // Professional Color Palettes for User Types
 export const USER_PALETTES = {
   student: {
     light: {
-      primary: '#1976D2',        // Professional Blue
-      primaryVariant: '#0D47A1',  
-      secondary: '#1565C0',
-      accent: '#42A5F5',
-      surface: '#F8FAFF',
-      background: '#FFFFFF',
-      card: '#FFFFFF',
-      gradient: ['#1976D2', '#1565C0'],
+      primary: PROFILE_COLORS.student.primary,
+      primaryVariant: PROFILE_COLORS.student.primaryDark,
+      secondary: PROFILE_COLORS.student.primary,
+      accent: PROFILE_COLORS.student.primaryLight,
+      surface: PROFILE_COLORS.student.surface,
+      background: PROFILE_COLORS.student.background,
+      card: APP_COLORS.white,
+      gradient: PROFILE_COLORS.student.gradient,
       text: {
-        primary: '#1A1A1A',
-        secondary: '#424242',
-        disabled: '#9E9E9E'
+        primary: TEXT_COLORS.primary,
+        secondary: TEXT_COLORS.secondary,
+        disabled: TEXT_COLORS.disabled
       }
     },
     dark: {
-      primary: '#64B5F6',
-      primaryVariant: '#42A5F5',
-      secondary: '#90CAF9',
-      accent: '#BBDEFB',
-      surface: '#1A1A2E',
-      background: '#0F0F23',
-      card: '#16213E',
-      gradient: ['#64B5F6', '#42A5F5'],
+      primary: PROFILE_COLORS.student.primaryLight,
+      primaryVariant: PROFILE_COLORS.student.primary,
+      secondary: PROFILE_COLORS.student.primaryLight,
+      accent: PROFILE_COLORS.student.primaryLight,
+      surface: DARK_THEME.surface,
+      background: DARK_THEME.background,
+      card: DARK_THEME.card,
+      gradient: PROFILE_COLORS.student.gradient,
       text: {
-        primary: '#FFFFFF',
-        secondary: '#E0E0E0',
-        disabled: '#757575'
+        primary: TEXT_COLORS.inverse,
+        secondary: DARK_THEME.textSecondary,
+        disabled: DARK_THEME.disabled
       }
     }
   },
   instructor: {
     light: {
-      primary: '#2E7D32',        // Professional Green
-      primaryVariant: '#1B5E20',
-      secondary: '#388E3C',
-      accent: '#66BB6A',
-      surface: '#F1F8E9',
-      background: '#FFFFFF',
-      card: '#FFFFFF',
-      gradient: ['#2E7D32', '#388E3C'],
+      primary: PROFILE_COLORS.instructor.primary,
+      primaryVariant: PROFILE_COLORS.instructor.primaryDark,
+      secondary: PROFILE_COLORS.instructor.primary,
+      accent: PROFILE_COLORS.instructor.primaryLight,
+      surface: PROFILE_COLORS.instructor.surface,
+      background: PROFILE_COLORS.instructor.background,
+      card: APP_COLORS.white,
+      gradient: PROFILE_COLORS.instructor.gradient,
       text: {
-        primary: '#1A1A1A',
-        secondary: '#424242',
-        disabled: '#9E9E9E'
+        primary: TEXT_COLORS.primary,
+        secondary: TEXT_COLORS.secondary,
+        disabled: TEXT_COLORS.disabled
       }
     },
     dark: {
-      primary: '#81C784',
-      primaryVariant: '#66BB6A',
-      secondary: '#A5D6A7',
-      accent: '#C8E6C9',
-      surface: '#1A2E1A',
-      background: '#0F230F',
-      card: '#163E16',
-      gradient: ['#81C784', '#66BB6A'],
+      primary: PROFILE_COLORS.instructor.primaryLight,
+      primaryVariant: PROFILE_COLORS.instructor.primary,
+      secondary: PROFILE_COLORS.instructor.primaryLight,
+      accent: PROFILE_COLORS.instructor.primaryLight,
+      surface: DARK_THEME.surface,
+      background: DARK_THEME.background,
+      card: DARK_THEME.card,
+      gradient: PROFILE_COLORS.instructor.gradient,
       text: {
-        primary: '#FFFFFF',
-        secondary: '#E0E0E0',
-        disabled: '#757575'
+        primary: TEXT_COLORS.inverse,
+        secondary: DARK_THEME.textSecondary,
+        disabled: DARK_THEME.disabled
       }
     }
   },
   admin: {
     light: {
-      primary: '#6A1B9A',        // Professional Purple
-      primaryVariant: '#4A148C',
-      secondary: '#8E24AA',
-      accent: '#AB47BC',
-      surface: '#F3E5F5',
-      background: '#FFFFFF',
-      card: '#FFFFFF',
-      gradient: ['#6A1B9A', '#8E24AA'],
+      primary: PROFILE_COLORS.admin.primary,
+      primaryVariant: PROFILE_COLORS.admin.primaryDark,
+      secondary: PROFILE_COLORS.admin.primary,
+      accent: PROFILE_COLORS.admin.primaryLight,
+      surface: PROFILE_COLORS.admin.surface,
+      background: PROFILE_COLORS.admin.background,
+      card: APP_COLORS.white,
+      gradient: PROFILE_COLORS.admin.gradient,
       text: {
-        primary: '#1A1A1A',
-        secondary: '#424242',
-        disabled: '#9E9E9E'
+        primary: TEXT_COLORS.primary,
+        secondary: TEXT_COLORS.secondary,
+        disabled: TEXT_COLORS.disabled
       }
     },
     dark: {
-      primary: '#CE93D8',
-      primaryVariant: '#BA68C8',
-      secondary: '#E1BEE7',
-      accent: '#F8BBD9',
-      surface: '#2E1A2E',
-      background: '#230F23',
-      card: '#3E163E',
-      gradient: ['#CE93D8', '#BA68C8'],
+      primary: PROFILE_COLORS.admin.primaryLight,
+      primaryVariant: PROFILE_COLORS.admin.primary,
+      secondary: PROFILE_COLORS.admin.primaryLight,
+      accent: PROFILE_COLORS.admin.primaryLight,
+      surface: DARK_THEME.surface,
+      background: DARK_THEME.background,
+      card: DARK_THEME.card,
+      gradient: PROFILE_COLORS.admin.gradient,
       text: {
-        primary: '#FFFFFF',
-        secondary: '#E0E0E0',
-        disabled: '#757575'
+        primary: TEXT_COLORS.inverse,
+        secondary: DARK_THEME.textSecondary,
+        disabled: DARK_THEME.disabled
       }
     }
   }
@@ -106,15 +113,15 @@ const lightTheme = {
   ...MD3LightTheme,
   colors: {
     ...MD3LightTheme.colors,
-    primary: '#1976D2',
-    secondary: '#388E3C',
-    background: '#FFFFFF',
-    surface: '#F5F5F5',
-    error: '#D32F2F',
-    success: '#2E7D32',
-    warning: '#F57C00',
-    text: '#212121',
-    disabled: '#BDBDBD',
+    primary: PROFILE_COLORS.student.primary,
+    secondary: PROFILE_COLORS.instructor.primary,
+    background: LIGHT_THEME.background,
+    surface: LIGHT_THEME.surface,
+    error: STATUS_COLORS.error,
+    success: STATUS_COLORS.success,
+    warning: STATUS_COLORS.warning,
+    text: TEXT_COLORS.primary,
+    disabled: TEXT_COLORS.disabled,
   },
   roundness: 8,
 };
@@ -123,15 +130,15 @@ const darkTheme = {
   ...MD3DarkTheme,
   colors: {
     ...MD3DarkTheme.colors,
-    primary: '#64B5F6',
-    secondary: '#81C784',
-    background: '#121212',
-    surface: '#1E1E1E',
-    error: '#CF6679',
-    success: '#81C784',
-    warning: '#FFB74D',
-    text: '#FFFFFF',
-    disabled: '#6D6D6D',
+    primary: PROFILE_COLORS.student.primaryLight,
+    secondary: PROFILE_COLORS.instructor.primaryLight,
+    background: DARK_THEME.background,
+    surface: DARK_THEME.surface,
+    error: STATUS_COLORS.error,
+    success: STATUS_COLORS.success,
+    warning: STATUS_COLORS.warning,
+    text: TEXT_COLORS.inverse,
+    disabled: DARK_THEME.disabled,
   },
   roundness: 8,
 };

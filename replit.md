@@ -39,6 +39,18 @@ Preferred communication style: Simple, everyday language.
 - **Session Management**: Firebase Auth state persistence with automatic token refresh
 - **Academy Association**: Users linked to specific academies through custom claims
 
+## Design System & Colors
+- **Centralized Color Palette**: All colors defined in `src/shared/constants/colors.js`
+- **Professional Color Scheme**:
+  - **Main Palette**: Black (#0D0D0D), Dark Gray (#262626), White (#FFFFFF), Vibrant Red (#FF3B3B)
+  - **Student Profile**: Cobalt Blue (#007BFF) - Represents calm, confidence, and progress
+  - **Instructor Profile**: Emerald Green (#2ECC71) - Symbolizes growth, vitality, and knowledge
+  - **Administrator Profile**: Gold Yellow (#FFD700) - Conveys power, organization, and authority
+- **Status Colors**: Success (green), Warning (orange), Error (red), Info (blue) with gradient variants
+- **Helper Functions**: `getProfileColors()`, `getPrimaryColor()`, `getProfileGradient()`, `getBeltColor()`, `getStatusColor()`
+- **Theme Support**: Light and dark theme configurations with proper text contrast
+- **Color Psychology**: Colors chosen to reinforce each role's purpose and create clear visual hierarchy
+
 # External Dependencies
 
 ## Core Services
@@ -66,15 +78,25 @@ Preferred communication style: Simple, everyday language.
 
 # Replit Environment Setup
 
+## Initial Setup Status
+✅ **Project successfully configured and running in Replit** (September 30, 2025)
+- All dependencies installed successfully
+- Environment variables configured from `.env` file
+- Development server running on port 5000
+- Application tested and verified working correctly
+- Deployment configuration completed
+
 ## Configuration Files
 - **metro.config.js**: Configured Expo Metro bundler for Replit environment with proper caching headers
 - **scripts/start-replit.js**: Custom startup script that launches Expo dev server on port 5000 with `lan` host mode
 - **package.json**: Removed husky prepare script (git hooks not needed in Replit)
+- **.env**: Environment variables for Firebase configuration (created from env.example)
 
 ## Development Workflow
 - **Port**: Frontend runs on port 5000 (required for Replit proxy)
 - **Host Mode**: Uses `lan` mode which binds to 0.0.0.0, allowing Replit's proxy to access the server
 - **Auto-Restart**: Workflow automatically restarts when dependencies are installed
+- **Workflow Name**: "MyGym App" - Runs `npm start` command
 
 ## Important Fixes Applied
 - **Circular Dependencies**: Fixed 16 service re-export files in `src/services/` that were importing from themselves (`@services/`) instead of from `@infrastructure/services/`
@@ -85,7 +107,9 @@ Preferred communication style: Simple, everyday language.
 - **Build Command**: `npm run build:prod` - Exports Expo web app to `dist/` folder
 - **Run Command**: `npx serve dist -l 5000 -s` - Serves static files with single-page app support
 - **Target**: Autoscale deployment (stateless web app)
+- **Deployment**: Ready to publish when needed
 
 ## Known Issues
 - One remaining require cycle in `src/shared/utils/scheduleUtils.js` (does not affect functionality)
 - Some peer dependency warnings (do not affect runtime)
+- Some deprecation warnings for native animations (expected for web platform)

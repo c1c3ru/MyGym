@@ -1,0 +1,39 @@
+Paleta Principal (Aplicativo)
+A paleta principal deve ser a base do aplicativo, usada por todos os perfis, mas com cores secundárias ou de destaque para cada um.
+
+Preto Sólido (#0D0D0D): Transmite seriedade, força e sofisticação. É ideal para fundos escuros ou elementos de destaque.
+
+Cinza Escuro (#262626): Uma variação mais suave do preto, perfeita para caixas de texto, menus ou cartões de informação.
+
+Branco (#FFFFFF): Essencial para textos e ícones, garantindo legibilidade e contraste.
+
+Vermelho Vibrante (#FF3B3B): Cor de destaque que evoca energia, paixão e intensidade, muito ligada ao universo da luta. Use para botões de ação (CTA), alertas ou detalhes importantes.
+
+Cores para Perfis
+Para criar uma diferenciação clara, use uma cor de destaque para cada perfil. Isso pode ser aplicado em ícones, bordas de perfil, tags ou até em alguns elementos específicos da interface de cada usuário.
+
+Aluno: Azul Cobalto (#007BFF)
+
+Por que funciona: O azul transmite calma, confiança e progresso. Para o aluno, essa cor representa a jornada de aprendizado, a evolução gradual e a sensação de segurança no ambiente de treino. É uma cor amigável e acessível.
+
+Instrutor: Verde Esmeralda (#2ECC71)
+
+Por que funciona: O verde está associado a crescimento, vitalidade e conhecimento. Para o instrutor, simboliza o papel de guiar e nutrir o desenvolvimento dos alunos, além de transmitir uma sensação de autoridade e experiência. É uma cor que passa tranquilidade e sabedoria.
+
+Administrador: Amarelo Ouro (#FFD700)
+
+Por que funciona: O amarelo dourado transmite poder, riqueza (de informações) e organização. Para o administrador, que gerencia todo o sistema, essa cor representa a visão global, o controle e a importância estratégica de seu papel. É uma cor de destaque que chama a atenção e indica um nível superior de acesso. Combinação Base Sóbria e Forte: A paleta principal de preto, cinza e branco é a espinha dorsal de muitas interfaces de usuário modernas e profissionais. Ela cria um visual limpo, sofisticado e de alto contraste, que é ideal para a leitura e para destacar informações importantes. Essa base é séria e alinhada com a disciplina das artes marciais.
+
+Cores de Destaque Estratégicas: O uso do vermelho vibrante como cor de destaque principal é um clássico em design de aplicativos que exigem energia e ação (como apps de fitness e esportes). É uma escolha intencional para botões de "começar treino" ou "inscrever-se", por exemplo.
+
+Diferenciação Clara e Intuitiva: Atribuir cores específicas para cada perfil (azul para o aluno, verde para o instrutor e amarelo para o administrador) não é apenas uma questão de beleza; é uma estratégia de design funcional. Essa diferenciação visual ajuda o usuário a identificar rapidamente seu papel no aplicativo e a navegar de forma mais eficiente. É uma técnica chamada "codificação de cores" (color coding), amplamente utilizada em design de interfaces para melhorar a usabilidade.
+
+Associações Psicológicas Positivas: As cores escolhidas para cada perfil têm associações que reforçam seu papel:
+
+Azul (Aluno): Remete a confiança, calma e progresso.
+
+Verde (Instrutor): Remete a crescimento, segurança e conhecimento.
+
+Amarelo (Administrador): Remete a poder, visibilidade e autoridade.
+
+Em resumo, as cores propostas vão além da estética. Elas criam uma hierarquia visual clara, melhoram a experiência do usuário e transmitem os valores de profissionalismo e seriedade que um aplicativo de academia de luta deve ter

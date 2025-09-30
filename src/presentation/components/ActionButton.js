@@ -2,6 +2,7 @@ import React, { memo } from 'react';
 import { View, StyleSheet, Platform } from 'react-native';
 import { Button } from 'react-native-paper';
 import { LinearGradient } from 'expo-linear-gradient';
+import { PROFILE_COLORS, STATUS_COLORS, APP_COLORS } from '@shared/constants/colors';
 
 const ActionButton = ({ 
   mode = 'outlined', 
@@ -19,39 +20,39 @@ const ActionButton = ({
     switch (variant) {
       case 'primary':
         return {
-          contained: ['#2196F3', '#1976D2'],
-          outlined: '#2196F3',
-          text: mode === 'contained' ? '#ffffff' : '#2196F3'
+          contained: PROFILE_COLORS.student.gradient,
+          outlined: PROFILE_COLORS.student.primary,
+          text: mode === 'contained' ? APP_COLORS.white : PROFILE_COLORS.student.primary
         };
       case 'success':
         return {
-          contained: ['#4CAF50', '#388E3C'],
-          outlined: '#4CAF50',
-          text: mode === 'contained' ? '#ffffff' : '#4CAF50'
+          contained: STATUS_COLORS.successGradient,
+          outlined: STATUS_COLORS.success,
+          text: mode === 'contained' ? APP_COLORS.white : STATUS_COLORS.success
         };
       case 'warning':
         return {
-          contained: ['#FF9800', '#F57C00'],
-          outlined: '#FF9800',
-          text: mode === 'contained' ? '#ffffff' : '#FF9800'
+          contained: STATUS_COLORS.warningGradient,
+          outlined: STATUS_COLORS.warning,
+          text: mode === 'contained' ? APP_COLORS.white : STATUS_COLORS.warning
         };
       case 'danger':
         return {
-          contained: ['#F44336', '#D32F2F'],
-          outlined: '#F44336',
-          text: mode === 'contained' ? '#ffffff' : '#F44336'
+          contained: STATUS_COLORS.errorGradient,
+          outlined: STATUS_COLORS.error,
+          text: mode === 'contained' ? APP_COLORS.white : STATUS_COLORS.error
         };
       case 'secondary':
         return {
-          contained: ['#9C27B0', '#7B1FA2'],
-          outlined: '#9C27B0',
-          text: mode === 'contained' ? '#ffffff' : '#9C27B0'
+          contained: PROFILE_COLORS.admin.gradient,
+          outlined: PROFILE_COLORS.admin.primary,
+          text: mode === 'contained' ? APP_COLORS.white : PROFILE_COLORS.admin.primary
         };
       default:
         return {
-          contained: ['#2196F3', '#1976D2'],
-          outlined: '#2196F3',
-          text: mode === 'contained' ? '#ffffff' : '#2196F3'
+          contained: PROFILE_COLORS.student.gradient,
+          outlined: PROFILE_COLORS.student.primary,
+          text: mode === 'contained' ? APP_COLORS.white : PROFILE_COLORS.student.primary
         };
     }
   };
@@ -89,7 +90,7 @@ const ActionButton = ({
     return (
       <View style={[styles.gradientContainer, style, { minHeight: sizeStyles.minHeight }]}>
         <LinearGradient
-          colors={disabled ? ['#E0E0E0', '#BDBDBD'] : colors.contained}
+          colors={disabled ? [APP_COLORS.gray[300], APP_COLORS.gray[400]] : colors.contained}
           style={styles.gradient}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
@@ -128,11 +129,11 @@ const ActionButton = ({
       loading={loading}
       disabled={disabled}
       buttonColor={mode === 'outlined' ? 'transparent' : undefined}
-      textColor={disabled ? '#BDBDBD' : colors.text}
+      textColor={disabled ? APP_COLORS.gray[400] : colors.text}
       style={[
         styles.button,
         mode === 'outlined' && {
-          borderColor: disabled ? '#E0E0E0' : colors.outlined,
+          borderColor: disabled ? APP_COLORS.gray[300] : colors.outlined,
           borderWidth: 1.5
         },
         { minHeight: sizeStyles.minHeight },
@@ -170,10 +171,11 @@ const ActionButtonGroup = memo(({ children, style, direction = 'row' }) => {
 export const FloatingActionButton = ({ icon, label, onPress, variant = 'primary', style }) => {
   const getColors = () => {
     switch (variant) {
-      case 'success': return ['#4CAF50', '#388E3C'];
-      case 'warning': return ['#FF9800', '#F57C00'];
-      case 'danger': return ['#F44336', '#D32F2F'];
-      default: return ['#2196F3', '#1976D2'];
+      case 'success': return STATUS_COLORS.successGradient;
+      case 'warning': return STATUS_COLORS.warningGradient;
+      case 'danger': return STATUS_COLORS.errorGradient;
+      case 'secondary': return PROFILE_COLORS.admin.gradient;
+      default: return PROFILE_COLORS.student.gradient;
     }
   };
 
@@ -247,7 +249,7 @@ const styles = StyleSheet.create({
     margin: 0,
   },
   gradientButtonText: {
-    color: '#ffffff',
+    color: APP_COLORS.white,
     fontWeight: '600',
   },
   gradientButtonContent: {
@@ -288,7 +290,7 @@ const styles = StyleSheet.create({
     margin: 0,
   },
   fabText: {
-    color: '#ffffff',
+    color: APP_COLORS.white,
     fontWeight: '700',
     fontSize: 16,
   },

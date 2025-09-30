@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '@contexts/ThemeContext';
 import UniversalHeader from '@components/UniversalHeader';
+import { PROFILE_COLORS } from '@shared/constants/colors';
 
 // Telas do Admin
 import AdminDashboard from '@screens/admin/AdminDashboard';
@@ -45,7 +46,7 @@ const AdminTabNavigator = () => {
           <UniversalHeader
             title={(options && options.title) || (hdrRoute && hdrRoute.name) || route.name || 'Admin'}
             navigation={hdrNav || navigation}
-            backgroundColor="#FF9800"
+            backgroundColor={PROFILE_COLORS.admin.primary}
           />
         ),
         tabBarIcon: ({ focused, color, size }) => {
@@ -64,7 +65,7 @@ const AdminTabNavigator = () => {
           }
           return <Ionicons name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: '#FF9800',
+        tabBarActiveTintColor: PROFILE_COLORS.admin.primary,
         tabBarInactiveTintColor: 'gray',
       })}
     >
@@ -114,7 +115,7 @@ const AdminNavigator = () => {
               title={getString('newClass')}
               navigation={navigation}
               showBack={true}
-              backgroundColor="#FF9800"
+              backgroundColor={PROFILE_COLORS.admin.primary}
             />
           ),
         }}
@@ -129,7 +130,7 @@ const AdminNavigator = () => {
               title={getString('classStudents')}
               navigation={navigation}
               showBack={true}
-              backgroundColor="#FF9800"
+              backgroundColor={PROFILE_COLORS.admin.primary}
             />
           ),
         }}
@@ -144,7 +145,7 @@ const AdminNavigator = () => {
               title="Check-ins"
               navigation={navigation}
               showBack={true}
-              backgroundColor="#FF9800"
+              backgroundColor={PROFILE_COLORS.admin.primary}
             />
           ),
         }}
@@ -159,7 +160,7 @@ const AdminNavigator = () => {
               title={getString('editClass')}
               navigation={navigation}
               showBack={true}
-              backgroundColor="#FF9800"
+              backgroundColor={PROFILE_COLORS.admin.primary}
             />
           ),
         }}
@@ -174,7 +175,7 @@ const AdminNavigator = () => {
               title={getString('classDetails')}
               navigation={navigation}
               showBack={true}
-              backgroundColor="#FF9800"
+              backgroundColor={PROFILE_COLORS.admin.primary}
             />
           ),
         }}
@@ -189,7 +190,7 @@ const AdminNavigator = () => {
               title={getString('newStudent')}
               navigation={navigation}
               showBack={true}
-              backgroundColor="#FF9800"
+              backgroundColor={PROFILE_COLORS.admin.primary}
             />
           ),
         }}
@@ -204,7 +205,7 @@ const AdminNavigator = () => {
               title={getString('editStudent')}
               navigation={navigation}
               showBack={true}
-              backgroundColor="#FF9800"
+              backgroundColor={PROFILE_COLORS.admin.primary}
             />
           ),
         }}
@@ -219,7 +220,7 @@ const AdminNavigator = () => {
               title={getString('studentDetails')}
               navigation={navigation}
               showBack={true}
-              backgroundColor="#FF9800"
+              backgroundColor={PROFILE_COLORS.admin.primary}
             />
           ),
         }}
@@ -234,7 +235,7 @@ const AdminNavigator = () => {
               title={getString('studentPayments')}
               navigation={navigation}
               showBack={true}
-              backgroundColor="#FF9800"
+              backgroundColor={PROFILE_COLORS.admin.primary}
             />
           ),
         }}
@@ -249,7 +250,7 @@ const AdminNavigator = () => {
               title={getString('reports')}
               navigation={navigation}
               showBack={true}
-              backgroundColor="#FF9800"
+              backgroundColor={PROFILE_COLORS.admin.primary}
             />
           ),
         }}
@@ -264,7 +265,7 @@ const AdminNavigator = () => {
               title="Perfil do Aluno"
               navigation={navigation}
               showBack={true}
-              backgroundColor="#FF9800"
+              backgroundColor={PROFILE_COLORS.admin.primary}
             />
           ),
         }}
@@ -286,7 +287,7 @@ const AdminNavigator = () => {
               title="Perfil"
               navigation={navigation}
               showBack={true}
-              backgroundColor="#FF9800"
+              backgroundColor={PROFILE_COLORS.admin.primary}
             />
           ),
         }}
@@ -303,7 +304,7 @@ const AdminNavigator = () => {
               title="Alterar Senha"
               navigation={navigation}
               showBack={true}
-              backgroundColor="#FF9800"
+              backgroundColor={PROFILE_COLORS.admin.primary}
             />
           ),
         }}
@@ -318,7 +319,7 @@ const AdminNavigator = () => {
               title="Avaliação Física"
               navigation={navigation}
               showBack={true}
-              backgroundColor="#FF9800"
+              backgroundColor={PROFILE_COLORS.admin.primary}
             />
           ),
         }}
@@ -333,7 +334,7 @@ const AdminNavigator = () => {
               title="Histórico de Avaliações"
               navigation={navigation}
               showBack={true}
-              backgroundColor="#FF9800"
+              backgroundColor={PROFILE_COLORS.admin.primary}
             />
           ),
         }}
@@ -348,7 +349,7 @@ const AdminNavigator = () => {
               title="Configurações de Notificação"
               navigation={navigation}
               showBack={true}
-              backgroundColor="#FF9800"
+              backgroundColor={PROFILE_COLORS.admin.primary}
             />
           ),
         }}
@@ -363,7 +364,7 @@ const AdminNavigator = () => {
               title="Privacidade e Segurança"
               navigation={navigation}
               showBack={true}
-              backgroundColor="#FF9800"
+              backgroundColor={PROFILE_COLORS.admin.primary}
             />
           ),
         }}

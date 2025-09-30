@@ -1,4 +1,5 @@
 // Constantes da aplicação
+import { STATUS_COLORS, BELT_COLORS, APP_COLORS, TEXT_COLORS } from '@shared/constants/colors';
 
 export const USER_TYPES = {
   STUDENT: 'student',
@@ -59,27 +60,27 @@ export const CLASS_STATUS = {
 };
 
 export const COLORS = {
-  PRIMARY: '#2196F3',
-  SECONDARY: '#4CAF50',
-  ERROR: '#F44336',
-  WARNING: '#FF9800',
-  SUCCESS: '#4CAF50',
-  INFO: '#2196F3',
-  BACKGROUND: '#f5f5f5',
-  SURFACE: '#ffffff',
-  TEXT: '#333333',
-  TEXT_SECONDARY: '#666666'
+  PRIMARY: APP_COLORS.vibrantRed,
+  SECONDARY: STATUS_COLORS.success,
+  ERROR: STATUS_COLORS.error,
+  WARNING: STATUS_COLORS.warning,
+  SUCCESS: STATUS_COLORS.success,
+  INFO: STATUS_COLORS.info,
+  BACKGROUND: APP_COLORS.gray[50],
+  SURFACE: APP_COLORS.white,
+  TEXT: TEXT_COLORS.primary,
+  TEXT_SECONDARY: TEXT_COLORS.secondary
 };
 
 export const GRADUATION_COLORS = {
-  'Iniciante': '#9E9E9E',
-  'Branca': '#FFFFFF',
-  'Azul': '#2196F3',
-  'Roxa': '#9C27B0',
-  'Marrom': '#795548',
-  'Preta': '#000000',
+  'Iniciante': APP_COLORS.gray[500],
+  'Branca': BELT_COLORS.branca,
+  'Azul': BELT_COLORS.azul,
+  'Roxa': BELT_COLORS.roxa,
+  'Marrom': BELT_COLORS.marrom,
+  'Preta': BELT_COLORS.preta,
   'Coral': '#FF5722',
-  'Vermelha': '#F44336',
+  'Vermelha': STATUS_COLORS.error,
   'Vermelha e Preta': '#B71C1C'
 };
 

@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '@contexts/ThemeContext';
 import UniversalHeader from '@components/UniversalHeader';
+import { PROFILE_COLORS } from '@shared/constants/colors';
 
 // Telas do Professor
 import InstructorDashboard from '@screens/instructor/InstructorDashboard';
@@ -41,7 +42,7 @@ const InstructorTabNavigator = () => {
           <UniversalHeader
             title={(options && options.title) || (hdrRoute && hdrRoute.name) || route.name || 'Instrutor'}
             navigation={hdrNav || navigation}
-            backgroundColor="#4CAF50"
+            backgroundColor={PROFILE_COLORS.instructor.primary}
           />
         ),
         tabBarIcon: ({ focused, color, size }) => {
@@ -56,7 +57,7 @@ const InstructorTabNavigator = () => {
           }
           return <Ionicons name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: '#4CAF50',
+        tabBarActiveTintColor: PROFILE_COLORS.instructor.primary,
         tabBarInactiveTintColor: 'gray',
       })}
     >
@@ -96,7 +97,7 @@ const InstructorNavigator = () => {
               title={getString('newLesson')}
               navigation={navigation}
               showBack={true}
-              backgroundColor="#4CAF50"
+              backgroundColor={PROFILE_COLORS.instructor.primary}
             />
           ),
         }}
@@ -111,7 +112,7 @@ const InstructorNavigator = () => {
               title="Agendar Aulas"
               navigation={navigation}
               showBack={true}
-              backgroundColor="#4CAF50"
+              backgroundColor={PROFILE_COLORS.instructor.primary}
             />
           ),
         }}
@@ -126,7 +127,7 @@ const InstructorNavigator = () => {
               title={getString('checkIn')}
               navigation={navigation}
               showBack={true}
-              backgroundColor="#4CAF50"
+              backgroundColor={PROFILE_COLORS.instructor.primary}
             />
           ),
         }}
@@ -141,7 +142,7 @@ const InstructorNavigator = () => {
               title={getString('reports')}
               navigation={navigation}
               showBack={true}
-              backgroundColor="#4CAF50"
+              backgroundColor={PROFILE_COLORS.instructor.primary}
             />
           ),
         }}
@@ -156,7 +157,7 @@ const InstructorNavigator = () => {
               title={getString('classDetails')}
               navigation={navigation}
               showBack={true}
-              backgroundColor="#4CAF50"
+              backgroundColor={PROFILE_COLORS.instructor.primary}
             />
           ),
         }}
@@ -171,7 +172,7 @@ const InstructorNavigator = () => {
               title={getString('checkIns')}
               navigation={navigation}
               showBack={true}
-              backgroundColor="#4CAF50"
+              backgroundColor={PROFILE_COLORS.instructor.primary}
             />
           ),
         }}
@@ -186,7 +187,7 @@ const InstructorNavigator = () => {
               title={getString('newClass')}
               navigation={navigation}
               showBack={true}
-              backgroundColor="#4CAF50"
+              backgroundColor={PROFILE_COLORS.instructor.primary}
             />
           ),
         }}
@@ -201,7 +202,7 @@ const InstructorNavigator = () => {
               title={getString('newStudent')}
               navigation={navigation}
               showBack={true}
-              backgroundColor="#4CAF50"
+              backgroundColor={PROFILE_COLORS.instructor.primary}
             />
           ),
         }}
@@ -216,7 +217,7 @@ const InstructorNavigator = () => {
               title="Perfil do Aluno"
               navigation={navigation}
               showBack={true}
-              backgroundColor="#4CAF50"
+              backgroundColor={PROFILE_COLORS.instructor.primary}
             />
           ),
         }}
@@ -231,7 +232,7 @@ const InstructorNavigator = () => {
               title="Nova Graduação"
               navigation={navigation}
               showBack={true}
-              backgroundColor="#4CAF50"
+              backgroundColor={PROFILE_COLORS.instructor.primary}
             />
           ),
         }}
@@ -248,7 +249,7 @@ const InstructorNavigator = () => {
               title="Perfil"
               navigation={navigation}
               showBack={true}
-              backgroundColor="#4CAF50"
+              backgroundColor={PROFILE_COLORS.instructor.primary}
             />
           ),
         }}
@@ -263,7 +264,7 @@ const InstructorNavigator = () => {
               title="Alterar Senha"
               navigation={navigation}
               showBack={true}
-              backgroundColor="#4CAF50"
+              backgroundColor={PROFILE_COLORS.instructor.primary}
             />
           ),
         }}
@@ -278,7 +279,7 @@ const InstructorNavigator = () => {
               title="Avaliação Física"
               navigation={navigation}
               showBack={true}
-              backgroundColor="#4CAF50"
+              backgroundColor={PROFILE_COLORS.instructor.primary}
             />
           ),
         }}
@@ -293,7 +294,7 @@ const InstructorNavigator = () => {
               title="Histórico de Avaliações"
               navigation={navigation}
               showBack={true}
-              backgroundColor="#4CAF50"
+              backgroundColor={PROFILE_COLORS.instructor.primary}
             />
           ),
         }}
@@ -308,7 +309,7 @@ const InstructorNavigator = () => {
               title="Configurações de Notificação"
               navigation={navigation}
               showBack={true}
-              backgroundColor="#4CAF50"
+              backgroundColor={PROFILE_COLORS.instructor.primary}
             />
           ),
         }}
@@ -323,7 +324,7 @@ const InstructorNavigator = () => {
               title="Privacidade e Segurança"
               navigation={navigation}
               showBack={true}
-              backgroundColor="#4CAF50"
+              backgroundColor={PROFILE_COLORS.instructor.primary}
             />
           ),
         }}
