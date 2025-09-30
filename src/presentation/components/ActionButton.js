@@ -23,37 +23,37 @@ const ActionButton = ({
         return {
           contained: PROFILE_COLORS.student.gradient,
           outlined: PROFILE_COLORS.student.primary,
-          text: mode === 'contained' ? APP_COLORS.COLORS.white : PROFILE_COLORS.student.primary
+          text: mode === 'contained' ? COLORS.white : PROFILE_COLORS.student.primary
         };
       case 'success':
         return {
           contained: STATUS_COLORS.successGradient,
           outlined: STATUS_COLORS.success,
-          text: mode === 'contained' ? APP_COLORS.COLORS.white : STATUS_COLORS.success
+          text: mode === 'contained' ? COLORS.white : STATUS_COLORS.success
         };
       case 'warning':
         return {
           contained: STATUS_COLORS.warningGradient,
           outlined: STATUS_COLORS.warning,
-          text: mode === 'contained' ? APP_COLORS.COLORS.white : STATUS_COLORS.warning
+          text: mode === 'contained' ? COLORS.white : STATUS_COLORS.warning
         };
       case 'danger':
         return {
           contained: STATUS_COLORS.errorGradient,
           outlined: STATUS_COLORS.error,
-          text: mode === 'contained' ? APP_COLORS.COLORS.white : STATUS_COLORS.error
+          text: mode === 'contained' ? COLORS.white : STATUS_COLORS.error
         };
       case 'secondary':
         return {
           contained: PROFILE_COLORS.admin.gradient,
           outlined: PROFILE_COLORS.admin.primary,
-          text: mode === 'contained' ? APP_COLORS.COLORS.white : PROFILE_COLORS.admin.primary
+          text: mode === 'contained' ? COLORS.white : PROFILE_COLORS.admin.primary
         };
       default:
         return {
           contained: PROFILE_COLORS.student.gradient,
           outlined: PROFILE_COLORS.student.primary,
-          text: mode === 'contained' ? APP_COLORS.COLORS.white : PROFILE_COLORS.student.primary
+          text: mode === 'contained' ? COLORS.white : PROFILE_COLORS.student.primary
         };
     }
   };
@@ -250,7 +250,7 @@ const styles = StyleSheet.create({
     margin: 0,
   },
   gradientButtonText: {
-    color: APP_COLORS.COLORS.white,
+    color: COLORS.white,
     fontWeight: FONT_WEIGHT.semibold,
   },
   gradientButtonContent: {
@@ -291,7 +291,7 @@ const styles = StyleSheet.create({
     margin: 0,
   },
   fabText: {
-    color: APP_COLORS.COLORS.white,
+    color: COLORS.white,
     fontWeight: FONT_WEIGHT.bold,
     fontSize: FONT_SIZE.md,
   },

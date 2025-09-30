@@ -10,7 +10,15 @@ import { View, StyleSheet, Modal, Dimensions, TouchableOpacity, Platform } from 
 import { Text, Button, IconButton } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { COLORS, SPACING, FONT_SIZE, FONT_WEIGHT, BORDER_RADIUS, Z_INDEX, OPACITY } from '@presentation/theme/designTokens';
+import { 
+  COLORS, 
+  SPACING, 
+  FONT_SIZE, 
+  FONT_WEIGHT, 
+  BORDER_RADIUS, 
+  Z_INDEX, 
+  OPACITY 
+} from '@presentation/theme/designTokens';
 
 const { width, height } = Dimensions.get('window');
 
