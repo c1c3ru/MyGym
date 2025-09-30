@@ -598,7 +598,7 @@ const AdminModalities = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <Ionicons name="fitness-outline" size={24} color="COLORS.primary[500]" />
+              <Ionicons name="fitness-outline" size={24} color={COLORS.primary[500]} />
               <Title style={styles.cardTitle}>{getString('fightModalities')}</Title>
               <Button 
                 mode="contained" 
@@ -616,7 +616,7 @@ const AdminModalities = ({ navigation }) => {
                   <List.Item
                     title={modality.name}
                     description={modality.description || getString('noDescription')}
-                    left={() => <List.Icon icon="dumbbell" color="COLORS.primary[500]" />}
+                    left={() => <List.Icon icon="dumbbell" color={COLORS.primary[500]} />}
                     right={() => (
                       <View style={styles.actionButtons}>
                         <Button 
@@ -634,7 +634,7 @@ const AdminModalities = ({ navigation }) => {
                             console.log('🔴 Botão Excluir clicado para modalidade:', modality);
                             handleDeleteModality(modality);
                           }}
-                          textColor={deletingIds.has(modality.id) ? "COLORS.gray[500]" : "COLORS.error[500]"}
+                          textColor={deletingIds.has(modality.id) ? COLORS.gray[500] : COLORS.error[500]}
                           icon={deletingIds.has(modality.id) ? "loading" : "delete"}
                           compact
                           disabled={deletingIds.has(modality.id)}
@@ -660,7 +660,7 @@ const AdminModalities = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <Ionicons name="card-outline" size={24} color="COLORS.info[500]" />
+              <Ionicons name="card-outline" size={24} color={COLORS.info[500]} />
               <Title style={styles.cardTitle}>{getString('paymentPlans')}</Title>
               <Button 
                 mode="contained" 
@@ -678,7 +678,7 @@ const AdminModalities = ({ navigation }) => {
                   <List.Item
                     title={`${plan.name} - ${formatCurrency(plan.value)}`}
                     description={`${plan.duration || 1} ${getString('months')} • ${plan.description || getString('noDescription')}`}
-                    left={() => <List.Icon icon="cash" color="COLORS.info[500]" />}
+                    left={() => <List.Icon icon="cash" color={COLORS.info[500]} />}
                     right={() => (
                       <View style={styles.actionButtons}>
                         <Button 
@@ -693,7 +693,7 @@ const AdminModalities = ({ navigation }) => {
                         <Button 
                           mode="text" 
                           onPress={() => handleDeletePlan(plan)}
-                          textColor={deletingPlanIds.has(plan.id) ? "COLORS.gray[500]" : "COLORS.error[500]"}
+                          textColor={deletingPlanIds.has(plan.id) ? COLORS.gray[500] : COLORS.error[500]}
                           icon={deletingPlanIds.has(plan.id) ? "loading" : "delete"}
                           compact
                           disabled={deletingPlanIds.has(plan.id)}
@@ -719,7 +719,7 @@ const AdminModalities = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <Ionicons name="megaphone-outline" size={24} color="COLORS.warning[500]" />
+              <Ionicons name="megaphone-outline" size={24} color={COLORS.warning[500]} />
               <Title style={styles.cardTitle}>{getString('announcementBoard')}</Title>
               <Button 
                 mode="contained" 
@@ -737,7 +737,7 @@ const AdminModalities = ({ navigation }) => {
                   <List.Item
                     title={announcement.title}
                     description={`${announcement.content.substring(0, 100)}${announcement.content.length > 100 ? '...' : ''}`}
-                    left={() => <List.Icon icon="bullhorn" color="COLORS.warning[500]" />}
+                    left={() => <List.Icon icon="bullhorn" color={COLORS.warning[500]} />}
                     right={() => (
                       <View style={styles.actionButtons}>
                         <Button 
@@ -752,7 +752,7 @@ const AdminModalities = ({ navigation }) => {
                         <Button 
                           mode="text" 
                           onPress={() => handleDeleteAnnouncement(announcement)}
-                          textColor={deletingAnnouncementIds.has(announcement.id) ? "COLORS.gray[500]" : "COLORS.error[500]"}
+                          textColor={deletingAnnouncementIds.has(announcement.id) ? COLORS.gray[500] : COLORS.error[500]}
                           icon={deletingAnnouncementIds.has(announcement.id) ? "loading" : "delete"}
                           compact
                           disabled={deletingAnnouncementIds.has(announcement.id)}
