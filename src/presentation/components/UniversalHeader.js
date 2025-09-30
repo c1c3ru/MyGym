@@ -159,7 +159,7 @@ const UniversalHeader = ({
         {showBack && (
           <Appbar.BackAction 
             onPress={() => navigation?.goBack()} 
-            color="COLORS.white"
+            color={COLORS.white}
           />
         )}
         
@@ -219,7 +219,7 @@ const UniversalHeader = ({
                 onPress={handleProfile}
                 title="Meu Perfil"
                 leadingIcon={() => (
-                  <MaterialCommunityIcons name="account" size={20} color="COLORS.text.secondary" />
+                  <MaterialCommunityIcons name="account" size={20} color={COLORS.text.secondary} />
                 )}
                 titleStyle={styles.menuItemTitle}
               />
@@ -231,7 +231,7 @@ const UniversalHeader = ({
                 }}
                 title="Configurações"
                 leadingIcon={() => (
-                  <MaterialCommunityIcons name="cog" size={20} color="COLORS.text.secondary" />
+                  <MaterialCommunityIcons name="cog" size={20} color={COLORS.text.secondary} />
                 )}
                 titleStyle={styles.menuItemTitle}
               />
@@ -245,7 +245,7 @@ const UniversalHeader = ({
                 }}
                 title="Sair"
                 leadingIcon={() => (
-                  <MaterialCommunityIcons name="logout" size={20} color="COLORS.error[500]" />
+                  <MaterialCommunityIcons name="logout" size={20} color={COLORS.error[500]} />
                 )}
                 titleStyle={[styles.menuItemTitle, { color: COLORS.error[500] }]}
               />
