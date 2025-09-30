@@ -21,7 +21,9 @@ describe('SignUpWithEmailUseCase', () => {
         password: 'password123',
         name: 'Test User',
         phone: '123456789',
-        userType: 'student' as const
+        userType: 'student' as const,
+        acceptTerms: true,
+        acceptPrivacyPolicy: true
       };
       
       mockRepository.signUpWithEmail.mockResolvedValue(mockUser);
@@ -71,7 +73,9 @@ describe('SignUpWithEmailUseCase', () => {
         email: 'instructor@example.com',
         password: 'password123',
         name: 'Instructor User',
-        userType: 'instructor' as const
+        userType: 'instructor' as const,
+        acceptTerms: true,
+        acceptPrivacyPolicy: true
       };
       
       const instructorProfile = { ...mockUserProfile, userType: 'instructor', currentGraduation: undefined };
@@ -103,7 +107,9 @@ describe('SignUpWithEmailUseCase', () => {
         email: 'invalid-email',
         password: 'password123',
         name: 'Test User',
-        userType: 'student' as const
+        userType: 'student' as const,
+        acceptTerms: true,
+        acceptPrivacyPolicy: true
       };
 
       // Act & Assert
@@ -117,7 +123,9 @@ describe('SignUpWithEmailUseCase', () => {
         email: 'test@example.com',
         password: '123',
         name: 'Test User',
-        userType: 'student' as const
+        userType: 'student' as const,
+        acceptTerms: true,
+        acceptPrivacyPolicy: true
       };
 
       // Act & Assert
@@ -131,7 +139,9 @@ describe('SignUpWithEmailUseCase', () => {
         email: 'test@example.com',
         password: 'password123',
         name: '',
-        userType: 'student' as const
+        userType: 'student' as const,
+        acceptTerms: true,
+        acceptPrivacyPolicy: true
       };
 
       // Act & Assert
@@ -145,7 +155,9 @@ describe('SignUpWithEmailUseCase', () => {
         email: 'test@example.com',
         password: 'password123',
         name: 'Test User',
-        userType: 'invalid' as any
+        userType: 'invalid' as any,
+        acceptTerms: true,
+        acceptPrivacyPolicy: true
       };
 
       // Act & Assert
@@ -159,7 +171,9 @@ describe('SignUpWithEmailUseCase', () => {
         email: 'test@example.com',
         password: 'password123',
         name: 'Test User',
-        userType: 'student' as const
+        userType: 'student' as const,
+        acceptTerms: true,
+        acceptPrivacyPolicy: true
       };
       
       const firebaseError = { code: 'auth/email-already-in-use', message: 'Email already in use' };

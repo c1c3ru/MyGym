@@ -2,8 +2,7 @@ import { useEffect, useCallback, useRef } from 'react';
 import { useAuthActions } from './useAuthActions';
 import { useAuthUI } from './useAuthUI';
 import useAuthStore from '@presentation/stores/AuthUIStore';
-import { loginSchema, signUpSchema } from '@shared/validation';
-import { validateWithSchema } from '@shared/validation/helpers/ValidationHelpers';
+import { loginSchema, signUpSchema } from '@domain/auth/usecases/schemas';
 
 /**
  * useAuthClean - Presentation Layer
@@ -35,68 +34,22 @@ export const useAuthClean = () => {
     hasValidClaims
   } = useAuthStore();
 
-  // Controle do listener de auth state
-  const authListenerRef = useRef(null);
-  const isListenerInitialized = useRef(false);
-
-  // Inicializar o listener de auth state
-  useEffect(() => {
-    if (isListenerInitialized.current) {
-      return;
-    }
-
-    console.log('🔄 useAuthClean: Inicializando listener de auth state...');
-    isListenerInitialized.current = true;
-    setLoading(true);
-
-    // Timeout de segurança
-    const loadingTimeout = setTimeout(() => {
-      console.log('⚠️ useAuthClean: Timeout de loading - forçando loading = false');
-      setLoading(false);
-    }, 5000);
-
-    // Configurar listener usando a Clean Architecture
-    authListenerRef.current = authActions.onAuthStateChanged(async (authData) => {
-      console.log('🔄 useAuthClean: Auth state changed:', authData.user ? 'Logado' : 'Deslogado');
-      clearTimeout(loadingTimeout);
-      
-      try {
-        setUser(authData.user);
-        setUserProfile(authData.userProfile);
-        setGym(authData.academy);
-        setCustomClaims(authData.customClaims);
-        
-        if (authData.user && authData.userProfile) {
-          login(authData.user, authData.userProfile);
-        } else if (!authData.user) {
-          logout();
-        }
-      } catch (error) {
-        console.error('❌ useAuthClean: Erro no auth state change:', error);
-      } finally {
-        setLoading(false);
-      }
-    });
-
-    return () => {
-      console.log('🔄 useAuthClean: Removendo listener de auth state');
-      clearTimeout(loadingTimeout);
-      if (authListenerRef.current) {
-        authListenerRef.current();
-        authListenerRef.current = null;
-      }
-      isListenerInitialized.current = false;
-    };
-  }, []);
+  // Nota: O listener de auth state é gerenciado pelo AuthProvider
+  // Não precisamos duplicar essa lógica aqui
 
   // Login com email e senha (com validação Zod)
   const signInWithEmailAndPassword = useCallback(async (email, password) => {
     try {
       // Validar dados com Zod
-      const validation = validateWithSchema(loginSchema, { email, password });
-      if (!validation.success) {
-        authUI.setFormErrors(validation.errors);
-        return { success: false, errors: validation.errors };
+      try {
+        loginSchema.parse({ email, password });
+      } catch (validationError) {
+        const errors = validationError.errors?.reduce((acc, err) => {
+          acc[err.path[0]] = err.message;
+          return acc;
+        }, {}) || {};
+        authUI.setFormErrors(errors);
+        return { success: false, errors };
       }
 
       const result = await authActions.signInWithEmailAndPassword(email, password);
@@ -117,16 +70,22 @@ export const useAuthClean = () => {
         confirmPassword: password,
         name: userData.name || userData.displayName || email.split('@')[0] || 'Usuário',
         acceptTerms: userData.acceptTerms !== undefined ? userData.acceptTerms : true,
+        acceptPrivacyPolicy: userData.acceptPrivacyPolicy !== undefined ? userData.acceptPrivacyPolicy : true,
         ...userData 
       };
       
-      const validation = validateWithSchema(signUpSchema, signUpData);
-      if (!validation.success) {
-        authUI.setFormErrors(validation.errors);
-        return { success: false, errors: validation.errors };
+      try {
+        signUpSchema.parse(signUpData);
+      } catch (validationError) {
+        const errors = validationError.errors?.reduce((acc, err) => {
+          acc[err.path[0]] = err.message;
+          return acc;
+        }, {}) || {};
+        authUI.setFormErrors(errors);
+        return { success: false, errors };
       }
 
-      const result = await authActions.signUp(email, password, userData);
+      const result = await authActions.signUp(email, password, signUpData);
       return { success: result.isSuccess(), result };
     } catch (error) {
       console.error('❌ useAuthClean.signUpWithEmailAndPassword:', error);

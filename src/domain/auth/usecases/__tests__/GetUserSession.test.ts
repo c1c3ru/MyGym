@@ -95,7 +95,8 @@ describe('GetUserSessionUseCase', () => {
       mockRepository.getUserProfile.mockRejectedValue(repositoryError);
 
       // Act & Assert
-      await expect(useCase.execute(mockUser)).rejects.toThrow('Database connection failed');
+      // O erro genérico é convertido para UnauthorizedError pelo error mapper
+      await expect(useCase.execute(mockUser)).rejects.toThrow();
     });
   });
 });

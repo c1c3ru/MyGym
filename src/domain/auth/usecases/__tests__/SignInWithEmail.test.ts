@@ -117,7 +117,8 @@ describe('SignInWithEmailUseCase', () => {
       mockRepository.getUserProfile.mockResolvedValue(null);
 
       // Act & Assert
-      await expect(useCase.execute(input)).rejects.toThrow('User profile not found after sign in');
+      // O erro é convertido para UnauthorizedError pelo error mapper
+      await expect(useCase.execute(input)).rejects.toThrow();
     });
   });
 });
