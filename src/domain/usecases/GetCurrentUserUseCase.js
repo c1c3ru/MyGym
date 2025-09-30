@@ -18,7 +18,8 @@ export class GetCurrentUserUseCase {
       // Obter usuário do Firebase Auth
       const firebaseUser = this.authRepository.getCurrentUser();
       
-      if (!firebaseUser) {
+      if (!firebaseUser || !firebaseUser.uid) {
+        console.warn('⚠️ GetCurrentUserUseCase: firebaseUser ou uid inválido:', firebaseUser);
         return {
           user: null,
           userProfile: null,
@@ -61,7 +62,7 @@ export class GetCurrentUserUseCase {
   onAuthStateChanged(callback) {
     return this.authRepository.onAuthStateChanged(async (firebaseUser) => {
       try {
-        if (firebaseUser) {
+        if (firebaseUser && firebaseUser.uid) {
           const result = await this.execute();
           callback(result);
         } else {

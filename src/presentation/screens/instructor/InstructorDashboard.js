@@ -146,6 +146,14 @@ const InstructorDashboard = ({ navigation }) => {
   const loadDashboardData = useCallback(async () => {
     try {
       setLoading(true);
+      
+      // Verificar se o usuário está logado
+      if (!user?.uid) {
+        console.warn('⚠️ Usuário não está logado ou uid não disponível');
+        setLoading(false);
+        return;
+      }
+      
       console.log(getString('loadingInstructorDashboard'), user.uid);
       
       // Verificar se o usuário tem academiaId
@@ -159,6 +167,7 @@ const InstructorDashboard = ({ navigation }) => {
           recentGraduations: [],
           upcomingClasses: []
         });
+        setLoading(false);
         return;
       }
       
@@ -238,7 +247,7 @@ const InstructorDashboard = ({ navigation }) => {
       setLoading(false);
       setRefreshing(false);
     }
-  }, [user.uid, userProfile?.academiaId, trackFeatureUsage]);
+  }, [user?.uid, userProfile?.academiaId, getString, trackFeatureUsage]);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);

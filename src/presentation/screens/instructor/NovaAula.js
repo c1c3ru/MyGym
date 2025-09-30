@@ -12,8 +12,8 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { ResponsiveUtils } from '@utils/animations';
-// import ScheduleSelector from '@components/ScheduleSelector';
-// import { createEmptySchedule } from '@utils/scheduleUtils';
+import ImprovedScheduleSelector from '@components/ImprovedScheduleSelector';
+import { createEmptySchedule } from '@utils/scheduleUtils';
 
 const NovaAula = ({ navigation }) => {
   const [formData, setFormData] = useState({

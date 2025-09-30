@@ -52,16 +52,18 @@ const ScheduleSelector = ({
     }
   }, [value]);
 
-  // Notificar mudanças
+  // Notificar mudanças (sem incluir onScheduleChange nas dependências para evitar loops)
   useEffect(() => {
-    if (onScheduleChange) {
+    // Só notifica se houve mudança real no schedule e se onScheduleChange existe
+    const hasScheduleData = Object.values(schedule.hours).some(hours => hours.length > 0);
+    if (hasScheduleData && onScheduleChange) {
       onScheduleChange({
         ...schedule,
         duration,
         timezone
       });
     }
-  }, [schedule, duration, timezone, onScheduleChange]);
+  }, [schedule, duration, timezone]); // Removido onScheduleChange das dependências
 
   // Validar conflitos quando schedule mudar
   useEffect(() => {

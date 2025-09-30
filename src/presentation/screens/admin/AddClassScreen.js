@@ -10,7 +10,7 @@ import * as FileSystem from 'expo-file-system'; // Removido - dependência não 
 import { useAuth } from '@contexts/AuthProvider';
 import { academyFirestoreService } from '@services/academyFirestoreService';
 import { useCustomClaims } from '@hooks/useCustomClaims';
-import ScheduleSelector from '@components/ScheduleSelector';
+import ImprovedScheduleSelector from '@components/ImprovedScheduleSelector';
 import { createEmptySchedule, isValidSchedule, scheduleToDisplayString } from '@utils/scheduleUtils';
 import { notifyNewClass } from '@services/scheduleNotificationService';
 
@@ -457,7 +457,7 @@ const AddClassScreen = ({ navigation }) => {
             </View>
 
             {/* Horário */}
-            <ScheduleSelector
+            <ImprovedScheduleSelector
               value={formData.schedule}
               onScheduleChange={(schedule) => updateFormData('schedule', schedule)}
               duration={60}
@@ -467,6 +467,8 @@ const AddClassScreen = ({ navigation }) => {
               required={true}
               label="Horários da Turma"
               style={styles.input}
+              instructorId={formData.instructorId || user.uid}
+              enableConflictValidation={true}
             />
             {errors.schedule && <HelperText type="error">{errors.schedule}</HelperText>}
 

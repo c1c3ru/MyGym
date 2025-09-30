@@ -8,6 +8,7 @@ import {
   Text,
   List,
   Modal,
+  Portal,
   Divider
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -25,6 +26,7 @@ import cacheService, { CACHE_KEYS, CACHE_TTL } from '@services/cacheService';
 import batchFirestoreService from '@services/batchFirestoreService';
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import DashboardSkeleton from '@components/skeletons/DashboardSkeleton';
+import FreeGymScheduler from '@components/FreeGymScheduler';
 
 const AdminDashboard = ({ navigation }) => {
   const { user, userProfile, logout, academia } = useAuth();
@@ -51,6 +53,8 @@ const AdminDashboard = ({ navigation }) => {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [showQRModal, setShowQRModal] = useState(false);
+  const [showCalendarModal, setShowCalendarModal] = useState(false);
+  const [classes, setClasses] = useState([]);
 
   // Skeleton pulse for loading state
   const [skeletonPulse] = useState(new Animated.Value(0.6));
@@ -97,6 +101,9 @@ const AdminDashboard = ({ navigation }) => {
             academyFirestoreService.getAll('payments', academiaId),
             academyFirestoreService.getAll('instructors', academiaId)
           ]);
+
+          // Salvar classes no estado para o calendário
+          setClasses(classes);
 
           const activeStudents = students.filter(s => s.isActive !== false);
           
@@ -239,6 +246,11 @@ const AdminDashboard = ({ navigation }) => {
     navigation.navigate('Gestão');
   }, [navigation, trackButtonClick]);
 
+  const handleShowCalendar = useCallback(() => {
+    trackButtonClick('show_calendar_modal');
+    setShowCalendarModal(true);
+  }, [trackButtonClick]);
+
   const handleShowQR = useCallback(() => {
     trackButtonClick('show_qr_code');
     setShowQRModal(true);
@@ -261,27 +273,41 @@ const AdminDashboard = ({ navigation }) => {
       errorContext={{ screen: 'AdminDashboard', academiaId: userProfile?.academiaId }}
     >
       <SafeAreaView style={styles.container}>
-      {/* Modal do QR Code */}
-      <Modal 
-        visible={showQRModal} 
-        onDismiss={() => setShowQRModal(false)}
-        contentContainerStyle={styles.modalContainer}
-      >
-        <QRCodeGenerator 
-          academiaId={academia?.id}
-          academiaNome={academia?.nome}
-          size={200}
-          showActions={true}
-        />
-        <Button 
-          mode="outlined" 
-          onPress={() => setShowQRModal(false)}
-          style={styles.closeModalButton}
-        >
-          Fechar
-        </Button>
-      </Modal>
-      <Animated.ScrollView 
+        {/* Modal Calendário */}
+        <Portal>
+          <Modal
+            visible={showCalendarModal}
+            onDismiss={() => setShowCalendarModal(false)}
+            contentContainerStyle={styles.calendarModalContainer}
+            dismissable={true}
+          >
+          <View style={styles.calendarModalHeader}>
+            <Text style={styles.calendarModalTitle}>Cronograma das Turmas</Text>
+            <Button onPress={() => setShowCalendarModal(false)}>Fechar</Button>
+          </View>
+          <View style={styles.calendarContainer}>
+            <FreeGymScheduler
+              classes={classes}
+              onClassPress={(event) => {
+                setShowCalendarModal(false);
+                navigation.navigate('ClassDetails', { 
+                  classId: event.classId,
+                  className: event.title 
+                });
+              }}
+              onCreateClass={() => {
+                console.log('🚀 Botão criar turma clicado no AdminDashboard');
+                setShowCalendarModal(false);
+                console.log('📱 Navegando para AddClass...');
+                navigation.navigate('AddClass');
+              }}
+              navigation={navigation}
+            />
+          </View>
+          </Modal>
+        </Portal>
+
+        <Animated.ScrollView 
         style={styles.scrollView}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -467,8 +493,8 @@ const AdminDashboard = ({ navigation }) => {
               {[
                 { key: 'students', title: 'Alunos', subtitle: 'Gerenciar alunos', icon: ADMIN_ICONS.quickActions.students, colors: ADMIN_COLORS.blue, onPress: handleNavigateToStudents },
                 { key: 'classes', title: 'Turmas', subtitle: 'Gerenciar turmas', icon: ADMIN_ICONS.quickActions.classes, colors: ADMIN_COLORS.green, onPress: handleNavigateToClasses },
+                { key: 'calendar', title: 'Calendário', subtitle: 'Visualizar cronograma', icon: 'calendar-month', colors: ADMIN_COLORS.teal, onPress: handleShowCalendar },
                 { key: 'settings', title: 'Configurações', subtitle: 'Preferências e gestão', icon: ADMIN_ICONS.quickActions.settings, colors: ADMIN_COLORS.orange, onPress: handleNavigateToManagement },
-                { key: 'modalities', title: 'Modalidades', subtitle: 'Configurar modalidades', icon: ADMIN_ICONS.quickActions.modalities, colors: ADMIN_COLORS.purple, onPress: handleNavigateToManagement },
               ].map((action, idx) => (
                 <Animated.View key={action.key} style={[styles.actionCard, { opacity: animations.fadeAnim, width: ResponsiveUtils.isTablet() ? '31%' : '48%' }]}>
                   <LinearGradient colors={action.colors} style={styles.actionGradient}>
@@ -876,6 +902,32 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '600',
     marginLeft: 6,
+  },
+  
+  // Estilos do modal do calendário
+  calendarModalContainer: {
+    backgroundColor: 'white',
+    margin: 20,
+    borderRadius: 12,
+    maxHeight: '90%',
+    flex: 1,
+  },
+  calendarModalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#e0e0e0',
+  },
+  calendarModalTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#333',
+  },
+  calendarContainer: {
+    flex: 1,
+    padding: 8,
   },
   
   // Modal do QR Code

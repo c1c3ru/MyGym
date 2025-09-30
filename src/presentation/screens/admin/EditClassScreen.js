@@ -12,8 +12,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '@contexts/AuthProvider';
 import { academyFirestoreService, academyClassService } from '@services/academyFirestoreService';
 import ActionButton, { ActionButtonGroup } from '@components/ActionButton';
-// import ScheduleSelector from '@components/ScheduleSelector';
-// import { createEmptySchedule, isValidSchedule, scheduleToDisplayString } from '@utils/scheduleUtils';
+import ImprovedScheduleSelector from '@components/ImprovedScheduleSelector';
+import { createEmptySchedule, isValidSchedule, scheduleToDisplayString } from '@utils/scheduleUtils';
 
 const EditClassScreen = ({ route, navigation }) => {
   const { classId } = route.params;

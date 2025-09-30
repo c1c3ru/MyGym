@@ -38,7 +38,7 @@ export const ChangePasswordScreen = lazy(() => import('./shared/ChangePasswordSc
 export const StudentDetailsScreen = lazy(() => import('./shared/StudentDetailsScreen'));
 export const StudentProfileScreen = lazy(() => import('./shared/StudentProfileScreen'));
 export const ClassDetailsScreen = lazy(() => import('./shared/ClassDetailsScreen'));
-export const EnhancedCalendarScreen = lazy(() => import('./shared/EnhancedCalendarScreen'));
+export const ImprovedCalendarScreen = lazy(() => import('./shared/ImprovedCalendarScreen'));
 export const InjuryScreen = lazy(() => import('./shared/InjuryScreen'));
 export const InjuryHistoryScreen = lazy(() => import('./shared/InjuryHistoryScreen'));
 export const PhysicalEvaluationScreen = lazy(() => import('./shared/PhysicalEvaluationScreen'));

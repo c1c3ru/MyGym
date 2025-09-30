@@ -9,6 +9,8 @@ import {
   FAB,
   Searchbar,
   Menu,
+  Modal,
+  Portal,
   Text
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -24,6 +26,7 @@ import cacheService, { CACHE_KEYS, CACHE_TTL } from '@services/cacheService';
 import batchFirestoreService from '@services/batchFirestoreService';
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import { useClassCreationRateLimit } from '@hooks/useRateLimit';
+import FreeGymScheduler from '@components/FreeGymScheduler';
 
 const AdminClasses = ({ navigation }) => {
   const { user, userProfile, academia } = useAuth();
@@ -34,6 +37,7 @@ const AdminClasses = ({ navigation }) => {
   const [selectedFilter, setSelectedFilter] = useState('all');
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const [showCalendarModal, setShowCalendarModal] = useState(false);
 
   // Analytics tracking
   useScreenTracking('AdminClasses', { 
@@ -466,6 +470,46 @@ const AdminClasses = ({ navigation }) => {
           label={getString('newClass')}
           onPress={handleAddClass}
         />
+        
+        <FAB
+          style={styles.calendarFab}
+          icon="calendar-month"
+          onPress={() => setShowCalendarModal(true)}
+        />
+
+        {/* Modal do Calendário */}
+        <Portal>
+          <Modal
+            visible={showCalendarModal}
+            onDismiss={() => setShowCalendarModal(false)}
+            contentContainerStyle={styles.calendarModalContainer}
+            dismissable={true}
+          >
+          <View style={styles.calendarModalHeader}>
+            <Text style={styles.calendarModalTitle}>Cronograma das Turmas</Text>
+            <Button onPress={() => setShowCalendarModal(false)}>Fechar</Button>
+          </View>
+          <View style={styles.calendarContainer}>
+            <FreeGymScheduler
+              classes={classes}
+              onClassPress={(event) => {
+                setShowCalendarModal(false);
+                navigation.navigate('ClassDetails', { 
+                  classId: event.classId,
+                  className: event.title 
+                });
+              }}
+              onCreateClass={() => {
+                console.log('🚀 Botão criar turma clicado no AdminClasses');
+                setShowCalendarModal(false);
+                console.log('📱 Navegando para AddClass...');
+                navigation.navigate('AddClass');
+              }}
+              navigation={navigation}
+            />
+          </View>
+          </Modal>
+        </Portal>
       </SafeAreaView>
     </EnhancedErrorBoundary>
   );
@@ -603,6 +647,37 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     paddingHorizontal: 0,
+  },
+  calendarFab: {
+    position: 'absolute',
+    margin: 16,
+    right: 0,
+    bottom: 80, // Acima do FAB principal
+    backgroundColor: '#2196F3',
+  },
+  calendarModalContainer: {
+    backgroundColor: 'white',
+    margin: 20,
+    borderRadius: 12,
+    maxHeight: '90%',
+    flex: 1,
+  },
+  calendarModalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#e0e0e0',
+  },
+  calendarModalTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#333',
+  },
+  calendarContainer: {
+    flex: 1,
+    padding: 8,
   },
 });
 

@@ -18,13 +18,30 @@ export class FirestoreUserDataSource {
     try {
       console.log('🔍 FirestoreUserDataSource.getUserById:', userId);
       
+      // Verificar se userId é válido
+      if (!userId || typeof userId !== 'string') {
+        console.warn('⚠️ FirestoreUserDataSource: userId inválido:', userId);
+        return null;
+      }
+      
       const userDoc = await getDoc(doc(db, this.collection, userId));
       
       if (userDoc.exists()) {
         const userData = { id: userId, ...userDoc.data() };
         console.log('✅ FirestoreUserDataSource: Usuário encontrado');
         
-        return new User(userData);
+        // Criar User com parâmetros individuais conforme o construtor
+        return new User(
+          userData.uid || userData.id,
+          userData.email,
+          userData.name,
+          userData.photoURL,
+          userData.academiaId,
+          userData.isActive,
+          userData.profileCompleted,
+          userData.createdAt,
+          userData.updatedAt
+        );
       }
       
       console.log('❌ FirestoreUserDataSource: Usuário não encontrado');
@@ -55,7 +72,18 @@ export class FirestoreUserDataSource {
       
       console.log('✅ FirestoreUserDataSource: Usuário salvo com sucesso');
       
-      return new User({ id, ...userDataWithoutId });
+      // Criar User com parâmetros individuais conforme o construtor
+      return new User(
+        id,
+        userDataWithoutId.email,
+        userDataWithoutId.name,
+        userDataWithoutId.photoURL,
+        userDataWithoutId.academiaId,
+        userDataWithoutId.isActive,
+        userDataWithoutId.profileCompleted,
+        userDataWithoutId.createdAt,
+        userDataWithoutId.updatedAt
+      );
     } catch (error) {
       console.error('❌ FirestoreUserDataSource.saveUser:', error);
       throw error;

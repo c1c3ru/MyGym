@@ -1,5 +1,9 @@
-import { firebaseAuth } from '@infrastructure/firebase';
+import { auth } from '@services/firebase';
 import { Claims } from '@domain/auth/entities';
+import type { Auth } from 'firebase/auth';
+
+// Tipagem explícita para o auth
+const firebaseAuth = auth as Auth;
 
 /**
  * Utilitário para gerenciar Custom Claims do Firebase Authentication
@@ -20,7 +24,7 @@ export const refreshUserToken = async (): Promise<string | null> => {
   try {
     console.log('🔄 refreshUserToken: Forçando atualização do ID Token...');
     
-    const currentUser = firebaseAuth.getAuth().currentUser;
+    const currentUser = firebaseAuth.currentUser;
     if (!currentUser) {
       console.log('⚠️ refreshUserToken: Nenhum usuário logado');
       return null;
@@ -44,7 +48,7 @@ export const getUserClaims = async (): Promise<CustomClaimsResult | null> => {
   try {
     console.log('🔍 getUserClaims: Obtendo claims do usuário...');
     
-    const currentUser = firebaseAuth.getAuth().currentUser;
+    const currentUser = firebaseAuth.currentUser;
     if (!currentUser) {
       console.log('⚠️ getUserClaims: Nenhum usuário logado');
       return null;
@@ -150,7 +154,7 @@ export const waitForClaimsUpdate = async (
  */
 export const needsOnboarding = async (): Promise<boolean> => {
   try {
-    const currentUser = firebaseAuth.getAuth().currentUser;
+    const currentUser = firebaseAuth.currentUser;
     if (!currentUser) {
       return true; // Não logado = precisa de onboarding
     }
@@ -176,7 +180,7 @@ export const needsOnboarding = async (): Promise<boolean> => {
  */
 export const debugUserClaims = async (): Promise<void> => {
   try {
-    const currentUser = firebaseAuth.getAuth().currentUser;
+    const currentUser = firebaseAuth.currentUser;
     if (!currentUser) {
       console.log('🐛 debugUserClaims: Nenhum usuário logado');
       return;
