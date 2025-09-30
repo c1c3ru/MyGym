@@ -159,7 +159,7 @@ const CheckInButton = ({ classId, className, onCheckInSuccess }) => {
         >
           {loading ? (
             <View style={styles.loadingContainer}>
-              <ActivityIndicator color={APP_COLORS.COLORS.COLORS.white} size="small" />
+              <ActivityIndicator color={APP_COLORS.COLORS.white} size="small" />
               <Text style={styles.loadingText}>Verificando...</Text>
             </View>
           ) : (
@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   loadingText: {
-    color: APP_COLORS.COLORS.COLORS.white,
+    color: APP_COLORS.COLORS.white,
     marginLeft: 8,
     fontSize: FONT_SIZE.md,
   },

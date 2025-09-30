@@ -241,7 +241,7 @@ const AdminModalities = ({ navigation }) => {
         top: 20px;
         right: 20px;
         background: ${type === 'success' ? 'COLORS.primary[500]' : 'COLORS.error[500]'};
-        color: COLORS.COLORS.white;
+        color: COLORS.white;
         padding: SPACING.mdpx 20px;
         border-radius: 8px;
         box-shadow: 0 4px 12px rgba(0,0,0,0.15);

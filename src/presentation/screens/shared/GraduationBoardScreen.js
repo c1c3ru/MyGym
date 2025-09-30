@@ -459,12 +459,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headerTitle: {
-    color: 'COLORS.COLORS.white',
+    color: 'COLORS.white',
     fontSize: FONT_SIZE.xxl,
     fontWeight: FONT_WEIGHT.bold,
   },
   headerSubtitle: {
-    color: 'COLORS.COLORS.white + 'CC'',
+    color: 'COLORS.white + 'CC'',
     fontSize: FONT_SIZE.base,
   },
   content: {

@@ -681,7 +681,7 @@ const styles = StyleSheet.create({
   },
   header: {
     padding: SPACING.base,
-    backgroundColor: 'COLORS.COLORS.white',
+    backgroundColor: 'COLORS.white',
     elevation: 2,
   },
   searchbar: {
@@ -767,7 +767,7 @@ const styles = StyleSheet.create({
   },
   menuContent: {
     maxHeight: 300,
-    backgroundColor: 'COLORS.COLORS.white',
+    backgroundColor: 'COLORS.white',
     borderRadius: BORDER_RADIUS.md,
     elevation: 8,
     shadowColor: COLORS.black,
@@ -797,7 +797,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   modalDropdownList: {
-    backgroundColor: 'COLORS.COLORS.white',
+    backgroundColor: 'COLORS.white',
     borderRadius: BORDER_RADIUS.md,
     elevation: 10,
     shadowColor: COLORS.black,

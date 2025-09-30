@@ -426,14 +426,14 @@ const InjuryScreen = ({ navigation, route }) => {
                 <Chip 
                   mode="flat"
                   style={[styles.summaryChip, { backgroundColor: getSeverityColor(formData.severity) }]}
-                  textStyle={{ color: 'COLORS.COLORS.white', fontWeight: FONT_WEIGHT.bold }}
+                  textStyle={{ color: 'COLORS.white', fontWeight: FONT_WEIGHT.bold }}
                 >
                   {severityLevels.find(s => s.value === formData.severity)?.label}
                 </Chip>
                 <Chip 
                   mode="flat"
                   style={[styles.summaryChip, { backgroundColor: getStatusColor(formData.status) }]}
-                  textStyle={{ color: 'COLORS.COLORS.white', fontWeight: FONT_WEIGHT.bold }}
+                  textStyle={{ color: 'COLORS.white', fontWeight: FONT_WEIGHT.bold }}
                 >
                   {statusOptions.find(s => s.value === formData.status)?.label}
                 </Chip>

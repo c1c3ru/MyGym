@@ -788,9 +788,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   avatar: {
-    backgroundColor: COLORS.COLORS.white + '33',
+    backgroundColor: COLORS.white + '33',
     borderWidth: 2,
-    borderColor: COLORS.COLORS.white + '4D',
+    borderColor: COLORS.white + '4D',
   },
   headerText: {
     marginLeft: ResponsiveUtils.spacing.md,
@@ -799,25 +799,25 @@ const styles = StyleSheet.create({
   welcomeText: {
     fontSize: ResponsiveUtils.fontSize.large,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.COLORS.white,
+    color: COLORS.white,
     marginBottom: SPACING.xs,
   },
   roleText: {
     fontSize: ResponsiveUtils.fontSize.medium,
-    color: COLORS.COLORS.white + 'E6',
+    color: COLORS.white + 'E6',
     marginBottom: SPACING.sm,
   },
   statusBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: COLORS.COLORS.white + '33',
+    backgroundColor: COLORS.white + '33',
     paddingHorizontal: SPACING.sm,
     paddingVertical: SPACING.xs,
     borderRadius: BORDER_RADIUS.md,
     alignSelf: 'flex-start',
   },
   statusText: {
-    color: COLORS.COLORS.white,
+    color: COLORS.white,
     fontSize: FONT_SIZE.sm,
     marginLeft: SPACING.xs,
     fontWeight: FONT_WEIGHT.medium,
@@ -847,12 +847,12 @@ const styles = StyleSheet.create({
   statNumber: {
     fontSize: FONT_SIZE.xxl,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.COLORS.white,
+    color: COLORS.white,
     marginTop: SPACING.sm,
   },
   statLabel: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.COLORS.white + 'E6',
+    color: COLORS.white + 'E6',
     textAlign: 'center',
     marginTop: SPACING.xs,
   },
@@ -910,12 +910,12 @@ const styles = StyleSheet.create({
   actionTitle: {
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.COLORS.white,
+    color: COLORS.white,
     marginTop: SPACING.sm,
   },
   actionSubtitle: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.COLORS.white + 'CC',
+    color: COLORS.white + 'CC',
     textAlign: 'center',
     marginBottom: SPACING.sm,
   },

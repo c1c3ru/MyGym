@@ -254,7 +254,7 @@ export default function LoginScreen({ navigation }) {
                     <View style={styles.languageButtonContent}>
                       <Text style={styles.flagEmoji}>{languages[currentLanguage].flag}</Text>
                       <Text style={styles.languageButtonText}>{languages[currentLanguage].name}</Text>
-                      <MaterialCommunityIcons name="chevron-down" size={20} color="COLORS.COLORS.white" />
+                      <MaterialCommunityIcons name="chevron-down" size={20} color="COLORS.white" />
                     </View>
                   </TouchableRipple>
                 }
@@ -278,7 +278,7 @@ export default function LoginScreen({ navigation }) {
                 <MaterialCommunityIcons 
                   name={isDarkMode ? "weather-night" : "weather-sunny"} 
                   size={20} 
-                  color="COLORS.COLORS.white" 
+                  color="COLORS.white" 
                   style={styles.darkModeIcon}
                 />
                 <Text style={styles.darkModeText}>{getString('darkMode')}</Text>
@@ -296,7 +296,7 @@ export default function LoginScreen({ navigation }) {
             <MaterialCommunityIcons 
               name="school" 
               size={60} 
-              color="COLORS.COLORS.white" 
+              color="COLORS.white" 
               style={styles.headerIcon}
             />
             <Text style={styles.headerTitle}>{getString('appName')}</Text>
@@ -468,7 +468,7 @@ export default function LoginScreen({ navigation }) {
           action={{
             label: 'Fechar',
             onPress: hideSnackbar,
-            textColor: 'COLORS.COLORS.white'
+            textColor: 'COLORS.white'
           }}
         >
           <Text style={styles.snackbarText}>{snackbar.message}</Text>
@@ -514,7 +514,7 @@ const styles = StyleSheet.create({
     marginRight: SPACING.xs,
   },
   languageButtonText: {
-    color: 'COLORS.COLORS.white',
+    color: 'COLORS.white',
     fontSize: FONT_SIZE.base,
     marginRight: SPACING.xs,
   },
@@ -530,7 +530,7 @@ const styles = StyleSheet.create({
     marginRight: 6,
   },
   darkModeText: {
-    color: 'COLORS.COLORS.white',
+    color: 'COLORS.white',
     fontSize: FONT_SIZE.base,
     marginRight: 8,
   },
@@ -544,12 +544,12 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 32,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.COLORS.white',
+    color: 'COLORS.white',
     marginBottom: SPACING.sm,
   },
   headerSubtitle: {
     fontSize: FONT_SIZE.md,
-    color: 'COLORS.COLORS.white + 'CC'',
+    color: 'COLORS.white + 'CC'',
   },
   content: {
     flex: 1,
@@ -638,7 +638,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.error[500],
   },
   snackbarText: {
-    color: 'COLORS.COLORS.white',
+    color: 'COLORS.white',
     fontSize: FONT_SIZE.md,
   },
 });

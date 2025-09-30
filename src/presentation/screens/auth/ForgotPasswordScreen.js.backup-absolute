@@ -132,7 +132,7 @@ export default function ForgotPasswordScreen({ navigation }) {
               <MaterialCommunityIcons 
                 name="lock-reset" 
                 size={ResponsiveUtils?.isTablet?.() ? 80 : 60} 
-                color="COLORS.COLORS.white" 
+                color="COLORS.white" 
                 style={styles.headerIcon}
               />
               <Title style={styles.headerTitle}>{getString('recoverPassword')}</Title>
@@ -223,7 +223,7 @@ export default function ForgotPasswordScreen({ navigation }) {
           action={{
             label: getString('close'),
             onPress: hideSnackbar,
-            textColor: 'COLORS.COLORS.white'
+            textColor: 'COLORS.white'
           }}
         >
           {snackbar.message}
@@ -262,7 +262,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: ResponsiveUtils?.fontSize?.xlarge || 28,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.COLORS.white',
+    color: 'COLORS.white',
     marginBottom: ResponsiveUtils?.spacing?.sm || 8,
     textAlign: 'center',
   },
@@ -283,7 +283,7 @@ const styles = StyleSheet.create({
   },
   input: {
     marginBottom: ResponsiveUtils?.spacing?.md || 16,
-    backgroundColor: 'COLORS.COLORS.white',
+    backgroundColor: 'COLORS.white',
   },
   resetButton: {
     marginTop: ResponsiveUtils?.spacing?.sm || 8,

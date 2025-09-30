@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     marginLeft: SPACING.xs,
   },
   button: {
-    backgroundColor: 'COLORS.COLORS.COLORS.white',
+    backgroundColor: 'COLORS.COLORS.white',
     borderColor: '#ccc',
     justifyContent: 'flex-start',
   },

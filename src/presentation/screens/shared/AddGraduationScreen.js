@@ -64,7 +64,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   const defaultGraduationLevels = [
-    { id: 'COLORS.COLORS.white', name: 'Faixa Branca', color: COLORS.white, order: 1 },
+    { id: 'COLORS.white', name: 'Faixa Branca', color: COLORS.white, order: 1 },
     { id: 'yellow', name: 'Faixa Amarela', color: COLORS.warning[400], order: 2 },
     { id: 'orange', name: 'Faixa Laranja', color: 'COLORS.warning[500]', order: 3 },
     { id: 'green', name: 'Faixa Verde', color: 'COLORS.primary[500]', order: 4 },
@@ -314,7 +314,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
         <View style={styles.headerContent}>
           <IconButton
             icon="arrow-left"
-            iconColor="COLORS.COLORS.white"
+            iconColor="COLORS.white"
             size={24}
             onPress={() => navigation.goBack()}
           />
@@ -606,7 +606,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
           onPress: () => setSnackbarVisible(false),
         }}
       >
-        <Text style={{ color: 'COLORS.COLORS.white' }}>{snackbarMessage || 'Mensagem'}</Text>
+        <Text style={{ color: 'COLORS.white' }}>{snackbarMessage || 'Mensagem'}</Text>
       </Snackbar>
     </SafeAreaView>
   );
@@ -633,7 +633,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: FONT_SIZE.xl,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.COLORS.white',
+    color: 'COLORS.white',
   },
   headerSubtitle: {
     fontSize: FONT_SIZE.base,
@@ -650,7 +650,7 @@ const styles = StyleSheet.create({
   currentGraduationCard: {
     borderRadius: BORDER_RADIUS.md,
     marginBottom: 16,
-    backgroundColor: 'COLORS.COLORS.white',
+    backgroundColor: 'COLORS.white',
   },
   currentGraduationContent: {
     flexDirection: 'row',
@@ -698,7 +698,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: COLORS.gray[300],
     borderRadius: BORDER_RADIUS.md,
-    backgroundColor: 'COLORS.COLORS.white',
+    backgroundColor: 'COLORS.white',
   },
   selectionButtonSelected: {
     borderColor: 'COLORS.info[700]',
@@ -752,7 +752,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: COLORS.gray[300],
     borderRadius: BORDER_RADIUS.md,
-    backgroundColor: 'COLORS.COLORS.white',
+    backgroundColor: 'COLORS.white',
     paddingVertical: SPACING.sm,
     paddingHorizontal: 4,
   },
@@ -763,7 +763,7 @@ const styles = StyleSheet.create({
     textTransform: 'capitalize',
   },
   notesInput: {
-    backgroundColor: 'COLORS.COLORS.white',
+    backgroundColor: 'COLORS.white',
   },
   certificateCard: {
     borderRadius: BORDER_RADIUS.md,
@@ -776,7 +776,7 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.sm,
   },
   certificateInput: {
-    backgroundColor: 'COLORS.COLORS.white',
+    backgroundColor: 'COLORS.white',
   },
   actionContainer: {
     marginTop: SPACING.sm,

@@ -401,7 +401,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: SPACING.base,
     borderRadius: BORDER_RADIUS.base,
-    backgroundColor: 'COLORS.COLORS.white',
+    backgroundColor: 'COLORS.white',
     marginVertical: SPACING.xs,
   },
   listItemLeft: {
@@ -428,7 +428,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: SPACING.base,
-    backgroundColor: 'COLORS.COLORS.white',
+    backgroundColor: 'COLORS.white',
   },
   headerLeft: {
     marginRight: SPACING.md,
@@ -460,7 +460,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 6,
   },
   badgeText: {
-    color: 'COLORS.COLORS.white',
+    color: 'COLORS.white',
     fontSize: FONT_SIZE.sm,
     fontWeight: FONT_WEIGHT.bold,
   },

@@ -328,7 +328,7 @@ const styles = StyleSheet.create({
     padding: SPACING.md,
     borderRadius: BORDER_RADIUS.md,
     elevation: 1,
-    backgroundColor: 'COLORS.COLORS.white',
+    backgroundColor: 'COLORS.white',
   },
   statNumber: {
     fontSize: FONT_SIZE.xxl,
@@ -356,7 +356,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   timelineContent: {
-    backgroundColor: 'COLORS.COLORS.white',
+    backgroundColor: 'COLORS.white',
     padding: SPACING.md,
     borderRadius: BORDER_RADIUS.md,
     elevation: 1,

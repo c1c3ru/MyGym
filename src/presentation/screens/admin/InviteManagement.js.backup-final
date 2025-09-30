@@ -172,7 +172,7 @@ export default function InviteManagement({ navigation }) {
           </View>
           <Chip 
             style={[styles.statusChip, { backgroundColor: getStatusColor(invite.status) }]}
-            textStyle={{ color: 'COLORS.COLORS.white' }}
+            textStyle={{ color: 'COLORS.white' }}
           >
             {getStatusText(invite.status)}
           </Chip>
@@ -469,13 +469,13 @@ const styles = {
     marginVertical: 20,
   },
   modal: {
-    backgroundColor: 'COLORS.COLORS.white',
+    backgroundColor: 'COLORS.white',
     padding: SPACING.xl,
     margin: SPACING.lg,
     borderRadius: BORDER_RADIUS.md,
   },
   qrModal: {
-    backgroundColor: 'COLORS.COLORS.white',
+    backgroundColor: 'COLORS.white',
     padding: SPACING.xl,
     margin: SPACING.lg,
     borderRadius: BORDER_RADIUS.md,

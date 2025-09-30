@@ -237,7 +237,7 @@ const ReportsScreen = ({ navigation }) => {
             <View style={styles.statsGrid}>
               <View style={styles.statItem}>
                 <View style={[styles.statIcon, { backgroundColor: 'COLORS.info[500]' }]}>
-                  <Ionicons name="people" size={24} color="COLORS.COLORS.white" />
+                  <Ionicons name="people" size={24} color="COLORS.white" />
                 </View>
                 <View style={styles.statContent}>
                   <Text style={styles.statNumber}>{stats.totalStudents}</Text>
@@ -248,7 +248,7 @@ const ReportsScreen = ({ navigation }) => {
 
               <View style={styles.statItem}>
                 <View style={[styles.statIcon, { backgroundColor: 'COLORS.primary[500]' }]}>
-                  <Ionicons name="school" size={24} color="COLORS.COLORS.white" />
+                  <Ionicons name="school" size={24} color="COLORS.white" />
                 </View>
                 <View style={styles.statContent}>
                   <Text style={styles.statNumber}>{stats.totalClasses}</Text>
@@ -259,7 +259,7 @@ const ReportsScreen = ({ navigation }) => {
 
               <View style={styles.statItem}>
                 <View style={[styles.statIcon, { backgroundColor: 'COLORS.warning[500]' }]}>
-                  <Ionicons name="card" size={24} color="COLORS.COLORS.white" />
+                  <Ionicons name="card" size={24} color="COLORS.white" />
                 </View>
                 <View style={styles.statContent}>
                   <Text style={styles.statNumber}>{formatCurrency(stats.monthlyRevenue)}</Text>
@@ -270,7 +270,7 @@ const ReportsScreen = ({ navigation }) => {
 
               <View style={styles.statItem}>
                 <View style={[styles.statIcon, { backgroundColor: 'COLORS.error[500]' }]}>
-                  <Ionicons name="time" size={24} color="COLORS.COLORS.white" />
+                  <Ionicons name="time" size={24} color="COLORS.white" />
                 </View>
                 <View style={styles.statContent}>
                   <Text style={styles.statNumber}>{stats.pendingPayments}</Text>
@@ -352,7 +352,7 @@ const ReportsScreen = ({ navigation }) => {
             {recentActivities.map((activity, index) => (
               <View key={index} style={styles.activityItem}>
                 <View style={[styles.activityIcon, { backgroundColor: getActivityColor(activity.type) }]}>
-                  <Ionicons name={getActivityIcon(activity.type)} size={16} color="COLORS.COLORS.white" />
+                  <Ionicons name={getActivityIcon(activity.type)} size={16} color="COLORS.white" />
                 </View>
                 <View style={styles.activityContent}>
                   <Text style={styles.activityAction}>{activity.action}</Text>
@@ -373,7 +373,7 @@ const ReportsScreen = ({ navigation }) => {
                 mode="contained"
                 onPress={() => navigation.navigate('AddStudent')}
                 style={[styles.actionButton, { backgroundColor: 'COLORS.info[500]' }]}
-                icon={<MaterialCommunityIcons name="account-plus" size={18} color="COLORS.COLORS.white" />}
+                icon={<MaterialCommunityIcons name="account-plus" size={18} color="COLORS.white" />}
               >
                 Novo Aluno
               </Button>
@@ -382,7 +382,7 @@ const ReportsScreen = ({ navigation }) => {
                 mode="contained"
                 onPress={() => navigation.navigate('AddClass')}
                 style={[styles.actionButton, { backgroundColor: 'COLORS.primary[500]' }]}
-                icon={<MaterialCommunityIcons name="school-outline" size={18} color="COLORS.COLORS.white" />}
+                icon={<MaterialCommunityIcons name="school-outline" size={18} color="COLORS.white" />}
               >
                 Nova Turma
               </Button>

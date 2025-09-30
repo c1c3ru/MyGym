@@ -285,7 +285,7 @@ const styles = StyleSheet.create({
     fontSize: 10,
     color: 'COLORS.text.secondary',
     fontFamily: 'monospace',
-    backgroundColor: 'COLORS.COLORS.white',
+    backgroundColor: 'COLORS.white',
     padding: SPACING.sm,
     borderRadius: BORDER_RADIUS.sm,
     marginTop: SPACING.sm,

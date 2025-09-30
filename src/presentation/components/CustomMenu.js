@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     paddingRight: 20,
   },
   menuContainer: {
-    backgroundColor: 'COLORS.COLORS.white',
+    backgroundColor: 'COLORS.white',
     borderRadius: BORDER_RADIUS.md,
     padding: SPACING.sm,
     minWidth: 150,

@@ -316,7 +316,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
                   <Chip 
                     mode="flat"
                     style={[styles.imcChip, { backgroundColor: getIMCColor(imcClassification) }]}
-                    textStyle={{ color: 'COLORS.COLORS.white', fontWeight: FONT_WEIGHT.bold }}
+                    textStyle={{ color: 'COLORS.white', fontWeight: FONT_WEIGHT.bold }}
                   >
                     {imcClassification}
                   </Chip>

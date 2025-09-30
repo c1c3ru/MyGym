@@ -121,7 +121,7 @@ const styles = {
   },
   menuContent: {
     maxHeight: 300,
-    backgroundColor: 'COLORS.COLORS.white',
+    backgroundColor: 'COLORS.white',
   },
   menuItemTitle: {
     fontSize: FONT_SIZE.base,

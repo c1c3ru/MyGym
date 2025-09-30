@@ -523,7 +523,7 @@ const styles = StyleSheet.create({
   },
   header: {
     padding: SPACING.base,
-    backgroundColor: 'COLORS.COLORS.white',
+    backgroundColor: 'COLORS.white',
     elevation: 2,
   },
   searchbar: {
@@ -657,7 +657,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'COLORS.info[500]',
   },
   calendarModalContainer: {
-    backgroundColor: 'COLORS.COLORS.white',
+    backgroundColor: 'COLORS.white',
     margin: SPACING.lg,
     borderRadius: BORDER_RADIUS.md,
     maxHeight: '90%',

@@ -396,13 +396,13 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 20,
   },
   headerTitle: {
-    color: 'COLORS.COLORS.white',
+    color: 'COLORS.white',
     fontSize: FONT_SIZE.xxl,
     fontWeight: FONT_WEIGHT.bold,
     textAlign: 'center',
   },
   headerSubtitle: {
-    color: 'COLORS.COLORS.white + 'CC'',
+    color: 'COLORS.white + 'CC'',
     fontSize: FONT_SIZE.base,
     textAlign: 'center',
   },

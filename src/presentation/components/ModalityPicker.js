@@ -234,7 +234,7 @@ const styles = {
   },
   chip: {
     marginRight: 10,
-    backgroundColor: 'COLORS.COLORS.white',
+    backgroundColor: 'COLORS.white',
     minWidth: 100,
     justifyContent: 'center',
   },
@@ -248,7 +248,7 @@ const styles = {
     fontSize: FONT_SIZE.base,
   },
   selectedChipText: {
-    color: 'COLORS.COLORS.white',
+    color: 'COLORS.white',
     fontWeight: FONT_WEIGHT.semibold,
   },
   selectedContainer: {

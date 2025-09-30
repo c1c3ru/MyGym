@@ -423,7 +423,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     padding: SPACING.base,
     gap: SPACING.sm,
-    backgroundColor: COLORS.COLORS.white,
+    backgroundColor: COLORS.white,
     borderTopWidth: 1,
     borderTopColor: COLORS.border.light,
   },

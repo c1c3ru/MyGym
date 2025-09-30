@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: COLORS.gray[300],
     borderRadius: BORDER_RADIUS.md,
-    backgroundColor: 'COLORS.COLORS.white',
+    backgroundColor: 'COLORS.white',
   },
   selectionButtonSelected: {
     borderColor: 'COLORS.info[700]',

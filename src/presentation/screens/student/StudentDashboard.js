@@ -435,7 +435,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   welcomeTitle: {
-    color: 'COLORS.COLORS.white',
+    color: 'COLORS.white',
     fontSize: ResponsiveUtils?.fontSize?.large || 20,
     fontWeight: FONT_WEIGHT.bold,
   },

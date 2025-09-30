@@ -205,7 +205,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
                 />
                 {studentInfo?.isActive !== false && (
                   <Badge style={styles.activeBadge} size={20}>
-                    <Ionicons name="checkmark" size={12} color="COLORS.COLORS.white" />
+                    <Ionicons name="checkmark" size={12} color="COLORS.white" />
                   </Badge>
                 )}
               </View>
@@ -216,14 +216,14 @@ const StudentProfileScreen = ({ route, navigation }) => {
                 
                 <View style={styles.statusRow}>
                   <View style={styles.statusItem}>
-                    <Ionicons name="time-outline" size={16} color="COLORS.COLORS.white + 'CC'" />
+                    <Ionicons name="time-outline" size={16} color="COLORS.white + 'CC'" />
                     <Text style={styles.statusText}>
                       {calculateAge(studentInfo?.birthDate) || '--'} anos
                     </Text>
                   </View>
                   
                   <View style={styles.statusItem}>
-                    <Ionicons name="calendar-outline" size={16} color="COLORS.COLORS.white + 'CC'" />
+                    <Ionicons name="calendar-outline" size={16} color="COLORS.white + 'CC'" />
                     <Text style={styles.statusText}>
                       Desde {formatDate(studentInfo?.createdAt, 'short')}
                     </Text>
@@ -627,14 +627,14 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   avatar: {
-    backgroundColor: 'COLORS.COLORS.white + '33'',
+    backgroundColor: 'COLORS.white + '33'',
     borderWidth: 3,
-    borderColor: 'COLORS.COLORS.white + '4D'',
+    borderColor: 'COLORS.white + '4D'',
   },
   avatarLabel: {
     fontSize: 36,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.COLORS.white',
+    color: 'COLORS.white',
   },
   activeBadge: {
     position: 'absolute',
@@ -649,13 +649,13 @@ const styles = StyleSheet.create({
   studentName: {
     fontSize: FONT_SIZE.xxl,
     fontWeight: '800',
-    color: 'COLORS.COLORS.white',
+    color: 'COLORS.white',
     marginBottom: SPACING.xs,
     letterSpacing: 0.5,
   },
   studentEmail: {
     fontSize: FONT_SIZE.md,
-    color: 'COLORS.COLORS.white + 'E6'',
+    color: 'COLORS.white + 'E6'',
     marginBottom: SPACING.md,
   },
   statusRow: {
@@ -670,7 +670,7 @@ const styles = StyleSheet.create({
   },
   statusText: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.COLORS.white + 'CC'',
+    color: 'COLORS.white + 'CC'',
     fontWeight: FONT_WEIGHT.medium,
   },
   graduationContainer: {
@@ -694,7 +694,7 @@ const styles = StyleSheet.create({
   },
   statCard: {
     flex: 1,
-    backgroundColor: 'COLORS.COLORS.white',
+    backgroundColor: 'COLORS.white',
     borderRadius: BORDER_RADIUS.lg,
     padding: SPACING.lg,
     alignItems: 'center',
@@ -740,7 +740,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     marginBottom: 20,
     borderRadius: BORDER_RADIUS.lg,
-    backgroundColor: 'COLORS.COLORS.white',
+    backgroundColor: 'COLORS.white',
     ...Platform.select({
       ios: {
         shadowColor: COLORS.black,
@@ -798,7 +798,7 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: 'COLORS.COLORS.white',
+    backgroundColor: 'COLORS.white',
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 12,
@@ -840,7 +840,7 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: BORDER_RADIUS.lg,
-    backgroundColor: 'COLORS.COLORS.white',
+    backgroundColor: 'COLORS.white',
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 10,
@@ -888,7 +888,7 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: BORDER_RADIUS.lg,
-    backgroundColor: 'COLORS.COLORS.white5e6',
+    backgroundColor: 'COLORS.white5e6',
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 2,

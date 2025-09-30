@@ -54,16 +54,16 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   textPrimary: {
-    color: 'COLORS.COLORS.whitefff',
+    color: 'COLORS.whitefff',
   },
   textSecondary: {
-    color: 'COLORS.COLORS.whitefff',
+    color: 'COLORS.whitefff',
   },
   textOutline: {
     color: '#007bff',
   },
   textDanger: {
-    color: 'COLORS.COLORS.whitefff',
+    color: 'COLORS.whitefff',
   },
 
   // Text sizes

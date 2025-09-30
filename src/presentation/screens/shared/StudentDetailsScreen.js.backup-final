@@ -418,7 +418,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'COLORS.info[500]',
   },
   avatarText: {
-    color: 'COLORS.COLORS.white',
+    color: 'COLORS.white',
     fontWeight: FONT_WEIGHT.semibold,
   },
   studentInfo: {

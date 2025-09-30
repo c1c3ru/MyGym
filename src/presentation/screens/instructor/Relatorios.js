@@ -353,7 +353,7 @@ const styles = StyleSheet.create({
     marginBottom: ResponsiveUtils.spacing.sm,
     borderRadius: ResponsiveUtils.borderRadius.medium,
     borderLeftWidth: 4,
-    backgroundColor: 'COLORS.COLORS.white',
+    backgroundColor: 'COLORS.white',
   },
   statHeader: {
     flexDirection: 'row',

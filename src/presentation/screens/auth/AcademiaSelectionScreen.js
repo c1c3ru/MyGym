@@ -398,7 +398,7 @@ export default function AcademiaSelectionScreen({ navigation, route }) {
   const getPlanoColor = (plano) => {
     switch (plano) {
       case 'free': return '#e8f5e8';
-      case 'premium': return 'COLORS.COLORS.white3e0';
+      case 'premium': return 'COLORS.white3e0';
       case 'enterprise': return '#f3e5f5';
       default: return COLORS.gray[100];
     }
@@ -435,7 +435,7 @@ export default function AcademiaSelectionScreen({ navigation, route }) {
               }
             }}
             icon="arrow-left"
-            textColor="COLORS.COLORS.white"
+            textColor="COLORS.white"
             style={styles.backButton}
           >
             Voltar
@@ -844,12 +844,12 @@ const styles = {
     alignItems: 'center',
   },
   title: {
-    color: 'COLORS.COLORS.white',
+    color: 'COLORS.white',
     fontWeight: FONT_WEIGHT.bold,
     textAlign: 'center',
   },
   subtitle: {
-    color: 'COLORS.COLORS.white',
+    color: 'COLORS.white',
     textAlign: 'center',
     marginTop: SPACING.sm,
     opacity: 0.9,
@@ -957,7 +957,7 @@ const styles = {
     flex: 1,
   },
   modal: {
-    backgroundColor: 'COLORS.COLORS.white',
+    backgroundColor: 'COLORS.white',
     padding: SPACING.xl,
     margin: SPACING.lg,
     borderRadius: BORDER_RADIUS.md,
@@ -970,7 +970,7 @@ const styles = {
     zIndex: 9999,
   },
   qrModal: {
-    backgroundColor: 'COLORS.COLORS.white',
+    backgroundColor: 'COLORS.white',
     margin: SPACING.lg,
     borderRadius: BORDER_RADIUS.md,
     overflow: 'hidden',

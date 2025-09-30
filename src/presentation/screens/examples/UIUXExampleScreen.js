@@ -351,7 +351,7 @@ const styles = StyleSheet.create({
     ...getElevation('sm'),
   },
   tokenLabel: {
-    color: COLORS.COLORS.white,
+    color: COLORS.white,
     fontSize: FONT_SIZE.xs,
     fontWeight: FONT_WEIGHT.semibold,
   },
@@ -392,7 +392,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: SPACING.md,
-    backgroundColor: COLORS.COLORS.white,
+    backgroundColor: COLORS.white,
     borderRadius: BORDER_RADIUS.sm,
     marginBottom: SPACING.sm,
     ...getElevation('xs'),

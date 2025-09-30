@@ -874,7 +874,7 @@ const styles = StyleSheet.create({
     height: 24,
   },
   monthChipText: {
-    color: 'COLORS.COLORS.white',
+    color: 'COLORS.white',
     fontSize: FONT_SIZE.sm,
   },
   monthDays: {

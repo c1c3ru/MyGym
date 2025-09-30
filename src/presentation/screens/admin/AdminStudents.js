@@ -404,7 +404,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.gray[100],
   },
   header: {
-    backgroundColor: 'COLORS.COLORS.white',
+    backgroundColor: 'COLORS.white',
     paddingHorizontal: 16,
     paddingVertical: SPACING.md,
     elevation: 2,

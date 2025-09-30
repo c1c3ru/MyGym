@@ -105,7 +105,7 @@ const RegisterScreen = ({ navigation }) => {
         name: formData.name.trim(),
         phone: formData.phone.trim(),
         isActive: true,
-        currentBelt: 'COLORS.COLORS.white', // Usando padrão internacional
+        currentBelt: 'COLORS.white', // Usando padrão internacional
         currentGraduation: 'Beginner', // Compatível com backend
         beltHistory: [],
         graduations: [],
@@ -206,7 +206,7 @@ const RegisterScreen = ({ navigation }) => {
             <MaterialCommunityIcons 
               name="account-plus" 
               size={60} 
-              color="COLORS.COLORS.white" 
+              color="COLORS.white" 
               style={styles.headerIcon}
             />
             <Title style={styles.title}>{getString('createAccount')}</Title>
@@ -377,7 +377,7 @@ const RegisterScreen = ({ navigation }) => {
             >
               {loading ? (
                 <View style={styles.loadingContainer}>
-                  <ActivityIndicator color="COLORS.COLORS.white" size="small" />
+                  <ActivityIndicator color="COLORS.white" size="small" />
                   <Text style={styles.loadingText}>{getString('creatingAccount')}</Text>
                 </View>
               ) : (
@@ -464,7 +464,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 32,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.COLORS.white',
+    color: 'COLORS.white',
     marginBottom: SPACING.sm,
     ...Platform.select({
       web: {
@@ -494,7 +494,7 @@ const styles = StyleSheet.create({
   },
   card: {
     borderRadius: BORDER_RADIUS.lg,
-    backgroundColor: 'COLORS.COLORS.white',
+    backgroundColor: 'COLORS.white',
     ...Platform.select({
       web: {
         boxShadow: '0 4px 4.65px rgba(0, 0, 0, 0.3)'
@@ -526,7 +526,7 @@ const styles = StyleSheet.create({
   },
   input: {
     marginBottom: SPACING.sm,
-    backgroundColor: 'COLORS.COLORS.white',
+    backgroundColor: 'COLORS.white',
   },
   divider: {
     marginVertical: 24,
@@ -539,7 +539,7 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.md,
     elevation: 2,
     borderRadius: BORDER_RADIUS.md,
-    backgroundColor: 'COLORS.COLORS.white',
+    backgroundColor: 'COLORS.white',
   },
   userTypeCardContent: {
     flexDirection: 'row',
@@ -588,7 +588,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   loadingText: {
-    color: 'COLORS.COLORS.white',
+    color: 'COLORS.white',
     marginLeft: 8,
     fontSize: FONT_SIZE.md,
   },

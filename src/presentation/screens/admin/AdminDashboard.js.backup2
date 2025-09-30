@@ -353,7 +353,7 @@ const AdminDashboard = ({ navigation }) => {
                       style={styles.academiaCodeContainer}
                       onPress={handleShowQR}
                     >
-                      <SafeMaterialCommunityIcons name="qrcode" size={16} color="COLORS.COLORS.white + 'E6'" />
+                      <SafeMaterialCommunityIcons name="qrcode" size={16} color="COLORS.white + 'E6'" />
                       <Text style={styles.academiaCodeText}>
                         Código: {academia.codigo}
                       </Text>
@@ -378,7 +378,7 @@ const AdminDashboard = ({ navigation }) => {
         <View style={styles.statsContainer}>
           <Animated.View style={[styles.statCard, { opacity: animations.fadeAnim }]}>
             <LinearGradient colors={ADMIN_COLORS.blue} style={styles.statGradient}>
-              <SafeMaterialCommunityIcons name="account-group" size={32} color="COLORS.COLORS.white" />
+              <SafeMaterialCommunityIcons name="account-group" size={32} color="COLORS.white" />
               <Text style={styles.statNumberModern}>{dashboardData.totalStudents}</Text>
               <Text style={styles.statLabelModern}>Total de Alunos</Text>
             </LinearGradient>
@@ -386,7 +386,7 @@ const AdminDashboard = ({ navigation }) => {
 
           <Animated.View style={[styles.statCard, { opacity: animations.fadeAnim }]}>
             <LinearGradient colors={ADMIN_COLORS.green} style={styles.statGradient}>
-              <SafeMaterialCommunityIcons name="account-check" size={32} color="COLORS.COLORS.white" />
+              <SafeMaterialCommunityIcons name="account-check" size={32} color="COLORS.white" />
               <Text style={styles.statNumberModern}>{dashboardData.activeStudents}</Text>
               <Text style={styles.statLabelModern}>Alunos Ativos</Text>
             </LinearGradient>
@@ -394,7 +394,7 @@ const AdminDashboard = ({ navigation }) => {
 
           <Animated.View style={[styles.statCard, { opacity: animations.fadeAnim }]}>
             <LinearGradient colors={ADMIN_COLORS.orange} style={styles.statGradient}>
-              <SafeMaterialCommunityIcons name="school-outline" size={32} color="COLORS.COLORS.white" />
+              <SafeMaterialCommunityIcons name="school-outline" size={32} color="COLORS.white" />
               <Text style={styles.statNumberModern}>{dashboardData.totalClasses}</Text>
               <Text style={styles.statLabelModern}>Turmas</Text>
             </LinearGradient>
@@ -402,7 +402,7 @@ const AdminDashboard = ({ navigation }) => {
 
           <Animated.View style={[styles.statCard, { opacity: animations.fadeAnim }]}>
             <LinearGradient colors={ADMIN_COLORS.purple} style={styles.statGradient}>
-              <SafeMaterialCommunityIcons name="cash-multiple" size={32} color="COLORS.COLORS.white" />
+              <SafeMaterialCommunityIcons name="cash-multiple" size={32} color="COLORS.white" />
               <Text style={styles.statNumberModern}>{dashboardData.pendingPayments}</Text>
               <Text style={styles.statLabelModern}>Pendências</Text>
             </LinearGradient>
@@ -499,15 +499,15 @@ const AdminDashboard = ({ navigation }) => {
               ].map((action, idx) => (
                 <Animated.View key={action.key} style={[styles.actionCard, { opacity: animations.fadeAnim, width: ResponsiveUtils.isTablet() ? '31%' : '48%' }]}>
                   <LinearGradient colors={action.colors} style={styles.actionGradient}>
-                    <SafeMaterialCommunityIcons name={action.icon} size={28} color="COLORS.COLORS.white" />
+                    <SafeMaterialCommunityIcons name={action.icon} size={28} color="COLORS.white" />
                     <Text style={styles.actionTitle}>{action.title}</Text>
                     <Text style={styles.actionSubtitle}>{action.subtitle}</Text>
                     <AnimatedButton
                       mode="contained"
                       onPress={action.onPress}
                       style={styles.modernActionButton}
-                      buttonColor="COLORS.COLORS.white + '33'"
-                      textColor="COLORS.COLORS.white"
+                      buttonColor="COLORS.white + '33'"
+                      textColor="COLORS.white"
                       compact
                     >
                       Abrir
@@ -652,9 +652,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   avatarModern: {
-    backgroundColor: 'COLORS.COLORS.white + '33'',
+    backgroundColor: 'COLORS.white + '33'',
     borderWidth: 2,
-    borderColor: 'COLORS.COLORS.white + '4D'',
+    borderColor: 'COLORS.white + '4D'',
   },
   headerTextModern: {
     marginLeft: ResponsiveUtils.spacing.md,
@@ -663,25 +663,25 @@ const styles = StyleSheet.create({
   welcomeTextModern: {
     fontSize: ResponsiveUtils.fontSize.large,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.COLORS.white',
+    color: 'COLORS.white',
     marginBottom: SPACING.xs,
   },
   roleTextModern: {
     fontSize: ResponsiveUtils.fontSize.medium,
-    color: 'COLORS.COLORS.white + 'E6'',
+    color: 'COLORS.white + 'E6'',
     marginBottom: SPACING.sm,
   },
   statusBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'COLORS.COLORS.white + '33'',
+    backgroundColor: 'COLORS.white + '33'',
     paddingHorizontal: SPACING.sm,
     paddingVertical: SPACING.xs,
     borderRadius: BORDER_RADIUS.md,
     alignSelf: 'flex-start',
   },
   statusText: {
-    color: 'COLORS.COLORS.white',
+    color: 'COLORS.white',
     fontSize: FONT_SIZE.sm,
     marginLeft: SPACING.xs,
     fontWeight: FONT_WEIGHT.medium,
@@ -734,12 +734,12 @@ const styles = StyleSheet.create({
   statNumberModern: {
     fontSize: FONT_SIZE.xxl,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.COLORS.white',
+    color: 'COLORS.white',
     marginTop: SPACING.sm,
   },
   statLabelModern: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.COLORS.white + 'E6'',
+    color: 'COLORS.white + 'E6'',
     textAlign: 'center',
     marginTop: SPACING.xs,
   },
@@ -771,7 +771,7 @@ const styles = StyleSheet.create({
     padding: ResponsiveUtils.spacing.md,
     borderRadius: ResponsiveUtils.borderRadius.medium,
     ...ResponsiveUtils.elevation,
-    backgroundColor: 'COLORS.COLORS.white',
+    backgroundColor: 'COLORS.white',
     marginBottom: ResponsiveUtils.spacing.sm,
   },
   statNumber: {
@@ -848,12 +848,12 @@ const styles = StyleSheet.create({
   actionTitle: {
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.bold,
-    color: 'COLORS.COLORS.white',
+    color: 'COLORS.white',
     marginTop: SPACING.sm,
   },
   actionSubtitle: {
     fontSize: FONT_SIZE.sm,
-    color: 'COLORS.COLORS.white + 'CC'',
+    color: 'COLORS.white + 'CC'',
     textAlign: 'center',
     marginBottom: SPACING.sm,
   },
@@ -899,7 +899,7 @@ const styles = StyleSheet.create({
     marginTop: SPACING.sm,
   },
   academiaCodeText: {
-    color: 'COLORS.COLORS.white + 'E6'',
+    color: 'COLORS.white + 'E6'',
     fontSize: FONT_SIZE.sm,
     fontWeight: FONT_WEIGHT.semibold,
     marginLeft: SPACING.xs,
@@ -907,7 +907,7 @@ const styles = StyleSheet.create({
   
   // Estilos do modal do calendário
   calendarModalContainer: {
-    backgroundColor: 'COLORS.COLORS.white',
+    backgroundColor: 'COLORS.white',
     margin: SPACING.lg,
     borderRadius: BORDER_RADIUS.md,
     maxHeight: '90%',
@@ -933,7 +933,7 @@ const styles = StyleSheet.create({
   
   // Modal do QR Code
   modalContainer: {
-    backgroundColor: 'COLORS.COLORS.white',
+    backgroundColor: 'COLORS.white',
     margin: SPACING.lg,
     borderRadius: BORDER_RADIUS.lg,
     padding: SPACING.lg,

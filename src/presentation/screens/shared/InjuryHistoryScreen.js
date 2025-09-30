@@ -261,7 +261,7 @@ const InjuryHistoryScreen = ({ navigation }) => {
                               mode="flat"
                               compact
                               style={[styles.statusChip, { backgroundColor: getStatusColor(injury.status) }]}
-                              textStyle={{ color: 'COLORS.COLORS.white', fontSize: 10 }}
+                              textStyle={{ color: 'COLORS.white', fontSize: 10 }}
                             >
                               {getStatusLabel(injury.status)}
                             </Chip>
@@ -269,7 +269,7 @@ const InjuryHistoryScreen = ({ navigation }) => {
                               mode="flat"
                               compact
                               style={[styles.severityChip, { backgroundColor: getSeverityColor(injury.severity) }]}
-                              textStyle={{ color: 'COLORS.COLORS.white', fontSize: 10 }}
+                              textStyle={{ color: 'COLORS.white', fontSize: 10 }}
                             >
                               {getSeverityLabel(injury.severity)}
                             </Chip>
