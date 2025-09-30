@@ -21,6 +21,7 @@ import cacheService, { CACHE_KEYS, CACHE_TTL } from '@services/cacheService';
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import InstructorClassesSkeleton from '@components/skeletons/InstructorClassesSkeleton';
 import { EnhancedFlashList } from '@components/EnhancedFlashList';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const InstructorClasses = ({ navigation }) => {
   const { user, userProfile } = useAuth();
@@ -221,32 +222,32 @@ const InstructorClasses = ({ navigation }) => {
           <View style={styles.cardHeader}>
             <Title style={styles.className}>{classItem.name}</Title>
             <Chip 
-              style={[styles.statusChip, { backgroundColor: classItem.status === 'active' ? '#4CAF50' : '#FFC107' }]}
-              textStyle={{ color: 'white', fontSize: 12 }}
+              style={[styles.statusChip, { backgroundColor: classItem.status === 'active' ? 'COLORS.primary[500]' : '#FFC107' }]}
+              textStyle={{ color: 'COLORS.white', fontSize: FONT_SIZE.sm }}
             >
               {classItem.status === 'active' ? 'Ativa' : 'Inativa'}
             </Chip>
           </View>
           
           <Paragraph style={styles.modalityText}>
-            <Ionicons name="fitness-outline" size={16} color="#666" />
+            <Ionicons name="fitness-outline" size={16} color="COLORS.text.secondary" />
             {' '}{classItem.modality}
           </Paragraph>
           
           <View style={styles.classInfo}>
             <Text style={styles.infoItem}>
-              <Ionicons name="time-outline" size={16} color="#666" />
+              <Ionicons name="time-outline" size={16} color="COLORS.text.secondary" />
               {' '}{formatSchedule(classItem)}
             </Text>
             
             <Text style={styles.infoItem}>
-              <Ionicons name="people-outline" size={16} color="#666" />
+              <Ionicons name="people-outline" size={16} color="COLORS.text.secondary" />
               {' '}{studentCount}/{classItem.maxStudents || 0} alunos
             </Text>
             
             {classItem.price && (
               <Text style={styles.infoItem}>
-                <Ionicons name="card-outline" size={16} color="#666" />
+                <Ionicons name="card-outline" size={16} color="COLORS.text.secondary" />
                 {' '}R$ {classItem.price.toFixed(2)}
               </Text>
             )}
@@ -325,7 +326,7 @@ const InstructorClasses = ({ navigation }) => {
             renderItem={({ item }) => renderClassCard(item)}
             keyExtractor={(item) => item.id}
             estimatedItemSize={200}
-            contentContainerStyle={{ padding: 16 }}
+            contentContainerStyle={{ padding: SPACING.base }}
           />
         )}
       </ScrollView>
@@ -347,14 +348,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
   },
   searchbar: {
-    margin: 16,
-    marginBottom: 8,
+    margin: SPACING.base,
+    marginBottom: SPACING.sm,
   },
   scrollView: {
     flex: 1,
   },
   scrollContent: {
-    padding: 16,
+    padding: SPACING.base,
     paddingTop: 8,
     paddingBottom: 100,
   },
@@ -371,33 +372,33 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   className: {
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontSize: FONT_SIZE.xl,
+    fontWeight: FONT_WEIGHT.bold,
     flex: 1,
   },
   statusChip: {
     height: 28,
   },
   modalityText: {
-    fontSize: 16,
-    color: '#666',
-    marginBottom: 12,
+    fontSize: FONT_SIZE.md,
+    color: 'COLORS.text.secondary',
+    marginBottom: SPACING.md,
   },
   classInfo: {
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   infoItem: {
-    fontSize: 14,
+    fontSize: FONT_SIZE.base,
     color: '#555',
-    marginBottom: 4,
+    marginBottom: SPACING.xs,
     flexDirection: 'row',
     alignItems: 'center',
   },
   description: {
-    fontSize: 14,
+    fontSize: FONT_SIZE.base,
     color: '#777',
     fontStyle: 'italic',
   },
@@ -414,23 +415,23 @@ const styles = StyleSheet.create({
     paddingVertical: 60,
   },
   emptyText: {
-    fontSize: 18,
-    color: '#666',
+    fontSize: FONT_SIZE.lg,
+    color: 'COLORS.text.secondary',
     textAlign: 'center',
     marginTop: 16,
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   emptySubtext: {
-    fontSize: 14,
-    color: '#999',
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.gray[500]',
     textAlign: 'center',
   },
   fab: {
     position: 'absolute',
-    margin: 16,
+    margin: SPACING.base,
     right: 0,
     bottom: 0,
-    backgroundColor: '#4CAF50',
+    backgroundColor: 'COLORS.primary[500]',
   },
 });
 

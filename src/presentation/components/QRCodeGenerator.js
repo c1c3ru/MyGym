@@ -3,6 +3,7 @@ import { View, Share, Alert, Platform } from 'react-native';
 import { Card, Text, Button, IconButton, TextInput, Dialog, Portal } from 'react-native-paper';
 import QRCode from 'react-native-qrcode-svg';
 import { useAuth } from '@contexts/AuthProvider';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 // Import do logo usando alias
 const logoIcon = require('@assets/icon.png');
@@ -62,9 +63,9 @@ export default function QRCodeGenerator({ size = 200, showActions = true, academ
         position: fixed;
         top: 20px;
         right: 20px;
-        background: ${type === 'success' ? '#4CAF50' : '#F44336'};
-        color: white;
-        padding: 12px 20px;
+        background: ${type === 'success' ? 'COLORS.primary[500]' : 'COLORS.error[500]'};
+        color: COLORS.COLORS.white;
+        padding: SPACING.mdpx 20px;
         border-radius: 8px;
         box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         z-index: 9999;
@@ -198,11 +199,11 @@ MyGym`;
           <QRCode
             value={qrValue}
             size={size}
-            backgroundColor="white"
+            backgroundColor="COLORS.COLORS.white"
             color="black"
             logo={logoIcon}
             logoSize={size * 0.15}
-            logoBackgroundColor="white"
+            logoBackgroundColor="COLORS.COLORS.white"
             logoMargin={2}
             logoBorderRadius={8}
           />
@@ -287,15 +288,15 @@ MyGym`;
 
 const styles = {
   container: {
-    margin: 16,
+    margin: SPACING.base,
   },
   content: {
     alignItems: 'center',
-    padding: 20,
+    padding: SPACING.lg,
   },
   title: {
-    fontWeight: 'bold',
-    marginBottom: 8,
+    fontWeight: FONT_WEIGHT.bold,
+    marginBottom: SPACING.sm,
     textAlign: 'center',
   },
   subtitle: {
@@ -304,9 +305,9 @@ const styles = {
     textAlign: 'center',
   },
   qrContainer: {
-    padding: 20,
-    backgroundColor: 'white',
-    borderRadius: 12,
+    padding: SPACING.lg,
+    backgroundColor: 'COLORS.COLORS.white',
+    borderRadius: BORDER_RADIUS.md,
     marginBottom: 20,
     elevation: 2,
     shadowColor: '#000',
@@ -331,13 +332,13 @@ const styles = {
     textAlign: 'center',
     opacity: 0.8,
     marginBottom: 16,
-    fontWeight: 'bold',
-    backgroundColor: '#f0f0f0',
-    padding: 8,
-    borderRadius: 4,
+    fontWeight: FONT_WEIGHT.bold,
+    backgroundColor: 'COLORS.gray[100]',
+    padding: SPACING.sm,
+    borderRadius: BORDER_RADIUS.sm,
   },
   actionButton: {
     minWidth: 120,
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
 };

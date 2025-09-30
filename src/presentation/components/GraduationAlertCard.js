@@ -10,6 +10,7 @@ import {
 } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 import { getBeltColor, getStatusColor, APP_COLORS, STATUS_COLORS, TEXT_COLORS } from '@shared/constants/colors';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const GraduationAlertCard = ({ 
   alert, 
@@ -192,7 +193,7 @@ const GraduationAlertCard = ({
           {alert.isEligible && (
             <View style={styles.detailRow}>
               <Ionicons name="checkmark-circle" size={16} color={STATUS_COLORS.success} />
-              <Text style={[styles.detailText, { color: STATUS_COLORS.success, fontWeight: 'bold' }]}>
+              <Text style={[styles.detailText, { color: STATUS_COLORS.success, fontWeight: FONT_WEIGHT.bold }]}>
                 Elegível para graduação!
               </Text>
             </View>
@@ -247,16 +248,16 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   studentName: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 4,
+    fontSize: FONT_SIZE.lg,
+    fontWeight: FONT_WEIGHT.bold,
+    marginBottom: SPACING.xs,
   },
   modality: {
-    fontSize: 14,
+    fontSize: FONT_SIZE.base,
     color: APP_COLORS.gray[600],
   },
   alertChip: {
-    paddingHorizontal: 8,
+    paddingHorizontal: SPACING.sm,
   },
   progression: {
     marginBottom: 16,
@@ -266,8 +267,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     backgroundColor: APP_COLORS.gray[50],
-    padding: 16,
-    borderRadius: 8,
+    padding: SPACING.base,
+    borderRadius: BORDER_RADIUS.md,
   },
   currentBelt: {
     alignItems: 'center',
@@ -276,9 +277,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   beltLabel: {
-    fontSize: 12,
+    fontSize: FONT_SIZE.sm,
     color: APP_COLORS.gray[600],
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   beltChip: {
     paddingHorizontal: 16,
@@ -292,11 +293,11 @@ const styles = StyleSheet.create({
   detailRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   detailText: {
     marginLeft: 8,
-    fontSize: 14,
+    fontSize: FONT_SIZE.base,
     color: TEXT_COLORS.primary,
   },
   actions: {
@@ -310,26 +311,26 @@ const styles = StyleSheet.create({
   // Compact styles
   compactCard: {
     marginVertical: 4,
-    borderRadius: 8,
+    borderRadius: BORDER_RADIUS.md,
     elevation: 1,
   },
   compactContent: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 12,
+    padding: SPACING.md,
   },
   compactInfo: {
     flex: 1,
     marginLeft: 12,
   },
   compactName: {
-    fontSize: 14,
-    fontWeight: 'bold',
+    fontSize: FONT_SIZE.base,
+    fontWeight: FONT_WEIGHT.bold,
   },
   compactModality: {
-    fontSize: 12,
+    fontSize: FONT_SIZE.sm,
     color: APP_COLORS.gray[600],
-    marginBottom: 4,
+    marginBottom: SPACING.xs,
   },
   compactBelts: {
     flexDirection: 'row',
@@ -342,7 +343,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   compactStatusChip: {
-    paddingHorizontal: 8,
+    paddingHorizontal: SPACING.sm,
   },
 });
 

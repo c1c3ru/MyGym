@@ -26,6 +26,7 @@ import cacheService, { CACHE_KEYS, CACHE_TTL } from '@services/cacheService';
 import batchFirestoreService from '@services/batchFirestoreService';
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import StudentDetailsSkeleton from '@components/skeletons/StudentDetailsSkeleton';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const StudentDetailsScreen = ({ route, navigation }) => {
   const { studentId } = route.params;
@@ -134,11 +135,11 @@ const StudentDetailsScreen = ({ route, navigation }) => {
   // Memoized utility functions
   const getPaymentStatusColor = useCallback((status) => {
     const colors = {
-      'paid': '#4CAF50',
-      'pending': '#FF9800',
-      'overdue': '#F44336'
+      'paid': 'COLORS.primary[500]',
+      'pending': 'COLORS.warning[500]',
+      'overdue': 'COLORS.error[500]'
     };
-    return colors[status] || '#666';
+    return colors[status] || 'COLORS.text.secondary';
   }, []);
 
   const getPaymentStatusText = useCallback((status) => {
@@ -231,7 +232,7 @@ const StudentDetailsScreen = ({ route, navigation }) => {
               <Text style={styles.studentEmail}>{studentInfo?.email}</Text>
               <Text style={[
                 styles.statusBadge,
-                { color: studentInfo?.isActive ? '#4CAF50' : '#F44336' }
+                { color: studentInfo?.isActive ? 'COLORS.primary[500]' : 'COLORS.error[500]' }
               ]}>
                 {studentInfo?.isActive ? 'Ativo' : 'Inativo'}
               </Text>
@@ -242,21 +243,21 @@ const StudentDetailsScreen = ({ route, navigation }) => {
           
           <View style={styles.infoSection}>
             <View style={styles.infoRow}>
-              <Ionicons name="call" size={20} color="#666" />
+              <Ionicons name="call" size={20} color="COLORS.text.secondary" />
               <Text style={styles.infoText}>
                 {studentInfo?.phone || 'Telefone não informado'}
               </Text>
             </View>
             
             <View style={styles.infoRow}>
-              <Ionicons name="location" size={20} color="#666" />
+              <Ionicons name="location" size={20} color="COLORS.text.secondary" />
               <Text style={styles.infoText}>
                 {studentInfo?.address || 'Endereço não informado'}
               </Text>
             </View>
             
             <View style={styles.infoRow}>
-              <Ionicons name="calendar" size={20} color="#666" />
+              <Ionicons name="calendar" size={20} color="COLORS.text.secondary" />
               <Text style={styles.infoText}>
                 Cadastrado em: {formatDate(studentInfo?.createdAt)}
               </Text>
@@ -267,7 +268,7 @@ const StudentDetailsScreen = ({ route, navigation }) => {
         {/* Turmas Matriculadas */}
         <Card style={styles.card}>
           <View style={styles.cardHeader}>
-            <Ionicons name="school" size={24} color="#2196F3" />
+            <Ionicons name="school" size={24} color="COLORS.info[500]" />
             <Text variant="titleMedium" style={styles.cardTitle}>Turmas Matriculadas</Text>
           </View>
           
@@ -276,7 +277,7 @@ const StudentDetailsScreen = ({ route, navigation }) => {
               <Card.Content key={classItem.id || index}>
                 <View style={styles.listItemContent}>
                   <View style={styles.listItemLeft}>
-                    <Ionicons name="fitness" size={20} color="#666" style={styles.listIcon} />
+                    <Ionicons name="fitness" size={20} color="COLORS.text.secondary" style={styles.listIcon} />
                     <View>
                       <Text style={styles.listTitle}>{classItem.name}</Text>
                       <Text style={styles.listSubtitle}>{classItem.modality}</Text>
@@ -302,7 +303,7 @@ const StudentDetailsScreen = ({ route, navigation }) => {
         {/* Histórico de Pagamentos */}
         <Card style={styles.card}>
           <View style={styles.cardHeader}>
-            <Ionicons name="card" size={24} color="#4CAF50" />
+            <Ionicons name="card" size={24} color="COLORS.primary[500]" />
             <Text variant="titleMedium" style={styles.cardTitle}>Histórico de Pagamentos</Text>
           </View>
           
@@ -311,7 +312,7 @@ const StudentDetailsScreen = ({ route, navigation }) => {
               <Card.Content key={payment.id || index}>
                 <View style={styles.listItemContent}>
                   <View style={styles.listItemLeft}>
-                    <Ionicons name="receipt" size={20} color="#666" style={styles.listIcon} />
+                    <Ionicons name="receipt" size={20} color="COLORS.text.secondary" style={styles.listIcon} />
                     <View>
                       <Text style={styles.listTitle}>
                         {formatCurrency(payment.amount)}
@@ -323,7 +324,7 @@ const StudentDetailsScreen = ({ route, navigation }) => {
                   </View>
                   <Text style={{
                     color: getPaymentStatusColor(payment.status),
-                    fontWeight: 'bold'
+                    fontWeight: FONT_WEIGHT.bold
                   }}>
                     {getPaymentStatusText(payment.status)}
                   </Text>
@@ -355,7 +356,7 @@ const StudentDetailsScreen = ({ route, navigation }) => {
             <Button
               mode="contained"
               onPress={handleEditStudent}
-              style={[styles.actionButton, { backgroundColor: '#2196F3' }]}
+              style={[styles.actionButton, { backgroundColor: 'COLORS.info[500]' }]}
               icon="pencil"
             >
               Editar Aluno
@@ -364,7 +365,7 @@ const StudentDetailsScreen = ({ route, navigation }) => {
             <Button
               mode="contained"
               onPress={handleAddGraduation}
-              style={[styles.actionButton, { backgroundColor: '#4CAF50' }]}
+              style={[styles.actionButton, { backgroundColor: 'COLORS.primary[500]' }]}
               icon="trophy"
             >
               {getString('addGraduation')}
@@ -388,8 +389,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   card: {
-    margin: 16,
-    marginTop: 8,
+    margin: SPACING.base,
+    marginTop: SPACING.sm,
     ...Platform.select({
 
       ios: {},
@@ -414,45 +415,45 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   avatar: {
-    backgroundColor: '#2196F3',
+    backgroundColor: 'COLORS.info[500]',
   },
   avatarText: {
-    color: 'white',
-    fontWeight: '600',
+    color: 'COLORS.COLORS.white',
+    fontWeight: FONT_WEIGHT.semibold,
   },
   studentInfo: {
     marginLeft: 16,
     flex: 1,
   },
   studentName: {
-    fontSize: 20,
-    fontWeight: '600',
-    color: '#333',
+    fontSize: FONT_SIZE.xl,
+    fontWeight: FONT_WEIGHT.semibold,
+    color: 'COLORS.text.primary',
   },
   studentEmail: {
-    fontSize: 14,
-    color: '#666',
-    marginTop: 4,
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.secondary',
+    marginTop: SPACING.xs,
   },
   statusBadge: {
-    marginTop: 8,
+    marginTop: SPACING.sm,
     alignSelf: 'flex-start',
   },
   divider: {
     marginVertical: 16,
   },
   infoSection: {
-    marginTop: 8,
+    marginTop: SPACING.sm,
   },
   infoRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   infoText: {
     marginLeft: 12,
-    fontSize: 16,
-    color: '#333',
+    fontSize: FONT_SIZE.md,
+    color: 'COLORS.text.primary',
   },
   cardHeader: {
     flexDirection: 'row',
@@ -461,18 +462,18 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     marginLeft: 8,
-    fontSize: 18,
+    fontSize: FONT_SIZE.lg,
   },
   noDataText: {
     textAlign: 'center',
-    color: '#666',
+    color: 'COLORS.text.secondary',
     fontStyle: 'italic',
-    padding: 20,
+    padding: SPACING.lg,
   },
   listItem: {
-    paddingVertical: 8,
+    paddingVertical: SPACING.sm,
     borderBottomWidth: 1,
-    borderBottomColor: '#e0e0e0',
+    borderBottomColor: 'COLORS.gray[300]',
   },
   listItemContent: {
     flexDirection: 'row',
@@ -488,13 +489,13 @@ const styles = StyleSheet.create({
     marginRight: 12,
   },
   listTitle: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: '#333',
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.medium,
+    color: 'COLORS.text.primary',
   },
   listSubtitle: {
-    fontSize: 14,
-    color: '#666',
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.secondary',
     marginTop: 2,
   },
   viewAllButton: {
@@ -507,7 +508,7 @@ const styles = StyleSheet.create({
   },
   actionButton: {
     width: '48%',
-    borderRadius: 12,
+    borderRadius: BORDER_RADIUS.md,
   },
   scrollView: {
     flex: 1,

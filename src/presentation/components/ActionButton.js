@@ -3,6 +3,7 @@ import { View, StyleSheet, Platform } from 'react-native';
 import { Button } from 'react-native-paper';
 import { LinearGradient } from 'expo-linear-gradient';
 import { PROFILE_COLORS, STATUS_COLORS, APP_COLORS } from '@shared/constants/colors';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const ActionButton = ({ 
   mode = 'outlined', 
@@ -22,37 +23,37 @@ const ActionButton = ({
         return {
           contained: PROFILE_COLORS.student.gradient,
           outlined: PROFILE_COLORS.student.primary,
-          text: mode === 'contained' ? APP_COLORS.white : PROFILE_COLORS.student.primary
+          text: mode === 'contained' ? APP_COLORS.COLORS.COLORS.COLORS.white : PROFILE_COLORS.student.primary
         };
       case 'success':
         return {
           contained: STATUS_COLORS.successGradient,
           outlined: STATUS_COLORS.success,
-          text: mode === 'contained' ? APP_COLORS.white : STATUS_COLORS.success
+          text: mode === 'contained' ? APP_COLORS.COLORS.COLORS.COLORS.white : STATUS_COLORS.success
         };
       case 'warning':
         return {
           contained: STATUS_COLORS.warningGradient,
           outlined: STATUS_COLORS.warning,
-          text: mode === 'contained' ? APP_COLORS.white : STATUS_COLORS.warning
+          text: mode === 'contained' ? APP_COLORS.COLORS.COLORS.COLORS.white : STATUS_COLORS.warning
         };
       case 'danger':
         return {
           contained: STATUS_COLORS.errorGradient,
           outlined: STATUS_COLORS.error,
-          text: mode === 'contained' ? APP_COLORS.white : STATUS_COLORS.error
+          text: mode === 'contained' ? APP_COLORS.COLORS.COLORS.COLORS.white : STATUS_COLORS.error
         };
       case 'secondary':
         return {
           contained: PROFILE_COLORS.admin.gradient,
           outlined: PROFILE_COLORS.admin.primary,
-          text: mode === 'contained' ? APP_COLORS.white : PROFILE_COLORS.admin.primary
+          text: mode === 'contained' ? APP_COLORS.COLORS.COLORS.COLORS.white : PROFILE_COLORS.admin.primary
         };
       default:
         return {
           contained: PROFILE_COLORS.student.gradient,
           outlined: PROFILE_COLORS.student.primary,
-          text: mode === 'contained' ? APP_COLORS.white : PROFILE_COLORS.student.primary
+          text: mode === 'contained' ? APP_COLORS.COLORS.COLORS.COLORS.white : PROFILE_COLORS.student.primary
         };
     }
   };
@@ -62,22 +63,22 @@ const ActionButton = ({
       case 'small':
         return {
           minHeight: 32,
-          paddingHorizontal: 12,
-          fontSize: 12,
+          paddingHorizontal: SPACING.md,
+          fontSize: FONT_SIZE.sm,
           iconSize: 16
         };
       case 'large':
         return {
           minHeight: 48,
           paddingHorizontal: 24,
-          fontSize: 16,
+          fontSize: FONT_SIZE.md,
           iconSize: 24
         };
       default: // medium
         return {
           minHeight: 40,
           paddingHorizontal: 16,
-          fontSize: 14,
+          fontSize: FONT_SIZE.base,
           iconSize: 20
         };
     }
@@ -204,7 +205,7 @@ export const FloatingActionButton = ({ icon, label, onPress, variant = 'primary'
 
 const styles = StyleSheet.create({
   button: {
-    borderRadius: 8,
+    borderRadius: BORDER_RADIUS.md,
     ...Platform.select({
       web: {
         boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
@@ -219,13 +220,13 @@ const styles = StyleSheet.create({
     }),
   },
   buttonText: {
-    fontWeight: '600',
+    fontWeight: FONT_WEIGHT.semibold,
   },
   buttonContent: {
     height: '100%',
   },
   gradientContainer: {
-    borderRadius: 8,
+    borderRadius: BORDER_RADIUS.md,
     ...Platform.select({
       web: {
         boxShadow: '0 2px 6px rgba(0, 0, 0, 0.15)'
@@ -240,17 +241,17 @@ const styles = StyleSheet.create({
     }),
   },
   gradient: {
-    borderRadius: 8,
+    borderRadius: BORDER_RADIUS.md,
     flex: 1,
   },
   gradientButton: {
-    borderRadius: 8,
+    borderRadius: BORDER_RADIUS.md,
     backgroundColor: 'transparent',
     margin: 0,
   },
   gradientButtonText: {
-    color: APP_COLORS.white,
-    fontWeight: '600',
+    color: APP_COLORS.COLORS.COLORS.COLORS.white,
+    fontWeight: FONT_WEIGHT.semibold,
   },
   gradientButtonContent: {
     height: '100%',
@@ -290,9 +291,9 @@ const styles = StyleSheet.create({
     margin: 0,
   },
   fabText: {
-    color: APP_COLORS.white,
-    fontWeight: '700',
-    fontSize: 16,
+    color: APP_COLORS.COLORS.COLORS.COLORS.white,
+    fontWeight: FONT_WEIGHT.bold,
+    fontSize: FONT_SIZE.md,
   },
   fabContent: {
     height: 56,

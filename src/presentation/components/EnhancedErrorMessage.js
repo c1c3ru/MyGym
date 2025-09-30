@@ -308,7 +308,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: '700',
+    fontWeight: FONT_WEIGHT.bold,
     flex: 1,
     marginTop: SPACING.xs,
   },

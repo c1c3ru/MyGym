@@ -25,6 +25,7 @@ import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import { useFormValidation } from '@hooks/useFormValidation';
 import { rateLimitService } from '@services/rateLimitService';
 import LoginSkeleton from '@components/skeletons/LoginSkeleton';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
@@ -253,7 +254,7 @@ export default function LoginScreen({ navigation }) {
                     <View style={styles.languageButtonContent}>
                       <Text style={styles.flagEmoji}>{languages[currentLanguage].flag}</Text>
                       <Text style={styles.languageButtonText}>{languages[currentLanguage].name}</Text>
-                      <MaterialCommunityIcons name="chevron-down" size={20} color="white" />
+                      <MaterialCommunityIcons name="chevron-down" size={20} color="COLORS.COLORS.white" />
                     </View>
                   </TouchableRipple>
                 }
@@ -277,7 +278,7 @@ export default function LoginScreen({ navigation }) {
                 <MaterialCommunityIcons 
                   name={isDarkMode ? "weather-night" : "weather-sunny"} 
                   size={20} 
-                  color="white" 
+                  color="COLORS.COLORS.white" 
                   style={styles.darkModeIcon}
                 />
                 <Text style={styles.darkModeText}>{getString('darkMode')}</Text>
@@ -295,7 +296,7 @@ export default function LoginScreen({ navigation }) {
             <MaterialCommunityIcons 
               name="school" 
               size={60} 
-              color="white" 
+              color="COLORS.COLORS.white" 
               style={styles.headerIcon}
             />
             <Text style={styles.headerTitle}>{getString('appName')}</Text>
@@ -467,7 +468,7 @@ export default function LoginScreen({ navigation }) {
           action={{
             label: 'Fechar',
             onPress: hideSnackbar,
-            textColor: 'white'
+            textColor: 'COLORS.COLORS.white'
           }}
         >
           <Text style={styles.snackbarText}>{snackbar.message}</Text>
@@ -499,8 +500,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   languageButton: {
-    borderRadius: 20,
-    paddingHorizontal: 12,
+    borderRadius: BORDER_RADIUS.lg,
+    paddingHorizontal: SPACING.md,
     paddingVertical: 6,
     backgroundColor: 'rgba(255,255,255,0.1)',
   },
@@ -509,46 +510,46 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   flagEmoji: {
-    fontSize: 16,
-    marginRight: 4,
+    fontSize: FONT_SIZE.md,
+    marginRight: SPACING.xs,
   },
   languageButtonText: {
-    color: 'white',
-    fontSize: 14,
-    marginRight: 4,
+    color: 'COLORS.COLORS.white',
+    fontSize: FONT_SIZE.base,
+    marginRight: SPACING.xs,
   },
   darkModeToggle: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: 'rgba(255,255,255,0.1)',
-    borderRadius: 20,
-    paddingHorizontal: 12,
+    borderRadius: BORDER_RADIUS.lg,
+    paddingHorizontal: SPACING.md,
     paddingVertical: 6,
   },
   darkModeIcon: {
     marginRight: 6,
   },
   darkModeText: {
-    color: 'white',
-    fontSize: 14,
+    color: 'COLORS.COLORS.white',
+    fontSize: FONT_SIZE.base,
     marginRight: 8,
   },
   header: {
     alignItems: 'center',
-    paddingVertical: 40,
+    paddingVertical: SPACING.xs0,
   },
   headerIcon: {
     marginBottom: 16,
   },
   headerTitle: {
     fontSize: 32,
-    fontWeight: 'bold',
-    color: 'white',
-    marginBottom: 8,
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.COLORS.white',
+    marginBottom: SPACING.sm,
   },
   headerSubtitle: {
-    fontSize: 16,
-    color: 'rgba(255,255,255,0.8)',
+    fontSize: FONT_SIZE.md,
+    color: 'COLORS.COLORS.white + 'CC'',
   },
   content: {
     flex: 1,
@@ -569,15 +570,15 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   loginButton: {
-    marginTop: 8,
+    marginTop: SPACING.sm,
     marginBottom: 16,
   },
   buttonContent: {
     paddingVertical: 6,
   },
   buttonLabel: {
-    fontSize: 16,
-    fontWeight: '600',
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.semibold,
   },
   divider: {
     marginVertical: 16,
@@ -593,22 +594,22 @@ const styles = StyleSheet.create({
     marginVertical: 16,
   },
   socialLoginTitle: {
-    fontSize: 14,
+    fontSize: FONT_SIZE.base,
     textAlign: 'center',
-    marginBottom: 12,
+    marginBottom: SPACING.md,
     opacity: 0.7,
   },
   socialButtonsRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   socialButton: {
     flex: 0.48,
     marginHorizontal: 2,
   },
   socialButtonContent: {
-    paddingVertical: 4,
+    paddingVertical: SPACING.xs,
   },
   loadingContainer: {
     flex: 1,
@@ -617,10 +618,10 @@ const styles = StyleSheet.create({
   },
   loadingText: {
     marginTop: 16,
-    fontSize: 16,
+    fontSize: FONT_SIZE.md,
   },
   errorText: {
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
     marginTop: -8,
   },
   snackbar: {
@@ -628,7 +629,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    margin: 16,
+    margin: SPACING.base,
   },
   snackbarSuccess: {
     backgroundColor: '#4caf50',
@@ -637,7 +638,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f44336',
   },
   snackbarText: {
-    color: 'white',
-    fontSize: 16,
+    color: 'COLORS.COLORS.white',
+    fontSize: FONT_SIZE.md,
   },
 });

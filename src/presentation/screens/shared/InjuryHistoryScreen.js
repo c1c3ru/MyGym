@@ -15,6 +15,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '@contexts/AuthProvider';
 import { firestoreService } from '@services/firestoreService';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const InjuryHistoryScreen = ({ navigation }) => {
   const { user, academia } = useAuth();
@@ -60,19 +61,19 @@ const InjuryHistoryScreen = ({ navigation }) => {
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'ativo': return '#F44336';
-      case 'recuperando': return '#FF9800';
-      case 'recuperado': return '#4CAF50';
-      case 'cronico': return '#9C27B0';
+      case 'ativo': return 'COLORS.error[500]';
+      case 'recuperando': return 'COLORS.warning[500]';
+      case 'recuperado': return 'COLORS.primary[500]';
+      case 'cronico': return 'COLORS.secondary[500]';
       default: return '#9E9E9E';
     }
   };
 
   const getSeverityColor = (severity) => {
     switch (severity) {
-      case 'leve': return '#4CAF50';
-      case 'moderada': return '#FF9800';
-      case 'grave': return '#F44336';
+      case 'leve': return 'COLORS.primary[500]';
+      case 'moderada': return 'COLORS.warning[500]';
+      case 'grave': return 'COLORS.error[500]';
       default: return '#9E9E9E';
     }
   };
@@ -167,7 +168,7 @@ const InjuryHistoryScreen = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <Ionicons name="stats-chart-outline" size={24} color="#2196F3" />
+              <Ionicons name="stats-chart-outline" size={24} color="COLORS.info[500]" />
               <Text style={styles.cardTitle}>Resumo de Lesões</Text>
             </View>
             
@@ -178,17 +179,17 @@ const InjuryHistoryScreen = ({ navigation }) => {
               </Surface>
               
               <Surface style={[styles.statItem, { backgroundColor: '#FFEBEE' }]}>
-                <Text style={[styles.statNumber, { color: '#F44336' }]}>{stats.active}</Text>
+                <Text style={[styles.statNumber, { color: 'COLORS.error[500]' }]}>{stats.active}</Text>
                 <Text style={styles.statLabel}>Ativas</Text>
               </Surface>
               
               <Surface style={[styles.statItem, { backgroundColor: '#FFF3E0' }]}>
-                <Text style={[styles.statNumber, { color: '#FF9800' }]}>{stats.recovering}</Text>
+                <Text style={[styles.statNumber, { color: 'COLORS.warning[500]' }]}>{stats.recovering}</Text>
                 <Text style={styles.statLabel}>Recuperando</Text>
               </Surface>
               
               <Surface style={[styles.statItem, { backgroundColor: '#E8F5E8' }]}>
-                <Text style={[styles.statNumber, { color: '#4CAF50' }]}>{stats.recovered}</Text>
+                <Text style={[styles.statNumber, { color: 'COLORS.primary[500]' }]}>{stats.recovered}</Text>
                 <Text style={styles.statLabel}>Recuperadas</Text>
               </Surface>
             </View>
@@ -222,7 +223,7 @@ const InjuryHistoryScreen = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <Ionicons name="list-outline" size={24} color="#FF9800" />
+              <Ionicons name="list-outline" size={24} color="COLORS.warning[500]" />
               <Text style={styles.cardTitle}>
                 {selectedFilter === 'all' ? 'Todas as Lesões' : 
                  `Lesões ${filters.find(f => f.key === selectedFilter)?.label}`}
@@ -260,7 +261,7 @@ const InjuryHistoryScreen = ({ navigation }) => {
                               mode="flat"
                               compact
                               style={[styles.statusChip, { backgroundColor: getStatusColor(injury.status) }]}
-                              textStyle={{ color: 'white', fontSize: 10 }}
+                              textStyle={{ color: 'COLORS.COLORS.white', fontSize: 10 }}
                             >
                               {getStatusLabel(injury.status)}
                             </Chip>
@@ -268,7 +269,7 @@ const InjuryHistoryScreen = ({ navigation }) => {
                               mode="flat"
                               compact
                               style={[styles.severityChip, { backgroundColor: getSeverityColor(injury.severity) }]}
-                              textStyle={{ color: 'white', fontSize: 10 }}
+                              textStyle={{ color: 'COLORS.COLORS.white', fontSize: 10 }}
                             >
                               {getSeverityLabel(injury.severity)}
                             </Chip>
@@ -284,7 +285,7 @@ const InjuryHistoryScreen = ({ navigation }) => {
                           color={getStatusColor(injury.status)} 
                         />
                         {injury.status === 'ativo' && (
-                          <Badge size={8} style={[styles.activeBadge, { backgroundColor: '#F44336' }]} />
+                          <Badge size={8} style={[styles.activeBadge, { backgroundColor: 'COLORS.error[500]' }]} />
                         )}
                       </View>
                     )}
@@ -307,7 +308,7 @@ const InjuryHistoryScreen = ({ navigation }) => {
           <Card style={styles.card}>
             <Card.Content>
               <View style={styles.cardHeader}>
-                <Ionicons name="shield-checkmark-outline" size={24} color="#4CAF50" />
+                <Ionicons name="shield-checkmark-outline" size={24} color="COLORS.primary[500]" />
                 <Text style={styles.cardTitle}>Dicas de Prevenção</Text>
               </View>
               
@@ -342,7 +343,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
-    padding: 16,
+    padding: SPACING.base,
   },
   card: {
     marginBottom: 16,
@@ -354,8 +355,8 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   cardTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: FONT_SIZE.lg,
+    fontWeight: FONT_WEIGHT.bold,
     marginLeft: 8,
     flex: 1,
   },
@@ -366,36 +367,36 @@ const styles = StyleSheet.create({
   },
   statItem: {
     width: '48%',
-    padding: 12,
-    marginBottom: 8,
-    borderRadius: 8,
+    padding: SPACING.md,
+    marginBottom: SPACING.sm,
+    borderRadius: BORDER_RADIUS.md,
     alignItems: 'center',
     elevation: 2,
     backgroundColor: '#F5F5F5',
   },
   statNumber: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333',
+    fontSize: FONT_SIZE.xxl,
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.text.primary',
   },
   statLabel: {
-    fontSize: 12,
-    color: '#666',
-    marginTop: 4,
+    fontSize: FONT_SIZE.sm,
+    color: 'COLORS.text.secondary',
+    marginTop: SPACING.xs,
   },
   filtersContainer: {
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   filterChip: {
     marginRight: 8,
   },
   injuryDescription: {
-    marginTop: 4,
+    marginTop: SPACING.xs,
   },
   descriptionText: {
-    fontSize: 14,
-    color: '#666',
-    marginBottom: 8,
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.secondary',
+    marginBottom: SPACING.sm,
   },
   injuryMeta: {
     flexDirection: 'row',
@@ -403,7 +404,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   dateText: {
-    fontSize: 12,
+    fontSize: FONT_SIZE.sm,
     color: '#888',
   },
   chipContainer: {
@@ -426,45 +427,45 @@ const styles = StyleSheet.create({
     right: -2,
   },
   listItem: {
-    paddingVertical: 8,
+    paddingVertical: SPACING.sm,
   },
   emptyState: {
     alignItems: 'center',
     padding: 32,
   },
   emptyText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#666',
+    fontSize: FONT_SIZE.lg,
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.text.secondary',
     marginTop: 16,
     textAlign: 'center',
   },
   emptySubtext: {
-    fontSize: 14,
+    fontSize: FONT_SIZE.base,
     color: '#888',
-    marginTop: 8,
+    marginTop: SPACING.sm,
     textAlign: 'center',
     lineHeight: 20,
   },
   tipContainer: {
     backgroundColor: '#F1F8E9',
-    padding: 16,
-    borderRadius: 8,
+    padding: SPACING.base,
+    borderRadius: BORDER_RADIUS.md,
     borderLeftWidth: 4,
     borderStyle: 'solid',
-    borderLeftColor: '#4CAF50',
+    borderLeftColor: 'COLORS.primary[500]',
   },
   tipText: {
-    fontSize: 14,
+    fontSize: FONT_SIZE.base,
     color: '#2E7D32',
     lineHeight: 20,
   },
   fab: {
     position: 'absolute',
-    margin: 16,
+    margin: SPACING.base,
     right: 0,
     bottom: 0,
-    backgroundColor: '#F44336',
+    backgroundColor: 'COLORS.error[500]',
   },
 });
 

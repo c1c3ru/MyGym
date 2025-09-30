@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import SkeletonLoader from './SkeletonLoader';
 import { ResponsiveUtils } from '@utils/animations';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const DashboardSkeleton = () => {
   return (
@@ -42,7 +43,7 @@ const DashboardSkeleton = () => {
       {/* Quick Actions Skeleton */}
       <View style={styles.cardContainer}>
         <View style={styles.quickActionsHeader}>
-          <SkeletonLoader width="40%" height={24} style={{ marginBottom: 8 }} />
+          <SkeletonLoader width="40%" height={24} style={{ marginBottom: SPACING.sm }} />
           <SkeletonLoader width="70%" height={16} />
         </View>
         
@@ -67,7 +68,7 @@ const DashboardSkeleton = () => {
           <View key={index} style={styles.activityItem}>
             <SkeletonLoader width={40} height={40} borderRadius={20} />
             <View style={styles.activityContent}>
-              <SkeletonLoader width="80%" height={16} style={{ marginBottom: 4 }} />
+              <SkeletonLoader width="80%" height={16} style={{ marginBottom: SPACING.xs }} />
               <SkeletonLoader width="40%" height={12} />
             </View>
           </View>
@@ -104,7 +105,7 @@ const styles = StyleSheet.create({
     margin: ResponsiveUtils.spacing.md,
     marginTop: ResponsiveUtils.spacing.sm,
     padding: ResponsiveUtils.spacing.md,
-    backgroundColor: 'white',
+    backgroundColor: 'COLORS.white',
     borderRadius: ResponsiveUtils.borderRadius.medium,
     elevation: 2,
     shadowColor: '#000',

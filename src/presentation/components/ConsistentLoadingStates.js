@@ -2,6 +2,7 @@ import React, { memo } from 'react';
 import { View, StyleSheet, Dimensions } from 'react-native';
 import { ActivityIndicator, Text, Button, Card } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const { width } = Dimensions.get('window');
 
@@ -12,9 +13,9 @@ export const FullScreenLoading = memo(({
 }) => (
   <View style={styles.fullScreenContainer}>
     {showLogo && (
-      <Ionicons name="fitness-outline" size={48} color="#2196F3" style={styles.logo} />
+      <Ionicons name="fitness-outline" size={48} color="COLORS.info[500]" style={styles.logo} />
     )}
-    <ActivityIndicator size="large" color="#2196F3" />
+    <ActivityIndicator size="large" color="COLORS.info[500]" />
     <Text style={styles.loadingText}>{message}</Text>
   </View>
 ));
@@ -26,7 +27,7 @@ export const SectionLoading = memo(({
   style 
 }) => (
   <View style={[styles.sectionContainer, style]}>
-    <ActivityIndicator size={size} color="#2196F3" />
+    <ActivityIndicator size={size} color="COLORS.info[500]" />
     <Text style={styles.sectionText}>{message}</Text>
   </View>
 ));
@@ -53,7 +54,7 @@ export const ListItemSkeleton = memo(() => (
 // Loading state para formulários
 export const FormLoading = memo(({ message = 'Salvando...' }) => (
   <View style={styles.formLoadingContainer}>
-    <ActivityIndicator size="small" color="#2196F3" />
+    <ActivityIndicator size="small" color="COLORS.info[500]" />
     <Text style={styles.formLoadingText}>{message}</Text>
   </View>
 ));
@@ -67,7 +68,7 @@ export const ErrorState = memo(({
 }) => (
   <View style={styles.errorContainer}>
     {showIcon && (
-      <Ionicons name="alert-circle-outline" size={48} color="#F44336" style={styles.errorIcon} />
+      <Ionicons name="alert-circle-outline" size={48} color="COLORS.error[500]" style={styles.errorIcon} />
     )}
     <Text style={styles.errorTitle}>{title}</Text>
     <Text style={styles.errorMessage}>{message}</Text>
@@ -138,8 +139,8 @@ const styles = StyleSheet.create({
   },
   loadingText: {
     marginTop: 16,
-    fontSize: 16,
-    color: '#666',
+    fontSize: FONT_SIZE.md,
+    color: 'COLORS.text.secondary',
     textAlign: 'center',
   },
   sectionContainer: {
@@ -150,17 +151,17 @@ const styles = StyleSheet.create({
   },
   sectionText: {
     marginLeft: 12,
-    fontSize: 14,
-    color: '#666',
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.secondary',
   },
   skeletonCard: {
     marginHorizontal: 16,
     marginVertical: 8,
     elevation: 2,
-    borderRadius: 12,
+    borderRadius: BORDER_RADIUS.md,
   },
   skeletonContent: {
-    padding: 16,
+    padding: SPACING.base,
   },
   skeletonRow: {
     flexDirection: 'row',
@@ -170,16 +171,16 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-    backgroundColor: '#e0e0e0',
+    backgroundColor: 'COLORS.gray[300]',
     marginRight: 12,
   },
   skeletonTextContainer: {
     flex: 1,
   },
   skeletonText: {
-    backgroundColor: '#e0e0e0',
-    borderRadius: 4,
-    marginBottom: 8,
+    backgroundColor: 'COLORS.gray[300]',
+    borderRadius: BORDER_RADIUS.sm,
+    marginBottom: SPACING.sm,
   },
   skeletonTitle: {
     height: 16,
@@ -196,8 +197,8 @@ const styles = StyleSheet.create({
   skeletonButton: {
     width: 80,
     height: 32,
-    backgroundColor: '#e0e0e0',
-    borderRadius: 16,
+    backgroundColor: 'COLORS.gray[300]',
+    borderRadius: BORDER_RADIUS.lg,
   },
   formLoadingContainer: {
     flexDirection: 'row',
@@ -207,8 +208,8 @@ const styles = StyleSheet.create({
   },
   formLoadingText: {
     marginLeft: 8,
-    fontSize: 14,
-    color: '#666',
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.secondary',
   },
   errorContainer: {
     flex: 1,
@@ -221,21 +222,21 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   errorTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333',
+    fontSize: FONT_SIZE.lg,
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.text.primary',
     textAlign: 'center',
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   errorMessage: {
-    fontSize: 14,
-    color: '#666',
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.secondary',
     textAlign: 'center',
     marginBottom: 20,
     lineHeight: 20,
   },
   retryButton: {
-    borderColor: '#2196F3',
+    borderColor: 'COLORS.info[500]',
   },
   emptyContainer: {
     flex: 1,
@@ -248,21 +249,21 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   emptyTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333',
+    fontSize: FONT_SIZE.lg,
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.text.primary',
     textAlign: 'center',
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   emptyMessage: {
-    fontSize: 14,
-    color: '#666',
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.secondary',
     textAlign: 'center',
     marginBottom: 20,
     lineHeight: 20,
   },
   actionButton: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: 'COLORS.primary[500]',
   },
 });
 

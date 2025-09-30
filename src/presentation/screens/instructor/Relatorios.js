@@ -19,6 +19,7 @@ import EnhancedErrorBoundary from '@components/EnhancedErrorBoundary';
 import cacheService, { CACHE_KEYS, CACHE_TTL } from '@services/cacheService';
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import ReportsSkeleton from '@components/skeletons/ReportsSkeleton';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const Relatorios = ({ navigation }) => {
   const { user, userProfile } = useAuth();
@@ -125,7 +126,7 @@ const Relatorios = ({ navigation }) => {
     // Implementar exportação Excel
   }, [trackButtonClick, selectedPeriod]);
 
-  const StatCard = useCallback(({ icon, title, value, subtitle, color = '#4CAF50' }) => (
+  const StatCard = useCallback(({ icon, title, value, subtitle, color = 'COLORS.primary[500]' }) => (
     <Surface style={[styles.statCard, { borderLeftColor: color }]}>
       <View style={styles.statHeader}>
         <MaterialCommunityIcons name={icon} size={24} color={color} />
@@ -162,7 +163,7 @@ const Relatorios = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.header}>
-              <MaterialCommunityIcons name="chart-line" size={32} color="#9C27B0" />
+              <MaterialCommunityIcons name="chart-line" size={32} color="COLORS.secondary[500]" />
               <Title style={styles.title}>Relatórios e Análises</Title>
             </View>
             
@@ -193,7 +194,7 @@ const Relatorios = ({ navigation }) => {
                 title="Total de Aulas"
                 value={reportData.totalAulas}
                 subtitle="Este mês"
-                color="#4CAF50"
+                color="COLORS.primary[500]"
               />
               
               <StatCard
@@ -201,7 +202,7 @@ const Relatorios = ({ navigation }) => {
                 title="Alunos Ativos"
                 value={reportData.totalAlunos}
                 subtitle="+15 este mês"
-                color="#2196F3"
+                color="COLORS.info[500]"
               />
               
               <StatCard
@@ -209,7 +210,7 @@ const Relatorios = ({ navigation }) => {
                 title="Frequência Média"
                 value={`${reportData.frequenciaMedia}%`}
                 subtitle="+3% vs mês anterior"
-                color="#FF9800"
+                color="COLORS.warning[500]"
               />
               
               <StatCard
@@ -217,7 +218,7 @@ const Relatorios = ({ navigation }) => {
                 title="Receita Mensal"
                 value={`R$ ${reportData.receitaMensal.toLocaleString()}`}
                 subtitle="+12% crescimento"
-                color="#9C27B0"
+                color="COLORS.secondary[500]"
               />
             </View>
           </Card.Content>
@@ -237,7 +238,7 @@ const Relatorios = ({ navigation }) => {
                   </Chip>
                 </View>
                 <View style={styles.aulaDetails}>
-                  <MaterialCommunityIcons name="account-multiple" size={16} color="#666" />
+                  <MaterialCommunityIcons name="account-multiple" size={16} color="COLORS.text.secondary" />
                   <Text style={styles.aulaAlunos}>{aula.alunos} alunos</Text>
                 </View>
                 <View style={styles.progressBar}>
@@ -263,11 +264,11 @@ const Relatorios = ({ navigation }) => {
                 <Text style={styles.evolucaoMes}>{mes.mes}</Text>
                 <View style={styles.evolucaoData}>
                   <View style={styles.evolucaoMetric}>
-                    <MaterialCommunityIcons name="account-group" size={16} color="#2196F3" />
+                    <MaterialCommunityIcons name="account-group" size={16} color="COLORS.info[500]" />
                     <Text style={styles.evolucaoValue}>{mes.alunos} alunos</Text>
                   </View>
                   <View style={styles.evolucaoMetric}>
-                    <MaterialCommunityIcons name="currency-usd" size={16} color="#4CAF50" />
+                    <MaterialCommunityIcons name="currency-usd" size={16} color="COLORS.primary[500]" />
                     <Text style={styles.evolucaoValue}>R$ {mes.receita.toLocaleString()}</Text>
                   </View>
                 </View>
@@ -311,7 +312,7 @@ const Relatorios = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8f9fa',
+    backgroundColor: 'COLORS.background.light',
   },
   scrollView: {
     flex: 1,
@@ -329,13 +330,13 @@ const styles = StyleSheet.create({
   title: {
     marginLeft: ResponsiveUtils.spacing.md,
     fontSize: ResponsiveUtils.fontSize.large,
-    fontWeight: 'bold',
-    color: '#333',
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.text.primary',
   },
   sectionTitle: {
     fontSize: ResponsiveUtils.fontSize.medium,
-    fontWeight: 'bold',
-    color: '#333',
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.text.primary',
     marginBottom: ResponsiveUtils.spacing.md,
   },
   periodSelector: {
@@ -352,7 +353,7 @@ const styles = StyleSheet.create({
     marginBottom: ResponsiveUtils.spacing.sm,
     borderRadius: ResponsiveUtils.borderRadius.medium,
     borderLeftWidth: 4,
-    backgroundColor: 'white',
+    backgroundColor: 'COLORS.COLORS.white',
   },
   statHeader: {
     flexDirection: 'row',
@@ -362,23 +363,23 @@ const styles = StyleSheet.create({
   statTitle: {
     marginLeft: ResponsiveUtils.spacing.xs,
     fontSize: ResponsiveUtils.fontSize.small,
-    color: '#666',
+    color: 'COLORS.text.secondary',
   },
   statValue: {
     fontSize: ResponsiveUtils.fontSize.extraLarge,
-    fontWeight: 'bold',
-    color: '#333',
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.text.primary',
   },
   statSubtitle: {
     fontSize: ResponsiveUtils.fontSize.small,
-    color: '#666',
+    color: 'COLORS.text.secondary',
     marginTop: 2,
   },
   aulaItem: {
     padding: ResponsiveUtils.spacing.md,
     marginBottom: ResponsiveUtils.spacing.sm,
     borderRadius: ResponsiveUtils.borderRadius.medium,
-    backgroundColor: '#f8f9fa',
+    backgroundColor: 'COLORS.background.light',
   },
   aulaHeader: {
     flexDirection: 'row',
@@ -388,12 +389,12 @@ const styles = StyleSheet.create({
   },
   aulaNome: {
     fontSize: ResponsiveUtils.fontSize.medium,
-    fontWeight: 'bold',
-    color: '#333',
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.text.primary',
     flex: 1,
   },
   frequenciaChip: {
-    backgroundColor: '#e3f2fd',
+    backgroundColor: 'COLORS.info[50]',
   },
   aulaDetails: {
     flexDirection: 'row',
@@ -401,31 +402,31 @@ const styles = StyleSheet.create({
     marginBottom: ResponsiveUtils.spacing.sm,
   },
   aulaAlunos: {
-    marginLeft: 4,
+    marginLeft: SPACING.xs,
     fontSize: ResponsiveUtils.fontSize.small,
-    color: '#666',
+    color: 'COLORS.text.secondary',
   },
   progressBar: {
     height: 4,
-    backgroundColor: '#e0e0e0',
+    backgroundColor: 'COLORS.gray[300]',
     borderRadius: 2,
     overflow: 'hidden',
   },
   progressFill: {
     height: '100%',
-    backgroundColor: '#4CAF50',
+    backgroundColor: 'COLORS.primary[500]',
   },
   evolucaoItem: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: ResponsiveUtils.spacing.sm,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: 'COLORS.gray[100]',
   },
   evolucaoMes: {
     fontSize: ResponsiveUtils.fontSize.medium,
-    fontWeight: 'bold',
-    color: '#333',
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.text.primary',
     width: 50,
   },
   evolucaoData: {
@@ -438,9 +439,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   evolucaoValue: {
-    marginLeft: 4,
+    marginLeft: SPACING.xs,
     fontSize: ResponsiveUtils.fontSize.small,
-    color: '#666',
+    color: 'COLORS.text.secondary',
   },
   exportButtons: {
     flexDirection: 'row',

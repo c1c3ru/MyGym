@@ -18,6 +18,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useAuth } from '@contexts/AuthProvider';
 import { useTheme } from '@contexts/ThemeContext';
 import { firestoreService } from '@services/firestoreService';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const AddGraduationScreen = ({ route, navigation }) => {
   const { studentId, studentName } = route.params || {};
@@ -47,12 +48,12 @@ const AddGraduationScreen = ({ route, navigation }) => {
 
   // Níveis de graduação comuns para artes marciais
   const defaultGraduationLevels = [
-    { id: 'white', name: 'Faixa Branca', color: '#FFFFFF', order: 1 },
+    { id: 'COLORS.white', name: 'Faixa Branca', color: '#FFFFFF', order: 1 },
     { id: 'yellow', name: 'Faixa Amarela', color: '#FFEB3B', order: 2 },
-    { id: 'orange', name: 'Faixa Laranja', color: '#FF9800', order: 3 },
-    { id: 'green', name: 'Faixa Verde', color: '#4CAF50', order: 4 },
-    { id: 'blue', name: 'Faixa Azul', color: '#2196F3', order: 5 },
-    { id: 'purple', name: 'Faixa Roxa', color: '#9C27B0', order: 6 },
+    { id: 'orange', name: 'Faixa Laranja', color: 'COLORS.warning[500]', order: 3 },
+    { id: 'green', name: 'Faixa Verde', color: 'COLORS.primary[500]', order: 4 },
+    { id: 'blue', name: 'Faixa Azul', color: 'COLORS.info[500]', order: 5 },
+    { id: 'purple', name: 'Faixa Roxa', color: 'COLORS.secondary[500]', order: 6 },
     { id: 'brown', name: 'Faixa Marrom', color: '#795548', order: 7 },
     { id: 'black-1', name: 'Faixa Preta 1º Dan', color: '#000000', order: 8 },
     { id: 'black-2', name: 'Faixa Preta 2º Dan', color: '#000000', order: 9 },
@@ -369,14 +370,14 @@ const AddGraduationScreen = ({ route, navigation }) => {
         onDismiss={() => setSnackbarVisible(false)}
         duration={snackbarType === 'success' ? 2000 : 4000}
         style={{
-          backgroundColor: snackbarType === 'success' ? '#4CAF50' : '#F44336'
+          backgroundColor: snackbarType === 'success' ? 'COLORS.primary[500]' : 'COLORS.error[500]'
         }}
         action={{
           label: 'OK',
           onPress: () => setSnackbarVisible(false),
         }}
       >
-        <Text style={{ color: 'white' }}>{snackbarMessage}</Text>
+        <Text style={{ color: 'COLORS.white' }}>{snackbarMessage}</Text>
       </Snackbar>
     </SafeAreaView>
   );
@@ -391,13 +392,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   headerCard: {
-    margin: 16,
-    marginBottom: 8,
+    margin: SPACING.base,
+    marginBottom: SPACING.sm,
     elevation: 4,
   },
   card: {
-    margin: 16,
-    marginTop: 8,
+    margin: SPACING.base,
+    marginTop: SPACING.sm,
     elevation: 2,
   },
   header: {
@@ -409,31 +410,31 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#333',
+    fontSize: FONT_SIZE.xl,
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.text.primary',
   },
   subtitle: {
-    fontSize: 14,
-    color: '#666',
-    marginTop: 4,
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.secondary',
+    marginTop: SPACING.xs,
   },
   sectionTitle: {
-    fontSize: 18,
+    fontSize: FONT_SIZE.lg,
     marginBottom: 16,
-    color: '#333',
+    color: 'COLORS.text.primary',
   },
   previousGraduation: {
     marginBottom: 16,
-    padding: 12,
-    backgroundColor: '#f8f9fa',
-    borderRadius: 8,
+    padding: SPACING.md,
+    backgroundColor: 'COLORS.background.light',
+    borderRadius: BORDER_RADIUS.md,
   },
   label: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: '#333',
-    marginBottom: 8,
+    fontSize: FONT_SIZE.base,
+    fontWeight: FONT_WEIGHT.medium,
+    color: 'COLORS.text.primary',
+    marginBottom: SPACING.sm,
   },
   previousChip: {
     alignSelf: 'flex-start',
@@ -448,7 +449,7 @@ const styles = StyleSheet.create({
   },
   selectButtonContent: {
     justifyContent: 'flex-start',
-    paddingVertical: 8,
+    paddingVertical: SPACING.sm,
   },
   input: {
     marginBottom: 16,
@@ -456,14 +457,14 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    margin: 16,
+    margin: SPACING.base,
     gap: 12,
   },
   button: {
     flex: 1,
   },
   submitButton: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: 'COLORS.primary[500]',
   },
   dialogScroll: {
     maxHeight: 300,

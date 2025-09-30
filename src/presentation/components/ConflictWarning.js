@@ -4,6 +4,7 @@ import { Card, Text, Button, Chip, Divider } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '@contexts/ThemeContext';
 import { DAY_NAMES } from '@utils/scheduleUtils';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const ConflictWarning = ({
   conflicts = [],
@@ -54,7 +55,7 @@ const ConflictWarning = ({
                   mode="flat"
                   compact
                   style={[styles.hourChip, { backgroundColor: colors.errorContainer }]}
-                  textStyle={{ color: colors.onErrorContainer, fontSize: 12 }}
+                  textStyle={{ color: colors.onErrorContainer, fontSize: FONT_SIZE.sm }}
                 >
                   {hour}
                 </Chip>
@@ -125,7 +126,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   titleContainer: {
     flexDirection: 'row',
@@ -136,12 +137,12 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   title: {
-    fontSize: 16,
-    fontWeight: '600',
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.semibold,
     flex: 1,
   },
   description: {
-    fontSize: 14,
+    fontSize: FONT_SIZE.base,
     marginBottom: 16,
     lineHeight: 20,
   },
@@ -149,37 +150,37 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   conflictItem: {
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   conflictHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   conflictInfo: {
     flex: 1,
   },
   conflictTitle: {
-    fontSize: 16,
-    fontWeight: '600',
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.semibold,
     marginBottom: 2,
   },
   conflictSubtitle: {
-    fontSize: 14,
+    fontSize: FONT_SIZE.base,
     opacity: 0.7,
   },
   conflictDays: {
-    marginTop: 8,
+    marginTop: SPACING.sm,
   },
   dayConflict: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 4,
+    marginBottom: SPACING.xs,
   },
   dayName: {
-    fontSize: 14,
-    fontWeight: '500',
+    fontSize: FONT_SIZE.base,
+    fontWeight: FONT_WEIGHT.medium,
     minWidth: 100,
   },
   hoursContainer: {
@@ -188,19 +189,19 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   hourChip: {
-    marginRight: 4,
-    marginBottom: 4,
+    marginRight: SPACING.xs,
+    marginBottom: SPACING.xs,
     height: 24,
   },
   divider: {
-    marginTop: 12,
-    marginBottom: 8,
+    marginTop: SPACING.md,
+    marginBottom: SPACING.sm,
   },
   actions: {
-    marginTop: 8,
+    marginTop: SPACING.sm,
   },
   actionText: {
-    fontSize: 12,
+    fontSize: FONT_SIZE.sm,
     fontStyle: 'italic',
     textAlign: 'center',
   },

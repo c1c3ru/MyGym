@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const AdminDashboardSimple = ({ navigation }) => {
   console.log('🎯 AdminDashboardSimple renderizando...');
@@ -25,22 +26,22 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
+    padding: SPACING.lg,
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#FF9800',
+    fontSize: FONT_SIZE.xxl,
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.warning[500]',
     marginBottom: 10,
   },
   subtitle: {
-    fontSize: 18,
-    color: '#333',
+    fontSize: FONT_SIZE.lg,
+    color: 'COLORS.text.primary',
     marginBottom: 10,
   },
   info: {
-    fontSize: 14,
-    color: '#666',
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.secondary',
   },
 });
 

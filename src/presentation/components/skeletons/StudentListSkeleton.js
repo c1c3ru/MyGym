@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import SkeletonLoader from './SkeletonLoader';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 /**
  * Skeleton para lista de estudantes
@@ -69,9 +70,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   card: {
-    backgroundColor: '#fff',
-    borderRadius: 8,
-    padding: 16,
+    backgroundColor: 'COLORS.white',
+    borderRadius: BORDER_RADIUS.md,
+    padding: SPACING.base,
     marginVertical: 8,
     elevation: 2,
     shadowColor: '#000',
@@ -97,10 +98,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   name: {
-    marginBottom: 4,
+    marginBottom: SPACING.xs,
   },
   email: {
-    marginBottom: 4,
+    marginBottom: SPACING.xs,
   },
   phone: {
     marginBottom: 0,
@@ -115,13 +116,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   statLabel: {
-    marginBottom: 4,
+    marginBottom: SPACING.xs,
   },
   statChip: {
-    marginTop: 4,
+    marginTop: SPACING.xs,
   },
   statValue: {
-    marginTop: 4,
+    marginTop: SPACING.xs,
   },
   divider: {
     height: 1,

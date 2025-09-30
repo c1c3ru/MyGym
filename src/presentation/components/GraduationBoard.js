@@ -12,6 +12,7 @@ import {
 } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 import GraduationAlertCard from './GraduationAlertCard';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const GraduationBoard = ({ 
   graduationBoard, 
@@ -93,12 +94,12 @@ const GraduationBoard = ({
 
           <View style={styles.examDetails}>
             <View style={styles.examDetailRow}>
-              <Ionicons name="person" size={16} color="#666" />
+              <Ionicons name="person" size={16} color="COLORS.text.secondary" />
               <Text style={styles.examDetailText}>Examinador: {exam.examiner}</Text>
             </View>
             
             <View style={styles.examDetailRow}>
-              <Ionicons name="people" size={16} color="#666" />
+              <Ionicons name="people" size={16} color="COLORS.text.secondary" />
               <Text style={styles.examDetailText}>
                 {exam.candidateStudents.length} candidatos inscritos
               </Text>
@@ -175,7 +176,7 @@ const GraduationBoard = ({
               icon={result.passed ? "checkmark-circle" : "close-circle"}
               style={[
                 styles.resultChip,
-                { backgroundColor: result.passed ? '#4CAF50' : '#F44336' }
+                { backgroundColor: result.passed ? 'COLORS.primary[500]' : 'COLORS.error[500]' }
               ]}
             >
               {result.passed ? 'Aprovado' : 'Reprovado'}
@@ -306,48 +307,48 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 16,
-    paddingVertical: 12,
-    backgroundColor: '#fff',
+    paddingVertical: SPACING.md,
+    backgroundColor: 'COLORS.COLORS.COLORS.white',
     elevation: 2,
   },
   title: {
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontSize: FONT_SIZE.xl,
+    fontWeight: FONT_WEIGHT.bold,
   },
   segmentedButtons: {
-    margin: 16,
+    margin: SPACING.base,
   },
   content: {
     flex: 1,
     paddingHorizontal: 16,
   },
   examCard: {
-    marginBottom: 12,
+    marginBottom: SPACING.md,
     elevation: 2,
   },
   examHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   examInfo: {
     flex: 1,
   },
   examTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 4,
+    fontSize: FONT_SIZE.lg,
+    fontWeight: FONT_WEIGHT.bold,
+    marginBottom: SPACING.xs,
   },
   examDate: {
-    fontSize: 16,
-    color: '#2196F3',
-    fontWeight: '600',
+    fontSize: FONT_SIZE.md,
+    color: 'COLORS.info[500]',
+    fontWeight: FONT_WEIGHT.semibold,
     marginBottom: 2,
   },
   examLocation: {
-    fontSize: 14,
-    color: '#666',
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.secondary',
   },
   modalityChip: {
     alignSelf: 'flex-start',
@@ -356,7 +357,7 @@ const styles = StyleSheet.create({
     marginVertical: 12,
   },
   examDetails: {
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   examDetailRow: {
     flexDirection: 'row',
@@ -365,8 +366,8 @@ const styles = StyleSheet.create({
   },
   examDetailText: {
     marginLeft: 8,
-    fontSize: 14,
-    color: '#333',
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.primary',
   },
   examActions: {
     flexDirection: 'row',
@@ -377,54 +378,54 @@ const styles = StyleSheet.create({
     marginHorizontal: 4,
   },
   graduationCard: {
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
     elevation: 1,
   },
   graduationHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   graduationInfo: {
     flex: 1,
   },
   graduationStudent: {
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.bold,
     marginBottom: 2,
   },
   graduationBelt: {
-    fontSize: 14,
-    color: '#666',
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.secondary',
   },
   resultChip: {
     alignSelf: 'flex-start',
   },
   graduationScore: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#333',
-    marginBottom: 4,
+    fontSize: FONT_SIZE.base,
+    fontWeight: FONT_WEIGHT.semibold,
+    color: 'COLORS.text.primary',
+    marginBottom: SPACING.xs,
   },
   graduationNotes: {
-    fontSize: 12,
-    color: '#666',
+    fontSize: FONT_SIZE.sm,
+    color: 'COLORS.text.secondary',
     fontStyle: 'italic',
   },
   statCard: {
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
     elevation: 1,
   },
   statHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   statModality: {
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.bold,
   },
   statDetails: {
     gap: 6,
@@ -435,31 +436,31 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   statLabel: {
-    fontSize: 14,
-    color: '#666',
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.secondary',
   },
   statValue: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#333',
+    fontSize: FONT_SIZE.base,
+    fontWeight: FONT_WEIGHT.semibold,
+    color: 'COLORS.text.primary',
   },
   emptyState: {
     alignItems: 'center',
     justifyContent: 'center',
     padding: 32,
-    borderRadius: 8,
+    borderRadius: BORDER_RADIUS.md,
     marginVertical: 16,
   },
   emptyText: {
-    fontSize: 16,
-    color: '#666',
-    marginTop: 12,
+    fontSize: FONT_SIZE.md,
+    color: 'COLORS.text.secondary',
+    marginTop: SPACING.md,
     textAlign: 'center',
   },
   emptySubtext: {
-    fontSize: 14,
-    color: '#999',
-    marginTop: 4,
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.gray[500]',
+    marginTop: SPACING.xs,
     textAlign: 'center',
   },
   emptyAction: {

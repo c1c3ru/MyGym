@@ -16,6 +16,7 @@ import {
 } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '@contexts/AuthProvider';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const UserTypeSelectionScreen = ({ navigation, route }) => {
   const { user, updateUserProfile, logout } = useAuth();
@@ -29,7 +30,7 @@ const UserTypeSelectionScreen = ({ navigation, route }) => {
       title: 'Aluno',
       description: 'Sou um praticante que quer treinar e acompanhar meu progresso',
       icon: 'school',
-      color: '#2196F3',
+      color: 'COLORS.info[500]',
       features: [
         'Acompanhar treinos e frequência',
         'Ver evolução e graduações',
@@ -43,7 +44,7 @@ const UserTypeSelectionScreen = ({ navigation, route }) => {
       title: 'Instrutor',
       description: 'Sou um instrutor que ministra aulas e acompanha alunos',
       icon: 'fitness-center',
-      color: '#FF9800',
+      color: 'COLORS.warning[500]',
       features: [
         'Gerenciar turmas e horários',
         'Acompanhar progresso dos alunos',
@@ -57,7 +58,7 @@ const UserTypeSelectionScreen = ({ navigation, route }) => {
       title: 'Administrador',
       description: 'Sou responsável pela gestão completa da academia',
       icon: 'business',
-      color: '#4CAF50',
+      color: 'COLORS.primary[500]',
       features: [
         'Gestão completa da academia',
         'Gerenciar instrutores e alunos',
@@ -111,7 +112,7 @@ const UserTypeSelectionScreen = ({ navigation, route }) => {
           <View style={[styles.iconContainer, { backgroundColor: userType.color }]}>
             <Ionicons
               name={userType.icon === 'school' ? 'school' : userType.icon === 'fitness-center' ? 'fitness' : 'business'}
-              color="white"
+              color="COLORS.COLORS.white"
               size={32}
             />
           </View>
@@ -137,7 +138,7 @@ const UserTypeSelectionScreen = ({ navigation, route }) => {
         <Button
           mode={selectedType === userType.id ? "contained" : "outlined"}
           buttonColor={selectedType === userType.id ? userType.color : '#E0E0E0'}
-          textColor={selectedType === userType.id ? 'white' : '#666'}
+          textColor={selectedType === userType.id ? 'COLORS.COLORS.white' : 'COLORS.text.secondary'}
           style={styles.selectButton}
           onPress={() => setSelectedType(userType.id)}
         >
@@ -209,7 +210,7 @@ const UserTypeSelectionScreen = ({ navigation, route }) => {
             mode="text"
             onPress={handleLogout}
             icon="logout"
-            textColor="#666"
+            textColor="COLORS.text.secondary"
             style={styles.logoutButton}
           >
             Sair
@@ -235,7 +236,7 @@ const UserTypeSelectionScreen = ({ navigation, route }) => {
       <View style={styles.footer}>
         <Button
           mode="contained"
-          buttonColor={selectedType ? '#2196F3' : '#CCCCCC'}
+          buttonColor={selectedType ? 'COLORS.info[500]' : '#CCCCCC'}
           style={styles.continueButton}
           onPress={handleSelectType}
           loading={loading}
@@ -268,8 +269,8 @@ const styles = StyleSheet.create({
   },
   header: {
     alignItems: 'center',
-    padding: 24,
-    backgroundColor: 'white',
+    padding: SPACING.xl,
+    backgroundColor: 'COLORS.COLORS.white',
     marginBottom: 16,
     ...Platform.select({
       ios: {
@@ -290,15 +291,15 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   welcomeText: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 8,
+    fontSize: FONT_SIZE.xxl,
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.text.primary',
+    marginBottom: SPACING.sm,
     textAlign: 'center',
   },
   subtitle: {
-    fontSize: 16,
-    color: '#666',
+    fontSize: FONT_SIZE.md,
+    color: 'COLORS.text.secondary',
     textAlign: 'center',
     lineHeight: 22,
   },
@@ -306,9 +307,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   typeCard: {
-    borderRadius: 12,
+    borderRadius: BORDER_RADIUS.md,
     marginBottom: 16,
-    padding: 20,
+    padding: SPACING.lg,
     borderWidth: 1,
     borderColor: '#E0E0E0',
   },
@@ -329,14 +330,14 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   typeTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 4,
+    fontSize: FONT_SIZE.xl,
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.text.primary',
+    marginBottom: SPACING.xs,
   },
   typeDescription: {
-    fontSize: 14,
-    color: '#666',
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.secondary',
     lineHeight: 20,
   },
   featuresContainer: {
@@ -345,29 +346,29 @@ const styles = StyleSheet.create({
   featureRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   featureText: {
-    fontSize: 14,
+    fontSize: FONT_SIZE.base,
     color: '#555',
     marginLeft: 8,
     flex: 1,
   },
   selectButton: {
-    borderRadius: 8,
-    paddingVertical: 12,
+    borderRadius: BORDER_RADIUS.md,
+    paddingVertical: SPACING.md,
   },
   selectButtonText: {
-    fontSize: 16,
-    fontWeight: '600',
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.semibold,
   },
   footer: {
-    padding: 24,
+    padding: SPACING.xl,
     paddingBottom: 40,
   },
   continueButton: {
-    backgroundColor: '#2196F3',
-    borderRadius: 12,
+    backgroundColor: 'COLORS.info[500]',
+    borderRadius: BORDER_RADIUS.md,
     paddingVertical: 16,
     marginBottom: 16,
   },
@@ -375,12 +376,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#CCCCCC',
   },
   continueButtonText: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: FONT_SIZE.lg,
+    fontWeight: FONT_WEIGHT.bold,
   },
   footerNote: {
-    fontSize: 12,
-    color: '#999',
+    fontSize: FONT_SIZE.sm,
+    color: 'COLORS.gray[500]',
     textAlign: 'center',
     lineHeight: 16,
   },

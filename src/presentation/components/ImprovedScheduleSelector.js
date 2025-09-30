@@ -4,6 +4,7 @@ import { Card, Text, Button, Chip, Portal, Modal, Divider } from 'react-native-p
 import { Calendar } from 'react-native-calendars';
 import { useTheme } from '@contexts/ThemeContext';
 import { 
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
   createEmptySchedule, 
   DAY_NAMES, 
   generateTimeSlots,
@@ -108,11 +109,11 @@ const ImprovedScheduleSelector = ({
             customStyles: {
               container: {
                 backgroundColor: hours.length > 1 ? colors?.primary : colors?.primaryContainer,
-                borderRadius: 8
+                borderRadius: BORDER_RADIUS.md
               },
               text: {
                 color: hours.length > 1 ? colors?.onPrimary : colors?.onPrimaryContainer,
-                fontWeight: 'bold'
+                fontWeight: FONT_WEIGHT.bold
               }
             }
           };
@@ -156,7 +157,7 @@ const ImprovedScheduleSelector = ({
                   key={hour}
                   compact
                   style={[styles.hourChip, { backgroundColor: colors?.primary || '#6200ea' }]}
-                  textStyle={{ color: colors?.onPrimary || '#ffffff', fontSize: 10 }}
+                  textStyle={{ color: colors?.onPrimary || 'COLORS.COLORS.COLORS.whitefff', fontSize: 10 }}
                 >
                   {hour}
                 </Chip>
@@ -165,7 +166,7 @@ const ImprovedScheduleSelector = ({
           ) : (
             <Text style={[
               styles.noHours, 
-              { color: colors?.onSurfaceVariant || '#666666' }
+              { color: colors?.onSurfaceVariant || 'COLORS.text.secondary666' }
             ]}>
               Toque para definir
             </Text>
@@ -315,9 +316,9 @@ const styles = StyleSheet.create({
     marginVertical: 8
   },
   label: {
-    fontSize: 16,
-    fontWeight: '500',
-    marginBottom: 12
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.medium,
+    marginBottom: SPACING.md
   },
   actionButtons: {
     flexDirection: 'row',
@@ -331,16 +332,16 @@ const styles = StyleSheet.create({
     maxHeight: 400
   },
   dayCard: {
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
     elevation: 2
   },
   dayCardContent: {
-    paddingVertical: 12
+    paddingVertical: SPACING.md
   },
   dayName: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginBottom: 8
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.semibold,
+    marginBottom: SPACING.sm
   },
   hoursContainer: {
     flexDirection: 'row',
@@ -349,35 +350,35 @@ const styles = StyleSheet.create({
   },
   hourChip: {
     height: 28,
-    marginBottom: 4
+    marginBottom: SPACING.xs
   },
   noHours: {
-    fontSize: 12,
+    fontSize: FONT_SIZE.sm,
     fontStyle: 'italic'
   },
   previewModal: {
-    margin: 20,
-    padding: 20,
-    borderRadius: 12,
+    margin: SPACING.lg,
+    padding: SPACING.lg,
+    borderRadius: BORDER_RADIUS.md,
     maxHeight: '80%'
   },
   timeModal: {
-    margin: 20,
-    padding: 20,
-    borderRadius: 12,
+    margin: SPACING.lg,
+    padding: SPACING.lg,
+    borderRadius: BORDER_RADIUS.md,
     maxHeight: '70%'
   },
   modalTitle: {
-    fontSize: 18,
-    fontWeight: '600',
+    fontSize: FONT_SIZE.lg,
+    fontWeight: FONT_WEIGHT.semibold,
     textAlign: 'center',
-    marginBottom: 8
+    marginBottom: SPACING.sm
   },
   calendar: {
     marginVertical: 16
   },
   previewDescription: {
-    fontSize: 12,
+    fontSize: FONT_SIZE.sm,
     textAlign: 'center',
     marginBottom: 16,
     fontStyle: 'italic'
@@ -392,10 +393,10 @@ const styles = StyleSheet.create({
     gap: 8
   },
   timeSlot: {
-    marginBottom: 4
+    marginBottom: SPACING.xs
   },
   closeButton: {
-    marginTop: 8
+    marginTop: SPACING.sm
   }
 });
 

@@ -27,6 +27,7 @@ import cacheService, { CACHE_KEYS, CACHE_TTL } from '@services/cacheService';
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import InstructorStudentsSkeleton from '@components/skeletons/InstructorStudentsSkeleton';
 import { EnhancedFlashList } from '@components/EnhancedFlashList';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const InstructorStudents = ({ navigation }) => {
   const { user, userProfile, academia } = useAuthFacade();
@@ -267,9 +268,9 @@ const InstructorStudents = ({ navigation }) => {
 
   const getPaymentStatusColor = (status) => {
     switch (status) {
-      case 'paid': return '#4CAF50';
-      case 'pending': return '#FF9800';
-      case 'overdue': return '#F44336';
+      case 'paid': return 'COLORS.primary[500]';
+      case 'pending': return 'COLORS.warning[500]';
+      case 'overdue': return 'COLORS.error[500]';
       default: return '#9E9E9E';
     }
   };
@@ -499,11 +500,11 @@ const InstructorStudents = ({ navigation }) => {
                       mode="outlined"
                       style={[
                         styles.statusChip,
-                        { borderColor: student.isActive !== false ? '#4CAF50' : '#F44336' }
+                        { borderColor: student.isActive !== false ? 'COLORS.primary[500]' : 'COLORS.error[500]' }
                       ]}
                       textStyle={{ 
-                        color: student.isActive !== false ? '#4CAF50' : '#F44336',
-                        fontSize: 12
+                        color: student.isActive !== false ? 'COLORS.primary[500]' : 'COLORS.error[500]',
+                        fontSize: FONT_SIZE.sm
                       }}
                     >
                       {student.isActive !== false ? 'Ativo' : 'Inativo'}
@@ -520,7 +521,7 @@ const InstructorStudents = ({ navigation }) => {
                       ]}
                       textStyle={{ 
                         color: getPaymentStatusColor(student.paymentStatus),
-                        fontSize: 12
+                        fontSize: FONT_SIZE.sm
                       }}
                     >
                       {getPaymentStatusText(student.paymentStatus)}
@@ -679,22 +680,22 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
   },
   header: {
-    padding: 16,
-    backgroundColor: '#fff',
+    padding: SPACING.base,
+    backgroundColor: 'COLORS.COLORS.white',
     elevation: 2,
   },
   searchbar: {
     elevation: 0,
     backgroundColor: '#f5f5f5',
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   // Novos estilos para filtros melhorados
   filtersContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    marginTop: 12,
-    marginBottom: 8,
+    marginTop: SPACING.md,
+    marginBottom: SPACING.sm,
     gap: 8,
   },
   filtersGrid: {
@@ -702,13 +703,13 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'space-between',
     gap: 8,
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   filterButtonImproved: {
     flex: 1,
     minWidth: 100,
     maxWidth: 140,
-    borderRadius: 20,
+    borderRadius: BORDER_RADIUS.lg,
     elevation: 2,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
@@ -717,16 +718,16 @@ const styles = StyleSheet.create({
     marginHorizontal: 2,
   },
   filterButtonActive: {
-    backgroundColor: '#4CAF50',
-    borderColor: '#4CAF50',
+    backgroundColor: 'COLORS.primary[500]',
+    borderColor: 'COLORS.primary[500]',
   },
   filterButtonLabel: {
-    fontSize: 12,
-    fontWeight: '600',
+    fontSize: FONT_SIZE.sm,
+    fontWeight: FONT_WEIGHT.semibold,
   },
   filterButtonContent: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
+    paddingHorizontal: SPACING.sm,
+    paddingVertical: SPACING.xs,
   },
   // Estilos antigos mantidos para compatibilidade
   filterRow: {
@@ -734,40 +735,40 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   filterButton: {
-    borderColor: '#4CAF50',
+    borderColor: 'COLORS.primary[500]',
   },
   advancedFilterRow: {
     flexDirection: 'row',
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
     flexWrap: 'wrap',
     gap: 8,
   },
   filterActionsRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 12,
+    marginBottom: SPACING.md,
     gap: 12,
   },
   clearButtonImproved: {
     flex: 1,
-    borderRadius: 20,
+    borderRadius: BORDER_RADIUS.lg,
     borderColor: '#FF5722',
     borderWidth: 1.5,
   },
   applyButtonImproved: {
     flex: 1,
-    borderRadius: 20,
-    backgroundColor: '#4CAF50',
+    borderRadius: BORDER_RADIUS.lg,
+    backgroundColor: 'COLORS.primary[500]',
     elevation: 3,
   },
   actionButtonLabel: {
     fontSize: 13,
-    fontWeight: '600',
+    fontWeight: FONT_WEIGHT.semibold,
   },
   menuContent: {
     maxHeight: 300,
-    backgroundColor: '#fff',
-    borderRadius: 8,
+    backgroundColor: 'COLORS.COLORS.white',
+    borderRadius: BORDER_RADIUS.md,
     elevation: 8,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -792,12 +793,12 @@ const styles = StyleSheet.create({
   modalDropdownContainer: {
     width: '80%',
     maxWidth: 300,
-    marginTop: 40,
+    marginTop: SPACING.xs0,
     marginBottom: 20,
   },
   modalDropdownList: {
-    backgroundColor: '#fff',
-    borderRadius: 12,
+    backgroundColor: 'COLORS.COLORS.white',
+    borderRadius: BORDER_RADIUS.md,
     elevation: 10,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
@@ -805,53 +806,53 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     maxHeight: 300,
     borderWidth: 1,
-    borderColor: '#e0e0e0',
+    borderColor: 'COLORS.gray[300]',
   },
   dropdownScroll: {
     maxHeight: 300,
   },
   dropdownItem: {
-    paddingVertical: 12,
+    paddingVertical: SPACING.md,
     paddingHorizontal: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: 'COLORS.gray[100]',
   },
   dropdownItemSelected: {
-    backgroundColor: '#e3f2fd',
+    backgroundColor: 'COLORS.info[50]',
   },
   dropdownItemText: {
-    fontSize: 14,
-    color: '#333',
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.primary',
   },
   dropdownItemTextSelected: {
     color: '#1976d2',
-    fontWeight: '600',
+    fontWeight: FONT_WEIGHT.semibold,
   },
   advancedFilterInput: {
     flexGrow: 1,
     minWidth: 110,
     marginRight: 8,
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   advancedFilterLong: {
     flexGrow: 2,
     minWidth: 160,
     marginRight: 8,
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   scrollView: {
     flex: 1,
   },
   studentCard: {
-    margin: 16,
-    marginBottom: 8,
+    margin: SPACING.base,
+    marginBottom: SPACING.sm,
     elevation: 2,
   },
   studentHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   studentInfo: {
     flexDirection: 'row',
@@ -859,20 +860,20 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   avatar: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: 'COLORS.primary[500]',
   },
   studentDetails: {
     marginLeft: 12,
     flex: 1,
   },
   studentName: {
-    fontSize: 16,
+    fontSize: FONT_SIZE.md,
     marginBottom: 2,
   },
   studentEmail: {
-    fontSize: 12,
-    color: '#666',
-    marginBottom: 4,
+    fontSize: FONT_SIZE.sm,
+    color: 'COLORS.text.secondary',
+    marginBottom: SPACING.xs,
   },
   graduationChip: {
     alignSelf: 'flex-start',
@@ -883,37 +884,37 @@ const styles = StyleSheet.create({
   studentStats: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   statItem: {
     alignItems: 'center',
   },
   statLabel: {
-    fontSize: 12,
-    color: '#666',
-    marginBottom: 4,
+    fontSize: FONT_SIZE.sm,
+    color: 'COLORS.text.secondary',
+    marginBottom: SPACING.xs,
   },
   statusChip: {
     borderWidth: 1,
   },
   graduationsInfo: {
-    backgroundColor: '#f8f9fa',
-    padding: 8,
-    borderRadius: 4,
-    marginBottom: 12,
+    backgroundColor: 'COLORS.background.light',
+    padding: SPACING.sm,
+    borderRadius: BORDER_RADIUS.sm,
+    marginBottom: SPACING.md,
   },
   graduationsTitle: {
-    fontSize: 12,
-    fontWeight: 'bold',
+    fontSize: FONT_SIZE.sm,
+    fontWeight: FONT_WEIGHT.bold,
     marginBottom: 2,
   },
   lastGraduation: {
-    fontSize: 14,
+    fontSize: FONT_SIZE.base,
     marginBottom: 2,
   },
   graduationDate: {
-    fontSize: 12,
-    color: '#666',
+    fontSize: FONT_SIZE.sm,
+    color: 'COLORS.text.secondary',
   },
   divider: {
     marginVertical: 12,
@@ -927,7 +928,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 4,
   },
   emptyCard: {
-    margin: 16,
+    margin: SPACING.base,
     elevation: 2,
   },
   emptyContent: {
@@ -940,11 +941,11 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     textAlign: 'center',
-    color: '#666',
+    color: 'COLORS.text.secondary',
   },
   statsCard: {
-    margin: 16,
-    marginTop: 8,
+    margin: SPACING.base,
+    marginTop: SPACING.sm,
     elevation: 2,
     backgroundColor: '#E8F5E8',
   },
@@ -957,16 +958,16 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   statNumber: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#4CAF50',
+    fontSize: FONT_SIZE.xl,
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.primary[500]',
   },
   fab: {
     position: 'absolute',
-    margin: 16,
+    margin: SPACING.base,
     right: 0,
     bottom: 0,
-    backgroundColor: '#4CAF50',
+    backgroundColor: 'COLORS.primary[500]',
   },
 });
 

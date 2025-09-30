@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import SkeletonLoader from './SkeletonLoader';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const InstructorClassesSkeleton = () => {
   return (
@@ -36,8 +37,8 @@ const InstructorClassesSkeleton = () => {
           </View>
 
           {/* Description */}
-          <SkeletonLoader width="90%" height={14} style={{ marginTop: 8 }} />
-          <SkeletonLoader width="60%" height={14} style={{ marginTop: 4 }} />
+          <SkeletonLoader width="90%" height={14} style={{ marginTop: SPACING.sm }} />
+          <SkeletonLoader width="60%" height={14} style={{ marginTop: SPACING.xs }} />
 
           {/* Action Buttons */}
           <View style={styles.actionsContainer}>
@@ -61,15 +62,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
   },
   searchContainer: {
-    margin: 16,
-    marginBottom: 8,
+    margin: SPACING.base,
+    marginBottom: SPACING.sm,
   },
   cardContainer: {
-    margin: 16,
-    marginTop: 8,
-    padding: 16,
-    backgroundColor: 'white',
-    borderRadius: 12,
+    margin: SPACING.base,
+    marginTop: SPACING.sm,
+    padding: SPACING.base,
+    backgroundColor: 'COLORS.white',
+    borderRadius: BORDER_RADIUS.md,
     elevation: 2,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -80,20 +81,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   modalityContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   infoContainer: {
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   infoRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   actionsContainer: {
     flexDirection: 'row',

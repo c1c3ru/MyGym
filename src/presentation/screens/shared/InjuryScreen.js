@@ -18,6 +18,7 @@ import { Ionicons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useAuth } from '@contexts/AuthProvider';
 import { firestoreService } from '@services/firestoreService';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const InjuryScreen = ({ navigation, route }) => {
   const { user, academia } = useAuth();
@@ -64,16 +65,16 @@ const InjuryScreen = ({ navigation, route }) => {
   ];
 
   const severityLevels = [
-    { value: 'leve', label: 'Leve', color: '#4CAF50', description: 'Desconforto mínimo, sem limitação' },
-    { value: 'moderada', label: 'Moderada', color: '#FF9800', description: 'Dor perceptível, limitação parcial' },
-    { value: 'grave', label: 'Grave', color: '#F44336', description: 'Dor intensa, limitação significativa' }
+    { value: 'leve', label: 'Leve', color: 'COLORS.primary[500]', description: 'Desconforto mínimo, sem limitação' },
+    { value: 'moderada', label: 'Moderada', color: 'COLORS.warning[500]', description: 'Dor perceptível, limitação parcial' },
+    { value: 'grave', label: 'Grave', color: 'COLORS.error[500]', description: 'Dor intensa, limitação significativa' }
   ];
 
   const statusOptions = [
-    { value: 'ativo', label: 'Ativo', color: '#F44336', description: 'Lesão atual em tratamento' },
-    { value: 'recuperando', label: 'Recuperando', color: '#FF9800', description: 'Em processo de recuperação' },
-    { value: 'recuperado', label: 'Recuperado', color: '#4CAF50', description: 'Totalmente recuperado' },
-    { value: 'cronico', label: 'Crônico', color: '#9C27B0', description: 'Condição permanente ou recorrente' }
+    { value: 'ativo', label: 'Ativo', color: 'COLORS.error[500]', description: 'Lesão atual em tratamento' },
+    { value: 'recuperando', label: 'Recuperando', color: 'COLORS.warning[500]', description: 'Em processo de recuperação' },
+    { value: 'recuperado', label: 'Recuperado', color: 'COLORS.primary[500]', description: 'Totalmente recuperado' },
+    { value: 'cronico', label: 'Crônico', color: 'COLORS.secondary[500]', description: 'Condição permanente ou recorrente' }
   ];
 
   useEffect(() => {
@@ -212,7 +213,7 @@ const InjuryScreen = ({ navigation, route }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.headerSection}>
-              <Ionicons name="bandage-outline" size={32} color="#F44336" />
+              <Ionicons name="bandage-outline" size={32} color="COLORS.error[500]" />
               <Text style={styles.title}>
                 {isEditing ? 'Editar Lesão' : 'Registrar Nova Lesão'}
               </Text>
@@ -341,7 +342,7 @@ const InjuryScreen = ({ navigation, route }) => {
                   <RadioButton.Item
                     label={level.label}
                     value={level.value}
-                    labelStyle={{ color: level.color, fontWeight: 'bold' }}
+                    labelStyle={{ color: level.color, fontWeight: FONT_WEIGHT.bold }}
                   />
                   <Text style={styles.radioDescription}>{level.description}</Text>
                 </View>
@@ -361,7 +362,7 @@ const InjuryScreen = ({ navigation, route }) => {
                   <RadioButton.Item
                     label={option.label}
                     value={option.value}
-                    labelStyle={{ color: option.color, fontWeight: 'bold' }}
+                    labelStyle={{ color: option.color, fontWeight: FONT_WEIGHT.bold }}
                   />
                   <Text style={styles.radioDescription}>{option.description}</Text>
                 </View>
@@ -418,21 +419,21 @@ const InjuryScreen = ({ navigation, route }) => {
             {/* Resumo Visual */}
             <Surface style={styles.summaryContainer}>
               <View style={styles.summaryHeader}>
-                <Ionicons name="information-circle-outline" size={24} color="#2196F3" />
+                <Ionicons name="information-circle-outline" size={24} color="COLORS.info[500]" />
                 <Text style={styles.summaryTitle}>Resumo da Lesão</Text>
               </View>
               <View style={styles.summaryContent}>
                 <Chip 
                   mode="flat"
                   style={[styles.summaryChip, { backgroundColor: getSeverityColor(formData.severity) }]}
-                  textStyle={{ color: 'white', fontWeight: 'bold' }}
+                  textStyle={{ color: 'COLORS.COLORS.white', fontWeight: FONT_WEIGHT.bold }}
                 >
                   {severityLevels.find(s => s.value === formData.severity)?.label}
                 </Chip>
                 <Chip 
                   mode="flat"
                   style={[styles.summaryChip, { backgroundColor: getStatusColor(formData.status) }]}
-                  textStyle={{ color: 'white', fontWeight: 'bold' }}
+                  textStyle={{ color: 'COLORS.COLORS.white', fontWeight: FONT_WEIGHT.bold }}
                 >
                   {statusOptions.find(s => s.value === formData.status)?.label}
                 </Chip>
@@ -468,7 +469,7 @@ const InjuryScreen = ({ navigation, route }) => {
         onDismiss={() => setSnackbar({ ...snackbar, visible: false })}
         duration={snackbar.type === 'success' ? 3000 : 5000}
         style={{
-          backgroundColor: snackbar.type === 'success' ? '#4CAF50' : '#F44336'
+          backgroundColor: snackbar.type === 'success' ? 'COLORS.primary[500]' : 'COLORS.error[500]'
         }}
       >
         {snackbar.message}
@@ -486,7 +487,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    padding: 16,
+    padding: SPACING.base,
   },
   card: {
     marginBottom: 16,
@@ -497,27 +498,27 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginTop: 12,
-    marginBottom: 8,
+    fontSize: FONT_SIZE.xxl,
+    fontWeight: FONT_WEIGHT.bold,
+    marginTop: SPACING.md,
+    marginBottom: SPACING.sm,
     textAlign: 'center',
   },
   subtitle: {
-    fontSize: 16,
-    color: '#666',
+    fontSize: FONT_SIZE.md,
+    color: 'COLORS.text.secondary',
     textAlign: 'center',
     lineHeight: 22,
   },
   sectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: FONT_SIZE.lg,
+    fontWeight: FONT_WEIGHT.bold,
     marginTop: 16,
-    marginBottom: 12,
-    color: '#333',
+    marginBottom: SPACING.md,
+    color: 'COLORS.text.primary',
   },
   input: {
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   menuScrollView: {
     maxHeight: 200,
@@ -526,32 +527,32 @@ const styles = StyleSheet.create({
     marginVertical: 16,
   },
   radioItem: {
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   radioDescription: {
-    fontSize: 12,
-    color: '#666',
+    fontSize: FONT_SIZE.sm,
+    color: 'COLORS.text.secondary',
     marginLeft: 32,
     marginTop: -8,
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   summaryContainer: {
-    padding: 16,
+    padding: SPACING.base,
     marginVertical: 16,
-    borderRadius: 8,
+    borderRadius: BORDER_RADIUS.md,
     elevation: 2,
     backgroundColor: '#E3F2FD',
   },
   summaryHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   summaryTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.bold,
     marginLeft: 8,
-    color: '#1976D2',
+    color: 'COLORS.info[700]',
   },
   summaryContent: {
     flexDirection: 'row',

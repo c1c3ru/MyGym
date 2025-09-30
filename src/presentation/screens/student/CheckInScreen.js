@@ -16,6 +16,7 @@ import { useAuth } from '@contexts/AuthProvider';
 import { useCustomClaims } from '@hooks/useCustomClaims';
 import { academyFirestoreService } from '@services/academyFirestoreService';
 import { getThemeColors } from '@theme/professionalTheme';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const { width } = Dimensions.get('window');
 
@@ -224,7 +225,7 @@ const CheckInScreen = ({ navigation }) => {
                   <Chip 
                     mode="outlined" 
                     style={styles.classChip}
-                    textStyle={{ fontSize: 12 }}
+                    textStyle={{ fontSize: FONT_SIZE.sm }}
                   >
                     {todayCheckIn.className}
                   </Chip>
@@ -309,7 +310,7 @@ const CheckInScreen = ({ navigation }) => {
       {!todayCheckIn && (
         <FAB
           style={[styles.fab, { backgroundColor: themeColors.primary }]}
-          icon={loading ? () => <ActivityIndicator color="white" /> : "plus"}
+          icon={loading ? () => <ActivityIndicator color="COLORS.COLORS.white" /> : "plus"}
           label="Check-in Geral"
           onPress={() => handleCheckIn()}
           disabled={loading}
@@ -325,7 +326,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    padding: 16,
+    padding: SPACING.base,
   },
   card: {
     marginBottom: 16,
@@ -333,7 +334,7 @@ const styles = StyleSheet.create({
   },
   todayCard: {
     borderLeftWidth: 4,
-    borderLeftColor: '#4CAF50',
+    borderLeftColor: 'COLORS.primary[500]',
   },
   todayHeader: {
     flexDirection: 'row',
@@ -346,14 +347,14 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   todayTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 4,
+    fontSize: FONT_SIZE.lg,
+    fontWeight: FONT_WEIGHT.bold,
+    marginBottom: SPACING.xs,
   },
   todaySubtitle: {
-    fontSize: 14,
-    color: '#666',
-    marginBottom: 8,
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.secondary',
+    marginBottom: SPACING.sm,
   },
   classChip: {
     alignSelf: 'flex-start',
@@ -364,14 +365,14 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   sectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: FONT_SIZE.lg,
+    fontWeight: FONT_WEIGHT.bold,
     marginLeft: 8,
   },
   classItem: {
-    padding: 12,
-    marginBottom: 8,
-    borderRadius: 8,
+    padding: SPACING.md,
+    marginBottom: SPACING.sm,
+    borderRadius: BORDER_RADIUS.md,
   },
   classInfo: {
     flexDirection: 'row',
@@ -382,28 +383,28 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   className: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginBottom: 4,
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.semibold,
+    marginBottom: SPACING.xs,
   },
   classModality: {
-    fontSize: 14,
-    color: '#666',
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.secondary',
   },
   checkInButton: {
-    borderRadius: 20,
+    borderRadius: BORDER_RADIUS.lg,
   },
   historyItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 12,
+    paddingVertical: SPACING.md,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: 'COLORS.gray[100]',
   },
   historyIcon: {
     width: 40,
     height: 40,
-    borderRadius: 20,
+    borderRadius: BORDER_RADIUS.lg,
     backgroundColor: '#f5f5f5',
     justifyContent: 'center',
     alignItems: 'center',
@@ -413,32 +414,32 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   historyTitle: {
-    fontSize: 16,
-    fontWeight: '500',
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.medium,
     marginBottom: 2,
   },
   historyDate: {
-    fontSize: 14,
-    color: '#666',
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.secondary',
   },
   emptyState: {
     alignItems: 'center',
     padding: 32,
   },
   emptyText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#999',
-    marginTop: 12,
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.semibold,
+    color: 'COLORS.gray[500]',
+    marginTop: SPACING.md,
   },
   emptySubtext: {
-    fontSize: 14,
+    fontSize: FONT_SIZE.base,
     color: '#ccc',
-    marginTop: 4,
+    marginTop: SPACING.xs,
   },
   fab: {
     position: 'absolute',
-    margin: 16,
+    margin: SPACING.base,
     right: 0,
     bottom: 0,
   },

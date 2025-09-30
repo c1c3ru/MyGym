@@ -16,6 +16,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '@contexts/AuthProvider';
 import { useTheme } from '@contexts/ThemeContext';
 import { firestoreService } from '@services/firestoreService';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const PrivacySettingsScreen = ({ navigation }) => {
   const { user, userProfile, updateUserProfile } = useAuth();
@@ -180,12 +181,12 @@ const PrivacySettingsScreen = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <Ionicons name="shield-checkmark-outline" size={24} color="#4CAF50" />
+              <Ionicons name="shield-checkmark-outline" size={24} color="COLORS.primary[500]" />
               <Title style={styles.cardTitle}>{getString('lgpdStatus')}</Title>
               <Chip 
                 mode="outlined"
                 style={styles.statusChip}
-                textStyle={{ fontSize: 12 }}
+                textStyle={{ fontSize: FONT_SIZE.sm }}
               >
                 {getConsentStatus()} {getString('consents')}
               </Chip>
@@ -207,7 +208,7 @@ const PrivacySettingsScreen = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <Ionicons name="document-text-outline" size={24} color="#2196F3" />
+              <Ionicons name="document-text-outline" size={24} color="COLORS.info[500]" />
               <Title style={styles.cardTitle}>{getString('consents')}</Title>
             </View>
 
@@ -268,7 +269,7 @@ const PrivacySettingsScreen = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <Ionicons name="eye-outline" size={24} color="#FF9800" />
+              <Ionicons name="eye-outline" size={24} color="COLORS.warning[500]" />
               <Title style={styles.cardTitle}>{getString('profileVisibility')}</Title>
             </View>
 
@@ -323,7 +324,7 @@ const PrivacySettingsScreen = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <Ionicons name="call-outline" size={24} color="#9C27B0" />
+              <Ionicons name="call-outline" size={24} color="COLORS.secondary[500]" />
               <Title style={styles.cardTitle}>{getString('contactMethods')}</Title>
             </View>
 
@@ -371,7 +372,7 @@ const PrivacySettingsScreen = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <Ionicons name="person-outline" size={24} color="#F44336" />
+              <Ionicons name="person-outline" size={24} color="COLORS.error[500]" />
               <Title style={styles.cardTitle}>{getString('yourRights')}</Title>
             </View>
 
@@ -396,10 +397,10 @@ const PrivacySettingsScreen = ({ navigation }) => {
             <List.Item
               title={getString('deleteData')}
               description={getString('deleteDescription')}
-              left={() => <List.Icon icon="delete-forever" color="#F44336" />}
+              left={() => <List.Icon icon="delete-forever" color="COLORS.error[500]" />}
               right={() => <List.Icon icon="chevron-right" />}
               onPress={requestDataDeletion}
-              titleStyle={{ color: '#F44336' }}
+              titleStyle={{ color: 'COLORS.error[500]' }}
             />
           </Card.Content>
         </Card>
@@ -449,8 +450,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   card: {
-    margin: 16,
-    marginTop: 8,
+    margin: SPACING.base,
+    marginTop: SPACING.sm,
     elevation: 2,
   },
   cardHeader: {
@@ -460,32 +461,32 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     marginLeft: 8,
-    fontSize: 18,
+    fontSize: FONT_SIZE.lg,
     flex: 1,
   },
   statusChip: {
-    borderColor: '#4CAF50',
+    borderColor: 'COLORS.primary[500]',
   },
   lgpdInfo: {
-    marginBottom: 12,
-    color: '#666',
+    marginBottom: SPACING.md,
+    color: 'COLORS.text.secondary',
     lineHeight: 20,
   },
   consentDate: {
-    fontSize: 12,
+    fontSize: FONT_SIZE.sm,
     color: '#888',
     fontStyle: 'italic',
   },
   infoText: {
-    marginBottom: 8,
-    color: '#666',
-    fontSize: 14,
+    marginBottom: SPACING.sm,
+    color: 'COLORS.text.secondary',
+    fontSize: FONT_SIZE.base,
   },
   buttonContainer: {
-    margin: 16,
+    margin: SPACING.base,
   },
   saveButton: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: 'COLORS.primary[500]',
   },
 });
 

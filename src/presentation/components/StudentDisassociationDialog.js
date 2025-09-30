@@ -14,6 +14,7 @@ import { useAuth } from '@contexts/AuthProvider';
 import { useCustomClaims } from '@hooks/useCustomClaims';
 import { useNotification } from '@contexts/NotificationContext';
 import { firestoreService } from '@services/firestoreService';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const StudentDisassociationDialog = ({ visible, onDismiss, student, onSuccess }) => {
   const { user, userProfile, academia } = useAuth();
@@ -158,7 +159,7 @@ const StudentDisassociationDialog = ({ visible, onDismiss, student, onSuccess })
     <Dialog visible={visible} onDismiss={onDismiss}>
         <Dialog.Title>
           <View style={styles.titleContainer}>
-            <Ionicons name="person-remove-outline" size={24} color="#F44336" />
+            <Ionicons name="person-remove-outline" size={24} color="COLORS.error[500]" />
             <Text style={styles.titleText}>Desassociar Aluno</Text>
           </View>
         </Dialog.Title>
@@ -210,7 +211,7 @@ const StudentDisassociationDialog = ({ visible, onDismiss, student, onSuccess })
             onPress={handleDisassociation}
             loading={loading}
             disabled={loading || !reason.trim()}
-            buttonColor="#F44336"
+            buttonColor="COLORS.error[500]"
           >
             {getString('delete')}
           </Button>
@@ -226,27 +227,27 @@ const styles = StyleSheet.create({
   },
   titleText: {
     marginLeft: 8,
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#F44336',
+    fontSize: FONT_SIZE.lg,
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.error[500]',
   },
   studentInfo: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   label: {
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.bold,
     marginRight: 8,
     minWidth: 60,
   },
   studentChip: {
-    borderColor: '#2196F3',
+    borderColor: 'COLORS.info[500]',
   },
   studentEmail: {
-    fontSize: 16,
-    color: '#666',
+    fontSize: FONT_SIZE.md,
+    color: 'COLORS.text.secondary',
   },
   divider: {
     marginVertical: 16,
@@ -255,16 +256,16 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   warningText: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: '#F44336',
-    marginBottom: 8,
+    fontSize: FONT_SIZE.base,
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.error[500]',
+    marginBottom: SPACING.sm,
   },
   warningItem: {
-    fontSize: 14,
-    color: '#666',
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.secondary',
     marginLeft: 16,
-    marginBottom: 4,
+    marginBottom: SPACING.xs,
   },
 });
 

@@ -15,6 +15,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '@contexts/AuthProvider';
 import { academyFirestoreService } from '@services/academyFirestoreService';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const PhysicalEvaluationScreen = ({ navigation, route }) => {
   const { user, academia, userProfile } = useAuth();
@@ -94,12 +95,12 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
 
   const getIMCColor = (classification) => {
     switch (classification) {
-      case 'Abaixo do peso': return '#FF9800';
-      case 'Peso normal': return '#4CAF50';
-      case 'Sobrepeso': return '#FF9800';
+      case 'Abaixo do peso': return 'COLORS.warning[500]';
+      case 'Peso normal': return 'COLORS.primary[500]';
+      case 'Sobrepeso': return 'COLORS.warning[500]';
       case 'Obesidade grau I': return '#FF5722';
-      case 'Obesidade grau II': return '#F44336';
-      case 'Obesidade grau III': return '#9C27B0';
+      case 'Obesidade grau II': return 'COLORS.error[500]';
+      case 'Obesidade grau III': return 'COLORS.secondary[500]';
       default: return '#9E9E9E';
     }
   };
@@ -254,7 +255,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.headerSection}>
-              <Ionicons name="fitness-outline" size={32} color="#4CAF50" />
+              <Ionicons name="fitness-outline" size={32} color="COLORS.primary[500]" />
               <Text style={styles.title}>
                 {isEditing ? 'Editar Avaliação Física' : 'Nova Avaliação Física'}
               </Text>
@@ -307,7 +308,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
             {calculatedIMC && (
               <Surface style={styles.imcContainer}>
                 <View style={styles.imcHeader}>
-                  <Ionicons name="calculator-outline" size={24} color="#2196F3" />
+                  <Ionicons name="calculator-outline" size={24} color="COLORS.info[500]" />
                   <Text style={styles.imcTitle}>Índice de Massa Corporal (IMC)</Text>
                 </View>
                 <View style={styles.imcResult}>
@@ -315,7 +316,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
                   <Chip 
                     mode="flat"
                     style={[styles.imcChip, { backgroundColor: getIMCColor(imcClassification) }]}
-                    textStyle={{ color: 'white', fontWeight: 'bold' }}
+                    textStyle={{ color: 'COLORS.COLORS.white', fontWeight: FONT_WEIGHT.bold }}
                   >
                     {imcClassification}
                   </Chip>
@@ -436,7 +437,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
         onDismiss={() => setSnackbar({ ...snackbar, visible: false })}
         duration={snackbar.type === 'success' ? 3000 : 5000}
         style={{
-          backgroundColor: snackbar.type === 'success' ? '#4CAF50' : '#F44336'
+          backgroundColor: snackbar.type === 'success' ? 'COLORS.primary[500]' : 'COLORS.error[500]'
         }}
       >
         {snackbar.message}
@@ -454,7 +455,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    padding: 16,
+    padding: SPACING.base,
   },
   card: {
     marginBottom: 16,
@@ -465,27 +466,27 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginTop: 12,
-    marginBottom: 8,
+    fontSize: FONT_SIZE.xxl,
+    fontWeight: FONT_WEIGHT.bold,
+    marginTop: SPACING.md,
+    marginBottom: SPACING.sm,
     textAlign: 'center',
   },
   subtitle: {
-    fontSize: 16,
-    color: '#666',
+    fontSize: FONT_SIZE.md,
+    color: 'COLORS.text.secondary',
     textAlign: 'center',
     lineHeight: 22,
   },
   sectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: FONT_SIZE.lg,
+    fontWeight: FONT_WEIGHT.bold,
     marginTop: 16,
-    marginBottom: 12,
-    color: '#333',
+    marginBottom: SPACING.md,
+    color: 'COLORS.text.primary',
   },
   input: {
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   inputRow: {
     flexDirection: 'row',
@@ -496,25 +497,25 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   errorContainer: {
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   imcContainer: {
-    padding: 16,
+    padding: SPACING.base,
     marginVertical: 16,
-    borderRadius: 8,
+    borderRadius: BORDER_RADIUS.md,
     elevation: 2,
     backgroundColor: '#E3F2FD',
   },
   imcHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   imcTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.bold,
     marginLeft: 8,
-    color: '#1976D2',
+    color: 'COLORS.info[700]',
   },
   imcResult: {
     flexDirection: 'row',
@@ -523,8 +524,8 @@ const styles = StyleSheet.create({
   },
   imcValue: {
     fontSize: 32,
-    fontWeight: 'bold',
-    color: '#1976D2',
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.info[700]',
   },
   imcChip: {
     elevation: 2,

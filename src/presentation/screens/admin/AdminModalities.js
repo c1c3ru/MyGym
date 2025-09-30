@@ -21,6 +21,7 @@ import { useAuth } from '@contexts/AuthProvider';
 import { useAuthMigration } from '@hooks/useAuthMigration';
 import { useTheme } from '@contexts/ThemeContext';
 import academyCollectionsService from '@services/academyCollectionsService';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const AdminModalities = ({ navigation }) => {
   const { user } = useAuth();
@@ -239,9 +240,9 @@ const AdminModalities = ({ navigation }) => {
         position: fixed;
         top: 20px;
         right: 20px;
-        background: ${type === 'success' ? '#4CAF50' : '#F44336'};
-        color: white;
-        padding: 12px 20px;
+        background: ${type === 'success' ? 'COLORS.primary[500]' : 'COLORS.error[500]'};
+        color: COLORS.COLORS.white;
+        padding: SPACING.mdpx 20px;
         border-radius: 8px;
         box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         z-index: 9999;
@@ -597,7 +598,7 @@ const AdminModalities = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <Ionicons name="fitness-outline" size={24} color="#4CAF50" />
+              <Ionicons name="fitness-outline" size={24} color="COLORS.primary[500]" />
               <Title style={styles.cardTitle}>{getString('fightModalities')}</Title>
               <Button 
                 mode="contained" 
@@ -615,13 +616,13 @@ const AdminModalities = ({ navigation }) => {
                   <List.Item
                     title={modality.name}
                     description={modality.description || getString('noDescription')}
-                    left={() => <List.Icon icon="dumbbell" color="#4CAF50" />}
+                    left={() => <List.Icon icon="dumbbell" color="COLORS.primary[500]" />}
                     right={() => (
                       <View style={styles.actionButtons}>
                         <Button 
                           mode="text" 
                           onPress={() => handleEditModality(modality)}
-                          textColor="#2196F3"
+                          textColor="COLORS.info[500]"
                           icon="pencil"
                           compact
                         >
@@ -633,7 +634,7 @@ const AdminModalities = ({ navigation }) => {
                             console.log('🔴 Botão Excluir clicado para modalidade:', modality);
                             handleDeleteModality(modality);
                           }}
-                          textColor={deletingIds.has(modality.id) ? "#999" : "#F44336"}
+                          textColor={deletingIds.has(modality.id) ? "COLORS.gray[500]" : "COLORS.error[500]"}
                           icon={deletingIds.has(modality.id) ? "loading" : "delete"}
                           compact
                           disabled={deletingIds.has(modality.id)}
@@ -659,7 +660,7 @@ const AdminModalities = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <Ionicons name="card-outline" size={24} color="#2196F3" />
+              <Ionicons name="card-outline" size={24} color="COLORS.info[500]" />
               <Title style={styles.cardTitle}>{getString('paymentPlans')}</Title>
               <Button 
                 mode="contained" 
@@ -677,13 +678,13 @@ const AdminModalities = ({ navigation }) => {
                   <List.Item
                     title={`${plan.name} - ${formatCurrency(plan.value)}`}
                     description={`${plan.duration || 1} ${getString('months')} • ${plan.description || getString('noDescription')}`}
-                    left={() => <List.Icon icon="cash" color="#2196F3" />}
+                    left={() => <List.Icon icon="cash" color="COLORS.info[500]" />}
                     right={() => (
                       <View style={styles.actionButtons}>
                         <Button 
                           mode="text" 
                           onPress={() => handleEditPlan(plan)}
-                          textColor="#2196F3"
+                          textColor="COLORS.info[500]"
                           icon="pencil"
                           compact
                         >
@@ -692,7 +693,7 @@ const AdminModalities = ({ navigation }) => {
                         <Button 
                           mode="text" 
                           onPress={() => handleDeletePlan(plan)}
-                          textColor={deletingPlanIds.has(plan.id) ? "#999" : "#F44336"}
+                          textColor={deletingPlanIds.has(plan.id) ? "COLORS.gray[500]" : "COLORS.error[500]"}
                           icon={deletingPlanIds.has(plan.id) ? "loading" : "delete"}
                           compact
                           disabled={deletingPlanIds.has(plan.id)}
@@ -718,7 +719,7 @@ const AdminModalities = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <Ionicons name="megaphone-outline" size={24} color="#FF9800" />
+              <Ionicons name="megaphone-outline" size={24} color="COLORS.warning[500]" />
               <Title style={styles.cardTitle}>{getString('announcementBoard')}</Title>
               <Button 
                 mode="contained" 
@@ -736,13 +737,13 @@ const AdminModalities = ({ navigation }) => {
                   <List.Item
                     title={announcement.title}
                     description={`${announcement.content.substring(0, 100)}${announcement.content.length > 100 ? '...' : ''}`}
-                    left={() => <List.Icon icon="bullhorn" color="#FF9800" />}
+                    left={() => <List.Icon icon="bullhorn" color="COLORS.warning[500]" />}
                     right={() => (
                       <View style={styles.actionButtons}>
                         <Button 
                           mode="text" 
                           onPress={() => handleEditAnnouncement(announcement)}
-                          textColor="#2196F3"
+                          textColor="COLORS.info[500]"
                           icon="pencil"
                           compact
                         >
@@ -751,7 +752,7 @@ const AdminModalities = ({ navigation }) => {
                         <Button 
                           mode="text" 
                           onPress={() => handleDeleteAnnouncement(announcement)}
-                          textColor={deletingAnnouncementIds.has(announcement.id) ? "#999" : "#F44336"}
+                          textColor={deletingAnnouncementIds.has(announcement.id) ? "COLORS.gray[500]" : "COLORS.error[500]"}
                           icon={deletingAnnouncementIds.has(announcement.id) ? "loading" : "delete"}
                           compact
                           disabled={deletingAnnouncementIds.has(announcement.id)}
@@ -978,15 +979,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   loadingText: {
-    fontSize: 16,
-    color: '#666',
+    fontSize: FONT_SIZE.md,
+    color: 'COLORS.text.secondary',
   },
   scrollView: {
     flex: 1,
   },
   card: {
-    margin: 16,
-    marginBottom: 8,
+    margin: SPACING.base,
+    marginBottom: SPACING.sm,
     elevation: 2,
   },
   cardHeader: {
@@ -996,15 +997,15 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     marginLeft: 8,
-    fontSize: 18,
+    fontSize: FONT_SIZE.lg,
     flex: 1,
   },
   addButton: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: 'COLORS.primary[500]',
   },
   emptyText: {
     textAlign: 'center',
-    color: '#666',
+    color: 'COLORS.text.secondary',
     fontStyle: 'italic',
     marginVertical: 20,
   },
@@ -1013,15 +1014,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   announcementDate: {
-    fontSize: 12,
-    color: '#666',
+    fontSize: FONT_SIZE.sm,
+    color: 'COLORS.text.secondary',
     marginLeft: 56,
     marginTop: -8,
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   statsCard: {
-    margin: 16,
-    marginTop: 8,
+    margin: SPACING.base,
+    marginTop: SPACING.sm,
     elevation: 2,
     backgroundColor: '#E8F5E8',
   },
@@ -1037,24 +1038,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   statNumber: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#4CAF50',
+    fontSize: FONT_SIZE.xxl,
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.primary[500]',
   },
   statLabel: {
-    fontSize: 12,
-    color: '#666',
+    fontSize: FONT_SIZE.sm,
+    color: 'COLORS.text.secondary',
     textAlign: 'center',
   },
   dialogInput: {
     marginBottom: 16,
   },
   sectionLabel: {
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.bold,
     marginTop: 16,
-    marginBottom: 8,
-    color: '#333',
+    marginBottom: SPACING.sm,
+    color: 'COLORS.text.primary',
   },
   audienceContainer: {
     flexDirection: 'row',
@@ -1063,7 +1064,7 @@ const styles = StyleSheet.create({
   },
   audienceChip: {
     marginRight: 8,
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
 });
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import SkeletonLoader from './SkeletonLoader';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const StudentDashboardSkeleton = () => {
   return (
@@ -10,7 +11,7 @@ const StudentDashboardSkeleton = () => {
         <View style={styles.welcomeContent}>
           <SkeletonLoader width={60} height={60} borderRadius={30} />
           <View style={styles.welcomeText}>
-            <SkeletonLoader width="80%" height={24} style={{ marginBottom: 8 }} />
+            <SkeletonLoader width="80%" height={24} style={{ marginBottom: SPACING.sm }} />
             <SkeletonLoader width="60%" height={16} />
           </View>
         </View>
@@ -20,7 +21,7 @@ const StudentDashboardSkeleton = () => {
       <View style={styles.cardContainer}>
         <SkeletonLoader width="50%" height={20} style={{ marginBottom: 16 }} />
         <View style={styles.graduationStatus}>
-          <SkeletonLoader width={100} height={32} borderRadius={16} style={{ marginBottom: 8 }} />
+          <SkeletonLoader width={100} height={32} borderRadius={16} style={{ marginBottom: SPACING.sm }} />
           <SkeletonLoader width="70%" height={16} />
         </View>
       </View>
@@ -33,13 +34,13 @@ const StudentDashboardSkeleton = () => {
           <View key={index} style={styles.classItem}>
             <SkeletonLoader width={24} height={24} borderRadius={12} />
             <View style={styles.classContent}>
-              <SkeletonLoader width="80%" height={18} style={{ marginBottom: 4 }} />
+              <SkeletonLoader width="80%" height={18} style={{ marginBottom: SPACING.xs }} />
               <SkeletonLoader width="90%" height={14} />
             </View>
           </View>
         ))}
         
-        <SkeletonLoader width="60%" height={16} style={{ marginTop: 12 }} />
+        <SkeletonLoader width="60%" height={16} style={{ marginTop: SPACING.md }} />
       </View>
 
       {/* Announcements Skeleton */}
@@ -51,9 +52,9 @@ const StudentDashboardSkeleton = () => {
         
         {[1, 2].map((index) => (
           <View key={index} style={styles.announcementItem}>
-            <SkeletonLoader width="90%" height={16} style={{ marginBottom: 8 }} />
-            <SkeletonLoader width="100%" height={14} style={{ marginBottom: 8 }} />
-            <SkeletonLoader width="100%" height={14} style={{ marginBottom: 8 }} />
+            <SkeletonLoader width="90%" height={16} style={{ marginBottom: SPACING.sm }} />
+            <SkeletonLoader width="100%" height={14} style={{ marginBottom: SPACING.sm }} />
+            <SkeletonLoader width="100%" height={14} style={{ marginBottom: SPACING.sm }} />
             <SkeletonLoader width="40%" height={12} />
           </View>
         ))}
@@ -78,10 +79,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
   },
   welcomeCard: {
-    margin: 8,
-    padding: 16,
-    backgroundColor: '#2196F3',
-    borderRadius: 12,
+    margin: SPACING.sm,
+    padding: SPACING.base,
+    backgroundColor: 'COLORS.info[500]',
+    borderRadius: BORDER_RADIUS.md,
     elevation: 2,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -97,10 +98,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   cardContainer: {
-    margin: 8,
-    padding: 16,
-    backgroundColor: 'white',
-    borderRadius: 12,
+    margin: SPACING.sm,
+    padding: SPACING.base,
+    backgroundColor: 'COLORS.white',
+    borderRadius: BORDER_RADIUS.md,
     elevation: 2,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -113,8 +114,8 @@ const styles = StyleSheet.create({
   classItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 12,
-    paddingVertical: 8,
+    marginBottom: SPACING.md,
+    paddingVertical: SPACING.sm,
   },
   classContent: {
     marginLeft: 12,
@@ -128,7 +129,7 @@ const styles = StyleSheet.create({
   },
   announcementItem: {
     marginBottom: 16,
-    paddingVertical: 12,
+    paddingVertical: SPACING.md,
   },
   quickActions: {
     flexDirection: 'row',

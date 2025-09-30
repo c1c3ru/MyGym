@@ -28,6 +28,7 @@ import { useGraduation } from '@hooks/useGraduation';
 import { useAuth } from '@contexts/AuthProvider';
 import GraduationAlertCard from '@components/GraduationAlertCard';
 import { Ionicons } from '@expo/vector-icons';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const GraduationManagementScreen = ({ navigation }) => {
   const { userProfile } = useAuth();
@@ -115,7 +116,7 @@ const GraduationManagementScreen = ({ navigation }) => {
         <Card style={styles.summaryCard}>
           <Card.Content style={styles.summaryContent}>
             <View style={styles.summaryIcon}>
-              <Ionicons name="people" size={24} color="#2196F3" />
+              <Ionicons name="people" size={24} color="COLORS.info[500]" />
             </View>
             <View>
               <Title style={styles.summaryNumber}>{stats.totalStudents}</Title>
@@ -127,7 +128,7 @@ const GraduationManagementScreen = ({ navigation }) => {
         <Card style={styles.summaryCard}>
           <Card.Content style={styles.summaryContent}>
             <View style={styles.summaryIcon}>
-              <Ionicons name="trophy" size={24} color="#4CAF50" />
+              <Ionicons name="trophy" size={24} color="COLORS.primary[500]" />
             </View>
             <View>
               <Title style={styles.summaryNumber}>{stats.eligibleStudents}</Title>
@@ -142,7 +143,7 @@ const GraduationManagementScreen = ({ navigation }) => {
         <Card style={styles.summaryCard}>
           <Card.Content style={styles.summaryContent}>
             <View style={styles.summaryIcon}>
-              <Ionicons name="calendar" size={24} color="#FF9800" />
+              <Ionicons name="calendar" size={24} color="COLORS.warning[500]" />
             </View>
             <View>
               <Title style={styles.summaryNumber}>{stats.upcomingExams}</Title>
@@ -356,7 +357,7 @@ const GraduationManagementScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <LinearGradient
-        colors={['#2196F3', '#1976D2']}
+        colors={['COLORS.info[500]', 'COLORS.info[700]']}
         style={styles.header}
       >
         <Title style={styles.headerTitle}>Gerenciamento de Graduações</Title>
@@ -395,25 +396,25 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 20,
   },
   headerTitle: {
-    color: 'white',
-    fontSize: 24,
-    fontWeight: 'bold',
+    color: 'COLORS.COLORS.white',
+    fontSize: FONT_SIZE.xxl,
+    fontWeight: FONT_WEIGHT.bold,
     textAlign: 'center',
   },
   headerSubtitle: {
-    color: 'rgba(255,255,255,0.8)',
-    fontSize: 14,
+    color: 'COLORS.COLORS.white + 'CC'',
+    fontSize: FONT_SIZE.base,
     textAlign: 'center',
   },
   content: {
     flex: 1,
-    padding: 16,
+    padding: SPACING.base,
   },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
+    padding: SPACING.lg,
   },
   loadingText: {
     marginTop: 16,
@@ -431,19 +432,19 @@ const styles = StyleSheet.create({
   summaryContent: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 12,
+    padding: SPACING.md,
   },
   summaryIcon: {
     marginRight: 12,
   },
   summaryNumber: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: FONT_SIZE.lg,
+    fontWeight: FONT_WEIGHT.bold,
     marginBottom: 2,
   },
   summaryLabel: {
-    fontSize: 12,
-    color: '#666',
+    fontSize: FONT_SIZE.sm,
+    color: 'COLORS.text.secondary',
   },
   summaryPercentage: {
     fontSize: 10,
@@ -453,9 +454,9 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   sectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 12,
+    fontSize: FONT_SIZE.lg,
+    fontWeight: FONT_WEIGHT.bold,
+    marginBottom: SPACING.md,
   },
   filterContainer: {
     flexDirection: 'row',
@@ -471,10 +472,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   countChip: {
-    backgroundColor: '#2196F3',
+    backgroundColor: 'COLORS.info[500]',
   },
   emptyCard: {
     elevation: 2,

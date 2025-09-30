@@ -30,6 +30,7 @@ import academyCollectionsService from '@services/academyCollectionsService';
 import { LinearGradient } from 'expo-linear-gradient';
 import SelectionField from '@components/SelectionField';
 import graduationRepository from '@presentation/repositories/graduationRepository';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const { width } = Dimensions.get('window');
 
@@ -63,12 +64,12 @@ const AddGraduationScreen = ({ route, navigation }) => {
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   const defaultGraduationLevels = [
-    { id: 'white', name: 'Faixa Branca', color: '#FFFFFF', order: 1 },
+    { id: 'COLORS.COLORS.white', name: 'Faixa Branca', color: '#FFFFFF', order: 1 },
     { id: 'yellow', name: 'Faixa Amarela', color: '#FFEB3B', order: 2 },
-    { id: 'orange', name: 'Faixa Laranja', color: '#FF9800', order: 3 },
-    { id: 'green', name: 'Faixa Verde', color: '#4CAF50', order: 4 },
-    { id: 'blue', name: 'Faixa Azul', color: '#2196F3', order: 5 },
-    { id: 'purple', name: 'Faixa Roxa', color: '#9C27B0', order: 6 },
+    { id: 'orange', name: 'Faixa Laranja', color: 'COLORS.warning[500]', order: 3 },
+    { id: 'green', name: 'Faixa Verde', color: 'COLORS.primary[500]', order: 4 },
+    { id: 'blue', name: 'Faixa Azul', color: 'COLORS.info[500]', order: 5 },
+    { id: 'purple', name: 'Faixa Roxa', color: 'COLORS.secondary[500]', order: 6 },
     { id: 'brown', name: 'Faixa Marrom', color: '#795548', order: 7 },
     { id: 'black-1', name: 'Faixa Preta 1º Dan', color: '#000000', order: 8 },
     { id: 'black-2', name: 'Faixa Preta 2º Dan', color: '#000000', order: 9 },
@@ -124,13 +125,13 @@ const AddGraduationScreen = ({ route, navigation }) => {
     const colorMap = {
       'Branca': '#FFFFFF',
       'Amarela': '#FFEB3B',
-      'Laranja': '#FF9800',
-      'Verde': '#4CAF50',
-      'Azul': '#2196F3',
-      'Roxa': '#9C27B0',
+      'Laranja': 'COLORS.warning[500]',
+      'Verde': 'COLORS.primary[500]',
+      'Azul': 'COLORS.info[500]',
+      'Roxa': 'COLORS.secondary[500]',
       'Marrom': '#795548',
       'Preta': '#000000',
-      'Vermelha': '#F44336',
+      'Vermelha': 'COLORS.error[500]',
       'Crua': '#8D6E63',
       'Cordão': '#FFD700'
     };
@@ -143,7 +144,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
     }
     
     // Cores padrão baseadas no índice se não encontrar correspondência
-    const defaultColors = ['#FFFFFF', '#FFEB3B', '#FF9800', '#4CAF50', '#2196F3', '#9C27B0', '#795548', '#000000'];
+    const defaultColors = ['#FFFFFF', '#FFEB3B', 'COLORS.warning[500]', 'COLORS.primary[500]', 'COLORS.info[500]', 'COLORS.secondary[500]', '#795548', '#000000'];
     return defaultColors[index % defaultColors.length] || '#E0E0E0';
   };
 
@@ -307,13 +308,13 @@ const AddGraduationScreen = ({ route, navigation }) => {
     <SafeAreaView style={styles.container}>
       {/* Header com gradiente */}
       <LinearGradient
-        colors={['#1976D2', '#1565C0']}
+        colors={['COLORS.info[700]', '#1565C0']}
         style={styles.header}
       >
         <View style={styles.headerContent}>
           <IconButton
             icon="arrow-left"
-            iconColor="white"
+            iconColor="COLORS.COLORS.white"
             size={24}
             onPress={() => navigation.goBack()}
           />
@@ -333,7 +334,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
 {formData.previousGraduation ? (
           <Surface style={styles.currentGraduationCard} elevation={2}>
             <View style={styles.currentGraduationContent}>
-              <IconButton icon="medal" size={24} iconColor="#FF9800" />
+              <IconButton icon="medal" size={24} iconColor="COLORS.warning[500]" />
               <View style={styles.currentGraduationText}>
                 <Text style={styles.currentGraduationLabel}>Graduação Atual</Text>
                 <Text style={styles.currentGraduationValue}>{String(formData.previousGraduation)}</Text>
@@ -393,7 +394,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
                 style={styles.dateButton}
                 onPress={() => setShowDatePicker(true)}
               >
-                <IconButton icon="calendar" size={20} iconColor="#1976D2" />
+                <IconButton icon="calendar" size={20} iconColor="COLORS.info[700]" />
                 <Text style={styles.dateButtonText}>
                   {formData.date ? 
                     (formData.date instanceof Date ? 
@@ -420,7 +421,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
                 placeholder="Adicione observações sobre a graduação..."
                 style={styles.notesInput}
                 outlineColor="#E0E0E0"
-                activeOutlineColor="#1976D2"
+                activeOutlineColor="COLORS.info[700]"
               />
             </View>
 
@@ -434,7 +435,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
                 placeholder="Ex: CERT-2024-001"
                 style={styles.certificateInput}
                 outlineColor="#E0E0E0"
-                activeOutlineColor="#FF9800"
+                activeOutlineColor="COLORS.warning[500]"
                 left={<TextInput.Icon icon="certificate" />}
               />
             </View>
@@ -598,14 +599,14 @@ const AddGraduationScreen = ({ route, navigation }) => {
         onDismiss={() => setSnackbarVisible(false)}
         duration={snackbarType === 'success' ? 2000 : 4000}
         style={{
-          backgroundColor: snackbarType === 'success' ? '#4CAF50' : '#F44336'
+          backgroundColor: snackbarType === 'success' ? 'COLORS.primary[500]' : 'COLORS.error[500]'
         }}
         action={{
           label: 'OK',
           onPress: () => setSnackbarVisible(false),
         }}
       >
-        <Text style={{ color: 'white' }}>{snackbarMessage || 'Mensagem'}</Text>
+        <Text style={{ color: 'COLORS.COLORS.white' }}>{snackbarMessage || 'Mensagem'}</Text>
       </Snackbar>
     </SafeAreaView>
   );
@@ -630,12 +631,12 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   headerTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: 'white',
+    fontSize: FONT_SIZE.xl,
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.COLORS.white',
   },
   headerSubtitle: {
-    fontSize: 14,
+    fontSize: FONT_SIZE.base,
     color: 'rgba(255, 255, 255, 0.8)',
     marginTop: 2,
   },
@@ -643,64 +644,64 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   contentContainer: {
-    padding: 16,
+    padding: SPACING.base,
     paddingBottom: 32,
   },
   currentGraduationCard: {
-    borderRadius: 12,
+    borderRadius: BORDER_RADIUS.md,
     marginBottom: 16,
-    backgroundColor: 'white',
+    backgroundColor: 'COLORS.COLORS.white',
   },
   currentGraduationContent: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 16,
+    padding: SPACING.base,
   },
   currentGraduationText: {
     flex: 1,
     marginLeft: 8,
   },
   currentGraduationLabel: {
-    fontSize: 12,
-    color: '#666',
+    fontSize: FONT_SIZE.sm,
+    color: 'COLORS.text.secondary',
     textTransform: 'uppercase',
-    fontWeight: '500',
+    fontWeight: FONT_WEIGHT.medium,
     letterSpacing: 0.5,
   },
   currentGraduationValue: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#333',
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.text.primary',
     marginTop: 2,
   },
   selectionCard: {
-    borderRadius: 12,
+    borderRadius: BORDER_RADIUS.md,
     marginBottom: 16,
     elevation: 2,
   },
   sectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333',
+    fontSize: FONT_SIZE.lg,
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.text.primary',
     marginBottom: 16,
   },
   selectionItem: {
     marginBottom: 16,
   },
   selectionLabel: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: '#666',
-    marginBottom: 8,
+    fontSize: FONT_SIZE.base,
+    fontWeight: FONT_WEIGHT.medium,
+    color: 'COLORS.text.secondary',
+    marginBottom: SPACING.sm,
   },
   selectionButton: {
     borderWidth: 1,
     borderColor: '#E0E0E0',
-    borderRadius: 8,
-    backgroundColor: 'white',
+    borderRadius: BORDER_RADIUS.md,
+    backgroundColor: 'COLORS.COLORS.white',
   },
   selectionButtonSelected: {
-    borderColor: '#1976D2',
+    borderColor: 'COLORS.info[700]',
     backgroundColor: '#F3F8FF',
   },
   selectionButtonDisabled: {
@@ -710,29 +711,29 @@ const styles = StyleSheet.create({
   selectionButtonContent: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 8,
+    paddingVertical: SPACING.sm,
     paddingHorizontal: 4,
   },
   selectionButtonText: {
     flex: 1,
-    fontSize: 16,
-    color: '#666',
+    fontSize: FONT_SIZE.md,
+    color: 'COLORS.text.secondary',
   },
   selectionButtonTextSelected: {
-    color: '#1976D2',
-    fontWeight: '500',
+    color: 'COLORS.info[700]',
+    fontWeight: FONT_WEIGHT.medium,
   },
   selectionButtonTextDisabled: {
-    color: '#999',
+    color: 'COLORS.gray[500]',
   },
   helperText: {
-    fontSize: 12,
-    color: '#999',
-    marginTop: 4,
+    fontSize: FONT_SIZE.sm,
+    color: 'COLORS.gray[500]',
+    marginTop: SPACING.xs,
     fontStyle: 'italic',
   },
   detailsCard: {
-    borderRadius: 12,
+    borderRadius: BORDER_RADIUS.md,
     marginBottom: 16,
     elevation: 2,
   },
@@ -740,89 +741,89 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   inputLabel: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: '#666',
-    marginBottom: 8,
+    fontSize: FONT_SIZE.base,
+    fontWeight: FONT_WEIGHT.medium,
+    color: 'COLORS.text.secondary',
+    marginBottom: SPACING.sm,
   },
   dateButton: {
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
     borderColor: '#E0E0E0',
-    borderRadius: 8,
-    backgroundColor: 'white',
-    paddingVertical: 8,
+    borderRadius: BORDER_RADIUS.md,
+    backgroundColor: 'COLORS.COLORS.white',
+    paddingVertical: SPACING.sm,
     paddingHorizontal: 4,
   },
   dateButtonText: {
     flex: 1,
-    fontSize: 16,
-    color: '#333',
+    fontSize: FONT_SIZE.md,
+    color: 'COLORS.text.primary',
     textTransform: 'capitalize',
   },
   notesInput: {
-    backgroundColor: 'white',
+    backgroundColor: 'COLORS.COLORS.white',
   },
   certificateCard: {
-    borderRadius: 12,
+    borderRadius: BORDER_RADIUS.md,
     marginBottom: 16,
     elevation: 2,
   },
   certificateHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   certificateInput: {
-    backgroundColor: 'white',
+    backgroundColor: 'COLORS.COLORS.white',
   },
   actionContainer: {
-    marginTop: 8,
+    marginTop: SPACING.sm,
     gap: 12,
   },
   submitButton: {
-    backgroundColor: '#1976D2',
-    borderRadius: 8,
+    backgroundColor: 'COLORS.info[700]',
+    borderRadius: BORDER_RADIUS.md,
   },
   submitButtonContent: {
     height: 48,
   },
   submitButtonLabel: {
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.bold,
   },
   cancelButton: {
-    borderColor: '#999',
-    borderRadius: 8,
+    borderColor: 'COLORS.gray[500]',
+    borderRadius: BORDER_RADIUS.md,
   },
   cancelButtonContent: {
     height: 48,
   },
   cancelButtonLabel: {
-    fontSize: 16,
-    color: '#666',
+    fontSize: FONT_SIZE.md,
+    color: 'COLORS.text.secondary',
   },
   dialogTitleContainer: {
-    padding: 20,
+    padding: SPACING.lg,
     paddingBottom: 16,
   },
   dialogTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333',
+    fontSize: FONT_SIZE.lg,
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.text.primary',
   },
   dialogContent: {
     maxHeight: 300,
   },
   dialogItem: {
-    padding: 16,
+    padding: SPACING.base,
     borderBottomWidth: 1,
     borderBottomColor: '#F0F0F0',
   },
   dialogItemText: {
-    fontSize: 16,
-    color: '#333',
+    fontSize: FONT_SIZE.md,
+    color: 'COLORS.text.primary',
   },
   graduationItem: {
     flexDirection: 'row',
@@ -837,19 +838,19 @@ const styles = StyleSheet.create({
     borderColor: '#ddd',
   },
   emptyText: {
-    fontSize: 14,
-    color: '#999',
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.gray[500]',
     textAlign: 'center',
-    padding: 20,
+    padding: SPACING.lg,
     fontStyle: 'italic',
   },
   loadingContainer: {
-    padding: 20,
+    padding: SPACING.lg,
     alignItems: 'center',
   },
   loadingText: {
-    fontSize: 14,
-    color: '#666',
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.secondary',
     fontStyle: 'italic',
   },
 });

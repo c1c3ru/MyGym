@@ -1,6 +1,7 @@
 import React, { memo, useEffect, useRef } from 'react';
 import { View, StyleSheet, Animated, Dimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const { width: screenWidth } = Dimensions.get('window');
 
@@ -173,11 +174,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   cardContainer: {
-    backgroundColor: '#fff',
+    backgroundColor: 'COLORS.COLORS.white',
     marginVertical: 8,
     marginHorizontal: 16,
-    padding: 16,
-    borderRadius: 12,
+    padding: SPACING.base,
+    borderRadius: BORDER_RADIUS.md,
     elevation: 2,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
@@ -206,39 +207,39 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     paddingTop: 12,
     borderTopWidth: 1,
-    borderTopColor: '#f0f0f0',
+    borderTopColor: 'COLORS.gray[100]',
   },
   listContainer: {
     flex: 1,
   },
   headerContainer: {
-    backgroundColor: '#fff',
-    padding: 16,
+    backgroundColor: 'COLORS.COLORS.white',
+    padding: SPACING.base,
     elevation: 2,
   },
   statsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    padding: 16,
+    padding: SPACING.base,
   },
   statCard: {
     alignItems: 'center',
-    backgroundColor: '#fff',
-    padding: 16,
-    borderRadius: 12,
+    backgroundColor: 'COLORS.COLORS.white',
+    padding: SPACING.base,
+    borderRadius: BORDER_RADIUS.md,
     elevation: 2,
     minWidth: 100,
   },
   scheduleContainer: {
-    padding: 16,
+    padding: SPACING.base,
   },
   scheduleItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#fff',
-    padding: 12,
-    borderRadius: 8,
-    marginBottom: 8,
+    backgroundColor: 'COLORS.COLORS.white',
+    padding: SPACING.md,
+    borderRadius: BORDER_RADIUS.md,
+    marginBottom: SPACING.sm,
     elevation: 1,
   },
   scheduleInfo: {
@@ -246,10 +247,10 @@ const styles = StyleSheet.create({
     marginLeft: 12,
   },
   contentContainer: {
-    padding: 16,
+    padding: SPACING.base,
   },
   marginBottom: {
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
 });
 

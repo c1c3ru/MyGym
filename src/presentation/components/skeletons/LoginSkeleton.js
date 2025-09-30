@@ -1,13 +1,14 @@
 import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import SkeletonLoader from './SkeletonLoader';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const LoginSkeleton = () => {
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 24 }}>
       {/* Header Skeleton */}
       <View style={styles.headerContainer}>
-        <SkeletonLoader width="80%" height={32} style={{ marginBottom: 8 }} />
+        <SkeletonLoader width="80%" height={32} style={{ marginBottom: SPACING.sm }} />
         <SkeletonLoader width="60%" height={18} />
       </View>
 
@@ -15,13 +16,13 @@ const LoginSkeleton = () => {
       <View style={styles.formContainer}>
         {/* Email Field */}
         <View style={styles.fieldContainer}>
-          <SkeletonLoader width="30%" height={16} style={{ marginBottom: 8 }} />
+          <SkeletonLoader width="30%" height={16} style={{ marginBottom: SPACING.sm }} />
           <SkeletonLoader width="100%" height={56} borderRadius={4} />
         </View>
 
         {/* Password Field */}
         <View style={styles.fieldContainer}>
-          <SkeletonLoader width="25%" height={16} style={{ marginBottom: 8 }} />
+          <SkeletonLoader width="25%" height={16} style={{ marginBottom: SPACING.sm }} />
           <SkeletonLoader width="100%" height={56} borderRadius={4} />
         </View>
 
@@ -41,7 +42,7 @@ const LoginSkeleton = () => {
       {/* Social Login Buttons */}
       <View style={styles.socialContainer}>
         {[1, 2, 3].map((index) => (
-          <SkeletonLoader key={index} width="100%" height={48} borderRadius={24} style={{ marginBottom: 12 }} />
+          <SkeletonLoader key={index} width="100%" height={48} borderRadius={24} style={{ marginBottom: SPACING.md }} />
         ))}
       </View>
 
@@ -64,15 +65,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
   },
   headerContainer: {
-    padding: 24,
+    padding: SPACING.xl,
     alignItems: 'center',
-    marginTop: 40,
+    marginTop: SPACING.xs0,
   },
   formContainer: {
-    margin: 24,
-    padding: 24,
-    backgroundColor: 'white',
-    borderRadius: 12,
+    margin: SPACING.xl,
+    padding: SPACING.xl,
+    backgroundColor: 'COLORS.white',
+    borderRadius: BORDER_RADIUS.md,
     elevation: 2,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },

@@ -14,6 +14,7 @@ import {
 } from '@utils/scheduleUtils';
 import { useScheduleConflictValidator } from '@utils/scheduleConflictValidator';
 import ConflictWarning from './ConflictWarning';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const ScheduleSelector = ({
   value = null,
@@ -184,7 +185,7 @@ const ScheduleSelector = ({
                 mode="flat"
                 compact
                 style={[styles.hourChip, { backgroundColor: colors?.primary || '#6200ea' }]}
-                textStyle={{ color: colors?.onPrimary || '#ffffff', fontSize: 10 }}
+                textStyle={{ color: colors?.onPrimary || 'COLORS.COLORS.whitefff', fontSize: 10 }}
               >
                 {schedule.hours[dayKey].length}h
               </Chip>
@@ -192,7 +193,7 @@ const ScheduleSelector = ({
           </View>
           <Text style={[
             styles.daySchedule,
-            hasHours ? { color: colors?.primary || '#6200ea' } : { color: colors?.onSurfaceVariant || '#666666' }
+            hasHours ? { color: colors?.primary || '#6200ea' } : { color: colors?.onSurfaceVariant || 'COLORS.text.secondary666' }
           ]}>
             {getDayScheduleText(dayKey)}
           </Text>
@@ -270,7 +271,7 @@ const ScheduleSelector = ({
         <Modal
           visible={modalVisible}
           onDismiss={() => setModalVisible(false)}
-          contentContainerStyle={[styles.modal, { backgroundColor: colors?.surface || '#ffffff' }]}
+          contentContainerStyle={[styles.modal, { backgroundColor: colors?.surface || 'COLORS.COLORS.whitefff' }]}
         >
           <View style={styles.modalHeader}>
             <Text style={styles.modalTitle}>
@@ -300,7 +301,7 @@ const ScheduleSelector = ({
                       {...props}
                       name={isSelected ? 'checkmark-circle' : 'time-outline'}
                       size={24}
-                      color={isSelected ? (colors?.primary || '#6200ea') : (colors?.onSurfaceVariant || '#666666')}
+                      color={isSelected ? (colors?.primary || '#6200ea') : (colors?.onSurfaceVariant || 'COLORS.text.secondary666')}
                     />
                   )}
                   onPress={() => handleTimeToggle(time)}
@@ -326,74 +327,74 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   label: {
-    fontSize: 16,
-    fontWeight: '600',
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.semibold,
   },
   summaryCard: {
     marginBottom: 16,
   },
   summaryTitle: {
-    fontSize: 14,
-    fontWeight: '600',
-    marginBottom: 8,
+    fontSize: FONT_SIZE.base,
+    fontWeight: FONT_WEIGHT.semibold,
+    marginBottom: SPACING.sm,
   },
   summaryText: {
-    fontSize: 14,
+    fontSize: FONT_SIZE.base,
     lineHeight: 20,
   },
   validatingText: {
-    fontSize: 12,
-    marginTop: 8,
+    fontSize: FONT_SIZE.sm,
+    marginTop: SPACING.sm,
     fontStyle: 'italic',
   },
   daysContainer: {
     maxHeight: 400,
   },
   dayCard: {
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
     elevation: 2,
   },
   dayCardContent: {
-    paddingVertical: 12,
+    paddingVertical: SPACING.md,
   },
   dayHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 4,
+    marginBottom: SPACING.xs,
   },
   dayName: {
-    fontSize: 16,
-    fontWeight: '600',
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.semibold,
   },
   hourChip: {
     height: 24,
   },
   daySchedule: {
-    fontSize: 14,
-    marginBottom: 8,
+    fontSize: FONT_SIZE.base,
+    marginBottom: SPACING.sm,
   },
   clearButton: {
     alignSelf: 'flex-start',
-    marginTop: 4,
+    marginTop: SPACING.xs,
   },
   modal: {
-    margin: 20,
-    borderRadius: 12,
+    margin: SPACING.lg,
+    borderRadius: BORDER_RADIUS.md,
     maxHeight: '80%',
   },
   modalHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 16,
+    padding: SPACING.base,
   },
   modalTitle: {
-    fontSize: 18,
-    fontWeight: '600',
+    fontSize: FONT_SIZE.lg,
+    fontWeight: FONT_WEIGHT.semibold,
   },
   timeSlotsContainer: {
     maxHeight: 400,

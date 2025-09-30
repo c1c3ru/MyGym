@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import SkeletonLoader from './SkeletonLoader';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const CheckInSkeleton = () => {
   return (
@@ -11,7 +12,7 @@ const CheckInSkeleton = () => {
           <View key={index} style={styles.statCard}>
             <SkeletonLoader width={40} height={40} borderRadius={20} />
             <View style={styles.statContent}>
-              <SkeletonLoader width="80%" height={20} style={{ marginBottom: 4 }} />
+              <SkeletonLoader width="80%" height={20} style={{ marginBottom: SPACING.xs }} />
               <SkeletonLoader width="60%" height={14} />
             </View>
           </View>
@@ -28,7 +29,7 @@ const CheckInSkeleton = () => {
               <SkeletonLoader width="70%" height={18} />
               <SkeletonLoader width={60} height={24} borderRadius={12} />
             </View>
-            <SkeletonLoader width="50%" height={14} style={{ marginBottom: 8 }} />
+            <SkeletonLoader width="50%" height={14} style={{ marginBottom: SPACING.sm }} />
             <View style={styles.checkInActions}>
               <SkeletonLoader width={80} height={32} borderRadius={16} />
               <SkeletonLoader width={90} height={32} borderRadius={16} />
@@ -45,7 +46,7 @@ const CheckInSkeleton = () => {
           {[1, 2, 3, 4].map((index) => (
             <View key={index} style={styles.actionCard}>
               <SkeletonLoader width={48} height={48} borderRadius={24} />
-              <SkeletonLoader width="80%" height={16} style={{ marginTop: 8 }} />
+              <SkeletonLoader width="80%" height={16} style={{ marginTop: SPACING.sm }} />
             </View>
           ))}
         </View>
@@ -59,8 +60,8 @@ const CheckInSkeleton = () => {
           <View key={index} style={styles.recentItem}>
             <SkeletonLoader width={32} height={32} borderRadius={16} />
             <View style={styles.recentContent}>
-              <SkeletonLoader width="80%" height={16} style={{ marginBottom: 4 }} />
-              <SkeletonLoader width="60%" height={14} style={{ marginBottom: 4 }} />
+              <SkeletonLoader width="80%" height={16} style={{ marginBottom: SPACING.xs }} />
+              <SkeletonLoader width="60%" height={14} style={{ marginBottom: SPACING.xs }} />
               <SkeletonLoader width="40%" height={12} />
             </View>
             <SkeletonLoader width={60} height={14} />
@@ -86,16 +87,16 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 16,
     marginTop: 16,
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   statCard: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     marginHorizontal: 4,
-    padding: 12,
-    backgroundColor: 'white',
-    borderRadius: 8,
+    padding: SPACING.md,
+    backgroundColor: 'COLORS.COLORS.white',
+    borderRadius: BORDER_RADIUS.md,
     elevation: 2,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -107,11 +108,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   cardContainer: {
-    margin: 16,
-    marginTop: 8,
-    padding: 16,
-    backgroundColor: 'white',
-    borderRadius: 12,
+    margin: SPACING.base,
+    marginTop: SPACING.sm,
+    padding: SPACING.base,
+    backgroundColor: 'COLORS.COLORS.white',
+    borderRadius: BORDER_RADIUS.md,
     elevation: 2,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -120,15 +121,15 @@ const styles = StyleSheet.create({
   },
   checkInItem: {
     marginBottom: 16,
-    padding: 12,
-    backgroundColor: '#f8f9fa',
-    borderRadius: 8,
+    padding: SPACING.md,
+    backgroundColor: 'COLORS.background.light',
+    borderRadius: BORDER_RADIUS.md,
   },
   checkInHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   checkInActions: {
     flexDirection: 'row',
@@ -142,16 +143,16 @@ const styles = StyleSheet.create({
   actionCard: {
     width: '48%',
     alignItems: 'center',
-    padding: 16,
-    backgroundColor: '#f8f9fa',
-    borderRadius: 8,
-    marginBottom: 12,
+    padding: SPACING.base,
+    backgroundColor: 'COLORS.background.light',
+    borderRadius: BORDER_RADIUS.md,
+    marginBottom: SPACING.md,
   },
   recentItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 12,
-    padding: 8,
+    marginBottom: SPACING.md,
+    padding: SPACING.sm,
   },
   recentContent: {
     flex: 1,

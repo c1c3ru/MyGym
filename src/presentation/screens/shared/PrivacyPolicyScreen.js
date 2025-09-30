@@ -3,6 +3,7 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 import { Text, Card, Button, Divider } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ActionButton from '@components/ActionButton';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const PrivacyPolicyScreen = ({ navigation }) => {
   const lastUpdated = new Date().toLocaleDateString('pt-BR');
@@ -396,39 +397,39 @@ const styles = StyleSheet.create({
     paddingBottom: 32,
   },
   headerCard: {
-    margin: 16,
-    marginBottom: 8,
+    margin: SPACING.base,
+    marginBottom: SPACING.sm,
     elevation: 4,
   },
   title: {
-    fontWeight: 'bold',
+    fontWeight: FONT_WEIGHT.bold,
     textAlign: 'center',
-    color: '#1976D2',
+    color: 'COLORS.info[700]',
   },
   subtitle: {
     textAlign: 'center',
     opacity: 0.7,
-    marginTop: 8,
+    marginTop: SPACING.sm,
   },
   lastUpdated: {
     textAlign: 'center',
-    marginTop: 8,
+    marginTop: SPACING.sm,
     fontStyle: 'italic',
-    color: '#666',
+    color: 'COLORS.text.secondary',
   },
   sectionCard: {
-    margin: 16,
+    margin: SPACING.base,
     marginVertical: 8,
     elevation: 2,
   },
   sectionTitle: {
-    fontWeight: 'bold',
-    marginBottom: 12,
-    color: '#1976D2',
+    fontWeight: FONT_WEIGHT.bold,
+    marginBottom: SPACING.md,
+    color: 'COLORS.info[700]',
   },
   bodyText: {
     lineHeight: 22,
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
     textAlign: 'justify',
   },
   subSection: {
@@ -436,24 +437,24 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   subSectionTitle: {
-    fontWeight: 'bold',
-    marginBottom: 8,
+    fontWeight: FONT_WEIGHT.bold,
+    marginBottom: SPACING.sm,
     color: '#424242',
   },
   listItem: {
-    marginBottom: 4,
+    marginBottom: SPACING.xs,
     lineHeight: 20,
     color: '#424242',
   },
   bold: {
-    fontWeight: 'bold',
+    fontWeight: FONT_WEIGHT.bold,
   },
   warningBox: {
     backgroundColor: '#FFF3E0',
-    padding: 12,
-    borderRadius: 8,
+    padding: SPACING.md,
+    borderRadius: BORDER_RADIUS.md,
     borderLeftWidth: 4,
-    borderLeftColor: '#FF9800',
+    borderLeftColor: 'COLORS.warning[500]',
     marginTop: 16,
   },
   warningText: {
@@ -464,40 +465,40 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
-    marginTop: 8,
+    marginTop: SPACING.sm,
   },
   rightCard: {
     width: '48%',
-    backgroundColor: '#f8f9fa',
-    padding: 12,
-    borderRadius: 8,
-    marginBottom: 8,
+    backgroundColor: 'COLORS.background.light',
+    padding: SPACING.md,
+    borderRadius: BORDER_RADIUS.md,
+    marginBottom: SPACING.sm,
     borderLeftWidth: 4,
-    borderLeftColor: '#2196F3',
+    borderLeftColor: 'COLORS.info[500]',
   },
   rightTitle: {
-    fontWeight: 'bold',
-    marginBottom: 4,
-    color: '#1976D2',
+    fontWeight: FONT_WEIGHT.bold,
+    marginBottom: SPACING.xs,
+    color: 'COLORS.info[700]',
   },
   rightDescription: {
-    fontSize: 12,
+    fontSize: FONT_SIZE.sm,
     lineHeight: 16,
     color: '#424242',
   },
   contactBox: {
     backgroundColor: '#E3F2FD',
-    padding: 16,
-    borderRadius: 8,
-    marginTop: 12,
+    padding: SPACING.base,
+    borderRadius: BORDER_RADIUS.md,
+    marginTop: SPACING.md,
   },
   contactTitle: {
-    fontWeight: 'bold',
-    marginBottom: 8,
-    color: '#1976D2',
+    fontWeight: FONT_WEIGHT.bold,
+    marginBottom: SPACING.sm,
+    color: 'COLORS.info[700]',
   },
   contactItem: {
-    marginBottom: 4,
+    marginBottom: SPACING.xs,
     color: '#424242',
   },
   actionButtons: {
@@ -518,7 +519,7 @@ const styles = StyleSheet.create({
   footerText: {
     textAlign: 'center',
     color: '#888',
-    marginBottom: 4,
+    marginBottom: SPACING.xs,
   },
 });
 

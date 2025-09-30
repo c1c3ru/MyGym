@@ -27,6 +27,7 @@ import batchFirestoreService from '@services/batchFirestoreService';
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import { useClassCreationRateLimit } from '@hooks/useRateLimit';
 import FreeGymScheduler from '@components/FreeGymScheduler';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const AdminClasses = ({ navigation }) => {
   const { user, userProfile, academia } = useAuth();
@@ -385,11 +386,11 @@ const AdminClasses = ({ navigation }) => {
   };
 
   const getCapacityColor = (current, max) => {
-    if (!max) return '#666';
+    if (!max) return 'COLORS.text.secondary';
     const percentage = (current / max) * 100;
-    if (percentage >= 90) return '#F44336';
-    if (percentage >= 70) return '#FF9800';
-    return '#4CAF50';
+    if (percentage >= 90) return 'COLORS.error[500]';
+    if (percentage >= 70) return 'COLORS.warning[500]';
+    return 'COLORS.primary[500]';
   };
 
   const getFilterText = (filter) => {
@@ -521,35 +522,35 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
   },
   header: {
-    padding: 16,
-    backgroundColor: '#fff',
+    padding: SPACING.base,
+    backgroundColor: 'COLORS.COLORS.white',
     elevation: 2,
   },
   searchbar: {
     elevation: 0,
     backgroundColor: '#f5f5f5',
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   filterRow: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
   },
   filterButton: {
-    borderColor: '#FF9800',
+    borderColor: 'COLORS.warning[500]',
   },
   scrollView: {
     flex: 1,
   },
   classCard: {
-    margin: 16,
-    marginBottom: 8,
+    margin: SPACING.base,
+    marginBottom: SPACING.sm,
     elevation: 2,
   },
   classHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   classInfo: {
     flexDirection: 'row',
@@ -557,46 +558,46 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   className: {
-    fontSize: 18,
+    fontSize: FONT_SIZE.lg,
     flex: 1,
   },
   modalityChip: {
     marginLeft: 8,
   },
   classDetails: {
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   detailRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 4,
+    marginBottom: SPACING.xs,
   },
   detailText: {
     marginLeft: 8,
-    color: '#666',
+    color: 'COLORS.text.secondary',
     flex: 1,
   },
   statusRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   statusChip: {
     borderWidth: 1,
     marginRight: 8,
-    marginBottom: 4,
+    marginBottom: SPACING.xs,
   },
   divider: {
     marginVertical: 12,
   },
   classActions: {
-    marginTop: 4,
+    marginTop: SPACING.xs,
   },
   actionButton: {
     flex: 1,
   },
   emptyCard: {
-    margin: 16,
+    margin: SPACING.base,
     elevation: 2,
   },
   emptyContent: {
@@ -609,11 +610,11 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     textAlign: 'center',
-    color: '#666',
+    color: 'COLORS.text.secondary',
   },
   statsCard: {
-    margin: 16,
-    marginTop: 8,
+    margin: SPACING.base,
+    marginTop: SPACING.sm,
     elevation: 2,
     backgroundColor: '#FFF3E0',
   },
@@ -629,36 +630,36 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   statNumber: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#FF9800',
+    fontSize: FONT_SIZE.xl,
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.warning[500]',
   },
   statLabel: {
-    fontSize: 12,
-    color: '#666',
+    fontSize: FONT_SIZE.sm,
+    color: 'COLORS.text.secondary',
     textAlign: 'center',
   },
   fab: {
     position: 'absolute',
-    margin: 16,
+    margin: SPACING.base,
     right: 0,
     bottom: 0,
-    backgroundColor: '#FF9800',
+    backgroundColor: 'COLORS.warning[500]',
   },
   listContainer: {
     paddingHorizontal: 0,
   },
   calendarFab: {
     position: 'absolute',
-    margin: 16,
+    margin: SPACING.base,
     right: 0,
     bottom: 80, // Acima do FAB principal
-    backgroundColor: '#2196F3',
+    backgroundColor: 'COLORS.info[500]',
   },
   calendarModalContainer: {
-    backgroundColor: 'white',
-    margin: 20,
-    borderRadius: 12,
+    backgroundColor: 'COLORS.COLORS.white',
+    margin: SPACING.lg,
+    borderRadius: BORDER_RADIUS.md,
     maxHeight: '90%',
     flex: 1,
   },
@@ -666,18 +667,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 16,
+    padding: SPACING.base,
     borderBottomWidth: 1,
-    borderBottomColor: '#e0e0e0',
+    borderBottomColor: 'COLORS.gray[300]',
   },
   calendarModalTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#333',
+    fontSize: FONT_SIZE.lg,
+    fontWeight: FONT_WEIGHT.semibold,
+    color: 'COLORS.text.primary',
   },
   calendarContainer: {
     flex: 1,
-    padding: 8,
+    padding: SPACING.sm,
   },
 });
 

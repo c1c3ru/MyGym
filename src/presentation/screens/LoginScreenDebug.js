@@ -11,6 +11,7 @@ import {
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '@contexts/AuthProvider';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const LoginScreenDebug = ({ navigation }) => {
   const [email, setEmail] = useState('cicero.silva@ifce.edu.br');
@@ -134,7 +135,7 @@ const LoginScreenDebug = ({ navigation }) => {
               style={styles.button}
               disabled={loading}
             >
-              {loading ? <ActivityIndicator color="white" /> : 'Testar Login'}
+              {loading ? <ActivityIndicator color="COLORS.white" /> : 'Testar Login'}
             </Button>
 
             <Button
@@ -187,20 +188,20 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     flexGrow: 1,
-    padding: 20,
+    padding: SPACING.lg,
   },
   header: {
     alignItems: 'center',
     marginBottom: 20,
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333',
+    fontSize: FONT_SIZE.xxl,
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.text.primary',
   },
   subtitle: {
-    fontSize: 16,
-    color: '#666',
+    fontSize: FONT_SIZE.md,
+    color: 'COLORS.text.secondary',
     textAlign: 'center',
   },
   card: {
@@ -223,8 +224,8 @@ const styles = StyleSheet.create({
   },
   debugText: {
     fontFamily: 'monospace',
-    fontSize: 12,
-    color: '#333',
+    fontSize: FONT_SIZE.sm,
+    color: 'COLORS.text.primary',
     lineHeight: 18,
   },
 });

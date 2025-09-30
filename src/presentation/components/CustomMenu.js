@@ -2,6 +2,7 @@ import React from 'react';
 import { View, TouchableOpacity, Modal, StyleSheet, Platform } from 'react-native';
 import { Text } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const CustomMenu = ({ visible, onDismiss, anchor, children, style }) => {
   return (
@@ -51,9 +52,9 @@ const styles = StyleSheet.create({
     paddingRight: 20,
   },
   menuContainer: {
-    backgroundColor: 'white',
-    borderRadius: 8,
-    padding: 8,
+    backgroundColor: 'COLORS.COLORS.white',
+    borderRadius: BORDER_RADIUS.md,
+    padding: SPACING.sm,
     minWidth: 150,
     ...Platform.select({
       ios: {
@@ -90,14 +91,14 @@ const styles = StyleSheet.create({
     }),
   },
   menuItem: {
-    paddingVertical: 12,
+    paddingVertical: SPACING.md,
     paddingHorizontal: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: 'COLORS.gray[100]',
   },
   menuItemText: {
-    fontSize: 16,
-    color: '#333',
+    fontSize: FONT_SIZE.md,
+    color: 'COLORS.text.primary',
   },
 });
 

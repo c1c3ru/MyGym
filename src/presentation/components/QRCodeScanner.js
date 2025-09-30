@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Alert, TextInput } from 'react-native';
 import { Text, Button, Card } from 'react-native-paper';
 import { useTheme } from '@contexts/ThemeContext';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 export default function QRCodeScanner({ onScan, onCancel }) {
   const [manualCode, setManualCode] = useState('');
@@ -70,10 +71,10 @@ export default function QRCodeScanner({ onScan, onCancel }) {
 
 const styles = {
   container: {
-    margin: 20,
+    margin: SPACING.lg,
   },
   content: {
-    padding: 20,
+    padding: SPACING.lg,
     alignItems: 'center',
   },
   title: {
@@ -89,8 +90,8 @@ const styles = {
   input: {
     borderWidth: 1,
     borderColor: '#ddd',
-    borderRadius: 8,
-    padding: 12,
+    borderRadius: BORDER_RADIUS.md,
+    padding: SPACING.md,
     marginBottom: 20,
     minHeight: 50,
     width: '100%',

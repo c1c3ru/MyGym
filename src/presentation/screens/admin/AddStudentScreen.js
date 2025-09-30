@@ -30,6 +30,7 @@ import { useStudentCreationRateLimit } from '@hooks/useRateLimit';
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import cacheService, { CACHE_KEYS } from '@services/cacheService';
 import { formValidator, commonSchemas } from '@utils/formValidation';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const AddStudentScreen = ({ navigation, route }) => {
   const { user, userProfile, academia } = useAuth();
@@ -478,7 +479,7 @@ const AddStudentScreen = ({ navigation, route }) => {
             <Divider style={styles.divider} />
             <View style={styles.sectionHeader}>
               <Text style={styles.sectionTitle}>🎯 Turmas</Text>
-              {loadingClasses && <ActivityIndicator size="small" color="#2196F3" />}
+              {loadingClasses && <ActivityIndicator size="small" color="COLORS.info[500]" />}
             </View>
             <Text style={styles.sectionSubtitle}>
               Selecione as turmas que o aluno irá participar (opcional)
@@ -486,7 +487,7 @@ const AddStudentScreen = ({ navigation, route }) => {
             
             {loadingClasses ? (
               <View style={styles.loadingContainer}>
-                <ActivityIndicator size="large" color="#2196F3" />
+                <ActivityIndicator size="large" color="COLORS.info[500]" />
                 <Text style={styles.loadingText}>Carregando turmas...</Text>
               </View>
             ) : availableClasses.length > 0 ? (
@@ -623,28 +624,28 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    padding: 16,
+    padding: SPACING.base,
     paddingBottom: 100,
   },
   card: {
     marginBottom: 20,
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
+    fontSize: FONT_SIZE.xxl,
+    fontWeight: FONT_WEIGHT.bold,
     marginBottom: 20,
     textAlign: 'center',
   },
   sectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: FONT_SIZE.lg,
+    fontWeight: FONT_WEIGHT.bold,
     marginTop: 20,
     marginBottom: 16,
-    color: '#333',
+    color: 'COLORS.text.primary',
   },
   sectionSubtitle: {
-    fontSize: 14,
-    color: '#666',
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.secondary',
     marginBottom: 16,
     fontStyle: 'italic',
   },
@@ -658,20 +659,20 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   classChip: {
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   selectedChip: {
-    backgroundColor: '#2196F3',
+    backgroundColor: 'COLORS.info[500]',
   },
   selectedChipText: {
-    color: 'white',
+    color: 'COLORS.COLORS.white',
   },
   noClassesText: {
-    fontSize: 14,
-    color: '#999',
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.gray[500]',
     fontStyle: 'italic',
     textAlign: 'center',
-    padding: 20,
+    padding: SPACING.lg,
   },
   sectionHeader: {
     flexDirection: 'row',
@@ -685,23 +686,23 @@ const styles = StyleSheet.create({
     padding: 32,
   },
   loadingText: {
-    marginTop: 12,
-    fontSize: 14,
-    color: '#666',
+    marginTop: SPACING.md,
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.secondary',
   },
   selectedClassesContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     backgroundColor: '#E3F2FD',
-    padding: 12,
-    borderRadius: 8,
-    marginTop: 8,
+    padding: SPACING.md,
+    borderRadius: BORDER_RADIUS.md,
+    marginTop: SPACING.sm,
   },
   selectedClassesInfo: {
-    fontSize: 14,
-    color: '#1976D2',
-    fontWeight: '500',
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.info[700]',
+    fontWeight: FONT_WEIGHT.medium,
     flex: 1,
   },
   clearButton: {
@@ -711,54 +712,54 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 32,
     backgroundColor: '#F5F5F5',
-    borderRadius: 12,
+    borderRadius: BORDER_RADIUS.md,
     marginVertical: 16,
   },
   emptyStateIcon: {
     fontSize: 48,
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   noClassesSubtext: {
-    fontSize: 12,
-    color: '#999',
+    fontSize: FONT_SIZE.sm,
+    color: 'COLORS.gray[500]',
     textAlign: 'center',
-    marginTop: 4,
+    marginTop: SPACING.xs,
     marginBottom: 16,
   },
   retryButton: {
-    marginTop: 8,
+    marginTop: SPACING.sm,
   },
   input: {
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   label: {
-    fontSize: 16,
-    fontWeight: '500',
-    marginBottom: 8,
-    color: '#333',
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.medium,
+    marginBottom: SPACING.sm,
+    color: 'COLORS.text.primary',
   },
   fieldLabel: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginBottom: 8,
-    marginTop: 8,
-    color: '#333',
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.semibold,
+    marginBottom: SPACING.sm,
+    marginTop: SPACING.sm,
+    color: 'COLORS.text.primary',
   },
   radioContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginBottom: 16,
-    marginTop: 8,
+    marginTop: SPACING.sm,
     paddingHorizontal: 16,
   },
   radioItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   radioLabel: {
     marginLeft: 8,
-    fontSize: 16,
+    fontSize: FONT_SIZE.md,
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -776,10 +777,10 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   snackbarSuccess: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: 'COLORS.primary[500]',
   },
   snackbarError: {
-    backgroundColor: '#F44336',
+    backgroundColor: 'COLORS.error[500]',
   },
   validationBanner: {
     backgroundColor: '#ffebee',
@@ -797,9 +798,9 @@ const styles = StyleSheet.create({
   },
   loadingText: {
     marginTop: 16,
-    fontSize: 16,
-    color: '#fff',
-    fontWeight: '500',
+    fontSize: FONT_SIZE.md,
+    color: 'COLORS.COLORS.white',
+    fontWeight: FONT_WEIGHT.medium,
   },
   snackbar: {
     marginBottom: 16,

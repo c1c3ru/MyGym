@@ -14,6 +14,7 @@ import { academyFirestoreService, academyClassService } from '@services/academyF
 import ActionButton, { ActionButtonGroup } from '@components/ActionButton';
 import ImprovedScheduleSelector from '@components/ImprovedScheduleSelector';
 import { createEmptySchedule, isValidSchedule, scheduleToDisplayString } from '@utils/scheduleUtils';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const EditClassScreen = ({ route, navigation }) => {
   const { classId } = route.params;
@@ -287,7 +288,7 @@ const EditClassScreen = ({ route, navigation }) => {
               <Text style={styles.label}>Modalidade</Text>
               <View style={styles.chipContainer}>
                 {modalities.length === 0 && (
-                  <Text style={{ color: '#666' }}>Nenhuma modalidade cadastrada</Text>
+                  <Text style={{ color: 'COLORS.text.secondary' }}>Nenhuma modalidade cadastrada</Text>
                 )}
                 {modalities.map((m) => (
                   <Chip
@@ -351,7 +352,7 @@ const EditClassScreen = ({ route, navigation }) => {
               <Text style={styles.label}>Instrutor</Text>
               <View style={styles.chipContainer}>
                 {instructors.length === 0 && (
-                  <Text style={{ color: '#666' }}>Nenhum instrutor encontrado</Text>
+                  <Text style={{ color: 'COLORS.text.secondary' }}>Nenhum instrutor encontrado</Text>
                 )}
                 {instructors.map((instructor) => (
                   <Chip
@@ -465,7 +466,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    padding: 16,
+    padding: SPACING.base,
     paddingBottom: 100,
   },
   loadingContainer: {
@@ -477,19 +478,19 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
+    fontSize: FONT_SIZE.xxl,
+    fontWeight: FONT_WEIGHT.bold,
     marginBottom: 20,
     textAlign: 'center',
   },
   input: {
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   label: {
-    fontSize: 16,
-    fontWeight: '500',
-    marginBottom: 8,
-    color: '#333',
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.medium,
+    marginBottom: SPACING.sm,
+    color: 'COLORS.text.primary',
   },
   pickerContainer: {
     marginBottom: 16,
@@ -500,13 +501,13 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   chip: {
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   picker: {
     borderWidth: 1,
     borderColor: '#ccc',
-    borderRadius: 4,
-    backgroundColor: '#fff',
+    borderRadius: BORDER_RADIUS.sm,
+    backgroundColor: 'COLORS.COLORS.white',
   },
   pickerStyle: {
     height: 50,
@@ -517,11 +518,11 @@ const styles = StyleSheet.create({
   radioItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   radioLabel: {
     marginLeft: 8,
-    fontSize: 16,
+    fontSize: FONT_SIZE.md,
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -537,9 +538,9 @@ const styles = StyleSheet.create({
   },
   helperTip: {
     marginTop: -4,
-    marginBottom: 12,
-    color: '#666',
-    fontSize: 12,
+    marginBottom: SPACING.md,
+    color: 'COLORS.text.secondary',
+    fontSize: FONT_SIZE.sm,
   },
 });
 

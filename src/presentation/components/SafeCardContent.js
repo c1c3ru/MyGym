@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card, Text } from 'react-native-paper';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const SafeCardContent = ({ children, source = 'Unknown', ...props }) => {
   // Get component display name for better path tracking
@@ -12,7 +13,7 @@ const SafeCardContent = ({ children, source = 'Unknown', ...props }) => {
   const processNode = (node, path = 'root') => {
     // Handle strings and numbers - wrap them and log
     if (typeof node === 'string' || typeof node === 'number') {
-      // Only wrap if it's not empty or whitespace
+      // Only wrap if it's not empty or COLORS.whitespace
       const nodeStr = String(node).trim();
       if (nodeStr === '') {
         return null; // Skip empty strings

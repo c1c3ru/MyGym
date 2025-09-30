@@ -25,6 +25,7 @@ import cacheService, { CACHE_KEYS, CACHE_TTL } from '@services/cacheService';
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import CheckInSkeleton from '@components/skeletons/CheckInSkeleton';
 import { EnhancedFlashList } from '@components/EnhancedFlashList';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const CheckIn = ({ navigation }) => {
   const { user, userProfile } = useAuth();
@@ -513,7 +514,7 @@ const CheckIn = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.header}>
-              <MaterialCommunityIcons name="school" size={32} color="#4CAF50" />
+              <MaterialCommunityIcons name="school" size={32} color="COLORS.primary[500]" />
               <Text style={styles.title}>Minhas Turmas</Text>
             </View>
             
@@ -526,9 +527,9 @@ const CheckIn = ({ navigation }) => {
                       mode="flat"
                       style={[
                         styles.statusChip,
-                        { backgroundColor: '#2196F3' }
+                        { backgroundColor: 'COLORS.info[500]' }
                       ]}
-                      textStyle={{ color: 'white' }}
+                      textStyle={{ color: 'COLORS.COLORS.white' }}
                     >
                       {typeof classItem.modality === 'object' && classItem.modality
                         ? classItem.modality.name || 'Modalidade'
@@ -539,7 +540,7 @@ const CheckIn = ({ navigation }) => {
                   
                   <View style={styles.checkInDetails}>
                     <View style={styles.detailItem}>
-                      <MaterialCommunityIcons name="clock" size={16} color="#666" />
+                      <MaterialCommunityIcons name="clock" size={16} color="COLORS.text.secondary" />
                       <Text style={styles.detailText}>
                         {(() => {
                           if (typeof classItem.schedule === 'object' && classItem.schedule) {
@@ -553,7 +554,7 @@ const CheckIn = ({ navigation }) => {
                       </Text>
                     </View>
                     <View style={styles.detailItem}>
-                      <MaterialCommunityIcons name="account-group" size={16} color="#666" />
+                      <MaterialCommunityIcons name="account-group" size={16} color="COLORS.text.secondary" />
                       <Text style={styles.detailText}>
                         {String(classItem.currentStudents || 0)}/{String(classItem.maxStudents || 0)} alunos
                       </Text>
@@ -564,7 +565,7 @@ const CheckIn = ({ navigation }) => {
                     <Button
                       mode="contained"
                       onPress={() => handleStartCheckIn(classItem.id)}
-                      buttonColor="#4CAF50"
+                      buttonColor="COLORS.primary[500]"
                       compact
                     >
                       Iniciar Check-in
@@ -586,7 +587,7 @@ const CheckIn = ({ navigation }) => {
           <Card style={styles.card}>
             <Card.Content>
               <View style={styles.header}>
-                <MaterialCommunityIcons name="qrcode-scan" size={32} color="#2196F3" />
+                <MaterialCommunityIcons name="qrcode-scan" size={32} color="COLORS.info[500]" />
                 <Text style={styles.title}>Sessões Ativas</Text>
               </View>
               
@@ -598,9 +599,9 @@ const CheckIn = ({ navigation }) => {
                       mode="flat"
                       style={[
                         styles.statusChip,
-                        { backgroundColor: '#4CAF50' }
+                        { backgroundColor: 'COLORS.primary[500]' }
                       ]}
-                      textStyle={{ color: 'white' }}
+                      textStyle={{ color: 'COLORS.COLORS.white' }}
                     >
                       Ativo
                     </Chip>
@@ -608,13 +609,13 @@ const CheckIn = ({ navigation }) => {
                   
                   <View style={styles.checkInDetails}>
                     <View style={styles.detailItem}>
-                      <MaterialCommunityIcons name="clock" size={16} color="#666" />
+                      <MaterialCommunityIcons name="clock" size={16} color="COLORS.text.secondary" />
                       <Text style={styles.detailText}>
                         Iniciado: {session.startTime?.toDate?.()?.toLocaleTimeString() || 'Agora'}
                       </Text>
                     </View>
                     <View style={styles.detailItem}>
-                      <MaterialCommunityIcons name="check-circle" size={16} color="#666" />
+                      <MaterialCommunityIcons name="check-circle" size={16} color="COLORS.text.secondary" />
                       <Text style={styles.detailText}>
                         {session.checkInCount || 0} check-ins
                       </Text>
@@ -626,7 +627,7 @@ const CheckIn = ({ navigation }) => {
                       mode="outlined"
                       onPress={() => handleStopCheckIn(session.id)}
                       buttonColor="#FFEBEE"
-                      textColor="#F44336"
+                      textColor="COLORS.error[500]"
                       compact
                     >
                       Parar Check-in
@@ -642,7 +643,7 @@ const CheckIn = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.header}>
-              <MaterialCommunityIcons name="history" size={32} color="#FF9800" />
+              <MaterialCommunityIcons name="history" size={32} color="COLORS.warning[500]" />
               <Text style={styles.title}>Check-ins de Hoje</Text>
             </View>
             
@@ -655,14 +656,14 @@ const CheckIn = ({ navigation }) => {
                   left={() => (
                     <List.Icon 
                       icon="check-circle" 
-                      color="#4CAF50" 
+                      color="COLORS.primary[500]" 
                     />
                   )}
                   right={() => (
                     <Chip 
                       mode="outlined" 
                       compact
-                      style={{ marginTop: 8 }}
+                      style={{ marginTop: SPACING.sm }}
                     >
                       {checkIn.type === 'manual' ? 'Manual' : 'QR Code'}
                     </Chip>
@@ -798,7 +799,7 @@ const CheckIn = ({ navigation }) => {
                           <MaterialCommunityIcons 
                             name="check-circle" 
                             size={24} 
-                            color="#4CAF50" 
+                            color="COLORS.primary[500]" 
                             style={styles.checkInIcon}
                           />
                         )}
@@ -898,7 +899,7 @@ const CheckIn = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8f9fa',
+    backgroundColor: 'COLORS.background.light',
   },
   scrollView: {
     flex: 1,
@@ -916,14 +917,14 @@ const styles = StyleSheet.create({
   title: {
     marginLeft: ResponsiveUtils.spacing.md,
     fontSize: ResponsiveUtils.fontSize.large,
-    fontWeight: 'bold',
-    color: '#333',
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.text.primary',
   },
   checkInItem: {
     padding: ResponsiveUtils.spacing.md,
     marginBottom: ResponsiveUtils.spacing.sm,
     borderRadius: ResponsiveUtils.borderRadius.medium,
-    backgroundColor: '#f8f9fa',
+    backgroundColor: 'COLORS.background.light',
   },
   checkInHeader: {
     flexDirection: 'row',
@@ -933,12 +934,12 @@ const styles = StyleSheet.create({
   },
   aulaName: {
     fontSize: ResponsiveUtils.fontSize.medium,
-    fontWeight: 'bold',
-    color: '#333',
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.text.primary',
     flex: 1,
   },
   statusChip: {
-    borderRadius: 12,
+    borderRadius: BORDER_RADIUS.md,
   },
   checkInDetails: {
     flexDirection: 'row',
@@ -950,9 +951,9 @@ const styles = StyleSheet.create({
     marginRight: ResponsiveUtils.spacing.lg,
   },
   detailText: {
-    marginLeft: 4,
+    marginLeft: SPACING.xs,
     fontSize: ResponsiveUtils.fontSize.small,
-    color: '#666',
+    color: 'COLORS.text.secondary',
   },
   actionButtons: {
     alignItems: 'flex-end',
@@ -963,40 +964,40 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: ResponsiveUtils.fontSize.medium,
-    color: '#666',
+    color: 'COLORS.text.secondary',
     marginTop: ResponsiveUtils.spacing.sm,
   },
   emptySubtext: {
     fontSize: ResponsiveUtils.fontSize.small,
-    color: '#999',
-    marginTop: 4,
+    color: 'COLORS.gray[500]',
+    marginTop: SPACING.xs,
   },
   fab: {
     position: 'absolute',
-    margin: 16,
+    margin: SPACING.base,
     right: 0,
     bottom: 0,
-    backgroundColor: '#2196F3',
+    backgroundColor: 'COLORS.info[500]',
   },
   // Modal styles
   modalContainer: {
-    backgroundColor: 'white',
-    padding: 20,
-    margin: 20,
-    borderRadius: 12,
+    backgroundColor: 'COLORS.COLORS.white',
+    padding: SPACING.lg,
+    margin: SPACING.lg,
+    borderRadius: BORDER_RADIUS.md,
     maxHeight: '80%',
   },
   modalTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontSize: FONT_SIZE.xl,
+    fontWeight: FONT_WEIGHT.bold,
     marginBottom: 16,
     textAlign: 'center',
   },
   modalSubtitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginBottom: 8,
-    color: '#333',
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.semibold,
+    marginBottom: SPACING.sm,
+    color: 'COLORS.text.primary',
   },
   classSelection: {
     maxHeight: 60,
@@ -1012,16 +1013,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 12,
+    paddingVertical: SPACING.md,
     paddingHorizontal: 16,
     backgroundColor: '#f5f5f5',
-    borderRadius: 8,
+    borderRadius: BORDER_RADIUS.md,
     marginBottom: 16,
   },
   selectionCount: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#2196F3',
+    fontSize: FONT_SIZE.base,
+    fontWeight: FONT_WEIGHT.semibold,
+    color: 'COLORS.info[500]',
   },
   batchButtons: {
     flexDirection: 'row',
@@ -1037,7 +1038,7 @@ const styles = StyleSheet.create({
   selectButton: {
     width: 40,
     height: 40,
-    borderRadius: 20,
+    borderRadius: BORDER_RADIUS.lg,
     marginRight: 8,
   },
   individualCheckInButton: {
@@ -1053,7 +1054,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   batchCheckInButton: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: 'COLORS.primary[500]',
   },
   // Estilos para indicadores visuais de check-in
   studentDescription: {
@@ -1063,8 +1064,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   studentEmail: {
-    fontSize: 14,
-    color: '#666',
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.secondary',
     flex: 1,
   },
   checkInChip: {
@@ -1072,9 +1073,9 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   checkInChipText: {
-    color: '#4CAF50',
-    fontSize: 12,
-    fontWeight: '600',
+    color: 'COLORS.primary[500]',
+    fontSize: FONT_SIZE.sm,
+    fontWeight: FONT_WEIGHT.semibold,
   },
   studentLeftSection: {
     flexDirection: 'row',
@@ -1084,27 +1085,27 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   studentItem: {
-    borderRadius: 8,
+    borderRadius: BORDER_RADIUS.md,
     marginVertical: 2,
     backgroundColor: '#FFFFFF',
   },
   studentItemCheckedIn: {
     backgroundColor: '#F8F9FA',
     borderLeftWidth: 4,
-    borderLeftColor: '#4CAF50',
+    borderLeftColor: 'COLORS.primary[500]',
   },
   selectButtonDisabled: {
     opacity: 0.5,
   },
   alreadyCheckedInButton: {
     backgroundColor: '#E8F5E8',
-    borderColor: '#4CAF50',
+    borderColor: 'COLORS.primary[500]',
   },
   modalSubtitle: {
-    fontSize: 18,
-    fontWeight: '700',
+    fontSize: FONT_SIZE.lg,
+    fontWeight: FONT_WEIGHT.bold,
     marginBottom: 16,
-    color: '#333',
+    color: 'COLORS.text.primary',
     textAlign: 'center',
   },
   classSelectionContainer: {
@@ -1119,9 +1120,9 @@ const styles = StyleSheet.create({
   classButton: {
     flex: 1,
     minWidth: '45%',
-    marginBottom: 8,
-    paddingVertical: 12,
-    borderRadius: 12,
+    marginBottom: SPACING.sm,
+    paddingVertical: SPACING.md,
+    borderRadius: BORDER_RADIUS.md,
     elevation: 2,
     ...Platform.select({
       web: {
@@ -1130,7 +1131,7 @@ const styles = StyleSheet.create({
     }),
   },
   classButtonSelected: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: 'COLORS.primary[500]',
     elevation: 4,
     ...Platform.select({
       web: {
@@ -1139,8 +1140,8 @@ const styles = StyleSheet.create({
     }),
   },
   classButtonLabel: {
-    fontSize: 14,
-    fontWeight: '600',
+    fontSize: FONT_SIZE.base,
+    fontWeight: FONT_WEIGHT.semibold,
   },
   searchbar: {
     marginBottom: 16,
@@ -1160,11 +1161,11 @@ const styles = StyleSheet.create({
   },
   modalButton: {
     flex: 1,
-    paddingVertical: 12,
-    borderRadius: 8,
+    paddingVertical: SPACING.md,
+    borderRadius: BORDER_RADIUS.md,
   },
   closeButton: {
-    backgroundColor: '#2196F3',
+    backgroundColor: 'COLORS.info[500]',
   },
 });
 

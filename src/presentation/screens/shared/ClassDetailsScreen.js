@@ -18,6 +18,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { academyFirestoreService } from '@services/academyFirestoreService';
 import { useAuth } from '@contexts/AuthProvider';
 import { useCustomClaims } from '@hooks/useCustomClaims';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const { width } = Dimensions.get('window');
 
@@ -155,12 +156,12 @@ const ClassDetailsScreen = ({ route, navigation }) => {
 
   const getModalityColor = (modality) => {
     const colors = {
-      'Jiu-Jitsu': '#2196F3',
-      'Muay Thai': '#F44336',
-      'MMA': '#FF9800',
-      'Boxe': '#4CAF50'
+      'Jiu-Jitsu': 'COLORS.info[500]',
+      'Muay Thai': 'COLORS.error[500]',
+      'MMA': 'COLORS.warning[500]',
+      'Boxe': 'COLORS.primary[500]'
     };
-    return colors[modality] || '#666';
+    return colors[modality] || 'COLORS.text.secondary';
   };
 
   if (loading && !classInfo) {
@@ -206,19 +207,19 @@ const ClassDetailsScreen = ({ route, navigation }) => {
             
             <View style={styles.statsContainer}>
               <View style={styles.statItem}>
-                <Ionicons name="people" size={24} color="#2196F3" />
+                <Ionicons name="people" size={24} color="COLORS.info[500]" />
                 <Text style={styles.statNumber}>{students.length}</Text>
                 <Text style={styles.statLabel}>Alunos</Text>
               </View>
               <View style={styles.statDivider} />
               <View style={styles.statItem}>
-                <Ionicons name="time" size={24} color="#4CAF50" />
+                <Ionicons name="time" size={24} color="COLORS.primary[500]" />
                 <Text style={styles.statNumber}>{classInfo?.schedule?.length || 0}</Text>
                 <Text style={styles.statLabel}>Horários</Text>
               </View>
               <View style={styles.statDivider} />
               <View style={styles.statItem}>
-                <Ionicons name="trophy" size={24} color="#FF9800" />
+                <Ionicons name="trophy" size={24} color="COLORS.warning[500]" />
                 <Text style={styles.statNumber}>{classInfo?.level || 'Todos'}</Text>
                 <Text style={styles.statLabel}>Nível</Text>
               </View>
@@ -232,7 +233,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
             <Text style={styles.sectionTitle}>📋 Informações</Text>
             
             <View style={styles.infoRow}>
-              <Ionicons name="person-circle" size={24} color="#2196F3" />
+              <Ionicons name="person-circle" size={24} color="COLORS.info[500]" />
               <View style={styles.infoContent}>
                 <Text style={styles.infoLabel}>Instrutor</Text>
                 <Text style={styles.infoValue}>
@@ -242,7 +243,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
             </View>
             
             <View style={styles.infoRow}>
-              <Ionicons name="time-outline" size={24} color="#4CAF50" />
+              <Ionicons name="time-outline" size={24} color="COLORS.primary[500]" />
               <View style={styles.infoContent}>
                 <Text style={styles.infoLabel}>Horários</Text>
                 <Text style={styles.infoValue}>
@@ -252,7 +253,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
             </View>
             
             <View style={styles.infoRow}>
-              <Ionicons name="people-outline" size={24} color="#FF9800" />
+              <Ionicons name="people-outline" size={24} color="COLORS.warning[500]" />
               <View style={styles.infoContent}>
                 <Text style={styles.infoLabel}>Capacidade</Text>
                 <Text style={styles.infoValue}>
@@ -342,11 +343,11 @@ const ClassDetailsScreen = ({ route, navigation }) => {
                     classId: classId, 
                     className: classInfo?.name 
                   })}
-                  style={[styles.actionButton, { backgroundColor: '#2196F3' }]}
+                  style={[styles.actionButton, { backgroundColor: 'COLORS.info[500]' }]}
                   contentStyle={styles.actionButtonContent}
                   labelStyle={styles.actionButtonLabel}
                 >
-                  <Ionicons name="checkmark-circle" size={20} color="white" />
+                  <Ionicons name="checkmark-circle" size={20} color="COLORS.COLORS.white" />
                   {"\n"}Check-ins
                 </Button>
               </Surface>
@@ -363,11 +364,11 @@ const ClassDetailsScreen = ({ route, navigation }) => {
                       setShowStudents(!showStudents);
                     }
                   }}
-                  style={[styles.actionButton, { backgroundColor: '#4CAF50' }]}
+                  style={[styles.actionButton, { backgroundColor: 'COLORS.primary[500]' }]}
                   contentStyle={styles.actionButtonContent}
                   labelStyle={styles.actionButtonLabel}
                 >
-                  <Ionicons name={showStudents ? "eye-off" : "eye"} size={20} color="white" />
+                  <Ionicons name={showStudents ? "eye-off" : "eye"} size={20} color="COLORS.COLORS.white" />
                   {"\n"}{isAdmin() ? 'Gerenciar' : (showStudents ? 'Ocultar' : 'Ver Alunos')}
                 </Button>
               </Surface>
@@ -393,7 +394,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
         onDismiss={() => setSnackbar({ ...snackbar, visible: false })}
         duration={3000}
         style={{
-          backgroundColor: snackbar.type === 'success' ? '#4CAF50' : '#F44336'
+          backgroundColor: snackbar.type === 'success' ? 'COLORS.primary[500]' : 'COLORS.error[500]'
         }}
       >
         {snackbar.message}
@@ -405,7 +406,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8f9fa',
+    backgroundColor: 'COLORS.background.light',
   },
   scrollContent: {
     paddingBottom: 20,
@@ -418,13 +419,13 @@ const styles = StyleSheet.create({
   
   // Header Card Styles
   headerCard: {
-    margin: 16,
-    marginBottom: 12,
-    borderRadius: 16,
-    backgroundColor: 'white',
+    margin: SPACING.base,
+    marginBottom: SPACING.md,
+    borderRadius: BORDER_RADIUS.lg,
+    backgroundColor: 'COLORS.COLORS.white',
   },
   headerContent: {
-    padding: 20,
+    padding: SPACING.lg,
   },
   headerTop: {
     flexDirection: 'row',
@@ -437,62 +438,62 @@ const styles = StyleSheet.create({
     marginRight: 16,
   },
   className: {
-    fontSize: 24,
-    fontWeight: 'bold',
+    fontSize: FONT_SIZE.xxl,
+    fontWeight: FONT_WEIGHT.bold,
     color: '#1a1a1a',
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   modalityChip: {
     alignSelf: 'flex-start',
-    borderRadius: 20,
+    borderRadius: BORDER_RADIUS.lg,
   },
   modalityText: {
-    color: 'white',
-    fontWeight: '600',
-    fontSize: 12,
+    color: 'COLORS.COLORS.white',
+    fontWeight: FONT_WEIGHT.semibold,
+    fontSize: FONT_SIZE.sm,
   },
   classAvatar: {
-    backgroundColor: '#2196F3',
+    backgroundColor: 'COLORS.info[500]',
   },
   
   // Stats Container
   statsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    backgroundColor: '#f8f9fa',
-    borderRadius: 12,
-    padding: 16,
+    backgroundColor: 'COLORS.background.light',
+    borderRadius: BORDER_RADIUS.md,
+    padding: SPACING.base,
   },
   statItem: {
     alignItems: 'center',
     flex: 1,
   },
   statNumber: {
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontSize: FONT_SIZE.xl,
+    fontWeight: FONT_WEIGHT.bold,
     color: '#1a1a1a',
-    marginTop: 4,
+    marginTop: SPACING.xs,
   },
   statLabel: {
-    fontSize: 12,
-    color: '#666',
+    fontSize: FONT_SIZE.sm,
+    color: 'COLORS.text.secondary',
     marginTop: 2,
   },
   statDivider: {
     width: 1,
-    backgroundColor: '#e0e0e0',
+    backgroundColor: 'COLORS.gray[300]',
     marginHorizontal: 16,
   },
   
   // Details Card
   detailsCard: {
-    margin: 16,
-    marginTop: 8,
-    borderRadius: 12,
+    margin: SPACING.base,
+    marginTop: SPACING.sm,
+    borderRadius: BORDER_RADIUS.md,
   },
   sectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: FONT_SIZE.lg,
+    fontWeight: FONT_WEIGHT.bold,
     color: '#1a1a1a',
     marginBottom: 16,
   },
@@ -506,30 +507,30 @@ const styles = StyleSheet.create({
     marginLeft: 12,
   },
   infoLabel: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#666',
-    marginBottom: 4,
+    fontSize: FONT_SIZE.base,
+    fontWeight: FONT_WEIGHT.semibold,
+    color: 'COLORS.text.secondary',
+    marginBottom: SPACING.xs,
   },
   infoValue: {
-    fontSize: 16,
+    fontSize: FONT_SIZE.md,
     color: '#1a1a1a',
   },
   descriptionContainer: {
-    marginTop: 8,
+    marginTop: SPACING.sm,
   },
   descriptionText: {
-    fontSize: 14,
-    color: '#666',
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.secondary',
     lineHeight: 20,
-    marginTop: 4,
+    marginTop: SPACING.xs,
   },
   
   // Students Card
   studentsCard: {
-    margin: 16,
-    marginTop: 8,
-    borderRadius: 12,
+    margin: SPACING.base,
+    marginTop: SPACING.sm,
+    borderRadius: BORDER_RADIUS.md,
   },
   studentsHeader: {
     flexDirection: 'row',
@@ -541,12 +542,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   studentsCount: {
-    fontSize: 14,
-    color: '#666',
-    marginTop: 4,
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.secondary',
+    marginTop: SPACING.xs,
   },
   toggleButton: {
-    borderRadius: 8,
+    borderRadius: BORDER_RADIUS.md,
   },
   studentsList: {
     marginTop: 16,
@@ -555,10 +556,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    padding: 12,
-    marginBottom: 8,
-    borderRadius: 8,
-    backgroundColor: 'white',
+    padding: SPACING.md,
+    marginBottom: SPACING.sm,
+    borderRadius: BORDER_RADIUS.md,
+    backgroundColor: 'COLORS.COLORS.white',
   },
   studentInfo: {
     flexDirection: 'row',
@@ -566,47 +567,47 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   studentAvatar: {
-    backgroundColor: '#2196F3',
+    backgroundColor: 'COLORS.info[500]',
   },
   studentDetails: {
     marginLeft: 12,
     flex: 1,
   },
   studentName: {
-    fontSize: 16,
-    fontWeight: '600',
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.semibold,
     color: '#1a1a1a',
   },
   studentEmail: {
-    fontSize: 14,
-    color: '#666',
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.secondary',
     marginTop: 2,
   },
   studentButton: {
-    borderRadius: 6,
+    borderRadius: BORDER_RADIUS.sm,
   },
   emptyState: {
     alignItems: 'center',
     padding: 32,
   },
   emptyText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#999',
-    marginTop: 12,
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.semibold,
+    color: 'COLORS.gray[500]',
+    marginTop: SPACING.md,
   },
   emptySubtext: {
-    fontSize: 14,
+    fontSize: FONT_SIZE.base,
     color: '#ccc',
     textAlign: 'center',
-    marginTop: 4,
+    marginTop: SPACING.xs,
   },
   
   // Actions Card
   actionsCard: {
-    margin: 16,
-    marginTop: 8,
-    borderRadius: 12,
+    margin: SPACING.base,
+    marginTop: SPACING.sm,
+    borderRadius: BORDER_RADIUS.md,
   },
   actionsGrid: {
     flexDirection: 'row',
@@ -616,11 +617,11 @@ const styles = StyleSheet.create({
   actionItem: {
     flex: 1,
     marginHorizontal: 4,
-    borderRadius: 8,
-    backgroundColor: 'white',
+    borderRadius: BORDER_RADIUS.md,
+    backgroundColor: 'COLORS.COLORS.white',
   },
   actionButton: {
-    borderRadius: 8,
+    borderRadius: BORDER_RADIUS.md,
     minHeight: 60,
   },
   actionButtonContent: {
@@ -628,15 +629,15 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   actionButtonLabel: {
-    fontSize: 12,
+    fontSize: FONT_SIZE.sm,
     textAlign: 'center',
   },
   actionDivider: {
     marginVertical: 16,
   },
   deleteButton: {
-    backgroundColor: '#F44336',
-    borderRadius: 8,
+    backgroundColor: 'COLORS.error[500]',
+    borderRadius: BORDER_RADIUS.md,
     marginHorizontal: 0,
     maxWidth: '100%',
   },

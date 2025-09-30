@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Snackbar } from 'react-native-paper';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const NotificationContext = createContext();
 
@@ -68,11 +69,11 @@ export const NotificationProvider = ({ children }) => {
 
   const getSnackbarColor = (type) => {
     switch (type) {
-      case 'success': return '#4CAF50';
-      case 'error': return '#F44336';
-      case 'warning': return '#FF9800';
+      case 'success': return 'COLORS.primary[500]';
+      case 'error': return 'COLORS.error[500]';
+      case 'warning': return 'COLORS.warning[500]';
       case 'info': 
-      default: return '#2196F3';
+      default: return 'COLORS.info[500]';
     }
   };
 
@@ -102,7 +103,7 @@ export const NotificationProvider = ({ children }) => {
             action={{
               label: 'Fechar',
               onPress: () => hideNotification(notification.id),
-              textColor: 'white'
+              textColor: 'COLORS.white'
             }}
           >
             {notification.message}
@@ -122,7 +123,7 @@ const styles = StyleSheet.create({
     zIndex: 1000,
   },
   snackbar: {
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
     marginHorizontal: 16,
   },
 });

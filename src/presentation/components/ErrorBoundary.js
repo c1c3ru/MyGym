@@ -3,6 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import { Card, Button, Text } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 import { Logger } from '@utils/logger';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -39,7 +40,7 @@ class ErrorBoundary extends React.Component {
         <View style={styles.container}>
           <Card style={styles.card}>
             <Card.Content style={styles.content}>
-              <Ionicons name="alert-circle-outline" size={64} color="#F44336" />
+              <Ionicons name="alert-circle-outline" size={64} color="COLORS.error[500]" />
               <Text style={styles.title}>Ops! Algo deu errado</Text>
               <Text style={styles.message}>
                 Ocorreu um erro inesperado. Tente novamente ou reinicie o aplicativo.
@@ -68,7 +69,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#f5f5f5',
-    padding: 20,
+    padding: SPACING.lg,
   },
   card: {
     width: '100%',
@@ -77,21 +78,21 @@ const styles = StyleSheet.create({
   },
   content: {
     alignItems: 'center',
-    padding: 24,
+    padding: SPACING.xl,
   },
   title: {
     marginTop: 16,
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
     textAlign: 'center',
-    color: '#333',
+    color: 'COLORS.text.primary',
   },
   message: {
     textAlign: 'center',
-    color: '#666',
+    color: 'COLORS.text.secondary',
     marginBottom: 24,
   },
   button: {
-    backgroundColor: '#2196F3',
+    backgroundColor: 'COLORS.info[500]',
   },
 });
 

@@ -3,6 +3,7 @@ import React from 'react';
 import { Animated, TouchableOpacity, Platform } from 'react-native';
 import { Button } from 'react-native-paper';
 import { ShadowUtils } from '@utils/animations';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const AnimatedButton = ({ 
   children, 
@@ -74,7 +75,7 @@ const AnimatedButton = ({
         onPressOut={handlePressOut}
         style={[
           {
-            borderRadius: 8,
+            borderRadius: BORDER_RADIUS.md,
             marginVertical: 4,
             ...(Platform.OS === 'web' && { pointerEvents: disabled ? 'none' : 'auto' }),
           },

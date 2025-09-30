@@ -3,10 +3,11 @@ import { FlashList } from '@shopify/flash-list';
 import { View, StyleSheet } from 'react-native';
 import { ActivityIndicator, Text } from 'react-native-paper';
 import { flashListConfig } from '@utils/performanceOptimizations';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const LoadingFooter = memo(() => (
   <View style={styles.loadingFooter}>
-    <ActivityIndicator size="small" color="#2196F3" />
+    <ActivityIndicator size="small" color="COLORS.info[500]" />
     <Text style={styles.loadingText}>Carregando mais...</Text>
   </View>
 ));
@@ -103,22 +104,22 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 16,
+    padding: SPACING.base,
   },
   loadingText: {
     marginLeft: 8,
-    color: '#666',
-    fontSize: 14,
+    color: 'COLORS.text.secondary',
+    fontSize: FONT_SIZE.base,
   },
   emptyContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 40,
+    paddingVertical: SPACING.xs0,
   },
   emptyText: {
-    fontSize: 16,
-    color: '#666',
+    fontSize: FONT_SIZE.md,
+    color: 'COLORS.text.secondary',
     textAlign: 'center',
   },
 });

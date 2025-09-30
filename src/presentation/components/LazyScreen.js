@@ -1,11 +1,12 @@
 import React, { Suspense } from 'react';
 import { View, ActivityIndicator, StyleSheet } from 'react-native';
 import { Text } from 'react-native-paper';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 // Componente de loading para telas lazy
 const LazyLoadingFallback = ({ message = 'Carregando...' }) => (
   <View style={styles.container}>
-    <ActivityIndicator size="large" color="#2196F3" />
+    <ActivityIndicator size="large" color="COLORS.info[500]" />
     <Text style={styles.text}>{message}</Text>
   </View>
 );
@@ -28,8 +29,8 @@ const styles = StyleSheet.create({
   },
   text: {
     marginTop: 16,
-    fontSize: 16,
-    color: '#666',
+    fontSize: FONT_SIZE.md,
+    color: 'COLORS.text.secondary',
   },
 });
 

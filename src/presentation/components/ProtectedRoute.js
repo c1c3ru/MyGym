@@ -3,6 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import { Card, Text, Button } from 'react-native-paper';
 import { useAuth } from '@contexts/AuthProvider';
 import { useCustomClaims } from '@hooks/useCustomClaims';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 /**
  * Componente para proteger rotas que exigem autenticação e associação com academia
@@ -191,7 +192,7 @@ const styles = {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
+    padding: SPACING.lg,
   },
   loadingText: {
     marginTop: 16,
@@ -201,7 +202,7 @@ const styles = {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
+    padding: SPACING.lg,
   },
   errorCard: {
     width: '100%',
@@ -214,11 +215,11 @@ const styles = {
   },
   errorMessage: {
     textAlign: 'center',
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   errorDetails: {
     textAlign: 'center',
     opacity: 0.7,
-    marginTop: 4,
+    marginTop: SPACING.xs,
   },
 };

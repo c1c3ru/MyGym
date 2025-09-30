@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { IconButton } from 'react-native-paper';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const SelectionField = ({
   label,
@@ -31,7 +32,7 @@ const SelectionField = ({
           <IconButton
             icon={icon}
             size={20}
-            iconColor={value ? "#1976D2" : "#666"}
+            iconColor={value ? "COLORS.info[700]" : "COLORS.text.secondary"}
           />
           <Text style={[
             styles.selectionButtonText,
@@ -40,7 +41,7 @@ const SelectionField = ({
           ]}>
             {value || placeholder}
           </Text>
-          <IconButton icon="chevron-right" size={16} iconColor="#999" />
+          <IconButton icon="chevron-right" size={16} iconColor="COLORS.gray[500]" />
         </View>
       </TouchableOpacity>
       {helperText ? (
@@ -55,19 +56,19 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   selectionLabel: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: '#666',
-    marginBottom: 8,
+    fontSize: FONT_SIZE.base,
+    fontWeight: FONT_WEIGHT.medium,
+    color: 'COLORS.text.secondary',
+    marginBottom: SPACING.sm,
   },
   selectionButton: {
     borderWidth: 1,
     borderColor: '#E0E0E0',
-    borderRadius: 8,
-    backgroundColor: 'white',
+    borderRadius: BORDER_RADIUS.md,
+    backgroundColor: 'COLORS.COLORS.white',
   },
   selectionButtonSelected: {
-    borderColor: '#1976D2',
+    borderColor: 'COLORS.info[700]',
     backgroundColor: '#F3F8FF',
   },
   selectionButtonDisabled: {
@@ -77,25 +78,25 @@ const styles = StyleSheet.create({
   selectionButtonContent: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 8,
+    paddingVertical: SPACING.sm,
     paddingHorizontal: 4,
   },
   selectionButtonText: {
     flex: 1,
-    fontSize: 16,
-    color: '#666',
+    fontSize: FONT_SIZE.md,
+    color: 'COLORS.text.secondary',
   },
   selectionButtonTextSelected: {
-    color: '#1976D2',
-    fontWeight: '500',
+    color: 'COLORS.info[700]',
+    fontWeight: FONT_WEIGHT.medium,
   },
   selectionButtonTextDisabled: {
-    color: '#999',
+    color: 'COLORS.gray[500]',
   },
   helperText: {
-    fontSize: 12,
-    color: '#999',
-    marginTop: 4,
+    fontSize: FONT_SIZE.sm,
+    color: 'COLORS.gray[500]',
+    marginTop: SPACING.xs,
     fontStyle: 'italic',
   },
 });

@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import { TextInput, Menu, Button } from 'react-native-paper';
 import { useTheme } from '@contexts/ThemeContext';
 import { countries } from '@data/countries';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 export default function PhonePicker({ 
   selectedCountry, 
@@ -75,7 +76,7 @@ export default function PhonePicker({
 
 const styles = {
   container: {
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   phoneContainer: {
     flexDirection: 'row',
@@ -92,17 +93,17 @@ const styles = {
     justifyContent: 'center',
   },
   countryButtonLabel: {
-    fontSize: 14,
-    fontWeight: '600',
+    fontSize: FONT_SIZE.base,
+    fontWeight: FONT_WEIGHT.semibold,
   },
   phoneInput: {
     flex: 1,
   },
   menuContent: {
     maxHeight: 300,
-    backgroundColor: 'white',
+    backgroundColor: 'COLORS.white',
   },
   menuItemTitle: {
-    fontSize: 14,
+    fontSize: FONT_SIZE.base,
   },
 };

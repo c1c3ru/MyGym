@@ -2,6 +2,7 @@ import React, { memo } from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
 import { Button as PaperButton, Text } from 'react-native-paper';
 import { useAccessibility } from '@hooks/useAccessibility';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const AccessibleButton = memo(({
   children,
@@ -74,14 +75,14 @@ AccessibleButton.displayName = 'AccessibleButton';
 
 const styles = StyleSheet.create({
   button: {
-    borderRadius: 8,
+    borderRadius: BORDER_RADIUS.md,
   },
   smallButton: {
-    paddingVertical: 4,
-    paddingHorizontal: 8,
+    paddingVertical: SPACING.xs,
+    paddingHorizontal: SPACING.sm,
   },
   largeButton: {
-    paddingVertical: 12,
+    paddingVertical: SPACING.md,
     paddingHorizontal: 24,
   },
   disabled: {

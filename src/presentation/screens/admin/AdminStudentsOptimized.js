@@ -19,6 +19,7 @@ import OptimizedStudentCard from '@components/OptimizedStudentCard';
 import LoadingSpinner from '@components/LoadingSpinner';
 import StudentDisassociationDialog from '@components/StudentDisassociationDialog';
 import { useFocusEffect } from '@react-navigation/native';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const AdminStudentsOptimized = ({ navigation }) => {
   const { user, userProfile, academia } = useAuth();
@@ -340,33 +341,33 @@ const styles = StyleSheet.create({
     paddingBottom: 80,
   },
   header: {
-    padding: 16,
-    backgroundColor: '#fff',
+    padding: SPACING.base,
+    backgroundColor: 'COLORS.white',
     borderBottomWidth: 1,
-    borderBottomColor: '#e0e0e0',
+    borderBottomColor: 'COLORS.gray[300]',
   },
   searchbar: {
-    marginBottom: 12,
+    marginBottom: SPACING.md,
     elevation: 0,
-    backgroundColor: '#f8f9fa',
+    backgroundColor: 'COLORS.background.light',
   },
   filterRow: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
   },
   filterButton: {
-    borderColor: '#2196F3',
+    borderColor: 'COLORS.info[500]',
   },
   statsCard: {
     marginHorizontal: 16,
     marginVertical: 8,
     elevation: 2,
-    borderRadius: 12,
+    borderRadius: BORDER_RADIUS.md,
   },
   statsTitle: {
     textAlign: 'center',
     marginBottom: 16,
-    color: '#333',
+    color: 'COLORS.text.primary',
   },
   statsGrid: {
     flexDirection: 'row',
@@ -377,20 +378,20 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   statNumber: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#2196F3',
+    fontSize: FONT_SIZE.xxl,
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.info[500]',
   },
   statLabel: {
-    fontSize: 12,
-    color: '#666',
-    marginTop: 4,
+    fontSize: FONT_SIZE.sm,
+    color: 'COLORS.text.secondary',
+    marginTop: SPACING.xs,
   },
   emptyCard: {
     marginHorizontal: 16,
     marginVertical: 32,
     elevation: 2,
-    borderRadius: 12,
+    borderRadius: BORDER_RADIUS.md,
   },
   emptyContent: {
     alignItems: 'center',
@@ -398,20 +399,20 @@ const styles = StyleSheet.create({
   },
   emptyTitle: {
     marginTop: 16,
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
     textAlign: 'center',
-    color: '#333',
+    color: 'COLORS.text.primary',
   },
   emptyText: {
     textAlign: 'center',
-    color: '#666',
+    color: 'COLORS.text.secondary',
   },
   fab: {
     position: 'absolute',
-    margin: 16,
+    margin: SPACING.base,
     right: 0,
     bottom: 0,
-    backgroundColor: '#4CAF50',
+    backgroundColor: 'COLORS.primary[500]',
   },
 });
 

@@ -13,6 +13,7 @@ import { useCustomClaims } from '@hooks/useCustomClaims';
 import ImprovedScheduleSelector from '@components/ImprovedScheduleSelector';
 import { createEmptySchedule, isValidSchedule, scheduleToDisplayString } from '@utils/scheduleUtils';
 import { notifyNewClass } from '@services/scheduleNotificationService';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const AddClassScreen = ({ navigation }) => {
   const { user, userProfile, academia } = useAuth();
@@ -327,7 +328,7 @@ const AddClassScreen = ({ navigation }) => {
               <Text style={styles.label}>Modalidade</Text>
               <View style={styles.chipContainer}>
                 {modalities.length === 0 && (
-                  <Text style={{ color: '#666' }}>Nenhuma modalidade cadastrada</Text>
+                  <Text style={{ color: 'COLORS.text.secondary' }}>Nenhuma modalidade cadastrada</Text>
                 )}
                 {modalities.map((m) => (
                   <Chip
@@ -408,8 +409,8 @@ const AddClassScreen = ({ navigation }) => {
 
               {/* Mostrar nome do usuário atual quando selecionado */}
               {!formData.instructorId && (
-                <View style={{ backgroundColor: '#E8F5E8', padding: 8, borderRadius: 6, marginBottom: 8 }}>
-                  <Text style={{ color: '#2E7D32', fontSize: 12 }}>
+                <View style={{ backgroundColor: '#E8F5E8', padding: SPACING.sm, borderRadius: BORDER_RADIUS.sm, marginBottom: SPACING.sm }}>
+                  <Text style={{ color: '#2E7D32', fontSize: FONT_SIZE.sm }}>
                     ✅ Instrutor: {userProfile?.name || user.displayName || user.email}
                   </Text>
                 </View>
@@ -418,7 +419,7 @@ const AddClassScreen = ({ navigation }) => {
               {/* Lista de outros instrutores */}
               {instructors.length > 0 && (
                 <>
-                  <Text style={[styles.label, { fontSize: 14, marginTop: 12, marginBottom: 8 }]}>
+                  <Text style={[styles.label, { fontSize: FONT_SIZE.base, marginTop: SPACING.md, marginBottom: SPACING.sm }]}>
                     Ou escolher outro instrutor:
                   </Text>
                   <View style={styles.chipContainer}>
@@ -438,7 +439,7 @@ const AddClassScreen = ({ navigation }) => {
               )}
 
               {instructors.length === 0 && (
-                <Text style={{ color: '#666', fontSize: 12, marginTop: 8 }}>
+                <Text style={{ color: 'COLORS.text.secondary', fontSize: FONT_SIZE.sm, marginTop: SPACING.sm }}>
                   Nenhum outro instrutor cadastrado na academia
                 </Text>
               )}
@@ -530,13 +531,13 @@ const AddClassScreen = ({ navigation }) => {
         onDismiss={() => setSnackbar((s) => ({ ...s, visible: false }))}
         duration={3000}
         style={{
-          backgroundColor: snackbar.type === 'success' ? '#4CAF50' : 
-                          snackbar.type === 'error' ? '#F44336' : '#2196F3'
+          backgroundColor: snackbar.type === 'success' ? 'COLORS.primary[500]' : 
+                          snackbar.type === 'error' ? 'COLORS.error[500]' : 'COLORS.info[500]'
         }}
         action={{
           label: 'OK',
           onPress: () => setSnackbar((s) => ({ ...s, visible: false })),
-          labelStyle: { color: 'white' }
+          labelStyle: { color: 'COLORS.COLORS.white' }
         }}
       >
         {snackbar.message}
@@ -554,26 +555,26 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    padding: 16,
+    padding: SPACING.base,
     paddingBottom: 100,
   },
   card: {
     marginBottom: 20,
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
+    fontSize: FONT_SIZE.xxl,
+    fontWeight: FONT_WEIGHT.bold,
     marginBottom: 20,
     textAlign: 'center',
   },
   input: {
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   label: {
-    fontSize: 16,
-    fontWeight: '500',
-    marginBottom: 8,
-    color: '#333',
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.medium,
+    marginBottom: SPACING.sm,
+    color: 'COLORS.text.primary',
   },
   pickerContainer: {
     marginBottom: 16,
@@ -584,13 +585,13 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   chip: {
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   picker: {
     borderWidth: 1,
     borderColor: '#ccc',
-    borderRadius: 4,
-    backgroundColor: '#fff',
+    borderRadius: BORDER_RADIUS.sm,
+    backgroundColor: 'COLORS.COLORS.white',
   },
   pickerStyle: {
     height: 50,
@@ -601,11 +602,11 @@ const styles = StyleSheet.create({
   radioItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   radioLabel: {
     marginLeft: 8,
-    fontSize: 16,
+    fontSize: FONT_SIZE.md,
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -618,9 +619,9 @@ const styles = StyleSheet.create({
   },
   helperTip: {
     marginTop: -4,
-    marginBottom: 12,
-    color: '#666',
-    fontSize: 12,
+    marginBottom: SPACING.md,
+    color: 'COLORS.text.secondary',
+    fontSize: FONT_SIZE.sm,
   },
 });
 

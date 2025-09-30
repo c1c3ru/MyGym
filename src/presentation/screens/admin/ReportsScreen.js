@@ -22,6 +22,7 @@ import cacheService, { CACHE_KEYS, CACHE_TTL } from '@services/cacheService';
 import batchFirestoreService from '@services/batchFirestoreService';
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import ReportsSkeleton from '@components/skeletons/ReportsSkeleton';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const ReportsScreen = ({ navigation }) => {
   const { user, userProfile, academia } = useAuth();
@@ -183,11 +184,11 @@ const ReportsScreen = ({ navigation }) => {
 
   const getActivityColor = useCallback((type) => {
     switch (type) {
-      case 'student': return '#2196F3';
-      case 'payment': return '#4CAF50';
-      case 'class': return '#FF9800';
-      case 'checkin': return '#9C27B0';
-      default: return '#666';
+      case 'student': return 'COLORS.info[500]';
+      case 'payment': return 'COLORS.primary[500]';
+      case 'class': return 'COLORS.warning[500]';
+      case 'checkin': return 'COLORS.secondary[500]';
+      default: return 'COLORS.text.secondary';
     }
   }, []);
 
@@ -235,8 +236,8 @@ const ReportsScreen = ({ navigation }) => {
             
             <View style={styles.statsGrid}>
               <View style={styles.statItem}>
-                <View style={[styles.statIcon, { backgroundColor: '#2196F3' }]}>
-                  <Ionicons name="people" size={24} color="white" />
+                <View style={[styles.statIcon, { backgroundColor: 'COLORS.info[500]' }]}>
+                  <Ionicons name="people" size={24} color="COLORS.COLORS.white" />
                 </View>
                 <View style={styles.statContent}>
                   <Text style={styles.statNumber}>{stats.totalStudents}</Text>
@@ -246,8 +247,8 @@ const ReportsScreen = ({ navigation }) => {
               </View>
 
               <View style={styles.statItem}>
-                <View style={[styles.statIcon, { backgroundColor: '#4CAF50' }]}>
-                  <Ionicons name="school" size={24} color="white" />
+                <View style={[styles.statIcon, { backgroundColor: 'COLORS.primary[500]' }]}>
+                  <Ionicons name="school" size={24} color="COLORS.COLORS.white" />
                 </View>
                 <View style={styles.statContent}>
                   <Text style={styles.statNumber}>{stats.totalClasses}</Text>
@@ -257,8 +258,8 @@ const ReportsScreen = ({ navigation }) => {
               </View>
 
               <View style={styles.statItem}>
-                <View style={[styles.statIcon, { backgroundColor: '#FF9800' }]}>
-                  <Ionicons name="card" size={24} color="white" />
+                <View style={[styles.statIcon, { backgroundColor: 'COLORS.warning[500]' }]}>
+                  <Ionicons name="card" size={24} color="COLORS.COLORS.white" />
                 </View>
                 <View style={styles.statContent}>
                   <Text style={styles.statNumber}>{formatCurrency(stats.monthlyRevenue)}</Text>
@@ -268,8 +269,8 @@ const ReportsScreen = ({ navigation }) => {
               </View>
 
               <View style={styles.statItem}>
-                <View style={[styles.statIcon, { backgroundColor: '#F44336' }]}>
-                  <Ionicons name="time" size={24} color="white" />
+                <View style={[styles.statIcon, { backgroundColor: 'COLORS.error[500]' }]}>
+                  <Ionicons name="time" size={24} color="COLORS.COLORS.white" />
                 </View>
                 <View style={styles.statContent}>
                   <Text style={styles.statNumber}>{stats.pendingPayments}</Text>
@@ -292,7 +293,7 @@ const ReportsScreen = ({ navigation }) => {
               </Text>
               <ProgressBar 
                 progress={stats.totalStudents > 0 ? stats.activeStudents / stats.totalStudents : 0}
-                color="#4CAF50"
+                color="COLORS.primary[500]"
                 style={styles.progressBar}
               />
               <Text style={styles.occupancyPercentage}>
@@ -306,7 +307,7 @@ const ReportsScreen = ({ navigation }) => {
               </Text>
               <ProgressBar 
                 progress={stats.totalClasses > 0 ? stats.activeClasses / stats.totalClasses : 0}
-                color="#2196F3"
+                color="COLORS.info[500]"
                 style={styles.progressBar}
               />
               <Text style={styles.occupancyPercentage}>
@@ -351,7 +352,7 @@ const ReportsScreen = ({ navigation }) => {
             {recentActivities.map((activity, index) => (
               <View key={index} style={styles.activityItem}>
                 <View style={[styles.activityIcon, { backgroundColor: getActivityColor(activity.type) }]}>
-                  <Ionicons name={getActivityIcon(activity.type)} size={16} color="white" />
+                  <Ionicons name={getActivityIcon(activity.type)} size={16} color="COLORS.COLORS.white" />
                 </View>
                 <View style={styles.activityContent}>
                   <Text style={styles.activityAction}>{activity.action}</Text>
@@ -371,8 +372,8 @@ const ReportsScreen = ({ navigation }) => {
               <Button
                 mode="contained"
                 onPress={() => navigation.navigate('AddStudent')}
-                style={[styles.actionButton, { backgroundColor: '#2196F3' }]}
-                icon={<MaterialCommunityIcons name="account-plus" size={18} color="#fff" />}
+                style={[styles.actionButton, { backgroundColor: 'COLORS.info[500]' }]}
+                icon={<MaterialCommunityIcons name="account-plus" size={18} color="COLORS.COLORS.white" />}
               >
                 Novo Aluno
               </Button>
@@ -380,8 +381,8 @@ const ReportsScreen = ({ navigation }) => {
               <Button
                 mode="contained"
                 onPress={() => navigation.navigate('AddClass')}
-                style={[styles.actionButton, { backgroundColor: '#4CAF50' }]}
-                icon={<MaterialCommunityIcons name="school-outline" size={18} color="#fff" />}
+                style={[styles.actionButton, { backgroundColor: 'COLORS.primary[500]' }]}
+                icon={<MaterialCommunityIcons name="school-outline" size={18} color="COLORS.COLORS.white" />}
               >
                 Nova Turma
               </Button>
@@ -403,7 +404,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    padding: 16,
+    padding: SPACING.base,
     paddingBottom: 100,
   },
   loadingContainer: {
@@ -415,24 +416,24 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333',
+    fontSize: FONT_SIZE.xxl,
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.text.primary',
   },
   subtitle: {
-    fontSize: 16,
-    color: '#666',
-    marginTop: 4,
+    fontSize: FONT_SIZE.md,
+    color: 'COLORS.text.secondary',
+    marginTop: SPACING.xs,
   },
   card: {
     marginBottom: 16,
     elevation: 4,
   },
   cardTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: FONT_SIZE.lg,
+    fontWeight: FONT_WEIGHT.bold,
     marginBottom: 16,
-    color: '#333',
+    color: 'COLORS.text.primary',
   },
   statsGrid: {
     flexDirection: 'row',
@@ -444,14 +445,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '48%',
     marginBottom: 16,
-    padding: 12,
-    backgroundColor: '#f8f9fa',
-    borderRadius: 8,
+    padding: SPACING.md,
+    backgroundColor: 'COLORS.background.light',
+    borderRadius: BORDER_RADIUS.md,
   },
   statIcon: {
     width: 48,
     height: 48,
-    borderRadius: 24,
+    borderRadius: BORDER_RADIUS.full,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 12,
@@ -460,48 +461,48 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   statNumber: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#333',
+    fontSize: FONT_SIZE.xl,
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.text.primary',
   },
   statLabel: {
-    fontSize: 12,
-    color: '#666',
+    fontSize: FONT_SIZE.sm,
+    color: 'COLORS.text.secondary',
     marginTop: 2,
   },
   statSubtext: {
     fontSize: 10,
-    color: '#999',
+    color: 'COLORS.gray[500]',
     marginTop: 2,
   },
   occupancyContainer: {
     marginBottom: 20,
   },
   occupancyLabel: {
-    fontSize: 14,
-    color: '#333',
-    marginBottom: 8,
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.primary',
+    marginBottom: SPACING.sm,
   },
   progressBar: {
     height: 8,
-    borderRadius: 4,
-    marginBottom: 4,
+    borderRadius: BORDER_RADIUS.sm,
+    marginBottom: SPACING.xs,
   },
   occupancyPercentage: {
-    fontSize: 12,
-    color: '#666',
+    fontSize: FONT_SIZE.sm,
+    color: 'COLORS.text.secondary',
     textAlign: 'right',
   },
   noDataText: {
     textAlign: 'center',
-    color: '#999',
+    color: 'COLORS.gray[500]',
     fontStyle: 'italic',
     marginTop: 16,
   },
   activityItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: SPACING.md,
     paddingBottom: 12,
     borderBottomWidth: 1,
     borderBottomColor: '#eee',
@@ -509,7 +510,7 @@ const styles = StyleSheet.create({
   activityIcon: {
     width: 32,
     height: 32,
-    borderRadius: 16,
+    borderRadius: BORDER_RADIUS.lg,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 12,
@@ -518,13 +519,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   activityAction: {
-    fontSize: 14,
-    color: '#333',
-    fontWeight: '500',
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.primary',
+    fontWeight: FONT_WEIGHT.medium,
   },
   activityTime: {
-    fontSize: 12,
-    color: '#666',
+    fontSize: FONT_SIZE.sm,
+    color: 'COLORS.text.secondary',
     marginTop: 2,
   },
   actionsContainer: {

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import SkeletonLoader from './SkeletonLoader';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const InstructorStudentsSkeleton = () => {
   return (
@@ -24,8 +25,8 @@ const InstructorStudentsSkeleton = () => {
           <View style={styles.studentHeader}>
             <SkeletonLoader width={60} height={60} borderRadius={30} />
             <View style={styles.studentInfo}>
-              <SkeletonLoader width="80%" height={20} style={{ marginBottom: 4 }} />
-              <SkeletonLoader width="60%" height={16} style={{ marginBottom: 4 }} />
+              <SkeletonLoader width="80%" height={20} style={{ marginBottom: SPACING.xs }} />
+              <SkeletonLoader width="60%" height={16} style={{ marginBottom: SPACING.xs }} />
               <SkeletonLoader width="40%" height={14} />
             </View>
             <SkeletonLoader width={60} height={24} borderRadius={12} />
@@ -59,8 +60,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
   },
   searchContainer: {
-    margin: 16,
-    marginBottom: 8,
+    margin: SPACING.base,
+    marginBottom: SPACING.sm,
   },
   filterContainer: {
     flexDirection: 'row',
@@ -69,11 +70,11 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   cardContainer: {
-    margin: 16,
-    marginTop: 8,
-    padding: 16,
-    backgroundColor: 'white',
-    borderRadius: 12,
+    margin: SPACING.base,
+    marginTop: SPACING.sm,
+    padding: SPACING.base,
+    backgroundColor: 'COLORS.white',
+    borderRadius: BORDER_RADIUS.md,
     elevation: 2,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -83,19 +84,19 @@ const styles = StyleSheet.create({
   studentHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   studentInfo: {
     flex: 1,
     marginLeft: 12,
   },
   detailsContainer: {
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   detailRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   actionsContainer: {
     flexDirection: 'row',

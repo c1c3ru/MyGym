@@ -3,6 +3,7 @@ import React from 'react';
 import { Animated, Platform } from 'react-native';
 import { Card } from 'react-native-paper';
 import { ShadowUtils } from '@utils/animations';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const AnimatedCard = ({
   children,
@@ -68,8 +69,8 @@ const AnimatedCard = ({
         style={[
           shadowStyle,
           {
-            margin: 8,
-            borderRadius: 12,
+            margin: SPACING.sm,
+            borderRadius: BORDER_RADIUS.md,
           },
           style
         ]}

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, ActivityIndicator } from 'react-native-paper';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const LoadingButton = ({ 
   loading, 
@@ -15,10 +16,10 @@ const LoadingButton = ({
       mode={mode}
       onPress={onPress}
       disabled={loading || disabled}
-      style={[{ paddingVertical: 8 }, style]}
+      style={[{ paddingVertical: SPACING.sm }, style]}
       {...props}
     >
-      {loading ? <ActivityIndicator color="white" size="small" /> : children}
+      {loading ? <ActivityIndicator color="COLORS.COLORS.white" size="small" /> : children}
     </Button>
   );
 };

@@ -8,6 +8,7 @@ import { academyFirestoreService } from '@services/academyFirestoreService';
 import { useAuth } from '@contexts/AuthProvider';
 import { useUserProfile } from '@hooks/useUserProfile';
 import { PROFILE_COLORS, STATUS_COLORS, APP_COLORS } from '@shared/constants/colors';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const CheckInButton = ({ classId, className, onCheckInSuccess }) => {
   const [loading, setLoading] = useState(false);
@@ -158,7 +159,7 @@ const CheckInButton = ({ classId, className, onCheckInSuccess }) => {
         >
           {loading ? (
             <View style={styles.loadingContainer}>
-              <ActivityIndicator color={APP_COLORS.white} size="small" />
+              <ActivityIndicator color={APP_COLORS.COLORS.COLORS.COLORS.white} size="small" />
               <Text style={styles.loadingText}>Verificando...</Text>
             </View>
           ) : (
@@ -176,36 +177,36 @@ const CheckInButton = ({ classId, className, onCheckInSuccess }) => {
 
 const styles = StyleSheet.create({
   container: {
-    margin: 16,
+    margin: SPACING.base,
     elevation: 4,
-    borderRadius: 12,
+    borderRadius: BORDER_RADIUS.md,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   title: {
-    fontSize: 18,
-    fontWeight: '600',
+    fontSize: FONT_SIZE.lg,
+    fontWeight: FONT_WEIGHT.semibold,
     marginLeft: 8,
-    color: '#333',
+    color: 'COLORS.text.primary',
   },
   statusContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 8,
-    borderRadius: 8,
-    marginBottom: 12,
+    padding: SPACING.sm,
+    borderRadius: BORDER_RADIUS.md,
+    marginBottom: SPACING.md,
   },
   statusText: {
     marginLeft: 8,
-    fontSize: 14,
-    fontWeight: '500',
+    fontSize: FONT_SIZE.base,
+    fontWeight: FONT_WEIGHT.medium,
   },
   description: {
-    fontSize: 14,
-    color: '#666',
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.secondary',
     marginBottom: 16,
     textAlign: 'center',
   },
@@ -215,7 +216,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   buttonContent: {
-    paddingVertical: 8,
+    paddingVertical: SPACING.sm,
   },
   loadingContainer: {
     flexDirection: 'row',
@@ -223,15 +224,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   loadingText: {
-    color: APP_COLORS.white,
+    color: APP_COLORS.COLORS.COLORS.COLORS.white,
     marginLeft: 8,
-    fontSize: 16,
+    fontSize: FONT_SIZE.md,
   },
   hint: {
-    fontSize: 12,
-    color: '#999',
+    fontSize: FONT_SIZE.sm,
+    color: 'COLORS.gray[500]',
     textAlign: 'center',
-    marginTop: 8,
+    marginTop: SPACING.sm,
     fontStyle: 'italic',
   },
 });

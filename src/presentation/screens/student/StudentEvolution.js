@@ -17,6 +17,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '@contexts/AuthProvider';
 import { useTheme } from '@contexts/ThemeContext';
 import { firestoreService } from '@services/firestoreService';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const StudentEvolution = ({ navigation }) => {
   const { user, userProfile, academia } = useAuth();
@@ -96,16 +97,16 @@ const StudentEvolution = ({ navigation }) => {
       'Branca': '#FFFFFF',
       'Cinza': '#9E9E9E',
       'Amarela': '#FFEB3B',
-      'Laranja': '#FF9800',
-      'Verde': '#4CAF50',
-      'Azul': '#2196F3',
-      'Roxa': '#9C27B0',
+      'Laranja': 'COLORS.warning[500]',
+      'Verde': 'COLORS.primary[500]',
+      'Azul': 'COLORS.info[500]',
+      'Roxa': 'COLORS.secondary[500]',
       'Marrom': '#795548',
       'Preta': '#424242',
       'Coral': '#FF7043',
-      'Vermelha': '#F44336'
+      'Vermelha': 'COLORS.error[500]'
     };
-    return colors[graduation] || '#2196F3';
+    return colors[graduation] || 'COLORS.info[500]';
   };
 
   const getGraduationIcon = (modality) => {
@@ -163,7 +164,7 @@ const StudentEvolution = ({ navigation }) => {
                 ]}
                 textStyle={{ 
                   color: getGraduationColor(stats.currentGraduation),
-                  fontWeight: 'bold'
+                  fontWeight: FONT_WEIGHT.bold
                 }}
               >
                 {stats.currentGraduation}
@@ -176,7 +177,7 @@ const StudentEvolution = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <Ionicons name="git-branch-outline" size={24} color="#2196F3" />
+              <Ionicons name="git-branch-outline" size={24} color="COLORS.info[500]" />
               <Title style={styles.cardTitle}>Timeline de Graduações</Title>
             </View>
             
@@ -237,7 +238,7 @@ const StudentEvolution = ({ navigation }) => {
           <Card style={styles.card}>
             <Card.Content>
               <View style={styles.cardHeader}>
-                <Ionicons name="fitness-outline" size={24} color="#4CAF50" />
+                <Ionicons name="fitness-outline" size={24} color="COLORS.primary[500]" />
                 <Title style={styles.cardTitle}>Modalidades Praticadas</Title>
               </View>
               
@@ -261,20 +262,20 @@ const StudentEvolution = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <Ionicons name="flag-outline" size={24} color="#FF9800" />
+              <Ionicons name="flag-outline" size={24} color="COLORS.warning[500]" />
               <Title style={styles.cardTitle}>Próximos Objetivos</Title>
             </View>
             
             <List.Item
               title={getString('maintainFrequency')}
               description="Continue participando regularmente das aulas"
-              left={() => <List.Icon icon="check-circle-outline" color="#4CAF50" />}
+              left={() => <List.Icon icon="check-circle-outline" color="COLORS.primary[500]" />}
             />
             
             <List.Item
               title={getString('improveTechniques')}
               description="Foque no desenvolvimento técnico"
-              left={() => <List.Icon icon="trending-up" color="#2196F3" />}
+              left={() => <List.Icon icon="trending-up" color="COLORS.info[500]" />}
             />
             
             <List.Item
@@ -298,14 +299,14 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   statsCard: {
-    margin: 16,
-    marginBottom: 8,
+    margin: SPACING.base,
+    marginBottom: SPACING.sm,
     elevation: 4,
     backgroundColor: '#E8F5E8',
   },
   card: {
-    margin: 16,
-    marginTop: 8,
+    margin: SPACING.base,
+    marginTop: SPACING.sm,
     elevation: 2,
   },
   cardHeader: {
@@ -315,7 +316,7 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     marginLeft: 8,
-    fontSize: 18,
+    fontSize: FONT_SIZE.lg,
   },
   statsGrid: {
     flexDirection: 'row',
@@ -324,20 +325,20 @@ const styles = StyleSheet.create({
   },
   statItem: {
     alignItems: 'center',
-    padding: 12,
-    borderRadius: 8,
+    padding: SPACING.md,
+    borderRadius: BORDER_RADIUS.md,
     elevation: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'COLORS.COLORS.white',
   },
   statNumber: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#2196F3',
+    fontSize: FONT_SIZE.xxl,
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.info[500]',
   },
   statLabel: {
-    fontSize: 12,
-    color: '#666',
-    marginTop: 4,
+    fontSize: FONT_SIZE.sm,
+    color: 'COLORS.text.secondary',
+    marginTop: SPACING.xs,
   },
   currentGraduation: {
     flexDirection: 'row',
@@ -345,8 +346,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   currentLabel: {
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.bold,
   },
   graduationChip: {
     borderWidth: 2,
@@ -355,16 +356,16 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   timelineContent: {
-    backgroundColor: '#fff',
-    padding: 12,
-    borderRadius: 8,
+    backgroundColor: 'COLORS.COLORS.white',
+    padding: SPACING.md,
+    borderRadius: BORDER_RADIUS.md,
     elevation: 1,
   },
   timelineHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   graduationInfo: {
     flexDirection: 'row',
@@ -372,22 +373,22 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   graduationTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.bold,
     marginLeft: 8,
   },
   graduationDate: {
-    fontSize: 14,
-    color: '#666',
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.secondary',
   },
   instructorText: {
-    fontSize: 14,
-    color: '#666',
-    marginBottom: 4,
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.secondary',
+    marginBottom: SPACING.xs,
   },
   observationsText: {
-    fontSize: 14,
-    color: '#333',
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.primary',
     fontStyle: 'italic',
   },
   timelineLine: {
@@ -395,23 +396,23 @@ const styles = StyleSheet.create({
     height: 16,
     backgroundColor: '#ddd',
     marginLeft: 20,
-    marginTop: 8,
+    marginTop: SPACING.sm,
   },
   emptyState: {
     alignItems: 'center',
     padding: 32,
   },
   emptyText: {
-    fontSize: 16,
-    color: '#666',
+    fontSize: FONT_SIZE.md,
+    color: 'COLORS.text.secondary',
     marginTop: 16,
     textAlign: 'center',
   },
   emptySubtext: {
-    fontSize: 14,
-    color: '#999',
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.gray[500]',
     textAlign: 'center',
-    marginTop: 8,
+    marginTop: SPACING.sm,
   },
   modalitiesContainer: {
     flexDirection: 'row',
@@ -419,7 +420,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   modalityChip: {
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
 });
 

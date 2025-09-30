@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { Card, Button, Chip, Divider, Text } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 class EnhancedErrorBoundary extends React.Component {
   constructor(props) {
@@ -134,7 +135,7 @@ class EnhancedErrorBoundary extends React.Component {
               <Ionicons 
                 name={errorType === 'network' ? 'wifi-outline' : 'alert-circle-outline'} 
                 size={64} 
-                color="#F44336" 
+                color="COLORS.error[500]" 
               />
               
               <Text style={styles.title}>Ops! Algo deu errado</Text>
@@ -210,7 +211,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
+    padding: SPACING.lg,
   },
   card: {
     width: '100%',
@@ -219,17 +220,17 @@ const styles = StyleSheet.create({
   },
   content: {
     alignItems: 'center',
-    padding: 24,
+    padding: SPACING.xl,
   },
   title: {
     marginTop: 16,
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
     textAlign: 'center',
-    color: '#333',
+    color: 'COLORS.text.primary',
   },
   message: {
     textAlign: 'center',
-    color: '#666',
+    color: 'COLORS.text.secondary',
     marginBottom: 16,
     lineHeight: 20,
   },
@@ -251,10 +252,10 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   retryButton: {
-    backgroundColor: '#2196F3',
+    backgroundColor: 'COLORS.info[500]',
   },
   detailsButton: {
-    borderColor: '#666',
+    borderColor: 'COLORS.text.secondary',
   },
   divider: {
     width: '100%',
@@ -262,32 +263,32 @@ const styles = StyleSheet.create({
   },
   errorDetails: {
     width: '100%',
-    backgroundColor: '#f9f9f9',
-    padding: 16,
-    borderRadius: 8,
+    backgroundColor: 'COLORS.gray[50]',
+    padding: SPACING.base,
+    borderRadius: BORDER_RADIUS.md,
   },
   detailsTitle: {
-    fontSize: 16,
-    marginBottom: 12,
-    color: '#333',
+    fontSize: FONT_SIZE.md,
+    marginBottom: SPACING.md,
+    color: 'COLORS.text.primary',
   },
   errorText: {
-    fontSize: 12,
-    color: '#666',
-    marginBottom: 8,
+    fontSize: FONT_SIZE.sm,
+    color: 'COLORS.text.secondary',
+    marginBottom: SPACING.sm,
   },
   errorLabel: {
-    fontWeight: 'bold',
-    color: '#333',
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.text.primary',
   },
   stackTrace: {
     fontSize: 10,
-    color: '#666',
+    color: 'COLORS.text.secondary',
     fontFamily: 'monospace',
-    backgroundColor: '#fff',
-    padding: 8,
-    borderRadius: 4,
-    marginTop: 8,
+    backgroundColor: 'COLORS.COLORS.white',
+    padding: SPACING.sm,
+    borderRadius: BORDER_RADIUS.sm,
+    marginTop: SPACING.sm,
   },
 });
 

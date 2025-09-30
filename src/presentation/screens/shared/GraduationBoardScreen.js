@@ -30,6 +30,7 @@ import { useAuth } from '@contexts/AuthProvider';
 import { useNotification } from '@components/NotificationManager';
 import graduationBoardService from '@services/graduationBoardService';
 import { Ionicons } from '@expo/vector-icons';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const { width } = Dimensions.get('window');
 
@@ -79,10 +80,10 @@ const GraduationBoardScreen = ({ navigation }) => {
       'Branca': '#FFFFFF',
       'Cinza': '#808080',
       'Amarela': '#FFEB3B',
-      'Laranja': '#FF9800',
-      'Verde': '#4CAF50',
-      'Azul': '#2196F3',
-      'Roxa': '#9C27B0',
+      'Laranja': 'COLORS.warning[500]',
+      'Verde': 'COLORS.primary[500]',
+      'Azul': 'COLORS.info[500]',
+      'Roxa': 'COLORS.secondary[500]',
       'Marrom': '#795548',
       'Preta': '#000000'
     };
@@ -91,9 +92,9 @@ const GraduationBoardScreen = ({ navigation }) => {
 
   const getAlertColor = (alertLevel) => {
     const colors = {
-      'ready': '#4CAF50',
-      'warning': '#FF9800',
-      'info': '#2196F3'
+      'ready': 'COLORS.primary[500]',
+      'warning': 'COLORS.warning[500]',
+      'info': 'COLORS.info[500]'
     };
     return colors[alertLevel] || '#E0E0E0';
   };
@@ -112,7 +113,7 @@ const GraduationBoardScreen = ({ navigation }) => {
         <Card style={[styles.summaryCard, styles.studentsCard]}>
           <Card.Content style={styles.summaryContent}>
             <View style={styles.summaryIcon}>
-              <Ionicons name="people" size={24} color="#2196F3" />
+              <Ionicons name="people" size={24} color="COLORS.info[500]" />
             </View>
             <View style={styles.summaryText}>
               <Title style={styles.summaryNumber}>{summary.totalStudents}</Title>
@@ -124,7 +125,7 @@ const GraduationBoardScreen = ({ navigation }) => {
         <Card style={[styles.summaryCard, styles.eligibleCard]}>
           <Card.Content style={styles.summaryContent}>
             <View style={styles.summaryIcon}>
-              <Ionicons name="trophy" size={24} color="#4CAF50" />
+              <Ionicons name="trophy" size={24} color="COLORS.primary[500]" />
             </View>
             <View style={styles.summaryText}>
               <Title style={styles.summaryNumber}>{summary.totalEligible}</Title>
@@ -136,7 +137,7 @@ const GraduationBoardScreen = ({ navigation }) => {
         <Card style={[styles.summaryCard, styles.examsCard]}>
           <Card.Content style={styles.summaryContent}>
             <View style={styles.summaryIcon}>
-              <Ionicons name="calendar" size={24} color="#FF9800" />
+              <Ionicons name="calendar" size={24} color="COLORS.warning[500]" />
             </View>
             <View style={styles.summaryText}>
               <Title style={styles.summaryNumber}>{summary.totalUpcomingExams}</Title>
@@ -213,7 +214,7 @@ const GraduationBoardScreen = ({ navigation }) => {
                     >
                       {student.currentBelt}
                     </Chip>
-                    <Ionicons name="arrow-forward" size={16} color="#666" />
+                    <Ionicons name="arrow-forward" size={16} color="COLORS.text.secondary" />
                     <Chip 
                       size="small" 
                       style={[styles.beltChip, { backgroundColor: getBeltColor(student.nextBelt) }]}
@@ -326,7 +327,7 @@ const GraduationBoardScreen = ({ navigation }) => {
               
               <ProgressBar 
                 progress={stat.totalStudents > 0 ? stat.eligibleStudents / stat.totalStudents : 0}
-                color="#4CAF50"
+                color="COLORS.primary[500]"
                 style={styles.progressBar}
               />
               
@@ -414,7 +415,7 @@ const GraduationBoardScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <LinearGradient
-        colors={['#2196F3', '#1976D2']}
+        colors={['COLORS.info[500]', 'COLORS.info[700]']}
         style={styles.header}
       >
         <View style={styles.headerContent}>
@@ -458,23 +459,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headerTitle: {
-    color: 'white',
-    fontSize: 24,
-    fontWeight: 'bold',
+    color: 'COLORS.COLORS.white',
+    fontSize: FONT_SIZE.xxl,
+    fontWeight: FONT_WEIGHT.bold,
   },
   headerSubtitle: {
-    color: 'rgba(255,255,255,0.8)',
-    fontSize: 14,
+    color: 'COLORS.COLORS.white + 'CC'',
+    fontSize: FONT_SIZE.base,
   },
   content: {
     flex: 1,
-    padding: 16,
+    padding: SPACING.base,
   },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
+    padding: SPACING.lg,
   },
   loadingText: {
     marginTop: 16,
@@ -493,7 +494,7 @@ const styles = StyleSheet.create({
   summaryContent: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 12,
+    padding: SPACING.md,
   },
   summaryIcon: {
     marginRight: 12,
@@ -502,13 +503,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   summaryNumber: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: FONT_SIZE.lg,
+    fontWeight: FONT_WEIGHT.bold,
     marginBottom: 2,
   },
   summaryLabel: {
-    fontSize: 12,
-    color: '#666',
+    fontSize: FONT_SIZE.sm,
+    color: 'COLORS.text.secondary',
   },
   filterContainer: {
     marginBottom: 16,
@@ -524,10 +525,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   badge: {
-    backgroundColor: '#2196F3',
+    backgroundColor: 'COLORS.info[500]',
   },
   divider: {
     marginBottom: 16,
@@ -536,9 +537,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 12,
-    marginBottom: 8,
-    borderRadius: 8,
+    padding: SPACING.md,
+    marginBottom: SPACING.sm,
+    borderRadius: BORDER_RADIUS.md,
     elevation: 1,
   },
   studentInfo: {
@@ -551,13 +552,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   studentName: {
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.bold,
   },
   studentModality: {
-    fontSize: 14,
-    color: '#666',
-    marginBottom: 4,
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.secondary',
+    marginBottom: SPACING.xs,
   },
   beltProgression: {
     flexDirection: 'row',
@@ -570,14 +571,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   statusChip: {
-    paddingHorizontal: 8,
+    paddingHorizontal: SPACING.sm,
   },
   examItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 12,
-    marginBottom: 8,
-    borderRadius: 8,
+    padding: SPACING.md,
+    marginBottom: SPACING.sm,
+    borderRadius: BORDER_RADIUS.md,
     elevation: 1,
   },
   examInfo: {
@@ -586,70 +587,70 @@ const styles = StyleSheet.create({
   examHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 4,
+    marginBottom: SPACING.xs,
   },
   examModality: {
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.bold,
   },
   examDate: {
-    fontSize: 14,
-    color: '#2196F3',
-    fontWeight: 'bold',
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.info[500]',
+    fontWeight: FONT_WEIGHT.bold,
   },
   examDetails: {
-    fontSize: 14,
-    color: '#666',
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.secondary',
     marginBottom: 2,
   },
   examCandidates: {
-    fontSize: 12,
-    color: '#999',
+    fontSize: FONT_SIZE.sm,
+    color: 'COLORS.gray[500]',
   },
   addButton: {
     marginTop: 16,
   },
   statItem: {
-    padding: 12,
-    marginBottom: 8,
-    borderRadius: 8,
+    padding: SPACING.md,
+    marginBottom: SPACING.sm,
+    borderRadius: BORDER_RADIUS.md,
     elevation: 1,
   },
   statHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   statModality: {
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.bold,
   },
   statNumbers: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   statEligible: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#4CAF50',
+    fontSize: FONT_SIZE.lg,
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.primary[500]',
   },
   statTotal: {
-    fontSize: 16,
-    color: '#666',
+    fontSize: FONT_SIZE.md,
+    color: 'COLORS.text.secondary',
   },
   progressBar: {
     height: 6,
     borderRadius: 3,
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   statDetails: {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
   statDetail: {
-    fontSize: 12,
-    color: '#666',
+    fontSize: FONT_SIZE.sm,
+    color: 'COLORS.text.secondary',
   },
 });
 

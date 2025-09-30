@@ -20,6 +20,7 @@ import { useAuth } from '@contexts/AuthProvider';
 import { useCustomClaims } from '@hooks/useCustomClaims';
 import { firestoreService } from '@services/firestoreService';
 import { getThemeColors } from '@theme/professionalTheme';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const PaymentManagementScreen = ({ navigation }) => {
   const { user, userProfile, academia } = useAuth();
@@ -162,11 +163,11 @@ const PaymentManagementScreen = ({ navigation }) => {
   const getPaymentStatusColor = (status) => {
     const colors = {
       'paid': themeColors.success,
-      'pending': '#FF9800',
-      'overdue': '#F44336',
+      'pending': 'COLORS.warning[500]',
+      'overdue': 'COLORS.error[500]',
       'active': themeColors.primary
     };
-    return colors[status] || '#666';
+    return colors[status] || 'COLORS.text.secondary';
   };
 
   const getPaymentStatusText = (status) => {
@@ -206,7 +207,7 @@ const PaymentManagementScreen = ({ navigation }) => {
                 <Chip 
                   mode="flat"
                   style={[styles.statusChip, { backgroundColor: getPaymentStatusColor(currentPlan.status) }]}
-                  textStyle={{ color: 'white', fontWeight: 'bold' }}
+                  textStyle={{ color: 'COLORS.COLORS.white', fontWeight: FONT_WEIGHT.bold }}
                 >
                   {getPaymentStatusText(currentPlan.status)}
                 </Chip>
@@ -221,7 +222,7 @@ const PaymentManagementScreen = ({ navigation }) => {
                     <Text style={styles.dueDateLabel}>Próximo vencimento:</Text>
                     <Text style={[
                       styles.dueDateValue,
-                      { color: getDaysUntilDue(currentPlan.dueDate) <= 3 ? '#F44336' : '#666' }
+                      { color: getDaysUntilDue(currentPlan.dueDate) <= 3 ? 'COLORS.error[500]' : 'COLORS.text.secondary' }
                     ]}>
                       {formatDate(currentPlan.dueDate)}
                       {getDaysUntilDue(currentPlan.dueDate) !== null && (
@@ -245,7 +246,7 @@ const PaymentManagementScreen = ({ navigation }) => {
           <Card style={styles.card}>
             <Card.Content>
               <View style={styles.cardHeader}>
-                <Ionicons name="warning" size={24} color="#FF9800" />
+                <Ionicons name="warning" size={24} color="COLORS.warning[500]" />
                 <Text style={styles.cardTitle}>Pagamentos Pendentes</Text>
               </View>
               
@@ -416,7 +417,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
-    padding: 16,
+    padding: SPACING.base,
   },
   card: {
     marginBottom: 16,
@@ -424,7 +425,7 @@ const styles = StyleSheet.create({
   },
   currentPlanCard: {
     borderLeftWidth: 4,
-    borderLeftColor: '#4CAF50',
+    borderLeftColor: 'COLORS.primary[500]',
   },
   cardHeader: {
     flexDirection: 'row',
@@ -432,8 +433,8 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   cardTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: FONT_SIZE.lg,
+    fontWeight: FONT_WEIGHT.bold,
     marginLeft: 8,
     flex: 1,
   },
@@ -441,41 +442,41 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   planDetails: {
-    marginTop: 8,
+    marginTop: SPACING.sm,
   },
   planName: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 4,
+    fontSize: FONT_SIZE.xl,
+    fontWeight: FONT_WEIGHT.bold,
+    marginBottom: SPACING.xs,
   },
   planValue: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#4CAF50',
-    marginBottom: 12,
+    fontSize: FONT_SIZE.xxl,
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.primary[500]',
+    marginBottom: SPACING.md,
   },
   dueDateContainer: {
-    backgroundColor: '#f8f9fa',
-    padding: 12,
-    borderRadius: 8,
+    backgroundColor: 'COLORS.background.light',
+    padding: SPACING.md,
+    borderRadius: BORDER_RADIUS.md,
   },
   dueDateLabel: {
-    fontSize: 14,
-    color: '#666',
-    marginBottom: 4,
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.secondary',
+    marginBottom: SPACING.xs,
   },
   dueDateValue: {
-    fontSize: 16,
-    fontWeight: '600',
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.semibold,
   },
   daysLeft: {
-    fontSize: 14,
+    fontSize: FONT_SIZE.base,
     fontWeight: 'normal',
   },
   paymentItem: {
-    padding: 12,
-    marginBottom: 8,
-    borderRadius: 8,
+    padding: SPACING.md,
+    marginBottom: SPACING.sm,
+    borderRadius: BORDER_RADIUS.md,
   },
   paymentInfo: {
     flexDirection: 'row',
@@ -486,45 +487,45 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   paymentPlan: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginBottom: 4,
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.semibold,
+    marginBottom: SPACING.xs,
   },
   paymentAmount: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#FF9800',
-    marginBottom: 4,
+    fontSize: FONT_SIZE.lg,
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.warning[500]',
+    marginBottom: SPACING.xs,
   },
   paymentDue: {
-    fontSize: 14,
-    color: '#666',
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.secondary',
   },
   payButton: {
-    borderRadius: 20,
+    borderRadius: BORDER_RADIUS.lg,
   },
   historyItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 12,
+    paddingVertical: SPACING.md,
   },
   historyInfo: {
     flex: 1,
   },
   historyPlan: {
-    fontSize: 16,
-    fontWeight: '500',
-    marginBottom: 4,
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.medium,
+    marginBottom: SPACING.xs,
   },
   historyAmount: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 4,
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.bold,
+    marginBottom: SPACING.xs,
   },
   historyDate: {
-    fontSize: 14,
-    color: '#666',
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.secondary',
   },
   historyStatus: {
     marginLeft: 12,
@@ -534,88 +535,88 @@ const styles = StyleSheet.create({
     padding: 32,
   },
   emptyText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#999',
-    marginTop: 12,
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.semibold,
+    color: 'COLORS.gray[500]',
+    marginTop: SPACING.md,
   },
   emptySubtext: {
-    fontSize: 14,
+    fontSize: FONT_SIZE.base,
     color: '#ccc',
-    marginTop: 4,
+    marginTop: SPACING.xs,
   },
   fab: {
     position: 'absolute',
-    margin: 16,
+    margin: SPACING.base,
     right: 0,
     bottom: 0,
   },
   modal: {
-    backgroundColor: 'white',
-    margin: 20,
-    borderRadius: 12,
+    backgroundColor: 'COLORS.COLORS.white',
+    margin: SPACING.lg,
+    borderRadius: BORDER_RADIUS.md,
     maxHeight: '80%',
   },
   modalTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontSize: FONT_SIZE.xl,
+    fontWeight: FONT_WEIGHT.bold,
     textAlign: 'center',
-    padding: 20,
+    padding: SPACING.lg,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: 'COLORS.gray[100]',
   },
   modalContent: {
-    padding: 20,
+    padding: SPACING.lg,
     maxHeight: 400,
   },
   planOption: {
-    marginBottom: 12,
-    borderRadius: 8,
+    marginBottom: SPACING.md,
+    borderRadius: BORDER_RADIUS.md,
   },
   planOptionContent: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 12,
+    padding: SPACING.md,
   },
   planOptionInfo: {
     marginLeft: 12,
     flex: 1,
   },
   planOptionName: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginBottom: 4,
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.semibold,
+    marginBottom: SPACING.xs,
   },
   planOptionValue: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#4CAF50',
-    marginBottom: 4,
+    fontSize: FONT_SIZE.lg,
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.primary[500]',
+    marginBottom: SPACING.xs,
   },
   planOptionDescription: {
-    fontSize: 14,
-    color: '#666',
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.secondary',
   },
   dueDateSection: {
     marginTop: 20,
-    padding: 16,
-    backgroundColor: '#f8f9fa',
-    borderRadius: 8,
+    padding: SPACING.base,
+    backgroundColor: 'COLORS.background.light',
+    borderRadius: BORDER_RADIUS.md,
   },
   dueDateSectionTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginBottom: 12,
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.semibold,
+    marginBottom: SPACING.md,
   },
   dateButton: {
-    borderColor: '#2196F3',
+    borderColor: 'COLORS.info[500]',
   },
   modalActions: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: 20,
+    padding: SPACING.lg,
     borderTopWidth: 1,
-    borderTopColor: '#f0f0f0',
+    borderTopColor: 'COLORS.gray[100]',
   },
   modalButton: {
     flex: 1,

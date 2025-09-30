@@ -25,6 +25,7 @@ import QRCodeScanner from '@components/QRCodeScanner';
 import CountryStatePicker from '@components/CountryStatePicker';
 import PhonePicker from '@components/PhonePicker';
 import ModalityPicker from '@components/ModalityPicker';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 export default function AcademiaSelectionScreen({ navigation, route }) {
   const { user, userProfile, setUserProfile, signOut } = useAuth();
@@ -397,7 +398,7 @@ export default function AcademiaSelectionScreen({ navigation, route }) {
   const getPlanoColor = (plano) => {
     switch (plano) {
       case 'free': return '#e8f5e8';
-      case 'premium': return '#fff3e0';
+      case 'premium': return 'COLORS.COLORS.white3e0';
       case 'enterprise': return '#f3e5f5';
       default: return '#f5f5f5';
     }
@@ -434,7 +435,7 @@ export default function AcademiaSelectionScreen({ navigation, route }) {
               }
             }}
             icon="arrow-left"
-            textColor="white"
+            textColor="COLORS.COLORS.white"
             style={styles.backButton}
           >
             Voltar
@@ -720,7 +721,7 @@ export default function AcademiaSelectionScreen({ navigation, route }) {
             <Text variant="bodySmall" style={styles.sectionDescription}>
               Apenas usuários com perfil de administrador podem criar uma nova academia.
             </Text>
-            <Text variant="bodySmall" style={[styles.sectionDescription, { marginTop: 8, fontStyle: 'italic' }]}>
+            <Text variant="bodySmall" style={[styles.sectionDescription, { marginTop: SPACING.sm, fontStyle: 'italic' }]}>
               Entre em contato com um administrador para obter acesso ou solicite que criem uma academia para você.
             </Text>
           </Card.Content>
@@ -827,7 +828,7 @@ const styles = {
     textAlign: 'center',
   },
   header: {
-    padding: 24,
+    padding: SPACING.xl,
     backgroundColor: '#6200ee',
   },
   headerContent: {
@@ -843,43 +844,43 @@ const styles = {
     alignItems: 'center',
   },
   title: {
-    color: 'white',
-    fontWeight: 'bold',
+    color: 'COLORS.COLORS.white',
+    fontWeight: FONT_WEIGHT.bold,
     textAlign: 'center',
   },
   subtitle: {
-    color: 'white',
+    color: 'COLORS.COLORS.white',
     textAlign: 'center',
-    marginTop: 8,
+    marginTop: SPACING.sm,
     opacity: 0.9,
   },
   optionsCard: {
-    margin: 16,
-    marginBottom: 8,
+    margin: SPACING.base,
+    marginBottom: SPACING.sm,
   },
   searchCard: {
-    margin: 16,
-    marginBottom: 8,
+    margin: SPACING.base,
+    marginBottom: SPACING.sm,
   },
   createCard: {
-    margin: 16,
-    marginTop: 8,
+    margin: SPACING.base,
+    marginTop: SPACING.sm,
   },
   sectionTitle: {
-    fontWeight: 'bold',
-    marginBottom: 8,
+    fontWeight: FONT_WEIGHT.bold,
+    marginBottom: SPACING.sm,
   },
   sectionDescription: {
     opacity: 0.7,
     marginBottom: 16,
   },
   input: {
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   addressRow: {
     flexDirection: 'row',
     gap: 8,
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   halfInput: {
     flex: 1,
@@ -894,10 +895,10 @@ const styles = {
     marginBottom: 0,
   },
   searchButton: {
-    marginTop: 8,
+    marginTop: SPACING.sm,
   },
   showFormButton: {
-    marginTop: 8,
+    marginTop: SPACING.sm,
   },
   createForm: {
     marginTop: 16,
@@ -914,29 +915,29 @@ const styles = {
     flex: 0.45,
   },
   resultsContainer: {
-    margin: 16,
-    marginTop: 8,
+    margin: SPACING.base,
+    marginTop: SPACING.sm,
   },
   resultsTitle: {
-    fontWeight: 'bold',
-    marginBottom: 12,
+    fontWeight: FONT_WEIGHT.bold,
+    marginBottom: SPACING.md,
   },
   academiaCard: {
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   academiaName: {
-    fontWeight: 'bold',
-    marginBottom: 8,
+    fontWeight: FONT_WEIGHT.bold,
+    marginBottom: SPACING.sm,
   },
   academiaAddress: {
-    marginBottom: 4,
+    marginBottom: SPACING.xs,
   },
   academiaContact: {
-    marginBottom: 4,
+    marginBottom: SPACING.xs,
     opacity: 0.8,
   },
   planoContainer: {
-    marginTop: 12,
+    marginTop: SPACING.md,
   },
   planoChip: {
     alignSelf: 'flex-start',
@@ -950,16 +951,16 @@ const styles = {
   optionButtons: {
     flexDirection: 'row',
     gap: 12,
-    marginTop: 8,
+    marginTop: SPACING.sm,
   },
   optionButton: {
     flex: 1,
   },
   modal: {
-    backgroundColor: 'white',
-    padding: 24,
-    margin: 20,
-    borderRadius: 12,
+    backgroundColor: 'COLORS.COLORS.white',
+    padding: SPACING.xl,
+    margin: SPACING.lg,
+    borderRadius: BORDER_RADIUS.md,
   },
   qrModalWrapper: {
     flex: 1,
@@ -969,9 +970,9 @@ const styles = {
     zIndex: 9999,
   },
   qrModal: {
-    backgroundColor: 'white',
-    margin: 20,
-    borderRadius: 12,
+    backgroundColor: 'COLORS.COLORS.white',
+    margin: SPACING.lg,
+    borderRadius: BORDER_RADIUS.md,
     overflow: 'hidden',
     elevation: 10,
     minWidth: 300,
@@ -987,7 +988,7 @@ const styles = {
   modalTitle: {
     textAlign: 'center',
     marginBottom: 16,
-    fontWeight: 'bold',
+    fontWeight: FONT_WEIGHT.bold,
   },
   modalDescription: {
     textAlign: 'center',

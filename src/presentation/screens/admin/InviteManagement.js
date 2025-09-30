@@ -16,6 +16,7 @@ import { useAuth } from '@contexts/AuthProvider';
 import { InviteService } from '@services/inviteService';
 import QRCodeGenerator from '@components/QRCodeGenerator';
 import ActionButton, { ActionButtonGroup } from '@components/ActionButton';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 export default function InviteManagement({ navigation }) {
   const { user, userProfile, academia } = useAuth();
@@ -141,9 +142,9 @@ export default function InviteManagement({ navigation }) {
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'pending': return '#FF9800';
-      case 'accepted': return '#4CAF50';
-      case 'expired': return '#F44336';
+      case 'pending': return 'COLORS.warning[500]';
+      case 'accepted': return 'COLORS.primary[500]';
+      case 'expired': return 'COLORS.error[500]';
       default: return '#9E9E9E';
     }
   };
@@ -171,7 +172,7 @@ export default function InviteManagement({ navigation }) {
           </View>
           <Chip 
             style={[styles.statusChip, { backgroundColor: getStatusColor(invite.status) }]}
-            textStyle={{ color: 'white' }}
+            textStyle={{ color: 'COLORS.COLORS.white' }}
           >
             {getStatusText(invite.status)}
           </Chip>
@@ -391,28 +392,28 @@ const styles = {
     flex: 1,
   },
   headerCard: {
-    margin: 16,
-    marginBottom: 8,
+    margin: SPACING.base,
+    marginBottom: SPACING.sm,
   },
   title: {
-    fontWeight: 'bold',
+    fontWeight: FONT_WEIGHT.bold,
     textAlign: 'center',
   },
   subtitle: {
     textAlign: 'center',
     opacity: 0.7,
-    marginTop: 8,
+    marginTop: SPACING.sm,
   },
   optionsCard: {
-    margin: 16,
+    margin: SPACING.base,
     marginVertical: 8,
   },
   listCard: {
-    margin: 16,
-    marginTop: 8,
+    margin: SPACING.base,
+    marginTop: SPACING.sm,
   },
   sectionTitle: {
-    fontWeight: 'bold',
+    fontWeight: FONT_WEIGHT.bold,
     marginBottom: 16,
   },
   listHeader: {
@@ -432,30 +433,30 @@ const styles = {
     flex: 1,
   },
   inviteCard: {
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   inviteHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   inviteInfo: {
     flex: 1,
   },
   inviteEmail: {
-    fontWeight: 'bold',
+    fontWeight: FONT_WEIGHT.bold,
   },
   inviteType: {
     opacity: 0.7,
-    marginTop: 4,
+    marginTop: SPACING.xs,
   },
   statusChip: {
     marginLeft: 12,
   },
   inviteDate: {
     opacity: 0.6,
-    marginTop: 4,
+    marginTop: SPACING.xs,
   },
   expiryDate: {
     opacity: 0.6,
@@ -468,29 +469,29 @@ const styles = {
     marginVertical: 20,
   },
   modal: {
-    backgroundColor: 'white',
-    padding: 24,
-    margin: 20,
-    borderRadius: 12,
+    backgroundColor: 'COLORS.COLORS.white',
+    padding: SPACING.xl,
+    margin: SPACING.lg,
+    borderRadius: BORDER_RADIUS.md,
   },
   qrModal: {
-    backgroundColor: 'white',
-    padding: 24,
-    margin: 20,
-    borderRadius: 12,
+    backgroundColor: 'COLORS.COLORS.white',
+    padding: SPACING.xl,
+    margin: SPACING.lg,
+    borderRadius: BORDER_RADIUS.md,
     alignItems: 'center',
   },
   modalTitle: {
     textAlign: 'center',
     marginBottom: 20,
-    fontWeight: 'bold',
+    fontWeight: FONT_WEIGHT.bold,
   },
   input: {
     marginBottom: 16,
   },
   typeLabel: {
-    marginBottom: 12,
-    fontWeight: '500',
+    marginBottom: SPACING.md,
+    fontWeight: FONT_WEIGHT.medium,
   },
   typeButtons: {
     flexDirection: 'row',

@@ -27,6 +27,7 @@ import batchFirestoreService from '@services/batchFirestoreService';
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import DashboardSkeleton from '@components/skeletons/DashboardSkeleton';
 import FreeGymScheduler from '@components/FreeGymScheduler';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const AdminDashboard = ({ navigation }) => {
   const { user, userProfile, logout, academia } = useAuth();
@@ -209,13 +210,13 @@ const AdminDashboard = ({ navigation }) => {
 
   const getActivityColor = (type) => {
     const colors = {
-      'new_student': '#4CAF50',
-      'payment': '#2196F3',
+      'new_student': 'COLORS.primary[500]',
+      'payment': 'COLORS.info[500]',
       'graduation': '#FFD700',
-      'class': '#FF9800',
-      'announcement': '#9C27B0'
+      'class': 'COLORS.warning[500]',
+      'announcement': 'COLORS.secondary[500]'
     };
-    return colors[type] || '#666';
+    return colors[type] || 'COLORS.text.secondary';
   };
 
   const headerTransform = {
@@ -343,7 +344,7 @@ const AdminDashboard = ({ navigation }) => {
                     Administrador da Academia
                   </Text>
                   <View style={styles.statusBadge}>
-                    <SafeMaterialCommunityIcons name="circle" size={8} color="#4CAF50" />
+                    <SafeMaterialCommunityIcons name="circle" size={8} color="COLORS.primary[500]" />
                     <Text style={styles.statusText}>Online</Text>
                   </View>
                   {/* Código da Academia */}
@@ -352,7 +353,7 @@ const AdminDashboard = ({ navigation }) => {
                       style={styles.academiaCodeContainer}
                       onPress={handleShowQR}
                     >
-                      <SafeMaterialCommunityIcons name="qrcode" size={16} color="rgba(255,255,255,0.9)" />
+                      <SafeMaterialCommunityIcons name="qrcode" size={16} color="COLORS.COLORS.white + 'E6'" />
                       <Text style={styles.academiaCodeText}>
                         Código: {academia.codigo}
                       </Text>
@@ -377,7 +378,7 @@ const AdminDashboard = ({ navigation }) => {
         <View style={styles.statsContainer}>
           <Animated.View style={[styles.statCard, { opacity: animations.fadeAnim }]}>
             <LinearGradient colors={ADMIN_COLORS.blue} style={styles.statGradient}>
-              <SafeMaterialCommunityIcons name="account-group" size={32} color="white" />
+              <SafeMaterialCommunityIcons name="account-group" size={32} color="COLORS.COLORS.white" />
               <Text style={styles.statNumberModern}>{dashboardData.totalStudents}</Text>
               <Text style={styles.statLabelModern}>Total de Alunos</Text>
             </LinearGradient>
@@ -385,7 +386,7 @@ const AdminDashboard = ({ navigation }) => {
 
           <Animated.View style={[styles.statCard, { opacity: animations.fadeAnim }]}>
             <LinearGradient colors={ADMIN_COLORS.green} style={styles.statGradient}>
-              <SafeMaterialCommunityIcons name="account-check" size={32} color="white" />
+              <SafeMaterialCommunityIcons name="account-check" size={32} color="COLORS.COLORS.white" />
               <Text style={styles.statNumberModern}>{dashboardData.activeStudents}</Text>
               <Text style={styles.statLabelModern}>Alunos Ativos</Text>
             </LinearGradient>
@@ -393,7 +394,7 @@ const AdminDashboard = ({ navigation }) => {
 
           <Animated.View style={[styles.statCard, { opacity: animations.fadeAnim }]}>
             <LinearGradient colors={ADMIN_COLORS.orange} style={styles.statGradient}>
-              <SafeMaterialCommunityIcons name="school-outline" size={32} color="white" />
+              <SafeMaterialCommunityIcons name="school-outline" size={32} color="COLORS.COLORS.white" />
               <Text style={styles.statNumberModern}>{dashboardData.totalClasses}</Text>
               <Text style={styles.statLabelModern}>Turmas</Text>
             </LinearGradient>
@@ -401,7 +402,7 @@ const AdminDashboard = ({ navigation }) => {
 
           <Animated.View style={[styles.statCard, { opacity: animations.fadeAnim }]}>
             <LinearGradient colors={ADMIN_COLORS.purple} style={styles.statGradient}>
-              <SafeMaterialCommunityIcons name="cash-multiple" size={32} color="white" />
+              <SafeMaterialCommunityIcons name="cash-multiple" size={32} color="COLORS.COLORS.white" />
               <Text style={styles.statNumberModern}>{dashboardData.pendingPayments}</Text>
               <Text style={styles.statLabelModern}>Pendências</Text>
             </LinearGradient>
@@ -412,7 +413,7 @@ const AdminDashboard = ({ navigation }) => {
         <AnimatedCard delay={200} style={styles.card}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <SafeIonicons name="cash-outline" size={24} color="#4CAF50" />
+              <SafeIonicons name="cash-outline" size={24} color="COLORS.primary[500]" />
               <Text style={[styles.cardTitle, { fontSize: ResponsiveUtils.fontSize.medium }]}>
                 Financeiro do Mês
               </Text>
@@ -452,7 +453,7 @@ const AdminDashboard = ({ navigation }) => {
                   <Text style={[
                     styles.paymentNumber, 
                     { 
-                      color: '#F44336',
+                      color: 'COLORS.error[500]',
                       fontSize: ResponsiveUtils.fontSize.large 
                     }
                   ]}>
@@ -498,15 +499,15 @@ const AdminDashboard = ({ navigation }) => {
               ].map((action, idx) => (
                 <Animated.View key={action.key} style={[styles.actionCard, { opacity: animations.fadeAnim, width: ResponsiveUtils.isTablet() ? '31%' : '48%' }]}>
                   <LinearGradient colors={action.colors} style={styles.actionGradient}>
-                    <SafeMaterialCommunityIcons name={action.icon} size={28} color="white" />
+                    <SafeMaterialCommunityIcons name={action.icon} size={28} color="COLORS.COLORS.white" />
                     <Text style={styles.actionTitle}>{action.title}</Text>
                     <Text style={styles.actionSubtitle}>{action.subtitle}</Text>
                     <AnimatedButton
                       mode="contained"
                       onPress={action.onPress}
                       style={styles.modernActionButton}
-                      buttonColor="rgba(255,255,255,0.2)"
-                      textColor="white"
+                      buttonColor="COLORS.COLORS.white + '33'"
+                      textColor="COLORS.COLORS.white"
                       compact
                     >
                       Abrir
@@ -522,7 +523,7 @@ const AdminDashboard = ({ navigation }) => {
         <AnimatedCard delay={400} style={styles.card}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <SafeIonicons name="time-outline" size={24} color="#666" />
+              <SafeIonicons name="time-outline" size={24} color="COLORS.text.secondary" />
               <Text style={[styles.cardTitle, { fontSize: ResponsiveUtils.fontSize.medium }]}>
                 Atividades Recentes
               </Text>
@@ -571,7 +572,7 @@ const AdminDashboard = ({ navigation }) => {
           <AnimatedCard delay={500} style={[styles.card, styles.alertCard]}>
             <Card.Content>
               <View style={styles.cardHeader}>
-                <SafeIonicons name="warning-outline" size={24} color="#FF9800" />
+                <SafeIonicons name="warning-outline" size={24} color="COLORS.warning[500]" />
                 <Text style={[styles.cardTitle, { fontSize: ResponsiveUtils.fontSize.medium }]}>
                   Alertas
                 </Text>
@@ -619,21 +620,21 @@ const styles = StyleSheet.create({
   headerIconContainer: {
     width: 48,
     height: 48,
-    borderRadius: 24,
-    backgroundColor: '#f0f0f0',
+    borderRadius: BORDER_RADIUS.full,
+    backgroundColor: 'COLORS.gray[100]',
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: ResponsiveUtils.spacing.md,
   },
   modernCardTitle: {
     fontSize: ResponsiveUtils.fontSize.large,
-    fontWeight: 'bold',
-    color: '#333',
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.text.primary',
     marginBottom: 2,
   },
   modernCardSubtitle: {
     fontSize: ResponsiveUtils.fontSize.small,
-    color: '#666',
+    color: 'COLORS.text.secondary',
   },
   // Header moderno
   headerContainer: {
@@ -651,9 +652,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   avatarModern: {
-    backgroundColor: 'rgba(255,255,255,0.2)',
+    backgroundColor: 'COLORS.COLORS.white + '33'',
     borderWidth: 2,
-    borderColor: 'rgba(255,255,255,0.3)',
+    borderColor: 'COLORS.COLORS.white + '4D'',
   },
   headerTextModern: {
     marginLeft: ResponsiveUtils.spacing.md,
@@ -661,29 +662,29 @@ const styles = StyleSheet.create({
   },
   welcomeTextModern: {
     fontSize: ResponsiveUtils.fontSize.large,
-    fontWeight: 'bold',
-    color: 'white',
-    marginBottom: 4,
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.COLORS.white',
+    marginBottom: SPACING.xs,
   },
   roleTextModern: {
     fontSize: ResponsiveUtils.fontSize.medium,
-    color: 'rgba(255,255,255,0.9)',
-    marginBottom: 8,
+    color: 'COLORS.COLORS.white + 'E6'',
+    marginBottom: SPACING.sm,
   },
   statusBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(255,255,255,0.2)',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 12,
+    backgroundColor: 'COLORS.COLORS.white + '33'',
+    paddingHorizontal: SPACING.sm,
+    paddingVertical: SPACING.xs,
+    borderRadius: BORDER_RADIUS.md,
     alignSelf: 'flex-start',
   },
   statusText: {
-    color: 'white',
-    fontSize: 12,
-    marginLeft: 4,
-    fontWeight: '500',
+    color: 'COLORS.COLORS.white',
+    fontSize: FONT_SIZE.sm,
+    marginLeft: SPACING.xs,
+    fontWeight: FONT_WEIGHT.medium,
   },
   headerCard: {
     margin: ResponsiveUtils.spacing.md,
@@ -696,18 +697,18 @@ const styles = StyleSheet.create({
     padding: ResponsiveUtils.spacing.md,
   },
   avatar: {
-    backgroundColor: '#FF9800',
+    backgroundColor: 'COLORS.warning[500]',
   },
   headerText: {
     marginLeft: ResponsiveUtils.spacing.md,
     flex: 1,
   },
   welcomeText: {
-    fontWeight: 'bold',
+    fontWeight: FONT_WEIGHT.bold,
     marginBottom: ResponsiveUtils.spacing.xs,
   },
   roleText: {
-    color: '#666',
+    color: 'COLORS.text.secondary',
   },
   // Estatísticas modernas (cards com gradiente)
   statsContainer: {
@@ -731,16 +732,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   statNumberModern: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: 'white',
-    marginTop: 8,
+    fontSize: FONT_SIZE.xxl,
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.COLORS.white',
+    marginTop: SPACING.sm,
   },
   statLabelModern: {
-    fontSize: 14,
-    color: 'rgba(255,255,255,0.9)',
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.COLORS.white + 'E6'',
     textAlign: 'center',
-    marginTop: 4,
+    marginTop: SPACING.xs,
   },
   card: {
     margin: ResponsiveUtils.spacing.md,
@@ -757,7 +758,7 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     marginLeft: ResponsiveUtils.spacing.sm,
-    fontWeight: 'bold',
+    fontWeight: FONT_WEIGHT.bold,
   },
   statsGrid: {
     flexDirection: 'row',
@@ -770,15 +771,15 @@ const styles = StyleSheet.create({
     padding: ResponsiveUtils.spacing.md,
     borderRadius: ResponsiveUtils.borderRadius.medium,
     ...ResponsiveUtils.elevation,
-    backgroundColor: '#fff',
+    backgroundColor: 'COLORS.COLORS.white',
     marginBottom: ResponsiveUtils.spacing.sm,
   },
   statNumber: {
-    fontWeight: 'bold',
-    color: '#2196F3',
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.info[500]',
   },
   statLabel: {
-    color: '#666',
+    color: 'COLORS.text.secondary',
     marginTop: ResponsiveUtils.spacing.xs,
     textAlign: 'center',
   },
@@ -793,11 +794,11 @@ const styles = StyleSheet.create({
     borderRadius: ResponsiveUtils.borderRadius.medium,
   },
   revenueLabel: {
-    color: '#666',
+    color: 'COLORS.text.secondary',
   },
   revenueValue: {
-    fontWeight: 'bold',
-    color: '#4CAF50',
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.primary[500]',
     marginTop: ResponsiveUtils.spacing.xs,
   },
   paymentsRow: {
@@ -808,17 +809,17 @@ const styles = StyleSheet.create({
   paymentItem: {
     alignItems: 'center',
     padding: ResponsiveUtils.spacing.sm,
-    backgroundColor: '#f9f9f9',
+    backgroundColor: 'COLORS.gray[50]',
     borderRadius: ResponsiveUtils.borderRadius.small,
     flex: 1,
     marginHorizontal: ResponsiveUtils.spacing.xs,
   },
   paymentNumber: {
-    fontWeight: 'bold',
-    color: '#FF9800',
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.warning[500]',
   },
   paymentLabel: {
-    color: '#666',
+    color: 'COLORS.text.secondary',
     marginTop: ResponsiveUtils.spacing.xs,
   },
   divider: {
@@ -845,32 +846,32 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   actionTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: 'white',
-    marginTop: 8,
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.COLORS.white',
+    marginTop: SPACING.sm,
   },
   actionSubtitle: {
-    fontSize: 12,
-    color: 'rgba(255,255,255,0.8)',
+    fontSize: FONT_SIZE.sm,
+    color: 'COLORS.COLORS.white + 'CC'',
     textAlign: 'center',
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   modernActionButton: {
-    borderRadius: 20,
+    borderRadius: BORDER_RADIUS.lg,
   },
   
   viewAllButton: {
     marginTop: ResponsiveUtils.spacing.sm,
   },
   alertText: {
-    color: '#FF9800',
+    color: 'COLORS.warning[500]',
     marginBottom: ResponsiveUtils.spacing.xs,
   },
   // Skeletons
   skeletonBlock: {
-    backgroundColor: '#e0e0e0',
-    borderRadius: 8,
+    backgroundColor: 'COLORS.gray[300]',
+    borderRadius: BORDER_RADIUS.md,
   },
   skeletonHeader: {
     height: 90,
@@ -892,23 +893,23 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: 'rgba(255,255,255,0.15)',
-    paddingHorizontal: 12,
+    paddingHorizontal: SPACING.md,
     paddingVertical: 6,
-    borderRadius: 20,
-    marginTop: 8,
+    borderRadius: BORDER_RADIUS.lg,
+    marginTop: SPACING.sm,
   },
   academiaCodeText: {
-    color: 'rgba(255,255,255,0.9)',
-    fontSize: 12,
-    fontWeight: '600',
-    marginLeft: 6,
+    color: 'COLORS.COLORS.white + 'E6'',
+    fontSize: FONT_SIZE.sm,
+    fontWeight: FONT_WEIGHT.semibold,
+    marginLeft: SPACING.xs,
   },
   
   // Estilos do modal do calendário
   calendarModalContainer: {
-    backgroundColor: 'white',
-    margin: 20,
-    borderRadius: 12,
+    backgroundColor: 'COLORS.COLORS.white',
+    margin: SPACING.lg,
+    borderRadius: BORDER_RADIUS.md,
     maxHeight: '90%',
     flex: 1,
   },
@@ -916,26 +917,26 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 16,
+    padding: SPACING.base,
     borderBottomWidth: 1,
-    borderBottomColor: '#e0e0e0',
+    borderBottomColor: 'COLORS.gray[300]',
   },
   calendarModalTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#333',
+    fontSize: FONT_SIZE.lg,
+    fontWeight: FONT_WEIGHT.semibold,
+    color: 'COLORS.text.primary',
   },
   calendarContainer: {
     flex: 1,
-    padding: 8,
+    padding: SPACING.sm,
   },
   
   // Modal do QR Code
   modalContainer: {
-    backgroundColor: 'white',
-    margin: 20,
-    borderRadius: 16,
-    padding: 20,
+    backgroundColor: 'COLORS.COLORS.white',
+    margin: SPACING.lg,
+    borderRadius: BORDER_RADIUS.lg,
+    padding: SPACING.lg,
   },
   closeModalButton: {
     marginTop: 16,

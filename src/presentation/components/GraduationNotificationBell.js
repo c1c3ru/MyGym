@@ -14,6 +14,7 @@ import {
 } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 import { useGraduation } from '@hooks/useGraduation';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const GraduationNotificationBell = ({ onNotificationPress }) => {
   const {
@@ -89,12 +90,12 @@ const GraduationNotificationBell = ({ onNotificationPress }) => {
 
   const getNotificationColor = (type) => {
     const colors = {
-      'student_eligible': '#4CAF50',
-      'exam_reminder': '#FF9800',
-      'graduation_completed': '#2196F3',
-      'bulk_eligible': '#9C27B0'
+      'student_eligible': 'COLORS.primary[500]',
+      'exam_reminder': 'COLORS.warning[500]',
+      'graduation_completed': 'COLORS.info[500]',
+      'bulk_eligible': 'COLORS.secondary[500]'
     };
-    return colors[type] || '#666';
+    return colors[type] || 'COLORS.text.secondary';
   };
 
   const formatNotificationTime = (date) => {
@@ -256,9 +257,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#f44336',
   },
   modalContainer: {
-    backgroundColor: 'white',
-    margin: 20,
-    borderRadius: 12,
+    backgroundColor: 'COLORS.COLORS.COLORS.white',
+    margin: SPACING.lg,
+    borderRadius: BORDER_RADIUS.md,
     maxHeight: '80%',
     elevation: 5,
   },
@@ -266,16 +267,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 16,
+    padding: SPACING.base,
     paddingBottom: 8,
   },
   modalTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: FONT_SIZE.lg,
+    fontWeight: FONT_WEIGHT.bold,
   },
   notificationsList: {
     maxHeight: 400,
-    paddingHorizontal: 8,
+    paddingHorizontal: SPACING.sm,
   },
   notificationCard: {
     marginVertical: 4,
@@ -284,20 +285,20 @@ const styles = StyleSheet.create({
   },
   unreadCard: {
     borderLeftWidth: 4,
-    borderLeftColor: '#2196F3',
+    borderLeftColor: 'COLORS.info[500]',
   },
   notificationContent: {
-    paddingVertical: 12,
+    paddingVertical: SPACING.md,
   },
   notificationHeader: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   notificationIcon: {
     width: 32,
     height: 32,
-    borderRadius: 16,
+    borderRadius: BORDER_RADIUS.lg,
     backgroundColor: '#f5f5f5',
     justifyContent: 'center',
     alignItems: 'center',
@@ -307,37 +308,37 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   notificationTitle: {
-    fontSize: 14,
-    fontWeight: '600',
+    fontSize: FONT_SIZE.base,
+    fontWeight: FONT_WEIGHT.semibold,
     marginBottom: 2,
   },
   unreadTitle: {
-    fontWeight: 'bold',
+    fontWeight: FONT_WEIGHT.bold,
   },
   notificationTime: {
-    fontSize: 12,
-    color: '#666',
+    fontSize: FONT_SIZE.sm,
+    color: 'COLORS.text.secondary',
   },
   unreadIndicator: {
     width: 8,
     height: 8,
-    borderRadius: 4,
-    backgroundColor: '#2196F3',
+    borderRadius: BORDER_RADIUS.sm,
+    backgroundColor: 'COLORS.info[500]',
     marginLeft: 8,
-    marginTop: 4,
+    marginTop: SPACING.xs,
   },
   notificationMessage: {
     fontSize: 13,
-    color: '#333',
+    color: 'COLORS.text.primary',
     lineHeight: 18,
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   modalityChip: {
     alignSelf: 'flex-start',
-    backgroundColor: '#e3f2fd',
+    backgroundColor: 'COLORS.info[50]',
   },
   modalFooter: {
-    padding: 16,
+    padding: SPACING.base,
     paddingTop: 8,
   },
   refreshButton: {
@@ -347,19 +348,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 32,
-    margin: 16,
-    borderRadius: 8,
+    margin: SPACING.base,
+    borderRadius: BORDER_RADIUS.md,
   },
   emptyText: {
-    fontSize: 16,
-    color: '#666',
-    marginTop: 12,
+    fontSize: FONT_SIZE.md,
+    color: 'COLORS.text.secondary',
+    marginTop: SPACING.md,
     textAlign: 'center',
   },
   emptySubtext: {
-    fontSize: 14,
-    color: '#999',
-    marginTop: 4,
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.gray[500]',
+    marginTop: SPACING.xs,
     textAlign: 'center',
   },
 });

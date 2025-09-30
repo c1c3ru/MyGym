@@ -13,6 +13,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '@contexts/AuthProvider';
 import { useNotification } from '@contexts/NotificationContext';
 import { firestoreService } from '@services/firestoreService';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const PaymentDueDateEditor = ({ visible, onDismiss, currentPayment, onUpdate }) => {
   const { user, userProfile, academia } = useAuth();
@@ -140,7 +141,7 @@ const PaymentDueDateEditor = ({ visible, onDismiss, currentPayment, onUpdate }) 
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.header}>
-              <Ionicons name="calendar-outline" size={24} color="#2196F3" />
+              <Ionicons name="calendar-outline" size={24} color="COLORS.info[500]" />
               <Title style={styles.title}>Alterar Data de Vencimento</Title>
             </View>
 
@@ -202,7 +203,7 @@ const PaymentDueDateEditor = ({ visible, onDismiss, currentPayment, onUpdate }) 
 
 const styles = StyleSheet.create({
   modal: {
-    margin: 20,
+    margin: SPACING.lg,
   },
   card: {
     elevation: 8,
@@ -214,7 +215,7 @@ const styles = StyleSheet.create({
   },
   title: {
     marginLeft: 8,
-    fontSize: 18,
+    fontSize: FONT_SIZE.lg,
   },
   divider: {
     marginBottom: 16,
@@ -223,7 +224,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   planInfo: {
     flexDirection: 'row',
@@ -232,24 +233,24 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   label: {
-    fontSize: 16,
-    color: '#666',
+    fontSize: FONT_SIZE.md,
+    color: 'COLORS.text.secondary',
   },
   currentDate: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#2196F3',
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.info[500]',
   },
   planName: {
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.bold,
   },
   input: {
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   helpText: {
-    fontSize: 12,
-    color: '#666',
+    fontSize: FONT_SIZE.sm,
+    color: 'COLORS.text.secondary',
     fontStyle: 'italic',
     marginBottom: 24,
   },
@@ -264,7 +265,7 @@ const styles = StyleSheet.create({
   saveButton: {
     flex: 1,
     marginLeft: 8,
-    backgroundColor: '#2196F3',
+    backgroundColor: 'COLORS.info[500]',
   },
 });
 

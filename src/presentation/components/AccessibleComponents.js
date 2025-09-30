@@ -373,26 +373,26 @@ const styles = StyleSheet.create({
   // Text variants
   h1: {
     fontSize: 32,
-    fontWeight: '700',
+    fontWeight: FONT_WEIGHT.bold,
     marginBottom: SPACING.md,
   },
   h2: {
-    fontSize: 24,
-    fontWeight: '600',
+    fontSize: FONT_SIZE.xxl,
+    fontWeight: FONT_WEIGHT.semibold,
     marginBottom: SPACING.sm,
   },
   h3: {
-    fontSize: 20,
-    fontWeight: '600',
+    fontSize: FONT_SIZE.xl,
+    fontWeight: FONT_WEIGHT.semibold,
     marginBottom: SPACING.sm,
   },
   body: {
-    fontSize: 16,
+    fontSize: FONT_SIZE.md,
     lineHeight: 24,
   },
   caption: {
-    fontSize: 12,
-    color: '#666',
+    fontSize: FONT_SIZE.sm,
+    color: 'COLORS.text.secondary',
   },
 
   // List Item
@@ -401,7 +401,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: SPACING.base,
     borderRadius: BORDER_RADIUS.base,
-    backgroundColor: '#fff',
+    backgroundColor: 'COLORS.COLORS.white',
     marginVertical: SPACING.xs,
   },
   listItemLeft: {
@@ -411,13 +411,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   listItemTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginBottom: 4,
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.semibold,
+    marginBottom: SPACING.xs,
   },
   listItemDescription: {
-    fontSize: 14,
-    color: '#666',
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.secondary',
   },
   listItemRight: {
     marginLeft: SPACING.md,
@@ -428,7 +428,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: SPACING.base,
-    backgroundColor: '#fff',
+    backgroundColor: 'COLORS.COLORS.white',
   },
   headerLeft: {
     marginRight: SPACING.md,
@@ -437,13 +437,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   headerTitle: {
-    fontSize: 20,
-    fontWeight: '700',
+    fontSize: FONT_SIZE.xl,
+    fontWeight: FONT_WEIGHT.bold,
   },
   headerSubtitle: {
-    fontSize: 14,
-    color: '#666',
-    marginTop: 4,
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.secondary',
+    marginTop: SPACING.xs,
   },
   headerRight: {
     marginLeft: SPACING.md,
@@ -451,7 +451,7 @@ const styles = StyleSheet.create({
 
   // Badge
   badge: {
-    backgroundColor: '#F44336',
+    backgroundColor: 'COLORS.error[500]',
     borderRadius: BORDER_RADIUS.full,
     minWidth: 20,
     height: 20,
@@ -460,9 +460,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 6,
   },
   badgeText: {
-    color: '#fff',
-    fontSize: 12,
-    fontWeight: '700',
+    color: 'COLORS.COLORS.white',
+    fontSize: FONT_SIZE.sm,
+    fontWeight: FONT_WEIGHT.bold,
   },
 });
 

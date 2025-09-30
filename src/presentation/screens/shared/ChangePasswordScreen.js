@@ -12,6 +12,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { updatePassword, reauthenticateWithCredential, EmailAuthProvider } from 'firebase/auth';
 import { useAuth } from '@contexts/AuthProvider';
 import SafeCardContent from '@components/SafeCardContent';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const ChangePasswordScreen = ({ navigation }) => {
   const { user } = useAuth();
@@ -263,7 +264,7 @@ const ChangePasswordScreen = ({ navigation }) => {
         onDismiss={() => setSnackbar({ ...snackbar, visible: false })}
         duration={snackbar.type === 'success' ? 3000 : 5000}
         style={{
-          backgroundColor: snackbar.type === 'success' ? '#4CAF50' : '#F44336'
+          backgroundColor: snackbar.type === 'success' ? 'COLORS.primary[500]' : 'COLORS.error[500]'
         }}
       >
         {snackbar.message}
@@ -281,27 +282,27 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    padding: 16,
+    padding: SPACING.base,
   },
   card: {
     marginBottom: 16,
     elevation: 4,
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 8,
+    fontSize: FONT_SIZE.xxl,
+    fontWeight: FONT_WEIGHT.bold,
+    marginBottom: SPACING.sm,
     textAlign: 'center',
   },
   subtitle: {
-    fontSize: 16,
-    color: '#666',
+    fontSize: FONT_SIZE.md,
+    color: 'COLORS.text.secondary',
     marginBottom: 24,
     textAlign: 'center',
     lineHeight: 22,
   },
   input: {
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -317,13 +318,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#E8F5E8',
   },
   tipsTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 12,
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.bold,
+    marginBottom: SPACING.md,
     color: '#2E7D32',
   },
   tipsText: {
-    fontSize: 14,
+    fontSize: FONT_SIZE.base,
     color: '#1B5E20',
     lineHeight: 20,
   },

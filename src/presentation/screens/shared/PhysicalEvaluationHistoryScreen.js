@@ -15,6 +15,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { LineChart } from 'react-native-chart-kit';
 import { useAuth } from '@contexts/AuthProvider';
 import { academyFirestoreService } from '@services/academyFirestoreService';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const { width } = Dimensions.get('window');
 
@@ -66,12 +67,12 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
 
   const getIMCColor = (classification) => {
     switch (classification) {
-      case 'Abaixo do peso': return '#FF9800';
-      case 'Peso normal': return '#4CAF50';
-      case 'Sobrepeso': return '#FF9800';
+      case 'Abaixo do peso': return 'COLORS.warning[500]';
+      case 'Peso normal': return 'COLORS.primary[500]';
+      case 'Sobrepeso': return 'COLORS.warning[500]';
       case 'Obesidade grau I': return '#FF5722';
-      case 'Obesidade grau II': return '#F44336';
-      case 'Obesidade grau III': return '#9C27B0';
+      case 'Obesidade grau II': return 'COLORS.error[500]';
+      case 'Obesidade grau III': return 'COLORS.secondary[500]';
       default: return '#9E9E9E';
     }
   };
@@ -176,7 +177,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
           <Card style={styles.card}>
             <Card.Content>
               <View style={styles.cardHeader}>
-                <Ionicons name="fitness-outline" size={24} color="#4CAF50" />
+                <Ionicons name="fitness-outline" size={24} color="COLORS.primary[500]" />
                 <Text style={styles.cardTitle}>Avaliação Atual</Text>
                 <Text style={styles.dateText}>{formatDate(latestEvaluation.date)}</Text>
               </View>
@@ -207,7 +208,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
                 <Chip 
                   mode="flat"
                   style={[styles.imcChip, { backgroundColor: getIMCColor(latestEvaluation.imcClassification) }]}
-                  textStyle={{ color: 'white', fontWeight: 'bold' }}
+                  textStyle={{ color: 'COLORS.COLORS.white', fontWeight: FONT_WEIGHT.bold }}
                 >
                   {latestEvaluation.imcClassification}
                 </Chip>
@@ -221,7 +222,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
           <Card style={styles.card}>
             <Card.Content>
               <View style={styles.cardHeader}>
-                <Ionicons name="trending-up-outline" size={24} color="#2196F3" />
+                <Ionicons name="trending-up-outline" size={24} color="COLORS.info[500]" />
                 <Text style={styles.cardTitle}>Progresso</Text>
                 <Text style={styles.subtitle}>vs. avaliação anterior</Text>
               </View>
@@ -231,7 +232,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
                   <Text style={styles.progressLabel}>Peso</Text>
                   <Text style={[
                     styles.progressValue,
-                    { color: progress.weight > 0 ? '#FF5722' : progress.weight < 0 ? '#4CAF50' : '#666' }
+                    { color: progress.weight > 0 ? '#FF5722' : progress.weight < 0 ? 'COLORS.primary[500]' : 'COLORS.text.secondary' }
                   ]}>
                     {progress.weight > 0 ? '+' : ''}{progress.weight.toFixed(1)} kg
                   </Text>
@@ -241,7 +242,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
                   <Text style={styles.progressLabel}>IMC</Text>
                   <Text style={[
                     styles.progressValue,
-                    { color: progress.imc > 0 ? '#FF5722' : progress.imc < 0 ? '#4CAF50' : '#666' }
+                    { color: progress.imc > 0 ? '#FF5722' : progress.imc < 0 ? 'COLORS.primary[500]' : 'COLORS.text.secondary' }
                   ]}>
                     {progress.imc > 0 ? '+' : ''}{progress.imc.toFixed(2)}
                   </Text>
@@ -252,7 +253,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
                     <Text style={styles.progressLabel}>Gordura</Text>
                     <Text style={[
                       styles.progressValue,
-                      { color: progress.bodyFat > 0 ? '#FF5722' : progress.bodyFat < 0 ? '#4CAF50' : '#666' }
+                      { color: progress.bodyFat > 0 ? '#FF5722' : progress.bodyFat < 0 ? 'COLORS.primary[500]' : 'COLORS.text.secondary' }
                     ]}>
                       {progress.bodyFat > 0 ? '+' : ''}{progress.bodyFat.toFixed(1)}%
                     </Text>
@@ -264,7 +265,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
                     <Text style={styles.progressLabel}>Músculo</Text>
                     <Text style={[
                       styles.progressValue,
-                      { color: progress.muscleMass > 0 ? '#4CAF50' : progress.muscleMass < 0 ? '#FF5722' : '#666' }
+                      { color: progress.muscleMass > 0 ? 'COLORS.primary[500]' : progress.muscleMass < 0 ? '#FF5722' : 'COLORS.text.secondary' }
                     ]}>
                       {progress.muscleMass > 0 ? '+' : ''}{progress.muscleMass.toFixed(1)} kg
                     </Text>
@@ -280,7 +281,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
           <Card style={styles.card}>
             <Card.Content>
               <View style={styles.cardHeader}>
-                <Ionicons name="analytics-outline" size={24} color="#9C27B0" />
+                <Ionicons name="analytics-outline" size={24} color="COLORS.secondary[500]" />
                 <Text style={styles.cardTitle}>Evolução</Text>
               </View>
               
@@ -304,20 +305,20 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
                 width={width - 64}
                 height={220}
                 chartConfig={{
-                  backgroundColor: '#ffffff',
-                  backgroundGradientFrom: '#ffffff',
-                  backgroundGradientTo: '#ffffff',
+                  backgroundColor: 'COLORS.COLORS.whitefff',
+                  backgroundGradientFrom: 'COLORS.COLORS.whitefff',
+                  backgroundGradientTo: 'COLORS.COLORS.whitefff',
                   decimalPlaces: selectedMetric === 'imc' ? 2 : 1,
                   color: (opacity = 1) => `rgba(33, 150, 243, ${opacity})`,
                   labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
                   style: {
-                    borderRadius: 16,
+                    borderRadius: BORDER_RADIUS.lg,
                   },
                   propsForDots: {
                     r: '6',
                     strokeWidth: '2',
-                    stroke: '#2196F3',
-                    fill: '#ffffff'
+                    stroke: 'COLORS.info[500]',
+                    fill: 'COLORS.COLORS.whitefff'
                   },
                   formatXLabel: (value) => value,
                   formatYLabel: (value) => `${value}${chartData.suffix}`,
@@ -333,7 +334,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <Ionicons name="time-outline" size={24} color="#FF9800" />
+              <Ionicons name="time-outline" size={24} color="COLORS.warning[500]" />
               <Text style={styles.cardTitle}>Histórico de Avaliações</Text>
             </View>
             
@@ -381,7 +382,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
-    padding: 16,
+    padding: SPACING.base,
   },
   card: {
     marginBottom: 16,
@@ -393,18 +394,18 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   cardTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: FONT_SIZE.lg,
+    fontWeight: FONT_WEIGHT.bold,
     marginLeft: 8,
     flex: 1,
   },
   dateText: {
-    fontSize: 14,
-    color: '#666',
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.secondary',
   },
   subtitle: {
-    fontSize: 14,
-    color: '#666',
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.secondary',
   },
   statsGrid: {
     flexDirection: 'row',
@@ -414,21 +415,21 @@ const styles = StyleSheet.create({
   },
   statItem: {
     width: '48%',
-    padding: 12,
-    marginBottom: 8,
-    borderRadius: 8,
+    padding: SPACING.md,
+    marginBottom: SPACING.sm,
+    borderRadius: BORDER_RADIUS.md,
     alignItems: 'center',
     elevation: 2,
   },
   statValue: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#333',
+    fontSize: FONT_SIZE.xl,
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.text.primary',
   },
   statLabel: {
-    fontSize: 12,
-    color: '#666',
-    marginTop: 4,
+    fontSize: FONT_SIZE.sm,
+    color: 'COLORS.text.secondary',
+    marginTop: SPACING.xs,
   },
   imcContainer: {
     alignItems: 'center',
@@ -444,16 +445,16 @@ const styles = StyleSheet.create({
   progressItem: {
     width: '48%',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   progressLabel: {
-    fontSize: 14,
-    color: '#666',
-    marginBottom: 4,
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.secondary',
+    marginBottom: SPACING.xs,
   },
   progressValue: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: FONT_SIZE.lg,
+    fontWeight: FONT_WEIGHT.bold,
   },
   metricsContainer: {
     marginBottom: 16,
@@ -463,32 +464,32 @@ const styles = StyleSheet.create({
   },
   chart: {
     marginVertical: 8,
-    borderRadius: 16,
+    borderRadius: BORDER_RADIUS.lg,
   },
   emptyState: {
     alignItems: 'center',
     padding: 32,
   },
   emptyText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#666',
+    fontSize: FONT_SIZE.lg,
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.text.secondary',
     marginTop: 16,
     textAlign: 'center',
   },
   emptySubtext: {
-    fontSize: 14,
+    fontSize: FONT_SIZE.base,
     color: '#888',
-    marginTop: 8,
+    marginTop: SPACING.sm,
     textAlign: 'center',
     lineHeight: 20,
   },
   fab: {
     position: 'absolute',
-    margin: 16,
+    margin: SPACING.base,
     right: 0,
     bottom: 0,
-    backgroundColor: '#4CAF50',
+    backgroundColor: 'COLORS.primary[500]',
   },
 });
 

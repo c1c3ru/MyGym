@@ -11,6 +11,7 @@ import {
   IconButton
 } from 'react-native-paper';
 import ActionButton, { ActionButtonGroup } from './ActionButton';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const OptimizedStudentCard = memo(({ 
   student, 
@@ -21,9 +22,9 @@ const OptimizedStudentCard = memo(({
 }) => {
   const getPaymentStatusColor = (status) => {
     switch (status) {
-      case 'paid': return '#4CAF50';
-      case 'pending': return '#FF9800';
-      case 'overdue': return '#F44336';
+      case 'paid': return 'COLORS.primary[500]';
+      case 'pending': return 'COLORS.warning[500]';
+      case 'overdue': return 'COLORS.error[500]';
       default: return '#9E9E9E';
     }
   };
@@ -78,11 +79,11 @@ const OptimizedStudentCard = memo(({
               mode="outlined"
               style={[
                 styles.statusChip,
-                { borderColor: student.isActive !== false ? '#4CAF50' : '#F44336' }
+                { borderColor: student.isActive !== false ? 'COLORS.primary[500]' : 'COLORS.error[500]' }
               ]}
               textStyle={{ 
-                color: student.isActive !== false ? '#4CAF50' : '#F44336',
-                fontSize: 12
+                color: student.isActive !== false ? 'COLORS.primary[500]' : 'COLORS.error[500]',
+                fontSize: FONT_SIZE.sm
               }}
               accessible={true}
               accessibilityLabel={`Status: ${student.isActive !== false ? 'Ativo' : 'Inativo'}`}
@@ -101,7 +102,7 @@ const OptimizedStudentCard = memo(({
               ]}
               textStyle={{ 
                 color: getPaymentStatusColor(student.paymentStatus),
-                fontSize: 12
+                fontSize: FONT_SIZE.sm
               }}
               accessible={true}
               accessibilityLabel={`Status do pagamento: ${getPaymentStatusText(student.paymentStatus)}`}
@@ -202,7 +203,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     marginVertical: 8,
     elevation: 2,
-    borderRadius: 12,
+    borderRadius: BORDER_RADIUS.md,
   },
   studentHeader: {
     flexDirection: 'row',
@@ -215,69 +216,69 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   avatar: {
-    backgroundColor: '#2196F3',
+    backgroundColor: 'COLORS.info[500]',
     marginRight: 12,
   },
   studentDetails: {
     flex: 1,
   },
   studentName: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 4,
-    color: '#333',
+    fontSize: FONT_SIZE.lg,
+    fontWeight: FONT_WEIGHT.bold,
+    marginBottom: SPACING.xs,
+    color: 'COLORS.text.primary',
   },
   studentEmail: {
-    fontSize: 14,
-    color: '#666',
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.secondary',
     marginBottom: 2,
   },
   studentPhone: {
-    fontSize: 14,
-    color: '#666',
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.secondary',
   },
   studentStats: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 12,
-    backgroundColor: '#f8f9fa',
-    borderRadius: 8,
-    padding: 12,
+    marginBottom: SPACING.md,
+    backgroundColor: 'COLORS.background.light',
+    borderRadius: BORDER_RADIUS.md,
+    padding: SPACING.md,
   },
   statColumn: {
     flex: 1,
     alignItems: 'center',
   },
   statLabel: {
-    fontSize: 12,
-    color: '#666',
-    marginBottom: 4,
-    fontWeight: '500',
+    fontSize: FONT_SIZE.sm,
+    color: 'COLORS.text.secondary',
+    marginBottom: SPACING.xs,
+    fontWeight: FONT_WEIGHT.medium,
   },
   statusChip: {
     height: 28,
   },
   graduationText: {
-    fontSize: 12,
-    fontWeight: 'bold',
-    color: '#333',
+    fontSize: FONT_SIZE.sm,
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.text.primary',
   },
   additionalInfo: {
-    backgroundColor: '#f8f9fa',
-    borderRadius: 8,
-    padding: 12,
-    marginBottom: 12,
+    backgroundColor: 'COLORS.background.light',
+    borderRadius: BORDER_RADIUS.md,
+    padding: SPACING.md,
+    marginBottom: SPACING.md,
   },
   infoText: {
-    fontSize: 12,
-    color: '#666',
+    fontSize: FONT_SIZE.sm,
+    color: 'COLORS.text.secondary',
     marginBottom: 2,
   },
   divider: {
     marginVertical: 8,
   },
   studentActions: {
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   actionButton: {
     marginHorizontal: 4,

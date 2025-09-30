@@ -15,6 +15,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '@contexts/AuthProvider';
 import { httpsCallable } from 'firebase/functions';
 import { functions } from '@services/firebase';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const AcademyOnboardingScreen = () => {
   const { refreshClaimsAndProfile } = useAuth();
@@ -135,7 +136,7 @@ const AcademyOnboardingScreen = () => {
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.header}>
-          <Ionicons name="school-outline" size={64} color="#4CAF50" />
+          <Ionicons name="school-outline" size={64} color="COLORS.primary[500]" />
           <Text style={styles.title}>Bem-vindo ao MyGym!</Text>
           <Text style={styles.subtitle}>
             Para começar, você precisa estar associado a uma academia. 
@@ -148,7 +149,7 @@ const AcademyOnboardingScreen = () => {
           <Card style={styles.optionCard}>
             <Card.Content>
               <View style={styles.optionHeader}>
-                <Ionicons name="add-circle-outline" size={32} color="#2196F3" />
+                <Ionicons name="add-circle-outline" size={32} color="COLORS.info[500]" />
                 <Text style={styles.optionTitle}>Criar Minha Academia</Text>
               </View>
               <Text style={styles.optionDescription}>
@@ -172,7 +173,7 @@ const AcademyOnboardingScreen = () => {
           <Card style={styles.optionCard}>
             <Card.Content>
               <View style={styles.optionHeader}>
-                <Ionicons name="ticket-outline" size={32} color="#FF9800" />
+                <Ionicons name="ticket-outline" size={32} color="COLORS.warning[500]" />
                 <Text style={styles.optionTitle}>Tenho um Código de Convite</Text>
               </View>
               <Text style={styles.optionDescription}>
@@ -353,24 +354,24 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
   },
   scrollContent: {
-    padding: 20,
+    padding: SPACING.lg,
   },
   header: {
     alignItems: 'center',
     marginBottom: 30,
   },
   title: {
-    fontSize: 28,
-    fontWeight: 'bold',
+    fontSize: FONT_SIZE.xxl,
+    fontWeight: FONT_WEIGHT.bold,
     textAlign: 'center',
     marginTop: 16,
-    color: '#333',
+    color: 'COLORS.text.primary',
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: FONT_SIZE.md,
     textAlign: 'center',
-    marginTop: 8,
-    color: '#666',
+    marginTop: SPACING.sm,
+    color: 'COLORS.text.secondary',
     lineHeight: 24,
   },
   optionsContainer: {
@@ -383,21 +384,21 @@ const styles = StyleSheet.create({
   optionHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   optionTitle: {
     marginLeft: 12,
-    fontSize: 20,
-    color: '#333',
+    fontSize: FONT_SIZE.xl,
+    color: 'COLORS.text.primary',
   },
   optionDescription: {
-    fontSize: 14,
-    color: '#666',
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.secondary',
     lineHeight: 20,
     marginBottom: 16,
   },
   optionButton: {
-    marginTop: 8,
+    marginTop: SPACING.sm,
   },
   divider: {
     marginVertical: 20,
@@ -408,14 +409,14 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   infoTitle: {
-    fontSize: 18,
+    fontSize: FONT_SIZE.lg,
     color: '#2e7d32',
     marginBottom: 16,
   },
   infoItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   infoChip: {
     marginRight: 12,
@@ -423,7 +424,7 @@ const styles = StyleSheet.create({
   },
   infoText: {
     flex: 1,
-    fontSize: 14,
+    fontSize: FONT_SIZE.base,
     color: '#2e7d32',
   },
   dialog: {
@@ -431,11 +432,11 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   input: {
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   inviteDescription: {
     marginBottom: 16,
-    color: '#666',
+    color: 'COLORS.text.secondary',
   },
 });
 

@@ -21,6 +21,7 @@ import { useTheme } from '@contexts/ThemeContext';
 import { useCustomClaims } from '@hooks/useCustomClaims';
 import { firestoreService } from '@services/firestoreService';
 import PaymentDueDateEditor from '@components/PaymentDueDateEditor';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const { width } = Dimensions.get('window');
 
@@ -222,9 +223,9 @@ const ProfileScreen = ({ navigation }) => {
 
   const getUserTypeColor = (userType) => {
     switch (userType) {
-      case 'student': return '#2196F3';
-      case 'instructor': return '#4CAF50';
-      case 'admin': return '#FF9800';
+      case 'student': return 'COLORS.info[500]';
+      case 'instructor': return 'COLORS.primary[500]';
+      case 'admin': return 'COLORS.warning[500]';
       default: return '#9E9E9E';
     }
   };
@@ -259,8 +260,8 @@ const ProfileScreen = ({ navigation }) => {
           <Card style={[styles.card, styles.warningCard]}>
             <Card.Content>
               <View style={styles.cardHeader}>
-                <Ionicons name="warning-outline" size={24} color="#FF9800" />
-                <Title style={[styles.cardTitle, { color: '#FF9800' }]}>{getString('paymentNearDue')}</Title>
+                <Ionicons name="warning-outline" size={24} color="COLORS.warning[500]" />
+                <Title style={[styles.cardTitle, { color: 'COLORS.warning[500]' }]}>{getString('paymentNearDue')}</Title>
               </View>
               
               <View style={styles.paymentWarning}>
@@ -302,7 +303,7 @@ const ProfileScreen = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <Ionicons name="person-outline" size={24} color="#2196F3" />
+              <Ionicons name="person-outline" size={24} color="COLORS.info[500]" />
               <Title style={styles.cardTitle}>{getString('personalInformation')}</Title>
               <Button 
                 mode="text" 
@@ -416,7 +417,7 @@ const ProfileScreen = ({ navigation }) => {
             <Card style={styles.card}>
               <Card.Content>
                 <View style={styles.cardHeader}>
-                  <Ionicons name="school-outline" size={24} color="#4CAF50" />
+                  <Ionicons name="school-outline" size={24} color="COLORS.primary[500]" />
                   <Title style={styles.cardTitle}>{getString('academyInformation')}</Title>
                 </View>
 
@@ -449,7 +450,7 @@ const ProfileScreen = ({ navigation }) => {
             <Card style={styles.card}>
               <Card.Content>
                 <View style={styles.cardHeader}>
-                  <Ionicons name="calendar-outline" size={24} color="#2196F3" />
+                  <Ionicons name="calendar-outline" size={24} color="COLORS.info[500]" />
                   <Title style={styles.cardTitle}>Treinos esta semana</Title>
                   <Button 
                     mode="text" 
@@ -534,7 +535,7 @@ const ProfileScreen = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <Ionicons name="settings-outline" size={24} color="#666" />
+              <Ionicons name="settings-outline" size={24} color="COLORS.text.secondary" />
               <Title style={styles.cardTitle}>Configurações da Conta</Title>
             </View>
 
@@ -592,7 +593,7 @@ const ProfileScreen = ({ navigation }) => {
               onPress={handleLogout}
               style={styles.logoutButton}
               icon="logout"
-              textColor="#F44336"
+              textColor="COLORS.error[500]"
             >
               Sair da Conta
             </Button>
@@ -609,7 +610,7 @@ const ProfileScreen = ({ navigation }) => {
         <Card style={styles.modalCard}>
           <Card.Title
             title="Treinos no ano"
-            left={() => <Ionicons name="calendar" size={24} color="#2196F3" />}
+            left={() => <Ionicons name="calendar" size={24} color="COLORS.info[500]" />}
             right={() => (
               <Button onPress={() => setShowYearModal(false)} icon="close">
                 Fechar
@@ -709,14 +710,14 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   headerCard: {
-    margin: 16,
-    marginBottom: 8,
+    margin: SPACING.base,
+    marginBottom: SPACING.sm,
     elevation: 4,
   },
   headerContent: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 8,
+    padding: SPACING.sm,
   },
   avatar: {
     marginRight: 16,
@@ -726,12 +727,12 @@ const styles = StyleSheet.create({
   },
   userName: {
     fontSize: 22,
-    marginBottom: 4,
+    marginBottom: SPACING.xs,
   },
   userEmail: {
-    fontSize: 14,
-    color: '#666',
-    marginBottom: 8,
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.secondary',
+    marginBottom: SPACING.sm,
   },
   userTypeChip: {
     alignSelf: 'flex-start',
@@ -740,23 +741,23 @@ const styles = StyleSheet.create({
   warningCard: {
     backgroundColor: '#FFF3E0',
     borderLeftWidth: 4,
-    borderLeftColor: '#FF9800',
+    borderLeftColor: 'COLORS.warning[500]',
   },
   paymentWarning: {
-    marginTop: 8,
+    marginTop: SPACING.sm,
   },
   warningText: {
-    fontSize: 16,
-    marginBottom: 8,
-    color: '#333',
+    fontSize: FONT_SIZE.md,
+    marginBottom: SPACING.sm,
+    color: 'COLORS.text.primary',
   },
   warningDays: {
-    fontWeight: 'bold',
-    color: '#FF9800',
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.warning[500]',
   },
   warningDetails: {
-    fontSize: 14,
-    color: '#666',
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.secondary',
     marginBottom: 16,
   },
   warningButtons: {
@@ -766,16 +767,16 @@ const styles = StyleSheet.create({
   editDateButton: {
     flex: 1,
     marginRight: 8,
-    borderColor: '#FF9800',
+    borderColor: 'COLORS.warning[500]',
   },
   payNowButton: {
     flex: 1,
     marginLeft: 8,
-    backgroundColor: '#4CAF50',
+    backgroundColor: 'COLORS.primary[500]',
   },
   card: {
-    margin: 16,
-    marginTop: 8,
+    margin: SPACING.base,
+    marginTop: SPACING.sm,
     elevation: 2,
   },
   cardHeader: {
@@ -785,19 +786,19 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     marginLeft: 8,
-    fontSize: 18,
+    fontSize: FONT_SIZE.lg,
     flex: 1,
   },
   input: {
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   saveButton: {
-    marginTop: 8,
-    backgroundColor: '#4CAF50',
+    marginTop: SPACING.sm,
+    backgroundColor: 'COLORS.primary[500]',
   },
   logoutButton: {
-    borderColor: '#F44336',
-    marginTop: 8,
+    borderColor: 'COLORS.error[500]',
+    marginTop: SPACING.sm,
   },
   weekDays: {
     flexDirection: 'row',
@@ -807,25 +808,25 @@ const styles = StyleSheet.create({
   dayCircle: {
     width: 32,
     height: 32,
-    borderRadius: 16,
-    backgroundColor: '#f0f0f0',
+    borderRadius: BORDER_RADIUS.lg,
+    backgroundColor: 'COLORS.gray[100]',
     justifyContent: 'center',
     alignItems: 'center',
   },
   dayText: {
-    fontSize: 12,
-    fontWeight: 'bold',
-    color: '#666',
+    fontSize: FONT_SIZE.sm,
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.text.secondary',
   },
   noTrainingText: {
     textAlign: 'center',
-    color: '#666',
+    color: 'COLORS.text.secondary',
     fontStyle: 'italic',
   },
   modalContainer: {
     flex: 1,
     justifyContent: 'center',
-    margin: 20,
+    margin: SPACING.lg,
   },
   modalCard: {
     maxHeight: '80%',
@@ -837,10 +838,10 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   selectedYear: {
-    fontSize: 24,
-    fontWeight: 'bold',
+    fontSize: FONT_SIZE.xxl,
+    fontWeight: FONT_WEIGHT.bold,
     marginHorizontal: 20,
-    color: '#2196F3',
+    color: 'COLORS.info[500]',
   },
   monthsContainer: {
     maxHeight: 400,
@@ -852,29 +853,29 @@ const styles = StyleSheet.create({
   },
   monthCard: {
     width: '48%',
-    backgroundColor: '#f8f9fa',
-    borderRadius: 8,
-    padding: 12,
-    marginBottom: 12,
+    backgroundColor: 'COLORS.background.light',
+    borderRadius: BORDER_RADIUS.md,
+    padding: SPACING.md,
+    marginBottom: SPACING.md,
   },
   monthHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   monthName: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: '#333',
+    fontSize: FONT_SIZE.base,
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.text.primary',
   },
   monthChip: {
-    backgroundColor: '#2196F3',
+    backgroundColor: 'COLORS.info[500]',
     height: 24,
   },
   monthChipText: {
-    color: 'white',
-    fontSize: 12,
+    color: 'COLORS.COLORS.white',
+    fontSize: FONT_SIZE.sm,
   },
   monthDays: {
     flexDirection: 'row',
@@ -884,14 +885,14 @@ const styles = StyleSheet.create({
   dayDot: {
     width: 8,
     height: 8,
-    borderRadius: 4,
+    borderRadius: BORDER_RADIUS.sm,
     margin: 1,
   },
   trainingDay: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: 'COLORS.primary[500]',
   },
   noTrainingDay: {
-    backgroundColor: '#e0e0e0',
+    backgroundColor: 'COLORS.gray[300]',
   },
 });
 

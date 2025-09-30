@@ -14,6 +14,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { ResponsiveUtils } from '@utils/animations';
 import ImprovedScheduleSelector from '@components/ImprovedScheduleSelector';
 import { createEmptySchedule } from '@utils/scheduleUtils';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const NovaAula = ({ navigation }) => {
   const [formData, setFormData] = useState({
@@ -38,7 +39,7 @@ const NovaAula = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.header}>
-              <MaterialCommunityIcons name="plus-circle" size={32} color="#4CAF50" />
+              <MaterialCommunityIcons name="plus-circle" size={32} color="COLORS.primary[500]" />
               <Text style={styles.title}>Nova Aula</Text>
             </View>
             
@@ -107,7 +108,7 @@ const NovaAula = ({ navigation }) => {
                 mode="contained"
                 onPress={handleSubmit}
                 style={styles.submitButton}
-                buttonColor="#4CAF50"
+                buttonColor="COLORS.primary[500]"
               >
                 Criar Aula
               </Button>
@@ -122,7 +123,7 @@ const NovaAula = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8f9fa',
+    backgroundColor: 'COLORS.background.light',
   },
   scrollView: {
     flex: 1,
@@ -140,16 +141,16 @@ const styles = StyleSheet.create({
   title: {
     marginLeft: ResponsiveUtils.spacing.md,
     fontSize: ResponsiveUtils.fontSize.large,
-    fontWeight: 'bold',
-    color: '#333',
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.text.primary',
   },
   input: {
     marginBottom: ResponsiveUtils.spacing.md,
   },
   sectionTitle: {
     fontSize: ResponsiveUtils.fontSize.medium,
-    fontWeight: 'bold',
-    color: '#333',
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.text.primary',
     marginBottom: ResponsiveUtils.spacing.sm,
     marginTop: ResponsiveUtils.spacing.sm,
   },

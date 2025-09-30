@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { TextInput, HelperText } from 'react-native-paper';
 import { formatters } from '@utils/validation';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const FormInput = ({
   label,
@@ -60,8 +61,8 @@ const FormInput = ({
         ]}
         theme={{
           colors: {
-            primary: hasError ? '#F44336' : '#2196F3',
-            error: '#F44336'
+            primary: hasError ? 'COLORS.error[500]' : 'COLORS.info[500]',
+            error: 'COLORS.error[500]'
           }
         }}
         {...props}
@@ -78,20 +79,20 @@ const FormInput = ({
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   input: {
-    backgroundColor: '#fff',
+    backgroundColor: 'COLORS.COLORS.COLORS.white',
   },
   inputError: {
-    borderColor: '#F44336',
+    borderColor: 'COLORS.error[500]',
   },
   inputFocused: {
     borderWidth: 2,
   },
   errorText: {
-    fontSize: 12,
-    marginTop: 4,
+    fontSize: FONT_SIZE.sm,
+    marginTop: SPACING.xs,
   },
 });
 

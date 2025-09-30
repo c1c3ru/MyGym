@@ -3,6 +3,7 @@ import { View, ScrollView } from 'react-native';
 import { Text, Chip, Card, ActivityIndicator } from 'react-native-paper';
 import useAuthMigration from '@hooks/useAuthMigration';
 import academyCollectionsService from '@services/academyCollectionsService';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 export default function ModalityPicker({ 
   selectedModalities = [], 
@@ -202,23 +203,23 @@ const styles = {
     marginBottom: 16,
   },
   label: {
-    marginBottom: 8,
-    fontWeight: '600',
+    marginBottom: SPACING.sm,
+    fontWeight: FONT_WEIGHT.semibold,
   },
   card: {
-    backgroundColor: '#f8f9fa',
+    backgroundColor: 'COLORS.background.light',
   },
   loadingContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 16,
+    padding: SPACING.base,
   },
   loadingText: {
     marginLeft: 8,
-    color: '#666',
+    color: 'COLORS.text.secondary',
   },
   scrollView: {
-    marginBottom: 12,
+    marginBottom: SPACING.md,
     maxHeight: 60,
   },
   scrollContent: {
@@ -233,7 +234,7 @@ const styles = {
   },
   chip: {
     marginRight: 10,
-    backgroundColor: '#fff',
+    backgroundColor: 'COLORS.COLORS.white',
     minWidth: 100,
     justifyContent: 'center',
   },
@@ -241,25 +242,25 @@ const styles = {
     marginRight: 20,
   },
   selectedChip: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: 'COLORS.primary[500]',
   },
   chipText: {
-    fontSize: 14,
+    fontSize: FONT_SIZE.base,
   },
   selectedChipText: {
-    color: '#fff',
-    fontWeight: '600',
+    color: 'COLORS.COLORS.white',
+    fontWeight: FONT_WEIGHT.semibold,
   },
   selectedContainer: {
-    marginTop: 12,
+    marginTop: SPACING.md,
     paddingTop: 12,
     borderTopWidth: 1,
-    borderTopColor: '#e0e0e0',
+    borderTopColor: 'COLORS.gray[300]',
   },
   selectedLabel: {
-    marginBottom: 8,
-    color: '#666',
-    fontWeight: '600',
+    marginBottom: SPACING.sm,
+    color: 'COLORS.text.secondary',
+    fontWeight: FONT_WEIGHT.semibold,
   },
   selectedChips: {
     flexDirection: 'row',
@@ -268,8 +269,8 @@ const styles = {
   },
   emptyText: {
     textAlign: 'center',
-    color: '#999',
+    color: 'COLORS.gray[500]',
     fontStyle: 'italic',
-    marginTop: 8,
+    marginTop: SPACING.sm,
   },
 };

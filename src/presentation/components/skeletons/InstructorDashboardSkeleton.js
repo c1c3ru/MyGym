@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import SkeletonLoader from './SkeletonLoader';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const InstructorDashboardSkeleton = () => {
   return (
@@ -16,8 +17,8 @@ const InstructorDashboardSkeleton = () => {
           <View key={index} style={styles.statCard}>
             <SkeletonLoader width={48} height={48} borderRadius={24} />
             <View style={styles.statContent}>
-              <SkeletonLoader width="80%" height={24} style={{ marginBottom: 4 }} />
-              <SkeletonLoader width="60%" height={16} style={{ marginBottom: 4 }} />
+              <SkeletonLoader width="80%" height={24} style={{ marginBottom: SPACING.xs }} />
+              <SkeletonLoader width="60%" height={16} style={{ marginBottom: SPACING.xs }} />
               <SkeletonLoader width="40%" height={12} />
             </View>
           </View>
@@ -34,8 +35,8 @@ const InstructorDashboardSkeleton = () => {
               <SkeletonLoader width={60} height={40} borderRadius={8} />
             </View>
             <View style={styles.classContent}>
-              <SkeletonLoader width="80%" height={18} style={{ marginBottom: 4 }} />
-              <SkeletonLoader width="60%" height={14} style={{ marginBottom: 8 }} />
+              <SkeletonLoader width="80%" height={18} style={{ marginBottom: SPACING.xs }} />
+              <SkeletonLoader width="60%" height={14} style={{ marginBottom: SPACING.sm }} />
               <SkeletonLoader width="40%" height={12} />
             </View>
             <SkeletonLoader width={80} height={32} borderRadius={16} />
@@ -64,8 +65,8 @@ const InstructorDashboardSkeleton = () => {
           <View key={index} style={styles.announcementItem}>
             <SkeletonLoader width={24} height={24} borderRadius={12} />
             <View style={styles.announcementContent}>
-              <SkeletonLoader width="90%" height={16} style={{ marginBottom: 4 }} />
-              <SkeletonLoader width="70%" height={14} style={{ marginBottom: 4 }} />
+              <SkeletonLoader width="90%" height={16} style={{ marginBottom: SPACING.xs }} />
+              <SkeletonLoader width="70%" height={14} style={{ marginBottom: SPACING.xs }} />
               <SkeletonLoader width="30%" height={12} />
             </View>
           </View>
@@ -92,24 +93,24 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
   },
   headerContainer: {
-    margin: 16,
-    marginBottom: 8,
+    margin: SPACING.base,
+    marginBottom: SPACING.sm,
   },
   statsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   statCard: {
     width: '48%',
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 16,
-    padding: 12,
-    backgroundColor: 'white',
-    borderRadius: 8,
+    padding: SPACING.md,
+    backgroundColor: 'COLORS.COLORS.white',
+    borderRadius: BORDER_RADIUS.md,
     elevation: 2,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -121,11 +122,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   cardContainer: {
-    margin: 16,
-    marginTop: 8,
-    padding: 16,
-    backgroundColor: 'white',
-    borderRadius: 12,
+    margin: SPACING.base,
+    marginTop: SPACING.sm,
+    padding: SPACING.base,
+    backgroundColor: 'COLORS.COLORS.white',
+    borderRadius: BORDER_RADIUS.md,
     elevation: 2,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -135,10 +136,10 @@ const styles = StyleSheet.create({
   classItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 12,
-    padding: 12,
-    backgroundColor: '#f8f9fa',
-    borderRadius: 8,
+    marginBottom: SPACING.md,
+    padding: SPACING.md,
+    backgroundColor: 'COLORS.background.light',
+    borderRadius: BORDER_RADIUS.md,
   },
   classTime: {
     marginRight: 12,
@@ -154,13 +155,13 @@ const styles = StyleSheet.create({
   },
   classCard: {
     width: '48%',
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   announcementItem: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    marginBottom: 12,
-    padding: 8,
+    marginBottom: SPACING.md,
+    padding: SPACING.sm,
   },
   announcementContent: {
     marginLeft: 12,

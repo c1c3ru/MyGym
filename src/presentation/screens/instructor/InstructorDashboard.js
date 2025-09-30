@@ -24,6 +24,7 @@ import EnhancedErrorBoundary from '@components/EnhancedErrorBoundary';
 import cacheService, { CACHE_KEYS, CACHE_TTL } from '@services/cacheService';
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import InstructorDashboardSkeleton from '@components/skeletons/InstructorDashboardSkeleton';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const InstructorDashboard = ({ navigation }) => {
   const { user, userProfile } = useAuth();
@@ -308,8 +309,8 @@ const InstructorDashboard = ({ navigation }) => {
           <RefreshControl
             refreshing={refreshing}
             onRefresh={onRefresh}
-            colors={['#4CAF50']}
-            tintColor="#4CAF50"
+            colors={['COLORS.primary[500]']}
+            tintColor="COLORS.primary[500]"
           />
         }
       >
@@ -317,7 +318,7 @@ const InstructorDashboard = ({ navigation }) => {
         <Animated.View style={[headerTransform]}>
           <View style={styles.headerContainer}>
             <LinearGradient
-              colors={['#4CAF50', '#45A049', '#388E3C']}
+              colors={['COLORS.primary[500]', 'COLORS.primary[600]', '#388E3C']}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 1 }}
               style={styles.headerGradient}
@@ -342,7 +343,7 @@ const InstructorDashboard = ({ navigation }) => {
                     {userProfile?.specialties?.join(' • ') || getString('martialArtsInstructor')}
                   </Text>
                   <View style={styles.statusBadge}>
-                    <MaterialCommunityIcons name="circle" size={8} color="#4CAF50" />
+                    <MaterialCommunityIcons name="circle" size={8} color="COLORS.primary[500]" />
                     <Text style={styles.statusText}>{getString('online')}</Text>
                   </View>
                 </View>
@@ -350,7 +351,7 @@ const InstructorDashboard = ({ navigation }) => {
                   <MaterialCommunityIcons 
                     name="account-star" 
                     size={24} 
-                    color="rgba(255,255,255,0.8)" 
+                    color="COLORS.white + 'CC'" 
                   />
                 </Animated.View>
               </View>
@@ -362,10 +363,10 @@ const InstructorDashboard = ({ navigation }) => {
         <View style={styles.statsContainer}>
           <Animated.View style={[styles.statCard, { opacity: animations.fadeAnim }]}>
             <LinearGradient
-              colors={['#4CAF50', '#45A049']}
+              colors={['COLORS.primary[500]', 'COLORS.primary[600]']}
               style={styles.statGradient}
             >
-              <MaterialCommunityIcons name="school-outline" size={32} color="white" />
+              <MaterialCommunityIcons name="school-outline" size={32} color="COLORS.white" />
               <Text style={styles.statNumber}>{dashboardData.myClasses.length}</Text>
               <Text style={styles.statLabel}>{getString('myClasses')}</Text>
             </LinearGradient>
@@ -373,10 +374,10 @@ const InstructorDashboard = ({ navigation }) => {
 
           <Animated.View style={[styles.statCard, { opacity: animations.fadeAnim }]}>
             <LinearGradient
-              colors={['#2196F3', '#1976D2']}
+              colors={['COLORS.info[500]', 'COLORS.info[700]']}
               style={styles.statGradient}
             >
-              <MaterialCommunityIcons name="account-group" size={32} color="white" />
+              <MaterialCommunityIcons name="account-group" size={32} color="COLORS.white" />
               <Text style={styles.statNumber}>{dashboardData.totalStudents}</Text>
               <Text style={styles.statLabel}>{getString('totalStudents')}</Text>
             </LinearGradient>
@@ -384,10 +385,10 @@ const InstructorDashboard = ({ navigation }) => {
 
           <Animated.View style={[styles.statCard, { opacity: animations.fadeAnim }]}>
             <LinearGradient
-              colors={['#FF9800', '#F57C00']}
+              colors={['COLORS.warning[500]', '#F57C00']}
               style={styles.statGradient}
             >
-              <MaterialCommunityIcons name="calendar-today" size={32} color="white" />
+              <MaterialCommunityIcons name="calendar-today" size={32} color="COLORS.white" />
               <Text style={styles.statNumber}>{dashboardData.todayClasses.length}</Text>
               <Text style={styles.statLabel}>{getString('classesToday')}</Text>
             </LinearGradient>
@@ -395,10 +396,10 @@ const InstructorDashboard = ({ navigation }) => {
 
           <Animated.View style={[styles.statCard, { opacity: animations.fadeAnim }]}>
             <LinearGradient
-              colors={['#9C27B0', '#7B1FA2']}
+              colors={['COLORS.secondary[500]', 'COLORS.secondary[700]']}
               style={styles.statGradient}
             >
-              <MaterialCommunityIcons name="check-circle" size={32} color="white" />
+              <MaterialCommunityIcons name="check-circle" size={32} color="COLORS.white" />
               <Text style={styles.statNumber}>{dashboardData.activeCheckIns}</Text>
               <Text style={styles.statLabel}>{getString('checkIns')}</Text>
             </LinearGradient>
@@ -410,7 +411,7 @@ const InstructorDashboard = ({ navigation }) => {
           <Card.Content>
             <View style={styles.modernCardHeader}>
               <View style={styles.headerIconContainer}>
-                <MaterialCommunityIcons name="clock-time-four" size={24} color="#2196F3" />
+                <MaterialCommunityIcons name="clock-time-four" size={24} color="COLORS.info[500]" />
               </View>
               <View>
                 <Text style={styles.modernCardTitle}>{getString('todaySchedule')}</Text>
@@ -445,7 +446,7 @@ const InstructorDashboard = ({ navigation }) => {
                       
                       <View style={styles.timelineDetails}>
                         <View style={styles.timelineInfo}>
-                          <MaterialCommunityIcons name="clock" size={16} color="#666" />
+                          <MaterialCommunityIcons name="clock" size={16} color="COLORS.text.secondary" />
                           <Text style={styles.timelineText}>
                             {classItem.schedule?.map(s => 
                               `${formatTime(s.hour, s.minute)}`
@@ -454,7 +455,7 @@ const InstructorDashboard = ({ navigation }) => {
                         </View>
                         
                         <View style={styles.timelineInfo}>
-                          <MaterialCommunityIcons name="account-multiple" size={16} color="#666" />
+                          <MaterialCommunityIcons name="account-multiple" size={16} color="COLORS.text.secondary" />
                           <Text style={styles.timelineText}>
                             {classItem.currentStudents || 0}/{classItem.maxCapacity || 'N/A'} {getString('students')}
                           </Text>
@@ -491,7 +492,7 @@ const InstructorDashboard = ({ navigation }) => {
           <Card.Content>
             <View style={styles.modernCardHeader}>
               <View style={styles.headerIconContainer}>
-                <MaterialCommunityIcons name="lightning-bolt" size={24} color="#FF9800" />
+                <MaterialCommunityIcons name="lightning-bolt" size={24} color="COLORS.warning[500]" />
               </View>
               <View>
                 <Text style={styles.modernCardTitle}>{getString('quickActions')}</Text>
@@ -502,10 +503,10 @@ const InstructorDashboard = ({ navigation }) => {
             <View style={styles.modernQuickActions}>
               <Animated.View style={[styles.actionCard, { opacity: animations.fadeAnim }]}>
                 <LinearGradient
-                  colors={['#4CAF50', '#45A049']}
+                  colors={['COLORS.primary[500]', 'COLORS.primary[600]']}
                   style={styles.actionGradient}
                 >
-                  <MaterialCommunityIcons name="calendar-plus" size={28} color="white" />
+                  <MaterialCommunityIcons name="calendar-plus" size={28} color="COLORS.white" />
                   <Text style={styles.actionTitle}>Agendar Aulas</Text>
                   <Text style={styles.actionSubtitle}>Adicione aulas às suas turmas</Text>
                   <AnimatedButton
@@ -527,8 +528,8 @@ const InstructorDashboard = ({ navigation }) => {
                       }
                     }}
                     style={styles.modernActionButton}
-                    buttonColor="rgba(255,255,255,0.2)"
-                    textColor="white"
+                    buttonColor="COLORS.white + '33'"
+                    textColor="COLORS.white"
                     compact
                   >
                     Agendar
@@ -538,18 +539,18 @@ const InstructorDashboard = ({ navigation }) => {
               
               <Animated.View style={[styles.actionCard, { opacity: animations.fadeAnim }]}>
                 <LinearGradient
-                  colors={['#2196F3', '#1976D2']}
+                  colors={['COLORS.info[500]', 'COLORS.info[700]']}
                   style={styles.actionGradient}
                 >
-                  <MaterialCommunityIcons name="qrcode-scan" size={28} color="white" />
+                  <MaterialCommunityIcons name="qrcode-scan" size={28} color="COLORS.white" />
                   <Text style={styles.actionTitle}>{getString('checkIn')}</Text>
                   <Text style={styles.actionSubtitle}>{getString('digitalAttendance')}</Text>
                   <AnimatedButton
                     mode="contained"
                     onPress={() => navigation.navigate('CheckIn')}
                     style={styles.modernActionButton}
-                    buttonColor="rgba(255,255,255,0.2)"
-                    textColor="white"
+                    buttonColor="COLORS.white + '33'"
+                    textColor="COLORS.white"
                     compact
                   >
                     {getString('open')}
@@ -559,18 +560,18 @@ const InstructorDashboard = ({ navigation }) => {
               
               <Animated.View style={[styles.actionCard, { opacity: animations.fadeAnim }]}>
                 <LinearGradient
-                  colors={['#9C27B0', '#7B1FA2']}
+                  colors={['COLORS.secondary[500]', 'COLORS.secondary[700]']}
                   style={styles.actionGradient}
                 >
-                  <MaterialCommunityIcons name="chart-line" size={28} color="white" />
+                  <MaterialCommunityIcons name="chart-line" size={28} color="COLORS.white" />
                   <Text style={styles.actionTitle}>{getString('reports')}</Text>
                   <Text style={styles.actionSubtitle}>{getString('dataAnalysis')}</Text>
                   <AnimatedButton
                     mode="contained"
                     onPress={() => navigation.navigate('Relatorios')}
                     style={styles.modernActionButton}
-                    buttonColor="rgba(255,255,255,0.2)"
-                    textColor="white"
+                    buttonColor="COLORS.white + '33'"
+                    textColor="COLORS.white"
                     compact
                   >
                     {getString('view')}
@@ -606,7 +607,7 @@ const InstructorDashboard = ({ navigation }) => {
             
             {loadingAnnouncements ? (
               <View style={styles.loadingContainer}>
-                <ActivityIndicator size="small" color="#4CAF50" />
+                <ActivityIndicator size="small" color="COLORS.primary[500]" />
                 <Text style={styles.loadingText}>{getString('loadingAnnouncements')}</Text>
               </View>
             ) : announcements.length > 0 ? (
@@ -636,7 +637,7 @@ const InstructorDashboard = ({ navigation }) => {
                         {announcement.date}
                       </Text>
                       {announcement.isRead && (
-                        <MaterialCommunityIcons name="check-all" size={16} color="#4CAF50" />
+                        <MaterialCommunityIcons name="check-all" size={16} color="COLORS.primary[500]" />
                       )}
                     </View>
                     {index < announcements.length - 1 && <Divider style={styles.announcementDivider} />}
@@ -706,7 +707,7 @@ const InstructorDashboard = ({ navigation }) => {
         <AnimatedCard delay={500} style={styles.card}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <Ionicons name="calendar-outline" size={24} color="#FF9800" />
+              <Ionicons name="calendar-outline" size={24} color="COLORS.warning[500]" />
               <Text style={[styles.cardTitle, { fontSize: ResponsiveUtils.fontSize.medium }]}>
                 {getString('upcomingClasses')}
               </Text>
@@ -766,7 +767,7 @@ const InstructorDashboard = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8f9fa',
+    backgroundColor: COLORS.background.light,
   },
   scrollView: {
     flex: 1,
@@ -787,9 +788,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   avatar: {
-    backgroundColor: 'rgba(255,255,255,0.2)',
+    backgroundColor: COLORS.COLORS.white + '33',
     borderWidth: 2,
-    borderColor: 'rgba(255,255,255,0.3)',
+    borderColor: COLORS.COLORS.white + '4D',
   },
   headerText: {
     marginLeft: ResponsiveUtils.spacing.md,
@@ -797,29 +798,29 @@ const styles = StyleSheet.create({
   },
   welcomeText: {
     fontSize: ResponsiveUtils.fontSize.large,
-    fontWeight: 'bold',
-    color: 'white',
-    marginBottom: 4,
+    fontWeight: FONT_WEIGHT.bold,
+    color: COLORS.COLORS.white,
+    marginBottom: SPACING.xs,
   },
   roleText: {
     fontSize: ResponsiveUtils.fontSize.medium,
-    color: 'rgba(255,255,255,0.9)',
-    marginBottom: 8,
+    color: COLORS.COLORS.white + 'E6',
+    marginBottom: SPACING.sm,
   },
   statusBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(255,255,255,0.2)',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 12,
+    backgroundColor: COLORS.COLORS.white + '33',
+    paddingHorizontal: SPACING.sm,
+    paddingVertical: SPACING.xs,
+    borderRadius: BORDER_RADIUS.md,
     alignSelf: 'flex-start',
   },
   statusText: {
-    color: 'white',
-    fontSize: 12,
-    marginLeft: 4,
-    fontWeight: '500',
+    color: COLORS.COLORS.white,
+    fontSize: FONT_SIZE.sm,
+    marginLeft: SPACING.xs,
+    fontWeight: FONT_WEIGHT.medium,
   },
   
   // Cards de estatísticas modernos
@@ -844,16 +845,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   statNumber: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: 'white',
-    marginTop: 8,
+    fontSize: FONT_SIZE.xxl,
+    fontWeight: FONT_WEIGHT.bold,
+    color: COLORS.COLORS.white,
+    marginTop: SPACING.sm,
   },
   statLabel: {
-    fontSize: 14,
-    color: 'rgba(255,255,255,0.9)',
+    fontSize: FONT_SIZE.base,
+    color: COLORS.COLORS.white + 'E6',
     textAlign: 'center',
-    marginTop: 4,
+    marginTop: SPACING.xs,
   },
   
   // Cards modernos
@@ -871,21 +872,21 @@ const styles = StyleSheet.create({
   headerIconContainer: {
     width: 48,
     height: 48,
-    borderRadius: 24,
-    backgroundColor: '#f0f0f0',
+    borderRadius: BORDER_RADIUS.full,
+    backgroundColor: COLORS.gray[100],
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: ResponsiveUtils.spacing.md,
   },
   modernCardTitle: {
     fontSize: ResponsiveUtils.fontSize.large,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 2,
+    fontWeight: FONT_WEIGHT.bold,
+    color: COLORS.text.primary,
+    marginBottom: SPACING.xs,
   },
   modernCardSubtitle: {
     fontSize: ResponsiveUtils.fontSize.small,
-    color: '#666',
+    color: COLORS.text.secondary,
   },
   
   // Ações rápidas modernizadas
@@ -907,19 +908,19 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   actionTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: 'white',
-    marginTop: 8,
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.bold,
+    color: COLORS.COLORS.white,
+    marginTop: SPACING.sm,
   },
   actionSubtitle: {
-    fontSize: 12,
-    color: 'rgba(255,255,255,0.8)',
+    fontSize: FONT_SIZE.sm,
+    color: COLORS.COLORS.white + 'CC',
     textAlign: 'center',
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   modernActionButton: {
-    borderRadius: 20,
+    borderRadius: BORDER_RADIUS.lg,
   },
   
   // Timeline
@@ -933,14 +934,14 @@ const styles = StyleSheet.create({
   timelineDot: {
     width: 12,
     height: 12,
-    borderRadius: 6,
-    backgroundColor: '#4CAF50',
+    borderRadius: BORDER_RADIUS.full,
+    backgroundColor: COLORS.primary[500],
     marginTop: 6,
     marginRight: ResponsiveUtils.spacing.md,
   },
   timelineContent: {
     flex: 1,
-    backgroundColor: '#f8f9fa',
+    backgroundColor: COLORS.background.light,
     borderRadius: ResponsiveUtils.borderRadius.medium,
     padding: ResponsiveUtils.spacing.md,
   },
@@ -948,20 +949,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   timelineTitle: {
     fontSize: ResponsiveUtils.fontSize.medium,
-    fontWeight: 'bold',
-    color: '#333',
+    fontWeight: FONT_WEIGHT.bold,
+    color: COLORS.text.primary,
     flex: 1,
   },
   modernChip: {
-    backgroundColor: '#e3f2fd',
+    backgroundColor: COLORS.info[50],
   },
   chipText: {
-    fontSize: 12,
-    color: '#1976d2',
+    fontSize: FONT_SIZE.sm,
+    color: COLORS.info[700],
   },
   timelineDetails: {
     marginBottom: ResponsiveUtils.spacing.sm,
@@ -969,15 +970,15 @@ const styles = StyleSheet.create({
   timelineInfo: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 4,
+    marginBottom: SPACING.xs,
   },
   timelineText: {
-    fontSize: 14,
-    color: '#666',
-    marginLeft: 6,
+    fontSize: FONT_SIZE.base,
+    color: COLORS.text.secondary,
+    marginLeft: SPACING.xs,
   },
   timelineButton: {
-    borderRadius: 20,
+    borderRadius: BORDER_RADIUS.lg,
     alignSelf: 'flex-start',
   },
   timelineLine: {
@@ -986,7 +987,7 @@ const styles = StyleSheet.create({
     top: 18,
     bottom: -ResponsiveUtils.spacing.md,
     width: 2,
-    backgroundColor: '#e0e0e0',
+    backgroundColor: COLORS.gray[300],
   },
   
   // Estados vazios
@@ -996,15 +997,15 @@ const styles = StyleSheet.create({
   },
   emptyStateText: {
     fontSize: ResponsiveUtils.fontSize.medium,
-    fontWeight: 'bold',
-    color: '#666',
+    fontWeight: FONT_WEIGHT.bold,
+    color: COLORS.text.secondary,
     marginTop: ResponsiveUtils.spacing.sm,
   },
   emptyStateSubtext: {
     fontSize: ResponsiveUtils.fontSize.small,
-    color: '#999',
+    color: COLORS.gray[500],
     textAlign: 'center',
-    marginTop: 4,
+    marginTop: SPACING.xs,
   },
 
   // Estilos para avisos
@@ -1021,8 +1022,8 @@ const styles = StyleSheet.create({
     padding: ResponsiveUtils.spacing.md,
   },
   loadingText: {
-    marginTop: 8,
-    color: '#757575',
+    marginTop: SPACING.sm,
+    color: COLORS.gray[600],
     fontSize: ResponsiveUtils.fontSize.small,
   },
   announcementsContainer: {
@@ -1034,7 +1035,7 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   highPriorityAnnouncement: {
-    backgroundColor: 'rgba(255, 152, 0, 0.05)',
+    backgroundColor: COLORS.warning[50],
     borderRadius: ResponsiveUtils.borderRadius.small,
     marginHorizontal: -ResponsiveUtils.spacing.sm,
     paddingHorizontal: ResponsiveUtils.spacing.sm,
@@ -1043,27 +1044,27 @@ const styles = StyleSheet.create({
   priorityBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(255, 193, 7, 0.2)',
+    backgroundColor: COLORS.warning[100],
     paddingHorizontal: ResponsiveUtils.spacing.sm,
-    paddingVertical: 4,
-    borderRadius: 12,
+    paddingVertical: SPACING.xs,
+    borderRadius: BORDER_RADIUS.md,
     alignSelf: 'flex-start',
     marginBottom: ResponsiveUtils.spacing.xs,
   },
   priorityText: {
-    fontSize: 12,
-    color: '#FF8F00',
-    marginLeft: 4,
-    fontWeight: '500',
+    fontSize: FONT_SIZE.sm,
+    color: COLORS.warning[700],
+    marginLeft: SPACING.xs,
+    fontWeight: FONT_WEIGHT.medium,
   },
   announcementTitle: {
-    fontWeight: '600',
-    color: '#333',
+    fontWeight: FONT_WEIGHT.semibold,
+    color: COLORS.text.primary,
     marginBottom: ResponsiveUtils.spacing.xs,
     fontSize: ResponsiveUtils.fontSize.medium,
   },
   announcementMessage: {
-    color: '#666',
+    color: COLORS.text.secondary,
     marginBottom: ResponsiveUtils.spacing.xs,
     fontSize: ResponsiveUtils.fontSize.small,
     lineHeight: 20,
@@ -1075,7 +1076,7 @@ const styles = StyleSheet.create({
     marginTop: ResponsiveUtils.spacing.xs,
   },
   announcementDate: {
-    color: '#999',
+    color: COLORS.gray[500],
     fontSize: ResponsiveUtils.fontSize.small,
   },
   announcementDivider: {
@@ -1096,13 +1097,13 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     marginLeft: ResponsiveUtils.spacing.sm,
-    fontWeight: 'bold',
+    fontWeight: FONT_WEIGHT.bold,
     marginBottom: ResponsiveUtils.spacing.xs,
   },
   classItem: {
     marginBottom: ResponsiveUtils.spacing.md,
     padding: ResponsiveUtils.spacing.sm,
-    backgroundColor: '#f9f9f9',
+    backgroundColor: COLORS.gray[50],
     borderRadius: ResponsiveUtils.borderRadius.small,
   },
   classHeader: {
@@ -1112,7 +1113,7 @@ const styles = StyleSheet.create({
     marginBottom: ResponsiveUtils.spacing.sm,
   },
   className: {
-    fontWeight: 'bold',
+    fontWeight: FONT_WEIGHT.bold,
     flex: 1,
   },
   modalityChip: {
@@ -1122,11 +1123,11 @@ const styles = StyleSheet.create({
     marginBottom: ResponsiveUtils.spacing.sm,
   },
   classTime: {
-    color: '#666',
+    color: COLORS.text.secondary,
     marginBottom: ResponsiveUtils.spacing.xs,
   },
   classCapacity: {
-    color: '#666',
+    color: COLORS.text.secondary,
   },
   classButton: {
     marginTop: ResponsiveUtils.spacing.sm,
@@ -1147,25 +1148,25 @@ const styles = StyleSheet.create({
   },
   logoutButton: {
     width: ResponsiveUtils.isTablet() ? '40%' : '60%',
-    borderColor: '#F44336',
+    borderColor: 'COLORS.error[500]',
   },
   upcomingClass: {
     marginBottom: ResponsiveUtils.spacing.sm,
     padding: ResponsiveUtils.spacing.sm,
-    backgroundColor: '#fff3e0',
+    backgroundColor: COLORS.warning[50],
     borderRadius: ResponsiveUtils.borderRadius.small,
   },
   upcomingClassName: {
-    fontWeight: 'bold',
+    fontWeight: FONT_WEIGHT.bold,
     marginBottom: ResponsiveUtils.spacing.xs,
   },
   upcomingClassInfo: {
-    color: '#666',
+    color: COLORS.text.secondary,
     marginBottom: ResponsiveUtils.spacing.sm,
   },
   emptyText: {
     textAlign: 'center',
-    color: '#666',
+    color: COLORS.text.secondary,
     fontStyle: 'italic',
     marginVertical: ResponsiveUtils.spacing.md,
   },

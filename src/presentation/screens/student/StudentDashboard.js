@@ -21,6 +21,7 @@ import EnhancedErrorBoundary from '@components/EnhancedErrorBoundary';
 import cacheService, { CACHE_KEYS, CACHE_TTL } from '@services/cacheService';
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import StudentDashboardSkeleton from '@components/skeletons/StudentDashboardSkeleton';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const StudentDashboard = ({ navigation }) => {
   const { user, userProfile } = useAuth();
@@ -326,7 +327,7 @@ const StudentDashboard = ({ navigation }) => {
             
             {loadingAnnouncements ? (
               <View style={styles.loadingContainer}>
-                <ActivityIndicator size="small" color="#2196F3" />
+                <ActivityIndicator size="small" color="COLORS.info[500]" />
                 <Text style={styles.loadingText}>Carregando avisos...</Text>
               </View>
             ) : announcements.length > 0 ? (
@@ -356,7 +357,7 @@ const StudentDashboard = ({ navigation }) => {
                         {announcement.date}
                       </Text>
                       {announcement.isRead && (
-                        <Ionicons name="checkmark-done" size={16} color="#4CAF50" />
+                        <Ionicons name="checkmark-done" size={16} color="COLORS.primary[500]" />
                       )}
                     </View>
                     {index < announcements.length - 1 && <Divider style={styles.announcementDivider} />}
@@ -420,7 +421,7 @@ const styles = StyleSheet.create({
   },
   welcomeCard: {
     marginBottom: ResponsiveUtils?.spacing?.sm || 8,
-    backgroundColor: '#2196F3',
+    backgroundColor: 'COLORS.info[500]',
   },
   welcomeContent: {
     flexDirection: 'row',
@@ -434,9 +435,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   welcomeTitle: {
-    color: 'white',
+    color: 'COLORS.COLORS.white',
     fontSize: ResponsiveUtils?.fontSize?.large || 20,
-    fontWeight: 'bold',
+    fontWeight: FONT_WEIGHT.bold,
   },
   welcomeSubtitle: {
     color: 'rgba(255, 255, 255, 0.8)',
@@ -447,9 +448,9 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     fontSize: ResponsiveUtils?.fontSize?.large || 18,
-    fontWeight: '600',
+    fontWeight: FONT_WEIGHT.semibold,
     marginBottom: ResponsiveUtils?.spacing?.md || 12,
-    color: '#2196F3',
+    color: 'COLORS.info[500]',
   },
   graduationStatus: {
     alignItems: 'center',
@@ -459,32 +460,32 @@ const styles = StyleSheet.create({
   },
   graduationText: {
     textAlign: 'center',
-    color: '#666',
+    color: 'COLORS.text.secondary',
   },
   emptyText: {
-    color: '#757575',
+    color: 'COLORS.gray[600]',
     textAlign: 'center',
     marginVertical: 16,
   },
   emptyState: {
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 24,
+    padding: SPACING.xl,
   },
   loadingContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 16,
+    padding: SPACING.base,
   },
   loadingText: {
-    marginTop: 8,
-    color: '#757575',
+    marginTop: SPACING.sm,
+    color: 'COLORS.gray[600]',
   },
   sectionHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   refreshButton: {
     margin: 0,
@@ -494,49 +495,49 @@ const styles = StyleSheet.create({
     maxHeight: 400,
   },
   announcementItem: {
-    paddingVertical: 12,
+    paddingVertical: SPACING.md,
     position: 'relative',
   },
   highPriorityAnnouncement: {
-    backgroundColor: 'rgba(255, 152, 0, 0.05)',
-    borderRadius: 8,
+    backgroundColor: 'COLORS.warning[50]',
+    borderRadius: BORDER_RADIUS.md,
     marginHorizontal: -8,
-    paddingHorizontal: 8,
+    paddingHorizontal: SPACING.sm,
     paddingTop: 8,
   },
   priorityBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(255, 193, 7, 0.2)',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 12,
+    backgroundColor: 'COLORS.warning[100]',
+    paddingHorizontal: SPACING.sm,
+    paddingVertical: SPACING.xs,
+    borderRadius: BORDER_RADIUS.md,
     alignSelf: 'flex-start',
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   priorityText: {
-    fontSize: 12,
+    fontSize: FONT_SIZE.sm,
     color: '#FF8F00',
-    marginLeft: 4,
-    fontWeight: '500',
+    marginLeft: SPACING.xs,
+    fontWeight: FONT_WEIGHT.medium,
   },
   announcementFooter: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 8,
+    marginTop: SPACING.sm,
   },
   announcementTitle: {
-    fontWeight: '600',
-    color: '#333',
+    fontWeight: FONT_WEIGHT.semibold,
+    color: 'COLORS.text.primary',
     marginBottom: ResponsiveUtils?.spacing?.xs || 4,
   },
   announcementMessage: {
-    color: '#666',
+    color: 'COLORS.text.secondary',
     marginBottom: ResponsiveUtils?.spacing?.xs || 4,
   },
   announcementDate: {
-    color: '#999',
+    color: 'COLORS.gray[500]',
     fontSize: ResponsiveUtils?.fontSize?.small || 12,
   },
   announcementDivider: {

@@ -13,6 +13,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '@contexts/AuthProvider';
 import { firestoreService } from '@services/firestoreService';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const NotificationSettingsScreen = ({ navigation }) => {
   const { user, userProfile, updateUserProfile } = useAuth();
@@ -116,7 +117,7 @@ const NotificationSettingsScreen = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <Ionicons name="notifications-outline" size={24} color="#2196F3" />
+              <Ionicons name="notifications-outline" size={24} color="COLORS.info[500]" />
               <Title style={styles.cardTitle}>Notificações Gerais</Title>
             </View>
 
@@ -151,7 +152,7 @@ const NotificationSettingsScreen = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <Ionicons name="list-outline" size={24} color="#4CAF50" />
+              <Ionicons name="list-outline" size={24} color="COLORS.primary[500]" />
               <Title style={styles.cardTitle}>Tipos de Notificação</Title>
             </View>
 
@@ -212,7 +213,7 @@ const NotificationSettingsScreen = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <Ionicons name="time-outline" size={24} color="#FF9800" />
+              <Ionicons name="time-outline" size={24} color="COLORS.warning[500]" />
               <Title style={styles.cardTitle}>Configurações de Tempo</Title>
             </View>
 
@@ -262,7 +263,7 @@ const NotificationSettingsScreen = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <Ionicons name="moon-outline" size={24} color="#9C27B0" />
+              <Ionicons name="moon-outline" size={24} color="COLORS.secondary[500]" />
               <Title style={styles.cardTitle}>Horário Silencioso</Title>
             </View>
 
@@ -356,8 +357,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   card: {
-    margin: 16,
-    marginTop: 8,
+    margin: SPACING.base,
+    marginTop: SPACING.sm,
     elevation: 2,
   },
   cardHeader: {
@@ -367,22 +368,22 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     marginLeft: 8,
-    fontSize: 18,
+    fontSize: FONT_SIZE.lg,
   },
   infoText: {
-    marginBottom: 8,
-    color: '#666',
-    fontSize: 14,
+    marginBottom: SPACING.sm,
+    color: 'COLORS.text.secondary',
+    fontSize: FONT_SIZE.base,
   },
   buttonContainer: {
-    margin: 16,
+    margin: SPACING.base,
     gap: 12,
   },
   resetButton: {
-    borderColor: '#FF9800',
+    borderColor: 'COLORS.warning[500]',
   },
   saveButton: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: 'COLORS.primary[500]',
   },
 });
 

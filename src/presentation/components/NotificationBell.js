@@ -14,8 +14,9 @@ import {
 } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 import { useNotification } from '@contexts/NotificationContext';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
-const NotificationBell = ({ color = '#fff', size = 24 }) => {
+const NotificationBell = ({ color = 'COLORS.COLORS.white', size = 24 }) => {
   const { 
     unreadNotifications, 
     unreadCount, 
@@ -61,7 +62,7 @@ const NotificationBell = ({ color = '#fff', size = 24 }) => {
       case 'general':
         return '#4caf50';
       default:
-        return '#757575';
+        return 'COLORS.gray[600]';
     }
   };
 
@@ -220,32 +221,32 @@ const styles = StyleSheet.create({
   modalContainer: {
     flex: 1,
     justifyContent: 'center',
-    margin: 20,
+    margin: SPACING.lg,
   },
   modalCard: {
     maxHeight: '80%',
-    backgroundColor: '#fff',
+    backgroundColor: 'COLORS.COLORS.white',
   },
   permissionCard: {
-    backgroundColor: '#fff3e0',
-    margin: 16,
-    borderRadius: 8,
+    backgroundColor: 'COLORS.COLORS.white3e0',
+    margin: SPACING.base,
+    borderRadius: BORDER_RADIUS.md,
   },
   permissionContent: {
     alignItems: 'center',
-    padding: 16,
+    padding: SPACING.base,
   },
   permissionTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginTop: 8,
-    marginBottom: 4,
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.bold,
+    marginTop: SPACING.sm,
+    marginBottom: SPACING.xs,
     color: '#ff9800',
   },
   permissionText: {
-    fontSize: 14,
+    fontSize: FONT_SIZE.base,
     textAlign: 'center',
-    color: '#666',
+    color: 'COLORS.text.secondary',
     marginBottom: 16,
   },
   permissionButton: {
@@ -256,10 +257,10 @@ const styles = StyleSheet.create({
   },
   notificationItem: {
     flexDirection: 'row',
-    padding: 16,
+    padding: SPACING.base,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
-    backgroundColor: '#f8f9fa',
+    borderBottomColor: 'COLORS.gray[100]',
+    backgroundColor: 'COLORS.background.light',
   },
   notificationContent: {
     flex: 1,
@@ -267,39 +268,39 @@ const styles = StyleSheet.create({
   notificationHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 4,
+    marginBottom: SPACING.xs,
   },
   notificationTime: {
-    fontSize: 12,
-    color: '#666',
+    fontSize: FONT_SIZE.sm,
+    color: 'COLORS.text.secondary',
     marginLeft: 8,
   },
   notificationTitle: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 4,
+    fontSize: FONT_SIZE.base,
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.text.primary',
+    marginBottom: SPACING.xs,
   },
   notificationMessage: {
     fontSize: 13,
-    color: '#666',
+    color: 'COLORS.text.secondary',
     lineHeight: 18,
   },
   unreadIndicator: {
     width: 8,
     height: 8,
-    borderRadius: 4,
+    borderRadius: BORDER_RADIUS.sm,
     backgroundColor: '#2196f3',
     marginLeft: 8,
-    marginTop: 8,
+    marginTop: SPACING.sm,
   },
   emptyState: {
     alignItems: 'center',
     padding: 32,
   },
   emptyText: {
-    fontSize: 16,
-    color: '#666',
+    fontSize: FONT_SIZE.md,
+    color: 'COLORS.text.secondary',
     marginTop: 16,
     textAlign: 'center',
   },

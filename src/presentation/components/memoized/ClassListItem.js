@@ -3,6 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import { Card, Text, Chip, Divider, IconButton } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 import ActionButton, { ActionButtonGroup } from '@components/ActionButton';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const ClassListItem = memo(({ 
   classItem, 
@@ -49,11 +50,11 @@ const ClassListItem = memo(({
   }, [getString]);
 
   const getCapacityColor = useCallback((current, max) => {
-    if (!max) return '#666';
+    if (!max) return 'COLORS.text.secondary';
     const percentage = (current / max) * 100;
-    if (percentage >= 90) return '#F44336';
-    if (percentage >= 70) return '#FF9800';
-    return '#4CAF50';
+    if (percentage >= 90) return 'COLORS.error[500]';
+    if (percentage >= 70) return 'COLORS.warning[500]';
+    return 'COLORS.primary[500]';
   }, []);
 
   return (
@@ -75,21 +76,21 @@ const ClassListItem = memo(({
 
         <View style={styles.classDetails}>
           <View style={styles.detailRow}>
-            <Ionicons name="person-outline" size={16} color="#666" />
+            <Ionicons name="person-outline" size={16} color="COLORS.text.secondary" />
             <Text style={styles.detailText}>
               {getString('professor')}: {classItem.instructorName}
             </Text>
           </View>
 
           <View style={styles.detailRow}>
-            <Ionicons name="time-outline" size={16} color="#666" />
+            <Ionicons name="time-outline" size={16} color="COLORS.text.secondary" />
             <Text style={styles.detailText}>
               {formatSchedule(classItem)}
             </Text>
           </View>
 
           <View style={styles.detailRow}>
-            <Ionicons name="people-outline" size={16} color="#666" />
+            <Ionicons name="people-outline" size={16} color="COLORS.text.secondary" />
             <Text style={[
               styles.detailText,
               { color: getCapacityColor(classItem.currentStudents, classItem.maxCapacity) }
@@ -100,7 +101,7 @@ const ClassListItem = memo(({
 
           {classItem.location && (
             <View style={styles.detailRow}>
-              <Ionicons name="location-outline" size={16} color="#666" />
+              <Ionicons name="location-outline" size={16} color="COLORS.text.secondary" />
               <Text style={styles.detailText}>{classItem.location}</Text>
             </View>
           )}
@@ -111,11 +112,11 @@ const ClassListItem = memo(({
             mode="outlined"
             style={[
               styles.statusChip,
-              { borderColor: classItem.isActive !== false ? '#4CAF50' : '#F44336' }
+              { borderColor: classItem.isActive !== false ? 'COLORS.primary[500]' : 'COLORS.error[500]' }
             ]}
             textStyle={{ 
-              color: classItem.isActive !== false ? '#4CAF50' : '#F44336',
-              fontSize: 12
+              color: classItem.isActive !== false ? 'COLORS.primary[500]' : 'COLORS.error[500]',
+              fontSize: FONT_SIZE.sm
             }}
           >
             {classItem.isActive !== false ? getString('active') : getString('inactive')}
@@ -124,8 +125,8 @@ const ClassListItem = memo(({
           {classItem.currentStudents >= (classItem.maxCapacity || 999) && (
             <Chip 
               mode="outlined"
-              style={[styles.statusChip, { borderColor: '#F44336' }]}
-              textStyle={{ color: '#F44336', fontSize: 12 }}
+              style={[styles.statusChip, { borderColor: 'COLORS.error[500]' }]}
+              textStyle={{ color: 'COLORS.error[500]', fontSize: FONT_SIZE.sm }}
             >
               {getString('full')}
             </Chip>
@@ -134,8 +135,8 @@ const ClassListItem = memo(({
           {!classItem.instructorId && (
             <Chip 
               mode="outlined"
-              style={[styles.statusChip, { borderColor: '#FF9800' }]}
-              textStyle={{ color: '#FF9800', fontSize: 12 }}
+              style={[styles.statusChip, { borderColor: 'COLORS.warning[500]' }]}
+              textStyle={{ color: 'COLORS.warning[500]', fontSize: FONT_SIZE.sm }}
             >
               {getString('withoutInstructor')}
             </Chip>
@@ -200,15 +201,15 @@ ClassListItem.displayName = 'ClassListItem';
 
 const styles = StyleSheet.create({
   classCard: {
-    margin: 16,
-    marginBottom: 8,
+    margin: SPACING.base,
+    marginBottom: SPACING.sm,
     elevation: 2,
   },
   classHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   classInfo: {
     flexDirection: 'row',
@@ -216,40 +217,40 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   className: {
-    fontSize: 18,
+    fontSize: FONT_SIZE.lg,
     flex: 1,
   },
   modalityChip: {
     marginLeft: 8,
   },
   classDetails: {
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   detailRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 4,
+    marginBottom: SPACING.xs,
   },
   detailText: {
     marginLeft: 8,
-    color: '#666',
+    color: 'COLORS.text.secondary',
     flex: 1,
   },
   statusRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   statusChip: {
     borderWidth: 1,
     marginRight: 8,
-    marginBottom: 4,
+    marginBottom: SPACING.xs,
   },
   divider: {
     marginVertical: 12,
   },
   classActions: {
-    marginTop: 4,
+    marginTop: SPACING.xs,
   },
   actionButton: {
     flex: 1,

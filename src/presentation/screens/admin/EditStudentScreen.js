@@ -19,6 +19,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '@contexts/AuthProvider';
 import { firestoreService } from '@services/firestoreService';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const EditStudentScreen = ({ navigation, route }) => {
   const { user, userProfile, academia } = useAuth();
@@ -417,7 +418,7 @@ const EditStudentScreen = ({ navigation, route }) => {
         onDismiss={() => setSnackbarVisible(false)}
         duration={3000}
         style={{
-          backgroundColor: snackbarType === 'success' ? '#4CAF50' : '#F44336'
+          backgroundColor: snackbarType === 'success' ? 'COLORS.primary[500]' : 'COLORS.error[500]'
         }}
       >
         {snackbarMessage}
@@ -435,7 +436,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    padding: 16,
+    padding: SPACING.base,
     paddingBottom: 100,
   },
   loadingContainer: {
@@ -445,33 +446,33 @@ const styles = StyleSheet.create({
   },
   loadingText: {
     marginTop: 16,
-    fontSize: 16,
-    color: '#666',
+    fontSize: FONT_SIZE.md,
+    color: 'COLORS.text.secondary',
   },
   card: {
     marginBottom: 20,
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
+    fontSize: FONT_SIZE.xxl,
+    fontWeight: FONT_WEIGHT.bold,
     marginBottom: 20,
     textAlign: 'center',
   },
   sectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: FONT_SIZE.lg,
+    fontWeight: FONT_WEIGHT.bold,
     marginTop: 20,
     marginBottom: 16,
-    color: '#333',
+    color: 'COLORS.text.primary',
   },
   input: {
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   label: {
-    fontSize: 16,
-    fontWeight: '500',
-    marginBottom: 8,
-    color: '#333',
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.medium,
+    marginBottom: SPACING.sm,
+    color: 'COLORS.text.primary',
   },
   radioContainer: {
     marginBottom: 20,
@@ -480,11 +481,11 @@ const styles = StyleSheet.create({
   radioItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   radioLabel: {
     marginLeft: 8,
-    fontSize: 16,
+    fontSize: FONT_SIZE.md,
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -496,10 +497,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   cancelButton: {
-    borderColor: '#666',
+    borderColor: 'COLORS.text.secondary',
   },
   saveButton: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: 'COLORS.primary[500]',
   },
   deleteButton: {
     borderColor: '#d32f2f',

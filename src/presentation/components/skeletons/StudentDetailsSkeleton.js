@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import SkeletonLoader from './SkeletonLoader';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const StudentDetailsSkeleton = () => {
   return (
@@ -10,8 +11,8 @@ const StudentDetailsSkeleton = () => {
         <View style={styles.headerContainer}>
           <SkeletonLoader width={80} height={80} borderRadius={40} />
           <View style={styles.headerInfo}>
-            <SkeletonLoader width="80%" height={24} style={{ marginBottom: 8 }} />
-            <SkeletonLoader width="60%" height={16} style={{ marginBottom: 8 }} />
+            <SkeletonLoader width="80%" height={24} style={{ marginBottom: SPACING.sm }} />
+            <SkeletonLoader width="60%" height={16} style={{ marginBottom: SPACING.sm }} />
             <SkeletonLoader width="40%" height={14} />
           </View>
         </View>
@@ -39,7 +40,7 @@ const StudentDetailsSkeleton = () => {
             <View style={styles.listItemLeft}>
               <SkeletonLoader width={20} height={20} borderRadius={10} />
               <View style={styles.listItemContent}>
-                <SkeletonLoader width="60%" height={16} style={{ marginBottom: 4 }} />
+                <SkeletonLoader width="60%" height={16} style={{ marginBottom: SPACING.xs }} />
                 <SkeletonLoader width="40%" height={14} />
               </View>
             </View>
@@ -60,7 +61,7 @@ const StudentDetailsSkeleton = () => {
             <View style={styles.listItemLeft}>
               <SkeletonLoader width={20} height={20} borderRadius={10} />
               <View style={styles.listItemContent}>
-                <SkeletonLoader width="50%" height={16} style={{ marginBottom: 4 }} />
+                <SkeletonLoader width="50%" height={16} style={{ marginBottom: SPACING.xs }} />
                 <SkeletonLoader width="30%" height={14} />
               </View>
             </View>
@@ -88,11 +89,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
   },
   cardContainer: {
-    margin: 16,
-    marginTop: 8,
-    padding: 16,
-    backgroundColor: 'white',
-    borderRadius: 12,
+    margin: SPACING.base,
+    marginTop: SPACING.sm,
+    padding: SPACING.base,
+    backgroundColor: 'COLORS.white',
+    borderRadius: BORDER_RADIUS.md,
     elevation: 2,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -110,13 +111,13 @@ const styles = StyleSheet.create({
   },
   divider: {
     height: 1,
-    backgroundColor: '#e0e0e0',
+    backgroundColor: 'COLORS.gray[300]',
     marginVertical: 16,
   },
   infoRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   cardHeader: {
     flexDirection: 'row',
@@ -127,8 +128,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 12,
-    paddingVertical: 8,
+    marginBottom: SPACING.md,
+    paddingVertical: SPACING.sm,
   },
   listItemLeft: {
     flexDirection: 'row',

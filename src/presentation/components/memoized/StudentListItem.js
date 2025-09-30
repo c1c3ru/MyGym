@@ -2,6 +2,7 @@ import React, { memo, useCallback } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Card, Text, Avatar, Chip, Divider, IconButton, Menu } from 'react-native-paper';
 import ActionButton, { ActionButtonGroup } from '@components/ActionButton';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const StudentListItem = memo(({ 
   student, 
@@ -63,7 +64,7 @@ const StudentListItem = memo(({
               ]}
               textStyle={{ 
                 color: student.isActive ? '#2E7D32' : '#C62828',
-                fontSize: 12 
+                fontSize: FONT_SIZE.sm 
               }}
             >
               {student.isActive ? 'Ativo' : 'Inativo'}
@@ -138,7 +139,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   studentInfo: {
     flexDirection: 'row',
@@ -146,24 +147,24 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   avatar: {
-    backgroundColor: '#FF9800',
+    backgroundColor: 'COLORS.warning[500]',
   },
   studentDetails: {
     marginLeft: 12,
     flex: 1,
   },
   studentName: {
-    fontSize: 16,
+    fontSize: FONT_SIZE.md,
     marginBottom: 2,
   },
   studentEmail: {
-    fontSize: 12,
-    color: '#666',
+    fontSize: FONT_SIZE.sm,
+    color: 'COLORS.text.secondary',
     marginBottom: 2,
   },
   studentPhone: {
-    fontSize: 12,
-    color: '#999',
+    fontSize: FONT_SIZE.sm,
+    color: 'COLORS.gray[500]',
   },
   studentStats: {
     flexDirection: 'row',
@@ -175,14 +176,14 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   statLabel: {
-    fontSize: 12,
-    color: '#666',
-    marginBottom: 4,
+    fontSize: FONT_SIZE.sm,
+    color: 'COLORS.text.secondary',
+    marginBottom: SPACING.xs,
   },
   statValue: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: '#333',
+    fontSize: FONT_SIZE.base,
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.text.primary',
   },
   statusChip: {
     height: 24,

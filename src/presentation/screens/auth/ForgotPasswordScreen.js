@@ -20,6 +20,7 @@ import AnimatedCard from '@components/AnimatedCard';
 import AnimatedButton from '@components/AnimatedButton';
 import { ResponsiveUtils } from '@utils/animations';
 import { useTheme } from '@contexts/ThemeContext';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 export default function ForgotPasswordScreen({ navigation }) {
   const { getString } = useTheme();
@@ -131,7 +132,7 @@ export default function ForgotPasswordScreen({ navigation }) {
               <MaterialCommunityIcons 
                 name="lock-reset" 
                 size={ResponsiveUtils?.isTablet?.() ? 80 : 60} 
-                color="white" 
+                color="COLORS.COLORS.white" 
                 style={styles.headerIcon}
               />
               <Title style={styles.headerTitle}>{getString('recoverPassword')}</Title>
@@ -180,7 +181,7 @@ export default function ForgotPasswordScreen({ navigation }) {
                   <MaterialCommunityIcons 
                     name="email-check" 
                     size={48} 
-                    color="#4CAF50" 
+                    color="COLORS.primary[500]" 
                     style={styles.successIcon}
                   />
                   <Title style={styles.successTitle}>{getString('emailSent')}</Title>
@@ -222,7 +223,7 @@ export default function ForgotPasswordScreen({ navigation }) {
           action={{
             label: getString('close'),
             onPress: hideSnackbar,
-            textColor: 'white'
+            textColor: 'COLORS.COLORS.white'
           }}
         >
           {snackbar.message}
@@ -260,8 +261,8 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: ResponsiveUtils?.fontSize?.xlarge || 28,
-    fontWeight: 'bold',
-    color: 'white',
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.COLORS.white',
     marginBottom: ResponsiveUtils?.spacing?.sm || 8,
     textAlign: 'center',
   },
@@ -282,7 +283,7 @@ const styles = StyleSheet.create({
   },
   input: {
     marginBottom: ResponsiveUtils?.spacing?.md || 16,
-    backgroundColor: 'white',
+    backgroundColor: 'COLORS.COLORS.white',
   },
   resetButton: {
     marginTop: ResponsiveUtils?.spacing?.sm || 8,
@@ -297,20 +298,20 @@ const styles = StyleSheet.create({
     marginBottom: ResponsiveUtils?.spacing?.md || 16,
   },
   successTitle: {
-    color: '#4CAF50',
+    color: 'COLORS.primary[500]',
     marginBottom: ResponsiveUtils?.spacing?.sm || 8,
     textAlign: 'center',
   },
   successText: {
     textAlign: 'center',
-    color: '#666',
+    color: 'COLORS.text.secondary',
   },
   backContainer: {
     alignItems: 'center',
     marginTop: ResponsiveUtils?.spacing?.md || 16,
   },
   errorText: {
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
     marginTop: -8,
   },
   snackbar: {
@@ -318,7 +319,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    margin: 16,
+    margin: SPACING.base,
   },
   snackbarSuccess: {
     backgroundColor: '#4caf50',
@@ -328,17 +329,17 @@ const styles = StyleSheet.create({
   },
   spamWarning: {
     textAlign: 'center',
-    color: '#FF9800',
-    marginTop: 12,
-    fontSize: 14,
+    color: 'COLORS.warning[500]',
+    marginTop: SPACING.md,
+    fontSize: FONT_SIZE.base,
     backgroundColor: '#FFF3E0',
-    padding: 12,
-    borderRadius: 8,
+    padding: SPACING.md,
+    borderRadius: BORDER_RADIUS.md,
     borderLeftWidth: 4,
-    borderLeftColor: '#FF9800',
+    borderLeftColor: 'COLORS.warning[500]',
   },
   spamWarningBold: {
-    fontWeight: 'bold',
+    fontWeight: FONT_WEIGHT.bold,
     color: '#F57C00',
   },
 });

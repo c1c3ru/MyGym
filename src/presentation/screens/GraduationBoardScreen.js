@@ -5,6 +5,7 @@ import { Text, FAB, Portal, Dialog, Button } from 'react-native-paper';
 import GraduationBoard from '@components/GraduationBoard';
 import LoadingSpinner from '@components/LoadingSpinner';
 import { useAuth } from '@contexts/AuthProvider';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const GraduationBoardScreen = ({ navigation }) => {
   const { user } = useAuth();
@@ -300,8 +301,8 @@ const styles = StyleSheet.create({
   },
   loadingText: {
     marginTop: 16,
-    fontSize: 16,
-    color: '#666',
+    fontSize: FONT_SIZE.md,
+    color: 'COLORS.text.secondary',
   },
   errorContainer: {
     flex: 1,
@@ -311,15 +312,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
   },
   errorText: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: FONT_SIZE.lg,
+    fontWeight: FONT_WEIGHT.bold,
     color: '#d32f2f',
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
     textAlign: 'center',
   },
   errorMessage: {
-    fontSize: 14,
-    color: '#666',
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.text.secondary',
     textAlign: 'center',
     marginBottom: 24,
   },
@@ -328,7 +329,7 @@ const styles = StyleSheet.create({
   },
   fab: {
     position: 'absolute',
-    margin: 16,
+    margin: SPACING.base,
     right: 0,
     bottom: 0,
   },

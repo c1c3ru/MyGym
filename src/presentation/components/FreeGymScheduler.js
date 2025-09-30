@@ -7,6 +7,7 @@ import { useAuth } from '@contexts/AuthProvider';
 import { useCustomClaims } from '@hooks/useCustomClaims';
 import { academyFirestoreService } from '@services/academyFirestoreService';
 import { DAY_NAMES } from '@utils/scheduleUtils';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const { width } = Dimensions.get('window');
 
@@ -41,13 +42,13 @@ const FreeGymScheduler = ({
   const modalityColors = {
     'karate': '#FF5722',
     'karatê': '#FF5722',
-    'jiu-jitsu': '#9C27B0',
-    'jiu jitsu': '#9C27B0',
-    'muay-thai': '#F44336',
-    'muay thai': '#F44336',
+    'jiu-jitsu': 'COLORS.secondary[500]',
+    'jiu jitsu': 'COLORS.secondary[500]',
+    'muay-thai': 'COLORS.error[500]',
+    'muay thai': 'COLORS.error[500]',
     'judo': '#3F51B5',
     'judô': '#3F51B5',
-    'taekwondo': '#FF9800',
+    'taekwondo': 'COLORS.warning[500]',
     'boxe': '#795548',
     'default': '#607D8B'
   };
@@ -188,12 +189,12 @@ const FreeGymScheduler = ({
         customStyles: {
           container: {
             backgroundColor: hasMultipleEvents ? primaryColor : `${primaryColor}20`,
-            borderRadius: 8,
+            borderRadius: BORDER_RADIUS.md,
             borderWidth: hasMultipleEvents ? 2 : 1,
             borderColor: primaryColor
           },
           text: {
-            color: hasMultipleEvents ? '#ffffff' : primaryColor,
+            color: hasMultipleEvents ? 'COLORS.COLORS.COLORS.whitefff' : primaryColor,
             fontWeight: hasMultipleEvents ? 'bold' : 'normal'
           }
         }
@@ -444,13 +445,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5'
   },
   filtersCard: {
-    margin: 16,
-    marginBottom: 8
+    margin: SPACING.base,
+    marginBottom: SPACING.sm
   },
   filtersTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginBottom: 12
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.semibold,
+    marginBottom: SPACING.md
   },
   filtersContainer: {
     flexDirection: 'row',
@@ -460,18 +461,18 @@ const styles = StyleSheet.create({
     marginRight: 8
   },
   calendarCard: {
-    margin: 16,
+    margin: SPACING.base,
     marginVertical: 8
   },
   dayEventsCard: {
-    margin: 16,
-    marginTop: 8,
+    margin: SPACING.base,
+    marginTop: SPACING.sm,
     maxHeight: 300
   },
   dayEventsTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    marginBottom: 12,
+    fontSize: FONT_SIZE.lg,
+    fontWeight: FONT_WEIGHT.semibold,
+    marginBottom: SPACING.md,
     textTransform: 'capitalize'
   },
   eventsContainer: {
@@ -480,18 +481,18 @@ const styles = StyleSheet.create({
   noEventsText: {
     textAlign: 'center',
     fontStyle: 'italic',
-    padding: 20
+    padding: SPACING.lg
   },
   eventCard: {
-    marginBottom: 8
+    marginBottom: SPACING.sm
   },
   eventContent: {
-    paddingVertical: 8
+    paddingVertical: SPACING.sm
   },
   eventHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 8
+    marginBottom: SPACING.sm
   },
   colorIndicator: {
     width: 4,
@@ -500,28 +501,28 @@ const styles = StyleSheet.create({
     marginRight: 12
   },
   eventTitle: {
-    fontSize: 16,
-    fontWeight: '600',
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.semibold,
     flex: 1
   },
   eventDetails: {
     marginLeft: 16
   },
   eventTime: {
-    fontSize: 14,
-    fontWeight: '500',
-    marginBottom: 4
+    fontSize: FONT_SIZE.base,
+    fontWeight: FONT_WEIGHT.medium,
+    marginBottom: SPACING.xs
   },
   eventInstructor: {
-    fontSize: 12,
+    fontSize: FONT_SIZE.sm,
     marginBottom: 2
   },
   eventModality: {
-    fontSize: 12,
+    fontSize: FONT_SIZE.sm,
     marginBottom: 2
   },
   eventCapacity: {
-    fontSize: 12
+    fontSize: FONT_SIZE.sm
   },
   fab: {
     position: 'absolute',

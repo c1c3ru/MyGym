@@ -22,6 +22,7 @@ import cacheService, { CACHE_KEYS, CACHE_TTL } from '@services/cacheService';
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import StudentListSkeleton from '@components/skeletons/StudentListSkeleton';
 import { useFocusEffect } from '@react-navigation/native';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const AdminStudents = ({ navigation }) => {
   const { user, userProfile, academia } = useAuthFacade();
@@ -285,9 +286,9 @@ const AdminStudents = ({ navigation }) => {
 
   const getPaymentStatusColor = (status) => {
     switch (status) {
-      case 'paid': return '#4CAF50';
-      case 'pending': return '#FF9800';
-      case 'overdue': return '#F44336';
+      case 'paid': return 'COLORS.primary[500]';
+      case 'pending': return 'COLORS.warning[500]';
+      case 'overdue': return 'COLORS.error[500]';
       default: return '#9E9E9E';
     }
   };
@@ -403,22 +404,22 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
   },
   header: {
-    backgroundColor: '#fff',
+    backgroundColor: 'COLORS.COLORS.white',
     paddingHorizontal: 16,
-    paddingVertical: 12,
+    paddingVertical: SPACING.md,
     elevation: 2,
   },
   searchbar: {
     elevation: 0,
     backgroundColor: '#f5f5f5',
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   filterRow: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
   },
   filterButton: {
-    borderColor: '#FF9800',
+    borderColor: 'COLORS.warning[500]',
   },
   studentCard: {
     marginVertical: 8,
@@ -428,7 +429,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   studentInfo: {
     flexDirection: 'row',
@@ -436,24 +437,24 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   avatar: {
-    backgroundColor: '#FF9800',
+    backgroundColor: 'COLORS.warning[500]',
   },
   studentDetails: {
     marginLeft: 12,
     flex: 1,
   },
   studentName: {
-    fontSize: 16,
+    fontSize: FONT_SIZE.md,
     marginBottom: 2,
   },
   studentEmail: {
-    fontSize: 12,
-    color: '#666',
+    fontSize: FONT_SIZE.sm,
+    color: 'COLORS.text.secondary',
     marginBottom: 2,
   },
   studentPhone: {
-    fontSize: 12,
-    color: '#999',
+    fontSize: FONT_SIZE.sm,
+    color: 'COLORS.gray[500]',
   },
   studentStats: {
     flexDirection: 'row',
@@ -465,14 +466,14 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   statLabel: {
-    fontSize: 12,
-    color: '#666',
-    marginBottom: 4,
+    fontSize: FONT_SIZE.sm,
+    color: 'COLORS.text.secondary',
+    marginBottom: SPACING.xs,
   },
   statValue: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: '#333',
+    fontSize: FONT_SIZE.base,
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.text.primary',
   },
   statusChip: {
     height: 24,
@@ -482,10 +483,10 @@ const styles = StyleSheet.create({
   },
   fab: {
     position: 'absolute',
-    margin: 16,
+    margin: SPACING.base,
     right: 0,
     bottom: 0,
-    backgroundColor: '#FF9800',
+    backgroundColor: 'COLORS.warning[500]',
   },
   listContainer: {
     paddingHorizontal: 16,
@@ -497,15 +498,15 @@ const styles = StyleSheet.create({
     paddingVertical: 60,
   },
   emptyText: {
-    fontSize: 18,
-    color: '#666',
+    fontSize: FONT_SIZE.lg,
+    color: 'COLORS.text.secondary',
     marginTop: 16,
     textAlign: 'center',
   },
   emptySubtext: {
-    fontSize: 14,
-    color: '#999',
-    marginTop: 8,
+    fontSize: FONT_SIZE.base,
+    color: 'COLORS.gray[500]',
+    marginTop: SPACING.sm,
     textAlign: 'center',
   },
 });

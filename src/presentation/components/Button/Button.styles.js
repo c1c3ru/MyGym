@@ -1,9 +1,10 @@
 import { StyleSheet } from 'react-native';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const styles = StyleSheet.create({
   // Base button styles
   button: {
-    borderRadius: 8,
+    borderRadius: BORDER_RADIUS.md,
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
@@ -27,12 +28,12 @@ const styles = StyleSheet.create({
 
   // Sizes
   small: {
-    paddingVertical: 8,
+    paddingVertical: SPACING.sm,
     paddingHorizontal: 16,
     minHeight: 36,
   },
   medium: {
-    paddingVertical: 12,
+    paddingVertical: SPACING.md,
     paddingHorizontal: 24,
     minHeight: 44,
   },
@@ -49,31 +50,31 @@ const styles = StyleSheet.create({
 
   // Text styles
   text: {
-    fontWeight: '600',
+    fontWeight: FONT_WEIGHT.semibold,
     textAlign: 'center',
   },
   textPrimary: {
-    color: '#ffffff',
+    color: 'COLORS.COLORS.whitefff',
   },
   textSecondary: {
-    color: '#ffffff',
+    color: 'COLORS.COLORS.whitefff',
   },
   textOutline: {
     color: '#007bff',
   },
   textDanger: {
-    color: '#ffffff',
+    color: 'COLORS.COLORS.whitefff',
   },
 
   // Text sizes
   textSmall: {
-    fontSize: 14,
+    fontSize: FONT_SIZE.base,
   },
   textMedium: {
-    fontSize: 16,
+    fontSize: FONT_SIZE.md,
   },
   textLarge: {
-    fontSize: 18,
+    fontSize: FONT_SIZE.lg,
   },
 });
 

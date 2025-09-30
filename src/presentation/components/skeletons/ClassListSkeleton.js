@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import SkeletonLoader from './SkeletonLoader';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 /**
  * Skeleton para lista de turmas
@@ -60,9 +61,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   card: {
-    backgroundColor: '#fff',
-    borderRadius: 8,
-    padding: 16,
+    backgroundColor: 'COLORS.white',
+    borderRadius: BORDER_RADIUS.md,
+    padding: SPACING.base,
     marginVertical: 8,
     elevation: 2,
     shadowColor: '#000',
@@ -74,13 +75,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   titleSection: {
     flex: 1,
   },
   title: {
-    marginBottom: 4,
+    marginBottom: SPACING.xs,
   },
   modality: {
     marginBottom: 0,
@@ -91,7 +92,7 @@ const styles = StyleSheet.create({
   detailRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   detailText: {
     marginLeft: 8,
@@ -100,13 +101,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 12,
+    marginTop: SPACING.md,
   },
   studentsInfo: {
     flex: 1,
   },
   studentsLabel: {
-    marginBottom: 4,
+    marginBottom: SPACING.xs,
   },
   studentsCount: {
     marginBottom: 0,

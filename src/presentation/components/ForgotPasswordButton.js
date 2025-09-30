@@ -3,6 +3,7 @@ import React, { useRef } from 'react';
 import { Animated, TouchableOpacity, Platform } from 'react-native';
 import { Text } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const ForgotPasswordButton = ({ onPress, disabled = false, style }) => {
   const scaleAnim = useRef(new Animated.Value(1)).current;
@@ -34,8 +35,8 @@ const ForgotPasswordButton = ({ onPress, disabled = false, style }) => {
           transform: [{ scale: scaleAnim }],
           flexDirection: 'row',
           alignItems: 'center',
-          paddingVertical: 8,
-          paddingHorizontal: 12,
+          paddingVertical: SPACING.sm,
+          paddingHorizontal: SPACING.md,
         }}
       >
         <MaterialCommunityIcons 
@@ -47,8 +48,8 @@ const ForgotPasswordButton = ({ onPress, disabled = false, style }) => {
         <Text
           style={{
             color: disabled ? '#ccc' : '#667eea',
-            fontSize: 14,
-            fontWeight: '500',
+            fontSize: FONT_SIZE.base,
+            fontWeight: FONT_WEIGHT.medium,
           }}
         >
           Esqueceu sua senha?

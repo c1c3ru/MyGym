@@ -361,7 +361,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: '700',
+    fontWeight: FONT_WEIGHT.bold,
     marginLeft: SPACING.sm,
     color: COLORS.text.primary,
   },
@@ -393,7 +393,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: FONT_SIZE.sm,
-    fontWeight: '600',
+    fontWeight: FONT_WEIGHT.semibold,
     color: COLORS.text.primary,
     marginTop: SPACING.md,
     marginBottom: SPACING.xs,
@@ -423,7 +423,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     padding: SPACING.base,
     gap: SPACING.sm,
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.COLORS.white,
     borderTopWidth: 1,
     borderTopColor: COLORS.border.light,
   },

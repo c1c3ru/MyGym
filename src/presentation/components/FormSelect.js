@@ -3,6 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import { Menu, Button, HelperText, Text } from 'react-native-paper';
 import { useTheme } from '@contexts/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const FormSelect = ({
   label,
@@ -60,7 +61,7 @@ const FormSelect = ({
               <Ionicons 
                 name={visible ? "chevron-up" : "chevron-down"} 
                 size={20} 
-                color={hasError ? "#F44336" : "#666"} 
+                color={hasError ? "COLORS.error[500]" : "COLORS.text.secondary"} 
               />
             )}
           >
@@ -89,21 +90,21 @@ const FormSelect = ({
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   label: {
-    fontSize: 12,
-    color: '#666',
-    marginBottom: 4,
-    marginLeft: 4,
+    fontSize: FONT_SIZE.sm,
+    color: 'COLORS.text.secondary',
+    marginBottom: SPACING.xs,
+    marginLeft: SPACING.xs,
   },
   button: {
-    backgroundColor: '#fff',
+    backgroundColor: 'COLORS.COLORS.COLORS.white',
     borderColor: '#ccc',
     justifyContent: 'flex-start',
   },
   buttonError: {
-    borderColor: '#F44336',
+    borderColor: 'COLORS.error[500]',
   },
   buttonDisabled: {
     backgroundColor: '#f5f5f5',
@@ -111,23 +112,23 @@ const styles = StyleSheet.create({
   buttonContent: {
     flexDirection: 'row-reverse',
     justifyContent: 'space-between',
-    paddingHorizontal: 8,
+    paddingHorizontal: SPACING.sm,
   },
   buttonLabel: {
-    color: '#333',
+    color: 'COLORS.text.primary',
     textAlign: 'left',
     flex: 1,
   },
   placeholderText: {
-    color: '#999',
+    color: 'COLORS.gray[500]',
   },
   selectedOption: {
-    fontWeight: 'bold',
-    color: '#2196F3',
+    fontWeight: FONT_WEIGHT.bold,
+    color: 'COLORS.info[500]',
   },
   errorText: {
-    fontSize: 12,
-    marginTop: 4,
+    fontSize: FONT_SIZE.sm,
+    marginTop: SPACING.xs,
   },
 });
 

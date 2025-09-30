@@ -17,6 +17,7 @@ import { useAuth } from '@contexts/AuthProvider';
 import { useTheme } from '@contexts/ThemeContext';
 import { paymentService } from '@services/firestoreService';
 import { Linking } from 'react-native';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const StudentPayments = ({ navigation }) => {
   const { user, userProfile, academia } = useAuth();
@@ -90,9 +91,9 @@ const StudentPayments = ({ navigation }) => {
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'paid': return '#4CAF50';
-      case 'pending': return '#FF9800';
-      case 'overdue': return '#F44336';
+      case 'paid': return 'COLORS.primary[500]';
+      case 'pending': return 'COLORS.warning[500]';
+      case 'overdue': return 'COLORS.error[500]';
       default: return '#9E9E9E';
     }
   };
@@ -131,7 +132,7 @@ const StudentPayments = ({ navigation }) => {
           <Card style={styles.currentCard}>
             <Card.Content>
               <View style={styles.cardHeader}>
-                <Ionicons name="card-outline" size={24} color="#2196F3" />
+                <Ionicons name="card-outline" size={24} color="COLORS.info[500]" />
                 <Title style={styles.cardTitle}>Mensalidade Atual</Title>
               </View>
               
@@ -181,7 +182,7 @@ const StudentPayments = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <Ionicons name="time-outline" size={24} color="#2196F3" />
+              <Ionicons name="time-outline" size={24} color="COLORS.info[500]" />
               <Title style={styles.cardTitle}>Histórico de Pagamentos</Title>
             </View>
             
@@ -201,7 +202,7 @@ const StudentPayments = ({ navigation }) => {
                       <Chip 
                         mode="outlined"
                         style={[styles.listStatusChip, { borderColor: getStatusColor(payment.status) }]}
-                        textStyle={{ color: getStatusColor(payment.status), fontSize: 12 }}
+                        textStyle={{ color: getStatusColor(payment.status), fontSize: FONT_SIZE.sm }}
                       >
                         {getStatusText(payment.status)}
                       </Chip>
@@ -255,14 +256,14 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   currentCard: {
-    margin: 16,
-    marginBottom: 8,
+    margin: SPACING.base,
+    marginBottom: SPACING.sm,
     elevation: 4,
     backgroundColor: '#E3F2FD',
   },
   card: {
-    margin: 16,
-    marginTop: 8,
+    margin: SPACING.base,
+    marginTop: SPACING.sm,
     elevation: 2,
   },
   cardHeader: {
@@ -272,7 +273,7 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     marginLeft: 8,
-    fontSize: 18,
+    fontSize: FONT_SIZE.lg,
   },
   currentPaymentInfo: {
     marginBottom: 16,
@@ -281,15 +282,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   label: {
-    fontSize: 16,
-    color: '#666',
+    fontSize: FONT_SIZE.md,
+    color: 'COLORS.text.secondary',
   },
   value: {
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.bold,
   },
   statusChip: {
     borderWidth: 1,
@@ -299,24 +300,24 @@ const styles = StyleSheet.create({
     height: 24,
   },
   payButton: {
-    backgroundColor: '#4CAF50',
-    marginTop: 8,
+    backgroundColor: 'COLORS.primary[500]',
+    marginTop: SPACING.sm,
   },
   emptyText: {
     textAlign: 'center',
-    color: '#666',
+    color: 'COLORS.text.secondary',
     fontStyle: 'italic',
   },
   infoText: {
-    marginBottom: 8,
-    color: '#666',
+    marginBottom: SPACING.sm,
+    color: 'COLORS.text.secondary',
   },
   fab: {
     position: 'absolute',
-    margin: 16,
+    margin: SPACING.base,
     right: 0,
     bottom: 0,
-    backgroundColor: '#2196F3',
+    backgroundColor: 'COLORS.info[500]',
   },
 });
 

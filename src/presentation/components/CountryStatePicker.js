@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View } from 'react-native';
 import { Menu, Button, List } from 'react-native-paper';
 import { countries, getStatesByCountry } from '@data/countries';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 export default function CountryStatePicker({ 
   selectedCountry, 
@@ -104,14 +105,14 @@ export default function CountryStatePicker({
 
 const styles = {
   container: {
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   picker: {
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
     justifyContent: 'flex-start',
   },
   statePicker: {
-    marginTop: 4,
+    marginTop: SPACING.xs,
   },
   pickerContent: {
     justifyContent: 'flex-start',
@@ -120,9 +121,9 @@ const styles = {
   },
   menuContent: {
     maxHeight: 300,
-    backgroundColor: 'white',
+    backgroundColor: 'COLORS.COLORS.white',
   },
   menuItemTitle: {
-    fontSize: 14,
+    fontSize: FONT_SIZE.base,
   },
 };

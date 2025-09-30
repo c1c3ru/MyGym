@@ -311,7 +311,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: FONT_SIZE.xxl,
-    fontWeight: '700',
+    fontWeight: FONT_WEIGHT.bold,
     color: COLORS.text.primary,
     marginBottom: SPACING.xs,
   },
@@ -328,7 +328,7 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: '600',
+    fontWeight: FONT_WEIGHT.semibold,
     color: COLORS.text.primary,
     marginBottom: SPACING.xs,
   },
@@ -351,9 +351,9 @@ const styles = StyleSheet.create({
     ...getElevation('sm'),
   },
   tokenLabel: {
-    color: COLORS.white,
+    color: COLORS.COLORS.white,
     fontSize: FONT_SIZE.xs,
-    fontWeight: '600',
+    fontWeight: FONT_WEIGHT.semibold,
   },
   errorMessage: {
     marginBottom: SPACING.md,
@@ -371,7 +371,7 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     fontSize: FONT_SIZE.md,
-    fontWeight: '600',
+    fontWeight: FONT_WEIGHT.semibold,
     color: COLORS.text.primary,
     marginBottom: SPACING.xs,
   },
@@ -392,7 +392,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: SPACING.md,
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.COLORS.white,
     borderRadius: BORDER_RADIUS.sm,
     marginBottom: SPACING.sm,
     ...getElevation('xs'),

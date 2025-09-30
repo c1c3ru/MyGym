@@ -1,13 +1,14 @@
 import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import SkeletonLoader from './SkeletonLoader';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const ReportsSkeleton = () => {
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 24 }}>
       {/* Header Skeleton */}
       <View style={styles.headerContainer}>
-        <SkeletonLoader width="60%" height={28} style={{ marginBottom: 8 }} />
+        <SkeletonLoader width="60%" height={28} style={{ marginBottom: SPACING.sm }} />
         <SkeletonLoader width="80%" height={16} />
       </View>
 
@@ -20,8 +21,8 @@ const ReportsSkeleton = () => {
             <View key={index} style={styles.statItem}>
               <SkeletonLoader width={48} height={48} borderRadius={24} />
               <View style={styles.statContent}>
-                <SkeletonLoader width="80%" height={20} style={{ marginBottom: 4 }} />
-                <SkeletonLoader width="60%" height={12} style={{ marginBottom: 4 }} />
+                <SkeletonLoader width="80%" height={20} style={{ marginBottom: SPACING.xs }} />
+                <SkeletonLoader width="60%" height={12} style={{ marginBottom: SPACING.xs }} />
                 <SkeletonLoader width="40%" height={10} />
               </View>
             </View>
@@ -43,7 +44,7 @@ const ReportsSkeleton = () => {
           <View key={index} style={styles.listItem}>
             <SkeletonLoader width={40} height={40} borderRadius={20} />
             <View style={styles.listItemContent}>
-              <SkeletonLoader width="70%" height={16} style={{ marginBottom: 4 }} />
+              <SkeletonLoader width="70%" height={16} style={{ marginBottom: SPACING.xs }} />
               <SkeletonLoader width="50%" height={14} />
             </View>
             <SkeletonLoader width={30} height={16} />
@@ -59,7 +60,7 @@ const ReportsSkeleton = () => {
           <View key={index} style={styles.activityItem}>
             <SkeletonLoader width={24} height={24} borderRadius={12} />
             <View style={styles.activityContent}>
-              <SkeletonLoader width="80%" height={14} style={{ marginBottom: 4 }} />
+              <SkeletonLoader width="80%" height={14} style={{ marginBottom: SPACING.xs }} />
               <SkeletonLoader width="40%" height={12} />
             </View>
           </View>
@@ -85,15 +86,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
   },
   headerContainer: {
-    padding: 16,
-    marginBottom: 4,
+    padding: SPACING.base,
+    marginBottom: SPACING.xs,
   },
   cardContainer: {
-    margin: 16,
-    marginTop: 8,
-    padding: 16,
-    backgroundColor: 'white',
-    borderRadius: 12,
+    margin: SPACING.base,
+    marginTop: SPACING.sm,
+    padding: SPACING.base,
+    backgroundColor: 'COLORS.white',
+    borderRadius: BORDER_RADIUS.md,
     elevation: 2,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -110,9 +111,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '48%',
     marginBottom: 16,
-    padding: 12,
-    backgroundColor: '#f8f9fa',
-    borderRadius: 8,
+    padding: SPACING.md,
+    backgroundColor: 'COLORS.background.light',
+    borderRadius: BORDER_RADIUS.md,
   },
   statContent: {
     marginLeft: 12,
@@ -121,8 +122,8 @@ const styles = StyleSheet.create({
   listItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 12,
-    paddingVertical: 8,
+    marginBottom: SPACING.md,
+    paddingVertical: SPACING.sm,
   },
   listItemContent: {
     marginLeft: 12,
@@ -131,7 +132,7 @@ const styles = StyleSheet.create({
   activityItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   activityContent: {
     marginLeft: 12,
