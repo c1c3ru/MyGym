@@ -6,7 +6,7 @@ import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@present
 // Componente de loading para telas lazy
 const LazyLoadingFallback = ({ message = 'Carregando...' }) => (
   <View style={styles.container}>
-    <ActivityIndicator size="large" color="COLORS.info[500]" />
+    <ActivityIndicator size="large" color={COLORS.info[500]} />
     <Text style={styles.text}>{message}</Text>
   </View>
 );

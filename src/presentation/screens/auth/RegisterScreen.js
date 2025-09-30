@@ -206,7 +206,7 @@ const RegisterScreen = ({ navigation }) => {
             <MaterialCommunityIcons 
               name="account-plus" 
               size={60} 
-              color="COLORS.white" 
+              color={COLORS.white} 
               style={styles.headerIcon}
             />
             <Title style={styles.title}>{getString('createAccount')}</Title>
@@ -377,7 +377,7 @@ const RegisterScreen = ({ navigation }) => {
             >
               {loading ? (
                 <View style={styles.loadingContainer}>
-                  <ActivityIndicator color="COLORS.white" size="small" />
+                  <ActivityIndicator color={COLORS.white} size="small" />
                   <Text style={styles.loadingText}>{getString('creatingAccount')}</Text>
                 </View>
               ) : (

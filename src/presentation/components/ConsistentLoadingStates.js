@@ -13,9 +13,9 @@ export const FullScreenLoading = memo(({
 }) => (
   <View style={styles.fullScreenContainer}>
     {showLogo && (
-      <Ionicons name="fitness-outline" size={48} color="COLORS.info[500]" style={styles.logo} />
+      <Ionicons name="fitness-outline" size={48} color={COLORS.info[500]} style={styles.logo} />
     )}
-    <ActivityIndicator size="large" color="COLORS.info[500]" />
+    <ActivityIndicator size="large" color={COLORS.info[500]} />
     <Text style={styles.loadingText}>{message}</Text>
   </View>
 ));
@@ -27,7 +27,7 @@ export const SectionLoading = memo(({
   style 
 }) => (
   <View style={[styles.sectionContainer, style]}>
-    <ActivityIndicator size={size} color="COLORS.info[500]" />
+    <ActivityIndicator size={size} color={COLORS.info[500]} />
     <Text style={styles.sectionText}>{message}</Text>
   </View>
 ));
@@ -54,7 +54,7 @@ export const ListItemSkeleton = memo(() => (
 // Loading state para formulários
 export const FormLoading = memo(({ message = 'Salvando...' }) => (
   <View style={styles.formLoadingContainer}>
-    <ActivityIndicator size="small" color="COLORS.info[500]" />
+    <ActivityIndicator size="small" color={COLORS.info[500]} />
     <Text style={styles.formLoadingText}>{message}</Text>
   </View>
 ));
@@ -68,7 +68,7 @@ export const ErrorState = memo(({
 }) => (
   <View style={styles.errorContainer}>
     {showIcon && (
-      <Ionicons name="alert-circle-outline" size={48} color="COLORS.error[500]" style={styles.errorIcon} />
+      <Ionicons name="alert-circle-outline" size={48} color={COLORS.error[500]} style={styles.errorIcon} />
     )}
     <Text style={styles.errorTitle}>{title}</Text>
     <Text style={styles.errorMessage}>{message}</Text>

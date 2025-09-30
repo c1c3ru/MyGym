@@ -48,7 +48,7 @@ const FirebaseInitializer = ({ children }) => {
   if (!isFirebaseReady) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator size="large" color="COLORS.info[500]" />
+        <ActivityIndicator size="large" color={COLORS.info[500]} />
         <Text style={{ marginTop: 20, fontSize: FONT_SIZE.md, color: COLORS.text.secondary }}>
           Inicializando...
         </Text>

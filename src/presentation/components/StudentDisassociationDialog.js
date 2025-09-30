@@ -159,7 +159,7 @@ const StudentDisassociationDialog = ({ visible, onDismiss, student, onSuccess })
     <Dialog visible={visible} onDismiss={onDismiss}>
         <Dialog.Title>
           <View style={styles.titleContainer}>
-            <Ionicons name="person-remove-outline" size={24} color="COLORS.error[500]" />
+            <Ionicons name="person-remove-outline" size={24} color={COLORS.error[500]} />
             <Text style={styles.titleText}>Desassociar Aluno</Text>
           </View>
         </Dialog.Title>

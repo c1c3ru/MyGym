@@ -32,7 +32,7 @@ const SelectionField = ({
           <IconButton
             icon={icon}
             size={20}
-            iconColor={value ? "COLORS.info[700]" : "COLORS.text.secondary"}
+            iconColor={value ? COLORS.info[700] : COLORS.text.secondary}
           />
           <Text style={[
             styles.selectionButtonText,
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
   },
   selectionButtonSelected: {
     borderColor: COLORS.info[700],
-    backgroundColor: '#F3F8FF',
+    backgroundColor: COLORS.info[50],
   },
   selectionButtonDisabled: {
     borderColor: COLORS.gray[300],

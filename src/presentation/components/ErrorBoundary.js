@@ -40,7 +40,7 @@ class ErrorBoundary extends React.Component {
         <View style={styles.container}>
           <Card style={styles.card}>
             <Card.Content style={styles.content}>
-              <Ionicons name="alert-circle-outline" size={64} color="COLORS.error[500]" />
+              <Ionicons name="alert-circle-outline" size={64} color={COLORS.error[500]} />
               <Text style={styles.title}>Ops! Algo deu errado</Text>
               <Text style={styles.message}>
                 Ocorreu um erro inesperado. Tente novamente ou reinicie o aplicativo.

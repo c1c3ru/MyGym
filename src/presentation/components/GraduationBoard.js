@@ -94,12 +94,12 @@ const GraduationBoard = ({
 
           <View style={styles.examDetails}>
             <View style={styles.examDetailRow}>
-              <Ionicons name="person" size={16} color="COLORS.text.secondary" />
+              <Ionicons name="person" size={16} color={COLORS.text.secondary} />
               <Text style={styles.examDetailText}>Examinador: {exam.examiner}</Text>
             </View>
             
             <View style={styles.examDetailRow}>
-              <Ionicons name="people" size={16} color="COLORS.text.secondary" />
+              <Ionicons name="people" size={16} color={COLORS.text.secondary} />
               <Text style={styles.examDetailText}>
                 {exam.candidateStudents.length} candidatos inscritos
               </Text>
