@@ -8,8 +8,8 @@ import {
   SignInUseCase, 
   SignUpUseCase, 
   SignOutUseCase,
-  GetCurrentUserUseCase,
-  RefreshTokenUseCase 
+  RefreshTokenUseCase,
+  GetUserSessionUseCase // Nova arquitetura TypeScript
 } from '@domain';
 import { FirebaseAdapter, StorageAdapter, NetworkAdapter } from '@infrastructure/index';
 
@@ -49,11 +49,10 @@ export const setupAuthDependencies = () => {
     container.resolve('authRepository')
   ), { dependencies: ['authRepository'] });
 
-  container.register('getCurrentUserUseCase', () => new GetCurrentUserUseCase(
-    container.resolve('authRepository'),
-    container.resolve('userRepository'),
-    container.resolve('academyRepository')
-  ), { dependencies: ['authRepository', 'userRepository', 'academyRepository'] });
+  // Nova arquitetura - GetUserSessionUseCase substitui GetCurrentUserUseCase
+  container.register('getUserSessionUseCase', () => new GetUserSessionUseCase(
+    container.resolve('authRepository')
+  ), { dependencies: ['authRepository'] });
 
   container.register('refreshTokenUseCase', () => new RefreshTokenUseCase(
     container.resolve('authRepository')
@@ -74,7 +73,7 @@ export const getAuthUseCases = () => {
     signInUseCase: container.resolve('signInUseCase'),
     signUpUseCase: container.resolve('signUpUseCase'),
     signOutUseCase: container.resolve('signOutUseCase'),
-    getCurrentUserUseCase: container.resolve('getCurrentUserUseCase'),
+    getUserSessionUseCase: container.resolve('getUserSessionUseCase'), // Nova arquitetura
     refreshTokenUseCase: container.resolve('refreshTokenUseCase')
   };
 };

@@ -4,8 +4,8 @@ import {
   SignInUseCase, 
   SignUpUseCase, 
   SignOutUseCase,
-  GetCurrentUserUseCase,
-  RefreshTokenUseCase 
+  RefreshTokenUseCase,
+  GetUserSessionUseCase // Nova arquitetura TypeScript
 } from '@domain';
 import { 
   AuthRepositoryImpl, 
@@ -30,7 +30,7 @@ export const useAuthActions = () => {
   const signInUseCase = new SignInUseCase(authRepository, userRepository);
   const signUpUseCase = new SignUpUseCase(authRepository, userRepository);
   const signOutUseCase = new SignOutUseCase(authRepository);
-  const getCurrentUserUseCase = new GetCurrentUserUseCase(authRepository, userRepository, academyRepository);
+  const getUserSessionUseCase = new GetUserSessionUseCase(authRepository); // Nova arquitetura
   const refreshTokenUseCase = new RefreshTokenUseCase(authRepository);
 
   // Login com email e senha
@@ -213,20 +213,20 @@ export const useAuthActions = () => {
     }
   }, [signOutUseCase, authUI]);
 
-  // Obter usuário atual
-  const getCurrentUser = useCallback(async () => {
+  // Obter sessão do usuário (nova arquitetura)
+  const getUserSession = useCallback(async (user) => {
     try {
       authUI.setLoading(true);
 
-      const result = await getCurrentUserUseCase.execute();
-      return result;
+      const session = await getUserSessionUseCase.execute(user);
+      return session;
     } catch (error) {
-      console.error('❌ useAuthActions.getCurrentUser:', error);
+      console.error('❌ useAuthActions.getUserSession:', error);
       throw error;
     } finally {
       authUI.setLoading(false);
     }
-  }, [getCurrentUserUseCase, authUI]);
+  }, [getUserSessionUseCase, authUI]);
 
   // Refresh token
   const refreshToken = useCallback(async () => {
@@ -251,11 +251,6 @@ export const useAuthActions = () => {
     }
   }, [refreshTokenUseCase, authUI]);
 
-  // Observar mudanças de autenticação
-  const onAuthStateChanged = useCallback((callback) => {
-    return getCurrentUserUseCase.onAuthStateChanged(callback);
-  }, [getCurrentUserUseCase]);
-
   return {
     // Actions
     signInWithEmailAndPassword,
@@ -265,10 +260,9 @@ export const useAuthActions = () => {
     signInWithApple,
     signUp,
     signOut,
-    getCurrentUser,
+    getUserSession, // Nova arquitetura
     refreshToken,
     waitForClaimsUpdate,
-    onAuthStateChanged,
 
     // UI State (re-exportado para conveniência)
     ...authUI

@@ -63,3 +63,29 @@ Preferred communication style: Simple, everyday language.
 - **Expo Application Services (EAS)**: Build and deployment pipeline for app stores
 - **Firebase Hosting**: Web version deployment capability
 - **Google Services**: Android build configuration for Firebase integration
+
+# Replit Environment Setup
+
+## Configuration Files
+- **metro.config.js**: Configured Expo Metro bundler for Replit environment with proper caching headers
+- **scripts/start-replit.js**: Custom startup script that launches Expo dev server on port 5000 with `lan` host mode
+- **package.json**: Removed husky prepare script (git hooks not needed in Replit)
+
+## Development Workflow
+- **Port**: Frontend runs on port 5000 (required for Replit proxy)
+- **Host Mode**: Uses `lan` mode which binds to 0.0.0.0, allowing Replit's proxy to access the server
+- **Auto-Restart**: Workflow automatically restarts when dependencies are installed
+
+## Important Fixes Applied
+- **Circular Dependencies**: Fixed 16 service re-export files in `src/services/` that were importing from themselves (`@services/`) instead of from `@infrastructure/services/`
+- **Import Aliases**: Corrected imports to use proper aliases pattern (e.g., `@domain/auth/errors` instead of relative paths or incorrect aliases)
+- **Migration Scripts**: Disabled automatic migration scripts that were incorrectly modifying imports on every startup
+
+## Deployment Configuration
+- **Build Command**: `npm run build:prod` - Exports Expo web app to `dist/` folder
+- **Run Command**: `npx serve dist -l 5000 -s` - Serves static files with single-page app support
+- **Target**: Autoscale deployment (stateless web app)
+
+## Known Issues
+- One remaining require cycle in `src/shared/utils/scheduleUtils.js` (does not affect functionality)
+- Some peer dependency warnings (do not affect runtime)

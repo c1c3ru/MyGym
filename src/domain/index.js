@@ -13,5 +13,7 @@ export { AcademyRepository } from './repositories/AcademyRepository.js';
 export { SignInUseCase } from './usecases/SignInUseCase.js';
 export { SignUpUseCase } from './usecases/SignUpUseCase.js';
 export { SignOutUseCase } from './usecases/SignOutUseCase.js';
-export { GetCurrentUserUseCase } from './usecases/GetCurrentUserUseCase.js';
 export { RefreshTokenUseCase } from './usecases/RefreshTokenUseCase.js';
+
+// Nova arquitetura Clean Architecture (TypeScript)
+export { GetUserSessionUseCase } from './auth/usecases/GetUserSession';

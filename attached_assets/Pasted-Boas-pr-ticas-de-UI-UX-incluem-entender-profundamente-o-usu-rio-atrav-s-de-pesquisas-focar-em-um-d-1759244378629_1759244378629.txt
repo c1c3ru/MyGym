@@ -1,0 +1,84 @@
+Boas práticas de UI/UX incluem: entender profundamente o usuário através de pesquisas, focar em um design simples e funcional, criar uma navegação intuitiva e organizada, garantir acessibilidade para todos, otimizar a velocidade de carregamento, usar chamadas de ação claras (CTAs), e priorizar a consistência visual seguindo padrões estabelecidos ou validando novos. 
+Foco no Usuário e Pesquisa
+Pesquise o usuário: 
+Entenda as necessidades, a jornada e o comportamento do seu público-alvo para criar uma experiência relevante. 
+Abordagem centrada no usuário: 
+Mantenha o usuário no centro do processo de design para garantir um produto que atenda às suas necessidades reais. 
+Design Intuitivo e Funcional
+Simplicidade e funcionalidade: 
+Crie interfaces que sejam fáceis de usar e que resolvam os problemas do usuário de forma eficiente. 
+Navegação Clara: 
+Organize as informações de forma lógica para que os usuários possam encontrar o que precisam facilmente. 
+Remova fricções: 
+Elimine barreiras e passos desnecessários para facilitar a jornada do usuário e evitar desistências. 
+Acessibilidade 
+Garanta acessibilidade: Permita que pessoas com deficiência possam acessar e utilizar seu produto, realizando os ajustes técnicos necessários.
+Desempenho 
+Otimize o carregamento: Diminua o tempo de carregamento de páginas e elementos para evitar que os usuários abandonem o site.
+Comunicação e Conteúdo 
+Clareza nas informações: 
+Apresente o conteúdo de forma compreensível, usando recursos como listas e um texto fácil de ler.
+Chamadas de ação (CTAs) claras: 
+Guie o usuário para a ação desejada através de botões e links bem visíveis e funcionais.
+Consistência Visual
+Respeite padrões: 
+Utilize elementos visuais e ícones comumente reconhecidos (como o menu de três linhas) para não confundir o usuário. 
+Psicologia das cores: 
+Empregue cores que reforcem a mensagem que você quer passar e que sejam associadas a determinados significados, como o vermelho para atenção. 
+Estética limpa: 
+Um layout atraente e organizado, sem poluição visual, melhora a experiência do usuário.  É muito comum escutar de novos profissionais e estudantes de UI Design a crença de que a criação de telas bonitas e funcionais é uma tarefa desafiadora. Felizmente, ao desvendar as estratégias certas, é possível transformar essa percepção em uma jornada repleta de conquistas e sucesso. Neste guia, exploraremos cinco dicas fundamentais que irão simplificar e aprimorar sua abordagem ao design de interfaces, permitindo que você crie experiências excepcionais de usuário com confiança e facilidade.
+Considerando a empolgação de todo designer em colocar a mão na massa, vamos começar a praticar!
+­
+1. Como organizar sua interface
+O cérebro humano naturalmente busca organizar informações em grupos para facilitar o processamento cognitivo. Da mesma forma que os parágrafos são cruciais para orientar o ritmo da leitura em um livro, a hierarquia da informação desempenha um papel vital ao olharmos para uma interface. Esta hierarquia é fundamental para guiar o usuário em direção aos seus objetivos de forma eficaz.
+As formas mais comuns para organizar os elementos em uma interface são:
+Criar um padrão consistente para determinar os espaçamentos. Ex.: Grid de 8 pix.
+Agrupe os elementos do mesmo grupos mais próximos.
+Alinhar elementos relacionados em uma linha contínua, dessa forma o usuário utiliza o princípio da continuidade para navegar pela interface de forma intuitiva.
+O uso de bordas e separadores são a forma mais eficaz para delimitar um grupo, mas quando você abusa desse elemento o efeito pode causar confusão desnecessária. E o produto pode perder o fator clean e acabar criar uma interface muito pesada e poluída.
+­
+Sistema de espaçamento
+A utilização do espaço de maneira específica representa uma abordagem altamente eficaz e simples para agrupar elementos relacionados, e escalar o produto sem perder a consistência.
+Para explicar o que é um sistema de espaçamento, vamos usar a Grid de 8pts como exemplo:
+Esse sistema é chamado de Grid de 8pts porque usa números como 8 para ajustar e espaçar coisas na tela. A ideia é simples: usar múltiplos de 8 (como 8, 16, 24, 32, 40, 48, 56, etc.) para padronizar e organizar os elementos no layout. Além disso, a maioria dos tamanhos de tela populares são divisíveis por 8, o que facilita projetar elementos com esse sistema.
+Press enter or click to view image in full size
+Exemplo de duas telas de login apresentando suas configurações de espaçamento.
+Mas agora, qual é o melhor jeito de espaçar as coisas?
+Bom, na real, não tem um sistema que seja o melhor. Depende muito do que você tá fazendo. Portanto, o mais importante a ser considerado, é se esse sistema faz sentido com o contexto do produto.
+Por exemplo, se estou projetando um app para celular, talvez precise de espaços menores em alguns lugares, então uma grade de 4pts pode ser mais interessante por que ela me permite manipular números menos que a grid de 8pts não permite, entende?
+A melhor forma de descobrir qual o melhor sistema é testar, e para adquirir experiência. Utilize sistemas já criados para você entender o conceito e poder flexibilizar quando precisar.
+­
+2. Seja consistente
+A consistência no design de interface significa à prática de manter uma linguagem de design uniforme em um produto ou serviço totalmente digital. Envolve o uso de um conjunto padronizado de elementos, como tipografia, cor e iconografia, para criar uma experiência coesa e contínua para os usuários.
+Press enter or click to view image in full size
+Imagem ilustrativa com quatro ícones de diferentes estilos
+Os Design Systems são guias super importantes pra manter tudo no mesmo padrão, especialmente quando tem muita gente trabalhando junto pra fazer o produto crescer. Mas, isso é tema pra um próximo artigo.
+Get Lucas Santos’s stories in your inbox
+Join Medium for free to get updates from this writer.
+Subscribe
+­
+3. Crie uma hierarquia visual clara
+Nem todas as informações em uma interface têm o mesmo nível de importância. Saber utilizar as tipografias da maneira correta é essencial para estabelecer uma hierarquia clara para o usuário. Recomendo ler esse artigo do Diogo Kpelo sobre o uso de tipografia em interfaces.
+Uma ordem de importância clara, ou hierarquia visual, ajuda as pessoas a navegar mais rapidamente e a focar nas áreas de interesse. Também melhora a estética, criando uma sensação de ordem. Você pode criar uma hierarquia visual clara usando variações de tamanho, cor, contraste, espaçamento, posição e profundidade.
+Press enter or click to view image in full size
+Imagem ilustrativa do site coinbase.com
+4. Certifique-se de que os elementos da interface tenham contraste
+O contraste de cores é importante para uma boa experiência dos usuário e garantir que as pessoas possam distinguir vários elementos textuais e não textuais (como botões, ícones e gráficos).
+Uma imagem ou texto de baixo contraste pode ser difícil para alguns usuários diferenciarem em condições de muita ou pouca luz, como em um dia muito ensolarado ou à noite. Outro ponto muito importante, são as pessoas com deficiência visual, pois elas podem ter dificuldade para ler textos em fundos de baixo contraste.
+Mas como fazemos para descobrir o nível de contraste ideal?
+Segundo a WCAG , a relação de contraste de cor entre o texto e o seu fundo deve ser de pelo menos 4.5:1. Para texto com pelo menos 18 px ou 14 px em negrito, a proporção é um pouco mais generosa de 3:1.
+Press enter or click to view image in full size
+Imagem ilustrativa de uma tela de login com exemplos de contraste exibidos
+Há uma variedade de ferramentas e plugins disponíveis no Figma para verificar o contraste entre cores. Entre elas, o plugin “Contrast” e o access-colors.com, que considero úteis. No entanto, estas não são as únicas opções disponíveis; fique a vontade para usar as ferramentas que preferir.
+­
+5. Não use cor como indicador
+É muito comum ver interfaces que utilizam cores para demonstrar links clicáveis ou destacar informações importantes. No entanto, essa prática se torna totalmente ineficaz quando pensamos em acessibilidade.
+O daltonismo atinge cerca de 1 em cada 12 homens (aproximadamente 8%) e 1 em cada 200 mulheres. Em todo o mundo, temos uns incríveis 300 milhões de pessoas com essa condição, quase o mesmo número que toda a população dos EUA!
+Então para garantir que uma interface seja acessível para aqueles que são daltônicos, você não pode confiar apenas na cor para transmitir significado ou distinguir elementos visuais. Você precisa usar dicas visuais adicionais para diferenciar os elementos da interface.
+Press enter or click to view image in full size
+Imagem ilustrativa de um formulário com exemplos de como o daltonismo afeta a experiência dos usuários.
+No exemplo abaixo, azul foi usada nas avaliações para indicar que se trata de um link. Porém, quando removemos a cor, o link se torna um texto comum, de modo que o daltônico não poderá dizer que é um link. Sublinhar o texto do link o diferencia claramente de outro texto pela ausência de cor.
+Press enter or click to view image in full size
+Imagem ilustrativa de um formulário com exemplos de como o daltonismo afeta a experiência dos usuários.
+Desenvolver uma interface funcional e atrativa não é uma tarefa complicada quando entendemos algumas boas práticas e as aplicamos de forma adequada. Por isso, é essencial que os Designers continuem praticando e explorando novas tendências e estudos desenvolvidos ao redor do mundo.
+Espero que esse artigo consiga te ajudar a perceber que o design da UI não precisa ser tão difícil. Usar lógica objetiva, em vez de opinião subjetiva, torna mais rápido e fácil projetar interfaces intuitivas, acessíveis e bonitas.

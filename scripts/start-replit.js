@@ -16,51 +16,24 @@ if (!isReplit) {
 // Executar os scripts de correção de imports se necessário
 const rootDir = path.join(__dirname, '..');
 
-if (fs.existsSync(path.join(rootDir, 'migrate-imports.js'))) {
-  console.log('🔧 Running import migration...');
-  try {
-    execSync('node migrate-imports.js', { cwd: rootDir, stdio: 'inherit' });
-  } catch (error) {
-    console.log('ℹ️  Import migration completed');
-  }
-}
-
-if (fs.existsSync(path.join(rootDir, 'fix-components-alias.js'))) {
-  console.log('🔧 Fixing component aliases...');
-  try {
-    execSync('node fix-components-alias.js', { cwd: rootDir, stdio: 'inherit' });
-  } catch (error) {
-    console.log('ℹ️  Component alias fix completed');
-  }
-}
-
-if (fs.existsSync(path.join(rootDir, 'fix-domain-imports.js'))) {
-  console.log('🔧 Fixing domain imports...');
-  try {
-    execSync('node fix-domain-imports.js', { cwd: rootDir, stdio: 'inherit' });
-  } catch (error) {
-    console.log('ℹ️  Domain imports fix completed');
-  }
-}
-
-if (fs.existsSync(path.join(rootDir, 'fix-incorrect-imports.js'))) {
-  console.log('🔧 Fixing incorrect imports...');
-  try {
-    execSync('node fix-incorrect-imports.js', { cwd: rootDir, stdio: 'inherit' });
-  } catch (error) {
-    console.log('ℹ️  Incorrect imports fix completed');
-  }
-}
+// Migration scripts disabled - they should only run once during initial setup
+// These scripts were converting valid imports incorrectly
+// If needed, run them manually: node migrate-imports.js
 
 console.log('\n✅ Setup completed. Starting Expo dev server...\n');
 
 // Iniciar o servidor Expo na porta 5000 para Replit
 try {
-  // Para Replit, usar --host lan e CI=1 para modo não-interativo
-  execSync('npx expo start --web --port 5000 --host lan --clear', { 
+  // Para Replit, usar lan como host (que escuta em 0.0.0.0) e CI=1 para modo não-interativo
+  execSync('npx --yes expo start --web --port 5000 --host lan', { 
     cwd: rootDir, 
     stdio: 'inherit',
-    env: { ...process.env, CI: '1' }
+    env: { 
+      ...process.env, 
+      CI: '1',
+      EXPO_DEVTOOLS_LISTEN_ADDRESS: '0.0.0.0',
+      EXPO_NO_TELEMETRY: '1'
+    }
   });
 } catch (error) {
   console.error('❌ Error starting Expo server:', error.message);

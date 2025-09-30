@@ -5,7 +5,6 @@ export * from './schemas';
 export * from './SignInWithEmail';
 export * from './SignUpWithEmail';
 export * from './SignOut';
-export * from './GetCurrentUser';
-export * from './GetUserSession';
+export * from './GetUserSession'; // Use case completo para obter sessão do usuário
 export * from './SendPasswordResetEmail';
 export * from './RefreshUserToken';

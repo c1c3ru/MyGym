@@ -1,6 +1,6 @@
 // Base use case interface and implementations
 
-import { ValidationError } from '../errors';
+import { ValidationError } from '@domain/auth/errors';
 
 export interface UseCase<TInput, TOutput> {
   execute(input: TInput): Promise<TOutput>;

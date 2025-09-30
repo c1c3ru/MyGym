@@ -6,4 +6,4 @@ export {
   paymentService,
   announcementService,
   eventService
-} from '../infrastructure/services/firestoreService';
+} from '@infrastructure/services/firestoreService';

@@ -1,10 +1,10 @@
 // Sign in with email use case
 
 import { BaseUseCase } from './base';
-import { AuthRepository } from '../repositories';
+import { AuthRepository } from '@domain/repositories';
 import { User } from '@domain/entities';
-import { AuthSession } from '../entities';
-import { mapFirebaseError } from '../errors';
+import { AuthSession } from '@domain/entities';
+import { mapFirebaseError } from '@domain/auth/errors';
 import { signInSchema, SignInInput } from './schemas';
 
 export class SignInWithEmailUseCase extends BaseUseCase<SignInInput, AuthSession> {

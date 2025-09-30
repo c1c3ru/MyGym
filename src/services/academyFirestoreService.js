@@ -9,6 +9,6 @@ export {
   academyAnnouncementService,
   academyEventService,
   auditService
-} from '../infrastructure/services/academyFirestoreService';
+} from '@infrastructure/services/academyFirestoreService';
 
-export { default } from '../infrastructure/services/academyFirestoreService';
+export { default } from '@infrastructure/services/academyFirestoreService';
