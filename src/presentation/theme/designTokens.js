@@ -300,6 +300,68 @@ export const COLORS = {
     focus: '#0000FF',  // Azul puro para máximo contraste
   },
   
+  // 🎯 Cores de Botões (separadas para melhor organização)
+  button: {
+    // Botão primário (ação principal)
+    primary: {
+      background: '#FF4757',      // Vermelho coral
+      hover: '#EE3D4D',           // Vermelho coral escuro
+      pressed: '#DC2F3F',         // Vermelho coral mais escuro
+      disabled: '#757575',        // Cinza
+      text: '#FFFFFF',            // Branco
+    },
+    // Botão secundário (ação secundária)
+    secondary: {
+      background: '#424242',      // Cinza escuro
+      hover: '#303030',           // Cinza mais escuro
+      pressed: '#212121',         // Cinza muito escuro
+      disabled: '#9E9E9E',        // Cinza claro
+      text: '#FFFFFF',            // Branco
+    },
+    // Botão de sucesso
+    success: {
+      background: '#4CAF50',      // Verde
+      hover: '#43A047',           // Verde escuro
+      pressed: '#388E3C',         // Verde mais escuro
+      text: '#FFFFFF',            // Branco
+    },
+    // Botão de erro/perigo
+    danger: {
+      background: '#F44336',      // Vermelho
+      hover: '#E53935',           // Vermelho escuro
+      pressed: '#D32F2F',         // Vermelho mais escuro
+      text: '#FFFFFF',            // Branco
+    },
+    // Botão outline/ghost
+    outline: {
+      border: '#FF4757',          // Vermelho coral
+      text: '#FF4757',            // Vermelho coral
+      hover: 'rgba(255, 71, 87, 0.1)',  // Vermelho coral com transparência
+    },
+  },
+  
+  // 🃏 Cores de Cards (separadas para melhor organização)
+  card: {
+    // Card padrão (uso geral)
+    default: {
+      background: '#1A1A1A',      // Cinza muito escuro
+      border: '#424242',          // Cinza escuro
+      shadow: 'rgba(0, 0, 0, 0.5)',  // Sombra
+    },
+    // Card elevado (modais, drawers, overlays)
+    elevated: {
+      background: '#212121',      // Cinza escuro (mais claro que default)
+      border: '#424242',          // Cinza escuro
+      shadow: 'rgba(0, 0, 0, 0.7)',  // Sombra mais forte
+    },
+    // Card de destaque (selecionado, ativo)
+    highlighted: {
+      background: '#2A2A2A',      // Cinza mais claro
+      border: '#FF4757',          // Vermelho coral
+      shadow: 'rgba(255, 71, 87, 0.3)',  // Sombra coral
+    },
+  },
+  
   // 🥋 Gradientes Marciais (para backgrounds especiais)
   gradients: {
     // Vermelho → Preto (Energia/Força)

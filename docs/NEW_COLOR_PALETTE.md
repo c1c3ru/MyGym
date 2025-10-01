@@ -178,7 +178,177 @@ special.belt: {
 }
 ```
 
+## 🎯 Cores de Botões (Separadas)
+
+```javascript
+button: {
+  primary: {
+    background: '#FF4757',      // Vermelho coral
+    hover: '#EE3D4D',
+    pressed: '#DC2F3F',
+    disabled: '#757575',
+    text: '#FFFFFF',
+  },
+  secondary: {
+    background: '#424242',      // Cinza escuro
+    hover: '#303030',
+    pressed: '#212121',
+    text: '#FFFFFF',
+  },
+  success: {
+    background: '#4CAF50',      // Verde
+    hover: '#43A047',
+    text: '#FFFFFF',
+  },
+  danger: {
+    background: '#F44336',      // Vermelho
+    hover: '#E53935',
+    text: '#FFFFFF',
+  },
+  outline: {
+    border: '#FF4757',
+    text: '#FF4757',
+    hover: 'rgba(255, 71, 87, 0.1)',
+  },
+}
+```
+
+## 🃏 Cores de Cards (Separadas - Apenas Estruturais)
+
+```javascript
+card: {
+  // Card padrão (uso geral)
+  default: {
+    background: '#1A1A1A',      // Cinza muito escuro
+    border: '#424242',          // Cinza escuro
+    shadow: 'rgba(0, 0, 0, 0.5)',
+  },
+  // Card elevado (modais, drawers, overlays)
+  elevated: {
+    background: '#212121',      // Cinza escuro (mais claro)
+    border: '#424242',
+    shadow: 'rgba(0, 0, 0, 0.7)',
+  },
+  // Card de destaque (selecionado, ativo)
+  highlighted: {
+    background: '#2A2A2A',      // Cinza mais claro
+    border: '#FF4757',          // Vermelho coral
+    shadow: 'rgba(255, 71, 87, 0.3)',
+  },
+}
+```
+
+**Nota:** Cards não têm variantes de success/error/warning. Use os **botões** dentro dos cards para indicar contexto (sucesso, erro, aviso).
+
 ## 💻 Exemplos de Uso
+
+### Botões
+```javascript
+import { COLORS } from '@presentation/theme/designTokens';
+
+// Botão primário
+<TouchableOpacity
+  style={{
+    backgroundColor: COLORS.button.primary.background,
+    padding: 16,
+    borderRadius: 8,
+  }}
+  onPress={handlePress}
+>
+  <Text style={{ color: COLORS.button.primary.text }}>
+    Confirmar
+  </Text>
+</TouchableOpacity>
+
+// Botão secundário
+<TouchableOpacity
+  style={{
+    backgroundColor: COLORS.button.secondary.background,
+    padding: 16,
+    borderRadius: 8,
+  }}
+>
+  <Text style={{ color: COLORS.button.secondary.text }}>
+    Cancelar
+  </Text>
+</TouchableOpacity>
+
+// Botão outline
+<TouchableOpacity
+  style={{
+    backgroundColor: 'transparent',
+    borderWidth: 2,
+    borderColor: COLORS.button.outline.border,
+    padding: 16,
+    borderRadius: 8,
+  }}
+>
+  <Text style={{ color: COLORS.button.outline.text }}>
+    Ver Mais
+  </Text>
+</TouchableOpacity>
+```
+
+### Cards
+```javascript
+// Card padrão
+<View
+  style={{
+    backgroundColor: COLORS.card.default.background,
+    borderWidth: 1,
+    borderColor: COLORS.card.default.border,
+    borderRadius: 12,
+    padding: 16,
+    shadowColor: COLORS.card.default.shadow,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 1,
+    shadowRadius: 4,
+    elevation: 4,
+  }}
+>
+  <Text style={{ color: COLORS.text.primary }}>Conteúdo</Text>
+</View>
+
+// Card de destaque (selecionado/ativo)
+<View
+  style={{
+    backgroundColor: COLORS.card.highlighted.background,
+    borderWidth: 2,
+    borderColor: COLORS.card.highlighted.border,
+    borderRadius: 12,
+    padding: 16,
+  }}
+>
+  <Text style={{ color: COLORS.text.primary }}>Card Selecionado</Text>
+</View>
+
+// Card com botão de sucesso interno
+<View
+  style={{
+    backgroundColor: COLORS.card.default.background,
+    borderWidth: 1,
+    borderColor: COLORS.card.default.border,
+    borderRadius: 12,
+    padding: 16,
+  }}
+>
+  <Text style={{ color: COLORS.text.primary }}>Pagamento Confirmado</Text>
+  
+  {/* Botão de sucesso dentro do card */}
+  <TouchableOpacity
+    style={{
+      backgroundColor: COLORS.button.success.background,
+      padding: 12,
+      borderRadius: 8,
+      marginTop: 12,
+    }}
+  >
+    <Text style={{ color: COLORS.button.success.text }}>
+      Ver Comprovante
+    </Text>
+  </TouchableOpacity>
+</View>
+```
 
 ### Tela de Login
 ```javascript
