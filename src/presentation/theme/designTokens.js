@@ -148,32 +148,32 @@ export const ELEVATION = {
 // COLORS - Paleta de cores
 // ============================================
 export const COLORS = {
-  // Cores primárias
+  // 🔴 Cores primárias - Vermelho Coral (Ação/Energia/Luta)
   primary: {
-    50: '#F3E5F5',
-    100: '#E1BEE7',
-    200: '#CE93D8',
-    300: '#BA68C8',
-    400: '#AB47BC',
-    500: '#9C27B0', // Principal
-    600: '#8E24AA',
-    700: '#7B1FA2',
-    800: '#6A1B9A',
-    900: '#4A148C',
+    50: '#FFF5F7',
+    100: '#FFE3E8',
+    200: '#FFC7D1',
+    300: '#FF9BAD',
+    400: '#FF6B7A',
+    500: '#FF4757', // Vermelho coral principal
+    600: '#EE3D4D',
+    700: '#DC2F3F',
+    800: '#C62838',
+    900: '#A01F2E',
   },
   
-  // Cores secundárias
+  // ⚫ Cores secundárias - Cinza/Preto (Sofisticação/Tatame)
   secondary: {
-    50: '#FFF3E0',
-    100: '#FFE0B2',
-    200: '#FFCC80',
-    300: '#FFB74D',
-    400: '#FFA726',
-    500: '#FF9800', // Principal
-    600: '#FB8C00',
-    700: '#F57C00',
-    800: '#EF6C00',
-    900: '#E65100',
+    50: '#F5F5F5',
+    100: '#E0E0E0',
+    200: '#BDBDBD',
+    300: '#9E9E9E',
+    400: '#757575',
+    500: '#424242', // Cinza médio
+    600: '#303030',
+    700: '#212121',
+    800: '#1A1A1A', // Cinza muito escuro (cards)
+    900: '#0D0D0D', // Quase preto (background)
   },
   
   // Cores de sucesso
@@ -251,28 +251,29 @@ export const COLORS = {
   black: '#000000',
   transparent: 'transparent',
   
-  // Cores de fundo
+  // Cores de fundo (Dark Theme como padrão)
   background: {
-    light: '#FAFAFA',
-    default: '#FFFFFF',
-    paper: '#FFFFFF',
-    dark: '#121212',
+    default: '#0D0D0D',    // Preto profundo (fundo principal)
+    paper: '#1A1A1A',      // Cinza muito escuro (cards)
+    elevated: '#212121',   // Cinza escuro (modais/elevados)
+    light: '#F5F5F5',      // Branco (inputs/áreas claras)
+    dark: '#000000',       // Preto puro (overlays)
   },
   
-  // Cores de texto
+  // Cores de texto (Dark Theme)
   text: {
-    primary: '#1A1A1A',
-    secondary: '#424242',
-    disabled: '#9E9E9E',
-    hint: '#BDBDBD',
-    inverse: '#FFFFFF',
+    primary: '#FFFFFF',      // Branco puro (títulos)
+    secondary: '#E0E0E0',    // Cinza claro (subtítulos)
+    disabled: '#9E9E9E',     // Cinza médio (desabilitado)
+    hint: '#757575',         // Cinza (hints/placeholders)
+    inverse: '#0D0D0D',      // Preto (para fundos claros)
   },
   
-  // Cores de borda
+  // Cores de borda (Dark Theme)
   border: {
-    light: '#E0E0E0',
-    default: '#BDBDBD',
-    dark: '#757575',
+    light: '#424242',        // Cinza escuro (bordas sutis)
+    default: '#757575',      // Cinza médio (bordas padrão)
+    dark: '#9E9E9E',         // Cinza claro (bordas destacadas)
   },
   
   // Cores de overlay (WCAG AA compliant)
@@ -297,6 +298,38 @@ export const COLORS = {
     background: '#FFFFFF',
     border: '#000000',
     focus: '#0000FF',  // Azul puro para máximo contraste
+  },
+  
+  // 🥋 Gradientes Marciais (para backgrounds especiais)
+  gradients: {
+    // Vermelho → Preto (Energia/Força)
+    combat: ['#FF4757', '#DC2F3F', '#1A1A1A'],
+    // Preto → Cinza Escuro (Profissional)
+    dark: ['#0D0D0D', '#1A1A1A', '#212121'],
+    // Vermelho → Vermelho Escuro (Intenso)
+    intense: ['#FF4757', '#DC2F3F', '#A01F2E'],
+    // Cinza → Preto (Sutil)
+    subtle: ['#424242', '#303030', '#0D0D0D'],
+  },
+  
+  // 🎯 Cores Especiais (Status/Badges)
+  special: {
+    champion: '#FFD700',      // Ouro (campeão)
+    premium: '#FF4757',       // Vermelho coral (premium)
+    active: '#4CAF50',        // Verde (ativo)
+    inactive: '#757575',      // Cinza (inativo)
+    danger: '#F44336',        // Vermelho (perigo)
+    belt: {
+      white: '#FFFFFF',       // Faixa branca
+      yellow: '#FFC107',      // Faixa amarela
+      orange: '#FF9800',      // Faixa laranja
+      green: '#4CAF50',       // Faixa verde
+      blue: '#2196F3',        // Faixa azul
+      purple: '#9C27B0',      // Faixa roxa
+      brown: '#795548',       // Faixa marrom
+      black: '#212121',       // Faixa preta
+      red: '#F44336',         // Faixa vermelha (coral)
+    },
   },
 };
 
@@ -417,6 +450,23 @@ export const getSpacing = (token) => SPACING[token] || SPACING.base;
  * @returns {number} Valor numérico do fontSize
  */
 export const getFontSize = (token) => FONT_SIZE[token] || FONT_SIZE.base;
+
+/**
+ * Retorna array de cores para gradiente
+ * @param {string} type - Tipo de gradiente ('combat', 'dark', 'intense', 'subtle')
+ * @returns {Array<string>} Array de cores para o gradiente
+ */
+export const getGradient = (type) => COLORS.gradients[type] || COLORS.gradients.dark;
+
+/**
+ * Retorna cor da faixa de graduação
+ * @param {string} belt - Nome da faixa (ex: 'white', 'black', 'blue')
+ * @returns {string} Cor hexadecimal da faixa
+ */
+export const getBeltColor = (belt) => {
+  const normalized = belt?.toLowerCase().trim();
+  return COLORS.special.belt[normalized] || COLORS.special.belt.white;
+};
 
 /**
  * Obtém cor do tema com fallback
