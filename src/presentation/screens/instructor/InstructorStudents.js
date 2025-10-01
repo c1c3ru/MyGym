@@ -753,7 +753,7 @@ const styles = StyleSheet.create({
     flex: 1,
     borderRadius: BORDER_RADIUS.lg,
     borderColor: COLORS.error[500],
-    borderWidth: 1.5,
+    borderWidth: 2,
   },
   applyButtonImproved: {
     flex: 1,
@@ -895,7 +895,7 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.xs,
   },
   statusChip: {
-    borderWidth: 1,
+    borderWidth: 2,
   },
   graduationsInfo: {
     backgroundColor: COLORS.background.light,
