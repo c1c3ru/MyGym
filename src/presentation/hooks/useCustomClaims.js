@@ -1,14 +1,18 @@
-import { useState, useEffect } from 'react';
-import { useAuth } from '@contexts/AuthProvider';
+import { useState, useEffect, useContext } from 'react';
+import { AuthContext } from '@contexts/AuthProvider';
 import { getUserClaims } from '@utils/customClaimsHelper';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 /**
  * Hook para acessar Custom Claims de forma consistente
  * Substitui o uso de userProfile?.userType por claims do token
+ * Funciona com ou sem AuthProvider (valores padrão seguros)
  */
 export const useCustomClaims = () => {
-  const { user } = useAuth();
+  // Usa useContext diretamente para evitar erro quando não está dentro do AuthProvider
+  const authContext = useContext(AuthContext);
+  const user = authContext?.user || null;
+  
   const [claims, setClaims] = useState(null);
   const [loading, setLoading] = useState(true);
 

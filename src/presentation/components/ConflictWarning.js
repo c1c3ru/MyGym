@@ -4,7 +4,7 @@ import { Card, Text, Button, Chip, Divider } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '@contexts/ThemeContext';
 import { DAY_NAMES } from '@utils/scheduleUtils';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT , BORDER_WIDTH } from '@presentation/theme/designTokens';
 
 const ConflictWarning = ({
   conflicts = [],
@@ -120,7 +120,7 @@ const ConflictWarning = ({
 const styles = StyleSheet.create({
   container: {
     marginVertical: 8,
-    borderWidth: 1,
+    borderWidth: BORDER_WIDTH.base,
   },
   header: {
     flexDirection: 'row',

@@ -2,7 +2,7 @@ import React, { createContext, useContext } from 'react';
 import useAuthMigrationV2 from '@hooks/useAuthMigrationV2';
 
 // Criar contexto para compartilhar o estado
-const AuthContext = createContext();
+export const AuthContext = createContext();
 
 // Provider migrado para usar Clean Architecture
 export const AuthProvider = ({ children }) => {

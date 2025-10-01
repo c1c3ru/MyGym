@@ -1,9 +1,9 @@
-import React, { useState, useCallback, useMemo, useEffect } from 'react';
+import React, { useState, useCallback, useMemo, useEffect, useContext } from 'react';
 import { View, StyleSheet, ScrollView, Dimensions } from 'react-native';
 import { Card, Text, Button, Chip, FAB, Portal, Modal } from 'react-native-paper';
 import { Calendar } from 'react-native-calendars';
 import { useTheme } from '@contexts/ThemeContext';
-import { useAuth } from '@contexts/AuthProvider';
+import { AuthContext } from '@contexts/AuthProvider';
 import { useCustomClaims } from '@hooks/useCustomClaims';
 import { academyFirestoreService } from '@services/academyFirestoreService';
 import { DAY_NAMES } from '@utils/scheduleUtils';
@@ -28,8 +28,19 @@ const FreeGymScheduler = ({
   navigation
 }) => {
   const { colors, getString } = useTheme();
-  const { user, userProfile, academia } = useAuth();
-  const { role, isAdmin, isInstructor, isStudent } = useCustomClaims();
+  
+  // Usa useContext diretamente para verificar se está dentro do AuthProvider
+  const authContext = useContext(AuthContext);
+  const user = authContext?.user || null;
+  const userProfile = authContext?.userProfile || null;
+  const academia = authContext?.academia || null;
+  
+  // useCustomClaims agora é seguro e retorna valores padrão se não houver contexto
+  const claims = useCustomClaims();
+  const role = claims?.role || null;
+  const isAdmin = claims?.isAdmin || false;
+  const isInstructor = claims?.isInstructor || false;
+  const isStudent = claims?.isStudent || false;
   
   const [selectedDate, setSelectedDate] = useState(null);
   const [viewMode, setViewMode] = useState('month'); // month, week, day

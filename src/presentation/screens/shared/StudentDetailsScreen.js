@@ -243,21 +243,21 @@ const StudentDetailsScreen = ({ route, navigation }) => {
           
           <View style={styles.infoSection}>
             <View style={styles.infoRow}>
-              <Ionicons name="call" size={20} color="COLORS.text.secondary" />
+              <Ionicons name="call" size={20} color={COLORS.text.secondary} />
               <Text style={styles.infoText}>
                 {studentInfo?.phone || 'Telefone não informado'}
               </Text>
             </View>
             
             <View style={styles.infoRow}>
-              <Ionicons name="location" size={20} color="COLORS.text.secondary" />
+              <Ionicons name="location" size={20} color={COLORS.text.secondary} />
               <Text style={styles.infoText}>
                 {studentInfo?.address || 'Endereço não informado'}
               </Text>
             </View>
             
             <View style={styles.infoRow}>
-              <Ionicons name="calendar" size={20} color="COLORS.text.secondary" />
+              <Ionicons name="calendar" size={20} color={COLORS.text.secondary} />
               <Text style={styles.infoText}>
                 Cadastrado em: {formatDate(studentInfo?.createdAt)}
               </Text>
@@ -268,7 +268,7 @@ const StudentDetailsScreen = ({ route, navigation }) => {
         {/* Turmas Matriculadas */}
         <Card style={styles.card}>
           <View style={styles.cardHeader}>
-            <Ionicons name="school" size={24} color="COLORS.info[500]" />
+            <Ionicons name="school" size={24} color={COLORS.info[500]} />
             <Text variant="titleMedium" style={styles.cardTitle}>Turmas Matriculadas</Text>
           </View>
           
@@ -277,7 +277,7 @@ const StudentDetailsScreen = ({ route, navigation }) => {
               <Card.Content key={classItem.id || index}>
                 <View style={styles.listItemContent}>
                   <View style={styles.listItemLeft}>
-                    <Ionicons name="fitness" size={20} color="COLORS.text.secondary" style={styles.listIcon} />
+                    <Ionicons name="fitness" size={20} color={COLORS.text.secondary} style={styles.listIcon} />
                     <View>
                       <Text style={styles.listTitle}>{classItem.name}</Text>
                       <Text style={styles.listSubtitle}>{classItem.modality}</Text>
@@ -303,7 +303,7 @@ const StudentDetailsScreen = ({ route, navigation }) => {
         {/* Histórico de Pagamentos */}
         <Card style={styles.card}>
           <View style={styles.cardHeader}>
-            <Ionicons name="card" size={24} color="COLORS.primary[500]" />
+            <Ionicons name="card" size={24} color={COLORS.primary[500]} />
             <Text variant="titleMedium" style={styles.cardTitle}>Histórico de Pagamentos</Text>
           </View>
           
@@ -312,7 +312,7 @@ const StudentDetailsScreen = ({ route, navigation }) => {
               <Card.Content key={payment.id || index}>
                 <View style={styles.listItemContent}>
                   <View style={styles.listItemLeft}>
-                    <Ionicons name="receipt" size={20} color="COLORS.text.secondary" style={styles.listIcon} />
+                    <Ionicons name="receipt" size={20} color={COLORS.text.secondary} style={styles.listIcon} />
                     <View>
                       <Text style={styles.listTitle}>
                         {formatCurrency(payment.amount)}
@@ -391,22 +391,21 @@ const styles = StyleSheet.create({
   card: {
     margin: SPACING.base,
     marginTop: SPACING.sm,
+    backgroundColor: COLORS.white,
+    borderRadius: BORDER_RADIUS.md,
     ...Platform.select({
-
-      ios: {},
-
+      ios: {
+        shadowColor: COLORS.gray[900],
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+      },
       android: {
-
         elevation: 4,
-
       },
-
       web: {
-
         boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-
       },
-
     }),
   },
   studentHeader: {

@@ -27,7 +27,7 @@ import batchFirestoreService from '@services/batchFirestoreService';
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import { useClassCreationRateLimit } from '@hooks/useRateLimit';
 import FreeGymScheduler from '@components/FreeGymScheduler';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT , BORDER_WIDTH } from '@presentation/theme/designTokens';
 
 const AdminClasses = ({ navigation }) => {
   const { user, userProfile, academia } = useAuth();
@@ -583,7 +583,7 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.md,
   },
   statusChip: {
-    borderWidth: 1,
+    borderWidth: BORDER_WIDTH.base,
     marginRight: 8,
     marginBottom: SPACING.xs,
   },

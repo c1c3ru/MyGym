@@ -60,6 +60,22 @@ service cloud.firestore {
                               gymId == getAcademiaId() && 
                               isAdmin() &&
                               validateStudentData();
+      
+      // Subcoleção de graduações do aluno
+      match /graduations/{graduationId} {
+        // Admin e instrutor podem ler/escrever graduações
+        allow read, write: if request.auth != null && 
+                             hasValidAcademia() &&
+                             gymId == getAcademiaId() && 
+                             isAdminOrInstructor();
+        
+        // Aluno pode ler suas próprias graduações
+        allow read: if request.auth != null && 
+                       hasValidAcademia() &&
+                       gymId == getAcademiaId() && 
+                       isStudent() && 
+                       request.auth.uid == studentId;
+      }
     }
     
     // Turmas da academia

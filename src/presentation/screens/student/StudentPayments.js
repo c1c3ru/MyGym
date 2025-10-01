@@ -17,7 +17,7 @@ import { useAuth } from '@contexts/AuthProvider';
 import { useTheme } from '@contexts/ThemeContext';
 import { paymentService } from '@services/firestoreService';
 import { Linking } from 'react-native';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT , BORDER_WIDTH } from '@presentation/theme/designTokens';
 
 const StudentPayments = ({ navigation }) => {
   const { user, userProfile, academia } = useAuth();
@@ -293,10 +293,10 @@ const styles = StyleSheet.create({
     fontWeight: FONT_WEIGHT.bold,
   },
   statusChip: {
-    borderWidth: 1,
+    borderWidth: BORDER_WIDTH.base,
   },
   listStatusChip: {
-    borderWidth: 1,
+    borderWidth: BORDER_WIDTH.base,
     height: 24,
   },
   payButton: {

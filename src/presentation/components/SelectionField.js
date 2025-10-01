@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { IconButton } from 'react-native-paper';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT , BORDER_WIDTH } from '@presentation/theme/designTokens';
 
 const SelectionField = ({
   label,
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.sm,
   },
   selectionButton: {
-    borderWidth: 1,
+    borderWidth: BORDER_WIDTH.base,
     borderColor: COLORS.gray[300],
     borderRadius: BORDER_RADIUS.md,
     backgroundColor: COLORS.white,

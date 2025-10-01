@@ -16,7 +16,7 @@ import {
 } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '@contexts/AuthProvider';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT , BORDER_WIDTH } from '@presentation/theme/designTokens';
 
 const UserTypeSelectionScreen = ({ navigation, route }) => {
   const { user, updateUserProfile, logout } = useAuth();
@@ -283,7 +283,7 @@ const styles = StyleSheet.create({
         elevation: 4,
       },
       web: {
-        boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.5)',
       },
     }),
   },
@@ -310,7 +310,7 @@ const styles = StyleSheet.create({
     borderRadius: BORDER_RADIUS.md,
     marginBottom: 16,
     padding: SPACING.lg,
-    borderWidth: 1,
+    borderWidth: BORDER_WIDTH.base,
     borderColor: COLORS.gray[300],
   },
   cardHeader: {

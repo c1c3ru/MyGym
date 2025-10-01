@@ -14,7 +14,7 @@ import { academyFirestoreService, academyClassService } from '@services/academyF
 import ActionButton, { ActionButtonGroup } from '@components/ActionButton';
 import ImprovedScheduleSelector from '@components/ImprovedScheduleSelector';
 import { createEmptySchedule, isValidSchedule, scheduleToDisplayString } from '@utils/scheduleUtils';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT , BORDER_WIDTH } from '@presentation/theme/designTokens';
 
 const EditClassScreen = ({ route, navigation }) => {
   const { classId } = route.params;
@@ -504,8 +504,8 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.sm,
   },
   picker: {
-    borderWidth: 1,
-    borderColor: '#ccc',
+    borderWidth: BORDER_WIDTH.base,
+    borderColor: COLORS.gray[400],
     borderRadius: BORDER_RADIUS.sm,
     backgroundColor: COLORS.white,
   },

@@ -27,7 +27,7 @@ import cacheService, { CACHE_KEYS, CACHE_TTL } from '@services/cacheService';
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import InstructorStudentsSkeleton from '@components/skeletons/InstructorStudentsSkeleton';
 import { EnhancedFlashList } from '@components/EnhancedFlashList';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT , BORDER_WIDTH } from '@presentation/theme/designTokens';
 
 const InstructorStudents = ({ navigation }) => {
   const { user, userProfile, academia } = useAuthFacade();
@@ -805,7 +805,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 8,
     maxHeight: 300,
-    borderWidth: 1,
+    borderWidth: BORDER_WIDTH.base,
     borderColor: COLORS.gray[300],
   },
   dropdownScroll: {

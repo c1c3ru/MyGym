@@ -15,7 +15,8 @@ import {
   SPACING, 
   FONT_SIZE, 
   FONT_WEIGHT, 
-  BORDER_RADIUS, 
+  BORDER_RADIUS,
+  BORDER_WIDTH,
   Z_INDEX, 
   OPACITY 
 } from '@presentation/theme/designTokens';
@@ -425,19 +426,19 @@ const styles = StyleSheet.create({
   },
   backdrop: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: COLORS.overlay.darker,
+    backgroundColor: COLORS.overlay.darkest,  // Melhor contraste
   },
   spotlight: {
     position: 'absolute',
     backgroundColor: 'transparent',
     borderRadius: BORDER_RADIUS.md,
-    borderWidth: 3,
-    borderColor: COLORS.primary[500],
+    borderWidth: BORDER_WIDTH.thick,  // Borda mais visível
+    borderColor: COLORS.primary[400],  // Cor mais clara para melhor contraste
     shadowColor: COLORS.primary[500],
     shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.8,
-    shadowRadius: 10,
-    elevation: 10,
+    shadowOpacity: 0.9,  // Sombra mais forte
+    shadowRadius: 12,    // Raio maior
+    elevation: 12,       // Elevação maior
   },
   tooltip: {
     position: 'absolute',

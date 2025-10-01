@@ -78,14 +78,15 @@ export const BORDER_RADIUS = {
 };
 
 // ============================================
-// BORDER WIDTH - Larguras de borda
+// BORDER WIDTH - Larguras de borda (WCAG AA compliant)
 // ============================================
 export const BORDER_WIDTH = {
   none: 0,
   thin: 1,
-  base: 2,
-  thick: 3,
-  heavy: 4,
+  base: 2,        // Padrão para a maioria dos elementos
+  thick: 3,       // Para elementos que precisam destaque
+  heavy: 4,       // Para elementos críticos
+  accessible: 2,  // Mínimo recomendado para acessibilidade
 };
 
 // ============================================
@@ -274,12 +275,28 @@ export const COLORS = {
     dark: '#757575',
   },
   
-  // Cores de overlay
+  // Cores de overlay (WCAG AA compliant)
   overlay: {
     light: 'rgba(0, 0, 0, 0.1)',
     default: 'rgba(0, 0, 0, 0.3)',
     dark: 'rgba(0, 0, 0, 0.5)',
-    darker: 'rgba(0, 0, 0, 0.7)',
+    darker: 'rgba(0, 0, 0, 0.75)',    // Aumentado para melhor contraste
+    darkest: 'rgba(0, 0, 0, 0.85)',   // Para modais e overlays críticos
+  },
+  
+  // Cores de foco (para acessibilidade)
+  focus: {
+    primary: '#9C27B0',
+    outline: 'rgba(156, 39, 176, 0.4)',  // Com transparência para destaque
+    ring: 'rgba(156, 39, 176, 0.2)',     // Anel externo mais suave
+  },
+  
+  // Cores de contraste alto (WCAG AAA)
+  highContrast: {
+    text: '#000000',
+    background: '#FFFFFF',
+    border: '#000000',
+    focus: '#0000FF',  // Azul puro para máximo contraste
   },
 };
 

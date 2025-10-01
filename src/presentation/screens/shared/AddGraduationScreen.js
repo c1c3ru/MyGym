@@ -30,7 +30,7 @@ import academyCollectionsService from '@services/academyCollectionsService';
 import { LinearGradient } from 'expo-linear-gradient';
 import SelectionField from '@components/SelectionField';
 import graduationRepository from '@presentation/repositories/graduationRepository';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, BORDER_WIDTH, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const { width } = Dimensions.get('window');
 
@@ -646,6 +646,9 @@ const styles = StyleSheet.create({
   contentContainer: {
     padding: SPACING.base,
     paddingBottom: 32,
+    maxWidth: width < 768 ? width : 768, // Limita largura em tablets
+    alignSelf: 'center',
+    width: '100%',
   },
   currentGraduationCard: {
     borderRadius: BORDER_RADIUS.md,
@@ -695,8 +698,8 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.sm,
   },
   selectionButton: {
-    borderWidth: 1,
-    borderColor: COLORS.gray[300],
+    borderWidth: BORDER_WIDTH.base,
+    borderColor: COLORS.gray[400],
     borderRadius: BORDER_RADIUS.md,
     backgroundColor: COLORS.white,
   },
@@ -749,8 +752,8 @@ const styles = StyleSheet.create({
   dateButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: COLORS.gray[300],
+    borderWidth: BORDER_WIDTH.base,
+    borderColor: COLORS.gray[400],
     borderRadius: BORDER_RADIUS.md,
     backgroundColor: COLORS.white,
     paddingVertical: SPACING.sm,
@@ -834,8 +837,8 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#ddd',
+    borderWidth: BORDER_WIDTH.base,
+    borderColor: COLORS.gray[400],
   },
   emptyText: {
     fontSize: FONT_SIZE.base,

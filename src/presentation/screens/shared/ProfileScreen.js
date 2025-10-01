@@ -21,7 +21,7 @@ import { useTheme } from '@contexts/ThemeContext';
 import { useCustomClaims } from '@hooks/useCustomClaims';
 import { firestoreService } from '@services/firestoreService';
 import PaymentDueDateEditor from '@components/PaymentDueDateEditor';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT , BORDER_WIDTH } from '@presentation/theme/designTokens';
 
 const { width } = Dimensions.get('window');
 
@@ -736,7 +736,7 @@ const styles = StyleSheet.create({
   },
   userTypeChip: {
     alignSelf: 'flex-start',
-    borderWidth: 1,
+    borderWidth: BORDER_WIDTH.base,
   },
   warningCard: {
     backgroundColor: COLORS.warning[50],

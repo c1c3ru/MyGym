@@ -12,7 +12,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '@contexts/AuthProvider';
 import { ResponsiveUtils } from '@utils/animations';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT , BORDER_WIDTH } from '@presentation/theme/designTokens';
 
 const SettingsScreen = ({ navigation }) => {
   const { user, userProfile, logout } = useAuth();
@@ -265,14 +265,14 @@ const styles = StyleSheet.create({
         elevation: 4,
       },
       web: {
-        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.5)',
       },
     }),
   },
   dangerCard: {
     backgroundColor: COLORS.error[50],
     borderColor: COLORS.error[500],
-    borderWidth: 1,
+    borderWidth: BORDER_WIDTH.base,
   },
   cardHeader: {
     flexDirection: 'row',
