@@ -9,6 +9,7 @@ import {
 } from '@shared/constants/colors';
 
 // Professional Color Palettes for User Types
+// 🥋 NOVA PALETA: Dark theme com vermelho coral para todos
 export const USER_PALETTES = {
   student: {
     light: {
@@ -16,29 +17,29 @@ export const USER_PALETTES = {
       primaryVariant: PROFILE_COLORS.student.primaryDark,
       secondary: PROFILE_COLORS.student.primary,
       accent: PROFILE_COLORS.student.primaryLight,
-      surface: PROFILE_COLORS.student.surface,
-      background: PROFILE_COLORS.student.background,
-      card: APP_COLORS.white,
+      surface: LIGHT_THEME.surface,
+      background: LIGHT_THEME.background,
+      card: LIGHT_THEME.card,
       gradient: PROFILE_COLORS.student.gradient,
       text: {
-        primary: TEXT_COLORS.primary,
-        secondary: TEXT_COLORS.secondary,
-        disabled: TEXT_COLORS.disabled
+        primary: LIGHT_THEME.text,
+        secondary: LIGHT_THEME.textSecondary,
+        disabled: LIGHT_THEME.disabled
       }
     },
     dark: {
-      primary: PROFILE_COLORS.student.primaryLight,
-      primaryVariant: PROFILE_COLORS.student.primary,
-      secondary: PROFILE_COLORS.student.primaryLight,
+      primary: PROFILE_COLORS.student.primary,         // Coral direto
+      primaryVariant: PROFILE_COLORS.student.primaryDark,
+      secondary: PROFILE_COLORS.student.primary,
       accent: PROFILE_COLORS.student.primaryLight,
-      surface: DARK_THEME.surface,
-      background: DARK_THEME.background,
-      card: DARK_THEME.card,
-      gradient: PROFILE_COLORS.student.gradient,
+      surface: DARK_THEME.surface,                     // '#1A1A1A'
+      background: DARK_THEME.background,               // '#0D0D0D' (PADRÃO)
+      card: DARK_THEME.card,                           // '#1A1A1A'
+      gradient: PROFILE_COLORS.student.gradient,       // combat gradient
       text: {
-        primary: TEXT_COLORS.inverse,
-        secondary: DARK_THEME.textSecondary,
-        disabled: DARK_THEME.disabled
+        primary: DARK_THEME.text,                      // '#FFFFFF'
+        secondary: DARK_THEME.textSecondary,           // '#E0E0E0'
+        disabled: DARK_THEME.disabled                  // '#9E9E9E'
       }
     }
   },
@@ -48,29 +49,29 @@ export const USER_PALETTES = {
       primaryVariant: PROFILE_COLORS.instructor.primaryDark,
       secondary: PROFILE_COLORS.instructor.primary,
       accent: PROFILE_COLORS.instructor.primaryLight,
-      surface: PROFILE_COLORS.instructor.surface,
-      background: PROFILE_COLORS.instructor.background,
-      card: APP_COLORS.white,
+      surface: LIGHT_THEME.surface,
+      background: LIGHT_THEME.background,
+      card: LIGHT_THEME.card,
       gradient: PROFILE_COLORS.instructor.gradient,
       text: {
-        primary: TEXT_COLORS.primary,
-        secondary: TEXT_COLORS.secondary,
-        disabled: TEXT_COLORS.disabled
+        primary: LIGHT_THEME.text,
+        secondary: LIGHT_THEME.textSecondary,
+        disabled: LIGHT_THEME.disabled
       }
     },
     dark: {
-      primary: PROFILE_COLORS.instructor.primaryLight,
-      primaryVariant: PROFILE_COLORS.instructor.primary,
-      secondary: PROFILE_COLORS.instructor.primaryLight,
+      primary: PROFILE_COLORS.instructor.primary,      // Coral direto
+      primaryVariant: PROFILE_COLORS.instructor.primaryDark,
+      secondary: PROFILE_COLORS.instructor.primary,
       accent: PROFILE_COLORS.instructor.primaryLight,
-      surface: DARK_THEME.surface,
-      background: DARK_THEME.background,
-      card: DARK_THEME.card,
-      gradient: PROFILE_COLORS.instructor.gradient,
+      surface: DARK_THEME.surface,                     // '#1A1A1A'
+      background: DARK_THEME.background,               // '#0D0D0D' (PADRÃO)
+      card: DARK_THEME.card,                           // '#1A1A1A'
+      gradient: PROFILE_COLORS.instructor.gradient,    // combat gradient
       text: {
-        primary: TEXT_COLORS.inverse,
-        secondary: DARK_THEME.textSecondary,
-        disabled: DARK_THEME.disabled
+        primary: DARK_THEME.text,                      // '#FFFFFF'
+        secondary: DARK_THEME.textSecondary,           // '#E0E0E0'
+        disabled: DARK_THEME.disabled                  // '#9E9E9E'
       }
     }
   },
@@ -80,71 +81,73 @@ export const USER_PALETTES = {
       primaryVariant: PROFILE_COLORS.admin.primaryDark,
       secondary: PROFILE_COLORS.admin.primary,
       accent: PROFILE_COLORS.admin.primaryLight,
-      surface: PROFILE_COLORS.admin.surface,
-      background: PROFILE_COLORS.admin.background,
-      card: APP_COLORS.white,
+      surface: LIGHT_THEME.surface,
+      background: LIGHT_THEME.background,
+      card: LIGHT_THEME.card,
       gradient: PROFILE_COLORS.admin.gradient,
       text: {
-        primary: TEXT_COLORS.primary,
-        secondary: TEXT_COLORS.secondary,
-        disabled: TEXT_COLORS.disabled
+        primary: LIGHT_THEME.text,
+        secondary: LIGHT_THEME.textSecondary,
+        disabled: LIGHT_THEME.disabled
       }
     },
     dark: {
-      primary: PROFILE_COLORS.admin.primaryLight,
-      primaryVariant: PROFILE_COLORS.admin.primary,
-      secondary: PROFILE_COLORS.admin.primaryLight,
+      primary: PROFILE_COLORS.admin.primary,           // Coral direto
+      primaryVariant: PROFILE_COLORS.admin.primaryDark,
+      secondary: PROFILE_COLORS.admin.primary,
       accent: PROFILE_COLORS.admin.primaryLight,
-      surface: DARK_THEME.surface,
-      background: DARK_THEME.background,
-      card: DARK_THEME.card,
-      gradient: PROFILE_COLORS.admin.gradient,
+      surface: DARK_THEME.surface,                     // '#1A1A1A'
+      background: DARK_THEME.background,               // '#0D0D0D' (PADRÃO)
+      card: DARK_THEME.card,                           // '#1A1A1A'
+      gradient: PROFILE_COLORS.admin.gradient,         // intense gradient
       text: {
-        primary: TEXT_COLORS.inverse,
-        secondary: DARK_THEME.textSecondary,
-        disabled: DARK_THEME.disabled
+        primary: DARK_THEME.text,                      // '#FFFFFF'
+        secondary: DARK_THEME.textSecondary,           // '#E0E0E0'
+        disabled: DARK_THEME.disabled                  // '#9E9E9E'
       }
     }
   }
 };
 
 // Default themes (fallback)
+// 🌑 Dark theme tem prioridade como padrão
+const darkTheme = {
+  ...MD3DarkTheme,
+  colors: {
+    ...MD3DarkTheme.colors,
+    primary: PROFILE_COLORS.student.primary,         // Coral #FF4757
+    secondary: PROFILE_COLORS.student.primary,       // Coral também
+    background: DARK_THEME.background,               // '#0D0D0D'
+    surface: DARK_THEME.surface,                     // '#1A1A1A'
+    error: STATUS_COLORS.error,
+    success: STATUS_COLORS.success,
+    warning: STATUS_COLORS.warning,
+    text: DARK_THEME.text,                           // '#FFFFFF'
+    disabled: DARK_THEME.disabled,
+  },
+  roundness: 12,  // Aumentado para mais moderno
+};
+
 const lightTheme = {
   ...MD3LightTheme,
   colors: {
     ...MD3LightTheme.colors,
-    primary: PROFILE_COLORS.student.primary,
-    secondary: PROFILE_COLORS.instructor.primary,
+    primary: PROFILE_COLORS.student.primary,         // Coral #FF4757
+    secondary: PROFILE_COLORS.student.primary,       // Coral também
     background: LIGHT_THEME.background,
     surface: LIGHT_THEME.surface,
     error: STATUS_COLORS.error,
     success: STATUS_COLORS.success,
     warning: STATUS_COLORS.warning,
-    text: TEXT_COLORS.primary,
-    disabled: TEXT_COLORS.disabled,
+    text: LIGHT_THEME.text,
+    disabled: LIGHT_THEME.disabled,
   },
-  roundness: 8,
-};
-
-const darkTheme = {
-  ...MD3DarkTheme,
-  colors: {
-    ...MD3DarkTheme.colors,
-    primary: PROFILE_COLORS.student.primaryLight,
-    secondary: PROFILE_COLORS.instructor.primaryLight,
-    background: DARK_THEME.background,
-    surface: DARK_THEME.surface,
-    error: STATUS_COLORS.error,
-    success: STATUS_COLORS.success,
-    warning: STATUS_COLORS.warning,
-    text: TEXT_COLORS.inverse,
-    disabled: DARK_THEME.disabled,
-  },
-  roundness: 8,
+  roundness: 12,
 };
 
 // Function to get theme for specific user type
-export const getThemeForUserType = (userType, isDarkMode = false) => {
+// 🌑 DARK MODE COMO PADRÃO (isDarkMode = true)
+export const getThemeForUserType = (userType, isDarkMode = true) => {
   const palette = USER_PALETTES[userType] || USER_PALETTES.student;
   const colorScheme = isDarkMode ? palette.dark : palette.light;
   
@@ -154,8 +157,8 @@ export const getThemeForUserType = (userType, isDarkMode = false) => {
     ...baseTheme,
     colors: {
       ...baseTheme.colors,
-      primary: colorScheme.primary,
-      primaryVariant: colorScheme.primaryVariant,
+      primary: colorScheme.primary,                  // Coral #FF4757
+      primaryVariant: colorScheme.primaryDark,
       secondary: colorScheme.secondary,
       background: colorScheme.background,
       surface: colorScheme.surface,
@@ -168,7 +171,8 @@ export const getThemeForUserType = (userType, isDarkMode = false) => {
       textDisabled: colorScheme.text.disabled,
     },
     userType,
-    palette: colorScheme
+    palette: colorScheme,
+    isDarkMode  // Adiciona flag para fácil verificação
   };
 };
 

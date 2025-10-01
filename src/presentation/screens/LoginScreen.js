@@ -233,7 +233,7 @@ export default function LoginScreen({ navigation }) {
 
   return (
     <LinearGradient
-      colors={isDarkMode ? [COLORS.gray[900], '#2d2d30'] : [COLORS.secondary[400], COLORS.secondary[600]]}
+      colors={COLORS.gradients.dark}
       style={styles.gradient}
     >
       <SafeAreaView style={styles.container}>
