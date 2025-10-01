@@ -208,7 +208,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
                 <Chip 
                   mode="flat"
                   style={[styles.imcChip, { backgroundColor: getIMCColor(latestEvaluation.imcClassification) }]}
-                  textStyle={{ color: COLORS.COLORS.white, fontWeight: FONT_WEIGHT.bold }}
+                  textStyle={{ color: COLORS.white, fontWeight: FONT_WEIGHT.bold }}
                 >
                   {latestEvaluation.imcClassification}
                 </Chip>
@@ -305,9 +305,9 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
                 width={width - 64}
                 height={220}
                 chartConfig={{
-                  backgroundColor: 'COLORS.COLORS.whitefff',
-                  backgroundGradientFrom: 'COLORS.COLORS.whitefff',
-                  backgroundGradientTo: 'COLORS.COLORS.whitefff',
+                  backgroundColor: 'COLORS.whitefff',
+                  backgroundGradientFrom: 'COLORS.whitefff',
+                  backgroundGradientTo: 'COLORS.whitefff',
                   decimalPlaces: selectedMetric === 'imc' ? 2 : 1,
                   color: (opacity = 1) => `rgba(33, 150, 243, ${opacity})`,
                   labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
@@ -318,7 +318,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
                     r: '6',
                     strokeWidth: '2',
                     stroke: COLORS.info[500],
-                    fill: 'COLORS.COLORS.whitefff'
+                    fill: 'COLORS.whitefff'
                   },
                   formatXLabel: (value) => value,
                   formatYLabel: (value) => `${value}${chartData.suffix}`,

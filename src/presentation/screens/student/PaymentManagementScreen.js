@@ -207,7 +207,7 @@ const PaymentManagementScreen = ({ navigation }) => {
                 <Chip 
                   mode="flat"
                   style={[styles.statusChip, { backgroundColor: getPaymentStatusColor(currentPlan.status) }]}
-                  textStyle={{ color: COLORS.COLORS.white, fontWeight: FONT_WEIGHT.bold }}
+                  textStyle={{ color: COLORS.white, fontWeight: FONT_WEIGHT.bold }}
                 >
                   {getPaymentStatusText(currentPlan.status)}
                 </Chip>
@@ -552,7 +552,7 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
   modal: {
-    backgroundColor: COLORS.COLORS.white,
+    backgroundColor: COLORS.white,
     margin: SPACING.lg,
     borderRadius: BORDER_RADIUS.md,
     maxHeight: '80%',

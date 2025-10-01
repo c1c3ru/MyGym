@@ -347,7 +347,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
                   contentStyle={styles.actionButtonContent}
                   labelStyle={styles.actionButtonLabel}
                 >
-                  <Ionicons name="checkmark-circle" size={20} color="COLORS.COLORS.white" />
+                  <Ionicons name="checkmark-circle" size={20} color="COLORS.white" />
                   {"\n"}Check-ins
                 </Button>
               </Surface>
@@ -368,7 +368,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
                   contentStyle={styles.actionButtonContent}
                   labelStyle={styles.actionButtonLabel}
                 >
-                  <Ionicons name={showStudents ? "eye-off" : "eye"} size={20} color="COLORS.COLORS.white" />
+                  <Ionicons name={showStudents ? "eye-off" : "eye"} size={20} color="COLORS.white" />
                   {"\n"}{isAdmin() ? 'Gerenciar' : (showStudents ? 'Ocultar' : 'Ver Alunos')}
                 </Button>
               </Surface>
@@ -422,7 +422,7 @@ const styles = StyleSheet.create({
     margin: SPACING.base,
     marginBottom: SPACING.md,
     borderRadius: BORDER_RADIUS.lg,
-    backgroundColor: COLORS.COLORS.white,
+    backgroundColor: COLORS.white,
   },
   headerContent: {
     padding: SPACING.lg,
@@ -448,7 +448,7 @@ const styles = StyleSheet.create({
     borderRadius: BORDER_RADIUS.lg,
   },
   modalityText: {
-    color: COLORS.COLORS.white,
+    color: COLORS.white,
     fontWeight: FONT_WEIGHT.semibold,
     fontSize: FONT_SIZE.sm,
   },
@@ -559,7 +559,7 @@ const styles = StyleSheet.create({
     padding: SPACING.md,
     marginBottom: SPACING.sm,
     borderRadius: BORDER_RADIUS.md,
-    backgroundColor: COLORS.COLORS.white,
+    backgroundColor: COLORS.white,
   },
   studentInfo: {
     flexDirection: 'row',
@@ -618,7 +618,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: 4,
     borderRadius: BORDER_RADIUS.md,
-    backgroundColor: COLORS.COLORS.white,
+    backgroundColor: COLORS.white,
   },
   actionButton: {
     borderRadius: BORDER_RADIUS.md,

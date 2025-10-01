@@ -257,7 +257,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.error[500],
   },
   modalContainer: {
-    backgroundColor: 'COLORS.COLORS.COLORS.white',
+    backgroundColor: 'COLORS.white',
     margin: SPACING.lg,
     borderRadius: BORDER_RADIUS.md,
     maxHeight: '80%',

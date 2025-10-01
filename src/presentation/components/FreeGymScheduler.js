@@ -194,7 +194,7 @@ const FreeGymScheduler = ({
             borderColor: primaryColor
           },
           text: {
-            color: hasMultipleEvents ? 'COLORS.COLORS.COLORS.whitefff' : primaryColor,
+            color: hasMultipleEvents ? 'COLORS.whitefff' : primaryColor,
             fontWeight: hasMultipleEvents ? 'bold' : 'normal'
           }
         }

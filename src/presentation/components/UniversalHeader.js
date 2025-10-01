@@ -159,7 +159,7 @@ const UniversalHeader = ({
         {showBack && (
           <Appbar.BackAction 
             onPress={() => navigation?.goBack()} 
-            color={COLORS.COLORS.white}
+            color={COLORS.white}
           />
         )}
         
@@ -170,7 +170,7 @@ const UniversalHeader = ({
           subtitleStyle={styles.subtitle}
         />
 
-        {/* {showMenu && <NotificationBell color="COLORS.COLORS.white" size={24} />} */}
+        {/* {showMenu && <NotificationBell color="COLORS.white" size={24} />} */}
 
         {showMenu && (
           <Menu
@@ -185,7 +185,7 @@ const UniversalHeader = ({
                 <Avatar.Text 
                   size={ResponsiveUtils?.isTablet?.() ? 40 : 36}
                   label={userProfile?.name?.charAt(0) || 'U'}
-                  style={[styles.avatar, { backgroundColor: COLORS.COLORS.white + '33' }]}
+                  style={[styles.avatar, { backgroundColor: COLORS.white + '33' }]}
                   labelStyle={styles.avatarLabel}
                 />
               </TouchableOpacity>
@@ -309,12 +309,12 @@ const styles = StyleSheet.create({
     minHeight: ResponsiveUtils?.isTablet?.() ? 64 : 56,
   },
   appName: {
-    color: COLORS.COLORS.white,
+    color: COLORS.white,
     fontSize: ResponsiveUtils?.fontSize?.large || 20,
     fontWeight: FONT_WEIGHT.bold,
   },
   subtitle: {
-    color: COLORS.COLORS.white + 'E6',
+    color: COLORS.white + 'E6',
     fontSize: ResponsiveUtils?.fontSize?.small || 12,
   },
   menuAnchor: {
@@ -323,15 +323,15 @@ const styles = StyleSheet.create({
   },
   avatar: {
     borderWidth: 2,
-    borderColor: COLORS.COLORS.white + '4D',
+    borderColor: COLORS.white + '4D',
   },
   avatarLabel: {
-    color: COLORS.COLORS.white,
+    color: COLORS.white,
     fontSize: ResponsiveUtils?.fontSize?.medium || 16,
     fontWeight: FONT_WEIGHT.bold,
   },
   menuContent: {
-    backgroundColor: COLORS.COLORS.white,
+    backgroundColor: COLORS.white,
     borderRadius: ResponsiveUtils?.borderRadius?.medium || 8,
     minWidth: 280,
     marginTop: SPACING.sm,
@@ -346,7 +346,7 @@ const styles = StyleSheet.create({
     marginRight: ResponsiveUtils?.spacing?.md || 16,
   },
   menuAvatarLabel: {
-    color: COLORS.COLORS.white,
+    color: COLORS.white,
     fontSize: ResponsiveUtils?.fontSize?.medium || 16,
     fontWeight: FONT_WEIGHT.bold,
   },
@@ -372,7 +372,7 @@ const styles = StyleSheet.create({
     color: COLORS.text.primary,
   },
   modalContainer: {
-    backgroundColor: COLORS.COLORS.white,
+    backgroundColor: COLORS.white,
     padding: SPACING.xl,
     marginHorizontal: 20,
     marginTop: 320,

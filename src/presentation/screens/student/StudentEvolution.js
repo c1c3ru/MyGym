@@ -94,7 +94,7 @@ const StudentEvolution = ({ navigation }) => {
 
   const getGraduationColor = (graduation) => {
     const colors = {
-      'Branca': COLORS.COLORS.white,
+      'Branca': COLORS.white,
       'Cinza': COLORS.gray[500],
       'Amarela': COLORS.warning[400],
       'Laranja': COLORS.warning[500],
@@ -328,7 +328,7 @@ const styles = StyleSheet.create({
     padding: SPACING.md,
     borderRadius: BORDER_RADIUS.md,
     elevation: 1,
-    backgroundColor: COLORS.COLORS.white,
+    backgroundColor: COLORS.white,
   },
   statNumber: {
     fontSize: FONT_SIZE.xxl,
@@ -356,7 +356,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   timelineContent: {
-    backgroundColor: COLORS.COLORS.white,
+    backgroundColor: COLORS.white,
     padding: SPACING.md,
     borderRadius: BORDER_RADIUS.md,
     elevation: 1,
