@@ -74,7 +74,7 @@ const PaymentDueDateEditor = ({ visible, onDismiss, currentPayment, onUpdate }) 
       // Atualizar pagamento no Firestore
       await firestoreService.update(`gyms/${academia.id}/payments`, currentPayment.id, {
         dueDate: dueDate,
-        dueDateChangedBy: user.uid,
+        dueDateChangedBy: user.id,
         dueDateChangedAt: new Date(),
         dueDateChangeReason: 'Alterado pelo aluno'
       });
@@ -112,7 +112,7 @@ const PaymentDueDateEditor = ({ visible, onDismiss, currentPayment, onUpdate }) 
           title: 'Data de Vencimento Alterada',
           message: `${userProfile.name} alterou a data de vencimento do pagamento para ${newDate.toLocaleDateString('pt-BR')}`,
           data: {
-            studentId: user.uid,
+            studentId: user.id,
             studentName: userProfile.name,
             paymentId: payment.id,
             oldDate: payment.dueDate,

@@ -43,7 +43,7 @@ const CheckInButton = ({ classId, className, onCheckInSuccess }) => {
 
       // Criar registro de check-in
       const checkInData = {
-        studentId: user.uid,
+        studentId: user.id,
         classId: classId,
         date: new Date(),
         status: 'present',
@@ -63,7 +63,7 @@ const CheckInButton = ({ classId, className, onCheckInSuccess }) => {
         'classes', 
         'students', 
         'array-contains', 
-        user.uid, 
+        user.id, 
         userProfile.academiaId
       );
       

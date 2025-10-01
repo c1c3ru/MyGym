@@ -115,7 +115,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
         studentId,
         studentName,
         createdAt: new Date(),
-        createdBy: user.uid,
+        createdBy: user.id,
         status: 'active'
       };
 

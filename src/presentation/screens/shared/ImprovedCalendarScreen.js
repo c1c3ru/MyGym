@@ -58,7 +58,7 @@ const ImprovedCalendarScreen = ({ navigation }) => {
             filteredClasses = allClasses;
           } else if (isInstructor()) {
             // Instrutor vê suas turmas da academia
-            filteredClasses = allClasses.filter(cls => cls.instructorId === user.uid);
+            filteredClasses = allClasses.filter(cls => cls.instructorId === user.id);
           } else if (isStudent()) {
             // Aluno vê suas turmas matriculadas da academia
             filteredClasses = allClasses.filter(cls => 
@@ -91,7 +91,7 @@ const ImprovedCalendarScreen = ({ navigation }) => {
       setLoading(false);
       setRefreshing(false);
     }
-  }, [userProfile?.academiaId, academia?.id, role, user.uid, userProfile?.classIds, isAdmin, isInstructor, isStudent, trackFeatureUsage]);
+  }, [userProfile?.academiaId, academia?.id, role, user.id, userProfile?.classIds, isAdmin, isInstructor, isStudent, trackFeatureUsage]);
 
   // Carregar dados na inicialização
   useEffect(() => {
@@ -129,9 +129,9 @@ const ImprovedCalendarScreen = ({ navigation }) => {
     if (isAdmin()) {
       navigation.navigate('AddClass');
     } else if (isInstructor()) {
-      navigation.navigate('AddClass', { instructorId: user.uid });
+      navigation.navigate('AddClass', { instructorId: user.id });
     }
-  }, [navigation, trackButtonClick, isAdmin, isInstructor, user.uid]);
+  }, [navigation, trackButtonClick, isAdmin, isInstructor, user.id]);
 
   // Callback para seleção de data
   const handleDatePress = useCallback((date, dayEvents) => {

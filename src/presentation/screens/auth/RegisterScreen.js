@@ -1,18 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, StyleSheet, ScrollView, Animated, Alert, KeyboardAvoidingView, Platform, Dimensions } from 'react-native';
+import { View, StyleSheet, ScrollView, Animated, Alert, KeyboardAvoidingView, Platform, Dimensions, TouchableOpacity } from 'react-native';
 import { 
   TextInput, 
   Button, 
   Text, 
   Card, 
-  Title, 
-  Paragraph,
   Divider,
   ActivityIndicator,
   RadioButton,
   Chip,
   Snackbar,
-  HelperText
+  HelperText,
+  Checkbox
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -30,7 +29,9 @@ const RegisterScreen = ({ navigation }) => {
     password: '',
     confirmPassword: '',
     phone: '',
-    userType: 'student'
+    userType: 'student',
+    acceptTerms: false,
+    acceptPrivacyPolicy: false
   });
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -88,6 +89,14 @@ const RegisterScreen = ({ navigation }) => {
       newErrors.confirmPassword = getString('passwordsMismatch');
     }
     
+    if (!formData.acceptTerms) {
+      newErrors.acceptTerms = 'Você deve aceitar os termos de uso';
+    }
+    
+    if (!formData.acceptPrivacyPolicy) {
+      newErrors.acceptPrivacyPolicy = 'Você deve aceitar a política de privacidade';
+    }
+    
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -104,13 +113,9 @@ const RegisterScreen = ({ navigation }) => {
       const userData = {
         name: formData.name.trim(),
         phone: formData.phone.trim(),
-        isActive: true,
-        currentBelt: COLORS.white, // Usando padrão internacional
-        currentGraduation: 'Beginner', // Compatível com backend
-        beltHistory: [],
-        graduations: [],
-        classIds: [],
-        userType: formData.userType
+        userType: formData.userType,
+        acceptTerms: formData.acceptTerms,
+        acceptPrivacyPolicy: formData.acceptPrivacyPolicy
       };
 
       await signUp(formData.email, formData.password, userData);
@@ -209,10 +214,10 @@ const RegisterScreen = ({ navigation }) => {
               color={COLORS.white} 
               style={styles.headerIcon}
             />
-            <Title style={styles.title}>{getString('createAccount')}</Title>
-            <Paragraph style={styles.subtitle}>
+            <Text style={styles.title}>{getString('createAccount')}</Text>
+            <Text style={styles.subtitle}>
               {getString('fillDataToRegister')}
-            </Paragraph>
+            </Text>
           </Animated.View>
 
           <Animated.View
@@ -222,7 +227,7 @@ const RegisterScreen = ({ navigation }) => {
           >
             <Card style={styles.card}>
           <Card.Content>
-            <Title style={styles.cardTitle}>{getString('personalData')}</Title>
+            <Text style={styles.cardTitle}>{getString('personalData')}</Text>
             
             <TextInput
               label={getString('fullName')}
@@ -271,7 +276,7 @@ const RegisterScreen = ({ navigation }) => {
 
             <Divider style={styles.divider} />
 
-            <Title style={styles.sectionTitle}>{getString('userType')}</Title>
+            <Text style={styles.sectionTitle}>{getString('userType')}</Text>
             <View style={styles.userTypeContainer}>
               {[
                 { value: 'student', label: getString('student'), description: getString('studentDescription') },
@@ -315,7 +320,7 @@ const RegisterScreen = ({ navigation }) => {
 
             <Divider style={styles.divider} />
 
-            <Title style={styles.sectionTitle}>{getString('passwordSection')}</Title>
+            <Text style={styles.sectionTitle}>{getString('passwordSection')}</Text>
 
             <TextInput
               label={getString('password') + ' *'}
@@ -366,6 +371,62 @@ const RegisterScreen = ({ navigation }) => {
             <Text style={styles.passwordHint}>
               * {getString('passwordMinLength')}
             </Text>
+
+            <Divider style={styles.divider} />
+
+            <View style={styles.checkboxContainer}>
+              <View style={styles.checkboxRow}>
+                <Checkbox
+                  status={formData.acceptTerms ? 'checked' : 'unchecked'}
+                  onPress={() => updateFormData('acceptTerms', !formData.acceptTerms)}
+                  disabled={loading}
+                  color={COLORS.primary[500]}
+                />
+                <View style={styles.checkboxTextContainer}>
+                  <Text style={styles.checkboxText}>
+                    Aceito os{' '}
+                    <Text 
+                      style={styles.link}
+                      onPress={() => navigation.navigate('TermsOfService')}
+                    >
+                      Termos de Uso
+                    </Text>
+                  </Text>
+                </View>
+              </View>
+              {errors.acceptTerms && (
+                <HelperText type="error" visible={!!errors.acceptTerms} style={styles.checkboxError}>
+                  {errors.acceptTerms}
+                </HelperText>
+              )}
+            </View>
+
+            <View style={styles.checkboxContainer}>
+              <View style={styles.checkboxRow}>
+                <Checkbox
+                  status={formData.acceptPrivacyPolicy ? 'checked' : 'unchecked'}
+                  onPress={() => updateFormData('acceptPrivacyPolicy', !formData.acceptPrivacyPolicy)}
+                  disabled={loading}
+                  color={COLORS.primary[500]}
+                />
+                <View style={styles.checkboxTextContainer}>
+                  <Text style={styles.checkboxText}>
+                    Aceito a{' '}
+                    <Text 
+                      style={styles.link}
+                      onPress={() => navigation.navigate('PrivacyPolicy')}
+                    >
+                      Política de Privacidade
+                    </Text>
+                  </Text>
+                </View>
+              </View>
+              {errors.acceptPrivacyPolicy && (
+                <HelperText type="error" visible={!!errors.acceptPrivacyPolicy} style={styles.checkboxError}>
+                  {errors.acceptPrivacyPolicy}
+                </HelperText>
+              )}
+            </View>
 
             <Button
               mode="contained"
@@ -572,6 +633,35 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     fontStyle: 'italic',
     textAlign: 'center',
+  },
+  checkboxContainer: {
+    marginBottom: SPACING.sm,
+  },
+  checkboxRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  checkboxTextContainer: {
+    flex: 1,
+    marginLeft: SPACING.xs,
+  },
+  checkboxText: {
+    fontSize: FONT_SIZE.sm,
+    color: COLORS.text.primary,
+    lineHeight: 20,
+  },
+  link: {
+    color: COLORS.primary[500],
+    fontWeight: FONT_WEIGHT.semibold,
+    textDecorationLine: 'underline',
+  },
+  checkboxLabel: {
+    fontSize: FONT_SIZE.sm,
+    color: COLORS.text.primary,
+  },
+  checkboxError: {
+    marginTop: -SPACING.sm,
+    marginLeft: SPACING.lg,
   },
   button: {
     marginTop: 16,

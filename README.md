@@ -37,6 +37,7 @@ Um aplicativo completo para gerenciamento de academias de artes marciais, desenv
 
 - **React Native** - Framework mobile
 - **Expo** - Plataforma de desenvolvimento
+- **TypeScript** - Type safety e melhor DX
 - **Firebase** - Backend as a Service
   - Authentication (autenticação)
   - Firestore (banco de dados)
@@ -45,6 +46,8 @@ Um aplicativo completo para gerenciamento de academias de artes marciais, desenv
 - **React Native Paper** - Componentes de UI
 - **Context API** - Gerenciamento de estado
 - **React Native Calendars** - Componente de calendário
+- **Zod** - Validação de schemas
+- **Jest** - Testes unitários
 
 ## 📦 Instalação e Configuração
 
@@ -77,33 +80,80 @@ Um aplicativo completo para gerenciamento de academias de artes marciais, desenv
    expo start
    ```
 
-## 🏗 Estrutura do Projeto
+## 🏗 Estrutura do Projeto (Clean Architecture)
 
 ```
 src/
-├── components/          # Componentes reutilizáveis
-│   ├── ErrorBoundary.js       # Tratamento de erros
-│   ├── FormInput.js           # Input com validação
-│   ├── FormSelect.js          # Seletor customizado
-│   ├── LoadingButton.js       # Botão com loading
-│   └── NotificationManager.js # Sistema de notificações
-├── contexts/            # Contextos do React
-│   └── AuthContext.js         # Contexto de autenticação
-├── navigation/          # Configuração de navegação
-│   └── AppNavigator.js        # Navegação principal
-├── screens/             # Telas da aplicação
-│   ├── admin/               # Telas do administrador
-│   ├── auth/                # Telas de autenticação
-│   ├── instructor/          # Telas do instrutor
-│   ├── shared/              # Telas compartilhadas
-│   └── student/             # Telas do aluno
-├── services/            # Serviços externos
-│   ├── firebase.js          # Configuração Firebase
-│   └── firestoreService.js  # Serviços Firestore
-└── utils/               # Utilitários
-    ├── constants.js         # Constantes da aplicação
-    └── validation.js        # Validações e formatadores
+├── domain/                    # Camada de Domínio (Regras de Negócio)
+│   ├── auth/
+│   │   ├── entities.ts        # Interfaces TypeScript (User, UserProfile, AuthSession)
+│   │   ├── repositories.ts    # Contratos de repositórios
+│   │   ├── usecases/          # Casos de uso (SignIn, SignUp, etc)
+│   │   └── errors/            # Erros de domínio
+│   ├── students/              # Domínio de alunos
+│   └── graduation/            # Domínio de graduações
+│
+├── data/                      # Camada de Dados (Implementações)
+│   ├── auth/
+│   │   ├── FirebaseAuthRepository.ts  # Implementação Firebase
+│   │   ├── mappers.ts                 # Conversão Firebase ↔ Domain
+│   │   └── validators.ts              # Validações de dados
+│   └── models/                # Modelos de dados
+│
+├── infrastructure/            # Camada de Infraestrutura
+│   ├── services/              # Serviços externos
+│   │   ├── firebase.js        # Configuração Firebase
+│   │   ├── firestoreService.js
+│   │   ├── cacheService.js
+│   │   └── notificationService.js
+│   └── firebase/              # Configurações Firebase
+│
+├── presentation/              # Camada de Apresentação (UI)
+│   ├── components/            # Componentes reutilizáveis
+│   │   ├── AccessibleComponents.js  # Componentes acessíveis
+│   │   ├── EnhancedErrorMessage.js  # Mensagens de erro
+│   │   └── OnboardingTour.js        # Tours guiados
+│   ├── contexts/              # Contextos React
+│   │   ├── AuthContext.js
+│   │   └── NotificationContext.js
+│   ├── hooks/                 # Custom hooks
+│   │   ├── useAuthClean.js
+│   │   └── useFormValidation.js
+│   ├── navigation/            # Navegação
+│   │   ├── AppNavigator.js
+│   │   ├── AdminNavigator.js
+│   │   ├── InstructorNavigator.js
+│   │   └── StudentNavigator.js
+│   ├── screens/               # Telas da aplicação
+│   │   ├── admin/             # Telas do administrador
+│   │   ├── auth/              # Telas de autenticação
+│   │   ├── instructor/        # Telas do instrutor
+│   │   ├── shared/            # Telas compartilhadas
+│   │   └── student/           # Telas do aluno
+│   ├── theme/                 # Sistema de Design
+│   │   ├── designTokens.js    # Design Tokens centralizados
+│   │   └── adminTheme.js      # Tema administrativo
+│   └── auth/
+│       └── AuthFacade.ts      # Facade de autenticação
+│
+├── shared/                    # Código compartilhado
+│   └── utils/                 # Utilitários
+│       ├── scheduleUtils.js
+│       └── customClaimsHelper.js
+│
+└── utils/                     # Utilitários globais
+    ├── constants.js
+    └── validation.js
 ```
+
+### 📐 Arquitetura
+
+O projeto segue os princípios da **Clean Architecture**:
+
+1. **Domain Layer** - Regras de negócio puras (TypeScript)
+2. **Data Layer** - Implementações de repositórios e fontes de dados
+3. **Infrastructure Layer** - Serviços externos (Firebase, APIs)
+4. **Presentation Layer** - UI e lógica de apresentação (React Native)
 
 ## 🔧 Configuração Detalhada
 
@@ -128,6 +178,37 @@ O sistema suporta três tipos de usuário:
 - `instructor` - Instrutor/Professor
 - `admin` - Administrador
 
+### TypeScript e Interfaces
+
+O projeto utiliza **interfaces TypeScript** para garantir type safety:
+
+```typescript
+// Interfaces principais (src/domain/auth/entities.ts)
+interface User {
+  id: string;              // ✅ Usar user.id (não user.uid)
+  email: string;
+  emailVerified: boolean;
+  // ...
+}
+
+interface UserProfile {
+  id: string;
+  name: string;
+  userType: 'student' | 'instructor' | 'admin';  // ✅ Tipado
+  academiaId?: string;
+  // ...
+}
+
+interface AuthSession {
+  user: User;
+  userProfile: UserProfile;  // ✅ Sempre presente
+  claims: Claims;
+  academia?: Academia;
+}
+```
+
+**Documentação completa:** Ver `/docs/TYPESCRIPT_MIGRATION_GUIDE.md`
+
 ## 📱 Deploy
 
 Para instruções detalhadas de deploy, consulte o arquivo [DEPLOYMENT.md](./DEPLOYMENT.md).
@@ -146,16 +227,31 @@ eas build --platform all
 
 ## 📋 Funcionalidades Implementadas
 
-- [x] Sistema de autenticação completo
+### Core Features
+- [x] Sistema de autenticação completo (Clean Architecture + TypeScript)
 - [x] Dashboard para todos os tipos de usuário
 - [x] Gerenciamento de alunos e instrutores
 - [x] Sistema de pagamentos
 - [x] Calendário de aulas
 - [x] Acompanhamento de evolução
 - [x] Sistema de notificações
-- [x] Validação de formulários
-- [x] Tratamento de erros
+- [x] Validação de formulários com Zod
+- [x] Tratamento de erros com ErrorBoundary
 - [x] Interface responsiva
+
+### Design System
+- [x] Design Tokens centralizados (85% do app migrado)
+- [x] Componentes acessíveis (WCAG 2.1)
+- [x] Sistema de Undo/Redo
+- [x] Tours de Onboarding
+- [x] Mensagens de erro aprimoradas
+
+### Arquitetura
+- [x] Clean Architecture implementada
+- [x] TypeScript em camada de domínio
+- [x] Interfaces ao invés de classes
+- [x] Mappers para conversão de dados
+- [x] Use Cases testáveis
 
 ## 🚀 Próximas Funcionalidades
 

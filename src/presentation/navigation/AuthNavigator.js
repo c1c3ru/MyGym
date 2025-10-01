@@ -8,6 +8,10 @@ import ForgotPasswordScreen from '@screens/auth/ForgotPasswordScreen';
 import UserTypeSelectionScreen from '@screens/auth/UserTypeSelectionScreen';
 import AcademiaSelectionScreen from '@screens/auth/AcademiaSelectionScreen';
 
+// Telas Legais
+import TermsOfServiceScreen from '@screens/legal/TermsOfServiceScreen';
+import PrivacyPolicyScreen from '@screens/legal/PrivacyPolicyScreen';
+
 const Stack = createStackNavigator();
 
 // Navegação de Autenticação
@@ -24,6 +28,8 @@ const AuthNavigator = () => {
       <Stack.Screen name="Register" component={RegisterScreen} />
       <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
       <Stack.Screen name="AcademiaSelection" component={AcademiaSelectionScreen} />
+      <Stack.Screen name="TermsOfService" component={TermsOfServiceScreen} />
+      <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicyScreen} />
     </Stack.Navigator>
   );
 };

@@ -50,7 +50,7 @@ const StudentEvolution = ({ navigation }) => {
       // Buscar graduações do aluno na academia
       const allGraduations = await firestoreService.getAll(`gyms/${academiaId}/graduations`);
       const userGraduations = allGraduations.filter(graduation => 
-        graduation.studentId === user.uid
+        graduation.studentId === user.id
       );
       
       // Ordenar graduações por data (mais recente primeiro)

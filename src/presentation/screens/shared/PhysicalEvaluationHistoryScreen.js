@@ -47,7 +47,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
         'physicalEvaluations',
         'userId',
         '==',
-        user.uid,
+        user.id,
         academiaId
       );
       

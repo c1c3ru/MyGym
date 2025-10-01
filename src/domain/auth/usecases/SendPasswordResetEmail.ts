@@ -1,8 +1,8 @@
 // Send password reset email use case
 
 import { BaseUseCase } from './base';
-import { AuthRepository } from '@domain/repositories';
-import { mapFirebaseError } from '@domain/auth/errors';
+import { AuthRepository } from '../repositories';
+import { mapFirebaseError } from '../errors';
 import { emailSchema, EmailInput } from './schemas';
 
 export class SendPasswordResetEmailUseCase extends BaseUseCase<EmailInput, void> {

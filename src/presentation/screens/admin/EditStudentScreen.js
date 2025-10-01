@@ -142,7 +142,7 @@ const EditStudentScreen = ({ navigation, route }) => {
         goals: formData.goals.trim(),
         status: formData.status,
         updatedAt: new Date(),
-        updatedBy: user.uid
+        updatedBy: user.id
       };
 
       // Obter ID da academia

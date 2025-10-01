@@ -58,7 +58,7 @@ export const NotificationProvider = ({ children }) => {
         // Salvar o token no documento do usuário na coleção 'users'
         await firestoreService.update(
           'users',
-          user.uid,
+          user.id,
           {
             pushToken,
             pushTokenUpdatedAt: new Date(),
@@ -76,10 +76,10 @@ export const NotificationProvider = ({ children }) => {
     if (!user?.uid || !userProfile?.academiaId) return;
 
     try {
-      console.log('📬 Carregando notificações para usuário:', user.uid);
+      console.log('📬 Carregando notificações para usuário:', user.id);
       
       // Validar valores antes da query
-      const userId = user.uid;
+      const userId = user.id;
       const academiaId = userProfile.academiaId;
       
       if (!userId || !academiaId) {
@@ -186,7 +186,7 @@ export const NotificationProvider = ({ children }) => {
     if (!user || !pushNotificationsEnabled) return;
     
     try {
-      await notificationService.notifyPaymentDue(user.uid, amount, dueDate);
+      await notificationService.notifyPaymentDue(user.id, amount, dueDate);
       showSuccess('Lembrete de pagamento enviado');
     } catch (error) {
       console.error('❌ Erro ao enviar lembrete de pagamento:', error);
@@ -198,7 +198,7 @@ export const NotificationProvider = ({ children }) => {
     if (!user || !pushNotificationsEnabled) return;
     
     try {
-      await notificationService.notifyClassReminder(user.uid, className, classTime);
+      await notificationService.notifyClassReminder(user.id, className, classTime);
       showSuccess('Lembrete de aula enviado');
     } catch (error) {
       console.error('❌ Erro ao enviar lembrete de aula:', error);
@@ -210,7 +210,7 @@ export const NotificationProvider = ({ children }) => {
     if (!user || !pushNotificationsEnabled) return;
     
     try {
-      await notificationService.notifyGraduation(user.uid, fromLevel, toLevel, modalityName);
+      await notificationService.notifyGraduation(user.id, fromLevel, toLevel, modalityName);
       showSuccess('Notificação de graduação enviada');
     } catch (error) {
       console.error('❌ Erro ao enviar notificação de graduação:', error);
@@ -222,7 +222,7 @@ export const NotificationProvider = ({ children }) => {
     if (!user || !pushNotificationsEnabled) return;
     
     try {
-      await notificationService.notifyAnnouncement(user.uid, title, content);
+      await notificationService.notifyAnnouncement(user.id, title, content);
       showSuccess('Anúncio enviado');
     } catch (error) {
       console.error('❌ Erro ao enviar anúncio:', error);

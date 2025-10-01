@@ -380,7 +380,7 @@ export const AuthProvider = ({ children }) => {
       await loadCustomClaims(user);
       
       // Recarregar perfil do usuário
-      await fetchUserProfile(user.uid);
+      await fetchUserProfile(user.id);
       
       console.log('✅ refreshClaimsAndProfile: Claims e perfil atualizados');
     } catch (error) {
@@ -442,11 +442,11 @@ export const AuthProvider = ({ children }) => {
         
         // Atualizar na coleção 'users'
         console.log('📝 updateUserProfile: Salvando em users...');
-        await setDoc(doc(db, 'users', user.uid), updateData, { merge: true });
+        await setDoc(doc(db, 'users', user.id), updateData, { merge: true });
         console.log('✅ updateUserProfile: Salvo com sucesso em users');
         
         console.log('📝 updateUserProfile: Recarregando perfil...');
-        await fetchUserProfile(user.uid);
+        await fetchUserProfile(user.id);
         console.log('✅ updateUserProfile: Perfil recarregado');
       } else {
         console.error('❌ updateUserProfile: Usuário não está logado');

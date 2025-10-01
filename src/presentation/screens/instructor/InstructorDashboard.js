@@ -155,7 +155,7 @@ const InstructorDashboard = ({ navigation }) => {
         return;
       }
       
-      console.log(getString('loadingInstructorDashboard'), user.uid);
+      console.log(getString('loadingInstructorDashboard'), user.id);
       
       // Verificar se o usuário tem academiaId
       if (!userProfile?.academiaId) {
@@ -181,8 +181,8 @@ const InstructorDashboard = ({ navigation }) => {
           return;
         }
         
-        console.log('🔍 Buscando turmas para instrutor:', user.uid, 'na academia:', userProfile.academiaId);
-        instructorClasses = await academyClassService.getClassesByInstructor(user.uid, userProfile.academiaId, user?.email);
+        console.log('🔍 Buscando turmas para instrutor:', user.id, 'na academia:', userProfile.academiaId);
+        instructorClasses = await academyClassService.getClassesByInstructor(user.id, userProfile.academiaId, user?.email);
         console.log('✅ Turmas encontradas:', instructorClasses.length);
         if (instructorClasses.length > 0) {
           console.log('📋 Detalhes das turmas:', instructorClasses.map(c => ({
@@ -200,7 +200,7 @@ const InstructorDashboard = ({ navigation }) => {
       // Buscar alunos do professor com tratamento de erro
       let instructorStudents = [];
       try {
-        instructorStudents = await academyStudentService.getStudentsByInstructor(user.uid, userProfile.academiaId);
+        instructorStudents = await academyStudentService.getStudentsByInstructor(user.id, userProfile.academiaId);
         console.log(getString('studentsLoaded').replace('{count}', instructorStudents.length));
       } catch (studentError) {
         console.warn(getString('errorSearchingStudents'), studentError);

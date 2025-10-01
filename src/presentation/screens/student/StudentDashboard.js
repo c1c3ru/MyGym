@@ -55,18 +55,18 @@ const StudentDashboard = ({ navigation }) => {
       }
 
       // Usar cache inteligente para dados do dashboard do estudante
-      const cacheKey = CACHE_KEYS.STUDENT_DASHBOARD(userProfile.academiaId, user.uid);
+      const cacheKey = CACHE_KEYS.STUDENT_DASHBOARD(userProfile.academiaId, user.id);
       
       const studentData = await cacheService.getOrSet(
         cacheKey,
         async () => {
-          console.log('🔍 Buscando dados do dashboard do estudante (cache miss):', user.uid);
+          console.log('🔍 Buscando dados do dashboard do estudante (cache miss):', user.id);
           
           // Usar Promise.all para carregar dados em paralelo
           const [userClasses, userAnnouncements, studentProfile] = await Promise.all([
-            academyFirestoreService.getWhere('classes', 'studentIds', 'array-contains', user.uid, userProfile.academiaId).catch(() => []),
+            academyFirestoreService.getWhere('classes', 'studentIds', 'array-contains', user.id, userProfile.academiaId).catch(() => []),
             announcementService.getActiveAnnouncements('student').catch(() => []),
-            academyFirestoreService.getById('students', user.uid, userProfile.academiaId).catch(() => null)
+            academyFirestoreService.getById('students', user.id, userProfile.academiaId).catch(() => null)
           ]);
           
           // Processar próximas aulas
@@ -115,7 +115,7 @@ const StudentDashboard = ({ navigation }) => {
       // Track analytics
       trackFeatureUsage('student_dashboard_loaded', {
         academiaId: userProfile.academiaId,
-        studentId: user.uid,
+        studentId: user.id,
         classesCount: studentData.nextClasses.length,
         announcementsCount: studentData.announcements.length
       });
@@ -144,7 +144,7 @@ const StudentDashboard = ({ navigation }) => {
       
       // Invalidar cache de anúncios
       if (userProfile?.academiaId) {
-        cacheService.invalidatePattern(`student_dashboard:${userProfile.academiaId}:${user.uid}`);
+        cacheService.invalidatePattern(`student_dashboard:${userProfile.academiaId}:${user.id}`);
       }
       
       await loadDashboardData();
@@ -157,10 +157,10 @@ const StudentDashboard = ({ navigation }) => {
     setRefreshing(true);
     // Invalidar cache
     if (userProfile?.academiaId) {
-      cacheService.invalidatePattern(`student_dashboard:${userProfile.academiaId}:${user.uid}`);
+      cacheService.invalidatePattern(`student_dashboard:${userProfile.academiaId}:${user.id}`);
     }
     loadDashboardData();
-  }, [loadDashboardData, userProfile?.academiaId, user.uid]);
+  }, [loadDashboardData, userProfile?.academiaId, user.id]);
 
   // Função para formatar a data do anúncio
   const formatDate = useCallback((date) => {

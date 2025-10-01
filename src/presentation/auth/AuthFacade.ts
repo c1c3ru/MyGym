@@ -8,7 +8,7 @@ import {
   GetUserSessionUseCase,
   SendPasswordResetEmailUseCase
 } from '@domain/auth/usecases';
-import { SignUpData } from '@domain/auth/entities';
+import { SignUpData, AuthSession } from '@domain/auth/entities';
 import { FirebaseAuthRepository } from '@data/auth';
 import { initializeFirebaseServices } from '@infrastructure/firebase';
 import crashlyticsService from '@infrastructure/services/crashlyticsService';
@@ -109,8 +109,8 @@ export function useAuthFacade() {
         name: userData.name || '',
         phone: userData.phone,
         userType: userData.userType || 'student',
-        acceptTerms: userData.acceptTerms || true,
-        acceptPrivacyPolicy: userData.acceptPrivacyPolicy || true
+        acceptTerms: userData.acceptTerms === true,
+        acceptPrivacyPolicy: userData.acceptPrivacyPolicy === true
       });
       
       setUser(session.user);

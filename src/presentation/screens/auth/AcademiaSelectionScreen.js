@@ -184,7 +184,7 @@ export default function AcademiaSelectionScreen({ navigation, route }) {
         return;
       }
 
-      const result = await InviteService.acceptInvite(invite.academiaId, invite.id, user.uid);
+      const result = await InviteService.acceptInvite(invite.academiaId, invite.id, user.id);
       await joinAcademia(result.academiaId, result.tipo);
     } catch (error) {
       console.error(getString('logoutError'), error);
@@ -299,7 +299,7 @@ export default function AcademiaSelectionScreen({ navigation, route }) {
           },
           modalidades: newAcademiaData.modalidades,
           plano: newAcademiaData.plano,
-          adminId: user.uid,
+          adminId: user.id,
           criadoEm: new Date(),
           ativo: true,
           codigo: codigoGerado

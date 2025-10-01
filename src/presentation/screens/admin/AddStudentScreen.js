@@ -197,7 +197,7 @@ const AddStudentScreen = ({ navigation, route }) => {
           status: formData.status,
           sexo: formData.sexo,
           isActive: true,
-          createdBy: user.uid,
+          createdBy: user.id,
           createdAt: new Date(),
           updatedAt: new Date(),
           graduations: [],
@@ -278,7 +278,7 @@ const AddStudentScreen = ({ navigation, route }) => {
     if (result.blocked) {
       Alert.alert('Ação Bloqueada', 'Muitas criações de aluno. Aguarde alguns minutos.');
     }
-  }, [validateForm, executeStudentCreation, formData, selectedClasses, user.uid, userProfile?.academiaId, academia?.id, trackFormSubmission, route.params, resetForm, navigation]);
+  }, [validateForm, executeStudentCreation, formData, selectedClasses, user.id, userProfile?.academiaId, academia?.id, trackFormSubmission, route.params, resetForm, navigation]);
 
   // Form field handlers with enhanced validation
   const handleFieldChange = useCallback((field, value) => {

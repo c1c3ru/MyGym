@@ -63,18 +63,18 @@ const CheckIn = ({ navigation }) => {
         return;
       }
       
-      const cacheKey = CACHE_KEYS.CHECKIN_DATA(userProfile.academiaId, user.uid);
+      const cacheKey = CACHE_KEYS.CHECKIN_DATA(userProfile.academiaId, user.id);
       
       const checkInData = await cacheService.getOrSet(
         cacheKey,
         async () => {
-          console.log('🔍 Buscando dados de check-in (cache miss):', user.uid);
+          console.log('🔍 Buscando dados de check-in (cache miss):', user.id);
           
           // Usar Promise.all para carregar dados em paralelo
           const [instructorClasses, activeSessions, recentSessions, allStudents] = await Promise.all([
-            academyClassService.getClassesByInstructor(user.uid, userProfile.academiaId, user.email),
-            academyFirestoreService.getWhere('checkInSessions', 'instructorId', '==', user.uid, userProfile.academiaId),
-            academyFirestoreService.getWhere('checkIns', 'instructorId', '==', user.uid, userProfile.academiaId),
+            academyClassService.getClassesByInstructor(user.id, userProfile.academiaId, user.email),
+            academyFirestoreService.getWhere('checkInSessions', 'instructorId', '==', user.id, userProfile.academiaId),
+            academyFirestoreService.getWhere('checkIns', 'instructorId', '==', user.id, userProfile.academiaId),
             academyFirestoreService.getAll('students', userProfile.academiaId)
           ]);
           
@@ -120,7 +120,7 @@ const CheckIn = ({ navigation }) => {
       // Track analytics
       trackFeatureUsage('checkin_data_loaded', {
         academiaId: userProfile.academiaId,
-        instructorId: user.uid,
+        instructorId: user.id,
         classesCount: checkInData.classes.length,
         activeCheckInsCount: checkInData.activeCheckIns.length
       });
@@ -132,7 +132,7 @@ const CheckIn = ({ navigation }) => {
       setLoading(false);
       setRefreshing(false);
     }
-  }, [user.uid, userProfile?.academiaId, user.email, trackFeatureUsage]);
+  }, [user.id, userProfile?.academiaId, user.email, trackFeatureUsage]);
 
   // Auto-refresh quando a tela ganha foco
   useFocusEffect(
@@ -145,10 +145,10 @@ const CheckIn = ({ navigation }) => {
     setRefreshing(true);
     // Invalidar cache
     if (userProfile?.academiaId) {
-      cacheService.invalidatePattern(`checkin_data:${userProfile.academiaId}:${user.uid}`);
+      cacheService.invalidatePattern(`checkin_data:${userProfile.academiaId}:${user.id}`);
     }
     loadData();
-  }, [loadData, userProfile?.academiaId, user.uid]);
+  }, [loadData, userProfile?.academiaId, user.id]);
 
   const loadActiveCheckIns = useCallback(async () => {
     try {
@@ -157,7 +157,7 @@ const CheckIn = ({ navigation }) => {
         'checkInSessions', 
         'instructorId', 
         '==', 
-        user.uid, 
+        user.id, 
         userProfile.academiaId
       );
       
@@ -177,7 +177,7 @@ const CheckIn = ({ navigation }) => {
       console.error('❌ CheckIn: Erro ao carregar check-ins ativos:', error);
       setActiveCheckIns([]);
     }
-  }, [user.uid, userProfile?.academiaId]);
+  }, [user.id, userProfile?.academiaId]);
 
   const loadRecentCheckIns = async () => {
     try {
@@ -262,7 +262,7 @@ const CheckIn = ({ navigation }) => {
       const sessionData = {
         classId,
         className: classInfo.name,
-        instructorId: user.uid,
+        instructorId: user.id,
         instructorName: userProfile?.name || user.email,
         academiaId: userProfile.academiaId,
         startTime: new Date(),
@@ -346,7 +346,7 @@ const CheckIn = ({ navigation }) => {
         studentName,
         classId: selectedClass.id,
         className: selectedClass.name,
-        instructorId: user.uid,
+        instructorId: user.id,
         instructorName: userProfile?.name || user.email,
         academiaId: tokenAcademiaId,
         type: 'manual',
@@ -464,7 +464,7 @@ const CheckIn = ({ navigation }) => {
           studentName: student?.name || 'Nome não informado',
           classId: selectedClass.id,
           className: selectedClass.name,
-          instructorId: user.uid,
+          instructorId: user.id,
           instructorName: userProfile?.name || user.email,
           academiaId: tokenAcademiaId,
           type: 'manual',

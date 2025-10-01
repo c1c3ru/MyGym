@@ -57,12 +57,12 @@ const Relatorios = ({ navigation }) => {
       }
 
       // Usar cache inteligente para dados dos relatórios
-      const cacheKey = CACHE_KEYS.INSTRUCTOR_REPORTS(userProfile.academiaId, user.uid, selectedPeriod);
+      const cacheKey = CACHE_KEYS.INSTRUCTOR_REPORTS(userProfile.academiaId, user.id, selectedPeriod);
       
       const reportsData = await cacheService.getOrSet(
         cacheKey,
         async () => {
-          console.log('🔍 Buscando dados dos relatórios (cache miss):', user.uid, selectedPeriod);
+          console.log('🔍 Buscando dados dos relatórios (cache miss):', user.id, selectedPeriod);
           
           // Simular dados reais - em produção viria do Firestore
           // Aqui você implementaria as consultas reais ao Firestore
@@ -93,7 +93,7 @@ const Relatorios = ({ navigation }) => {
       // Track analytics
       trackFeatureUsage('instructor_reports_loaded', {
         academiaId: userProfile.academiaId,
-        instructorId: user.uid,
+        instructorId: user.id,
         period: selectedPeriod
       });
       
@@ -103,16 +103,16 @@ const Relatorios = ({ navigation }) => {
       setLoading(false);
       setRefreshing(false);
     }
-  }, [user.uid, userProfile?.academiaId, selectedPeriod, trackFeatureUsage]);
+  }, [user.id, userProfile?.academiaId, selectedPeriod, trackFeatureUsage]);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     // Invalidar cache
     if (userProfile?.academiaId) {
-      cacheService.invalidatePattern(`instructor_reports:${userProfile.academiaId}:${user.uid}`);
+      cacheService.invalidatePattern(`instructor_reports:${userProfile.academiaId}:${user.id}`);
     }
     loadReportData();
-  }, [loadReportData, userProfile?.academiaId, user.uid]);
+  }, [loadReportData, userProfile?.academiaId, user.id]);
 
   const handleExportPDF = useCallback(() => {
     trackButtonClick('export_pdf_report', { period: selectedPeriod });

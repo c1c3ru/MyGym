@@ -366,7 +366,7 @@ export const useAuthMigration = () => {
       console.log('🔄 updateUserProfile: Atualizando perfil:', updates);
       
       // Atualizar no Firestore
-      await setDoc(doc(db, 'users', user.uid), updates, { merge: true });
+      await setDoc(doc(db, 'users', user.id), updates, { merge: true });
       
       // Atualizar no Zustand store
       const currentProfile = userProfile || {};
@@ -408,7 +408,7 @@ export const useAuthMigration = () => {
       console.log('🏢 updateAcademiaAssociation: Associando usuário à academia:', academiaId);
       
       // Atualizar perfil do usuário com a academia
-      await setDoc(doc(db, 'users', user.uid), {
+      await setDoc(doc(db, 'users', user.id), {
         academiaId: academiaId,
         updatedAt: new Date()
       }, { merge: true });
@@ -451,7 +451,7 @@ export const useAuthMigration = () => {
       await loadCustomClaims(user);
       
       // Recarregar perfil do usuário
-      await fetchUserProfile(user.uid, user);
+      await fetchUserProfile(user.id, user);
       
       console.log('✅ refreshClaimsAndProfile: Claims e perfil atualizados');
     } catch (error) {

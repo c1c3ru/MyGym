@@ -57,7 +57,7 @@ const AddClassScreen = ({ navigation }) => {
     if (isInstructor()) {
       setFormData(prev => ({
         ...prev,
-        instructorId: user.uid,
+        instructorId: user.id,
         instructorName: userProfile.name || user.displayName || user.email
       }));
     }
@@ -195,7 +195,7 @@ const AddClassScreen = ({ navigation }) => {
         description: formData.description.trim(),
         maxStudents: parseInt(formData.maxStudents),
         currentStudents: 0,
-        instructorId: formData.instructorId || user.uid, // Usar instrutor selecionado ou usuário atual como fallback
+        instructorId: formData.instructorId || user.id, // Usar instrutor selecionado ou usuário atual como fallback
         instructorName: formData.instructorName || userProfile?.name || user.displayName || user.email,
         // Armazenar formato estruturado
         schedule: formData.schedule,
@@ -204,7 +204,7 @@ const AddClassScreen = ({ navigation }) => {
         status: formData.status,
         ageCategory: formData.ageCategory,
         academiaId: userProfile?.academiaId, // Associar à academia do instrutor
-        createdBy: user.uid,
+        createdBy: user.id,
         createdAt: new Date(),
         updatedAt: new Date()
       };
@@ -215,14 +215,14 @@ const AddClassScreen = ({ navigation }) => {
         instructorName: classData.instructorName,
         academiaId: classData.academiaId,
         formDataInstructorId: formData.instructorId,
-        userUid: user.uid,
+        userUid: user.id,
         userType: role,
         userEmail: user.email
       });
 
       // Verificação específica para instrutor criando própria turma
       if (isInstructor() && !formData.instructorId) {
-        console.log('🎯 INSTRUTOR CRIANDO PRÓPRIA TURMA - instructorId será:', user.uid);
+        console.log('🎯 INSTRUTOR CRIANDO PRÓPRIA TURMA - instructorId será:', user.id);
       }
 
       // Obter ID da academia para criar na subcoleção correta
@@ -468,7 +468,7 @@ const AddClassScreen = ({ navigation }) => {
               required={true}
               label="Horários da Turma"
               style={styles.input}
-              instructorId={formData.instructorId || user.uid}
+              instructorId={formData.instructorId || user.id}
               enableConflictValidation={true}
             />
             {errors.schedule && <HelperText type="error">{errors.schedule}</HelperText>}

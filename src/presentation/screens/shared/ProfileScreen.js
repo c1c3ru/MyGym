@@ -79,7 +79,7 @@ const ProfileScreen = ({ navigation }) => {
     
     try {
       // Validar valores antes das queries
-      const userId = user.uid;
+      const userId = user.id;
       const academiaId = academia.id;
       
       if (!userId || !academiaId) {
@@ -138,7 +138,7 @@ const ProfileScreen = ({ navigation }) => {
     
     try {
       // Validar valores antes da query
-      const userId = user.uid;
+      const userId = user.id;
       const academiaId = academia.id;
       
       if (!userId || !academiaId) {

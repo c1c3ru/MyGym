@@ -35,7 +35,7 @@ const InjuryHistoryScreen = ({ navigation }) => {
       
       const injuryData = await firestoreService.getDocuments(
         `gyms/${academia.id}/injuries`,
-        [{ field: 'userId', operator: '==', value: user.uid }],
+        [{ field: 'userId', operator: '==', value: user.id }],
         [{ field: 'dateOccurred', direction: 'desc' }]
       );
       

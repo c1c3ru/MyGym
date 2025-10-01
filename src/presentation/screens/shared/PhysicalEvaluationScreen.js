@@ -169,7 +169,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
       setLoading(true);
 
       const evaluationData = {
-        userId: user.uid,
+        userId: user.id,
         weight: parseFloat(normalizeNumber(formData.weight)),
         height: parseFloat(normalizeNumber(formData.height)),
         age: parseInt(formData.age),
@@ -183,7 +183,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
         imc: parseFloat(calculatedIMC),
         imcClassification,
         date: new Date(),
-        createdBy: user.uid,
+        createdBy: user.id,
         updatedAt: new Date()
       };
 

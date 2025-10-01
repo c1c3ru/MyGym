@@ -451,7 +451,7 @@ const AdminModalities = ({ navigation }) => {
       const announcementData = {
         ...newAnnouncement,
         expirationDate: newAnnouncement.expirationDate ? new Date(newAnnouncement.expirationDate) : null,
-        publishedBy: user.uid,
+        publishedBy: user.id,
         targetAudience: newAnnouncement.targetAudience,
         createdAt: editingAnnouncement ? editingAnnouncement.createdAt : new Date(),
         updatedAt: editingAnnouncement ? new Date() : null

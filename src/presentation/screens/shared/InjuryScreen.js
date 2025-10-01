@@ -124,7 +124,7 @@ const InjuryScreen = ({ navigation, route }) => {
       setLoading(true);
 
       const injuryData = {
-        userId: user.uid,
+        userId: user.id,
         bodyPart: formData.bodyPart.trim(),
         injuryType: formData.injuryType.trim(),
         description: formData.description.trim(),
@@ -151,7 +151,7 @@ const InjuryScreen = ({ navigation, route }) => {
         });
       } else {
         injuryData.createdAt = new Date();
-        injuryData.createdBy = user.uid;
+        injuryData.createdBy = user.id;
         await firestoreService.create(
           `gyms/${academia.id}/injuries`, 
           injuryData

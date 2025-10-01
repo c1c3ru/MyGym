@@ -52,7 +52,7 @@ const ScheduleClassesScreen = ({ navigation, route }) => {
         'classes',
         'instructorId',
         '==',
-        user.uid,
+        user.id,
         userProfile.academiaId
       );
       setClasses(instructorClasses);
@@ -97,7 +97,7 @@ const ScheduleClassesScreen = ({ navigation, route }) => {
         const lessonData = {
           classId,
           className: classData?.name || 'Turma',
-          instructorId: user.uid,
+          instructorId: user.id,
           instructorName: userProfile?.name || user.email,
           academiaId: userProfile.academiaId,
           scheduledDate: scheduledDateTime,
@@ -106,7 +106,7 @@ const ScheduleClassesScreen = ({ navigation, route }) => {
           notes: notes.trim(),
           status: 'scheduled',
           createdAt: new Date(),
-          createdBy: user.uid
+          createdBy: user.id
         };
 
         return academyFirestoreService.create(

@@ -51,7 +51,7 @@ const CheckInScreen = ({ navigation }) => {
         'classes', 
         'students', 
         'array-contains', 
-        user.uid, 
+        user.id, 
         academia.id
       );
       
@@ -63,7 +63,7 @@ const CheckInScreen = ({ navigation }) => {
           'checkIns',
           academia.id,
           [
-              { field: 'studentId', operator: '==', value: user.uid },
+              { field: 'studentId', operator: '==', value: user.id },
             { field: 'date', operator: '>=', value: today },
             { field: 'date', operator: '<', value: tomorrow }
           ]
@@ -90,7 +90,7 @@ const CheckInScreen = ({ navigation }) => {
           'checkIns',
           academia.id,
           [
-            { field: 'studentId', operator: '==', value: user.uid },
+            { field: 'studentId', operator: '==', value: user.id },
             { field: 'date', operator: '>=', value: weekAgo }
           ],
           { field: 'date', direction: 'desc' }
@@ -132,7 +132,7 @@ const CheckInScreen = ({ navigation }) => {
       setLoading(true);
 
       const checkInData = {
-        studentId: user.uid,
+        studentId: user.id,
         studentName: userProfile?.name || user.email,
         date: new Date().toISOString().split('T')[0],
         timestamp: new Date(),
@@ -144,7 +144,7 @@ const CheckInScreen = ({ navigation }) => {
         'classes', 
         'students', 
         'array-contains', 
-        user.uid, 
+        user.id, 
         academia.id
       );
       

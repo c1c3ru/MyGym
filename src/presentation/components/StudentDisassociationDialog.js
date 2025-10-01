@@ -58,7 +58,7 @@ const StudentDisassociationDialog = ({ visible, onDismiss, student, onSuccess })
       await firestoreService.update(`gyms/${academia.id}/users`, student.id, {
         status: 'inactive',
         disassociatedAt: new Date(),
-        disassociatedBy: user.uid,
+        disassociatedBy: user.id,
         disassociationReason: reason,
         updatedAt: new Date()
       });
@@ -76,7 +76,7 @@ const StudentDisassociationDialog = ({ visible, onDismiss, student, onSuccess })
         firestoreService.update(`gyms/${academia.id}/payments`, payment.id, {
           status: 'cancelled',
           cancelledAt: new Date(),
-          cancelledBy: user.uid,
+          cancelledBy: user.id,
           cancellationReason: 'Aluno desassociado da academia'
         })
       );
@@ -87,7 +87,7 @@ const StudentDisassociationDialog = ({ visible, onDismiss, student, onSuccess })
       await firestoreService.create(`gyms/${academia.id}/logs`, {
         type: 'student_disassociation',
         userId: student.id,
-        performedBy: user.uid,
+        performedBy: user.id,
         performedByName: userProfile.name,
         studentName: student.name,
         reason: reason,
@@ -125,7 +125,7 @@ const StudentDisassociationDialog = ({ visible, onDismiss, student, onSuccess })
 
       // Criar notificação para cada administrador (exceto quem executou a ação)
       const notificationPromises = admins
-        .filter(admin => admin.id !== user.uid)
+        .filter(admin => admin.id !== user.id)
         .map(admin => 
           firestoreService.create(`gyms/${academia.id}/notifications`, {
             userId: admin.id,
@@ -135,7 +135,7 @@ const StudentDisassociationDialog = ({ visible, onDismiss, student, onSuccess })
             data: {
               studentId: student.id,
               studentName: student.name,
-              performedBy: user.uid,
+              performedBy: user.id,
               performedByName: userProfile.name,
               reason: reason,
               academiaId: academia.id

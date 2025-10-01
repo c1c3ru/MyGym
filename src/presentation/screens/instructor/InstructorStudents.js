@@ -64,7 +64,7 @@ const InstructorStudents = ({ navigation }) => {
   const loadInitialData = useCallback(async () => {
     try {
       setLoading(true);
-      console.log(getString('loadingStudentsInstructor'), user.uid);
+      console.log(getString('loadingStudentsInstructor'), user.id);
       
       if (!userProfile?.academiaId) {
         console.warn('⚠️ Usuário sem academiaId definido');
@@ -75,17 +75,17 @@ const InstructorStudents = ({ navigation }) => {
       }
       
       // Usar cache inteligente para dados do instrutor
-      const cacheKey = CACHE_KEYS.INSTRUCTOR_STUDENTS(userProfile.academiaId, user.uid);
+      const cacheKey = CACHE_KEYS.INSTRUCTOR_STUDENTS(userProfile.academiaId, user.id);
       
       const instructorData = await cacheService.getOrSet(
         cacheKey,
         async () => {
-          console.log('🔍 Buscando dados do instrutor (cache miss):', user.uid);
+          console.log('🔍 Buscando dados do instrutor (cache miss):', user.id);
           
           // Usar Promise.all para carregar dados em paralelo
           const [instructorStudents, instructorClasses, allModalities] = await Promise.all([
-            academyStudentService.getStudentsByInstructor(user.uid, userProfile.academiaId).catch(() => []),
-            academyFirestoreService.getWhere('classes', 'instructorId', '==', user.uid, userProfile.academiaId).catch(() => []),
+            academyStudentService.getStudentsByInstructor(user.id, userProfile.academiaId).catch(() => []),
+            academyFirestoreService.getWhere('classes', 'instructorId', '==', user.id, userProfile.academiaId).catch(() => []),
             academyFirestoreService.getAll('modalities', userProfile.academiaId).catch(() => [])
           ]);
           
@@ -112,7 +112,7 @@ const InstructorStudents = ({ navigation }) => {
       // Track analytics
       trackFeatureUsage('instructor_students_loaded', {
         academiaId: userProfile.academiaId,
-        instructorId: user.uid,
+        instructorId: user.id,
         studentsCount: instructorData.students.length,
         classesCount: instructorData.classes.length
       });
@@ -128,7 +128,7 @@ const InstructorStudents = ({ navigation }) => {
       setLoading(false);
       setRefreshing(false);
     }
-  }, [user.uid, userProfile?.academiaId, getString, trackFeatureUsage]);
+  }, [user.id, userProfile?.academiaId, getString, trackFeatureUsage]);
 
   // Auto-refresh quando a tela ganha foco
   useFocusEffect(
@@ -145,10 +145,10 @@ const InstructorStudents = ({ navigation }) => {
     setRefreshing(true);
     // Invalidar cache
     if (userProfile?.academiaId) {
-      cacheService.invalidatePattern(`instructor_students:${userProfile.academiaId}:${user.uid}`);
+      cacheService.invalidatePattern(`instructor_students:${userProfile.academiaId}:${user.id}`);
     }
     loadInitialData();
-  }, [loadInitialData, userProfile?.academiaId, user.uid]);
+  }, [loadInitialData, userProfile?.academiaId, user.id]);
 
   const toDate = useCallback((val) => {
     if (!val) return null;

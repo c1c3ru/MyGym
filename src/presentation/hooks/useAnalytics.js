@@ -13,7 +13,7 @@ export const useAnalytics = () => {
   useEffect(() => {
     if (user && userProfile) {
       analyticsService.setUserProperties({
-        userId: user.uid,
+        userId: user.id,
         userType: userProfile.userType,
         academiaId: userProfile.academiaId,
         hasAcademia: !!userProfile.academiaId

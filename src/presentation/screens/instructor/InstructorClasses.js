@@ -51,7 +51,7 @@ const InstructorClasses = ({ navigation }) => {
   const loadClasses = useCallback(async () => {
     try {
       setLoading(true);
-      console.log('📚 Carregando turmas do instrutor:', user.uid);
+      console.log('📚 Carregando turmas do instrutor:', user.id);
       
       if (!userProfile?.academiaId) {
         console.warn('⚠️ Usuário sem academiaId definido');
@@ -68,13 +68,13 @@ const InstructorClasses = ({ navigation }) => {
       }
       
       // Usar cache inteligente para turmas do instrutor
-      const cacheKey = CACHE_KEYS.INSTRUCTOR_CLASSES(userProfile.academiaId, user.uid);
+      const cacheKey = CACHE_KEYS.INSTRUCTOR_CLASSES(userProfile.academiaId, user.id);
       
       const classesData = await cacheService.getOrSet(
         cacheKey,
         async () => {
-          console.log('🔍 Buscando turmas do instrutor (cache miss):', user.uid);
-          return await academyClassService.getClassesByInstructor(user.uid, userProfile.academiaId, user?.email);
+          console.log('🔍 Buscando turmas do instrutor (cache miss):', user.id);
+          return await academyClassService.getClassesByInstructor(user.id, userProfile.academiaId, user?.email);
         },
         CACHE_TTL.MEDIUM // Cache por 5 minutos
       );
@@ -89,7 +89,7 @@ const InstructorClasses = ({ navigation }) => {
       // Track analytics
       trackFeatureUsage('instructor_classes_loaded', {
         academiaId: userProfile.academiaId,
-        instructorId: user.uid,
+        instructorId: user.id,
         classesCount: validClasses.length
       });
       
@@ -101,14 +101,14 @@ const InstructorClasses = ({ navigation }) => {
       setLoading(false);
       setRefreshing(false);
     }
-  }, [user.uid, userProfile?.academiaId, user?.email, trackFeatureUsage]);
+  }, [user.id, userProfile?.academiaId, user?.email, trackFeatureUsage]);
 
   const loadStudentCounts = useCallback(async (classes) => {
     try {
       if (!userProfile?.academiaId) return;
       
       // Usar cache para contagens de alunos
-      const cacheKey = CACHE_KEYS.CLASS_STUDENT_COUNTS(userProfile.academiaId, user.uid);
+      const cacheKey = CACHE_KEYS.CLASS_STUDENT_COUNTS(userProfile.academiaId, user.id);
       
       const counts = await cacheService.getOrSet(
         cacheKey,
@@ -141,7 +141,7 @@ const InstructorClasses = ({ navigation }) => {
     } catch (error) {
       console.error('❌ Erro ao carregar contagens de alunos:', error);
     }
-  }, [userProfile?.academiaId, user.uid]);
+  }, [userProfile?.academiaId, user.id]);
 
   const filterClasses = useCallback(() => {
     if (!searchQuery) {
@@ -168,11 +168,11 @@ const InstructorClasses = ({ navigation }) => {
     setRefreshing(true);
     // Invalidar caches
     if (userProfile?.academiaId) {
-      cacheService.invalidatePattern(`instructor_classes:${userProfile.academiaId}:${user.uid}`);
+      cacheService.invalidatePattern(`instructor_classes:${userProfile.academiaId}:${user.id}`);
       cacheService.invalidatePattern(`class_student_counts:${userProfile.academiaId}`);
     }
     loadClasses();
-  }, [loadClasses, userProfile?.academiaId, user.uid]);
+  }, [loadClasses, userProfile?.academiaId, user.id]);
 
   const handleClassPress = useCallback((classItem) => {
     trackButtonClick('instructor_class_details', { classId: classItem.id });

@@ -68,7 +68,7 @@ export default function InviteManagement({ navigation }) {
         academia.id,
         newInvite.email,
         newInvite.tipo,
-        user.uid
+        user.id
       );
 
       // Gerar link do convite usando o token retornado

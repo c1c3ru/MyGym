@@ -187,7 +187,7 @@ const EditClassScreen = ({ route, navigation }) => {
         status: formData.status,
         ageCategory: formData.ageCategory,
         updatedAt: new Date(),
-        updatedBy: user.uid
+        updatedBy: user.id
       };
 
       const academiaId = userProfile?.academiaId || academia?.id;

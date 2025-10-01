@@ -49,7 +49,7 @@ const PaymentManagementScreen = ({ navigation }) => {
       // Buscar pagamentos do usuário
       const userPayments = await firestoreService.getDocuments(
         `gyms/${academia.id}/payments`,
-        [{ field: 'userId', operator: '==', value: user.uid }],
+        [{ field: 'userId', operator: '==', value: user.id }],
         { field: 'createdAt', direction: 'desc' }
       );
       
@@ -90,7 +90,7 @@ const PaymentManagementScreen = ({ navigation }) => {
 
     try {
       const paymentData = {
-        userId: user.uid,
+        userId: user.id,
         userName: userProfile?.name || user.email,
         academiaId: academia.id,
         planId: selectedPlan.id,
