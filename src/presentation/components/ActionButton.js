@@ -23,43 +23,43 @@ const ActionButton = ({
         return {
           contained: [COLORS.primary[500], COLORS.primary[700]],
           outlined: COLORS.primary[600],
-          text: mode === 'contained' ? COLORS.COLORS.white : COLORS.primary[700]
+          text: mode === 'contained' ? COLORS.white : COLORS.primary[700]
         };
       case 'success':
         return {
           contained: [COLORS.success[500], COLORS.success[700]],
           outlined: COLORS.success[600],
-          text: mode === 'contained' ? COLORS.COLORS.white : COLORS.success[700]
+          text: mode === 'contained' ? COLORS.white : COLORS.success[700]
         };
       case 'warning':
         return {
           contained: [COLORS.warning[500], COLORS.warning[700]],
           outlined: COLORS.warning[600],
-          text: mode === 'contained' ? COLORS.COLORS.white : COLORS.warning[800]
+          text: mode === 'contained' ? COLORS.white : COLORS.warning[800]
         };
       case 'danger':
         return {
           contained: [COLORS.error[500], COLORS.error[700]],
           outlined: COLORS.error[600],
-          text: mode === 'contained' ? COLORS.COLORS.white : COLORS.error[700]
+          text: mode === 'contained' ? COLORS.white : COLORS.error[700]
         };
       case 'secondary':
         return {
           contained: [COLORS.gray[600], COLORS.gray[800]],
           outlined: COLORS.gray[600],
-          text: mode === 'contained' ? COLORS.COLORS.white : COLORS.gray[800]
+          text: mode === 'contained' ? COLORS.white : COLORS.gray[800]
         };
       case 'outline':
         return {
           contained: [COLORS.info[500], COLORS.info[700]],
           outlined: COLORS.info[600],
-          text: mode === 'contained' ? COLORS.COLORS.white : COLORS.info[700]
+          text: mode === 'contained' ? COLORS.white : COLORS.info[700]
         };
       default:
         return {
           contained: [COLORS.primary[500], COLORS.primary[700]],
           outlined: COLORS.primary[600],
-          text: mode === 'contained' ? COLORS.COLORS.white : COLORS.primary[700]
+          text: mode === 'contained' ? COLORS.white : COLORS.primary[700]
         };
     }
   };
@@ -256,7 +256,7 @@ const styles = StyleSheet.create({
     margin: 0,
   },
   gradientButtonText: {
-    color: COLORS.COLORS.white,
+    color: COLORS.white,
     fontWeight: FONT_WEIGHT.semibold,
   },
   gradientButtonContent: {
@@ -298,7 +298,7 @@ const styles = StyleSheet.create({
     margin: 0,
   },
   fabText: {
-    color: COLORS.COLORS.white,
+    color: COLORS.white,
     fontWeight: FONT_WEIGHT.bold,
     fontSize: FONT_SIZE.md,
   },
