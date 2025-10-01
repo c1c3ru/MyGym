@@ -57,7 +57,7 @@ const GraduationBoard = ({
     if (!graduationBoard?.upcomingExams?.length) {
       return (
         <Surface style={styles.emptyState}>
-          <Ionicons name="calendar-outline" size={48} color="#ccc" />
+          <Ionicons name="calendar-outline" size={48} color={COLORS.gray[400]} />
           <Text style={styles.emptyText}>Nenhum exame agendado</Text>
           {userRole === 'admin' && (
             <Button 
@@ -133,7 +133,7 @@ const GraduationBoard = ({
     if (!graduationBoard?.eligibleStudents?.length) {
       return (
         <Surface style={styles.emptyState}>
-          <Ionicons name="trophy-outline" size={48} color="#ccc" />
+          <Ionicons name="trophy-outline" size={48} color={COLORS.gray[400]} />
           <Text style={styles.emptyText}>Nenhum aluno elegível</Text>
           <Text style={styles.emptySubtext}>
             Os alunos aparecerão aqui quando estiverem prontos para graduação
@@ -157,7 +157,7 @@ const GraduationBoard = ({
     if (!graduationBoard?.recentGraduations?.length) {
       return (
         <Surface style={styles.emptyState}>
-          <Ionicons name="medal-outline" size={48} color="#ccc" />
+          <Ionicons name="medal-outline" size={48} color={COLORS.gray[400]} />
           <Text style={styles.emptyText}>Nenhuma graduação recente</Text>
         </Surface>
       );
@@ -199,7 +199,7 @@ const GraduationBoard = ({
     if (!graduationBoard?.modalityStats?.length) {
       return (
         <Surface style={styles.emptyState}>
-          <Ionicons name="bar-chart-outline" size={48} color="#ccc" />
+          <Ionicons name="bar-chart-outline" size={48} color={COLORS.gray[400]} />
           <Text style={styles.emptyText}>Sem estatísticas disponíveis</Text>
         </Surface>
       );

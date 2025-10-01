@@ -379,7 +379,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
               </View>
             ) : (
               <View style={styles.emptyState}>
-                <Ionicons name="school-outline" size={48} color="#ccc" />
+                <Ionicons name="school-outline" size={48} color={COLORS.gray[400]} />
                 <Text style={styles.emptyStateText}>
                   Nenhuma turma matriculada
                 </Text>
@@ -429,7 +429,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
               </View>
             ) : (
               <View style={styles.emptyState}>
-                <Ionicons name="trophy-outline" size={48} color="#ccc" />
+                <Ionicons name="trophy-outline" size={48} color={COLORS.gray[400]} />
                 <Text style={styles.emptyStateText}>
                   Nenhuma graduação registrada
                 </Text>
@@ -527,7 +527,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
               </View>
             ) : (
               <View style={styles.emptyState}>
-                <Ionicons name="card-outline" size={48} color="#ccc" />
+                <Ionicons name="card-outline" size={48} color={COLORS.gray[400]} />
                 <Text style={styles.emptyStateText}>
                   Nenhum pagamento registrado
                 </Text>
@@ -1026,7 +1026,7 @@ const styles = StyleSheet.create({
   },
   emptyStateSubtext: {
     fontSize: FONT_SIZE.base,
-    color: '#ccc',
+    color: COLORS.gray[400],
     textAlign: 'center',
     lineHeight: 20,
   },

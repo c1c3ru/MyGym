@@ -877,7 +877,7 @@ const styles = StyleSheet.create({
   },
   actionSubtitle: {
     fontSize: FONT_SIZE.sm,
-    color: 'COLORS.white',
+    color: COLORS.white,
     textAlign: 'center',
     marginBottom: SPACING.sm,
   },
