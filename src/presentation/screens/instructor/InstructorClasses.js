@@ -310,7 +310,7 @@ const InstructorClasses = ({ navigation }) => {
       >
         {filteredClasses.length === 0 ? (
           <View style={styles.emptyContainer}>
-            <Ionicons name="school-outline" size={64} color="#ccc" />
+            <Ionicons name="school-outline" size={64} color={COLORS.gray[400]} />
             <Text style={styles.emptyText}>
               {searchQuery ? 'Nenhuma turma encontrada' : 'Nenhuma turma cadastrada'}
             </Text>
