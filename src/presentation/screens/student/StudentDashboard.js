@@ -22,6 +22,7 @@ import cacheService, { CACHE_KEYS, CACHE_TTL } from '@services/cacheService';
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import StudentDashboardSkeleton from '@components/skeletons/StudentDashboardSkeleton';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { useOnboarding } from '@components/OnboardingTour';
 
 const StudentDashboard = ({ navigation }) => {
   const { user, userProfile } = useAuth();
@@ -44,6 +45,20 @@ const StudentDashboard = ({ navigation }) => {
     studentId: user?.uid 
   });
   const { trackButtonClick, trackFeatureUsage } = useUserActionTracking();
+
+  // Onboarding
+  const { startTour } = useOnboarding();
+
+  useEffect(() => {
+    // Iniciar tour após carregar dados
+    const timer = setTimeout(() => {
+      if (!loading) {
+        startTour('STUDENT_DASHBOARD');
+      }
+    }, 1000);
+    
+    return () => clearTimeout(timer);
+  }, [loading]);
 
   const loadDashboardData = useCallback(async () => {
     try {

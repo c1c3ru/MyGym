@@ -25,6 +25,7 @@ import cacheService, { CACHE_KEYS, CACHE_TTL } from '@services/cacheService';
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import InstructorDashboardSkeleton from '@components/skeletons/InstructorDashboardSkeleton';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { useOnboarding } from '@components/OnboardingTour';
 
 const InstructorDashboard = ({ navigation }) => {
   const { user, userProfile } = useAuth();
@@ -53,10 +54,20 @@ const InstructorDashboard = ({ navigation }) => {
   });
   const { trackButtonClick, trackFeatureUsage } = useUserActionTracking();
 
+  // Onboarding
+  const { startTour } = useOnboarding();
+
   useEffect(() => {
     loadDashboardData();
     loadAnnouncements();
     startEntryAnimation();
+    
+    // Iniciar tour após carregar dados
+    const timer = setTimeout(() => {
+      startTour('INSTRUCTOR_CHECKIN');
+    }, 1000);
+    
+    return () => clearTimeout(timer);
   }, []);
 
   // Recarregar dados sempre que a tela ganhar foco

@@ -23,6 +23,108 @@ import {
 const { width, height } = Dimensions.get('window');
 
 // ============================================
+// TOURS PRÉ-DEFINIDOS
+// ============================================
+export const ONBOARDING_TOURS = {
+  ADMIN_DASHBOARD: {
+    id: 'admin_dashboard',
+    name: 'Dashboard do Administrador',
+    steps: [
+      {
+        title: 'Bem-vindo ao MyGym!',
+        message: 'Vamos fazer um tour rápido pelas principais funcionalidades do dashboard administrativo.',
+        icon: 'hand-wave',
+        position: 'center',
+      },
+      {
+        title: 'Estatísticas Rápidas',
+        message: 'Aqui você vê um resumo dos principais números da sua academia: alunos ativos, turmas, receita mensal e pagamentos pendentes.',
+        icon: 'chart-box',
+        position: 'top',
+      },
+      {
+        title: 'Ações Rápidas',
+        message: 'Use estes botões para adicionar novos alunos, criar turmas, registrar pagamentos e muito mais.',
+        icon: 'lightning-bolt',
+        position: 'center',
+      },
+      {
+        title: 'Menu de Navegação',
+        message: 'Use a barra inferior para navegar entre Dashboard, Alunos, Turmas, Relatórios e Configurações.',
+        icon: 'navigation',
+        position: 'bottom',
+      },
+    ],
+  },
+  INSTRUCTOR_CHECKIN: {
+    id: 'instructor_checkin',
+    name: 'Dashboard do Instrutor',
+    steps: [
+      {
+        title: 'Bem-vindo, Instrutor!',
+        message: 'Aqui você gerencia suas turmas, faz check-in de alunos e acompanha o progresso.',
+        icon: 'account-tie',
+        position: 'center',
+      },
+      {
+        title: 'Suas Turmas',
+        message: 'Veja todas as suas turmas ativas, horários e número de alunos matriculados.',
+        icon: 'school',
+        position: 'top',
+      },
+      {
+        title: 'Check-in Rápido',
+        message: 'Use o botão de check-in para registrar a presença dos alunos. Você pode usar QR Code ou seleção manual.',
+        icon: 'qrcode-scan',
+        position: 'center',
+      },
+      {
+        title: 'Agendar Aulas',
+        message: 'Crie novos horários de aula para suas turmas de forma rápida e fácil.',
+        icon: 'calendar-plus',
+        position: 'bottom',
+      },
+    ],
+  },
+  STUDENT_DASHBOARD: {
+    id: 'student_dashboard',
+    name: 'Dashboard do Aluno',
+    steps: [
+      {
+        title: 'Bem-vindo ao MyGym!',
+        message: 'Aqui você acompanha suas turmas, pagamentos, graduações e muito mais.',
+        icon: 'account-circle',
+        position: 'center',
+      },
+      {
+        title: 'Status de Graduação',
+        message: 'Veja sua graduação atual e quando será sua próxima avaliação.',
+        icon: 'trophy',
+        position: 'top',
+      },
+      {
+        title: 'Minhas Turmas',
+        message: 'Confira suas turmas matriculadas, horários e próximas aulas.',
+        icon: 'calendar-clock',
+        position: 'center',
+      },
+      {
+        title: 'Frequência',
+        message: 'Acompanhe sua taxa de presença e total de aulas realizadas.',
+        icon: 'chart-line',
+        position: 'center',
+      },
+      {
+        title: 'Anúncios',
+        message: 'Fique por dentro das novidades e avisos importantes da academia.',
+        icon: 'bullhorn',
+        position: 'bottom',
+      },
+    ],
+  },
+};
+
+// ============================================
 // CONTEXT
 // ============================================
 const OnboardingContext = createContext(null);
@@ -64,8 +166,19 @@ export const OnboardingProvider = ({ children }) => {
 
   /**
    * Inicia um tour de onboarding
+   * @param {string|object} tourIdOrObject - ID do tour (string) ou objeto do tour
    */
-  const startTour = useCallback((tour) => {
+  const startTour = useCallback((tourIdOrObject) => {
+    // Se for string, busca o tour pré-definido
+    const tour = typeof tourIdOrObject === 'string' 
+      ? ONBOARDING_TOURS[tourIdOrObject]
+      : tourIdOrObject;
+
+    if (!tour) {
+      console.warn(`Tour "${tourIdOrObject}" não encontrado`);
+      return;
+    }
+
     // Verifica se o tour já foi completado
     if (completedTours.includes(tour.id) && !tour.forceShow) {
       return;
@@ -303,90 +416,6 @@ export const useOnboarding = () => {
 };
 
 // ============================================
-// TOURS PRÉ-DEFINIDOS
-// ============================================
-export const ONBOARDING_TOURS = {
-  ADMIN_DASHBOARD: {
-    id: 'admin_dashboard',
-    name: 'Dashboard do Administrador',
-    steps: [
-      {
-        title: 'Bem-vindo ao MyGym!',
-        message: 'Vamos fazer um tour rápido pelas principais funcionalidades do dashboard.',
-        icon: 'hand-wave',
-        position: 'center',
-      },
-      {
-        title: 'Estatísticas Rápidas',
-        message: 'Aqui você vê um resumo dos principais números da sua academia: alunos, turmas e pagamentos.',
-        icon: 'chart-box',
-        position: 'top',
-      },
-      {
-        title: 'Ações Rápidas',
-        message: 'Use estes botões para acessar rapidamente as funções mais usadas.',
-        icon: 'lightning-bolt',
-        position: 'bottom',
-      },
-      {
-        title: 'Menu de Navegação',
-        message: 'Use a barra inferior para navegar entre as diferentes seções do app.',
-        icon: 'navigation',
-        position: 'bottom',
-      },
-    ],
-  },
-  INSTRUCTOR_CHECKIN: {
-    id: 'instructor_checkin',
-    name: 'Sistema de Check-in',
-    steps: [
-      {
-        title: 'Check-in de Alunos',
-        message: 'Aqui você registra a presença dos alunos nas suas turmas.',
-        icon: 'clipboard-check',
-        position: 'center',
-      },
-      {
-        title: 'Selecionar Turma',
-        message: 'Primeiro, selecione a turma para a qual deseja fazer o check-in.',
-        icon: 'school',
-        position: 'top',
-      },
-      {
-        title: 'Marcar Presença',
-        message: 'Toque nos alunos para marcar presença. Você pode usar o QR Code ou marcar manualmente.',
-        icon: 'account-check',
-        position: 'center',
-      },
-    ],
-  },
-  STUDENT_DASHBOARD: {
-    id: 'student_dashboard',
-    name: 'Dashboard do Aluno',
-    steps: [
-      {
-        title: 'Seu Dashboard',
-        message: 'Aqui você acompanha suas turmas, pagamentos e progresso.',
-        icon: 'view-dashboard',
-        position: 'center',
-      },
-      {
-        title: 'Minhas Turmas',
-        message: 'Veja suas turmas, horários e próximas aulas.',
-        icon: 'calendar',
-        position: 'top',
-      },
-      {
-        title: 'Graduações',
-        message: 'Acompanhe seu progresso e próximas graduações.',
-        icon: 'trophy',
-        position: 'center',
-      },
-    ],
-  },
-};
-
-// ============================================
 // ESTILOS
 // ============================================
 const styles = StyleSheet.create({
@@ -414,7 +443,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     backgroundColor: COLORS.white,
     borderRadius: BORDER_RADIUS.lg,
-    padding: SPACING.xl,
+    padding: width < 360 ? SPACING.lg : SPACING.xl,
     maxWidth: width - SPACING.base * 2,
     ...Platform.select({
       ios: {
@@ -428,25 +457,28 @@ const styles = StyleSheet.create({
     }),
   },
   tooltipTop: {
-    top: SPACING.xxl,
+    top: width < 360 ? SPACING.lg : SPACING.xxl,
     left: '50%',
     transform: [{ translateX: -(width * 0.45) }],
-    width: '90%',
-    maxWidth: 400,
+    width: width < 360 ? '95%' : '90%',
+    maxWidth: width < 768 ? 400 : 500,
   },
   tooltipBottom: {
-    bottom: SPACING.xxl,
+    bottom: width < 360 ? SPACING.lg : SPACING.xxl,
     left: '50%',
     transform: [{ translateX: -(width * 0.45) }],
-    width: '90%',
-    maxWidth: 400,
+    width: width < 360 ? '95%' : '90%',
+    maxWidth: width < 768 ? 400 : 500,
   },
   tooltipCenter: {
     top: '50%',
     left: '50%',
-    transform: [{ translateX: -(width * 0.45) }, { translateY: -150 }],
-    width: '90%',
-    maxWidth: 400,
+    transform: [
+      { translateX: -(width * 0.45) }, 
+      { translateY: width < 360 ? -120 : -150 }
+    ],
+    width: width < 360 ? '95%' : '90%',
+    maxWidth: width < 768 ? 400 : 500,
   },
   tooltipHeader: {
     flexDirection: 'row',
@@ -460,20 +492,20 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   tooltipTitle: {
-    fontSize: FONT_SIZE.lg,
+    fontSize: width < 360 ? FONT_SIZE.base : FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
     color: COLORS.text.primary,
     marginBottom: SPACING.xxs,
   },
   tooltipProgress: {
-    fontSize: FONT_SIZE.xs,
+    fontSize: width < 360 ? FONT_SIZE.xxs : FONT_SIZE.xs,
     color: COLORS.text.secondary,
   },
   tooltipMessage: {
-    fontSize: FONT_SIZE.base,
+    fontSize: width < 360 ? FONT_SIZE.sm : FONT_SIZE.base,
     color: COLORS.text.secondary,
-    lineHeight: FONT_SIZE.base * 1.5,
-    marginBottom: SPACING.lg,
+    lineHeight: (width < 360 ? FONT_SIZE.sm : FONT_SIZE.base) * 1.5,
+    marginBottom: width < 360 ? SPACING.md : SPACING.lg,
   },
   tooltipActions: {
     flexDirection: 'row',

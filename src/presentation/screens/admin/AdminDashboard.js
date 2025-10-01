@@ -28,6 +28,7 @@ import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import DashboardSkeleton from '@components/skeletons/DashboardSkeleton';
 import FreeGymScheduler from '@components/FreeGymScheduler';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { useOnboarding } from '@components/OnboardingTour';
 
 const AdminDashboard = ({ navigation }) => {
   const { user, userProfile, logout, academia } = useAuth();
@@ -60,9 +61,19 @@ const AdminDashboard = ({ navigation }) => {
   // Skeleton pulse for loading state
   const [skeletonPulse] = useState(new Animated.Value(0.6));
 
+  // Onboarding
+  const { startTour } = useOnboarding();
+
   useEffect(() => {
     loadDashboardData();
     startEntryAnimation();
+    
+    // Iniciar tour após carregar dados
+    const timer = setTimeout(() => {
+      startTour('ADMIN_DASHBOARD');
+    }, 1000);
+    
+    return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
