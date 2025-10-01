@@ -107,10 +107,10 @@ export function useAuthFacade() {
         email,
         password,
         name: userData.name || '',
-        phone: userData.phone,
+        phone: userData.phone || '',
         userType: userData.userType || 'student',
-        acceptTerms: userData.acceptTerms === true,
-        acceptPrivacyPolicy: userData.acceptPrivacyPolicy === true
+        acceptTerms: userData.acceptTerms ?? false,
+        acceptPrivacyPolicy: userData.acceptPrivacyPolicy ?? false
       });
       
       setUser(session.user);

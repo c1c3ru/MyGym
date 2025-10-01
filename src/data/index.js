@@ -1,15 +1,10 @@
 // Data Layer Exports
 
-// DataSources
-export { FirebaseAuthDataSource } from './datasources/FirebaseAuthDataSource.js';
-export { FirestoreUserDataSource } from './datasources/FirestoreUserDataSource.js';
-export { FirestoreAcademyDataSource } from './datasources/FirestoreAcademyDataSource.js';
+// Repository Implementations (Clean Architecture)
+export { FirebaseAuthRepository } from './auth/FirebaseAuthRepository';
+export { AuthMappers } from './auth/mappers';
+export { AuthValidators } from './auth/validators';
 
-// Models
-export { UserModel } from './models/UserModel.js';
-export { AcademyModel } from './models/AcademyModel.js';
-
-// Repository Implementations
-export { AuthRepositoryImpl } from './repositories/AuthRepositoryImpl.ts';
-export { UserRepositoryImpl } from './repositories/UserRepositoryImpl.js';
-export { AcademyRepositoryImpl } from './repositories/AcademyRepositoryImpl.js';
+// Legacy exports (deprecated - use Clean Architecture above)
+// Note: FirestoreUserDataSource and UserModel were moved to backup
+// Use FirebaseAuthRepository instead

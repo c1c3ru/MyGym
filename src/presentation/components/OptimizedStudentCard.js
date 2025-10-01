@@ -141,7 +141,7 @@ const OptimizedStudentCard = memo(({
             onPress={() => onStudentPress(student)}
             style={styles.actionButton}
             icon="eye"
-            variant="primary"
+            variant="outline"
             size="small"
             accessible={true}
             accessibilityLabel="Ver perfil do aluno"
@@ -154,7 +154,7 @@ const OptimizedStudentCard = memo(({
             onPress={() => onEditStudent(student)}
             style={styles.actionButton}
             icon="pencil"
-            variant="warning"
+            variant="primary"
             size="small"
             accessible={true}
             accessibilityLabel="Editar dados do aluno"
@@ -163,7 +163,7 @@ const OptimizedStudentCard = memo(({
           </ActionButton>
 
           <ActionButton 
-            mode="contained" 
+            mode="outlined" 
             onPress={() => onNavigateToPayments(student.id)}
             style={styles.actionButton}
             icon="cash"

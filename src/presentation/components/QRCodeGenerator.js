@@ -64,8 +64,8 @@ export default function QRCodeGenerator({ size = 200, showActions = true, academ
         top: 20px;
         right: 20px;
         background: ${type === 'success' ? COLORS.primary[500] : COLORS.error[500]};
-        color: COLORS.white;
-        padding: SPACING.mdpx 20px;
+        color: ${COLORS.white};
+        padding: ${SPACING.md}px 20px;
         border-radius: 8px;
         box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         z-index: 9999;

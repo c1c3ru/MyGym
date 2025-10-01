@@ -21,39 +21,45 @@ const ActionButton = ({
     switch (variant) {
       case 'primary':
         return {
-          contained: PROFILE_COLORS.student.gradient,
-          outlined: PROFILE_COLORS.student.primary,
-          text: mode === 'contained' ? COLORS.white : PROFILE_COLORS.student.primary
+          contained: [COLORS.primary[500], COLORS.primary[700]],
+          outlined: COLORS.primary[600],
+          text: mode === 'contained' ? COLORS.white : COLORS.primary[700]
         };
       case 'success':
         return {
-          contained: STATUS_COLORS.successGradient,
-          outlined: STATUS_COLORS.success,
-          text: mode === 'contained' ? COLORS.white : STATUS_COLORS.success
+          contained: [COLORS.success[500], COLORS.success[700]],
+          outlined: COLORS.success[600],
+          text: mode === 'contained' ? COLORS.white : COLORS.success[700]
         };
       case 'warning':
         return {
-          contained: STATUS_COLORS.warningGradient,
-          outlined: STATUS_COLORS.warning,
-          text: mode === 'contained' ? COLORS.white : STATUS_COLORS.warning
+          contained: [COLORS.warning[500], COLORS.warning[700]],
+          outlined: COLORS.warning[600],
+          text: mode === 'contained' ? COLORS.white : COLORS.warning[800]
         };
       case 'danger':
         return {
-          contained: STATUS_COLORS.errorGradient,
-          outlined: STATUS_COLORS.error,
-          text: mode === 'contained' ? COLORS.white : STATUS_COLORS.error
+          contained: [COLORS.error[500], COLORS.error[700]],
+          outlined: COLORS.error[600],
+          text: mode === 'contained' ? COLORS.white : COLORS.error[700]
         };
       case 'secondary':
         return {
-          contained: PROFILE_COLORS.admin.gradient,
-          outlined: PROFILE_COLORS.admin.primary,
-          text: mode === 'contained' ? COLORS.white : PROFILE_COLORS.admin.primary
+          contained: [COLORS.gray[600], COLORS.gray[800]],
+          outlined: COLORS.gray[600],
+          text: mode === 'contained' ? COLORS.white : COLORS.gray[800]
+        };
+      case 'outline':
+        return {
+          contained: [COLORS.info[500], COLORS.info[700]],
+          outlined: COLORS.info[600],
+          text: mode === 'contained' ? COLORS.white : COLORS.info[700]
         };
       default:
         return {
-          contained: PROFILE_COLORS.student.gradient,
-          outlined: PROFILE_COLORS.student.primary,
-          text: mode === 'contained' ? COLORS.white : PROFILE_COLORS.student.primary
+          contained: [COLORS.primary[500], COLORS.primary[700]],
+          outlined: COLORS.primary[600],
+          text: mode === 'contained' ? COLORS.white : COLORS.primary[700]
         };
     }
   };
@@ -62,22 +68,22 @@ const ActionButton = ({
     switch (size) {
       case 'small':
         return {
-          minHeight: 32,
+          minHeight: 36,
           paddingHorizontal: SPACING.md,
           fontSize: FONT_SIZE.sm,
-          iconSize: 16
+          iconSize: 18
         };
       case 'large':
         return {
-          minHeight: 48,
-          paddingHorizontal: 24,
-          fontSize: FONT_SIZE.md,
+          minHeight: 52,
+          paddingHorizontal: SPACING.xl,
+          fontSize: FONT_SIZE.lg,
           iconSize: 24
         };
       default: // medium
         return {
-          minHeight: 40,
-          paddingHorizontal: 16,
+          minHeight: 44,
+          paddingHorizontal: SPACING.lg,
           fontSize: FONT_SIZE.base,
           iconSize: 20
         };
@@ -91,10 +97,10 @@ const ActionButton = ({
     return (
       <View style={[styles.gradientContainer, style, { minHeight: sizeStyles.minHeight }]}>
         <LinearGradient
-          colors={disabled ? [APP_COLORS.gray[300], APP_COLORS.gray[400]] : colors.contained}
+          colors={disabled ? [COLORS.gray[300], COLORS.gray[400]] : colors.contained}
           style={styles.gradient}
           start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
+          end={{ x: 1, y: 0 }}
         >
           <Button
             mode="text"
@@ -130,12 +136,12 @@ const ActionButton = ({
       loading={loading}
       disabled={disabled}
       buttonColor={mode === 'outlined' ? 'transparent' : undefined}
-      textColor={disabled ? APP_COLORS.gray[400] : colors.text}
+      textColor={disabled ? COLORS.gray[400] : colors.text}
       style={[
         styles.button,
         mode === 'outlined' && {
-          borderColor: disabled ? APP_COLORS.gray[300] : colors.outlined,
-          borderWidth: 1.5
+          borderColor: disabled ? COLORS.gray[300] : colors.outlined,
+          borderWidth: 2
         },
         { minHeight: sizeStyles.minHeight },
         style
@@ -257,11 +263,12 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   buttonGroup: {
-    gap: 8,
+    gap: SPACING.sm,
   },
   buttonGroupRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    justifyContent: 'space-between',
   },
   buttonGroupColumn: {
     flexDirection: 'column',

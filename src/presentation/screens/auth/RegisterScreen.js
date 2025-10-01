@@ -138,12 +138,19 @@ const RegisterScreen = ({ navigation }) => {
       console.error('Erro no cadastro:', error);
       let errorMessage = getString('registrationError');
       
-      if (error.code === 'auth/email-already-in-use') {
-        errorMessage = getString('emailAlreadyInUse');
+      // Mapear erros específicos do Firebase
+      if (error.code === 'auth/email-already-in-use' || error.message?.includes('email-already-in-use')) {
+        errorMessage = 'Este email já está cadastrado. Faça login ou use outro email.';
+        setErrors({ email: errorMessage });
       } else if (error.code === 'auth/weak-password') {
-        errorMessage = getString('weakPassword');
+        errorMessage = 'Senha muito fraca. Use pelo menos 6 caracteres.';
+        setErrors({ password: errorMessage });
       } else if (error.code === 'auth/invalid-email') {
-        errorMessage = getString('invalidEmail');
+        errorMessage = 'Email inválido. Verifique o formato.';
+        setErrors({ email: errorMessage });
+      } else if (error.message?.includes('EmailAlreadyInUse')) {
+        errorMessage = 'Este email já está cadastrado. Faça login ou use outro email.';
+        setErrors({ email: errorMessage });
       }
       
       showSnackbar(errorMessage, 'error');

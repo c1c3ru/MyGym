@@ -64,15 +64,27 @@ export class FirebaseAuthRepository implements AuthRepository {
 
   async signUpWithEmail(data: SignUpData): Promise<User> {
     try {
+      console.log('🔥 FirebaseAuthRepository: Tentando criar usuário...', {
+        email: data.email,
+        hasPassword: !!data.password
+      });
+      
       const userCredential = await createUserWithEmailAndPassword(
         this.auth,
         data.email,
         data.password
       );
       
+      console.log('✅ FirebaseAuthRepository: Usuário criado com sucesso!', userCredential.user.uid);
+      
       const validatedUser = AuthValidators.validateFirebaseUser(userCredential.user);
       return AuthMappers.toDomainUser(validatedUser);
     } catch (error: any) {
+      console.error('❌ FirebaseAuthRepository: Erro ao criar usuário:', {
+        code: error.code,
+        message: error.message,
+        customData: error.customData
+      });
       throw mapFirebaseError(error);
     }
   }
@@ -168,15 +180,27 @@ export class FirebaseAuthRepository implements AuthRepository {
     try {
       // Use existing claims helper
       const claims = await getUserClaims();
-      if (!claims) {
-        return null;
+      
+      // Se não houver claims (usuário recém-criado), retornar claims padrão
+      if (!claims || !claims.role) {
+        console.log('⚠️ Claims não encontrados ou incompletos, retornando padrão');
+        return {
+          role: 'student', // Padrão para novos usuários
+          academiaId: undefined,
+          permissions: []
+        };
       }
       
       const validatedClaims = AuthValidators.validateFirebaseClaims(claims);
       return AuthMappers.toDomainClaims(validatedClaims);
     } catch (error: any) {
       console.error('Error getting user claims:', error);
-      return null;
+      // Retornar claims padrão em caso de erro
+      return {
+        role: 'student',
+        academiaId: undefined,
+        permissions: []
+      };
     }
   }
 

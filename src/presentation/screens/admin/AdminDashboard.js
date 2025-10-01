@@ -253,9 +253,11 @@ const AdminDashboard = ({ navigation }) => {
   }, [trackButtonClick]);
 
   const handleShowQR = useCallback(() => {
+    console.log('🔍 Abrindo QR Code - Academia:', academia);
+    console.log('🔍 UserProfile academiaId:', userProfile?.academiaId);
     trackButtonClick('show_qr_code');
     setShowQRModal(true);
-  }, [trackButtonClick]);
+  }, [trackButtonClick, academia, userProfile]);
 
   // Render skeletons while loading
   if (loading) {
@@ -306,6 +308,28 @@ const AdminDashboard = ({ navigation }) => {
             />
           </View>
           </Modal>
+
+          {/* Modal QR Code */}
+          <Modal
+            visible={showQRModal}
+            onDismiss={() => setShowQRModal(false)}
+            contentContainerStyle={styles.modalContainer}
+          >
+            {(academia?.id || userProfile?.academiaId) ? (
+              <QRCodeGenerator 
+                academiaId={academia?.id || userProfile?.academiaId}
+                academiaNome={academia?.nome || 'Academia'}
+                size={250}
+                showActions={true}
+              />
+            ) : (
+              <View style={{ padding: SPACING.xl, alignItems: 'center' }}>
+                <Text style={{ color: COLORS.text.secondary, textAlign: 'center' }}>
+                  Carregando informações da academia...
+                </Text>
+              </View>
+            )}
+          </Modal>
         </Portal>
 
         <Animated.ScrollView 
@@ -344,7 +368,7 @@ const AdminDashboard = ({ navigation }) => {
                     Administrador da Academia
                   </Text>
                   <View style={styles.statusBadge}>
-                    <SafeMaterialCommunityIcons name="circle" size={8} color="COLORS.primary[500]" />
+                    <SafeMaterialCommunityIcons name="circle" size={8} color={COLORS.primary[500]} />
                     <Text style={styles.statusText}>Online</Text>
                   </View>
                   {/* Código da Academia */}
@@ -353,7 +377,7 @@ const AdminDashboard = ({ navigation }) => {
                       style={styles.academiaCodeContainer}
                       onPress={handleShowQR}
                     >
-                      <SafeMaterialCommunityIcons name="qrcode" size={16} color="COLORS.white + 'E6'" />
+                      <SafeMaterialCommunityIcons name="qrcode" size={16} color={COLORS.white + 'E6'} />
                       <Text style={styles.academiaCodeText}>
                         Código: {academia.codigo}
                       </Text>
@@ -378,7 +402,7 @@ const AdminDashboard = ({ navigation }) => {
         <View style={styles.statsContainer}>
           <Animated.View style={[styles.statCard, { opacity: animations.fadeAnim }]}>
             <LinearGradient colors={ADMIN_COLORS.blue} style={styles.statGradient}>
-              <SafeMaterialCommunityIcons name="account-group" size={32} color="COLORS.white" />
+              <SafeMaterialCommunityIcons name="account-group" size={32} color={COLORS.white} />
               <Text style={styles.statNumberModern}>{dashboardData.totalStudents}</Text>
               <Text style={styles.statLabelModern}>Total de Alunos</Text>
             </LinearGradient>
@@ -386,7 +410,7 @@ const AdminDashboard = ({ navigation }) => {
 
           <Animated.View style={[styles.statCard, { opacity: animations.fadeAnim }]}>
             <LinearGradient colors={ADMIN_COLORS.green} style={styles.statGradient}>
-              <SafeMaterialCommunityIcons name="account-check" size={32} color="COLORS.white" />
+              <SafeMaterialCommunityIcons name="account-check" size={32} color={COLORS.white} />
               <Text style={styles.statNumberModern}>{dashboardData.activeStudents}</Text>
               <Text style={styles.statLabelModern}>Alunos Ativos</Text>
             </LinearGradient>
@@ -394,7 +418,7 @@ const AdminDashboard = ({ navigation }) => {
 
           <Animated.View style={[styles.statCard, { opacity: animations.fadeAnim }]}>
             <LinearGradient colors={ADMIN_COLORS.orange} style={styles.statGradient}>
-              <SafeMaterialCommunityIcons name="school-outline" size={32} color="COLORS.white" />
+              <SafeMaterialCommunityIcons name="school-outline" size={32} color={COLORS.white} />
               <Text style={styles.statNumberModern}>{dashboardData.totalClasses}</Text>
               <Text style={styles.statLabelModern}>Turmas</Text>
             </LinearGradient>
@@ -402,7 +426,7 @@ const AdminDashboard = ({ navigation }) => {
 
           <Animated.View style={[styles.statCard, { opacity: animations.fadeAnim }]}>
             <LinearGradient colors={ADMIN_COLORS.purple} style={styles.statGradient}>
-              <SafeMaterialCommunityIcons name="cash-multiple" size={32} color="COLORS.white" />
+              <SafeMaterialCommunityIcons name="cash-multiple" size={32} color={COLORS.white} />
               <Text style={styles.statNumberModern}>{dashboardData.pendingPayments}</Text>
               <Text style={styles.statLabelModern}>Pendências</Text>
             </LinearGradient>
@@ -413,7 +437,7 @@ const AdminDashboard = ({ navigation }) => {
         <AnimatedCard delay={200} style={styles.card}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <SafeIonicons name="cash-outline" size={24} color="COLORS.primary[500]" />
+              <SafeIonicons name="cash-outline" size={24} color={COLORS.primary[500]} />
               <Text style={[styles.cardTitle, { fontSize: ResponsiveUtils.fontSize.medium }]}>
                 Financeiro do Mês
               </Text>
@@ -499,14 +523,14 @@ const AdminDashboard = ({ navigation }) => {
               ].map((action, idx) => (
                 <Animated.View key={action.key} style={[styles.actionCard, { opacity: animations.fadeAnim, width: ResponsiveUtils.isTablet() ? '31%' : '48%' }]}>
                   <LinearGradient colors={action.colors} style={styles.actionGradient}>
-                    <SafeMaterialCommunityIcons name={action.icon} size={28} color="COLORS.white" />
+                    <SafeMaterialCommunityIcons name={action.icon} size={28} color={COLORS.white} />
                     <Text style={styles.actionTitle}>{action.title}</Text>
                     <Text style={styles.actionSubtitle}>{action.subtitle}</Text>
                     <AnimatedButton
                       mode="contained"
                       onPress={action.onPress}
                       style={styles.modernActionButton}
-                      buttonColor="COLORS.white + '33'"
+                      buttonColor={COLORS.white + '33'}
                       textColor={COLORS.white}
                       compact
                     >
@@ -523,7 +547,7 @@ const AdminDashboard = ({ navigation }) => {
         <AnimatedCard delay={400} style={styles.card}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <SafeIonicons name="time-outline" size={24} color="COLORS.text.secondary" />
+              <SafeIonicons name="time-outline" size={24} color={COLORS.text.secondary} />
               <Text style={[styles.cardTitle, { fontSize: ResponsiveUtils.fontSize.medium }]}>
                 Atividades Recentes
               </Text>
@@ -572,7 +596,7 @@ const AdminDashboard = ({ navigation }) => {
           <AnimatedCard delay={500} style={[styles.card, styles.alertCard]}>
             <Card.Content>
               <View style={styles.cardHeader}>
-                <SafeIonicons name="warning-outline" size={24} color="COLORS.warning[500]" />
+                <SafeIonicons name="warning-outline" size={24} color={COLORS.warning[500]} />
                 <Text style={[styles.cardTitle, { fontSize: ResponsiveUtils.fontSize.medium }]}>
                   Alertas
                 </Text>
@@ -936,10 +960,14 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
     margin: SPACING.lg,
     borderRadius: BORDER_RADIUS.lg,
-    padding: SPACING.lg,
+    padding: SPACING.xl,
+    alignItems: 'center',
+    maxWidth: 400,
+    alignSelf: 'center',
   },
   closeModalButton: {
-    marginTop: 16,
+    marginTop: SPACING.lg,
+    width: '100%',
   },
 });
 

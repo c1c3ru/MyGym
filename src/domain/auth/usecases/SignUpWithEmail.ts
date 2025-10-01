@@ -15,8 +15,18 @@ export class SignUpWithEmailUseCase extends BaseUseCase<SignUpInput, AuthSession
     // Validate input first (don't catch validation errors)
     const validatedInput = this.validateInput(input, signUpSchema);
     
+    console.log('🔍 SignUpWithEmail: Dados validados:', {
+      email: validatedInput.email,
+      name: validatedInput.name,
+      phone: validatedInput.phone,
+      userType: validatedInput.userType,
+      acceptTerms: validatedInput.acceptTerms,
+      acceptPrivacyPolicy: validatedInput.acceptPrivacyPolicy
+    });
+    
     try {
       // Create user account
+      console.log('📝 SignUpWithEmail: Criando conta no Firebase Auth...');
       const user = await this.authRepository.signUpWithEmail({
         email: validatedInput.email,
         password: validatedInput.password,
@@ -26,6 +36,7 @@ export class SignUpWithEmailUseCase extends BaseUseCase<SignUpInput, AuthSession
         acceptTerms: validatedInput.acceptTerms,
         acceptPrivacyPolicy: validatedInput.acceptPrivacyPolicy
       });
+      console.log('✅ SignUpWithEmail: Usuário criado no Auth:', user.id);
 
       // Create user profile
       const userProfile = await this.authRepository.createUserProfile(user.id, {

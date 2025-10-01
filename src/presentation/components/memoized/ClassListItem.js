@@ -76,21 +76,21 @@ const ClassListItem = memo(({
 
         <View style={styles.classDetails}>
           <View style={styles.detailRow}>
-            <Ionicons name="person-outline" size={16} color="COLORS.text.secondary" />
+            <Ionicons name="person-outline" size={18} color={COLORS.text.secondary} />
             <Text style={styles.detailText}>
               {getString('professor')}: {classItem.instructorName}
             </Text>
           </View>
 
           <View style={styles.detailRow}>
-            <Ionicons name="time-outline" size={16} color="COLORS.text.secondary" />
+            <Ionicons name="time-outline" size={18} color={COLORS.text.secondary} />
             <Text style={styles.detailText}>
               {formatSchedule(classItem)}
             </Text>
           </View>
 
           <View style={styles.detailRow}>
-            <Ionicons name="people-outline" size={16} color="COLORS.text.secondary" />
+            <Ionicons name="people-outline" size={18} color={COLORS.text.secondary} />
             <Text style={[
               styles.detailText,
               { color: getCapacityColor(classItem.currentStudents, classItem.maxCapacity) }
@@ -101,7 +101,7 @@ const ClassListItem = memo(({
 
           {classItem.location && (
             <View style={styles.detailRow}>
-              <Ionicons name="location-outline" size={16} color="COLORS.text.secondary" />
+              <Ionicons name="location-outline" size={18} color={COLORS.text.secondary} />
               <Text style={styles.detailText}>{classItem.location}</Text>
             </View>
           )}
@@ -151,7 +151,7 @@ const ClassListItem = memo(({
             onPress={handleView}
             style={styles.actionButton}
             icon="eye"
-            variant="primary"
+            variant="outline"
             size="small"
           >
             {getString('viewDetails')}
@@ -162,14 +162,14 @@ const ClassListItem = memo(({
             onPress={handleEdit}
             style={styles.actionButton}
             icon="pencil"
-            variant="warning"
+            variant="primary"
             size="small"
           >
             {getString('edit')}
           </ActionButton>
 
           <ActionButton 
-            mode="contained" 
+            mode="outlined" 
             onPress={handlePress}
             style={styles.actionButton}
             icon="account"
@@ -242,12 +242,12 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.md,
   },
   statusChip: {
-    borderWidth: 1,
-    marginRight: 8,
+    borderWidth: 2,
+    marginRight: SPACING.sm,
     marginBottom: SPACING.xs,
   },
   divider: {
-    marginVertical: 12,
+    marginVertical: SPACING.md,
   },
   classActions: {
     marginTop: SPACING.xs,

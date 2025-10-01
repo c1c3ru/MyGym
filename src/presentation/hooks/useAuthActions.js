@@ -1,17 +1,14 @@
 import { useCallback } from 'react';
 import { useAuthUI } from './useAuthUI';
 import { 
-  SignInUseCase, 
-  SignUpUseCase, 
+  SignInWithEmailUseCase,
+  SignUpWithEmailUseCase,
   SignOutUseCase,
-  RefreshTokenUseCase,
-  GetUserSessionUseCase // Nova arquitetura TypeScript
-} from '@domain';
-import { 
-  AuthRepositoryImpl, 
-  UserRepositoryImpl, 
-  AcademyRepositoryImpl 
-} from '@data';
+  GetUserSessionUseCase,
+  RefreshUserTokenUseCase
+} from '@domain/auth/usecases';
+import { FirebaseAuthRepository } from '@data/auth/FirebaseAuthRepository';
+import { auth, db } from '@services/firebase';
 
 /**
  * useAuthActions - Presentation Layer
@@ -21,17 +18,15 @@ import {
 export const useAuthActions = () => {
   const authUI = useAuthUI();
 
-  // Dependências (idealmente injetadas via DI Container)
-  const authRepository = new AuthRepositoryImpl();
-  const userRepository = new UserRepositoryImpl();
-  const academyRepository = new AcademyRepositoryImpl();
+  // Dependências (Clean Architecture)
+  const authRepository = new FirebaseAuthRepository(auth, db);
 
   // Use Cases
-  const signInUseCase = new SignInUseCase(authRepository, userRepository);
-  const signUpUseCase = new SignUpUseCase(authRepository, userRepository);
+  const signInUseCase = new SignInWithEmailUseCase(authRepository);
+  const signUpUseCase = new SignUpWithEmailUseCase(authRepository);
   const signOutUseCase = new SignOutUseCase(authRepository);
-  const getUserSessionUseCase = new GetUserSessionUseCase(authRepository); // Nova arquitetura
-  const refreshTokenUseCase = new RefreshTokenUseCase(authRepository);
+  const getUserSessionUseCase = new GetUserSessionUseCase(authRepository);
+  const refreshTokenUseCase = new RefreshUserTokenUseCase(authRepository);
 
   // Login com email e senha
   const signInWithEmailAndPassword = useCallback(async (email, password) => {

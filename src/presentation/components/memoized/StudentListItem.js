@@ -88,27 +88,33 @@ const StudentListItem = memo(({
 
         <Divider style={styles.divider} />
         
-        <ActionButtonGroup>
+        <ActionButtonGroup style={styles.actionButtonsContainer}>
           <ActionButton
             title="Ver Detalhes"
             icon="eye"
             onPress={handleView}
             variant="outline"
+            mode="outlined"
             size="small"
+            style={styles.actionButton}
           />
           <ActionButton
             title="Editar"
             icon="pencil"
             onPress={handleEdit}
             variant="primary"
+            mode="outlined"
             size="small"
+            style={styles.actionButton}
           />
           <ActionButton
             title="Desassociar"
             icon="account-remove"
             onPress={handleDelete}
             variant="danger"
+            mode="outlined"
             size="small"
+            style={styles.actionButton}
           />
         </ActionButtonGroup>
       </Card.Content>
@@ -189,7 +195,14 @@ const styles = StyleSheet.create({
     height: 24,
   },
   divider: {
-    marginVertical: 12,
+    marginVertical: SPACING.md,
+  },
+  actionButtonsContainer: {
+    marginTop: SPACING.sm,
+  },
+  actionButton: {
+    flex: 1,
+    minWidth: 0,
   },
 });
 
