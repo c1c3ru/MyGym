@@ -537,7 +537,7 @@ const AddClassScreen = ({ navigation }) => {
         action={{
           label: 'OK',
           onPress: () => setSnackbar((s) => ({ ...s, visible: false })),
-          labelStyle: { color: COLORS.white }
+          labelStyle: { color: COLORS.COLORS.white }
         }}
       >
         {snackbar.message}
@@ -591,7 +591,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: BORDER_RADIUS.sm,
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.COLORS.white,
   },
   pickerStyle: {
     height: 50,

@@ -219,8 +219,8 @@ const SettingsScreen = ({ navigation }) => {
             mode="contained"
             onPress={handleLogout}
             buttonColor={COLORS.warning[500]}
-            textColor={COLORS.white}
-            icon={() => <Ionicons name="log-out" size={20} color="COLORS.white" />}
+            textColor={COLORS.COLORS.white}
+            icon={() => <Ionicons name="log-out" size={20} color="COLORS.COLORS.white" />}
             style={styles.dangerButton}
           >
             Sair da Conta
@@ -230,8 +230,8 @@ const SettingsScreen = ({ navigation }) => {
             mode="contained"
             onPress={handleDeleteAccount}
             buttonColor={COLORS.error[500]}
-            textColor={COLORS.white}
-            icon={() => <Ionicons name="trash" size={20} color="COLORS.white" />}
+            textColor={COLORS.COLORS.white}
+            icon={() => <Ionicons name="trash" size={20} color="COLORS.COLORS.white" />}
             style={[styles.dangerButton, { marginTop: SPACING.md }]}
           >
             Excluir Conta

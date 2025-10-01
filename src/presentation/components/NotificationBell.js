@@ -16,7 +16,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNotification } from '@contexts/NotificationContext';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
-const NotificationBell = ({ color = COLORS.white, size = 24 }) => {
+const NotificationBell = ({ color = COLORS.COLORS.white, size = 24 }) => {
   const { 
     unreadNotifications, 
     unreadCount, 
@@ -225,10 +225,10 @@ const styles = StyleSheet.create({
   },
   modalCard: {
     maxHeight: '80%',
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.COLORS.white,
   },
   permissionCard: {
-    backgroundColor: 'COLORS.white3e0',
+    backgroundColor: 'COLORS.COLORS.white3e0',
     margin: SPACING.base,
     borderRadius: BORDER_RADIUS.md,
   },

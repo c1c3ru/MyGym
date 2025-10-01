@@ -157,7 +157,7 @@ const ImprovedScheduleSelector = ({
                   key={hour}
                   compact
                   style={[styles.hourChip, { backgroundColor: colors?.primary || '#6200ea' }]}
-                  textStyle={{ color: colors?.onPrimary || 'COLORS.COLORS.whitefff', fontSize: 10 }}
+                  textStyle={{ color: colors?.onPrimary || 'COLORS.COLORS.COLORS.whitefff', fontSize: 10 }}
                 >
                   {hour}
                 </Chip>

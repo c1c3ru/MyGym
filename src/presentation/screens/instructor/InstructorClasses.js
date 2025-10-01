@@ -223,7 +223,7 @@ const InstructorClasses = ({ navigation }) => {
             <Title style={styles.className}>{classItem.name}</Title>
             <Chip 
               style={[styles.statusChip, { backgroundColor: classItem.status === 'active' ? COLORS.primary[500] : COLORS.warning[400] }]}
-              textStyle={{ color: COLORS.white, fontSize: FONT_SIZE.sm }}
+              textStyle={{ color: COLORS.COLORS.white, fontSize: FONT_SIZE.sm }}
             >
               {classItem.status === 'active' ? 'Ativa' : 'Inativa'}
             </Chip>

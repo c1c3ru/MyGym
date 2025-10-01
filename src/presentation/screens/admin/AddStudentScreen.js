@@ -665,7 +665,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.info[500],
   },
   selectedChipText: {
-    color: COLORS.white,
+    color: COLORS.COLORS.white,
   },
   noClassesText: {
     fontSize: FONT_SIZE.base,
@@ -799,7 +799,7 @@ const styles = StyleSheet.create({
   loadingText: {
     marginTop: 16,
     fontSize: FONT_SIZE.md,
-    color: COLORS.white,
+    color: COLORS.COLORS.white,
     fontWeight: FONT_WEIGHT.medium,
   },
   snackbar: {

@@ -308,7 +308,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 16,
     paddingVertical: SPACING.md,
-    backgroundColor: 'COLORS.COLORS.white',
+    backgroundColor: 'COLORS.COLORS.COLORS.white',
     elevation: 2,
   },
   title: {

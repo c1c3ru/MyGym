@@ -112,7 +112,7 @@ const UserTypeSelectionScreen = ({ navigation, route }) => {
           <View style={[styles.iconContainer, { backgroundColor: userType.color }]}>
             <Ionicons
               name={userType.icon === 'school' ? 'school' : userType.icon === 'fitness-center' ? 'fitness' : 'business'}
-              color="COLORS.white"
+              color="COLORS.COLORS.white"
               size={32}
             />
           </View>
@@ -138,7 +138,7 @@ const UserTypeSelectionScreen = ({ navigation, route }) => {
         <Button
           mode={selectedType === userType.id ? "contained" : "outlined"}
           buttonColor={selectedType === userType.id ? userType.color : COLORS.gray[300]}
-          textColor={selectedType === userType.id ? COLORS.white : COLORS.text.secondary}
+          textColor={selectedType === userType.id ? COLORS.COLORS.white : COLORS.text.secondary}
           style={styles.selectButton}
           onPress={() => setSelectedType(userType.id)}
         >
@@ -270,7 +270,7 @@ const styles = StyleSheet.create({
   header: {
     alignItems: 'center',
     padding: SPACING.xl,
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.COLORS.white,
     marginBottom: 16,
     ...Platform.select({
       ios: {

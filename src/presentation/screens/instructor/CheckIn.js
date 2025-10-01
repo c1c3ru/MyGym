@@ -529,7 +529,7 @@ const CheckIn = ({ navigation }) => {
                         styles.statusChip,
                         { backgroundColor: COLORS.info[500] }
                       ]}
-                      textStyle={{ color: COLORS.white }}
+                      textStyle={{ color: COLORS.COLORS.white }}
                     >
                       {typeof classItem.modality === 'object' && classItem.modality
                         ? classItem.modality.name || 'Modalidade'
@@ -601,7 +601,7 @@ const CheckIn = ({ navigation }) => {
                         styles.statusChip,
                         { backgroundColor: COLORS.primary[500] }
                       ]}
-                      textStyle={{ color: COLORS.white }}
+                      textStyle={{ color: COLORS.COLORS.white }}
                     >
                       Ativo
                     </Chip>
@@ -981,7 +981,7 @@ const styles = StyleSheet.create({
   },
   // Modal styles
   modalContainer: {
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.COLORS.white,
     padding: SPACING.lg,
     margin: SPACING.lg,
     borderRadius: BORDER_RADIUS.md,
@@ -1087,7 +1087,7 @@ const styles = StyleSheet.create({
   studentItem: {
     borderRadius: BORDER_RADIUS.md,
     marginVertical: 2,
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.COLORS.white,
   },
   studentItemCheckedIn: {
     backgroundColor: COLORS.background.light,

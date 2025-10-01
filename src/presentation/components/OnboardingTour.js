@@ -412,7 +412,7 @@ const styles = StyleSheet.create({
   },
   tooltip: {
     position: 'absolute',
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.COLORS.white,
     borderRadius: BORDER_RADIUS.lg,
     padding: SPACING.lg,
     margin: SPACING.base,
