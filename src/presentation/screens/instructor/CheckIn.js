@@ -575,7 +575,7 @@ const CheckIn = ({ navigation }) => {
               ))
             ) : (
               <View style={styles.emptyState}>
-                <MaterialCommunityIcons name="school-outline" size={48} color="#ccc" />
+                <MaterialCommunityIcons name="school-outline" size={48} color={COLORS.gray[400]} />
                 <Text style={styles.emptyText}>Nenhuma turma encontrada</Text>
               </View>
             )}
@@ -672,7 +672,7 @@ const CheckIn = ({ navigation }) => {
               ))
             ) : (
               <View style={styles.emptyState}>
-                <MaterialCommunityIcons name="history" size={48} color="#ccc" />
+                <MaterialCommunityIcons name="history" size={48} color={COLORS.gray[400]} />
                 <Text style={styles.emptyText}>Nenhum check-in hoje</Text>
               </View>
             )}
@@ -828,7 +828,7 @@ const CheckIn = ({ navigation }) => {
               })
             ) : (
               <View style={styles.emptyState}>
-                <MaterialCommunityIcons name="account-off" size={48} color="#ccc" />
+                <MaterialCommunityIcons name="account-off" size={48} color={COLORS.gray[400]} />
                 <Text style={styles.emptyText}>
                   {searchQuery ? 'Nenhum aluno encontrado na busca' : 'Nenhum aluno cadastrado'}
                 </Text>
