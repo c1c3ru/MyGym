@@ -2,6 +2,7 @@ import React, { memo } from 'react';
 import { View, StyleSheet, Platform } from 'react-native';
 import { Button } from 'react-native-paper';
 import { LinearGradient } from 'expo-linear-gradient';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { PROFILE_COLORS, STATUS_COLORS, APP_COLORS } from '@shared/constants/colors';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
@@ -71,27 +72,36 @@ const ActionButton = ({
           minHeight: 36,
           paddingHorizontal: SPACING.md,
           fontSize: FONT_SIZE.sm,
-          iconSize: 18
+          iconSize: 24
         };
       case 'large':
         return {
           minHeight: 52,
           paddingHorizontal: SPACING.xl,
           fontSize: FONT_SIZE.lg,
-          iconSize: 24
+          iconSize: 32
         };
       default: // medium
         return {
           minHeight: 44,
           paddingHorizontal: SPACING.lg,
           fontSize: FONT_SIZE.base,
-          iconSize: 20
+          iconSize: 28
         };
     }
   };
 
   const colors = getButtonColors();
   const sizeStyles = getSizeStyles();
+
+  // Criar ícone customizado com tamanho forçado
+  const customIcon = icon ? () => (
+    <MaterialCommunityIcons 
+      name={icon} 
+      size={sizeStyles.iconSize} 
+      color={mode === 'contained' ? COLORS.white : colors.text}
+    />
+  ) : undefined;
 
   if (mode === 'contained') {
     return (
@@ -104,8 +114,7 @@ const ActionButton = ({
         >
           <Button
             mode="text"
-            icon={icon}
-            iconSize={sizeStyles.iconSize}
+            icon={customIcon}
             onPress={onPress}
             loading={loading}
             disabled={disabled}
@@ -130,8 +139,7 @@ const ActionButton = ({
   return (
     <Button
       mode={mode}
-      icon={icon}
-      iconSize={sizeStyles.iconSize}
+      icon={customIcon}
       onPress={onPress}
       loading={loading}
       disabled={disabled}

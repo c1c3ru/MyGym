@@ -414,15 +414,13 @@ const styles = StyleSheet.create({
     position: 'absolute',
     backgroundColor: COLORS.white,
     borderRadius: BORDER_RADIUS.lg,
-    padding: SPACING.lg,
-    margin: SPACING.base,
+    padding: SPACING.xl,
     maxWidth: width - SPACING.base * 2,
     ...Platform.select({
       ios: {
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.3,
-        shadowRadius: 8,
       },
       android: {
         elevation: 8,
@@ -431,19 +429,24 @@ const styles = StyleSheet.create({
   },
   tooltipTop: {
     top: SPACING.xxl,
-    left: SPACING.base,
-    right: SPACING.base,
+    left: '50%',
+    transform: [{ translateX: -(width * 0.45) }],
+    width: '90%',
+    maxWidth: 400,
   },
   tooltipBottom: {
     bottom: SPACING.xxl,
-    left: SPACING.base,
-    right: SPACING.base,
+    left: '50%',
+    transform: [{ translateX: -(width * 0.45) }],
+    width: '90%',
+    maxWidth: 400,
   },
   tooltipCenter: {
     top: '50%',
-    left: SPACING.base,
-    right: SPACING.base,
-    transform: [{ translateY: -150 }],
+    left: '50%',
+    transform: [{ translateX: -(width * 0.45) }, { translateY: -150 }],
+    width: '90%',
+    maxWidth: 400,
   },
   tooltipHeader: {
     flexDirection: 'row',
