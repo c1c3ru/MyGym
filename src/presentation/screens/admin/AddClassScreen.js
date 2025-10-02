@@ -399,7 +399,7 @@ const AddClassScreen = ({ navigation }) => {
                     updateFormData('instructorId', '');
                     updateFormData('instructorName', '');
                   }}
-                  style={[styles.chip, { backgroundColor: !formData.instructorId ? '#E8F5E8' : 'transparent' }]}
+                  style={[styles.chip, { backgroundColor: !formData.instructorId ? COLORS.success[50] : 'transparent' }]}
                   mode={!formData.instructorId ? 'flat' : 'outlined'}
                   icon={!formData.instructorId ? 'check' : 'account'}
                 >
@@ -409,8 +409,8 @@ const AddClassScreen = ({ navigation }) => {
 
               {/* Mostrar nome do usuário atual quando selecionado */}
               {!formData.instructorId && (
-                <View style={{ backgroundColor: '#E8F5E8', padding: SPACING.sm, borderRadius: BORDER_RADIUS.sm, marginBottom: SPACING.sm }}>
-                  <Text style={{ color: COLORS.primary[800], fontSize: FONT_SIZE.sm }}>
+                <View style={{ backgroundColor: COLORS.success[50], padding: SPACING.sm, borderRadius: BORDER_RADIUS.sm, marginBottom: SPACING.sm }}>
+                  <Text style={{ color: COLORS.success[800], fontSize: FONT_SIZE.sm }}>
                     ✅ Instrutor: {userProfile?.name || user.displayName || user.email}
                   </Text>
                 </View>

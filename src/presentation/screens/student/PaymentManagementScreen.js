@@ -162,7 +162,7 @@ const PaymentManagementScreen = ({ navigation }) => {
 
   const getPaymentStatusColor = (status) => {
     const colors = {
-      'paid': themeColors.success,
+      'paid': COLORS.success[500],
       'pending': COLORS.warning[500],
       'overdue': COLORS.error[500],
       'active': themeColors.primary
@@ -246,7 +246,7 @@ const PaymentManagementScreen = ({ navigation }) => {
           <Card style={styles.card}>
             <Card.Content>
               <View style={styles.cardHeader}>
-                <Ionicons name="warning" size={24} color="COLORS.warning[500]" />
+                <Ionicons name="warning" size={24} color={COLORS.warning[500]} />
                 <Text style={styles.cardTitle}>Pagamentos Pendentes</Text>
               </View>
               
@@ -263,7 +263,7 @@ const PaymentManagementScreen = ({ navigation }) => {
                     <Button
                       mode="contained"
                       onPress={() => handlePayment(payment)}
-                      style={[styles.payButton, { backgroundColor: themeColors.success }]}
+                      style={[styles.payButton, { backgroundColor: COLORS.success[500] }]}
                       icon="credit-card"
                     >
                       Pagar
@@ -542,7 +542,7 @@ const styles = StyleSheet.create({
   },
   emptySubtext: {
     fontSize: FONT_SIZE.base,
-    color: '#ccc',
+    color: COLORS.gray[400],
     marginTop: SPACING.xs,
   },
   fab: {

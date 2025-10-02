@@ -207,19 +207,19 @@ const ClassDetailsScreen = ({ route, navigation }) => {
             
             <View style={styles.statsContainer}>
               <View style={styles.statItem}>
-                <Ionicons name="people" size={24} color="COLORS.info[500]" />
+                <Ionicons name="people" size={24} color={COLORS.info[500]} />
                 <Text style={styles.statNumber}>{students.length}</Text>
                 <Text style={styles.statLabel}>Alunos</Text>
               </View>
               <View style={styles.statDivider} />
               <View style={styles.statItem}>
-                <Ionicons name="time" size={24} color="COLORS.primary[500]" />
+                <Ionicons name="time" size={24} color={COLORS.primary[500]} />
                 <Text style={styles.statNumber}>{classInfo?.schedule?.length || 0}</Text>
                 <Text style={styles.statLabel}>Horários</Text>
               </View>
               <View style={styles.statDivider} />
               <View style={styles.statItem}>
-                <Ionicons name="trophy" size={24} color="COLORS.warning[500]" />
+                <Ionicons name="trophy" size={24} color={COLORS.warning[500]} />
                 <Text style={styles.statNumber}>{classInfo?.level || 'Todos'}</Text>
                 <Text style={styles.statLabel}>Nível</Text>
               </View>
@@ -233,7 +233,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
             <Text style={styles.sectionTitle}>📋 Informações</Text>
             
             <View style={styles.infoRow}>
-              <Ionicons name="person-circle" size={24} color="COLORS.info[500]" />
+              <Ionicons name="person-circle" size={24} color={COLORS.info[500]} />
               <View style={styles.infoContent}>
                 <Text style={styles.infoLabel}>Instrutor</Text>
                 <Text style={styles.infoValue}>
@@ -243,7 +243,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
             </View>
             
             <View style={styles.infoRow}>
-              <Ionicons name="time-outline" size={24} color="COLORS.primary[500]" />
+              <Ionicons name="time-outline" size={24} color={COLORS.primary[500]} />
               <View style={styles.infoContent}>
                 <Text style={styles.infoLabel}>Horários</Text>
                 <Text style={styles.infoValue}>
@@ -253,7 +253,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
             </View>
             
             <View style={styles.infoRow}>
-              <Ionicons name="people-outline" size={24} color="COLORS.warning[500]" />
+              <Ionicons name="people-outline" size={24} color={COLORS.warning[500]} />
               <View style={styles.infoContent}>
                 <Text style={styles.infoLabel}>Capacidade</Text>
                 <Text style={styles.infoValue}>
@@ -320,7 +320,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
                   ))
                 ) : (
                   <View style={styles.emptyState}>
-                    <Ionicons name="people-outline" size={48} color="#ccc" />
+                    <Ionicons name="people-outline" size={48} color={COLORS.gray[400]} />
                     <Text style={styles.emptyText}>Nenhum aluno matriculado</Text>
                     <Text style={styles.emptySubtext}>Os alunos aparecerão aqui quando se matricularem</Text>
                   </View>
@@ -347,7 +347,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
                   contentStyle={styles.actionButtonContent}
                   labelStyle={styles.actionButtonLabel}
                 >
-                  <Ionicons name="checkmark-circle" size={20} color="COLORS.white" />
+                  <Ionicons name="checkmark-circle" size={20} color={COLORS.white} />
                   {"\n"}Check-ins
                 </Button>
               </Surface>
@@ -368,7 +368,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
                   contentStyle={styles.actionButtonContent}
                   labelStyle={styles.actionButtonLabel}
                 >
-                  <Ionicons name={showStudents ? "eye-off" : "eye"} size={20} color="COLORS.white" />
+                  <Ionicons name={showStudents ? "eye-off" : "eye"} size={20} color={COLORS.white} />
                   {"\n"}{isAdmin() ? 'Gerenciar' : (showStudents ? 'Ocultar' : 'Ver Alunos')}
                 </Button>
               </Surface>
@@ -598,7 +598,7 @@ const styles = StyleSheet.create({
   },
   emptySubtext: {
     fontSize: FONT_SIZE.base,
-    color: '#ccc',
+    color: COLORS.gray[400],
     textAlign: 'center',
     marginTop: SPACING.xs,
   },

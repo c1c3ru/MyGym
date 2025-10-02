@@ -3,7 +3,6 @@ import { View, StyleSheet, Platform } from 'react-native';
 import { Button } from 'react-native-paper';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { PROFILE_COLORS, STATUS_COLORS, APP_COLORS } from '@shared/constants/colors';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const ActionButton = ({ 
@@ -186,11 +185,11 @@ const ActionButtonGroup = memo(({ children, style, direction = 'row' }) => {
 export const FloatingActionButton = ({ icon, label, onPress, variant = 'primary', style }) => {
   const getColors = () => {
     switch (variant) {
-      case 'success': return STATUS_COLORS.successGradient;
-      case 'warning': return STATUS_COLORS.warningGradient;
-      case 'danger': return STATUS_COLORS.errorGradient;
-      case 'secondary': return PROFILE_COLORS.admin.gradient;
-      default: return PROFILE_COLORS.student.gradient;
+      case 'success': return [COLORS.success[500], COLORS.success[700]];
+      case 'warning': return [COLORS.warning[500], COLORS.warning[700]];
+      case 'danger': return [COLORS.error[500], COLORS.error[700]];
+      case 'secondary': return [COLORS.gray[600], COLORS.gray[800]];
+      default: return [COLORS.primary[500], COLORS.primary[700]];
     }
   };
 

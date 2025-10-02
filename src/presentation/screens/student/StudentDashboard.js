@@ -425,7 +425,7 @@ const StudentDashboard = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.gray[100],
+    backgroundColor: COLORS.background.default,
   },
   scrollView: {
     flex: 1,
@@ -436,14 +436,14 @@ const styles = StyleSheet.create({
   },
   welcomeCard: {
     marginBottom: ResponsiveUtils?.spacing?.sm || 8,
-    backgroundColor: COLORS.info[500],
+    backgroundColor: COLORS.primary[500],
   },
   welcomeContent: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   avatar: {
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    backgroundColor: COLORS.overlay.light,
   },
   welcomeText: {
     marginLeft: ResponsiveUtils?.spacing?.md || 16,
@@ -455,7 +455,7 @@ const styles = StyleSheet.create({
     fontWeight: FONT_WEIGHT.bold,
   },
   welcomeSubtitle: {
-    color: 'rgba(255, 255, 255, 0.8)',
+    color: COLORS.white + 'CC',
     fontSize: ResponsiveUtils?.fontSize?.small || 14,
   },
   card: {
@@ -465,7 +465,7 @@ const styles = StyleSheet.create({
     fontSize: ResponsiveUtils?.fontSize?.large || 18,
     fontWeight: FONT_WEIGHT.semibold,
     marginBottom: ResponsiveUtils?.spacing?.md || 12,
-    color: COLORS.info[500],
+    color: COLORS.primary[500],
   },
   graduationStatus: {
     alignItems: 'center',

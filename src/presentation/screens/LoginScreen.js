@@ -254,7 +254,7 @@ export default function LoginScreen({ navigation }) {
                     <View style={styles.languageButtonContent}>
                       <Text style={styles.flagEmoji}>{languages[currentLanguage].flag}</Text>
                       <Text style={styles.languageButtonText}>{languages[currentLanguage].name}</Text>
-                      <MaterialCommunityIcons name="chevron-down" size={20} color="COLORS.white" />
+                      <MaterialCommunityIcons name="chevron-down" size={20} color={COLORS.white} />
                     </View>
                   </TouchableRipple>
                 }
@@ -278,15 +278,15 @@ export default function LoginScreen({ navigation }) {
                 <MaterialCommunityIcons 
                   name={isDarkMode ? "weather-night" : "weather-sunny"} 
                   size={20} 
-                  color="COLORS.white" 
+                  color={COLORS.white} 
                   style={styles.darkModeIcon}
                 />
                 <Text style={styles.darkModeText}>{getString('darkMode')}</Text>
                 <Switch
                   value={isDarkMode}
                   onValueChange={toggleDarkMode}
-                  thumbColor={isDarkMode ? theme.colors.primary : '#f4f3f4'}
-                  trackColor={{ false: '#767577', true: theme.colors.primary }}
+                  thumbColor={isDarkMode ? theme.colors.primary : COLORS.gray[100]}
+                  trackColor={{ false: COLORS.gray[500], true: theme.colors.primary }}
                 />
               </View>
             </View>
@@ -296,7 +296,7 @@ export default function LoginScreen({ navigation }) {
             <MaterialCommunityIcons 
               name="school" 
               size={60} 
-              color="COLORS.white" 
+              color={COLORS.white} 
               style={styles.headerIcon}
             />
             <Text style={styles.headerTitle}>{getString('appName')}</Text>
@@ -549,7 +549,7 @@ const styles = StyleSheet.create({
   },
   headerSubtitle: {
     fontSize: FONT_SIZE.md,
-    color: 'COLORS.white',
+    color: COLORS.white,
   },
   content: {
     flex: 1,

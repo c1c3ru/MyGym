@@ -177,7 +177,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
           <Card style={styles.card}>
             <Card.Content>
               <View style={styles.cardHeader}>
-                <Ionicons name="fitness-outline" size={24} color="COLORS.primary[500]" />
+                <Ionicons name="fitness-outline" size={24} color={COLORS.primary[500]} />
                 <Text style={styles.cardTitle}>Avaliação Atual</Text>
                 <Text style={styles.dateText}>{formatDate(latestEvaluation.date)}</Text>
               </View>
@@ -222,7 +222,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
           <Card style={styles.card}>
             <Card.Content>
               <View style={styles.cardHeader}>
-                <Ionicons name="trending-up-outline" size={24} color="COLORS.info[500]" />
+                <Ionicons name="trending-up-outline" size={24} color={COLORS.info[500]} />
                 <Text style={styles.cardTitle}>Progresso</Text>
                 <Text style={styles.subtitle}>vs. avaliação anterior</Text>
               </View>
@@ -281,7 +281,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
           <Card style={styles.card}>
             <Card.Content>
               <View style={styles.cardHeader}>
-                <Ionicons name="analytics-outline" size={24} color="COLORS.secondary[500]" />
+                <Ionicons name="analytics-outline" size={24} color={COLORS.secondary[500]} />
                 <Text style={styles.cardTitle}>Evolução</Text>
               </View>
               
@@ -305,9 +305,9 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
                 width={width - 64}
                 height={220}
                 chartConfig={{
-                  backgroundColor: 'COLORS.whitefff',
-                  backgroundGradientFrom: 'COLORS.whitefff',
-                  backgroundGradientTo: 'COLORS.whitefff',
+                  backgroundColor: COLORS.white,
+                  backgroundGradientFrom: COLORS.white,
+                  backgroundGradientTo: COLORS.white,
                   decimalPlaces: selectedMetric === 'imc' ? 2 : 1,
                   color: (opacity = 1) => `rgba(33, 150, 243, ${opacity})`,
                   labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
@@ -318,7 +318,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
                     r: '6',
                     strokeWidth: '2',
                     stroke: COLORS.info[500],
-                    fill: 'COLORS.whitefff'
+                    fill: COLORS.white
                   },
                   formatXLabel: (value) => value,
                   formatYLabel: (value) => `${value}${chartData.suffix}`,
@@ -334,13 +334,13 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <Ionicons name="time-outline" size={24} color="COLORS.warning[500]" />
+              <Ionicons name="time-outline" size={24} color={COLORS.warning[500]} />
               <Text style={styles.cardTitle}>Histórico de Avaliações</Text>
             </View>
             
             {evaluations.length === 0 ? (
               <View style={styles.emptyState}>
-                <Ionicons name="document-outline" size={48} color="#ccc" />
+                <Ionicons name="document-outline" size={48} color={COLORS.gray[400]} />
                 <Text style={styles.emptyText}>Nenhuma avaliação física encontrada</Text>
                 <Text style={styles.emptySubtext}>Faça sua primeira avaliação para começar a acompanhar sua evolução</Text>
               </View>
@@ -479,7 +479,7 @@ const styles = StyleSheet.create({
   },
   emptySubtext: {
     fontSize: FONT_SIZE.base,
-    color: '#888',
+    color: COLORS.text.secondary,
     marginTop: SPACING.sm,
     textAlign: 'center',
     lineHeight: 20,

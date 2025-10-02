@@ -400,7 +400,7 @@ const AdminDashboard = ({ navigation }) => {
                     <SafeMaterialCommunityIcons 
                       name="qrcode-scan" 
                       size={24} 
-                      color="rgba(255,255,255,0.85)" 
+                      color={COLORS.white + 'D9'} 
                     />
                   </TouchableOpacity>
                 </Animated.View>
@@ -636,7 +636,7 @@ const AdminDashboard = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.gray[100],
+    backgroundColor: COLORS.background.default,
   },
   scrollView: {
     flex: 1,
@@ -656,7 +656,7 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: BORDER_RADIUS.full,
-    backgroundColor: COLORS.gray[100],
+    backgroundColor: COLORS.background.paper,
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: ResponsiveUtils.spacing.md,
@@ -825,7 +825,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: ResponsiveUtils.spacing.md,
     padding: ResponsiveUtils.spacing.md,
-    backgroundColor: '#E8F5E8',
+    backgroundColor: COLORS.success[50],
     borderRadius: ResponsiveUtils.borderRadius.medium,
   },
   revenueLabel: {
@@ -927,7 +927,7 @@ const styles = StyleSheet.create({
   academiaCodeContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(255,255,255,0.15)',
+    backgroundColor: COLORS.white + '26',
     paddingHorizontal: SPACING.md,
     paddingVertical: 6,
     borderRadius: BORDER_RADIUS.lg,

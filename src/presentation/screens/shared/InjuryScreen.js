@@ -213,7 +213,7 @@ const InjuryScreen = ({ navigation, route }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.headerSection}>
-              <Ionicons name="bandage-outline" size={32} color="COLORS.error[500]" />
+              <Ionicons name="bandage-outline" size={32} color={COLORS.error[500]} />
               <Text style={styles.title}>
                 {isEditing ? 'Editar Lesão' : 'Registrar Nova Lesão'}
               </Text>
@@ -419,7 +419,7 @@ const InjuryScreen = ({ navigation, route }) => {
             {/* Resumo Visual */}
             <Surface style={styles.summaryContainer}>
               <View style={styles.summaryHeader}>
-                <Ionicons name="information-circle-outline" size={24} color="COLORS.info[500]" />
+                <Ionicons name="information-circle-outline" size={24} color={COLORS.info[500]} />
                 <Text style={styles.summaryTitle}>Resumo da Lesão</Text>
               </View>
               <View style={styles.summaryContent}>

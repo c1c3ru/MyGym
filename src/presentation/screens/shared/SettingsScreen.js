@@ -76,32 +76,32 @@ const SettingsScreen = ({ navigation }) => {
         {/* Informações da Conta */}
         <Card containerStyle={styles.card}>
           <View style={styles.cardHeader}>
-            <Ionicons name="person-circle" size={24} color="COLORS.info[500]" />
+            <Ionicons name="person-circle" size={24} color={COLORS.info[500]} />
             <Text h4 style={styles.cardTitle}>Conta</Text>
           </View>
           
           <List.Item
             title="Nome"
             description={userProfile?.name || 'Não informado'}
-            left={(props) => <Ionicons name="person" size={20} color="COLORS.text.secondary" />}
+            left={(props) => <Ionicons name="person" size={20} color={COLORS.text.secondary} />}
           />
           
           <List.Item
             title="Email"
             description={user?.email}
-            left={(props) => <Ionicons name="mail" size={20} color="COLORS.text.secondary" />}
+            left={(props) => <Ionicons name="mail" size={20} color={COLORS.text.secondary} />}
           />
           
           <List.Item
             title="Editar Perfil"
-            left={(props) => <Ionicons name="create" size={20} color="COLORS.text.secondary" />}
+            left={(props) => <Ionicons name="create" size={20} color={COLORS.text.secondary} />}
             right={(props) => <List.Icon icon="chevron-right" />}
             onPress={() => navigation.navigate('Profile')}
           />
           
           <List.Item
             title="Alterar Senha"
-            left={(props) => <Ionicons name="lock-closed" size={20} color="COLORS.text.secondary" />}
+            left={(props) => <Ionicons name="lock-closed" size={20} color={COLORS.text.secondary} />}
             right={(props) => <List.Icon icon="chevron-right" />}
             onPress={handleChangePassword}
           />
@@ -110,19 +110,19 @@ const SettingsScreen = ({ navigation }) => {
         {/* Preferências */}
         <Card containerStyle={styles.card}>
           <View style={styles.cardHeader}>
-            <Ionicons name="settings" size={24} color="COLORS.primary[500]" />
+            <Ionicons name="settings" size={24} color={COLORS.primary[500]} />
             <Text h4 style={styles.cardTitle}>Preferências</Text>
           </View>
           
           <List.Item
             title="Notificações"
             description="Receber notificações push"
-            left={(props) => <Ionicons name="notifications" size={20} color="COLORS.text.secondary" />}
+            left={(props) => <Ionicons name="notifications" size={20} color={COLORS.text.secondary} />}
             right={(props) => (
               <Switch 
                 value={notifications} 
                 onValueChange={setNotifications}
-                trackColor={{ false: '#767577', true: COLORS.info[500] }}
+                trackColor={{ false: COLORS.gray[600], true: COLORS.info[500] }}
               />
             )}
           />
@@ -130,12 +130,12 @@ const SettingsScreen = ({ navigation }) => {
           <List.Item
             title="Modo Escuro"
             description="Tema escuro da aplicação"
-            left={(props) => <Ionicons name="moon" size={20} color="COLORS.text.secondary" />}
+            left={(props) => <Ionicons name="moon" size={20} color={COLORS.text.secondary} />}
             right={(props) => (
               <Switch 
                 value={darkMode} 
                 onValueChange={setDarkMode}
-                trackColor={{ false: '#767577', true: COLORS.info[500] }}
+                trackColor={{ false: COLORS.gray[600], true: COLORS.info[500] }}
               />
             )}
           />
@@ -143,12 +143,12 @@ const SettingsScreen = ({ navigation }) => {
           <List.Item
             title="Backup Automático"
             description="Backup automático dos dados"
-            left={(props) => <Ionicons name="cloud-upload" size={20} color="COLORS.text.secondary" />}
+            left={(props) => <Ionicons name="cloud-upload" size={20} color={COLORS.text.secondary} />}
             right={(props) => (
               <Switch 
                 value={autoBackup} 
                 onValueChange={setAutoBackup}
-                trackColor={{ false: '#767577', true: COLORS.info[500] }}
+                trackColor={{ false: COLORS.gray[600], true: COLORS.info[500] }}
               />
             )}
           />
@@ -157,27 +157,27 @@ const SettingsScreen = ({ navigation }) => {
         {/* Dados e Privacidade */}
         <Card containerStyle={styles.card}>
           <View style={styles.cardHeader}>
-            <Ionicons name="shield-checkmark" size={24} color="COLORS.warning[500]" />
+            <Ionicons name="shield-checkmark" size={24} color={COLORS.warning[500]} />
             <Text h4 style={styles.cardTitle}>Dados e Privacidade</Text>
           </View>
           
           <List.Item
             title="Exportar Dados"
             description="Baixar uma cópia dos seus dados"
-            left={(props) => <Ionicons name="download" size={20} color="COLORS.text.secondary" />}
+            left={(props) => <Ionicons name="download" size={20} color={COLORS.text.secondary} />}
             right={(props) => <List.Icon icon="chevron-right" />}
             onPress={handleDataExport}
           />
           
           <List.Item
             title="Política de Privacidade"
-            left={(props) => <Ionicons name="document-text" size={20} color="COLORS.text.secondary" />}
+            left={(props) => <Ionicons name="document-text" size={20} color={COLORS.text.secondary} />}
             right={(props) => <List.Icon icon="chevron-right" />}
           />
           
           <List.Item
             title="Termos de Uso"
-            left={(props) => <Ionicons name="library" size={20} color="COLORS.text.secondary" />}
+            left={(props) => <Ionicons name="library" size={20} color={COLORS.text.secondary} />}
             right={(props) => <List.Icon icon="chevron-right" />}
           />
         </Card>
@@ -185,25 +185,25 @@ const SettingsScreen = ({ navigation }) => {
         {/* Sobre */}
         <Card containerStyle={styles.card}>
           <View style={styles.cardHeader}>
-            <Ionicons name="information-circle" size={24} color="COLORS.secondary[500]" />
+            <Ionicons name="information-circle" size={24} color={COLORS.secondary[500]} />
             <Text h4 style={styles.cardTitle}>Sobre</Text>
           </View>
           
           <List.Item
             title="Versão do App"
             description="1.0.0"
-            left={(props) => <Ionicons name="apps" size={20} color="COLORS.text.secondary" />}
+            left={(props) => <Ionicons name="apps" size={20} color={COLORS.text.secondary} />}
           />
           
           <List.Item
             title="Central de Ajuda"
-            left={(props) => <Ionicons name="help-circle" size={20} color="COLORS.text.secondary" />}
+            left={(props) => <Ionicons name="help-circle" size={20} color={COLORS.text.secondary} />}
             right={(props) => <List.Icon icon="chevron-right" />}
           />
           
           <List.Item
             title="Enviar Feedback"
-            left={(props) => <Ionicons name="chatbubble-ellipses" size={20} color="COLORS.text.secondary" />}
+            left={(props) => <Ionicons name="chatbubble-ellipses" size={20} color={COLORS.text.secondary} />}
             right={(props) => <List.Icon icon="chevron-right" />}
           />
         </Card>
@@ -211,7 +211,7 @@ const SettingsScreen = ({ navigation }) => {
         {/* Ações Perigosas */}
         <Card containerStyle={[styles.card, styles.dangerCard]}>
           <View style={styles.cardHeader}>
-            <Ionicons name="warning" size={24} color="COLORS.error[500]" />
+            <Ionicons name="warning" size={24} color={COLORS.error[500]} />
             <Text h4 style={[styles.cardTitle, styles.dangerTitle]}>Zona de Perigo</Text>
           </View>
           
@@ -220,7 +220,7 @@ const SettingsScreen = ({ navigation }) => {
             onPress={handleLogout}
             buttonColor={COLORS.warning[500]}
             textColor={COLORS.white}
-            icon={() => <Ionicons name="log-out" size={20} color="COLORS.white" />}
+            icon={() => <Ionicons name="log-out" size={20} color={COLORS.white} />}
             style={styles.dangerButton}
           >
             Sair da Conta
@@ -231,7 +231,7 @@ const SettingsScreen = ({ navigation }) => {
             onPress={handleDeleteAccount}
             buttonColor={COLORS.error[500]}
             textColor={COLORS.white}
-            icon={() => <Ionicons name="trash" size={20} color="COLORS.white" />}
+            icon={() => <Ionicons name="trash" size={20} color={COLORS.white} />}
             style={[styles.dangerButton, { marginTop: SPACING.md }]}
           >
             Excluir Conta
@@ -245,7 +245,7 @@ const SettingsScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.gray[100],
+    backgroundColor: COLORS.background.default,
   },
   scrollView: {
     flex: 1,
@@ -259,20 +259,25 @@ const styles = StyleSheet.create({
     maxWidth: ResponsiveUtils?.isTablet?.() ? 600 : '100%',
     alignSelf: 'center',
     width: '100%',
+    backgroundColor: COLORS.card.default.background,
+    borderColor: COLORS.card.default.border,
+    borderWidth: BORDER_WIDTH.thin,
     ...Platform.select({
       ios: {},
       android: {
         elevation: 4,
       },
       web: {
-        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.5)',
+        boxShadow: `0 2px 4px ${COLORS.card.default.shadow}`,
       },
     }),
   },
   dangerCard: {
-    backgroundColor: COLORS.error[50],
+    backgroundColor: COLORS.card.default.background,
     borderColor: COLORS.error[500],
     borderWidth: BORDER_WIDTH.base,
+    borderLeftWidth: 4,
+    borderLeftColor: COLORS.error[500],
   },
   cardHeader: {
     flexDirection: 'row',

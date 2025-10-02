@@ -52,8 +52,11 @@ const StudentNavigator = () => {
           }
           return <Ionicons name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: PROFILE_COLORS.student.primary,
-        tabBarInactiveTintColor: 'gray',
+        tabBarActiveTintColor: COLORS.primary[500],
+        tabBarInactiveTintColor: COLORS.text.disabled,
+        tabBarStyle: {
+          backgroundColor: COLORS.card.default.background,
+        },
       })}
     >
       <Tab.Screen 

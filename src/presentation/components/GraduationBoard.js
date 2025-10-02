@@ -300,7 +300,7 @@ const GraduationBoard = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.gray[100],
+    backgroundColor: COLORS.background.default,
   },
   header: {
     flexDirection: 'row',
@@ -308,7 +308,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 16,
     paddingVertical: SPACING.md,
-    backgroundColor: 'COLORS.white',
+    backgroundColor: COLORS.card.default.background,
     elevation: 2,
   },
   title: {

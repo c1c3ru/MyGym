@@ -77,22 +77,22 @@ const GraduationBoardScreen = ({ navigation }) => {
 
   const getBeltColor = (belt) => {
     const colors = {
-      'Branca': COLORS.white,
-      'Cinza': '#808080',
-      'Amarela': COLORS.warning[400],
-      'Laranja': COLORS.warning[500],
-      'Verde': COLORS.primary[500],
-      'Azul': COLORS.info[500],
-      'Roxa': COLORS.secondary[500],
-      'Marrom': COLORS.gray[700],
-      'Preta': COLORS.black
+      'Branca': COLORS.special.belt.white,
+      'Cinza': COLORS.gray[500],
+      'Amarela': COLORS.special.belt.yellow,
+      'Laranja': COLORS.special.belt.orange,
+      'Verde': COLORS.special.belt.green,
+      'Azul': COLORS.special.belt.blue,
+      'Roxa': COLORS.special.belt.purple,
+      'Marrom': COLORS.special.belt.brown,
+      'Preta': COLORS.special.belt.black
     };
     return colors[belt] || COLORS.gray[300];
   };
 
   const getAlertColor = (alertLevel) => {
     const colors = {
-      'ready': COLORS.primary[500],
+      'ready': COLORS.success[500],
       'warning': COLORS.warning[500],
       'info': COLORS.info[500]
     };
@@ -113,7 +113,7 @@ const GraduationBoardScreen = ({ navigation }) => {
         <Card style={[styles.summaryCard, styles.studentsCard]}>
           <Card.Content style={styles.summaryContent}>
             <View style={styles.summaryIcon}>
-              <Ionicons name="people" size={24} color="COLORS.info[500]" />
+              <Ionicons name="people" size={24} color={COLORS.info[500]} />
             </View>
             <View style={styles.summaryText}>
               <Title style={styles.summaryNumber}>{summary.totalStudents}</Title>
@@ -125,7 +125,7 @@ const GraduationBoardScreen = ({ navigation }) => {
         <Card style={[styles.summaryCard, styles.eligibleCard]}>
           <Card.Content style={styles.summaryContent}>
             <View style={styles.summaryIcon}>
-              <Ionicons name="trophy" size={24} color="COLORS.primary[500]" />
+              <Ionicons name="trophy" size={24} color={COLORS.success[500]} />
             </View>
             <View style={styles.summaryText}>
               <Title style={styles.summaryNumber}>{summary.totalEligible}</Title>
@@ -137,7 +137,7 @@ const GraduationBoardScreen = ({ navigation }) => {
         <Card style={[styles.summaryCard, styles.examsCard]}>
           <Card.Content style={styles.summaryContent}>
             <View style={styles.summaryIcon}>
-              <Ionicons name="calendar" size={24} color="COLORS.warning[500]" />
+              <Ionicons name="calendar" size={24} color={COLORS.warning[500]} />
             </View>
             <View style={styles.summaryText}>
               <Title style={styles.summaryNumber}>{summary.totalUpcomingExams}</Title>
@@ -214,7 +214,7 @@ const GraduationBoardScreen = ({ navigation }) => {
                     >
                       {student.currentBelt}
                     </Chip>
-                    <Ionicons name="arrow-forward" size={16} color="COLORS.text.secondary" />
+                    <Ionicons name="arrow-forward" size={16} color={COLORS.text.secondary} />
                     <Chip 
                       size="small" 
                       style={[styles.beltChip, { backgroundColor: getBeltColor(student.nextBelt) }]}
@@ -327,7 +327,7 @@ const GraduationBoardScreen = ({ navigation }) => {
               
               <ProgressBar 
                 progress={stat.totalStudents > 0 ? stat.eligibleStudents / stat.totalStudents : 0}
-                color="COLORS.primary[500]"
+                color={COLORS.success[500]}
                 style={styles.progressBar}
               />
               
@@ -464,7 +464,7 @@ const styles = StyleSheet.create({
     fontWeight: FONT_WEIGHT.bold,
   },
   headerSubtitle: {
-    color: 'COLORS.white',
+    color: COLORS.white,
     fontSize: FONT_SIZE.base,
   },
   content: {

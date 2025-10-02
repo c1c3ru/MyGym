@@ -21,7 +21,7 @@ import { useAuth } from '@contexts/AuthProvider';
 import { useTheme } from '@contexts/ThemeContext';
 import { academyFirestoreService } from '@services/academyFirestoreService';
 import SafeCardContent from '@components/SafeCardContent';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, BORDER_WIDTH } from '@presentation/theme/designTokens';
 
 const { width } = Dimensions.get('window');
 
@@ -205,7 +205,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
                 />
                 {studentInfo?.isActive !== false && (
                   <Badge style={styles.activeBadge} size={20}>
-                    <Ionicons name="checkmark" size={12} color="COLORS.white" />
+                    <Ionicons name="checkmark" size={12} color={COLORS.white} />
                   </Badge>
                 )}
               </View>
@@ -216,14 +216,14 @@ const StudentProfileScreen = ({ route, navigation }) => {
                 
                 <View style={styles.statusRow}>
                   <View style={styles.statusItem}>
-                    <Ionicons name="time-outline" size={16} color="COLORS.white" />
+                    <Ionicons name="time-outline" size={16} color={COLORS.white} />
                     <Text style={styles.statusText}>
                       {calculateAge(studentInfo?.birthDate) || '--'} anos
                     </Text>
                   </View>
                   
                   <View style={styles.statusItem}>
-                    <Ionicons name="calendar-outline" size={16} color="COLORS.white" />
+                    <Ionicons name="calendar-outline" size={16} color={COLORS.white} />
                     <Text style={styles.statusText}>
                       Desde {formatDate(studentInfo?.createdAt, 'short')}
                     </Text>
@@ -247,7 +247,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
         <View style={styles.statsContainer}>
           <View style={styles.statCard}>
             <View style={styles.statIconContainer}>
-              <Ionicons name="school-outline" size={24} color="COLORS.primary[500]" />
+              <Ionicons name="school-outline" size={24} color={COLORS.primary[500]} />
             </View>
             <Text style={styles.statNumber}>{studentClasses.length}</Text>
             <Text style={styles.statLabel}>Turmas</Text>
@@ -263,7 +263,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
           
           <View style={styles.statCard}>
             <View style={styles.statIconContainer}>
-              <Ionicons name="card-outline" size={24} color="COLORS.info[500]" />
+              <Ionicons name="card-outline" size={24} color={COLORS.info[500]} />
             </View>
             <Text style={styles.statNumber}>{payments.filter(p => p.status === 'paid').length}</Text>
             <Text style={styles.statLabel}>Pagos</Text>
@@ -337,7 +337,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
           <SafeCardContent source="StudentProfile/classes">
             <View style={styles.modernCardHeader}>
               <View style={styles.cardIconContainer}>
-                <Ionicons name="school-outline" size={24} color="COLORS.primary[500]" />
+                <Ionicons name="school-outline" size={24} color={COLORS.primary[500]} />
               </View>
               <Title style={styles.modernCardTitle}>Turmas Matriculadas</Title>
               <Badge style={styles.countBadge}>{studentClasses.length}</Badge>
@@ -349,7 +349,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
                   <View key={classItem.id || index} style={styles.classCard}>
                     <View style={styles.classCardHeader}>
                       <View style={styles.classIconContainer}>
-                        <Ionicons name="fitness-outline" size={20} color="COLORS.primary[500]" />
+                        <Ionicons name="fitness-outline" size={20} color={COLORS.primary[500]} />
                       </View>
                       <Text style={styles.className}>{classItem.name}</Text>
                     </View>
@@ -358,7 +358,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
                     
                     <View style={styles.classFooter}>
                       <View style={styles.scheduleInfo}>
-                        <Ionicons name="time-outline" size={14} color="COLORS.text.secondary" />
+                        <Ionicons name="time-outline" size={14} color={COLORS.text.secondary} />
                         <Text style={styles.scheduleText}>
                           {classItem.schedule?.length || 0} horários
                         </Text>
@@ -415,7 +415,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
                         <Text style={styles.graduationTitle}>{graduation.graduation}</Text>
                         <Text style={styles.graduationModality}>{graduation.modality}</Text>
                         <View style={styles.graduationDate}>
-                          <Ionicons name="calendar-outline" size={14} color="COLORS.text.secondary" />
+                          <Ionicons name="calendar-outline" size={14} color={COLORS.text.secondary} />
                           <Text style={styles.graduationDateText}>
                             {formatDate(graduation.date)}
                           </Text>
@@ -457,7 +457,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
           <SafeCardContent source="StudentProfile/payments">
             <View style={styles.modernCardHeader}>
               <View style={styles.cardIconContainer}>
-                <Ionicons name="card-outline" size={24} color="COLORS.info[500]" />
+                <Ionicons name="card-outline" size={24} color={COLORS.info[500]} />
               </View>
               <Title style={styles.modernCardTitle}>Resumo Financeiro</Title>
             </View>
@@ -470,7 +470,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
                 </Text>
                 <Text style={styles.financialLabel}>Total Pago</Text>
                 <View style={styles.financialIcon}>
-                  <Ionicons name="checkmark-circle" size={20} color="COLORS.primary[500]" />
+                  <Ionicons name="checkmark-circle" size={20} color={COLORS.primary[500]} />
                 </View>
               </View>
               
@@ -480,7 +480,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
                 </Text>
                 <Text style={styles.financialLabel}>Pendente</Text>
                 <View style={styles.financialIcon}>
-                  <Ionicons name="time-outline" size={20} color="COLORS.warning[500]" />
+                  <Ionicons name="time-outline" size={20} color={COLORS.warning[500]} />
                 </View>
               </View>
             </View>
@@ -583,7 +583,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background.light,
+    backgroundColor: COLORS.background.default,
   },
   loadingContainer: {
     flex: 1,
@@ -670,7 +670,7 @@ const styles = StyleSheet.create({
   },
   statusText: {
     fontSize: FONT_SIZE.base,
-    color: 'COLORS.white',
+    color: COLORS.white,
     fontWeight: FONT_WEIGHT.medium,
   },
   graduationContainer: {
@@ -694,7 +694,9 @@ const styles = StyleSheet.create({
   },
   statCard: {
     flex: 1,
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.card.default.background,
+    borderColor: COLORS.card.default.border,
+    borderWidth: BORDER_WIDTH.thin,
     borderRadius: BORDER_RADIUS.lg,
     padding: SPACING.lg,
     alignItems: 'center',
@@ -709,7 +711,7 @@ const styles = StyleSheet.create({
         elevation: 4,
       },
       web: {
-        boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
+        boxShadow: `0 2px 12px ${COLORS.card.default.shadow}`,
       },
     }),
   },
@@ -717,7 +719,7 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: BORDER_RADIUS.full,
-    backgroundColor: COLORS.background.light,
+    backgroundColor: COLORS.card.elevated.background,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: SPACING.md,
@@ -740,7 +742,9 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     marginBottom: 20,
     borderRadius: BORDER_RADIUS.lg,
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.card.default.background,
+    borderColor: COLORS.card.default.border,
+    borderWidth: BORDER_WIDTH.thin,
     ...Platform.select({
       ios: {
         shadowColor: COLORS.black,
@@ -752,7 +756,7 @@ const styles = StyleSheet.create({
         elevation: 4,
       },
       web: {
-        boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
+        boxShadow: `0 2px 12px ${COLORS.card.default.shadow}`,
       },
     }),
   },
@@ -768,7 +772,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: BORDER_RADIUS.lg,
-    backgroundColor: COLORS.background.light,
+    backgroundColor: COLORS.card.elevated.background,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 12,
@@ -791,14 +795,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: SPACING.base,
-    backgroundColor: COLORS.background.light,
+    backgroundColor: COLORS.card.elevated.background,
     borderRadius: BORDER_RADIUS.md,
   },
   infoIconContainer: {
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.card.default.background,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 12,
@@ -825,7 +829,7 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   classCard: {
-    backgroundColor: COLORS.background.light,
+    backgroundColor: COLORS.card.elevated.background,
     borderRadius: BORDER_RADIUS.md,
     padding: SPACING.base,
     borderLeftWidth: 4,
@@ -840,7 +844,7 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: BORDER_RADIUS.lg,
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.card.default.background,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 10,
@@ -888,7 +892,7 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: BORDER_RADIUS.lg,
-    backgroundColor: 'COLORS.white5e6',
+    backgroundColor: COLORS.white,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 2,
@@ -906,7 +910,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.gray[100],
   },
   graduationCard: {
-    backgroundColor: COLORS.background.light,
+    backgroundColor: COLORS.card.elevated.background,
     borderRadius: BORDER_RADIUS.md,
     padding: SPACING.base,
     borderLeftWidth: 4,
@@ -943,7 +947,7 @@ const styles = StyleSheet.create({
   },
   financialCard: {
     flex: 1,
-    backgroundColor: COLORS.background.light,
+    backgroundColor: COLORS.card.elevated.background,
     borderRadius: BORDER_RADIUS.md,
     padding: SPACING.base,
     position: 'relative',

@@ -260,7 +260,7 @@ const ProfileScreen = ({ navigation }) => {
           <Card style={[styles.card, styles.warningCard]}>
             <Card.Content>
               <View style={styles.cardHeader}>
-                <Ionicons name="warning-outline" size={24} color="COLORS.warning[500]" />
+                <Ionicons name="warning-outline" size={24} color={COLORS.warning[500]} />
                 <Title style={[styles.cardTitle, { color: COLORS.warning[500] }]}>{getString('paymentNearDue')}</Title>
               </View>
               
@@ -303,7 +303,7 @@ const ProfileScreen = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <Ionicons name="person-outline" size={24} color="COLORS.info[500]" />
+              <Ionicons name="person-outline" size={24} color={COLORS.info[500]} />
               <Title style={styles.cardTitle}>{getString('personalInformation')}</Title>
               <Button 
                 mode="text" 
@@ -417,7 +417,7 @@ const ProfileScreen = ({ navigation }) => {
             <Card style={styles.card}>
               <Card.Content>
                 <View style={styles.cardHeader}>
-                  <Ionicons name="school-outline" size={24} color="COLORS.primary[500]" />
+                  <Ionicons name="school-outline" size={24} color={COLORS.primary[500]} />
                   <Title style={styles.cardTitle}>{getString('academyInformation')}</Title>
                 </View>
 
@@ -450,7 +450,7 @@ const ProfileScreen = ({ navigation }) => {
             <Card style={styles.card}>
               <Card.Content>
                 <View style={styles.cardHeader}>
-                  <Ionicons name="calendar-outline" size={24} color="COLORS.info[500]" />
+                  <Ionicons name="calendar-outline" size={24} color={COLORS.info[500]} />
                   <Title style={styles.cardTitle}>Treinos esta semana</Title>
                   <Button 
                     mode="text" 
@@ -535,7 +535,7 @@ const ProfileScreen = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <Ionicons name="settings-outline" size={24} color="COLORS.text.secondary" />
+              <Ionicons name="settings-outline" size={24} color={COLORS.text.secondary} />
               <Title style={styles.cardTitle}>Configurações da Conta</Title>
             </View>
 
@@ -610,7 +610,7 @@ const ProfileScreen = ({ navigation }) => {
         <Card style={styles.modalCard}>
           <Card.Title
             title="Treinos no ano"
-            left={() => <Ionicons name="calendar" size={24} color="COLORS.info[500]" />}
+            left={() => <Ionicons name="calendar" size={24} color={COLORS.info[500]} />}
             right={() => (
               <Button onPress={() => setShowYearModal(false)} icon="close">
                 Fechar
@@ -704,7 +704,7 @@ const ProfileScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.gray[100],
+    backgroundColor: COLORS.background.default,
   },
   scrollView: {
     flex: 1,
@@ -712,6 +712,9 @@ const styles = StyleSheet.create({
   headerCard: {
     margin: SPACING.base,
     marginBottom: SPACING.sm,
+    backgroundColor: COLORS.card.default.background,
+    borderColor: COLORS.card.default.border,
+    borderWidth: BORDER_WIDTH.thin,
     elevation: 4,
   },
   headerContent: {
@@ -777,6 +780,9 @@ const styles = StyleSheet.create({
   card: {
     margin: SPACING.base,
     marginTop: SPACING.sm,
+    backgroundColor: COLORS.card.default.background,
+    borderColor: COLORS.card.default.border,
+    borderWidth: BORDER_WIDTH.thin,
     elevation: 2,
   },
   cardHeader: {
@@ -809,7 +815,9 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: BORDER_RADIUS.lg,
-    backgroundColor: COLORS.gray[100],
+    backgroundColor: COLORS.card.default.background,
+    borderColor: COLORS.card.default.border,
+    borderWidth: BORDER_WIDTH.thin,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -830,6 +838,9 @@ const styles = StyleSheet.create({
   },
   modalCard: {
     maxHeight: '80%',
+    backgroundColor: COLORS.card.elevated.background,
+    borderColor: COLORS.card.elevated.border,
+    borderWidth: BORDER_WIDTH.thin,
   },
   yearSelector: {
     flexDirection: 'row',
@@ -853,7 +864,9 @@ const styles = StyleSheet.create({
   },
   monthCard: {
     width: '48%',
-    backgroundColor: COLORS.background.light,
+    backgroundColor: COLORS.card.default.background,
+    borderColor: COLORS.card.default.border,
+    borderWidth: BORDER_WIDTH.thin,
     borderRadius: BORDER_RADIUS.md,
     padding: SPACING.md,
     marginBottom: SPACING.md,

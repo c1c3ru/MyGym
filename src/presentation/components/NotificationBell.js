@@ -54,11 +54,11 @@ const NotificationBell = ({ color = COLORS.white, size = 24 }) => {
   const getNotificationColor = (type) => {
     switch (type) {
       case 'payment':
-        return '#f44336';
+        return COLORS.error[500];
       case 'class':
-        return '#2196f3';
+        return COLORS.info[500];
       case 'graduation':
-        return '#ff9800';
+        return COLORS.warning[500];
       case 'general':
         return COLORS.primary[500];
       default:
@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
   },
   permissionCard: {
-    backgroundColor: 'COLORS.white3e0',
+    backgroundColor: COLORS.warning[50],
     margin: SPACING.base,
     borderRadius: BORDER_RADIUS.md,
   },

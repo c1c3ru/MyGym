@@ -39,7 +39,7 @@ const NovaAula = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.header}>
-              <MaterialCommunityIcons name="plus-circle" size={32} color="COLORS.primary[500]" />
+              <MaterialCommunityIcons name="plus-circle" size={32} color={COLORS.primary[500]} />
               <Text style={styles.title}>Nova Aula</Text>
             </View>
             

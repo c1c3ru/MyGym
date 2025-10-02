@@ -263,7 +263,7 @@ export const COLORS = {
   // Cores de texto (Dark Theme)
   text: {
     primary: '#FFFFFF',      // Branco puro (títulos)
-    secondary: '#E0E0E0',    // Cinza claro (subtítulos)
+    secondary: '#BDBDBD',    // Cinza claro (subtítulos) - Ajustado para BJJ Control
     disabled: '#9E9E9E',     // Cinza médio (desabilitado)
     hint: '#757575',         // Cinza (hints/placeholders)
     inverse: '#0D0D0D',      // Preto (para fundos claros)

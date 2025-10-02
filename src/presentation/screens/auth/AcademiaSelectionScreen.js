@@ -397,9 +397,9 @@ export default function AcademiaSelectionScreen({ navigation, route }) {
 
   const getPlanoColor = (plano) => {
     switch (plano) {
-      case 'free': return '#e8f5e8';
-      case 'premium': return 'COLORS.white3e0';
-      case 'enterprise': return '#f3e5f5';
+      case 'free': return COLORS.success[50];
+      case 'premium': return COLORS.warning[50];
+      case 'enterprise': return COLORS.info[50];
       default: return COLORS.gray[100];
     }
   };
@@ -407,7 +407,7 @@ export default function AcademiaSelectionScreen({ navigation, route }) {
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#6200ee" />
+        <ActivityIndicator size="large" color={COLORS.primary[500]} />
         <Text style={styles.loadingText}>Processando...</Text>
       </View>
     );
@@ -829,7 +829,7 @@ const styles = {
   },
   header: {
     padding: SPACING.xl,
-    backgroundColor: '#6200ee',
+    backgroundColor: COLORS.primary[500],
   },
   headerContent: {
     position: 'relative',
@@ -966,7 +966,7 @@ const styles = {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: COLORS.overlay.dark,
     zIndex: 9999,
   },
   qrModal: {

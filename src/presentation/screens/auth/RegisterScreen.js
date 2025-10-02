@@ -547,7 +547,8 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: FONT_SIZE.md,
-    color: 'rgba(255, 255, 255, 0.9)',
+    color: COLORS.text.primary,
+    opacity: 0.9,
     textAlign: 'center',
     ...Platform.select({
       web: {

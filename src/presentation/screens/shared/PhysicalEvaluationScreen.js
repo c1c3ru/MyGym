@@ -255,7 +255,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.headerSection}>
-              <Ionicons name="fitness-outline" size={32} color="COLORS.primary[500]" />
+              <Ionicons name="fitness-outline" size={32} color={COLORS.primary[500]} />
               <Text style={styles.title}>
                 {isEditing ? 'Editar Avaliação Física' : 'Nova Avaliação Física'}
               </Text>
@@ -308,7 +308,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
             {calculatedIMC && (
               <Surface style={styles.imcContainer}>
                 <View style={styles.imcHeader}>
-                  <Ionicons name="calculator-outline" size={24} color="COLORS.info[500]" />
+                  <Ionicons name="calculator-outline" size={24} color={COLORS.info[500]} />
                   <Text style={styles.imcTitle}>Índice de Massa Corporal (IMC)</Text>
                 </View>
                 <View style={styles.imcResult}>

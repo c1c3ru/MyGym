@@ -94,17 +94,17 @@ const StudentEvolution = ({ navigation }) => {
 
   const getGraduationColor = (graduation) => {
     const colors = {
-      'Branca': COLORS.white,
+      'Branca': COLORS.special.belt.white,
       'Cinza': COLORS.gray[500],
-      'Amarela': COLORS.warning[400],
-      'Laranja': COLORS.warning[500],
-      'Verde': COLORS.primary[500],
-      'Azul': COLORS.info[500],
-      'Roxa': COLORS.secondary[500],
-      'Marrom': COLORS.gray[700],
-      'Preta': COLORS.gray[800],
-      'Coral': COLORS.error[400],
-      'Vermelha': COLORS.error[500]
+      'Amarela': COLORS.special.belt.yellow,
+      'Laranja': COLORS.special.belt.orange,
+      'Verde': COLORS.special.belt.green,
+      'Azul': COLORS.special.belt.blue,
+      'Roxa': COLORS.special.belt.purple,
+      'Marrom': COLORS.special.belt.brown,
+      'Preta': COLORS.special.belt.black,
+      'Coral': COLORS.special.belt.red,
+      'Vermelha': COLORS.special.belt.red
     };
     return colors[graduation] || COLORS.info[500];
   };
@@ -177,7 +177,7 @@ const StudentEvolution = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <Ionicons name="git-branch-outline" size={24} color="COLORS.info[500]" />
+              <Ionicons name="git-branch-outline" size={24} color={COLORS.info[500]} />
               <Title style={styles.cardTitle}>Timeline de Graduações</Title>
             </View>
             
@@ -221,7 +221,7 @@ const StudentEvolution = ({ navigation }) => {
               ))
             ) : (
               <View style={styles.emptyState}>
-                <Ionicons name="medal-outline" size={48} color="#ccc" />
+                <Ionicons name="medal-outline" size={48} color={COLORS.gray[300]} />
                 <Paragraph style={styles.emptyText}>
                   Nenhuma graduação registrada ainda
                 </Paragraph>
@@ -238,7 +238,7 @@ const StudentEvolution = ({ navigation }) => {
           <Card style={styles.card}>
             <Card.Content>
               <View style={styles.cardHeader}>
-                <Ionicons name="fitness-outline" size={24} color="COLORS.primary[500]" />
+                <Ionicons name="fitness-outline" size={24} color={COLORS.primary[500]} />
                 <Title style={styles.cardTitle}>Modalidades Praticadas</Title>
               </View>
               
@@ -262,20 +262,20 @@ const StudentEvolution = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <Ionicons name="flag-outline" size={24} color="COLORS.warning[500]" />
+              <Ionicons name="flag-outline" size={24} color={COLORS.warning[500]} />
               <Title style={styles.cardTitle}>Próximos Objetivos</Title>
             </View>
             
             <List.Item
               title={getString('maintainFrequency')}
               description="Continue participando regularmente das aulas"
-              left={() => <List.Icon icon="check-circle-outline" color="COLORS.primary[500]" />}
+              left={() => <List.Icon icon="check-circle-outline" color={COLORS.success[500]} />}
             />
             
             <List.Item
               title={getString('improveTechniques')}
               description="Foque no desenvolvimento técnico"
-              left={() => <List.Icon icon="trending-up" color="COLORS.info[500]" />}
+              left={() => <List.Icon icon="trending-up" color={COLORS.info[500]} />}
             />
             
             <List.Item
@@ -394,7 +394,7 @@ const styles = StyleSheet.create({
   timelineLine: {
     width: 2,
     height: 16,
-    backgroundColor: '#ddd',
+    backgroundColor: COLORS.border.light,
     marginLeft: 20,
     marginTop: SPACING.sm,
   },

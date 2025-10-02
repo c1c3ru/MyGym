@@ -514,7 +514,7 @@ const CheckIn = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.header}>
-              <MaterialCommunityIcons name="school" size={32} color="COLORS.primary[500]" />
+              <MaterialCommunityIcons name="school" size={32} color={COLORS.primary[500]} />
               <Text style={styles.title}>Minhas Turmas</Text>
             </View>
             
@@ -540,7 +540,7 @@ const CheckIn = ({ navigation }) => {
                   
                   <View style={styles.checkInDetails}>
                     <View style={styles.detailItem}>
-                      <MaterialCommunityIcons name="clock" size={16} color="COLORS.text.secondary" />
+                      <MaterialCommunityIcons name="clock" size={16} color={COLORS.text.secondary} />
                       <Text style={styles.detailText}>
                         {(() => {
                           if (typeof classItem.schedule === 'object' && classItem.schedule) {
@@ -554,7 +554,7 @@ const CheckIn = ({ navigation }) => {
                       </Text>
                     </View>
                     <View style={styles.detailItem}>
-                      <MaterialCommunityIcons name="account-group" size={16} color="COLORS.text.secondary" />
+                      <MaterialCommunityIcons name="account-group" size={16} color={COLORS.text.secondary} />
                       <Text style={styles.detailText}>
                         {String(classItem.currentStudents || 0)}/{String(classItem.maxStudents || 0)} alunos
                       </Text>
@@ -587,7 +587,7 @@ const CheckIn = ({ navigation }) => {
           <Card style={styles.card}>
             <Card.Content>
               <View style={styles.header}>
-                <MaterialCommunityIcons name="qrcode-scan" size={32} color="COLORS.info[500]" />
+                <MaterialCommunityIcons name="qrcode-scan" size={32} color={COLORS.info[500]} />
                 <Text style={styles.title}>Sessões Ativas</Text>
               </View>
               
@@ -609,13 +609,13 @@ const CheckIn = ({ navigation }) => {
                   
                   <View style={styles.checkInDetails}>
                     <View style={styles.detailItem}>
-                      <MaterialCommunityIcons name="clock" size={16} color="COLORS.text.secondary" />
+                      <MaterialCommunityIcons name="clock" size={16} color={COLORS.text.secondary} />
                       <Text style={styles.detailText}>
                         Iniciado: {session.startTime?.toDate?.()?.toLocaleTimeString() || 'Agora'}
                       </Text>
                     </View>
                     <View style={styles.detailItem}>
-                      <MaterialCommunityIcons name="check-circle" size={16} color="COLORS.text.secondary" />
+                      <MaterialCommunityIcons name="check-circle" size={16} color={COLORS.text.secondary} />
                       <Text style={styles.detailText}>
                         {session.checkInCount || 0} check-ins
                       </Text>

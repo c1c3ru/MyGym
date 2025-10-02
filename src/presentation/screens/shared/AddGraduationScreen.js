@@ -64,18 +64,18 @@ const AddGraduationScreen = ({ route, navigation }) => {
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   const defaultGraduationLevels = [
-    { id: COLORS.white, name: 'Faixa Branca', color: COLORS.white, order: 1 },
-    { id: 'yellow', name: 'Faixa Amarela', color: COLORS.warning[400], order: 2 },
-    { id: 'orange', name: 'Faixa Laranja', color: COLORS.warning[500], order: 3 },
-    { id: 'green', name: 'Faixa Verde', color: COLORS.primary[500], order: 4 },
-    { id: 'blue', name: 'Faixa Azul', color: COLORS.info[500], order: 5 },
-    { id: 'purple', name: 'Faixa Roxa', color: COLORS.secondary[500], order: 6 },
-    { id: 'brown', name: 'Faixa Marrom', color: COLORS.gray[700], order: 7 },
-    { id: 'black-1', name: 'Faixa Preta 1º Dan', color: COLORS.black, order: 8 },
-    { id: 'black-2', name: 'Faixa Preta 2º Dan', color: COLORS.black, order: 9 },
-    { id: 'black-3', name: 'Faixa Preta 3º Dan', color: COLORS.black, order: 10 },
-    { id: 'black-4', name: 'Faixa Preta 4º Dan', color: COLORS.black, order: 11 },
-    { id: 'black-5', name: 'Faixa Preta 5º Dan', color: COLORS.black, order: 12 },
+    { id: COLORS.special.belt.white, name: 'Faixa Branca', color: COLORS.special.belt.white, order: 1 },
+    { id: 'yellow', name: 'Faixa Amarela', color: COLORS.special.belt.yellow, order: 2 },
+    { id: 'orange', name: 'Faixa Laranja', color: COLORS.special.belt.orange, order: 3 },
+    { id: 'green', name: 'Faixa Verde', color: COLORS.special.belt.green, order: 4 },
+    { id: 'blue', name: 'Faixa Azul', color: COLORS.special.belt.blue, order: 5 },
+    { id: 'purple', name: 'Faixa Roxa', color: COLORS.special.belt.purple, order: 6 },
+    { id: 'brown', name: 'Faixa Marrom', color: COLORS.special.belt.brown, order: 7 },
+    { id: 'black-1', name: 'Faixa Preta 1º Dan', color: COLORS.special.belt.black, order: 8 },
+    { id: 'black-2', name: 'Faixa Preta 2º Dan', color: COLORS.special.belt.black, order: 9 },
+    { id: 'black-3', name: 'Faixa Preta 3º Dan', color: COLORS.special.belt.black, order: 10 },
+    { id: 'black-4', name: 'Faixa Preta 4º Dan', color: COLORS.special.belt.black, order: 11 },
+    { id: 'black-5', name: 'Faixa Preta 5º Dan', color: COLORS.special.belt.black, order: 12 },
   ];
 
   useEffect(() => {
@@ -123,15 +123,16 @@ const AddGraduationScreen = ({ route, navigation }) => {
 
   const getGraduationColor = (levelName, index) => {
     const colorMap = {
-      'Branca': COLORS.white,
-      'Amarela': COLORS.warning[400],
-      'Laranja': COLORS.warning[500],
-      'Verde': COLORS.primary[500],
-      'Azul': COLORS.info[500],
-      'Roxa': COLORS.secondary[500],
-      'Marrom': COLORS.gray[700],
-      'Preta': COLORS.black,
-      'Vermelha': COLORS.error[500],
+      'Branca': COLORS.special.belt.white,
+      'Amarela': COLORS.special.belt.yellow,
+      'Laranja': COLORS.special.belt.orange,
+      'Verde': COLORS.special.belt.green,
+      'Azul': COLORS.special.belt.blue,
+      'Roxa': COLORS.special.belt.purple,
+      'Marrom': COLORS.special.belt.brown,
+      'Preta': COLORS.special.belt.black,
+      'Vermelha': COLORS.special.belt.red,
+      'Coral': COLORS.special.belt.red,
       'Crua': COLORS.gray[600],
       'Cordão': COLORS.warning[300]
     };
@@ -144,7 +145,16 @@ const AddGraduationScreen = ({ route, navigation }) => {
     }
     
     // Cores padrão baseadas no índice se não encontrar correspondência
-    const defaultColors = [COLORS.white, COLORS.warning[400], COLORS.warning[500], COLORS.primary[500], COLORS.info[500], COLORS.secondary[500], COLORS.gray[700], COLORS.black];
+    const defaultColors = [
+      COLORS.special.belt.white, 
+      COLORS.special.belt.yellow, 
+      COLORS.special.belt.orange, 
+      COLORS.special.belt.green, 
+      COLORS.special.belt.blue, 
+      COLORS.special.belt.purple, 
+      COLORS.special.belt.brown, 
+      COLORS.special.belt.black
+    ];
     return defaultColors[index % defaultColors.length] || COLORS.gray[300];
   };
 

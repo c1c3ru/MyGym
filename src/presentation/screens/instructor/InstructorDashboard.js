@@ -490,7 +490,7 @@ const InstructorDashboard = ({ navigation }) => {
               </View>
             ) : (
               <View style={styles.emptyState}>
-                <MaterialCommunityIcons name="calendar-blank" size={48} color="#ccc" />
+                <MaterialCommunityIcons name="calendar-blank" size={48} color={COLORS.gray[400]} />
                 <Text style={styles.emptyStateText}>{getString('noClassesToday')}</Text>
                 <Text style={styles.emptyStateSubtext}>{getString('planNextClasses')}</Text>
               </View>
@@ -778,7 +778,7 @@ const InstructorDashboard = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background.light,
+    backgroundColor: COLORS.background.default,
   },
   scrollView: {
     flex: 1,

@@ -170,7 +170,7 @@ const GraduationNotificationBell = ({ onNotificationPress }) => {
 
   const renderEmptyState = () => (
     <Surface style={styles.emptyState}>
-      <Ionicons name="notifications-outline" size={48} color="#ccc" />
+      <Ionicons name="notifications-outline" size={48} color={COLORS.gray[400]} />
       <Text style={styles.emptyText}>Nenhuma notificação</Text>
       <Text style={styles.emptySubtext}>
         Você será notificado sobre graduações e exames
@@ -257,7 +257,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.error[500],
   },
   modalContainer: {
-    backgroundColor: 'COLORS.white',
+    backgroundColor: COLORS.card.default.background,
     margin: SPACING.lg,
     borderRadius: BORDER_RADIUS.md,
     maxHeight: '80%',

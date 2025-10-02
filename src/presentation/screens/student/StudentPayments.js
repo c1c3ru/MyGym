@@ -91,7 +91,7 @@ const StudentPayments = ({ navigation }) => {
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'paid': return COLORS.primary[500];
+      case 'paid': return COLORS.success[500];
       case 'pending': return COLORS.warning[500];
       case 'overdue': return COLORS.error[500];
       default: return COLORS.gray[500];
@@ -132,7 +132,7 @@ const StudentPayments = ({ navigation }) => {
           <Card style={styles.currentCard}>
             <Card.Content>
               <View style={styles.cardHeader}>
-                <Ionicons name="card-outline" size={24} color="COLORS.info[500]" />
+                <Ionicons name="card-outline" size={24} color={COLORS.info[500]} />
                 <Title style={styles.cardTitle}>Mensalidade Atual</Title>
               </View>
               
@@ -182,7 +182,7 @@ const StudentPayments = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <Ionicons name="time-outline" size={24} color="COLORS.info[500]" />
+              <Ionicons name="time-outline" size={24} color={COLORS.info[500]} />
               <Title style={styles.cardTitle}>Histórico de Pagamentos</Title>
             </View>
             
