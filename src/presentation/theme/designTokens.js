@@ -251,11 +251,11 @@ export const COLORS = {
   black: '#000000',
   transparent: 'transparent',
   
-  // Cores de fundo (Dark Theme como padrão)
+  // Cores de fundo (Dark Theme - Estilo BJJ Control)
   background: {
-    default: '#0D0D0D',    // Preto profundo (fundo principal)
-    paper: '#1A1A1A',      // Cinza muito escuro (cards)
-    elevated: '#212121',   // Cinza escuro (modais/elevados)
+    default: '#0A0A0A',    // Preto profundo (mais escuro que antes)
+    paper: '#1C1C1C',      // Cinza muito escuro (cards)
+    elevated: '#242424',   // Cinza escuro (modais/elevados)
     light: '#F5F5F5',      // Branco (inputs/áreas claras)
     dark: '#000000',       // Preto puro (overlays)
   },
@@ -269,11 +269,11 @@ export const COLORS = {
     inverse: '#0D0D0D',      // Preto (para fundos claros)
   },
   
-  // Cores de borda (Dark Theme)
+  // Cores de borda (Dark Theme - Bordas mais sutis)
   border: {
-    light: '#424242',        // Cinza escuro (bordas sutis)
-    default: '#757575',      // Cinza médio (bordas padrão)
-    dark: '#9E9E9E',         // Cinza claro (bordas destacadas)
+    light: '#2A2A2A',        // Cinza muito escuro (bordas sutis)
+    default: '#424242',      // Cinza escuro (bordas padrão)
+    dark: '#757575',         // Cinza médio (bordas destacadas)
   },
   
   // Cores de overlay (WCAG AA compliant)
@@ -340,18 +340,18 @@ export const COLORS = {
     },
   },
   
-  // 🃏 Cores de Cards (separadas para melhor organização)
+  // 🃏 Cores de Cards (separadas - Estilo BJJ Control)
   card: {
     // Card padrão (uso geral)
     default: {
-      background: '#1A1A1A',      // Cinza muito escuro
-      border: '#424242',          // Cinza escuro
+      background: '#1C1C1C',      // Cinza muito escuro
+      border: '#2A2A2A',          // Cinza escuro sutil
       shadow: 'rgba(0, 0, 0, 0.5)',  // Sombra
     },
     // Card elevado (modais, drawers, overlays)
     elevated: {
-      background: '#212121',      // Cinza escuro (mais claro que default)
-      border: '#424242',          // Cinza escuro
+      background: '#242424',      // Cinza escuro (mais claro que default)
+      border: '#2A2A2A',          // Cinza escuro sutil
       shadow: 'rgba(0, 0, 0, 0.7)',  // Sombra mais forte
     },
     // Card de destaque (selecionado, ativo)
@@ -359,6 +359,13 @@ export const COLORS = {
       background: '#2A2A2A',      // Cinza mais claro
       border: '#FF4757',          // Vermelho coral
       shadow: 'rgba(255, 71, 87, 0.3)',  // Sombra coral
+    },
+    // Card claro (como BJJ Control - para destaques especiais)
+    light: {
+      background: '#FFF5F5',      // Rosa muito claro
+      border: '#E0E0E0',          // Cinza claro
+      text: '#424242',            // Texto escuro
+      shadow: 'rgba(0, 0, 0, 0.1)',  // Sombra suave
     },
   },
   
