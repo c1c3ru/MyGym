@@ -392,7 +392,7 @@ const CheckIn = ({ navigation }) => {
     }
   };
 
-  const loadTodayCheckIns = async () => {
+  const loadTodayCheckIns = useCallback(async () => {
     if (!selectedClass || !userProfile?.academiaId) return;
 
     try {
@@ -414,7 +414,14 @@ const CheckIn = ({ navigation }) => {
     } catch (error) {
       console.error('❌ Erro ao carregar check-ins de hoje:', error);
     }
-  };
+  }, [selectedClass, userProfile?.academiaId]);
+
+  // Carregar check-ins quando a turma for selecionada
+  useEffect(() => {
+    if (selectedClass && manualCheckInVisible) {
+      loadTodayCheckIns();
+    }
+  }, [selectedClass, manualCheckInVisible, loadTodayCheckIns]);
 
   const clearSelection = () => {
     setSelectedStudents(new Set());
@@ -440,6 +447,10 @@ const CheckIn = ({ navigation }) => {
   };
 
   const handleBatchCheckIn = async () => {
+    console.log('🔍 Debug - handleBatchCheckIn iniciado');
+    console.log('🔍 Debug - Alunos selecionados:', selectedStudents.size);
+    console.log('🔍 Debug - Turma selecionada:', selectedClass?.name);
+    
     if (selectedStudents.size === 0) {
       Alert.alert('Atenção', 'Selecione pelo menos um aluno para fazer check-in');
       return;
@@ -456,8 +467,13 @@ const CheckIn = ({ navigation }) => {
       const token = await user.getIdTokenResult();
       const tokenAcademiaId = token.claims.academiaId;
       
+      console.log('🔍 Debug - Academia ID:', tokenAcademiaId);
+      console.log('🔍 Debug - User ID:', user.id);
+      
       const checkInPromises = Array.from(selectedStudents).map(async (studentId) => {
         const student = students.find(s => s.id === studentId);
+        
+        console.log('✅ Criando check-in para:', student?.name);
         
         const checkInData = {
           studentId,
@@ -473,6 +489,8 @@ const CheckIn = ({ navigation }) => {
           createdAt: new Date()
         };
 
+        console.log('📝 Dados do check-in:', checkInData);
+
         return academyFirestoreService.addSubcollectionDocument(
           'classes',
           selectedClass.id,
@@ -482,7 +500,9 @@ const CheckIn = ({ navigation }) => {
         );
       });
 
+      console.log('⏳ Aguardando conclusão de', checkInPromises.length, 'check-ins...');
       await Promise.all(checkInPromises);
+      console.log('✅ Todos os check-ins concluídos!');
       
       Alert.alert(
         'Sucesso! ✅', 
@@ -799,7 +819,7 @@ const CheckIn = ({ navigation }) => {
                           <MaterialCommunityIcons 
                             name="check-circle" 
                             size={24} 
-                            color="COLORS.primary[500]" 
+                            color={COLORS.primary[500]} 
                             style={styles.checkInIcon}
                           />
                         )}
@@ -884,10 +904,20 @@ const CheckIn = ({ navigation }) => {
         icon="qrcode-plus"
         style={styles.fab}
         onPress={() => {
+          console.log('🔍 Debug - Abrindo check-in manual');
+          console.log('🔍 Debug - Turmas disponíveis:', classes.length);
+          console.log('🔍 Debug - Alunos carregados:', students.length);
+          
           if (classes.length === 0) {
             Alert.alert('Aviso', 'Você precisa ter pelo menos uma turma para fazer check-in manual');
             return;
           }
+          
+          // Pré-selecionar primeira turma se houver
+          if (classes.length > 0 && !selectedClass) {
+            setSelectedClass(classes[0]);
+          }
+          
           setManualCheckInVisible(true);
         }}
         label="Check-in Manual"

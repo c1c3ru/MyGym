@@ -246,18 +246,30 @@ export const COLORS = {
     900: '#212121',
   },
   
-  // Cores neutras
+  // 🎨 Cores Neutras Refinadas (para cards e elementos sutis)
+  neutral: {
+    darkest: '#0D0C0D',    // Preto refinado (cards escuros premium)
+    dark: '#262626',       // Cinza muito escuro (cards secundários)
+    medium: '#595859',     // Cinza médio (separadores, bordas)
+    light: '#8C8B8C',      // Cinza claro (texto secundário, ícones)
+    lighter: '#D9D9D9',    // Cinza muito claro (texto desabilitado, placeholders)
+  },
+  
+  // Cores neutras básicas
   white: '#FFFFFF',
   black: '#000000',
   transparent: 'transparent',
   
   // Cores de fundo (Dark Theme - Estilo BJJ Control)
   background: {
-    default: '#0A0A0A',    // Preto profundo (mais escuro que antes)
-    paper: '#1C1C1C',      // Cinza muito escuro (cards)
+    default: '#0A0A0A',    // Preto profundo (fundo principal)
+    paper: '#1C1C1C',      // Cinza muito escuro (cards padrão)
     elevated: '#242424',   // Cinza escuro (modais/elevados)
     light: '#F5F5F5',      // Branco (inputs/áreas claras)
     dark: '#000000',       // Preto puro (overlays)
+    // Neutros refinados
+    cardDark: '#0D0C0D',   // Card escuro premium (neutro refinado)
+    cardMedium: '#262626', // Card médio (neutro escuro)
   },
   
   // Cores de texto (Dark Theme)
@@ -274,6 +286,9 @@ export const COLORS = {
     light: '#2A2A2A',        // Cinza muito escuro (bordas sutis)
     default: '#424242',      // Cinza escuro (bordas padrão)
     dark: '#757575',         // Cinza médio (bordas destacadas)
+    // Neutros refinados
+    subtle: '#595859',       // Borda sutil (neutro médio)
+    separator: '#8C8B8C',    // Separador (neutro claro)
   },
   
   // Cores de overlay (WCAG AA compliant)
@@ -340,7 +355,7 @@ export const COLORS = {
     },
   },
   
-  // 🃏 Cores de Cards (separadas - Estilo BJJ Control)
+  // 🃏 Cores de Cards (separadas - Estilo BJJ Control + Neutros Refinados)
   card: {
     // Card padrão (uso geral)
     default: {
@@ -366,6 +381,19 @@ export const COLORS = {
       border: '#E0E0E0',          // Cinza claro
       text: '#424242',            // Texto escuro
       shadow: 'rgba(0, 0, 0, 0.1)',  // Sombra suave
+    },
+    // 🎨 Cards com Neutros Refinados
+    premium: {
+      background: '#0D0C0D',      // Preto refinado (card premium)
+      border: '#595859',          // Borda sutil neutro
+      text: '#D9D9D9',            // Texto claro neutro
+      shadow: 'rgba(0, 0, 0, 0.6)',  // Sombra média
+    },
+    secondary: {
+      background: '#262626',      // Cinza muito escuro neutro
+      border: '#595859',          // Borda sutil neutro
+      text: '#8C8B8C',            // Texto cinza claro neutro
+      shadow: 'rgba(0, 0, 0, 0.4)',  // Sombra suave
     },
   },
   

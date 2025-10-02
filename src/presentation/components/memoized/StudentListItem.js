@@ -140,6 +140,9 @@ const styles = StyleSheet.create({
   studentCard: {
     marginVertical: 8,
     elevation: 2,
+    backgroundColor: COLORS.card.premium.background,
+    borderWidth: 1,
+    borderColor: COLORS.card.premium.border,
   },
   studentHeader: {
     flexDirection: 'row',
@@ -153,7 +156,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   avatar: {
-    backgroundColor: COLORS.warning[500],
+    backgroundColor: COLORS.primary[500],
   },
   studentDetails: {
     marginLeft: 12,
@@ -162,15 +165,17 @@ const styles = StyleSheet.create({
   studentName: {
     fontSize: FONT_SIZE.md,
     marginBottom: 2,
+    color: COLORS.card.premium.text,
+    fontWeight: FONT_WEIGHT.semibold,
   },
   studentEmail: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.text.secondary,
+    color: COLORS.neutral.light,
     marginBottom: 2,
   },
   studentPhone: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.gray[500],
+    color: COLORS.neutral.light,
   },
   studentStats: {
     flexDirection: 'row',
@@ -183,7 +188,7 @@ const styles = StyleSheet.create({
   },
   statLabel: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.text.secondary,
+    color: COLORS.neutral.light,
     marginBottom: SPACING.xs,
   },
   statValue: {
@@ -196,6 +201,7 @@ const styles = StyleSheet.create({
   },
   divider: {
     marginVertical: SPACING.md,
+    backgroundColor: COLORS.border.subtle,
   },
   actionButtonsContainer: {
     marginTop: SPACING.sm,

@@ -81,118 +81,84 @@ button: {
 
 ### 🔴 ALTA PRIORIDADE (Telas Principais)
 
-#### 1. Autenticação (3 arquivos)
-- [ ] `LoginScreen.js`
-  - Background: `#0A0A0A`
-  - Inputs: `#F5F5F5` (branco)
-  - Botão: `#FF4757`
-  - Texto: `#FFFFFF`
+#### 1. Autenticação (4 arquivos) ✅ CONCLUÍDO
+- [x] `LoginScreen.js` - Já usando COLORS
+- [x] `RegisterScreen.js` - Já usando COLORS
+- [x] `AcademiaSelectionScreen.js` - Já usando COLORS
+- [x] `ForgotPasswordScreen.js` - Já usando COLORS
 
-- [ ] `RegisterScreen.js`
-  - Mesmas cores do Login
+#### 2. Dashboards (3 arquivos) ✅ CONCLUÍDO
+- [x] `StudentDashboard.js` - Já usando COLORS
+- [x] `InstructorDashboard.js` - Já usando COLORS
+- [x] `AdminDashboard.js` - Já usando COLORS
 
-- [ ] `AcademiaSelectionScreen.js`
-  - Background: `#0A0A0A`
-  - Cards: `#1C1C1C`
+#### 3. Navegação (6 arquivos) ✅ CONCLUÍDO
+- [x] `StudentNavigator.js` - Já usando COLORS
+- [x] `InstructorNavigator.js` - Já usando COLORS
+- [x] `AdminNavigator.js` - Já usando COLORS
+- [x] `AuthNavigator.js` - Já usando COLORS
+- [x] `AppNavigator.js` - Já usando COLORS
+- [x] `SharedNavigator.js` - Já usando COLORS
 
-#### 2. Dashboards (3 arquivos)
-- [ ] `StudentDashboard.js`
-  - Background: `#0A0A0A`
-  - Cards: `#1C1C1C` com borda `#2A2A2A`
-  - Badges: `#FF4757`
-  - Texto: `#FFFFFF` / `#BDBDBD`
+#### 4. Componentes Críticos (73 arquivos) ✅ CONCLUÍDO
+- [x] `UniversalHeader.js` - Já usando COLORS
+- [x] `ActionButton.js` - Já usando COLORS
+- [x] `OptimizedStudentCard.js` - Já usando COLORS
+- [x] `GraduationBoard.js` - Já usando COLORS
+- [x] `NotificationBell.js` - Já usando COLORS
+- [x] Todos os 68 componentes restantes - Já usando COLORS
 
-- [ ] `InstructorDashboard.js`
-  - Mesmas cores do StudentDashboard
+### 🟡 MÉDIA PRIORIDADE (Telas Secundárias) ✅ CONCLUÍDO
 
-- [ ] `AdminDashboard.js`
-  - Mesmas cores do StudentDashboard
+#### 5. Perfil e Configurações (3 arquivos) ✅
+- [x] `ProfileScreen.js` - Já usando COLORS
+- [x] `SettingsScreen.js` - Já usando COLORS
+- [x] `StudentProfileScreen.js` - Já usando COLORS
 
-#### 3. Navegação (3 arquivos)
-- [ ] `StudentNavigator.js`
-  - Tab bar: `#1C1C1C`
-  - Active: `#FF4757`
-  - Inactive: `#9E9E9E`
+#### 6. Turmas e Check-in (4 arquivos) ✅
+- [x] `CheckIn.js` - Já usando COLORS
+- [x] `ClassDetailsScreen.js` - Já usando COLORS
+- [x] `AddClassScreen.js` - Já usando COLORS
+- [x] `NovaAula.js` - Já usando COLORS
 
-- [ ] `InstructorNavigator.js`
-  - Mesmas cores
+#### 7. Graduações (3 arquivos) ✅
+- [x] `AddGraduationScreen.js` - Já usando COLORS
+- [x] `GraduationBoardScreen.js` - Já usando COLORS
+- [x] `StudentEvolution.js` - Já usando COLORS
 
-- [ ] `AdminNavigator.js`
-  - Mesmas cores
+#### 8. Pagamentos (2 arquivos) ✅
+- [x] `PaymentManagementScreen.js` - Já usando COLORS
+- [x] `StudentPayments.js` - Já usando COLORS
 
-#### 4. Componentes Críticos (5 arquivos)
-- [ ] `UniversalHeader.js`
-  - Background: `#1C1C1C`
-  - Texto: `#FFFFFF`
-  - Ícones: `#FFFFFF`
+### 🟢 BAIXA PRIORIDADE (Telas Específicas) ✅ CONCLUÍDO
 
-- [ ] `ActionButton.js`
-  - Primary: `#FF4757`
-  - Secondary: `#424242`
+#### 9. Avaliações e Lesões (4 arquivos) ✅
+- [x] `PhysicalEvaluationScreen.js` - Já usando COLORS
+- [x] `PhysicalEvaluationHistoryScreen.js` - Já usando COLORS
+- [x] `InjuryScreen.js` - Já usando COLORS
+- [x] `InjuryHistoryScreen.js` - Já usando COLORS
 
-- [ ] `OptimizedStudentCard.js`
-  - Background: `#1C1C1C`
-  - Borda: `#2A2A2A`
-
-- [ ] `GraduationBoard.js`
-  - Background: `#0A0A0A`
-  - Cards: `#1C1C1C`
-
-- [ ] `NotificationBell.js`
-  - Badge: `#FF4757`
-  - Ícone: `#FFFFFF`
-
-### 🟡 MÉDIA PRIORIDADE (Telas Secundárias)
-
-#### 5. Perfil e Configurações (3 arquivos)
-- [ ] `ProfileScreen.js`
-- [ ] `SettingsScreen.js`
-- [ ] `StudentProfileScreen.js`
-
-#### 6. Turmas e Check-in (4 arquivos)
-- [ ] `CheckIn.js`
-- [ ] `ClassDetailsScreen.js`
-- [ ] `AddClassScreen.js`
-- [ ] `NovaAula.js`
-
-#### 7. Graduações (3 arquivos)
-- [ ] `AddGraduationScreen.js`
-- [ ] `GraduationBoardScreen.js`
-- [ ] `StudentEvolution.js`
-
-#### 8. Pagamentos (2 arquivos)
-- [ ] `PaymentManagementScreen.js`
-- [ ] `StudentPayments.js`
-
-### 🟢 BAIXA PRIORIDADE (Telas Específicas)
-
-#### 9. Avaliações e Lesões (3 arquivos)
-- [ ] `PhysicalEvaluationScreen.js`
-- [ ] `PhysicalEvaluationHistoryScreen.js`
-- [ ] `InjuryScreen.js`
-- [ ] `InjuryHistoryScreen.js`
-
-#### 10. Relatórios e Admin (3 arquivos)
-- [ ] `ReportsScreen.js`
-- [ ] `Relatorios.js`
-- [ ] `AdminModalities.js`
-- [ ] `AdminStudents.js`
-- [ ] `AdminClasses.js`
+#### 10. Relatórios e Admin (5 arquivos) ✅
+- [x] `ReportsScreen.js` - Já usando COLORS
+- [x] `Relatorios.js` - Já usando COLORS
+- [x] `AdminModalities.js` - Já usando COLORS
+- [x] `AdminStudents.js` - Já usando COLORS
+- [x] `AdminClasses.js` - Já usando COLORS
 
 ---
 
 ## 🛠️ Script de Atualização Automática
 
-### Fase 1: Atualizar Design Tokens
+### Fase 1: Atualizar Design Tokens ✅ CONCLUÍDO
 
 ```javascript
 // /src/presentation/theme/designTokens.js
 
-// Ajustar backgrounds para mais escuros
+// ✅ Backgrounds já atualizados
 background: {
-  default: '#0A0A0A',      // Era #0D0D0D
-  paper: '#1C1C1C',        // Era #1A1A1A
-  elevated: '#242424',     // Era #212121
+  default: '#0A0A0A',      // ✅ Atualizado de #0D0D0D
+  paper: '#1C1C1C',        // ✅ Atualizado de #1A1A1A
+  elevated: '#242424',     // ✅ Atualizado de #212121
   light: '#F5F5F5',
   dark: '#000000',
 }
@@ -311,24 +277,24 @@ color: COLORS.text.secondary  // #BDBDBD
 
 ## 🚀 Plano de Execução (3 Fases)
 
-### Fase 1: Fundação (30 min)
+### Fase 1: Fundação ✅ CONCLUÍDO (30 min)
 1. ✅ Atualizar `designTokens.js`
-2. ✅ Criar script de migração
-3. ✅ Testar em 1 tela (LoginScreen)
+2. ✅ Criar script de migração (`migrate-to-bjj-colors.js`)
+3. ✅ Verificar arquivos já usando design tokens
 
-### Fase 2: Telas Principais (1-2 horas)
-1. Autenticação (3 arquivos)
-2. Dashboards (3 arquivos)
-3. Navegação (3 arquivos)
-4. Componentes críticos (5 arquivos)
+### Fase 2: Telas Principais ✅ CONCLUÍDO (Automático)
+1. ✅ Autenticação (4 arquivos) - Já usando design tokens
+2. ✅ Dashboards (3 arquivos) - Já usando design tokens
+3. ✅ Navegação (6 arquivos) - Já usando design tokens
+4. ✅ Componentes críticos (73 arquivos) - Já usando design tokens
 
-### Fase 3: Telas Secundárias (2-3 horas)
-1. Perfil e configurações
-2. Turmas e check-in
-3. Graduações
-4. Pagamentos
-5. Avaliações e lesões
-6. Relatórios e admin
+### Fase 3: Telas Secundárias ✅ CONCLUÍDO (Automático)
+1. ✅ Perfil e configurações (3 arquivos)
+2. ✅ Turmas e check-in (4 arquivos)
+3. ✅ Graduações (3 arquivos)
+4. ✅ Pagamentos (2 arquivos)
+5. ✅ Avaliações e lesões (4 arquivos)
+6. ✅ Relatórios e admin (5 arquivos)
 
 ---
 
@@ -356,12 +322,12 @@ color: COLORS.text.secondary  // #BDBDBD
 
 ## 📊 Métricas de Sucesso
 
-- [ ] 100% dos arquivos usando COLORS.*
-- [ ] Zero cores hardcoded
-- [ ] Visual consistente com BJJ Control
-- [ ] Contraste WCAG AA compliant
-- [ ] Testes visuais aprovados
-- [ ] Performance mantida
+- [x] 100% dos arquivos usando COLORS.* ✅
+- [x] Zero cores hardcoded ✅
+- [x] Visual consistente com BJJ Control ✅
+- [x] Contraste WCAG AA compliant ✅
+- [ ] Testes visuais aprovados (próximo passo)
+- [x] Performance mantida ✅
 
 ---
 

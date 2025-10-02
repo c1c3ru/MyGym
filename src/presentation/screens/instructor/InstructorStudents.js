@@ -677,16 +677,16 @@ const InstructorStudents = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.gray[100],
+    backgroundColor: COLORS.background.default,
   },
   header: {
     padding: SPACING.base,
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.background.paper,
     elevation: 2,
   },
   searchbar: {
     elevation: 0,
-    backgroundColor: COLORS.gray[100],
+    backgroundColor: COLORS.background.light,
     marginBottom: SPACING.sm,
   },
   // Novos estilos para filtros melhorados
@@ -767,7 +767,7 @@ const styles = StyleSheet.create({
   },
   menuContent: {
     maxHeight: 300,
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.card.secondary.background,
     borderRadius: BORDER_RADIUS.md,
     elevation: 8,
     shadowColor: COLORS.black,
@@ -797,7 +797,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   modalDropdownList: {
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.card.secondary.background,
     borderRadius: BORDER_RADIUS.md,
     elevation: 10,
     shadowColor: COLORS.black,
@@ -898,10 +898,12 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   graduationsInfo: {
-    backgroundColor: COLORS.background.light,
+    backgroundColor: COLORS.card.secondary.background,
     padding: SPACING.sm,
     borderRadius: BORDER_RADIUS.sm,
     marginBottom: SPACING.md,
+    borderWidth: 1,
+    borderColor: COLORS.border.subtle,
   },
   graduationsTitle: {
     fontSize: FONT_SIZE.sm,

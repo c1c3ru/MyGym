@@ -401,17 +401,17 @@ const AdminStudents = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.gray[100],
+    backgroundColor: COLORS.background.default,
   },
   header: {
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.background.paper,
     paddingHorizontal: 16,
     paddingVertical: SPACING.md,
     elevation: 2,
   },
   searchbar: {
     elevation: 0,
-    backgroundColor: COLORS.gray[100],
+    backgroundColor: COLORS.background.light,
     marginBottom: SPACING.sm,
   },
   filterRow: {
@@ -437,7 +437,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   avatar: {
-    backgroundColor: COLORS.warning[500],
+    backgroundColor: COLORS.primary[500],
   },
   studentDetails: {
     marginLeft: 12,
@@ -446,15 +446,16 @@ const styles = StyleSheet.create({
   studentName: {
     fontSize: FONT_SIZE.md,
     marginBottom: 2,
+    color: COLORS.card.premium.text,
   },
   studentEmail: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.text.secondary,
+    color: COLORS.neutral.light,
     marginBottom: 2,
   },
   studentPhone: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.gray[500],
+    color: COLORS.neutral.light,
   },
   studentStats: {
     flexDirection: 'row',
@@ -486,7 +487,7 @@ const styles = StyleSheet.create({
     margin: SPACING.base,
     right: 0,
     bottom: 0,
-    backgroundColor: COLORS.warning[500],
+    backgroundColor: COLORS.primary[500],
   },
   listContainer: {
     paddingHorizontal: 16,

@@ -60,7 +60,7 @@ const AdminTabNavigator = () => {
           } else if (route.name === 'Turmas') {
             iconName = focused ? 'school' : 'school-outline';
           } else if (route.name === 'Gestão') {
-            iconName = focused ? 'settings' : 'settings-outline';
+            iconName = focused ? 'stats-chart' : 'stats-chart-outline';
           } else if (route.name === 'Convites') {
             iconName = focused ? 'mail' : 'mail-outline';
           }
@@ -90,8 +90,8 @@ const AdminTabNavigator = () => {
       />
       <Tab.Screen 
         name="Gestão" 
-        component={AdminModalities}
-        options={{ title: getString('modalities') }}
+        component={ReportsScreen}
+        options={{ title: 'Relatórios' }}
       />
       <Tab.Screen 
         name="Convites" 
@@ -252,6 +252,21 @@ const AdminNavigator = () => {
           header: ({ navigation }) => (
             <UniversalHeader
               title={getString('reports')}
+              navigation={navigation}
+              showBack={true}
+              backgroundColor={PROFILE_COLORS.admin.primary}
+            />
+          ),
+        }}
+      />
+      <Stack.Screen 
+        name="Modalities" 
+        component={AdminModalities}
+        options={{
+          headerShown: true,
+          header: ({ navigation }) => (
+            <UniversalHeader
+              title="Modalidades"
               navigation={navigation}
               showBack={true}
               backgroundColor={PROFILE_COLORS.admin.primary}

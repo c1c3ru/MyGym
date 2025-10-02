@@ -123,7 +123,7 @@ const NovaAula = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background.light,
+    backgroundColor: COLORS.background.default,
   },
   scrollView: {
     flex: 1,
@@ -132,6 +132,9 @@ const styles = StyleSheet.create({
     margin: ResponsiveUtils.spacing.md,
     borderRadius: ResponsiveUtils.borderRadius.large,
     ...ResponsiveUtils.elevation,
+    backgroundColor: COLORS.card.secondary.background,
+    borderWidth: 1,
+    borderColor: COLORS.border.subtle,
   },
   header: {
     flexDirection: 'row',
@@ -165,6 +168,7 @@ const styles = StyleSheet.create({
   },
   divider: {
     marginVertical: ResponsiveUtils.spacing.lg,
+    backgroundColor: COLORS.border.subtle,
   },
   buttonContainer: {
     flexDirection: 'row',

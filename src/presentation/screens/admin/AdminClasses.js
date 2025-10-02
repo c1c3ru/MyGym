@@ -519,16 +519,16 @@ const AdminClasses = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.gray[100],
+    backgroundColor: COLORS.background.default,
   },
   header: {
     padding: SPACING.base,
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.background.paper,
     elevation: 2,
   },
   searchbar: {
     elevation: 0,
-    backgroundColor: COLORS.gray[100],
+    backgroundColor: COLORS.background.light,
     marginBottom: SPACING.sm,
   },
   filterRow: {
@@ -644,7 +644,7 @@ const styles = StyleSheet.create({
     margin: SPACING.base,
     right: 0,
     bottom: 0,
-    backgroundColor: COLORS.warning[500],
+    backgroundColor: COLORS.primary[500],
   },
   listContainer: {
     paddingHorizontal: 0,
@@ -657,10 +657,12 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.info[500],
   },
   calendarModalContainer: {
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.card.secondary.background,
     margin: SPACING.lg,
     borderRadius: BORDER_RADIUS.md,
     maxHeight: '90%',
+    borderWidth: 1,
+    borderColor: COLORS.border.subtle,
     flex: 1,
   },
   calendarModalHeader: {

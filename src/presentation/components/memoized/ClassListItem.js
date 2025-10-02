@@ -204,6 +204,9 @@ const styles = StyleSheet.create({
     margin: SPACING.base,
     marginBottom: SPACING.sm,
     elevation: 2,
+    backgroundColor: COLORS.card.premium.background,
+    borderWidth: 1,
+    borderColor: COLORS.card.premium.border,
   },
   classHeader: {
     flexDirection: 'row',
@@ -219,6 +222,8 @@ const styles = StyleSheet.create({
   className: {
     fontSize: FONT_SIZE.lg,
     flex: 1,
+    color: COLORS.card.premium.text,
+    fontWeight: FONT_WEIGHT.semibold,
   },
   modalityChip: {
     marginLeft: 8,
@@ -233,7 +238,7 @@ const styles = StyleSheet.create({
   },
   detailText: {
     marginLeft: 8,
-    color: COLORS.text.secondary,
+    color: COLORS.neutral.light,
     flex: 1,
   },
   statusRow: {
@@ -248,6 +253,7 @@ const styles = StyleSheet.create({
   },
   divider: {
     marginVertical: SPACING.md,
+    backgroundColor: COLORS.border.subtle,
   },
   classActions: {
     marginTop: SPACING.xs,
