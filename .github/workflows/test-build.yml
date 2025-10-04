@@ -15,7 +15,7 @@ jobs:
       - name: 🏗 Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: '20.19.4'
           cache: npm
 
       - name: 🏗 Setup Java
@@ -34,18 +34,30 @@ jobs:
           npx @expo/cli --version
           eas --version
 
+      - name: 🔑 Debug Secrets
+        run: |
+          echo "=== DEBUG SECRETS ==="
+          echo "Available secrets (should not show values):"
+          env | grep -E "^[A-Z_]+=" | grep -v "EXPO_TOKEN" || echo "No environment variables found"
+          echo "EXPO_TOKEN is set: ${{ secrets.EXPO_TOKEN != '' }}"
+          echo "EXPO_TOKEN length: ${#EXPO_TOKEN}"
+          echo "====================="
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+          
       - name: 🔑 Authenticate EAS
         run: |
           echo "Checking EAS authentication..."
-          echo "EXPO_TOKEN length: ${#EXPO_TOKEN}"
           
           if [ -z "$EXPO_TOKEN" ]; then
             echo "❌ EXPO_TOKEN is empty or not set"
-            echo "Please check if EXPO_TOKEN secret is configured in GitHub"
+            echo "Secret value from GitHub: '${{ secrets.EXPO_TOKEN }}'"
+            echo "Please verify the secret is configured correctly"
             exit 1
           fi
           
-          echo "Token found, checking authentication..."
+          echo "✅ Token found (length: ${#EXPO_TOKEN})"
+          echo "Testing EAS authentication..."
           eas whoami
           echo "✅ EAS authentication successful"
         env:
