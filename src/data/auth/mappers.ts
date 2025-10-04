@@ -52,6 +52,7 @@ export class AuthMappers {
       userType,
       academiaId: firestoreData.academiaId,
       isActive: firestoreData.isActive,
+      profileCompleted: firestoreData.profileCompleted ?? false,
       currentGraduation: firestoreData.currentGraduation ?? undefined,
       graduations: firestoreData.graduations,
       classIds: firestoreData.classIds,
@@ -73,7 +74,23 @@ export class AuthMappers {
       id: firestoreData.id,
       name: firestoreData.name,
       isActive: firestoreData.isActive,
-      settings: firestoreData.settings
+      settings: firestoreData.settings ? {
+        timezone: firestoreData.settings.timezone || 'America/Sao_Paulo',
+        language: firestoreData.settings.language || 'pt-BR',
+        currency: firestoreData.settings.currency || 'BRL',
+        notifications: {
+          email: firestoreData.settings.notifications?.email ?? true,
+          sms: firestoreData.settings.notifications?.sms ?? false,
+          push: firestoreData.settings.notifications?.push ?? true,
+        },
+        features: {
+          graduationSystem: firestoreData.settings.features?.graduationSystem ?? true,
+          paymentIntegration: firestoreData.settings.features?.paymentIntegration ?? false,
+          classScheduling: firestoreData.settings.features?.classScheduling ?? true,
+          membershipManagement: firestoreData.settings.features?.membershipManagement ?? true,
+        },
+        branding: firestoreData.settings.branding
+      } : undefined
     };
   }
 

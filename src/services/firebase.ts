@@ -52,8 +52,7 @@ try {
   } else {
     // Para React Native, usar configurações específicas
     db = initializeFirestore(app, {
-      experimentalAutoDetectLongPolling: true,
-      useFetchStreams: false
+      experimentalAutoDetectLongPolling: true
     });
     console.log('✅ Firebase Firestore inicializado para mobile com long-polling');
   }
@@ -62,7 +61,9 @@ try {
 } catch (error) {
   console.error('❌ Erro ao inicializar Firebase:', error);
   console.error('Platform:', Platform.OS);
-  console.error('Stack:', error.stack);
+  if (error instanceof Error) {
+    console.error('Stack:', error.stack);
+  }
   throw error;
 }
 

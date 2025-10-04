@@ -2,6 +2,7 @@ import React, { Component, ReactNode } from 'react';
 import { View, StyleSheet, Platform } from 'react-native';
 import { Card, Button, Text } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
+import { COLORS } from '@presentation/theme/designTokens';
 // import crashlyticsService from '@services/crashlyticsService'; // Serviço não implementado
 
 interface ErrorInfo {

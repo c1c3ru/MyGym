@@ -3,7 +3,32 @@
  * Defines the contract for student data operations
  */
 
-import { Student, StudentProfile, CreateStudentData, UpdateStudentData, StudentStats } from '@components/students/entities';
+// Temporary types until proper entities are implemented
+interface Student {
+  id: string;
+  name: string;
+  email: string;
+}
+
+interface StudentProfile extends Student {
+  phone?: string;
+  modality?: string;
+}
+
+interface CreateStudentData {
+  name: string;
+  email: string;
+}
+
+interface UpdateStudentData {
+  name?: string;
+  email?: string;
+}
+
+interface StudentStats {
+  totalClasses: number;
+  attendance: number;
+}
 
 export interface StudentsRepository {
   // CRUD operations
