@@ -1,0 +1,204 @@
+name: Manual Build
+
+on:
+  workflow_dispatch:
+    inputs:
+      build_profile:
+        description: 'Perfil de build'
+        required: true
+        default: 'preview'
+        type: choice
+        options:
+          - development
+          - preview
+          - production-apk
+          - production
+      platform:
+        description: 'Plataforma'
+        required: true
+        default: 'android'
+        type: choice
+        options:
+          - android
+          - ios
+          - all
+      message:
+        description: 'Mensagem do build (opcional)'
+        required: false
+        type: string
+      download_apk:
+        description: 'Baixar APK após build (apenas Android)'
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  manual-build:
+    name: Manual Build - ${{ inputs.platform }} (${{ inputs.build_profile }})
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v4
+
+      - name: 🏗 Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: npm
+
+      - name: 🏗 Setup Java (Android only)
+        if: inputs.platform == 'android' || inputs.platform == 'all'
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: 🏗 Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          expo-version: latest
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: 📦 Install dependencies
+        run: npm ci
+
+      - name: 🔧 Setup environment variables
+        run: |
+          echo "EXPO_PUBLIC_FIREBASE_API_KEY=${{ secrets.FIREBASE_API_KEY }}" >> .env
+          echo "EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN=${{ secrets.FIREBASE_AUTH_DOMAIN }}" >> .env
+          echo "EXPO_PUBLIC_FIREBASE_PROJECT_ID=${{ secrets.FIREBASE_PROJECT_ID }}" >> .env
+          echo "EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET=${{ secrets.FIREBASE_STORAGE_BUCKET }}" >> .env
+          echo "EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}" >> .env
+          echo "EXPO_PUBLIC_FIREBASE_APP_ID=${{ secrets.FIREBASE_APP_ID }}" >> .env
+
+      - name: 🔍 Pre-build checks
+        run: |
+          echo "🔍 Executando verificações pré-build..."
+          
+          # Type check
+          npm run type-check
+          echo "✅ Type check passou"
+          
+          # Lint
+          npm run lint
+          echo "✅ Lint passou"
+          
+          # Tests (apenas para builds de produção)
+          if [ "${{ inputs.build_profile }}" = "production" ] || [ "${{ inputs.build_profile }}" = "production-apk" ]; then
+            npm run test:ci
+            echo "✅ Testes passaram"
+          fi
+
+      - name: 🚀 Build Android
+        if: inputs.platform == 'android' || inputs.platform == 'all'
+        run: |
+          BUILD_MESSAGE="${{ inputs.message }}"
+          if [ -z "$BUILD_MESSAGE" ]; then
+            BUILD_MESSAGE="Manual build - ${{ inputs.build_profile }} - $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
+          fi
+          
+          echo "🚀 Iniciando build Android..."
+          echo "Profile: ${{ inputs.build_profile }}"
+          echo "Message: $BUILD_MESSAGE"
+          
+          if [ "${{ inputs.download_apk }}" = "true" ]; then
+            eas build --platform android --profile ${{ inputs.build_profile }} --non-interactive --message "$BUILD_MESSAGE"
+          else
+            eas build --platform android --profile ${{ inputs.build_profile }} --non-interactive --no-wait --message "$BUILD_MESSAGE"
+          fi
+
+      - name: 🚀 Build iOS
+        if: inputs.platform == 'ios' || inputs.platform == 'all'
+        run: |
+          BUILD_MESSAGE="${{ inputs.message }}"
+          if [ -z "$BUILD_MESSAGE" ]; then
+            BUILD_MESSAGE="Manual build - ${{ inputs.build_profile }} - $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
+          fi
+          
+          echo "🚀 Iniciando build iOS..."
+          echo "Profile: ${{ inputs.build_profile }}"
+          echo "Message: $BUILD_MESSAGE"
+          
+          eas build --platform ios --profile ${{ inputs.build_profile }} --non-interactive --no-wait --message "$BUILD_MESSAGE"
+
+      - name: ⏳ Wait for Android build and download APK
+        if: (inputs.platform == 'android' || inputs.platform == 'all') && inputs.download_apk == true
+        id: download-apk
+        run: |
+          echo "⏳ Aguardando conclusão do build Android..."
+          
+          # Aguardar até 45 minutos pelo build
+          for i in {1..90}; do
+            sleep 30
+            
+            BUILD_INFO=$(eas build:list --platform android --limit 1 --json --non-interactive)
+            BUILD_STATUS=$(echo $BUILD_INFO | jq -r '.[0].status')
+            BUILD_ID=$(echo $BUILD_INFO | jq -r '.[0].id')
+            
+            echo "Build $BUILD_ID status: $BUILD_STATUS (tentativa $i/90)"
+            
+            if [ "$BUILD_STATUS" = "finished" ]; then
+              BUILD_URL=$(echo $BUILD_INFO | jq -r '.[0].artifacts.buildUrl')
+              echo "build-url=$BUILD_URL" >> $GITHUB_OUTPUT
+              echo "build-id=$BUILD_ID" >> $GITHUB_OUTPUT
+              echo "✅ Build concluído com sucesso!"
+              
+              # Baixar APK
+              if [ "$BUILD_URL" != "null" ] && [ -n "$BUILD_URL" ]; then
+                echo "📥 Baixando APK..."
+                curl -L -o "MyGym-${{ inputs.build_profile }}-$(date +%Y%m%d-%H%M%S).apk" "$BUILD_URL"
+                echo "✅ APK baixado com sucesso!"
+              fi
+              break
+            elif [ "$BUILD_STATUS" = "errored" ] || [ "$BUILD_STATUS" = "canceled" ]; then
+              echo "❌ Build falhou com status: $BUILD_STATUS"
+              exit 1
+            fi
+            
+            if [ $i -eq 90 ]; then
+              echo "⏰ Timeout: Build não concluído em 45 minutos"
+              echo "🔗 Verifique o status em: https://expo.dev/accounts/c1c3ru/projects/academia-app/builds"
+              exit 1
+            fi
+          done
+
+      - name: 📤 Upload APK artifact
+        if: steps.download-apk.outputs.build-url
+        uses: actions/upload-artifact@v4
+        with:
+          name: MyGym-APK-${{ inputs.build_profile }}-${{ github.run_number }}
+          path: "*.apk"
+          retention-days: 30
+
+      - name: 📋 Build Summary
+        run: |
+          echo "## 🚀 Build Manual Concluído" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Plataforma:** ${{ inputs.platform }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Perfil:** ${{ inputs.build_profile }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Mensagem:** ${{ inputs.message || 'Build manual' }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Commit:** \`${GITHUB_SHA:0:7}\`" >> $GITHUB_STEP_SUMMARY
+          echo "**Data:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ steps.download-apk.outputs.build-id }}" ]; then
+            echo "**Build ID:** ${{ steps.download-apk.outputs.build-id }}" >> $GITHUB_STEP_SUMMARY
+            echo "**APK:** Disponível nos artifacts desta action" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "🔗 **Expo Dashboard:** https://expo.dev/accounts/c1c3ru/projects/academia-app/builds" >> $GITHUB_STEP_SUMMARY
+
+      - name: 📢 Success notification
+        run: |
+          echo "🎉 Build manual concluído com sucesso!"
+          echo "📱 Plataforma: ${{ inputs.platform }}"
+          echo "🔧 Perfil: ${{ inputs.build_profile }}"
+          
+          if [ "${{ steps.download-apk.outputs.build-url }}" ]; then
+            echo "📥 APK baixado e disponível nos artifacts"
+          fi
+          
+          echo "🔗 Expo Dashboard: https://expo.dev/accounts/c1c3ru/projects/academia-app/builds"

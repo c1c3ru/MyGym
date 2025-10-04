@@ -1,0 +1,176 @@
+name: Build and Release
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Versão do release (ex: 1.0.1)'
+        required: true
+        type: string
+      release_notes:
+        description: 'Notas do release'
+        required: false
+        type: string
+
+jobs:
+  build-and-release:
+    name: Build APK and Create Release
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v4
+
+      - name: 🏗 Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: npm
+
+      - name: 🏗 Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: 🏗 Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          expo-version: latest
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: 📦 Install dependencies
+        run: npm ci
+
+      - name: 🔧 Setup environment variables
+        run: |
+          echo "EXPO_PUBLIC_FIREBASE_API_KEY=${{ secrets.FIREBASE_API_KEY }}" >> .env
+          echo "EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN=${{ secrets.FIREBASE_AUTH_DOMAIN }}" >> .env
+          echo "EXPO_PUBLIC_FIREBASE_PROJECT_ID=${{ secrets.FIREBASE_PROJECT_ID }}" >> .env
+          echo "EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET=${{ secrets.FIREBASE_STORAGE_BUCKET }}" >> .env
+          echo "EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}" >> .env
+          echo "EXPO_PUBLIC_FIREBASE_APP_ID=${{ secrets.FIREBASE_APP_ID }}" >> .env
+
+      - name: 🔄 Update version
+        if: github.event.inputs.version
+        run: |
+          VERSION="${{ github.event.inputs.version }}"
+          npm version $VERSION --no-git-tag-version
+          
+          # Atualizar versão no app.json
+          jq --arg version "$VERSION" '.expo.version = $version' app.json > app.json.tmp
+          mv app.json.tmp app.json
+
+      - name: ✅ Run tests
+        run: npm run test:ci
+
+      - name: 🔍 Type check
+        run: npm run type-check
+
+      - name: 🎨 Lint check
+        run: npm run lint
+
+      - name: 🚀 Build Production APK
+        run: eas build --platform android --profile production-apk --non-interactive
+
+      - name: ⏳ Wait for build completion
+        id: wait-build
+        run: |
+          echo "Aguardando conclusão do build..."
+          
+          # Aguardar até 30 minutos pelo build
+          for i in {1..60}; do
+            sleep 30
+            
+            BUILD_INFO=$(eas build:list --platform android --limit 1 --json --non-interactive)
+            BUILD_STATUS=$(echo $BUILD_INFO | jq -r '.[0].status')
+            BUILD_ID=$(echo $BUILD_INFO | jq -r '.[0].id')
+            
+            echo "Build $BUILD_ID status: $BUILD_STATUS"
+            
+            if [ "$BUILD_STATUS" = "finished" ]; then
+              BUILD_URL=$(echo $BUILD_INFO | jq -r '.[0].artifacts.buildUrl')
+              echo "build-url=$BUILD_URL" >> $GITHUB_OUTPUT
+              echo "build-id=$BUILD_ID" >> $GITHUB_OUTPUT
+              echo "✅ Build concluído com sucesso!"
+              break
+            elif [ "$BUILD_STATUS" = "errored" ] || [ "$BUILD_STATUS" = "canceled" ]; then
+              echo "❌ Build falhou com status: $BUILD_STATUS"
+              exit 1
+            fi
+            
+            if [ $i -eq 60 ]; then
+              echo "⏰ Timeout: Build não concluído em 30 minutos"
+              exit 1
+            fi
+          done
+
+      - name: 📥 Download APK
+        if: steps.wait-build.outputs.build-url
+        run: |
+          BUILD_URL="${{ steps.wait-build.outputs.build-url }}"
+          echo "Baixando APK de: $BUILD_URL"
+          
+          curl -L -o MyGym-release.apk "$BUILD_URL"
+          
+          # Verificar se o arquivo foi baixado
+          if [ -f "MyGym-release.apk" ]; then
+            echo "✅ APK baixado com sucesso"
+            ls -lh MyGym-release.apk
+          else
+            echo "❌ Falha ao baixar APK"
+            exit 1
+          fi
+
+      - name: 📋 Generate release notes
+        id: release-notes
+        run: |
+          VERSION="${{ github.event.inputs.version || github.event.release.tag_name }}"
+          CUSTOM_NOTES="${{ github.event.inputs.release_notes }}"
+          
+          cat > release-notes.md << EOF
+          ## 🚀 MyGym App $VERSION
+          
+          ### 📱 Downloads
+          - **Android APK**: Disponível nos assets desta release
+          
+          ### 📋 Informações do Build
+          - **Build ID**: ${{ steps.wait-build.outputs.build-id }}
+          - **Commit**: \`${GITHUB_SHA:0:7}\`
+          - **Data**: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          - **Branch**: ${GITHUB_REF_NAME}
+          
+          ### 🔄 Alterações
+          ${CUSTOM_NOTES:-$(git log --pretty=format:"- %s" $(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "HEAD~10")..HEAD)}
+          
+          ### 📲 Instalação
+          1. Baixe o arquivo \`MyGym-release.apk\`
+          2. Habilite "Fontes desconhecidas" nas configurações do Android
+          3. Instale o APK
+          
+          ### 🔧 Requisitos
+          - Android 7.0+ (API level 24)
+          - Conexão com internet
+          - Permissões de localização (opcional)
+          EOF
+
+      - name: 🏷 Create or Update Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.event.inputs.version || github.event.release.tag_name }}
+          name: MyGym App ${{ github.event.inputs.version || github.event.release.tag_name }}
+          body_path: release-notes.md
+          files: MyGym-release.apk
+          draft: false
+          prerelease: ${{ contains(github.event.inputs.version, 'beta') || contains(github.event.inputs.version, 'alpha') }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 📢 Success notification
+        run: |
+          echo "🎉 Release criado com sucesso!"
+          echo "📱 APK disponível em: https://github.com/${{ github.repository }}/releases/latest"
+          echo "🔗 Build EAS: https://expo.dev/accounts/c1c3ru/projects/academia-app/builds/${{ steps.wait-build.outputs.build-id }}"

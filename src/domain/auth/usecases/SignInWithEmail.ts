@@ -3,7 +3,7 @@
 import { BaseUseCase } from './base';
 import { AuthRepository } from '../repositories';
 import { AuthSession } from '../entities';
-import { mapFirebaseError } from '../errors';
+import { mapFirebaseError, UserProfileNotFoundError } from '../errors';
 import { signInSchema, SignInInput } from './schemas';
 
 export class SignInWithEmailUseCase extends BaseUseCase<SignInInput, AuthSession> {
@@ -25,7 +25,7 @@ export class SignInWithEmailUseCase extends BaseUseCase<SignInInput, AuthSession
       // Get user profile
       const userProfile = await this.authRepository.getUserProfile(user.id);
       if (!userProfile) {
-        throw new Error('User profile not found after sign in');
+        throw new UserProfileNotFoundError();
       }
 
       // Get user claims
@@ -47,6 +47,10 @@ export class SignInWithEmailUseCase extends BaseUseCase<SignInInput, AuthSession
         academia
       };
     } catch (error: any) {
+      // Don't map UserProfileNotFoundError - let it pass through
+      if (error instanceof UserProfileNotFoundError) {
+        throw error;
+      }
       throw mapFirebaseError(error);
     }
   }

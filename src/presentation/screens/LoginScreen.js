@@ -21,11 +21,62 @@ import { useTheme } from '@contexts/ThemeContext';
 import AnimatedCard from '@components/AnimatedCard';
 import AnimatedButton from '@components/AnimatedButton';
 import EnhancedErrorBoundary from '@components/EnhancedErrorBoundary';
+import EnhancedErrorMessage, { useEnhancedError } from '@components/EnhancedErrorMessage';
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import { useFormValidation } from '@hooks/useFormValidation';
 import { rateLimitService } from '@services/rateLimitService';
 import LoginSkeleton from '@components/skeletons/LoginSkeleton';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+
+// Mapear erros de autenticação para códigos do EnhancedErrorMessage
+const mapAuthErrorToCode = (error) => {
+  const errorCode = error.code || error.name || '';
+  
+  // Mapear erros específicos do Firebase Auth
+  if (errorCode.includes('auth/user-not-found')) return 'auth/user-not-found';
+  if (errorCode.includes('auth/wrong-password')) return 'auth/wrong-password';
+  if (errorCode.includes('auth/invalid-credential')) return 'auth/wrong-password';
+  if (errorCode.includes('auth/invalid-email')) return 'auth/invalid-email';
+  if (errorCode.includes('auth/too-many-requests')) return 'auth/too-many-requests';
+  if (errorCode.includes('auth/network-request-failed')) return 'network/offline';
+  if (errorCode.includes('auth/email-already-in-use')) return 'auth/email-already-in-use';
+  if (errorCode.includes('auth/weak-password')) return 'auth/weak-password';
+  
+  // Mapear erros customizados do domain
+  if (errorCode.includes('UserProfileNotFoundError')) return 'data/not-found';
+  if (errorCode.includes('UnauthorizedError')) return 'permission/denied';
+  if (errorCode.includes('NetworkError')) return 'network/offline';
+  
+  // Fallback para erro genérico
+  return 'unknown';
+};
+
+// Função para lidar com ações do EnhancedErrorMessage
+const handleErrorAction = (action, navigation, setEmail, setPassword) => {
+  switch (action) {
+    case 'focus-email':
+      // Focar no campo de email (implementar ref se necessário)
+      break;
+    case 'focus-password':
+      // Focar no campo de senha (implementar ref se necessário)
+      break;
+    case 'reset-password':
+      if (navigation) {
+        navigation.navigate('ForgotPassword');
+      }
+      break;
+    case 'register':
+      if (navigation) {
+        navigation.navigate('Register');
+      }
+      break;
+    case 'retry':
+      // Limpar campos para nova tentativa
+      break;
+    default:
+      console.log('Ação não mapeada:', action);
+  }
+};
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
@@ -41,6 +92,13 @@ export default function LoginScreen({ navigation }) {
     type: 'info' // 'success', 'error', 'info'
   });
   const [errors, setErrors] = useState({});
+  
+  // Sistema de feedback visual para erros
+  const { 
+    error: enhancedError, 
+    showError: showEnhancedError, 
+    clearError: clearEnhancedError 
+  } = useEnhancedError();
 
   // Analytics tracking
   useScreenTracking('LoginScreen');
@@ -118,33 +176,17 @@ export default function LoginScreen({ navigation }) {
       const emailDomain = email.trim().split('@')[1] || 'unknown';
       trackFeatureUsage('login_failed', { 
         emailDomain, 
-        errorCode: error.code,
-        errorType: error.code?.split('/')[1] || 'unknown'
+        errorCode: error.code || error.name,
+        errorType: error.code?.split('/')[1] || error.name || 'unknown'
       });
       
-      let errorMessage = getString('checkCredentials') || 'Verifique suas credenciais';
-      
-      if (error.code === 'auth/user-not-found') {
-        errorMessage = getString('userNotFound') || 'Usuário não encontrado';
-      } else if (error.code === 'auth/wrong-password') {
-        errorMessage = getString('wrongPassword') || 'Senha incorreta';
-      } else if (error.code === 'auth/invalid-credential') {
-        errorMessage = getString('invalidCredentials') || 'Credenciais inválidas';
-      } else if (error.code === 'auth/invalid-email') {
-        errorMessage = getString('invalidEmail') || 'Email inválido';
-      } else if (error.code === 'auth/too-many-requests') {
-        errorMessage = 'Muitas tentativas de login. Tente novamente mais tarde.';
-      } else if (error.code === 'auth/network-request-failed') {
-        errorMessage = 'Erro de conexão. Verifique sua internet.';
-      } else if (error.message) {
-        errorMessage = error.message;
-      }
-      
-      showSnackbar(errorMessage, 'error');
+      // Mapear erro para código do EnhancedErrorMessage
+      const errorCode = mapAuthErrorToCode(error);
+      showEnhancedError(errorCode);
     } finally {
       setLoading(false);
     }
-  }, [email, password, validateForm, getString, showSnackbar, trackButtonClick, signIn, trackFeatureUsage]);
+  }, [email, password, validateForm, getString, showEnhancedError, trackButtonClick, signIn, trackFeatureUsage]);
 
   const handleForgotPassword = () => {
     if (navigation) {
@@ -174,7 +216,8 @@ export default function LoginScreen({ navigation }) {
       showSnackbar('Login com Google realizado com sucesso!', 'success');
     } catch (error) {
       console.error('Erro no login Google:', error);
-      showSnackbar(getString('googleLoginError') || 'Erro no login com Google', 'error');
+      const errorCode = mapAuthErrorToCode(error);
+      showEnhancedError(errorCode);
     } finally {
       setLoading(false);
     }
@@ -188,7 +231,8 @@ export default function LoginScreen({ navigation }) {
       showSnackbar('Login com Facebook realizado com sucesso!', 'success');
     } catch (error) {
       console.error('Erro no login Facebook:', error);
-      showSnackbar(getString('facebookLoginError') || 'Erro no login com Facebook', 'error');
+      const errorCode = mapAuthErrorToCode(error);
+      showEnhancedError(errorCode);
     } finally {
       setLoading(false);
     }
@@ -202,7 +246,8 @@ export default function LoginScreen({ navigation }) {
       showSnackbar('Login com Microsoft realizado com sucesso!', 'success');
     } catch (error) {
       console.error('Erro no login Microsoft:', error);
-      showSnackbar(getString('microsoftLoginError') || 'Erro no login com Microsoft', 'error');
+      const errorCode = mapAuthErrorToCode(error);
+      showEnhancedError(errorCode);
     } finally {
       setLoading(false);
     }
@@ -216,7 +261,8 @@ export default function LoginScreen({ navigation }) {
       showSnackbar('Login com Apple realizado com sucesso!', 'success');
     } catch (error) {
       console.error('Erro no login Apple:', error);
-      showSnackbar(getString('appleLoginError') || 'Erro no login com Apple', 'error');
+      const errorCode = mapAuthErrorToCode(error);
+      showEnhancedError(errorCode);
     } finally {
       setLoading(false);
     }
@@ -455,6 +501,20 @@ export default function LoginScreen({ navigation }) {
           
         </ScrollView>
         
+        {/* Sistema de feedback visual para erros */}
+        {enhancedError && (
+          <View style={styles.errorContainer}>
+            <EnhancedErrorMessage
+              errorCode={enhancedError.errorCode}
+              customMessage={enhancedError.customMessage}
+              customTitle={enhancedError.customTitle}
+              onAction={(action) => handleErrorAction(action, navigation, setEmail, setPassword)}
+              onDismiss={clearEnhancedError}
+              compact={false}
+            />
+          </View>
+        )}
+        
         {/* Snackbar para feedback */}
         <Snackbar
           visible={snackbar.visible}
@@ -640,5 +700,12 @@ const styles = StyleSheet.create({
   snackbarText: {
     color: COLORS.white,
     fontSize: FONT_SIZE.md,
+  },
+  errorContainer: {
+    position: 'absolute',
+    top: 80,
+    left: SPACING.md,
+    right: SPACING.md,
+    zIndex: 1000,
   },
 });
