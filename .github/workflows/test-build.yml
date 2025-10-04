@@ -15,7 +15,7 @@ jobs:
       - name: 🏗 Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: npm
 
       - name: 🏗 Setup Java
@@ -37,8 +37,17 @@ jobs:
       - name: 🔑 Authenticate EAS
         run: |
           echo "Checking EAS authentication..."
+          echo "EXPO_TOKEN length: ${#EXPO_TOKEN}"
+          
+          if [ -z "$EXPO_TOKEN" ]; then
+            echo "❌ EXPO_TOKEN is empty or not set"
+            echo "Please check if EXPO_TOKEN secret is configured in GitHub"
+            exit 1
+          fi
+          
+          echo "Token found, checking authentication..."
           eas whoami
-          echo "EAS authentication successful"
+          echo "✅ EAS authentication successful"
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
