@@ -41,15 +41,35 @@ jobs:
           java-version: '17'
 
       - name: 🏗 Setup EAS CLI
-        run: npm install -g @expo/cli eas-cli
+        run: |
+          npm install -g @expo/cli@latest eas-cli@latest
+          echo "EAS CLI installed successfully"
         
       - name: 🔑 Authenticate EAS
-        run: eas whoami
+        run: |
+          echo "Checking EAS authentication..."
+          eas whoami
+          echo "EAS authentication successful"
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
       - name: 📦 Install dependencies
-        run: npm ci
+        run: |
+          echo "Installing project dependencies..."
+          npm ci
+          echo "Dependencies installed successfully"
+
+      - name: 🔧 Configure EAS project
+        run: |
+          echo "Checking EAS project configuration..."
+          if [ ! -f "eas.json" ]; then
+            echo "eas.json not found, configuring project..."
+            eas build:configure --platform android --non-interactive
+          else
+            echo "eas.json found, project already configured"
+          fi
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
       - name: 🔧 Setup environment variables
         env:
