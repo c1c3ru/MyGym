@@ -56,7 +56,7 @@ export const PROFESSIONAL_COLORS = {
   },
 
   common: {
-    COLORS.white: APP_COLORS.white,
+    white: APP_COLORS.white,
     black: APP_COLORS.black,
     gray: APP_COLORS.gray,
     status: STATUS_COLORS,
