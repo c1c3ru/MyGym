@@ -116,6 +116,8 @@ jobs:
           else
             eas build --platform android --profile ${{ inputs.build_profile }} --non-interactive --no-wait --message "$BUILD_MESSAGE"
           fi
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
       - name: 🚀 Build iOS
         if: inputs.platform == 'ios' || inputs.platform == 'all'
@@ -130,6 +132,8 @@ jobs:
           echo "Message: $BUILD_MESSAGE"
           
           eas build --platform ios --profile ${{ inputs.build_profile }} --non-interactive --no-wait --message "$BUILD_MESSAGE"
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
       - name: ⏳ Wait for Android build and download APK
         if: (inputs.platform == 'android' || inputs.platform == 'all') && inputs.download_apk == true
