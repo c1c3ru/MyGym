@@ -399,7 +399,7 @@ const AddClassScreen = ({ navigation }) => {
                     updateFormData('instructorId', '');
                     updateFormData('instructorName', '');
                   }}
-                  style={[styles.chip, { backgroundColor: !formData.instructorId ? COLORS.success[50] : 'transparent' }]}
+                  style={[styles.chip, { backgroundColor: !formData.instructorId ? COLORS.success[50] : currentTheme.transparent || currentTheme.transparent || currentTheme.transparent || "transparent" }]}
                   mode={!formData.instructorId ? 'flat' : 'outlined'}
                   icon={!formData.instructorId ? 'check' : 'account'}
                 >

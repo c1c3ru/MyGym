@@ -145,7 +145,7 @@ const ActionButton = ({
       onPress={onPress}
       loading={loading}
       disabled={disabled}
-      buttonColor={mode === 'outlined' ? 'transparent' : undefined}
+      buttonColor={mode === 'outlined' ? currentTheme.transparent || currentTheme.transparent || currentTheme.transparent || "transparent" : undefined}
       textColor={disabled ? COLORS.gray[400] : colors.text}
       style={[
         styles.button,
@@ -262,7 +262,7 @@ const styles = StyleSheet.create({
   },
   gradientButton: {
     borderRadius: BORDER_RADIUS.md,
-    backgroundColor: 'transparent',
+    backgroundColor: currentTheme.transparent || currentTheme.transparent || currentTheme.transparent || "transparent",
     margin: 0,
   },
   gradientButtonText: {
@@ -304,7 +304,7 @@ const styles = StyleSheet.create({
   },
   fab: {
     borderRadius: 28,
-    backgroundColor: 'transparent',
+    backgroundColor: currentTheme.transparent || currentTheme.transparent || currentTheme.transparent || "transparent",
     margin: 0,
   },
   fabText: {

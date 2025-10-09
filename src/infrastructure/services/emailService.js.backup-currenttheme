@@ -90,9 +90,18 @@ export class EmailService {
             body {
                 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
                 line-height: 1.6;
-                color: COLORS.text.primary}
+                color: currentTheme.gray[700];
+                max-width: 600px;
+                margin: 0 auto;
+                padding: 20px;
+                background-color: currentTheme.gray[100];
+            }
             .email-container {
-                background-color: COLORS.text.primary}
+                background-color: currentTheme.white;
+                border-radius: 12px;
+                padding: 32px;
+                box-shadow: 0 4px 12px currentTheme.black + "1A";
+            }
             .header {
                 text-align: center;
                 margin-bottom: 32px;
@@ -102,16 +111,30 @@ export class EmailService {
             .logo {
                 font-size: 28px;
                 font-weight: bold;
-                color: COLORS.text.primary}
+                color: currentTheme.info[500];
+                margin-bottom: 8px;
+            }
             .subtitle {
-                color: COLORS.text.primary}
+                color: currentTheme.gray[600];
+                font-size: 16px;
+            }
             .content {
                 margin-bottom: 32px;
             }
             .academy-name {
-                color: COLORS.text.primary}
+                color: currentTheme.info[500];
+                font-weight: bold;
+            }
             .user-type {
-                background-color: COLORS.text.primary}
+                background-color: currentTheme.info[50];
+                color: currentTheme.info[700];
+                padding: 4px 12px;
+                border-radius: 16px;
+                font-size: 14px;
+                font-weight: 500;
+                display: inline-block;
+                margin: 8px 0;
+            }
             .cta-button {
                 display: inline-block;
                 background: linear-gradient(135deg, currentTheme.info[500], currentTheme.info[700]);
@@ -126,17 +149,40 @@ export class EmailService {
                 transition: all 0.3s ease;
             }
             .link-backup {
-                background-color: COLORS.text.primary}
+                background-color: currentTheme.background.light;
+                padding: 16px;
+                border-radius: 8px;
+                border-left: 4px solid currentTheme.info[500];
+                margin: 16px 0;
+                word-break: break-all;
+            }
             .expiration {
-                background-color: COLORS.text.primary}
+                background-color: currentTheme.white3E0;
+                border: 1px solid currentTheme.warning[400];
+                border-radius: 8px;
+                padding: 12px;
+                margin: 16px 0;
+                color: currentTheme.warning[800];
+                text-align: center;
+                font-weight: 500;
+            }
             .footer {
                 text-align: center;
                 margin-top: 32px;
                 padding-top: 24px;
                 border-top: 1px solid currentTheme.gray[300];
-                color: COLORS.text.primary}
+                color: currentTheme.gray[500];
+                font-size: 14px;
+            }
             .security-notice {
-                background-color: COLORS.text.primary}
+                background-color: currentTheme.primary[50];
+                border: 1px solid currentTheme.primary[300];
+                border-radius: 8px;
+                padding: 12px;
+                margin: 16px 0;
+                font-size: 14px;
+                color: currentTheme.primary[900];
+            }
         </style>
     </head>
     <body>

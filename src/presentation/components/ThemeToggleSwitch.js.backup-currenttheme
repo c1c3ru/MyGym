@@ -25,12 +25,12 @@ const ThemeToggleSwitch = ({ style }) => {
             size={24} 
             color={currentTheme.primary[500]} 
           />
-          <Text style={[styles.title, { color: COLORS.text.primary}]}>
+          <Text style={[styles.title, { color: currentTheme.text.primary }]}>
             Aparência
           </Text>
         </View>
         
-        <Text style={[styles.description, { color: COLORS.text.primary}]}>
+        <Text style={[styles.description, { color: currentTheme.text.secondary }]}>
           Escolha entre o tema claro sóbrio ou escuro premium
         </Text>
 
@@ -39,10 +39,10 @@ const ThemeToggleSwitch = ({ style }) => {
         {/* Switch Principal */}
         <View style={styles.switchRow}>
           <View style={styles.switchInfo}>
-            <Text style={[styles.switchLabel, { color: COLORS.text.primary}]}>
+            <Text style={[styles.switchLabel, { color: currentTheme.text.primary }]}>
               {themeInfo.name}
             </Text>
-            <Text style={[styles.switchDescription, { color: COLORS.text.primary}]}>
+            <Text style={[styles.switchDescription, { color: currentTheme.text.secondary }]}>
               {themeInfo.description}
             </Text>
           </View>
@@ -62,7 +62,7 @@ const ThemeToggleSwitch = ({ style }) => {
 
         {/* Opções de Tema */}
         <View style={styles.themeOptions}>
-          <Text style={[styles.optionsTitle, { color: COLORS.text.primary}]}>
+          <Text style={[styles.optionsTitle, { color: currentTheme.text.primary }]}>
             Temas Disponíveis
           </Text>
           
@@ -84,10 +84,10 @@ const ThemeToggleSwitch = ({ style }) => {
             <View style={styles.themePreview}>
               <View style={[styles.previewDark, styles.previewBox]} />
               <View style={styles.previewInfo}>
-                <Text style={[styles.themeName, { color: COLORS.text.primary}]}>
+                <Text style={[styles.themeName, { color: currentTheme.text.primary }]}>
                   Dark Premium
                 </Text>
-                <Text style={[styles.themeDesc, { color: COLORS.text.primary}]}>
+                <Text style={[styles.themeDesc, { color: currentTheme.text.secondary }]}>
                   Tema escuro para academias de artes marciais
                 </Text>
               </View>
@@ -119,10 +119,10 @@ const ThemeToggleSwitch = ({ style }) => {
             <View style={styles.themePreview}>
               <View style={[styles.previewLight, styles.previewBox]} />
               <View style={styles.previewInfo}>
-                <Text style={[styles.themeName, { color: COLORS.text.primary}]}>
+                <Text style={[styles.themeName, { color: currentTheme.text.primary }]}>
                   Light Sóbrio
                 </Text>
-                <Text style={[styles.themeDesc, { color: COLORS.text.primary}]}>
+                <Text style={[styles.themeDesc, { color: currentTheme.text.secondary }]}>
                   Tema claro inspirado em incubadoras tecnológicas
                 </Text>
               </View>
@@ -144,7 +144,7 @@ const ThemeToggleSwitch = ({ style }) => {
             size={16} 
             color={currentTheme.info[500]} 
           />
-          <Text style={[styles.infoText, { color: COLORS.text.primary}]}>
+          <Text style={[styles.infoText, { color: currentTheme.text.secondary }]}>
             A preferência de tema é salva automaticamente e aplicada em todo o app
           </Text>
         </View>

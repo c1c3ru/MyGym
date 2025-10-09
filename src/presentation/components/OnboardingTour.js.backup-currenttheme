@@ -301,10 +301,10 @@ const OnboardingTooltip = ({
     tooltip: {
       ...styles.tooltip,
       backgroundColor: currentTheme.card.default.background,
-      borderColor: COLORS.border.default,
+      borderColor: currentTheme.border.default,
       ...Platform.select({
         ios: {
-          shadowColor: COLORS.black,
+          shadowColor: currentTheme.black,
           shadowOffset: { width: 0, height: 4 },
           shadowOpacity: 0.3,
         },
@@ -315,15 +315,15 @@ const OnboardingTooltip = ({
     },
     tooltipTitle: {
       ...styles.tooltipTitle,
-      color: COLORS.text.primary,
+      color: currentTheme.text.primary,
     },
     tooltipProgress: {
       ...styles.tooltipProgress,
-      color: COLORS.text.primary,
+      color: currentTheme.text.secondary,
     },
     tooltipMessage: {
       ...styles.tooltipMessage,
-      color: COLORS.text.primary,
+      color: currentTheme.text.primary,
     },
     backdrop: {
       ...styles.backdrop,
@@ -331,8 +331,8 @@ const OnboardingTooltip = ({
     },
     spotlight: {
       ...styles.spotlight,
-      borderColor: COLORS.border.default,
-      shadowColor: COLORS.black,
+      borderColor: currentTheme.primary[400],
+      shadowColor: currentTheme.primary[500],
     },
   });
   
