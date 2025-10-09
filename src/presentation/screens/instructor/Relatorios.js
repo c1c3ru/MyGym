@@ -353,7 +353,7 @@ const styles = StyleSheet.create({
     marginBottom: ResponsiveUtils.spacing.sm,
     borderRadius: ResponsiveUtils.borderRadius.medium,
     borderLeftWidth: 4,
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.card.default.background,
   },
   statHeader: {
     flexDirection: 'row',
@@ -379,7 +379,7 @@ const styles = StyleSheet.create({
     padding: ResponsiveUtils.spacing.md,
     marginBottom: ResponsiveUtils.spacing.sm,
     borderRadius: ResponsiveUtils.borderRadius.medium,
-    backgroundColor: COLORS.background.light,
+    backgroundColor: COLORS.card.default.background,
   },
   aulaHeader: {
     flexDirection: 'row',

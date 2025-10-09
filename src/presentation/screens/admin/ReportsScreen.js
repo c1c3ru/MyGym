@@ -238,7 +238,7 @@ const ReportsScreen = ({ navigation }) => {
             
             <View style={styles.statsGrid}>
               <View style={styles.statItem}>
-                <View style={[styles.statIcon, { backgroundColor: COLORS.info[500] }]}>
+                <View style={[styles.statIcon, { backgroundColor: COLORS.info[700] }]}>
                   <Ionicons name="people" size={24} color={COLORS.white} />
                 </View>
                 <View style={styles.statContent}>
@@ -260,7 +260,7 @@ const ReportsScreen = ({ navigation }) => {
               </View>
 
               <View style={styles.statItem}>
-                <View style={[styles.statIcon, { backgroundColor: COLORS.warning[500] }]}>
+                <View style={[styles.statIcon, { backgroundColor: COLORS.secondary[700] }]}>
                   <Ionicons name="card" size={24} color={COLORS.white} />
                 </View>
                 <View style={styles.statContent}>
@@ -271,7 +271,7 @@ const ReportsScreen = ({ navigation }) => {
               </View>
 
               <View style={styles.statItem}>
-                <View style={[styles.statIcon, { backgroundColor: COLORS.error[500] }]}>
+                <View style={[styles.statIcon, { backgroundColor: COLORS.error[700] }]}>
                   <Ionicons name="time" size={24} color={COLORS.white} />
                 </View>
                 <View style={styles.statContent}>
