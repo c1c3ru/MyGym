@@ -32,6 +32,7 @@ import PhysicalEvaluationScreen from '@screens/shared/PhysicalEvaluationScreen';
 import PhysicalEvaluationHistoryScreen from '@screens/shared/PhysicalEvaluationHistoryScreen';
 import NotificationSettingsScreen from '@screens/shared/NotificationSettingsScreen';
 import PrivacySettingsScreen from '@screens/shared/PrivacySettingsScreen';
+import SettingsScreen from '@screens/shared/SettingsScreen';
 import StudentPayments from '@screens/student/StudentPayments';
 import CheckIn from '@screens/instructor/CheckIn';
 import { COLORS } from '@presentation/theme/designTokens';
@@ -391,6 +392,21 @@ const AdminNavigator = () => {
           header: ({ navigation }) => (
             <UniversalHeader
               title="Privacidade e Segurança"
+              navigation={navigation}
+              showBack={true}
+              backgroundColor={PROFILE_COLORS.admin.primary}
+            />
+          ),
+        }}
+      />
+      <Stack.Screen 
+        name="Settings" 
+        component={SettingsScreen}
+        options={{
+          headerShown: true,
+          header: ({ navigation }) => (
+            <UniversalHeader
+              title="Configurações"
               navigation={navigation}
               showBack={true}
               backgroundColor={PROFILE_COLORS.admin.primary}

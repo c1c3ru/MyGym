@@ -11,7 +11,6 @@ import { Text, Button, IconButton } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { 
-  COLORS, 
   SPACING, 
   FONT_SIZE, 
   FONT_WEIGHT, 
@@ -20,6 +19,7 @@ import {
   Z_INDEX, 
   OPACITY 
 } from '@presentation/theme/designTokens';
+import { useThemeToggle } from '@contexts/ThemeToggleContext';
 
 const { width, height } = Dimensions.get('window');
 
@@ -285,8 +285,7 @@ export const OnboardingProvider = ({ children }) => {
 // ============================================
 // OVERLAY COMPONENT
 // ============================================
-const OnboardingOverlay = ({
-  tour,
+const OnboardingTooltip = ({
   step,
   stepIndex,
   totalSteps,
@@ -294,6 +293,43 @@ const OnboardingOverlay = ({
   onPrevious,
   onSkip,
 }) => {
+  const { currentTheme } = useThemeToggle();
+  
+  // Estilos dinâmicos baseados no tema atual
+  const dynamicStyles = StyleSheet.create({
+    tooltip: {
+      ...styles.tooltip,
+      backgroundColor: currentTheme.card.default.background,
+      borderColor: currentTheme.border.default,
+      ...Platform.select({
+        ios: {
+          shadowColor: currentTheme.black,
+          shadowOffset: { width: 0, height: 4 },
+          shadowOpacity: 0.3,
+        },
+        android: {
+          elevation: 8,
+        },
+      }),
+    },
+    tooltipTitle: {
+      ...styles.tooltipTitle,
+      color: currentTheme.text.primary,
+    },
+    tooltipProgress: {
+      ...styles.tooltipProgress,
+      color: currentTheme.text.secondary,
+    },
+    tooltipMessage: {
+      ...styles.tooltipMessage,
+      color: currentTheme.text.primary,
+    },
+    backdrop: {
+      ...styles.backdrop,
+      backgroundColor: currentTheme.overlay.default,
+    },
+  });
+  
   return (
     <Modal
       visible={true}
@@ -303,7 +339,7 @@ const OnboardingOverlay = ({
     >
       <View style={styles.overlay}>
         {/* Backdrop escurecido */}
-        <View style={styles.backdrop} />
+        <View style={dynamicStyles.backdrop} />
 
         {/* Spotlight (se houver target) */}
         {step.target && (
@@ -323,7 +359,7 @@ const OnboardingOverlay = ({
         {/* Tooltip */}
         <View
           style={[
-            styles.tooltip,
+            dynamicStyles.tooltip,
             step.position === 'top' && styles.tooltipTop,
             step.position === 'bottom' && styles.tooltipBottom,
             step.position === 'center' && styles.tooltipCenter,
@@ -335,13 +371,13 @@ const OnboardingOverlay = ({
               <MaterialCommunityIcons
                 name={step.icon}
                 size={32}
-                color={COLORS.primary[500]}
+                color={currentTheme.primary[500]}
                 style={styles.tooltipIcon}
               />
             )}
             <View style={styles.tooltipHeaderText}>
-              <Text style={styles.tooltipTitle}>{step.title}</Text>
-              <Text style={styles.tooltipProgress}>
+              <Text style={dynamicStyles.tooltipTitle}>{step.title}</Text>
+              <Text style={dynamicStyles.tooltipProgress}>
                 {stepIndex + 1} de {totalSteps}
               </Text>
             </View>
@@ -354,7 +390,7 @@ const OnboardingOverlay = ({
           </View>
 
           {/* Content */}
-          <Text style={styles.tooltipMessage}>{step.message}</Text>
+          <Text style={dynamicStyles.tooltipMessage}>{step.message}</Text>
 
           {/* Actions */}
           <View style={styles.tooltipActions}>

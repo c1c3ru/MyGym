@@ -227,7 +227,7 @@ const UniversalHeader = ({
               <Menu.Item
                 onPress={() => {
                   closeMenu();
-                  // Implementar configurações se necessário
+                  navigation?.navigate('Settings');
                 }}
                 title="Configurações"
                 leadingIcon={() => (
