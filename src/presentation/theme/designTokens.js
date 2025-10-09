@@ -1,10 +1,13 @@
 /**
  * Design Tokens - MyGym
- * Sistema centralizado de tokens de design para garantir consistência visual
- * em todo o aplicativo.
- * 
- * @see https://www.designtokens.org/
+ * Sistema centralizado de tokens de design para consistência visual
+ * Inclui cores, espaçamentos, tipografia, bordas e elevações
+ * Suporte a Light Theme e Dark Theme Premium
  */
+
+import { LIGHT_THEME } from './lightTheme';
+
+// @see https://www.designtokens.org/
 
 // ============================================
 // SPACING - Espaçamentos padronizados
@@ -666,4 +669,44 @@ export default {
   getFontSize,
   getColor,
   getElevation,
+  // Themes
+  LIGHT_THEME,
 };
+
+// ============================================
+// THEME SYSTEM - Sistema de alternância de temas
+// ============================================
+
+// Dark Theme Premium (atual)
+export const DARK_THEME = {
+  background: COLORS.background,
+  text: COLORS.text,
+  primary: COLORS.primary,
+  secondary: COLORS.secondary,
+  success: COLORS.success,
+  warning: COLORS.warning,
+  error: COLORS.error,
+  info: COLORS.info,
+  card: COLORS.card,
+  gray: COLORS.gray,
+  white: COLORS.white,
+  black: COLORS.black,
+  border: COLORS.border,
+  overlay: COLORS.overlay,
+  gradients: COLORS.gradients,
+  shadows: COLORS.shadows,
+};
+
+// Função para alternar entre temas
+export const getTheme = (isDark = true) => {
+  return isDark ? DARK_THEME : LIGHT_THEME;
+};
+
+// Hook para usar tema atual
+export const useCurrentTheme = (isDark = true) => {
+  return getTheme(isDark);
+};
+
+// Exportar temas para uso direto
+export { LIGHT_THEME as LIGHT_THEME_TOKENS };
+export { DARK_THEME as DARK_THEME_TOKENS };
