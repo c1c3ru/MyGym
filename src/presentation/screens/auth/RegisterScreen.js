@@ -498,7 +498,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: currentTheme.transparent || currentTheme.transparent || currentTheme.transparent || "transparent",
+    backgroundColor: 'transparent',
     ...(Platform.OS === 'web' ? { minHeight: '100vh' } : {}),
   },
   scroll: {
