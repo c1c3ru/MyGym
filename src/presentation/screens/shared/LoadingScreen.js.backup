@@ -8,7 +8,7 @@ const LoadingScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
-        <ActivityIndicator size="large" color={COLORS.info[500]} style={styles.spinner} />
+        <ActivityIndicator size="large" color="COLORS.info[500]" style={styles.spinner} />
         <Text style={styles.title}>MyGym</Text>
         <Text style={styles.subtitle}>Carregando...</Text>
       </View>

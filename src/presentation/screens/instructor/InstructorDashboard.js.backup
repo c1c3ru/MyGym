@@ -354,7 +354,7 @@ const InstructorDashboard = ({ navigation }) => {
                     {userProfile?.specialties?.join(' • ') || getString('martialArtsInstructor')}
                   </Text>
                   <View style={styles.statusBadge}>
-                    <MaterialCommunityIcons name="circle" size={8} color={COLORS.primary[500]} />
+                    <MaterialCommunityIcons name="circle" size={8} color="COLORS.primary[500]" />
                     <Text style={styles.statusText}>{getString('online')}</Text>
                   </View>
                 </View>
@@ -362,7 +362,7 @@ const InstructorDashboard = ({ navigation }) => {
                   <MaterialCommunityIcons 
                     name="account-star" 
                     size={24} 
-                    color={COLORS.white} 
+                    color="COLORS.white" 
                   />
                 </Animated.View>
               </View>
@@ -377,7 +377,7 @@ const InstructorDashboard = ({ navigation }) => {
               colors={[COLORS.primary[500], COLORS.primary[600]]}
               style={styles.statGradient}
             >
-              <MaterialCommunityIcons name="school-outline" size={32} color={COLORS.white} />
+              <MaterialCommunityIcons name="school-outline" size={32} color="COLORS.white" />
               <Text style={styles.statNumber}>{dashboardData.myClasses.length}</Text>
               <Text style={styles.statLabel}>{getString('myClasses')}</Text>
             </LinearGradient>
@@ -388,7 +388,7 @@ const InstructorDashboard = ({ navigation }) => {
               colors={[COLORS.info[500], COLORS.info[700]]}
               style={styles.statGradient}
             >
-              <MaterialCommunityIcons name="account-group" size={32} color={COLORS.white} />
+              <MaterialCommunityIcons name="account-group" size={32} color="COLORS.white" />
               <Text style={styles.statNumber}>{dashboardData.totalStudents}</Text>
               <Text style={styles.statLabel}>{getString('totalStudents')}</Text>
             </LinearGradient>
@@ -399,7 +399,7 @@ const InstructorDashboard = ({ navigation }) => {
               colors={[COLORS.warning[500], COLORS.warning[600]]}
               style={styles.statGradient}
             >
-              <MaterialCommunityIcons name="calendar-today" size={32} color={COLORS.white} />
+              <MaterialCommunityIcons name="calendar-today" size={32} color="COLORS.white" />
               <Text style={styles.statNumber}>{dashboardData.todayClasses.length}</Text>
               <Text style={styles.statLabel}>{getString('classesToday')}</Text>
             </LinearGradient>
@@ -410,7 +410,7 @@ const InstructorDashboard = ({ navigation }) => {
               colors={[COLORS.secondary[500], COLORS.secondary[700]]}
               style={styles.statGradient}
             >
-              <MaterialCommunityIcons name="check-circle" size={32} color={COLORS.white} />
+              <MaterialCommunityIcons name="check-circle" size={32} color="COLORS.white" />
               <Text style={styles.statNumber}>{dashboardData.activeCheckIns}</Text>
               <Text style={styles.statLabel}>{getString('checkIns')}</Text>
             </LinearGradient>
@@ -422,7 +422,7 @@ const InstructorDashboard = ({ navigation }) => {
           <Card.Content>
             <View style={styles.modernCardHeader}>
               <View style={styles.headerIconContainer}>
-                <MaterialCommunityIcons name="clock-time-four" size={24} color={COLORS.info[500]} />
+                <MaterialCommunityIcons name="clock-time-four" size={24} color="COLORS.info[500]" />
               </View>
               <View>
                 <Text style={styles.modernCardTitle}>{getString('todaySchedule')}</Text>
@@ -457,7 +457,7 @@ const InstructorDashboard = ({ navigation }) => {
                       
                       <View style={styles.timelineDetails}>
                         <View style={styles.timelineInfo}>
-                          <MaterialCommunityIcons name="clock" size={16} color={COLORS.text.secondary} />
+                          <MaterialCommunityIcons name="clock" size={16} color="COLORS.text.secondary" />
                           <Text style={styles.timelineText}>
                             {classItem.schedule?.map(s => 
                               `${formatTime(s.hour, s.minute)}`
@@ -466,7 +466,7 @@ const InstructorDashboard = ({ navigation }) => {
                         </View>
                         
                         <View style={styles.timelineInfo}>
-                          <MaterialCommunityIcons name="account-multiple" size={16} color={COLORS.text.secondary} />
+                          <MaterialCommunityIcons name="account-multiple" size={16} color="COLORS.text.secondary" />
                           <Text style={styles.timelineText}>
                             {classItem.currentStudents || 0}/{classItem.maxCapacity || 'N/A'} {getString('students')}
                           </Text>
@@ -503,7 +503,7 @@ const InstructorDashboard = ({ navigation }) => {
           <Card.Content>
             <View style={styles.modernCardHeader}>
               <View style={styles.headerIconContainer}>
-                <MaterialCommunityIcons name="lightning-bolt" size={24} color={COLORS.warning[500]} />
+                <MaterialCommunityIcons name="lightning-bolt" size={24} color="COLORS.warning[500]" />
               </View>
               <View>
                 <Text style={styles.modernCardTitle}>{getString('quickActions')}</Text>
@@ -517,7 +517,7 @@ const InstructorDashboard = ({ navigation }) => {
                   colors={[COLORS.primary[500], COLORS.primary[600]]}
                   style={styles.actionGradient}
                 >
-                  <MaterialCommunityIcons name="calendar-plus" size={28} color={COLORS.white} />
+                  <MaterialCommunityIcons name="calendar-plus" size={28} color="COLORS.white" />
                   <Text style={styles.actionTitle}>Agendar Aulas</Text>
                   <Text style={styles.actionSubtitle}>Adicione aulas às suas turmas</Text>
                   <AnimatedButton
@@ -553,7 +553,7 @@ const InstructorDashboard = ({ navigation }) => {
                   colors={[COLORS.info[500], COLORS.info[700]]}
                   style={styles.actionGradient}
                 >
-                  <MaterialCommunityIcons name="qrcode-scan" size={28} color={COLORS.white} />
+                  <MaterialCommunityIcons name="qrcode-scan" size={28} color="COLORS.white" />
                   <Text style={styles.actionTitle}>{getString('checkIn')}</Text>
                   <Text style={styles.actionSubtitle}>{getString('digitalAttendance')}</Text>
                   <AnimatedButton
@@ -574,7 +574,7 @@ const InstructorDashboard = ({ navigation }) => {
                   colors={[COLORS.secondary[500], COLORS.secondary[700]]}
                   style={styles.actionGradient}
                 >
-                  <MaterialCommunityIcons name="chart-line" size={28} color={COLORS.white} />
+                  <MaterialCommunityIcons name="chart-line" size={28} color="COLORS.white" />
                   <Text style={styles.actionTitle}>{getString('reports')}</Text>
                   <Text style={styles.actionSubtitle}>{getString('dataAnalysis')}</Text>
                   <AnimatedButton
@@ -618,7 +618,7 @@ const InstructorDashboard = ({ navigation }) => {
             
             {loadingAnnouncements ? (
               <View style={styles.loadingContainer}>
-                <ActivityIndicator size="small" color={COLORS.primary[500]} />
+                <ActivityIndicator size="small" color="COLORS.primary[500]" />
                 <Text style={styles.loadingText}>{getString('loadingAnnouncements')}</Text>
               </View>
             ) : announcements.length > 0 ? (
@@ -648,7 +648,7 @@ const InstructorDashboard = ({ navigation }) => {
                         {announcement.date}
                       </Text>
                       {announcement.isRead && (
-                        <MaterialCommunityIcons name="check-all" size={16} color={COLORS.primary[500]} />
+                        <MaterialCommunityIcons name="check-all" size={16} color="COLORS.primary[500]" />
                       )}
                     </View>
                     {index < announcements.length - 1 && <Divider style={styles.announcementDivider} />}
@@ -718,7 +718,7 @@ const InstructorDashboard = ({ navigation }) => {
         <AnimatedCard delay={500} style={styles.card}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <Ionicons name="calendar-outline" size={24} color={COLORS.warning[500]} />
+              <Ionicons name="calendar-outline" size={24} color="COLORS.warning[500]" />
               <Text style={[styles.cardTitle, { fontSize: ResponsiveUtils.fontSize.medium }]}>
                 {getString('upcomingClasses')}
               </Text>

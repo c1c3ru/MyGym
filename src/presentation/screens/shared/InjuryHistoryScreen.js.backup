@@ -168,7 +168,7 @@ const InjuryHistoryScreen = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <Ionicons name="stats-chart-outline" size={24} color={COLORS.info[500]} />
+              <Ionicons name="stats-chart-outline" size={24} color="COLORS.info[500]" />
               <Text style={styles.cardTitle}>Resumo de Lesões</Text>
             </View>
             
@@ -223,7 +223,7 @@ const InjuryHistoryScreen = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <Ionicons name="list-outline" size={24} color={COLORS.warning[500]} />
+              <Ionicons name="list-outline" size={24} color="COLORS.warning[500]" />
               <Text style={styles.cardTitle}>
                 {selectedFilter === 'all' ? 'Todas as Lesões' : 
                  `Lesões ${filters.find(f => f.key === selectedFilter)?.label}`}
@@ -308,7 +308,7 @@ const InjuryHistoryScreen = ({ navigation }) => {
           <Card style={styles.card}>
             <Card.Content>
               <View style={styles.cardHeader}>
-                <Ionicons name="shield-checkmark-outline" size={24} color={COLORS.primary[500]} />
+                <Ionicons name="shield-checkmark-outline" size={24} color="COLORS.primary[500]" />
                 <Text style={styles.cardTitle}>Dicas de Prevenção</Text>
               </View>
               

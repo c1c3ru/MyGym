@@ -657,7 +657,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.info[500],
   },
   calendarModalContainer: {
-    backgroundColor: COLORS.card.secondary.background,
+    backgroundColor: COLORS.card.elevated.background,
     margin: SPACING.lg,
     borderRadius: BORDER_RADIUS.md,
     maxHeight: '90%',

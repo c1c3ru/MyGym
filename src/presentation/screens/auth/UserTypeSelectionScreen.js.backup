@@ -112,7 +112,7 @@ const UserTypeSelectionScreen = ({ navigation, route }) => {
           <View style={[styles.iconContainer, { backgroundColor: userType.color }]}>
             <Ionicons
               name={userType.icon === 'school' ? 'school' : userType.icon === 'fitness-center' ? 'fitness' : 'business'}
-              color={COLORS.white}
+              color="COLORS.white"
               size={32}
             />
           </View>

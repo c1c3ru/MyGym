@@ -136,7 +136,7 @@ const AcademyOnboardingScreen = () => {
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.header}>
-          <Ionicons name="school-outline" size={64} color={COLORS.primary[500]} />
+          <Ionicons name="school-outline" size={64} color="COLORS.primary[500]" />
           <Text style={styles.title}>Bem-vindo ao MyGym!</Text>
           <Text style={styles.subtitle}>
             Para começar, você precisa estar associado a uma academia. 
@@ -149,7 +149,7 @@ const AcademyOnboardingScreen = () => {
           <Card style={styles.optionCard}>
             <Card.Content>
               <View style={styles.optionHeader}>
-                <Ionicons name="add-circle-outline" size={32} color={COLORS.info[500]} />
+                <Ionicons name="add-circle-outline" size={32} color="COLORS.info[500]" />
                 <Text style={styles.optionTitle}>Criar Minha Academia</Text>
               </View>
               <Text style={styles.optionDescription}>
@@ -173,7 +173,7 @@ const AcademyOnboardingScreen = () => {
           <Card style={styles.optionCard}>
             <Card.Content>
               <View style={styles.optionHeader}>
-                <Ionicons name="ticket-outline" size={32} color={COLORS.warning[500]} />
+                <Ionicons name="ticket-outline" size={32} color="COLORS.warning[500]" />
                 <Text style={styles.optionTitle}>Tenho um Código de Convite</Text>
               </View>
               <Text style={styles.optionDescription}>

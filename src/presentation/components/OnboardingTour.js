@@ -448,7 +448,7 @@ const styles = StyleSheet.create({
     maxWidth: width - SPACING.base * 2,
     ...Platform.select({
       ios: {
-        shadowColor: '#000',
+        shadowColor: COLORS.black,
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.3,
       },

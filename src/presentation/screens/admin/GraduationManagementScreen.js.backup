@@ -116,7 +116,7 @@ const GraduationManagementScreen = ({ navigation }) => {
         <Card style={styles.summaryCard}>
           <Card.Content style={styles.summaryContent}>
             <View style={styles.summaryIcon}>
-              <Ionicons name="people" size={24} color={COLORS.info[500]} />
+              <Ionicons name="people" size={24} color="COLORS.info[500]" />
             </View>
             <View>
               <Title style={styles.summaryNumber}>{stats.totalStudents}</Title>
@@ -128,7 +128,7 @@ const GraduationManagementScreen = ({ navigation }) => {
         <Card style={styles.summaryCard}>
           <Card.Content style={styles.summaryContent}>
             <View style={styles.summaryIcon}>
-              <Ionicons name="trophy" size={24} color={COLORS.primary[500]} />
+              <Ionicons name="trophy" size={24} color="COLORS.primary[500]" />
             </View>
             <View>
               <Title style={styles.summaryNumber}>{stats.eligibleStudents}</Title>
@@ -143,7 +143,7 @@ const GraduationManagementScreen = ({ navigation }) => {
         <Card style={styles.summaryCard}>
           <Card.Content style={styles.summaryContent}>
             <View style={styles.summaryIcon}>
-              <Ionicons name="calendar" size={24} color={COLORS.warning[500]} />
+              <Ionicons name="calendar" size={24} color="COLORS.warning[500]" />
             </View>
             <View>
               <Title style={styles.summaryNumber}>{stats.upcomingExams}</Title>

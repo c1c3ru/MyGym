@@ -19,7 +19,7 @@ const LoadingButton = ({
       style={[{ paddingVertical: SPACING.sm }, style]}
       {...props}
     >
-      {loading ? <ActivityIndicator color={COLORS.white} size="small" /> : children}
+      {loading ? <ActivityIndicator color="COLORS.white" size="small" /> : children}
     </Button>
   );
 };

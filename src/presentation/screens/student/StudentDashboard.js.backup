@@ -342,7 +342,7 @@ const StudentDashboard = ({ navigation }) => {
             
             {loadingAnnouncements ? (
               <View style={styles.loadingContainer}>
-                <ActivityIndicator size="small" color={COLORS.info[500]} />
+                <ActivityIndicator size="small" color="COLORS.info[500]" />
                 <Text style={styles.loadingText}>Carregando avisos...</Text>
               </View>
             ) : announcements.length > 0 ? (
@@ -372,7 +372,7 @@ const StudentDashboard = ({ navigation }) => {
                         {announcement.date}
                       </Text>
                       {announcement.isRead && (
-                        <Ionicons name="checkmark-done" size={16} color={COLORS.primary[500]} />
+                        <Ionicons name="checkmark-done" size={16} color="COLORS.primary[500]" />
                       )}
                     </View>
                     {index < announcements.length - 1 && <Divider style={styles.announcementDivider} />}

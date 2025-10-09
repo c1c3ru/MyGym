@@ -230,24 +230,24 @@ const InstructorClasses = ({ navigation }) => {
           </View>
           
           <Paragraph style={styles.modalityText}>
-            <Ionicons name="fitness-outline" size={16} color={COLORS.text.secondary} />
+            <Ionicons name="fitness-outline" size={16} color="COLORS.text.secondary" />
             {' '}{classItem.modality}
           </Paragraph>
           
           <View style={styles.classInfo}>
             <Text style={styles.infoItem}>
-              <Ionicons name="time-outline" size={16} color={COLORS.text.secondary} />
+              <Ionicons name="time-outline" size={16} color="COLORS.text.secondary" />
               {' '}{formatSchedule(classItem)}
             </Text>
             
             <Text style={styles.infoItem}>
-              <Ionicons name="people-outline" size={16} color={COLORS.text.secondary} />
+              <Ionicons name="people-outline" size={16} color="COLORS.text.secondary" />
               {' '}{studentCount}/{classItem.maxStudents || 0} alunos
             </Text>
             
             {classItem.price && (
               <Text style={styles.infoItem}>
-                <Ionicons name="card-outline" size={16} color={COLORS.text.secondary} />
+                <Ionicons name="card-outline" size={16} color="COLORS.text.secondary" />
                 {' '}R$ {classItem.price.toFixed(2)}
               </Text>
             )}

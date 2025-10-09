@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     margin: ResponsiveUtils.spacing.md,
     borderRadius: ResponsiveUtils.borderRadius.large,
     ...ResponsiveUtils.elevation,
-    backgroundColor: COLORS.card.secondary.background,
+    backgroundColor: COLORS.card.default.background,
     borderWidth: 1,
     borderColor: COLORS.border.subtle,
   },

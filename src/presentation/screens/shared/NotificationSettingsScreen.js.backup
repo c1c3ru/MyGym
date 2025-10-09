@@ -117,7 +117,7 @@ const NotificationSettingsScreen = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <Ionicons name="notifications-outline" size={24} color={COLORS.info[500]} />
+              <Ionicons name="notifications-outline" size={24} color="COLORS.info[500]" />
               <Title style={styles.cardTitle}>Notificações Gerais</Title>
             </View>
 
@@ -152,7 +152,7 @@ const NotificationSettingsScreen = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <Ionicons name="list-outline" size={24} color={COLORS.primary[500]} />
+              <Ionicons name="list-outline" size={24} color="COLORS.primary[500]" />
               <Title style={styles.cardTitle}>Tipos de Notificação</Title>
             </View>
 
@@ -213,7 +213,7 @@ const NotificationSettingsScreen = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <Ionicons name="time-outline" size={24} color={COLORS.warning[500]} />
+              <Ionicons name="time-outline" size={24} color="COLORS.warning[500]" />
               <Title style={styles.cardTitle}>Configurações de Tempo</Title>
             </View>
 
@@ -263,7 +263,7 @@ const NotificationSettingsScreen = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <Ionicons name="moon-outline" size={24} color={COLORS.secondary[500]} />
+              <Ionicons name="moon-outline" size={24} color="COLORS.secondary[500]" />
               <Title style={styles.cardTitle}>Horário Silencioso</Title>
             </View>
 

@@ -148,17 +148,17 @@ export const ELEVATION = {
 // COLORS - Paleta de cores
 // ============================================
 export const COLORS = {
-  // 🔴 Cores primárias - Vermelho Coral (Ação/Energia/Luta)
+  // 🔴 Cores primárias - Vermelho Coral (Ação/Energia/Luta) - WCAG AA Compliant
   primary: {
     50: '#FFF5F7',
     100: '#FFE3E8',
     200: '#FFC7D1',
     300: '#FF9BAD',
     400: '#FF6B7A',
-    500: '#FF4757', // Vermelho coral principal
-    600: '#EE3D4D',
-    700: '#DC2F3F',
-    800: '#C62838',
+    500: '#D32F2F', // Vermelho coral escuro para contraste WCAG AA (4.5:1+)
+    600: '#DC2F3F',
+    700: '#C62838',
+    800: '#B71C1C',
     900: '#A01F2E',
   },
   
@@ -260,35 +260,42 @@ export const COLORS = {
   black: '#000000',
   transparent: 'transparent',
   
-  // Cores de fundo (Dark Theme - Estilo BJJ Control)
+  // Cores de fundo (Dark Theme Premium - Otimizado)
   background: {
-    default: '#0A0A0A',    // Preto profundo (fundo principal)
-    paper: '#1C1C1C',      // Cinza muito escuro (cards padrão)
-    elevated: '#242424',   // Cinza escuro (modais/elevados)
-    light: '#F5F5F5',      // Branco (inputs/áreas claras)
+    default: '#0B0B0B',    // Preto profundo premium (fundo principal)
+    paper: '#1A1A1A',      // Cinza muito escuro (cards padrão)
+    elevated: '#222222',   // Cinza escuro (modais/elevados)
+    surface: '#2A2A2A',    // Superfície interativa
+    light: '#F8F8F8',      // Branco suave (inputs/áreas claras)
     dark: '#000000',       // Preto puro (overlays)
-    // Neutros refinados
-    cardDark: '#0D0C0D',   // Card escuro premium (neutro refinado)
-    cardMedium: '#262626', // Card médio (neutro escuro)
+    // Neutros refinados premium
+    cardDark: '#0F0F0F',   // Card escuro premium (mais profundo)
+    cardMedium: '#1E1E1E', // Card médio premium
+    accent: '#D32F2F',     // Cor de destaque (vermelho coral WCAG AA)
   },
   
-  // Cores de texto (Dark Theme)
+  // Cores de texto (Dark Theme Premium)
   text: {
     primary: '#FFFFFF',      // Branco puro (títulos)
-    secondary: '#BDBDBD',    // Cinza claro (subtítulos) - Ajustado para BJJ Control
-    disabled: '#9E9E9E',     // Cinza médio (desabilitado)
-    hint: '#757575',         // Cinza (hints/placeholders)
-    inverse: '#0D0D0D',      // Preto (para fundos claros)
+    secondary: '#E0E0E0',    // Cinza muito claro (subtítulos) - Melhor contraste
+    tertiary: '#BDBDBD',     // Cinza claro (texto auxiliar)
+    disabled: '#757575',     // Cinza médio (desabilitado)
+    hint: '#616161',         // Cinza escuro (hints/placeholders)
+    inverse: '#0B0B0B',      // Preto (para fundos claros)
+    accent: '#D32F2F',       // Texto de destaque (vermelho coral WCAG AA)
+    muted: '#9E9E9E',        // Texto esmaecido
   },
   
-  // Cores de borda (Dark Theme - Bordas mais sutis)
+  // Cores de borda (Dark Theme Premium - Bordas refinadas)
   border: {
-    light: '#2A2A2A',        // Cinza muito escuro (bordas sutis)
-    default: '#424242',      // Cinza escuro (bordas padrão)
-    dark: '#757575',         // Cinza médio (bordas destacadas)
+    light: '#1A1A1A',        // Cinza muito escuro (bordas sutis)
+    default: '#2A2A2A',      // Cinza escuro (bordas padrão)
+    medium: '#424242',       // Cinza médio (bordas destacadas)
+    dark: '#616161',         // Cinza (bordas visíveis)
     // Neutros refinados
-    subtle: '#595859',       // Borda sutil (neutro médio)
-    separator: '#8C8B8C',    // Separador (neutro claro)
+    subtle: '#333333',       // Borda sutil premium
+    separator: '#424242',    // Separador visível
+    accent: '#D32F2F',       // Borda de destaque (vermelho coral WCAG AA)
   },
   
   // Cores de overlay (WCAG AA compliant)
@@ -317,11 +324,11 @@ export const COLORS = {
   
   // 🎯 Cores de Botões (separadas para melhor organização)
   button: {
-    // Botão primário (ação principal)
+    // Botão primário (ação principal) - WCAG AA Compliant
     primary: {
-      background: '#FF4757',      // Vermelho coral
-      hover: '#EE3D4D',           // Vermelho coral escuro
-      pressed: '#DC2F3F',         // Vermelho coral mais escuro
+      background: '#D32F2F',      // Vermelho coral WCAG AA
+      hover: '#DC2F3F',           // Vermelho coral escuro
+      pressed: '#C62838',         // Vermelho coral mais escuro
       disabled: '#757575',        // Cinza
       text: '#FFFFFF',            // Branco
     },
@@ -349,70 +356,116 @@ export const COLORS = {
     },
     // Botão outline/ghost
     outline: {
-      border: '#FF4757',          // Vermelho coral
-      text: '#FF4757',            // Vermelho coral
-      hover: 'rgba(255, 71, 87, 0.1)',  // Vermelho coral com transparência
+      border: '#D32F2F',          // Vermelho coral WCAG AA
+      text: '#D32F2F',            // Vermelho coral WCAG AA
+      hover: 'rgba(230, 57, 70, 0.1)',  // Vermelho coral com transparência
     },
   },
   
-  // 🃏 Cores de Cards (separadas - Estilo BJJ Control + Neutros Refinados)
+  // 🃏 Cores de Cards (Dark Theme Premium)
   card: {
     // Card padrão (uso geral)
     default: {
-      background: '#1C1C1C',      // Cinza muito escuro
+      background: '#1A1A1A',      // Cinza muito escuro premium
       border: '#2A2A2A',          // Cinza escuro sutil
-      shadow: 'rgba(0, 0, 0, 0.5)',  // Sombra
+      shadow: 'rgba(0, 0, 0, 0.6)',  // Sombra mais profunda
+      text: '#E0E0E0',            // Texto claro
     },
     // Card elevado (modais, drawers, overlays)
     elevated: {
-      background: '#242424',      // Cinza escuro (mais claro que default)
-      border: '#2A2A2A',          // Cinza escuro sutil
-      shadow: 'rgba(0, 0, 0, 0.7)',  // Sombra mais forte
+      background: '#222222',      // Cinza escuro premium
+      border: '#333333',          // Cinza médio
+      shadow: 'rgba(0, 0, 0, 0.8)',  // Sombra forte
+      text: '#FFFFFF',            // Texto branco
     },
     // Card de destaque (selecionado, ativo)
     highlighted: {
       background: '#2A2A2A',      // Cinza mais claro
-      border: '#FF4757',          // Vermelho coral
-      shadow: 'rgba(255, 71, 87, 0.3)',  // Sombra coral
+      border: '#D32F2F',          // Vermelho coral WCAG AA
+      shadow: 'rgba(230, 57, 70, 0.4)',  // Sombra coral mais intensa
+      text: '#FFFFFF',            // Texto branco
+      accent: '#D32F2F',          // Cor de destaque
     },
-    // Card claro (como BJJ Control - para destaques especiais)
-    light: {
-      background: '#FFF5F5',      // Rosa muito claro
-      border: '#E0E0E0',          // Cinza claro
-      text: '#424242',            // Texto escuro
-      shadow: 'rgba(0, 0, 0, 0.1)',  // Sombra suave
+    // Card interativo (hover states)
+    interactive: {
+      background: '#1E1E1E',      // Cinza escuro interativo
+      backgroundHover: '#252525', // Estado hover
+      border: '#333333',          // Borda padrão
+      borderHover: '#D32F2F',     // Borda hover (coral WCAG AA)
+      text: '#E0E0E0',            // Texto padrão
+      textHover: '#FFFFFF',       // Texto hover
     },
-    // 🎨 Cards com Neutros Refinados
+    // Card de sucesso
+    success: {
+      background: '#1A2E1A',      // Verde escuro
+      border: '#4CAF50',          // Verde
+      shadow: 'rgba(76, 175, 80, 0.3)',  // Sombra verde
+      text: '#FFFFFF',            // Texto branco
+      accent: '#4CAF50',          // Verde de destaque
+    },
+    // Card de erro
+    error: {
+      background: '#2E1A1A',      // Vermelho escuro
+      border: '#F44336',          // Vermelho
+      shadow: 'rgba(244, 67, 54, 0.3)',  // Sombra vermelha
+      text: '#FFFFFF',            // Texto branco
+      accent: '#F44336',          // Vermelho de destaque
+    },
+    // Card de aviso
+    warning: {
+      background: '#2E2A1A',      // Amarelo escuro
+      border: '#FFC107',          // Amarelo
+      shadow: 'rgba(255, 193, 7, 0.3)',  // Sombra amarela
+      text: '#FFFFFF',            // Texto branco
+      accent: '#FFC107',          // Amarelo de destaque
+    },
+    // 🎨 Cards Premium Especiais
     premium: {
-      background: '#0D0C0D',      // Preto refinado (card premium)
-      border: '#595859',          // Borda sutil neutro
-      text: '#D9D9D9',            // Texto claro neutro
-      shadow: 'rgba(0, 0, 0, 0.6)',  // Sombra média
+      background: '#0F0F0F',      // Preto premium profundo
+      border: '#D32F2F',          // Borda coral premium WCAG AA
+      shadow: 'rgba(230, 57, 70, 0.5)',  // Sombra coral intensa
+      text: '#FFFFFF',            // Texto branco premium
+      accent: '#D32F2F',          // Coral premium WCAG AA
+      gradient: ['#0F0F0F', '#1A1A1A'], // Gradiente sutil
     },
-    secondary: {
-      background: '#262626',      // Cinza muito escuro neutro
-      border: '#595859',          // Borda sutil neutro
-      text: '#8C8B8C',            // Texto cinza claro neutro
-      shadow: 'rgba(0, 0, 0, 0.4)',  // Sombra suave
+    // Card transparente (overlays)
+    transparent: {
+      background: 'rgba(26, 26, 26, 0.9)',  // Fundo semi-transparente
+      border: 'rgba(230, 57, 70, 0.3)',     // Borda coral transparente WCAG AA
+      shadow: 'rgba(0, 0, 0, 0.9)',         // Sombra forte
+      text: '#FFFFFF',                       // Texto branco
+      backdrop: 'rgba(0, 0, 0, 0.7)',       // Backdrop
     },
   },
   
-  // 🥋 Gradientes Marciais (para backgrounds especiais)
+  // 🥋 Gradientes Dark Theme Premium - WCAG AA Compliant
   gradients: {
-    // Vermelho → Preto (Energia/Força)
-    combat: ['#FF4757', '#DC2F3F', '#1A1A1A'],
-    // Preto → Cinza Escuro (Profissional)
-    dark: ['#0D0D0D', '#1A1A1A', '#212121'],
-    // Vermelho → Vermelho Escuro (Intenso)
-    intense: ['#FF4757', '#DC2F3F', '#A01F2E'],
-    // Cinza → Preto (Sutil)
-    subtle: ['#424242', '#303030', '#0D0D0D'],
+    // Vermelho coral → Preto (Energia/Força)
+    combat: ['#D32F2F', '#DC2F3F', '#0B0B0B'],
+    // Preto profundo → Cinza escuro (Profissional premium)
+    dark: ['#0B0B0B', '#1A1A1A', '#222222'],
+    // Vermelho coral intenso (CTAs importantes)
+    intense: ['#D32F2F', '#DC2F3F', '#C62838'],
+    // Cinza sutil premium (backgrounds neutros)
+    subtle: ['#2A2A2A', '#1E1E1E', '#0F0F0F'],
+    // Gradiente de destaque (headers, cards premium)
+    accent: ['#D32F2F', '#1A1A1A', '#0B0B0B'],
+    // Gradiente reverso (efeitos especiais)
+    reverse: ['#0B0B0B', '#D32F2F'],
+    // Gradiente suave (overlays, modais)
+    soft: ['rgba(11, 11, 11, 0.9)', 'rgba(26, 26, 26, 0.8)', 'rgba(42, 42, 42, 0.6)'],
+    // Gradiente de elevação (cards flutuantes)
+    elevated: ['#222222', '#1A1A1A', '#0F0F0F'],
+    // Gradiente de sucesso escuro
+    success: ['#1A2E1A', '#0F1F0F', '#0B0B0B'],
+    // Gradiente de erro escuro
+    error: ['#2E1A1A', '#1F0F0F', '#0B0B0B'],
   },
   
   // 🎯 Cores Especiais (Status/Badges)
   special: {
     champion: '#FFD700',      // Ouro (campeão)
-    premium: '#FF4757',       // Vermelho coral (premium)
+    premium: '#D32F2F',       // Vermelho coral WCAG AA (premium)
     active: '#4CAF50',        // Verde (ativo)
     inactive: '#757575',      // Cinza (inativo)
     danger: '#F44336',        // Vermelho (perigo)

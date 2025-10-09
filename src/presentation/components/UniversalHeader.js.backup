@@ -170,7 +170,7 @@ const UniversalHeader = ({
           subtitleStyle={styles.subtitle}
         />
 
-        {/* {showMenu && <NotificationBell color={COLORS.white} size={24} />} */}
+        {/* {showMenu && <NotificationBell color="COLORS.white" size={24} />} */}
 
         {showMenu && (
           <Menu

@@ -310,7 +310,7 @@ const CheckInScreen = ({ navigation }) => {
       {!todayCheckIn && (
         <FAB
           style={[styles.fab, { backgroundColor: themeColors.primary }]}
-          icon={loading ? () => <ActivityIndicator color={COLORS.white} /> : "plus"}
+          icon={loading ? () => <ActivityIndicator color="COLORS.white" /> : "plus"}
           label="Check-in Geral"
           onPress={() => handleCheckIn()}
           disabled={loading}

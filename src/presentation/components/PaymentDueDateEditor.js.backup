@@ -141,7 +141,7 @@ const PaymentDueDateEditor = ({ visible, onDismiss, currentPayment, onUpdate }) 
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.header}>
-              <Ionicons name="calendar-outline" size={24} color={COLORS.info[500]} />
+              <Ionicons name="calendar-outline" size={24} color="COLORS.info[500]" />
               <Title style={styles.title}>Alterar Data de Vencimento</Title>
             </View>
 

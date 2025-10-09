@@ -163,7 +163,7 @@ const Relatorios = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.header}>
-              <MaterialCommunityIcons name="chart-line" size={32} color="COLORS.secondary[500]" />
+              <MaterialCommunityIcons name="chart-line" size={32} color={COLORS.secondary[500]} />
               <Title style={styles.title}>Relatórios e Análises</Title>
             </View>
             
@@ -194,7 +194,7 @@ const Relatorios = ({ navigation }) => {
                 title="Total de Aulas"
                 value={reportData.totalAulas}
                 subtitle="Este mês"
-                color="COLORS.primary[500]"
+                color={COLORS.primary[500]}
               />
               
               <StatCard
@@ -202,7 +202,7 @@ const Relatorios = ({ navigation }) => {
                 title="Alunos Ativos"
                 value={reportData.totalAlunos}
                 subtitle="+15 este mês"
-                color="COLORS.info[500]"
+                color={COLORS.info[500]}
               />
               
               <StatCard
@@ -210,7 +210,7 @@ const Relatorios = ({ navigation }) => {
                 title="Frequência Média"
                 value={`${reportData.frequenciaMedia}%`}
                 subtitle="+3% vs mês anterior"
-                color="COLORS.warning[500]"
+                color={COLORS.warning[500]}
               />
               
               <StatCard
@@ -218,7 +218,7 @@ const Relatorios = ({ navigation }) => {
                 title="Receita Mensal"
                 value={`R$ ${reportData.receitaMensal.toLocaleString()}`}
                 subtitle="+12% crescimento"
-                color="COLORS.secondary[500]"
+                color={COLORS.secondary[500]}
               />
             </View>
           </Card.Content>
@@ -238,7 +238,7 @@ const Relatorios = ({ navigation }) => {
                   </Chip>
                 </View>
                 <View style={styles.aulaDetails}>
-                  <MaterialCommunityIcons name="account-multiple" size={16} color="COLORS.text.secondary" />
+                  <MaterialCommunityIcons name="account-multiple" size={16} color={COLORS.text.secondary} />
                   <Text style={styles.aulaAlunos}>{aula.alunos} alunos</Text>
                 </View>
                 <View style={styles.progressBar}>
@@ -264,11 +264,11 @@ const Relatorios = ({ navigation }) => {
                 <Text style={styles.evolucaoMes}>{mes.mes}</Text>
                 <View style={styles.evolucaoData}>
                   <View style={styles.evolucaoMetric}>
-                    <MaterialCommunityIcons name="account-group" size={16} color="COLORS.info[500]" />
+                    <MaterialCommunityIcons name="account-group" size={16} color={COLORS.info[500]} />
                     <Text style={styles.evolucaoValue}>{mes.alunos} alunos</Text>
                   </View>
                   <View style={styles.evolucaoMetric}>
-                    <MaterialCommunityIcons name="currency-usd" size={16} color="COLORS.primary[500]" />
+                    <MaterialCommunityIcons name="currency-usd" size={16} color={COLORS.primary[500]} />
                     <Text style={styles.evolucaoValue}>R$ {mes.receita.toLocaleString()}</Text>
                   </View>
                 </View>

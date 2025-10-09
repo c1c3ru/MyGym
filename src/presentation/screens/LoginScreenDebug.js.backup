@@ -135,7 +135,7 @@ const LoginScreenDebug = ({ navigation }) => {
               style={styles.button}
               disabled={loading}
             >
-              {loading ? <ActivityIndicator color={COLORS.white} /> : 'Testar Login'}
+              {loading ? <ActivityIndicator color="COLORS.white" /> : 'Testar Login'}
             </Button>
 
             <Button

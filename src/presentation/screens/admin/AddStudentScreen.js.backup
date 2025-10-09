@@ -479,7 +479,7 @@ const AddStudentScreen = ({ navigation, route }) => {
             <Divider style={styles.divider} />
             <View style={styles.sectionHeader}>
               <Text style={styles.sectionTitle}>🎯 Turmas</Text>
-              {loadingClasses && <ActivityIndicator size="small" color={COLORS.info[500]} />}
+              {loadingClasses && <ActivityIndicator size="small" color="COLORS.info[500]" />}
             </View>
             <Text style={styles.sectionSubtitle}>
               Selecione as turmas que o aluno irá participar (opcional)
@@ -487,7 +487,7 @@ const AddStudentScreen = ({ navigation, route }) => {
             
             {loadingClasses ? (
               <View style={styles.loadingContainer}>
-                <ActivityIndicator size="large" color={COLORS.info[500]} />
+                <ActivityIndicator size="large" color="COLORS.info[500]" />
                 <Text style={styles.loadingText}>Carregando turmas...</Text>
               </View>
             ) : availableClasses.length > 0 ? (

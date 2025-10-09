@@ -663,7 +663,7 @@ const CheckIn = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.header}>
-              <MaterialCommunityIcons name="history" size={32} color="COLORS.warning[500]" />
+              <MaterialCommunityIcons name="history" size={32} color={COLORS.warning[500]} />
               <Text style={styles.title}>Check-ins de Hoje</Text>
             </View>
             
@@ -676,7 +676,7 @@ const CheckIn = ({ navigation }) => {
                   left={() => (
                     <List.Icon 
                       icon="check-circle" 
-                      color="COLORS.primary[500]" 
+                      color={COLORS.primary[500]} 
                     />
                   )}
                   right={() => (

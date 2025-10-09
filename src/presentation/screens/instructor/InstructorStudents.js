@@ -767,7 +767,7 @@ const styles = StyleSheet.create({
   },
   menuContent: {
     maxHeight: 300,
-    backgroundColor: COLORS.card.secondary.background,
+    backgroundColor: COLORS.card.elevated.background,
     borderRadius: BORDER_RADIUS.md,
     elevation: 8,
     shadowColor: COLORS.black,
@@ -797,7 +797,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   modalDropdownList: {
-    backgroundColor: COLORS.card.secondary.background,
+    backgroundColor: COLORS.card.elevated.background,
     borderRadius: BORDER_RADIUS.md,
     elevation: 10,
     shadowColor: COLORS.black,
@@ -898,7 +898,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   graduationsInfo: {
-    backgroundColor: COLORS.card.secondary.background,
+    backgroundColor: COLORS.card.default.background,
     padding: SPACING.sm,
     borderRadius: BORDER_RADIUS.sm,
     marginBottom: SPACING.md,

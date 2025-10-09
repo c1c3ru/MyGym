@@ -135,7 +135,7 @@ class EnhancedErrorBoundary extends React.Component {
               <Ionicons 
                 name={errorType === 'network' ? 'wifi-outline' : 'alert-circle-outline'} 
                 size={64} 
-                color={COLORS.error[500]} 
+                color="COLORS.error[500]" 
               />
               
               <Text style={styles.title}>Ops! Algo deu errado</Text>
