@@ -12,7 +12,8 @@ import {
   Text,
   Button,
   Title,
-  ProgressBar
+  ProgressBar,
+  DataTable
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
