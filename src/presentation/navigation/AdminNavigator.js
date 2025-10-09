@@ -18,6 +18,9 @@ import EditStudentScreen from '@screens/admin/EditStudentScreen';
 import ReportsScreen from '@screens/admin/ReportsScreen';
 import InviteManagement from '@screens/admin/InviteManagement';
 
+// Telas de Exemplo e Demonstração
+import LightThemeExampleScreen from '@screens/examples/LightThemeExampleScreen';
+
 // Telas Compartilhadas
 import ClassDetailsScreen from '@screens/shared/ClassDetailsScreen';
 import StudentDetailsScreen from '@screens/shared/StudentDetailsScreen';
@@ -388,6 +391,21 @@ const AdminNavigator = () => {
           header: ({ navigation }) => (
             <UniversalHeader
               title="Privacidade e Segurança"
+              navigation={navigation}
+              showBack={true}
+              backgroundColor={PROFILE_COLORS.admin.primary}
+            />
+          ),
+        }}
+      />
+      <Stack.Screen 
+        name="ThemeDemo" 
+        component={LightThemeExampleScreen}
+        options={{
+          headerShown: true,
+          header: ({ navigation }) => (
+            <UniversalHeader
+              title="Demonstração de Temas"
               navigation={navigation}
               showBack={true}
               backgroundColor={PROFILE_COLORS.admin.primary}

@@ -3,6 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { ThemeProvider } from './src/presentation/contexts/ThemeContext';
+import { ThemeToggleProvider } from './src/presentation/contexts/ThemeToggleContext';
 import { AuthProvider } from './src/presentation/contexts/AuthProvider';
 import { NotificationProvider } from './src/presentation/contexts/NotificationContext';
 import { UndoProvider } from './src/presentation/components/UndoManager';
@@ -13,8 +14,9 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <PaperProvider>
-        <ThemeProvider>
-          <AuthProvider>
+        <ThemeToggleProvider>
+          <ThemeProvider>
+            <AuthProvider>
             <NotificationProvider>
               <UndoProvider>
                 <OnboardingProvider>
@@ -23,8 +25,9 @@ export default function App() {
                 </OnboardingProvider>
               </UndoProvider>
             </NotificationProvider>
-          </AuthProvider>
-        </ThemeProvider>
+            </AuthProvider>
+          </ThemeProvider>
+        </ThemeToggleProvider>
       </PaperProvider>
     </SafeAreaProvider>
   );

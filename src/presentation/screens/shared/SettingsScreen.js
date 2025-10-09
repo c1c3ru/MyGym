@@ -13,6 +13,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '@contexts/AuthProvider';
 import { ResponsiveUtils } from '@utils/animations';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT , BORDER_WIDTH } from '@presentation/theme/designTokens';
+import ThemeToggleSwitch from '@components/ThemeToggleSwitch';
 
 const SettingsScreen = ({ navigation }) => {
   const { user, userProfile, logout } = useAuth();
@@ -104,6 +105,25 @@ const SettingsScreen = ({ navigation }) => {
             left={(props) => <Ionicons name="lock-closed" size={20} color={COLORS.text.secondary} />}
             right={(props) => <List.Icon icon="chevron-right" />}
             onPress={handleChangePassword}
+          />
+        </Card>
+
+        {/* Alternância de Temas */}
+        <ThemeToggleSwitch />
+
+        {/* Botão para Ver Demonstração */}
+        <Card containerStyle={styles.card}>
+          <View style={styles.cardHeader}>
+            <Ionicons name="color-palette" size={24} color={COLORS.secondary[500]} />
+            <Text h4 style={styles.cardTitle}>Demonstração</Text>
+          </View>
+          
+          <List.Item
+            title="Ver Demonstração de Temas"
+            description="Visualizar exemplos dos temas disponíveis"
+            left={(props) => <Ionicons name="eye" size={20} color={COLORS.text.secondary} />}
+            right={(props) => <List.Icon icon="chevron-right" />}
+            onPress={() => navigation.navigate('ThemeDemo')}
           />
         </Card>
 
