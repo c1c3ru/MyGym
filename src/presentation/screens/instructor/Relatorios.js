@@ -312,7 +312,7 @@ const Relatorios = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background.light,
+    backgroundColor: COLORS.background.default,
   },
   scrollView: {
     flex: 1,
@@ -394,7 +394,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   frequenciaChip: {
-    backgroundColor: COLORS.info[50],
+    backgroundColor: COLORS.info[700],
   },
   aulaDetails: {
     flexDirection: 'row',

@@ -1024,7 +1024,7 @@ const styles = StyleSheet.create({
     margin: SPACING.base,
     marginTop: SPACING.sm,
     elevation: 2,
-    backgroundColor: '#E8F5E8',
+    backgroundColor: COLORS.card.default.background,
   },
   statsTitle: {
     textAlign: 'center',
