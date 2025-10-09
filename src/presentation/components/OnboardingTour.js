@@ -11,6 +11,7 @@ import { Text, Button, IconButton } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { 
+  COLORS,
   SPACING, 
   FONT_SIZE, 
   FONT_WEIGHT, 
@@ -328,6 +329,11 @@ const OnboardingTooltip = ({
       ...styles.backdrop,
       backgroundColor: currentTheme.overlay.default,
     },
+    spotlight: {
+      ...styles.spotlight,
+      borderColor: currentTheme.primary[400],
+      shadowColor: currentTheme.primary[500],
+    },
   });
   
   return (
@@ -345,7 +351,7 @@ const OnboardingTooltip = ({
         {step.target && (
           <View
             style={[
-              styles.spotlight,
+              dynamicStyles.spotlight,
               {
                 top: step.target.y - 10,
                 left: step.target.x - 10,
@@ -462,14 +468,14 @@ const styles = StyleSheet.create({
   },
   backdrop: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: COLORS.overlay.darkest,  // Melhor contraste
+    backgroundColor: COLORS.overlay.default,  // Será sobrescrito pelos estilos dinâmicos
   },
   spotlight: {
     position: 'absolute',
     backgroundColor: 'transparent',
     borderRadius: BORDER_RADIUS.md,
     borderWidth: BORDER_WIDTH.thick,  // Borda mais visível
-    borderColor: COLORS.primary[400],  // Cor mais clara para melhor contraste
+    borderColor: COLORS.primary[400],  // Será sobrescrito pelos estilos dinâmicos
     shadowColor: COLORS.primary[500],
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.9,  // Sombra mais forte
@@ -478,20 +484,11 @@ const styles = StyleSheet.create({
   },
   tooltip: {
     position: 'absolute',
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.card.default.background,  // Será sobrescrito pelos estilos dinâmicos
     borderRadius: BORDER_RADIUS.lg,
     padding: width < 360 ? SPACING.lg : SPACING.xl,
     maxWidth: width - SPACING.base * 2,
-    ...Platform.select({
-      ios: {
-        shadowColor: COLORS.black,
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.3,
-      },
-      android: {
-        elevation: 8,
-      },
-    }),
+    // Sombra será definida nos estilos dinâmicos
   },
   tooltipTop: {
     top: width < 360 ? SPACING.lg : SPACING.xxl,
@@ -531,16 +528,16 @@ const styles = StyleSheet.create({
   tooltipTitle: {
     fontSize: width < 360 ? FONT_SIZE.base : FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.text.primary,
+    color: COLORS.text.primary,  // Será sobrescrito pelos estilos dinâmicos
     marginBottom: SPACING.xxs,
   },
   tooltipProgress: {
     fontSize: width < 360 ? FONT_SIZE.xxs : FONT_SIZE.xs,
-    color: COLORS.text.secondary,
+    color: COLORS.text.secondary,  // Será sobrescrito pelos estilos dinâmicos
   },
   tooltipMessage: {
     fontSize: width < 360 ? FONT_SIZE.sm : FONT_SIZE.base,
-    color: COLORS.text.secondary,
+    color: COLORS.text.primary,  // Será sobrescrito pelos estilos dinâmicos
     lineHeight: (width < 360 ? FONT_SIZE.sm : FONT_SIZE.base) * 1.5,
     marginBottom: width < 360 ? SPACING.md : SPACING.lg,
   },
