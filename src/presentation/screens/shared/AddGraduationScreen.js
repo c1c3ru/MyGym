@@ -31,10 +31,13 @@ import { LinearGradient } from 'expo-linear-gradient';
 import SelectionField from '@components/SelectionField';
 import graduationRepository from '@presentation/repositories/graduationRepository';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, BORDER_WIDTH, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { useThemeToggle } from '@contexts/ThemeToggleContext';
 
 const { width } = Dimensions.get('window');
 
 const AddGraduationScreen = ({ route, navigation }) => {
+  const { currentTheme } = useThemeToggle();
+  
   const { studentId, studentName } = route.params;
   const { user, userProfile, academia } = useAuth();
   const { getString } = useTheme();
@@ -65,10 +68,10 @@ const AddGraduationScreen = ({ route, navigation }) => {
 
   const defaultGraduationLevels = [
     { id: COLORS.special.belt.white, name: 'Faixa Branca', color: COLORS.special.belt.white, order: 1 },
-    { id: 'yellow', name: 'Faixa Amarela', color: COLORS.special.belt.yellow, order: 2 },
-    { id: 'orange', name: 'Faixa Laranja', color: COLORS.special.belt.orange, order: 3 },
-    { id: 'green', name: 'Faixa Verde', color: COLORS.special.belt.green, order: 4 },
-    { id: 'blue', name: 'Faixa Azul', color: COLORS.special.belt.blue, order: 5 },
+    { id: currentTheme.warning[500], name: 'Faixa Amarela', color: COLORS.special.belt.yellow, order: 2 },
+    { id: currentTheme.warning[600], name: 'Faixa Laranja', color: COLORS.special.belt.orange, order: 3 },
+    { id: currentTheme.success[500], name: 'Faixa Verde', color: COLORS.special.belt.green, order: 4 },
+    { id: currentTheme.info[500], name: 'Faixa Azul', color: COLORS.special.belt.blue, order: 5 },
     { id: 'purple', name: 'Faixa Roxa', color: COLORS.special.belt.purple, order: 6 },
     { id: 'brown', name: 'Faixa Marrom', color: COLORS.special.belt.brown, order: 7 },
     { id: 'black-1', name: 'Faixa Preta 1º Dan', color: COLORS.special.belt.black, order: 8 },
@@ -318,7 +321,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
     <SafeAreaView style={styles.container}>
       {/* Header com gradiente */}
       <LinearGradient
-        colors={[COLORS.info[700], '#1565C0']}
+        colors={[COLORS.info[700], 'currentTheme.info[800]']}
         style={styles.header}
       >
         <View style={styles.headerContent}>
@@ -647,7 +650,7 @@ const styles = StyleSheet.create({
   },
   headerSubtitle: {
     fontSize: FONT_SIZE.base,
-    color: 'rgba(255, 255, 255, 0.8)',
+    color: 'currentTheme.white + "CC"',
     marginTop: 2,
   },
   scrollContainer: {

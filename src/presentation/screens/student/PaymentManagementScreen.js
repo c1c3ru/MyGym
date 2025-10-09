@@ -21,8 +21,11 @@ import { useCustomClaims } from '@hooks/useCustomClaims';
 import { firestoreService } from '@services/firestoreService';
 import { getThemeColors } from '@theme/professionalTheme';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { useThemeToggle } from '@contexts/ThemeToggleContext';
 
 const PaymentManagementScreen = ({ navigation }) => {
+  const { currentTheme } = useThemeToggle();
+  
   const { user, userProfile, academia } = useAuth();
   const { getUserTypeColor } = useCustomClaims();
   const [loading, setLoading] = useState(true);
@@ -307,7 +310,7 @@ const PaymentManagementScreen = ({ navigation }) => {
               ))
             ) : (
               <View style={styles.emptyState}>
-                <Ionicons name="card-outline" size={48} color="#ccc" />
+                <Ionicons name="card-outline" size={48} color="currentTheme.gray[300]" />
                 <Text style={styles.emptyText}>Nenhum pagamento registrado</Text>
                 <Text style={styles.emptySubtext}>Selecione um plano para começar</Text>
               </View>

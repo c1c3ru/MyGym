@@ -12,18 +12,18 @@ const styles = StyleSheet.create({
 
   // Variants
   primary: {
-    backgroundColor: '#007bff',
+    backgroundColor: 'currentTheme.info[500]',
   },
   secondary: {
-    backgroundColor: '#6c757d',
+    backgroundColor: 'currentTheme.gray[600]',
   },
   outline: {
-    backgroundColor: 'transparent',
+    backgroundColor: currentTheme.transparent || currentTheme.transparent || currentTheme.transparent || "transparent",
     borderWidth: BORDER_WIDTH.base,
-    borderColor: '#007bff',
+    borderColor: 'currentTheme.info[500]',
   },
   danger: {
-    backgroundColor: '#dc3545',
+    backgroundColor: 'currentTheme.error[500]',
   },
 
   // Sizes
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     color: 'COLORS.whitefff',
   },
   textOutline: {
-    color: '#007bff',
+    color: 'currentTheme.info[500]',
   },
   textDanger: {
     color: 'COLORS.whitefff',

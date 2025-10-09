@@ -472,7 +472,7 @@ const styles = StyleSheet.create({
   },
   spotlight: {
     position: 'absolute',
-    backgroundColor: 'transparent',
+    backgroundColor: currentTheme.transparent || currentTheme.transparent || currentTheme.transparent || "transparent",
     borderRadius: BORDER_RADIUS.md,
     borderWidth: BORDER_WIDTH.thick,  // Borda mais visível
     borderColor: COLORS.primary[400],  // Será sobrescrito pelos estilos dinâmicos

@@ -9,6 +9,7 @@ import { useTheme } from '@contexts/ThemeContext';
 import { useCustomClaims } from '@hooks/useCustomClaims';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 // import { LinearGradient } from 'expo-linear-gradient';
+import { useThemeToggle } from '@contexts/ThemeToggleContext';
 
 const UniversalHeader = ({ 
   title, 
@@ -18,6 +19,8 @@ const UniversalHeader = ({
   showMenu = true,
   backgroundColor = COLORS.primary[500]
 }) => {
+  const { currentTheme } = useThemeToggle();
+  
   const { user, userProfile, signOut } = useAuthFacade();
   const { getString, theme, updateUserTheme } = useTheme();
   const { role, getUserTypeColor: getClaimsTypeColor, getUserTypeText: getClaimsTypeText } = useCustomClaims();
@@ -292,11 +295,11 @@ const styles = StyleSheet.create({
   header: {
     ...Platform.select({
       web: {
-        boxShadow: '0 2px 3.84px rgba(0, 0, 0, 0.25)'
+        boxShadow: '0 2px 3.84px currentTheme.black + "40"'
       },
       default: {
         elevation: 4,
-        shadowColor: '#000',
+        shadowColor: 'currentTheme.black',
         shadowOffset: {
           width: 0,
           height: 2,
@@ -379,7 +382,7 @@ const styles = StyleSheet.create({
     marginBottom: 160,
     borderRadius: BORDER_RADIUS.md,
     elevation: 8,
-    shadowColor: '#000',
+    shadowColor: 'currentTheme.black',
     shadowOffset: {
       width: 0,
       height: 4,
@@ -421,7 +424,7 @@ const styles = StyleSheet.create({
   },
   gradientHeader: {
     elevation: ResponsiveUtils?.elevation?.small || 4,
-    shadowColor: '#000',
+    shadowColor: 'currentTheme.black',
     shadowOffset: {
       width: 0,
       height: 2,
@@ -430,7 +433,7 @@ const styles = StyleSheet.create({
     shadowRadius: 2.62,
   },
   transparentHeader: {
-    backgroundColor: 'transparent',
+    backgroundColor: currentTheme.transparent || currentTheme.transparent || currentTheme.transparent || "transparent",
     elevation: 0,
     shadowOpacity: 0,
   },

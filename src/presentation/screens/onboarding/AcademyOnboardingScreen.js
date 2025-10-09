@@ -16,8 +16,11 @@ import { useAuth } from '@contexts/AuthProvider';
 import { httpsCallable } from 'firebase/functions';
 import { functions } from '@services/firebase';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { useThemeToggle } from '@contexts/ThemeToggleContext';
 
 const AcademyOnboardingScreen = () => {
+  const { currentTheme } = useThemeToggle();
+  
   const { refreshClaimsAndProfile } = useAuth();
   
   // Estados para criação de academia
@@ -402,7 +405,7 @@ const styles = StyleSheet.create({
   },
   divider: {
     marginVertical: 20,
-    backgroundColor: '#ddd',
+    backgroundColor: 'currentTheme.gray[300]',
   },
   infoCard: {
     backgroundColor: COLORS.primary[50],

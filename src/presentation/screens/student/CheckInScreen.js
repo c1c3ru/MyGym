@@ -17,10 +17,13 @@ import { useCustomClaims } from '@hooks/useCustomClaims';
 import { academyFirestoreService } from '@services/academyFirestoreService';
 import { getThemeColors } from '@theme/professionalTheme';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { useThemeToggle } from '@contexts/ThemeToggleContext';
 
 const { width } = Dimensions.get('window');
 
 const CheckInScreen = ({ navigation }) => {
+  const { currentTheme } = useThemeToggle();
+  
   const { user, userProfile, academia } = useAuth();
   const { getUserTypeColor } = useCustomClaims();
   const [loading, setLoading] = useState(false);
@@ -297,7 +300,7 @@ const CheckInScreen = ({ navigation }) => {
               ))
             ) : (
               <View style={styles.emptyState}>
-                <Ionicons name="calendar-outline" size={48} color="#ccc" />
+                <Ionicons name="calendar-outline" size={48} color="currentTheme.gray[300]" />
                 <Text style={styles.emptyText}>Nenhum check-in registrado</Text>
                 <Text style={styles.emptySubtext}>Faça seu primeiro check-in!</Text>
               </View>
@@ -434,7 +437,7 @@ const styles = StyleSheet.create({
   },
   emptySubtext: {
     fontSize: FONT_SIZE.base,
-    color: '#ccc',
+    color: 'currentTheme.gray[300]',
     marginTop: SPACING.xs,
   },
   fab: {

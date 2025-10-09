@@ -2,11 +2,14 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import SkeletonLoader from './SkeletonLoader';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { useThemeToggle } from '@contexts/ThemeToggleContext';
 
 /**
  * Skeleton para lista de turmas
  */
 const ClassListSkeleton = ({ count = 4 }) => {
+  const { currentTheme } = useThemeToggle();
+  
   return (
     <View style={styles.container}>
       {Array.from({ length: count }).map((_, index) => (
@@ -66,7 +69,7 @@ const styles = StyleSheet.create({
     padding: SPACING.base,
     marginVertical: 8,
     elevation: 2,
-    shadowColor: '#000',
+    shadowColor: 'currentTheme.black',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.22,
     shadowRadius: 2.22,

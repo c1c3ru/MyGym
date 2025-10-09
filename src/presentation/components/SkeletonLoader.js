@@ -46,7 +46,7 @@ const SkeletonBase = memo(({ width, height, borderRadius = 4, style }) => {
         ]}
       >
         <LinearGradient
-          colors={['transparent', 'rgba(255,255,255,0.4)', 'transparent']}
+          colors={[currentTheme.transparent || currentTheme.transparent || currentTheme.transparent || "transparent", 'rgba(255,255,255,0.4)', currentTheme.transparent || currentTheme.transparent || currentTheme.transparent || "transparent"]}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
           style={styles.gradient}

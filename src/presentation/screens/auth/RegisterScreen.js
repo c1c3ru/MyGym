@@ -19,10 +19,13 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { useThemeToggle } from '@contexts/ThemeToggleContext';
 
 const { width } = Dimensions.get('window');
 
 const RegisterScreen = ({ navigation }) => {
+  const { currentTheme } = useThemeToggle();
+  
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -495,7 +498,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: 'transparent',
+    backgroundColor: currentTheme.transparent || currentTheme.transparent || currentTheme.transparent || "transparent",
     ...(Platform.OS === 'web' ? { minHeight: '100vh' } : {}),
   },
   scroll: {
@@ -515,7 +518,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     ...Platform.select({
       web: {
-        boxShadow: '0 2px 3.84px rgba(0, 0, 0, 0.25)'
+        boxShadow: '0 2px 3.84px currentTheme.black + "40"'
       },
       default: {
         shadowColor: COLORS.black,
@@ -536,10 +539,10 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.sm,
     ...Platform.select({
       web: {
-        textShadow: '1px 1px 3px rgba(0, 0, 0, 0.3)'
+        textShadow: '1px 1px 3px currentTheme.black + "4D"'
       },
       default: {
-        textShadowColor: 'rgba(0, 0, 0, 0.3)',
+        textShadowColor: 'currentTheme.black + "4D"',
         textShadowOffset: { width: 1, height: 1 },
         textShadowRadius: 3,
       }
@@ -552,10 +555,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     ...Platform.select({
       web: {
-        textShadow: '1px 1px 2px rgba(0, 0, 0, 0.3)'
+        textShadow: '1px 1px 2px currentTheme.black + "4D"'
       },
       default: {
-        textShadowColor: 'rgba(0, 0, 0, 0.3)',
+        textShadowColor: 'currentTheme.black + "4D"',
         textShadowOffset: { width: 1, height: 1 },
         textShadowRadius: 2,
       }
@@ -566,7 +569,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
     ...Platform.select({
       web: {
-        boxShadow: '0 4px 4.65px rgba(0, 0, 0, 0.3)'
+        boxShadow: '0 4px 4.65px currentTheme.black + "4D"'
       },
       default: {
         elevation: 8,

@@ -180,7 +180,7 @@ const ImprovedScheduleSelector = ({
     <View style={[styles.container, style]}>
       <Text style={[styles.label, { color: colors?.onSurface }]}>
         {label}
-        {required && <Text style={{ color: colors?.error || '#f44336' }}> *</Text>}
+        {required && <Text style={{ color: colors?.error || 'currentTheme.error[500]' }}> *</Text>}
       </Text>
 
       {/* Botões de ação */}

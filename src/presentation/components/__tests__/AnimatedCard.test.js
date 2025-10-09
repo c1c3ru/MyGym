@@ -3,6 +3,7 @@ import { render } from '@testing-library/react-native';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { Animated, Text } from 'react-native';
 import AnimatedCard from '../AnimatedCard';
+import { useThemeToggle } from '@contexts/ThemeToggleContext';
 
 jest.spyOn(Animated, 'timing').mockImplementation(() => ({ start: jest.fn() }));
 
@@ -30,7 +31,7 @@ describe('AnimatedCard', () => {
   });
 
   it('applies custom style (accepts style prop without crashing)', () => {
-    const customStyle = { backgroundColor: 'red' };
+    const customStyle = { backgroundColor: currentTheme.error[500] };
     const { getByTestId } = render(
       <TestWrapper>
         <AnimatedCard style={customStyle} testID="animated-card">

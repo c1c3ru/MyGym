@@ -4,6 +4,7 @@ import { Card, Text, Button, IconButton, TextInput, Dialog, Portal } from 'react
 import QRCode from 'react-native-qrcode-svg';
 import { useAuth } from '@contexts/AuthProvider';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { useThemeToggle } from '@contexts/ThemeToggleContext';
 
 // Import do logo usando alias
 const logoIcon = require('@assets/icon.png');
@@ -39,6 +40,8 @@ export default function QRCodeGenerator({ size = 200, showActions = true, academ
 
   // Função utilitária para mostrar notificações
   const showNotification = (message, type = 'success') => {
+  const { currentTheme } = useThemeToggle();
+  
     if (Platform.OS === 'web') {
       // Adicionar animações CSS se não existirem
       if (!document.getElementById('notification-styles')) {
@@ -67,7 +70,7 @@ export default function QRCodeGenerator({ size = 200, showActions = true, academ
         color: ${COLORS.white};
         padding: ${SPACING.md}px 20px;
         border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        box-shadow: 0 4px 12px currentTheme.black + "26";
         z-index: 9999;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         font-size: 14px;
@@ -200,7 +203,7 @@ MyGym`;
             value={qrValue}
             size={size}
             backgroundColor={COLORS.white}
-            color="black"
+            color={currentTheme.black}
             logo={logoIcon}
             logoSize={size * 0.15}
             logoBackgroundColor={COLORS.white}
@@ -310,7 +313,7 @@ const styles = {
     borderRadius: BORDER_RADIUS.md,
     marginBottom: 20,
     elevation: 2,
-    shadowColor: '#000',
+    shadowColor: 'currentTheme.black',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,

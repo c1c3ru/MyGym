@@ -23,8 +23,11 @@ import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import StudentListSkeleton from '@components/skeletons/StudentListSkeleton';
 import { useFocusEffect } from '@react-navigation/native';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { useThemeToggle } from '@contexts/ThemeToggleContext';
 
 const AdminStudents = ({ navigation }) => {
+  const { currentTheme } = useThemeToggle();
+  
   const { user, userProfile, academia } = useAuthFacade();
   const [students, setStudents] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -158,7 +161,7 @@ const AdminStudents = ({ navigation }) => {
   // Empty list component
   const renderEmptyList = useCallback(() => (
     <View style={styles.emptyContainer}>
-      <Ionicons name="people-outline" size={64} color="#ccc" />
+      <Ionicons name="people-outline" size={64} color="currentTheme.gray[300]" />
       <Text style={styles.emptyText}>Nenhum aluno encontrado</Text>
       <Text style={styles.emptySubtext}>
         {searchQuery ? 'Tente ajustar os filtros de busca' : 'Adicione o primeiro aluno da academia'}

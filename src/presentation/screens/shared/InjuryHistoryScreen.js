@@ -16,8 +16,11 @@ import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '@contexts/AuthProvider';
 import { firestoreService } from '@services/firestoreService';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { useThemeToggle } from '@contexts/ThemeToggleContext';
 
 const InjuryHistoryScreen = ({ navigation }) => {
+  const { currentTheme } = useThemeToggle();
+  
   const { user, academia } = useAuth();
   
   const [injuries, setInjuries] = useState([]);
@@ -232,7 +235,7 @@ const InjuryHistoryScreen = ({ navigation }) => {
             
             {filteredInjuries.length === 0 ? (
               <View style={styles.emptyState}>
-                <Ionicons name="bandage-outline" size={48} color="#ccc" />
+                <Ionicons name="bandage-outline" size={48} color="currentTheme.gray[300]" />
                 <Text style={styles.emptyText}>
                   {selectedFilter === 'all' ? 'Nenhuma lesão registrada' : 
                    `Nenhuma lesão ${filters.find(f => f.key === selectedFilter)?.label.toLowerCase()}`}
@@ -405,7 +408,7 @@ const styles = StyleSheet.create({
   },
   dateText: {
     fontSize: FONT_SIZE.sm,
-    color: '#888',
+    color: 'currentTheme.gray[500]',
   },
   chipContainer: {
     flexDirection: 'row',
@@ -442,7 +445,7 @@ const styles = StyleSheet.create({
   },
   emptySubtext: {
     fontSize: FONT_SIZE.base,
-    color: '#888',
+    color: 'currentTheme.gray[500]',
     marginTop: SPACING.sm,
     textAlign: 'center',
     lineHeight: 20,

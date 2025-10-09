@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f5f5f5',
+    backgroundColor: 'currentTheme.gray[100]',
     padding: 20,
   },
   card: {
@@ -179,13 +179,13 @@ const styles = StyleSheet.create({
     marginTop: 16,
     marginBottom: 8,
     textAlign: 'center',
-    color: '#333',
+    color: 'currentTheme.gray[700]',
     fontSize: 20,
     fontWeight: 'bold',
   },
   message: {
     textAlign: 'center',
-    color: '#666',
+    color: 'currentTheme.gray[600]',
     marginBottom: 24,
     fontSize: 16,
     lineHeight: 24,
@@ -206,13 +206,13 @@ const styles = StyleSheet.create({
   debugContainer: {
     marginTop: 16,
     padding: 12,
-    backgroundColor: '#f8f9fa',
+    backgroundColor: 'currentTheme.background.light',
     borderRadius: 8,
     width: '100%',
   },
   debugText: {
     fontSize: 12,
-    color: '#666',
+    color: 'currentTheme.gray[600]',
     fontFamily: Platform.OS === 'ios' ? 'Menlo' : 'monospace',
   },
 });

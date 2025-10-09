@@ -4,8 +4,11 @@ import { Animated, TouchableOpacity, Platform } from 'react-native';
 import { Text } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { useThemeToggle } from '@contexts/ThemeToggleContext';
 
 const ForgotPasswordButton = ({ onPress, disabled = false, style }) => {
+  const { currentTheme } = useThemeToggle();
+  
   const scaleAnim = useRef(new Animated.Value(1)).current;
 
   const handlePressIn = () => {
@@ -47,7 +50,7 @@ const ForgotPasswordButton = ({ onPress, disabled = false, style }) => {
         />
         <Text
           style={{
-            color: disabled ? '#ccc' : COLORS.secondary[400],
+            color: disabled ? 'currentTheme.gray[300]' : COLORS.secondary[400],
             fontSize: FONT_SIZE.base,
             fontWeight: FONT_WEIGHT.medium,
           }}

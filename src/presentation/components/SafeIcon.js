@@ -7,9 +7,12 @@ import React from 'react';
 import { Platform } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { IconWithFallback } from '@utils/iconFallback';
+import { useThemeToggle } from '@contexts/ThemeToggleContext';
 
 // Componente para Ionicons com fallback
-export const SafeIonicons = ({ name, size = 24, color = '#000', style = {}, ...props }) => {
+export const SafeIonicons = ({ name, size = 24, color = 'currentTheme.black', style = {}, ...props }) => {
+  const { currentTheme } = useThemeToggle();
+  
   return (
     <IconWithFallback
       IconComponent={Ionicons}
@@ -23,7 +26,7 @@ export const SafeIonicons = ({ name, size = 24, color = '#000', style = {}, ...p
 };
 
 // Componente para MaterialCommunityIcons com fallback
-export const SafeMaterialCommunityIcons = ({ name, size = 24, color = '#000', style = {}, ...props }) => {
+export const SafeMaterialCommunityIcons = ({ name, size = 24, color = 'currentTheme.black', style = {}, ...props }) => {
   return (
     <IconWithFallback
       IconComponent={MaterialCommunityIcons}
@@ -41,7 +44,7 @@ export const SafeIcon = ({
   type = 'ionicons', 
   name, 
   size = 24, 
-  color = '#000', 
+  color = 'currentTheme.black', 
   style = {}, 
   ...props 
 }) => {

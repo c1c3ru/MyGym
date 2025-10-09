@@ -1,8 +1,11 @@
 
 import React, { useEffect } from 'react';
 import { Platform } from 'react-native';
+import { useThemeToggle } from '@contexts/ThemeToggleContext';
 
 const WebCompatibility = ({ children }) => {
+  const { currentTheme } = useThemeToggle();
+  
   useEffect(() => {
     if (Platform.OS === 'web') {
       // Configurações específicas para web
@@ -48,11 +51,11 @@ const WebCompatibility = ({ children }) => {
         }
         
         ::-webkit-scrollbar-track {
-          background: #f1f1f1;
+          background: currentTheme.gray[100];
         }
         
         ::-webkit-scrollbar-thumb {
-          background: #888;
+          background: currentTheme.gray[500];
           border-radius: 4px;
         }
         

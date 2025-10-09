@@ -27,8 +27,11 @@ import batchFirestoreService from '@services/batchFirestoreService';
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import StudentDetailsSkeleton from '@components/skeletons/StudentDetailsSkeleton';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { useThemeToggle } from '@contexts/ThemeToggleContext';
 
 const StudentDetailsScreen = ({ route, navigation }) => {
+  const { currentTheme } = useThemeToggle();
+  
   const { studentId } = route.params;
   const { user, userProfile, academia } = useAuth();
   const { getString } = useTheme();
@@ -404,7 +407,7 @@ const styles = StyleSheet.create({
         elevation: 4,
       },
       web: {
-        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+        boxShadow: '0 2px 4px currentTheme.black + "1A"',
       },
     }),
   },

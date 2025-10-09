@@ -66,8 +66,8 @@ export const LazyImage = memo(({ source, style, ...props }) => {
   
   if (error) {
     return (
-      <View style={[style, { backgroundColor: '#f0f0f0', justifyContent: 'center', alignItems: 'center' }]}>
-        <Ionicons name="image-outline" size={24} color="#ccc" />
+      <View style={[style, { backgroundColor: 'currentTheme.gray[100]', justifyContent: 'center', alignItems: 'center' }]}>
+        <Ionicons name="image-outline" size={24} color="currentTheme.gray[300]" />
       </View>
     );
   }
@@ -75,7 +75,7 @@ export const LazyImage = memo(({ source, style, ...props }) => {
   return (
     <View style={style}>
       {!loaded && (
-        <View style={[StyleSheet.absoluteFill, { backgroundColor: '#f0f0f0', justifyContent: 'center', alignItems: 'center' }]}>
+        <View style={[StyleSheet.absoluteFill, { backgroundColor: 'currentTheme.gray[100]', justifyContent: 'center', alignItems: 'center' }]}>
           <ActivityIndicator size="small" color={COLORS.info[500]} />
         </View>
       )}

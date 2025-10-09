@@ -4,8 +4,11 @@ import { Text, Card, Button, Divider } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ActionButton from '@components/ActionButton';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { useThemeToggle } from '@contexts/ThemeToggleContext';
 
 const PrivacyPolicyScreen = ({ navigation }) => {
+  const { currentTheme } = useThemeToggle();
+  
   const lastUpdated = new Date().toLocaleDateString('pt-BR');
 
   return (
@@ -518,7 +521,7 @@ const styles = StyleSheet.create({
   },
   footerText: {
     textAlign: 'center',
-    color: '#888',
+    color: 'currentTheme.gray[500]',
     marginBottom: SPACING.xs,
   },
 });

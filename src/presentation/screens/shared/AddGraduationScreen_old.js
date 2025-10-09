@@ -19,8 +19,11 @@ import { useAuth } from '@contexts/AuthProvider';
 import { useTheme } from '@contexts/ThemeContext';
 import { firestoreService } from '@services/firestoreService';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { useThemeToggle } from '@contexts/ThemeToggleContext';
 
 const AddGraduationScreen = ({ route, navigation }) => {
+  const { currentTheme } = useThemeToggle();
+  
   const { studentId, studentName } = route.params || {};
   const { user } = useAuth();
   const { getString } = useTheme();
@@ -49,10 +52,10 @@ const AddGraduationScreen = ({ route, navigation }) => {
   // Níveis de graduação comuns para artes marciais
   const defaultGraduationLevels = [
     { id: COLORS.white, name: 'Faixa Branca', color: COLORS.white, order: 1 },
-    { id: 'yellow', name: 'Faixa Amarela', color: COLORS.warning[400], order: 2 },
-    { id: 'orange', name: 'Faixa Laranja', color: COLORS.warning[500], order: 3 },
-    { id: 'green', name: 'Faixa Verde', color: COLORS.primary[500], order: 4 },
-    { id: 'blue', name: 'Faixa Azul', color: COLORS.info[500], order: 5 },
+    { id: currentTheme.warning[500], name: 'Faixa Amarela', color: COLORS.warning[400], order: 2 },
+    { id: currentTheme.warning[600], name: 'Faixa Laranja', color: COLORS.warning[500], order: 3 },
+    { id: currentTheme.success[500], name: 'Faixa Verde', color: COLORS.primary[500], order: 4 },
+    { id: currentTheme.info[500], name: 'Faixa Azul', color: COLORS.info[500], order: 5 },
     { id: 'purple', name: 'Faixa Roxa', color: COLORS.secondary[500], order: 6 },
     { id: 'brown', name: 'Faixa Marrom', color: COLORS.gray[700], order: 7 },
     { id: 'black-1', name: 'Faixa Preta 1º Dan', color: COLORS.black, order: 8 },
@@ -438,14 +441,14 @@ const styles = StyleSheet.create({
   },
   previousChip: {
     alignSelf: 'flex-start',
-    backgroundColor: '#E8F5E8',
+    backgroundColor: 'currentTheme.success[50]',
   },
   inputGroup: {
     marginBottom: 16,
   },
   selectButton: {
     justifyContent: 'flex-start',
-    borderColor: '#ddd',
+    borderColor: 'currentTheme.gray[300]',
   },
   selectButtonContent: {
     justifyContent: 'flex-start',

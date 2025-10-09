@@ -28,8 +28,11 @@ import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import { useClassCreationRateLimit } from '@hooks/useRateLimit';
 import FreeGymScheduler from '@components/FreeGymScheduler';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT , BORDER_WIDTH } from '@presentation/theme/designTokens';
+import { useThemeToggle } from '@contexts/ThemeToggleContext';
 
 const AdminClasses = ({ navigation }) => {
+  const { currentTheme } = useThemeToggle();
+  
   const { user, userProfile, academia } = useAuth();
   const { getString } = useTheme();
   const [classes, setClasses] = useState([]);
@@ -279,7 +282,7 @@ const AdminClasses = ({ navigation }) => {
   const renderEmptyList = useCallback(() => (
     <Card style={styles.emptyCard}>
       <Card.Content style={styles.emptyContent}>
-        <Ionicons name="school-outline" size={48} color="#ccc" />
+        <Ionicons name="school-outline" size={48} color="currentTheme.gray[300]" />
         <Title style={styles.emptyTitle}>{getString('noClassesFound')}</Title>
         <Paragraph style={styles.emptyText}>
           {searchQuery ? 

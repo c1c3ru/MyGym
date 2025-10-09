@@ -28,8 +28,11 @@ import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import InstructorStudentsSkeleton from '@components/skeletons/InstructorStudentsSkeleton';
 import { EnhancedFlashList } from '@components/EnhancedFlashList';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT , BORDER_WIDTH } from '@presentation/theme/designTokens';
+import { useThemeToggle } from '@contexts/ThemeToggleContext';
 
 const InstructorStudents = ({ navigation }) => {
+  const { currentTheme } = useThemeToggle();
+  
   const { user, userProfile, academia } = useAuthFacade();
   const { getString } = useTheme();
   const [students, setStudents] = useState([]);
@@ -566,7 +569,7 @@ const InstructorStudents = ({ navigation }) => {
         ) : (
           <Card style={styles.emptyCard}>
             <Card.Content style={styles.emptyContent}>
-              <Ionicons name="people-outline" size={48} color="#ccc" />
+              <Ionicons name="people-outline" size={48} color="currentTheme.gray[300]" />
               <Text style={styles.noStudentsText}>{getString('noStudentsFound')}</Text>
               <Text style={styles.noStudentsSubtext}>
                 {getString('noStudentsMessage')}
@@ -783,7 +786,7 @@ const styles = StyleSheet.create({
   },
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'currentTheme.black + "80"',
     justifyContent: 'flex-start',
     alignItems: 'center',
     paddingTop: 120,

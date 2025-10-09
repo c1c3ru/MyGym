@@ -29,8 +29,11 @@ import { useAuth } from '@contexts/AuthProvider';
 import GraduationAlertCard from '@components/GraduationAlertCard';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { useThemeToggle } from '@contexts/ThemeToggleContext';
 
 const GraduationManagementScreen = ({ navigation }) => {
+  const { currentTheme } = useThemeToggle();
+  
   const { userProfile } = useAuth();
   const {
     graduationBoard,
@@ -448,7 +451,7 @@ const styles = StyleSheet.create({
   },
   summaryPercentage: {
     fontSize: 10,
-    color: '#888',
+    color: 'currentTheme.gray[500]',
   },
   filterSection: {
     marginBottom: 16,

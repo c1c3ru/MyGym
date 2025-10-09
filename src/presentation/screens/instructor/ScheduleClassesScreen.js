@@ -22,8 +22,11 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { useAuth } from '@contexts/AuthProvider';
 import { academyFirestoreService } from '@services/academyFirestoreService';
 import { COLORS, SPACING, FONT_SIZE, FONT_WEIGHT, BORDER_RADIUS } from '@presentation/theme/designTokens';
+import { useThemeToggle } from '@contexts/ThemeToggleContext';
 
 const ScheduleClassesScreen = ({ navigation, route }) => {
+  const { currentTheme } = useThemeToggle();
+  
   const { user, userProfile } = useAuth();
   const { classes: initialClasses = [] } = route.params || {};
   
@@ -184,7 +187,7 @@ const ScheduleClassesScreen = ({ navigation, route }) => {
               ))
             ) : (
               <View style={styles.emptyState}>
-                <MaterialCommunityIcons name="school-off" size={48} color="#ccc" />
+                <MaterialCommunityIcons name="school-off" size={48} color="currentTheme.gray[300]" />
                 <Text style={styles.emptyText}>Nenhuma turma encontrada</Text>
                 <Button
                   mode="contained"

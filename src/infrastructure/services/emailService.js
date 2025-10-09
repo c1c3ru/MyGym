@@ -90,44 +90,44 @@ export class EmailService {
             body {
                 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
                 line-height: 1.6;
-                color: #333;
+                color: currentTheme.gray[700];
                 max-width: 600px;
                 margin: 0 auto;
                 padding: 20px;
-                background-color: #f5f5f5;
+                background-color: currentTheme.gray[100];
             }
             .email-container {
-                background-color: #ffffff;
+                background-color: currentTheme.white;
                 border-radius: 12px;
                 padding: 32px;
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                box-shadow: 0 4px 12px currentTheme.black + "1A";
             }
             .header {
                 text-align: center;
                 margin-bottom: 32px;
-                border-bottom: 2px solid #f0f0f0;
+                border-bottom: 2px solid currentTheme.gray[100];
                 padding-bottom: 24px;
             }
             .logo {
                 font-size: 28px;
                 font-weight: bold;
-                color: #2196F3;
+                color: currentTheme.info[500];
                 margin-bottom: 8px;
             }
             .subtitle {
-                color: #666;
+                color: currentTheme.gray[600];
                 font-size: 16px;
             }
             .content {
                 margin-bottom: 32px;
             }
             .academy-name {
-                color: #2196F3;
+                color: currentTheme.info[500];
                 font-weight: bold;
             }
             .user-type {
-                background-color: #E3F2FD;
-                color: #1976D2;
+                background-color: currentTheme.info[50];
+                color: currentTheme.info[700];
                 padding: 4px 12px;
                 border-radius: 16px;
                 font-size: 14px;
@@ -137,7 +137,7 @@ export class EmailService {
             }
             .cta-button {
                 display: inline-block;
-                background: linear-gradient(135deg, #2196F3, #1976D2);
+                background: linear-gradient(135deg, currentTheme.info[500], currentTheme.info[700]);
                 color: white;
                 padding: 16px 32px;
                 text-decoration: none;
@@ -145,24 +145,24 @@ export class EmailService {
                 font-weight: 600;
                 font-size: 16px;
                 margin: 24px 0;
-                box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+                box-shadow: 0 4px 12px currentTheme.info[500] + "4D";
                 transition: all 0.3s ease;
             }
             .link-backup {
-                background-color: #f8f9fa;
+                background-color: currentTheme.background.light;
                 padding: 16px;
                 border-radius: 8px;
-                border-left: 4px solid #2196F3;
+                border-left: 4px solid currentTheme.info[500];
                 margin: 16px 0;
                 word-break: break-all;
             }
             .expiration {
-                background-color: #FFF3E0;
-                border: 1px solid #FFB74D;
+                background-color: currentTheme.white3E0;
+                border: 1px solid currentTheme.warning[400];
                 border-radius: 8px;
                 padding: 12px;
                 margin: 16px 0;
-                color: #E65100;
+                color: currentTheme.warning[800];
                 text-align: center;
                 font-weight: 500;
             }
@@ -170,18 +170,18 @@ export class EmailService {
                 text-align: center;
                 margin-top: 32px;
                 padding-top: 24px;
-                border-top: 1px solid #e0e0e0;
-                color: #888;
+                border-top: 1px solid currentTheme.gray[300];
+                color: currentTheme.gray[500];
                 font-size: 14px;
             }
             .security-notice {
-                background-color: #F3E5F5;
-                border: 1px solid #CE93D8;
+                background-color: currentTheme.primary[50];
+                border: 1px solid currentTheme.primary[300];
                 border-radius: 8px;
                 padding: 12px;
                 margin: 16px 0;
                 font-size: 14px;
-                color: #4A148C;
+                color: currentTheme.primary[900];
             }
         </style>
     </head>

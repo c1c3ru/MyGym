@@ -31,8 +31,11 @@ import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import cacheService, { CACHE_KEYS } from '@services/cacheService';
 import { formValidator, commonSchemas } from '@utils/formValidation';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { useThemeToggle } from '@contexts/ThemeToggleContext';
 
 const AddStudentScreen = ({ navigation, route }) => {
+  const { currentTheme } = useThemeToggle();
+  
   const { user, userProfile, academia } = useAuth();
   const [loading, setLoading] = useState(false);
 
@@ -791,7 +794,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'currentTheme.black + "80"',
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: 1000,

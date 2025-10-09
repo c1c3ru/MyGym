@@ -22,10 +22,13 @@ import { useTheme } from '@contexts/ThemeContext';
 import { academyFirestoreService } from '@services/academyFirestoreService';
 import SafeCardContent from '@components/SafeCardContent';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, BORDER_WIDTH } from '@presentation/theme/designTokens';
+import { useThemeToggle } from '@contexts/ThemeToggleContext';
 
 const { width } = Dimensions.get('window');
 
 const StudentProfileScreen = ({ route, navigation }) => {
+  const { currentTheme } = useThemeToggle();
+  
   const { studentId } = route.params;
   const { user, userProfile, academia } = useAuth();
   const { getString } = useTheme();
@@ -615,7 +618,7 @@ const styles = StyleSheet.create({
         elevation: 8,
       },
       web: {
-        boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
+        boxShadow: '0 4px 20px currentTheme.black + "26"',
       },
     }),
   },

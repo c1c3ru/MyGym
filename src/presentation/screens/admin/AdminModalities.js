@@ -22,8 +22,11 @@ import { useAuthMigration } from '@hooks/useAuthMigration';
 import { useTheme } from '@contexts/ThemeContext';
 import academyCollectionsService from '@services/academyCollectionsService';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { useThemeToggle } from '@contexts/ThemeToggleContext';
 
 const AdminModalities = ({ navigation }) => {
+  const { currentTheme } = useThemeToggle();
+  
   const { user } = useAuth();
   const { userProfile } = useAuthMigration();
   const { getString } = useTheme();
@@ -244,7 +247,7 @@ const AdminModalities = ({ navigation }) => {
         color: ${COLORS.white};
         padding: ${SPACING.md}px 20px;
         border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        box-shadow: 0 4px 12px currentTheme.black + "26";
         z-index: 9999;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         font-size: 14px;

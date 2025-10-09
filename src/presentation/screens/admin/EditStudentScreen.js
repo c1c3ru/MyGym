@@ -404,7 +404,7 @@ const EditStudentScreen = ({ navigation, route }) => {
               mode="outlined"
               onPress={handleDelete}
               style={[styles.button, styles.deleteButton]}
-              textColor="#d32f2f"
+              textColor="currentTheme.primary[700]"
               disabled={loading}
             >
               Excluir Aluno

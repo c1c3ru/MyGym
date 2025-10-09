@@ -19,6 +19,8 @@ import { firestoreService } from '@services/firestoreService';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const PrivacySettingsScreen = ({ navigation }) => {
+  const { currentTheme } = useThemeToggle();
+  
   const { user, userProfile, updateUserProfile } = useAuth();
   const { getString } = useTheme();
   const [loading, setLoading] = useState(false);
@@ -409,6 +411,7 @@ const PrivacySettingsScreen = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <Title style={styles.cardTitle}>{getString('importantInfo')}</Title>
+import { useThemeToggle } from '@contexts/ThemeToggleContext';
             <Text style={styles.infoText}>
               {getString('infoChangeConsents')}
             </Text>
@@ -474,7 +477,7 @@ const styles = StyleSheet.create({
   },
   consentDate: {
     fontSize: FONT_SIZE.sm,
-    color: '#888',
+    color: 'currentTheme.gray[500]',
     fontStyle: 'italic',
   },
   infoText: {

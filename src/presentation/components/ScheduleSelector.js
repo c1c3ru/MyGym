@@ -221,14 +221,14 @@ const ScheduleSelector = ({
       <View style={styles.header}>
         <Text style={styles.label}>
           {label}
-          {required && <Text style={{ color: colors?.error || '#f44336' }}> *</Text>}
+          {required && <Text style={{ color: colors?.error || 'currentTheme.error[500]' }}> *</Text>}
         </Text>
         {hasAnySchedule() && !disabled && (
           <Button
             mode="text"
             compact
             onPress={clearAllSchedule}
-            textColor={colors?.error || '#f44336'}
+            textColor={colors?.error || 'currentTheme.error[500]'}
           >
             Limpar Tudo
           </Button>

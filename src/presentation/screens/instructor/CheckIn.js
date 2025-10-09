@@ -1156,7 +1156,7 @@ const styles = StyleSheet.create({
     elevation: 2,
     ...Platform.select({
       web: {
-        boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+        boxShadow: '0 2px 4px currentTheme.black + "1A"',
       },
     }),
   },

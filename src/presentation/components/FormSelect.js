@@ -4,6 +4,7 @@ import { Menu, Button, HelperText, Text } from 'react-native-paper';
 import { useTheme } from '@contexts/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { useThemeToggle } from '@contexts/ThemeToggleContext';
 
 const FormSelect = ({
   label,
@@ -16,6 +17,8 @@ const FormSelect = ({
   disabled = false,
   style
 }) => {
+  const { currentTheme } = useThemeToggle();
+  
   const [visible, setVisible] = useState(false);
   const { getString } = useTheme();
 
@@ -100,7 +103,7 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: 'COLORS.white',
-    borderColor: '#ccc',
+    borderColor: 'currentTheme.gray[300]',
     justifyContent: 'flex-start',
   },
   buttonError: {

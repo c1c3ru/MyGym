@@ -2,8 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, ActivityIndicator } from 'react-native';
 import { auth, db } from '@services/firebase';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { useThemeToggle } from '@contexts/ThemeToggleContext';
 
 const FirebaseInitializer = ({ children }) => {
+  const { currentTheme } = useThemeToggle();
+  
   const [isFirebaseReady, setIsFirebaseReady] = useState(false);
   const [error, setError] = useState(null);
 
@@ -32,7 +35,7 @@ const FirebaseInitializer = ({ children }) => {
   if (error) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: SPACING.lg }}>
-        <Text style={{ fontSize: FONT_SIZE.lg, color: 'red', textAlign: 'center', marginBottom: 20 }}>
+        <Text style={{ fontSize: FONT_SIZE.lg, color: currentTheme.error[500], textAlign: 'center', marginBottom: 20 }}>
           Erro ao inicializar o Firebase
         </Text>
         <Text style={{ fontSize: FONT_SIZE.base, color: COLORS.text.secondary, textAlign: 'center' }}>

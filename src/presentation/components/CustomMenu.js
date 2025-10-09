@@ -3,8 +3,11 @@ import { View, TouchableOpacity, Modal, StyleSheet, Platform } from 'react-nativ
 import { Text } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { useThemeToggle } from '@contexts/ThemeToggleContext';
 
 const CustomMenu = ({ visible, onDismiss, anchor, children, style }) => {
+  const { currentTheme } = useThemeToggle();
+  
   return (
     <View>
       {anchor}
@@ -45,7 +48,7 @@ CustomMenu.Item = MenuItem;
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'currentTheme.black + "80"',
     justifyContent: 'flex-start',
     alignItems: 'flex-end',
     paddingTop: 100,
@@ -58,7 +61,7 @@ const styles = StyleSheet.create({
     minWidth: 150,
     ...Platform.select({
       ios: {
-        shadowColor: '#000',
+        shadowColor: 'currentTheme.black',
         shadowOffset: {
           width: 0,
           height: 2,
@@ -82,7 +85,7 @@ const styles = StyleSheet.create({
 
           web: {
 
-            boxShadow: '0 2px 4px rgba(0,0,0,0.25)',
+            boxShadow: '0 2px 4px currentTheme.black + "40"',
 
           },
 

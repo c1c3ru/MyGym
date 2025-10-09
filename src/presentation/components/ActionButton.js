@@ -4,6 +4,7 @@ import { Button } from 'react-native-paper';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { useThemeToggle } from '@contexts/ThemeToggleContext';
 
 const ActionButton = ({ 
   mode = 'outlined', 
@@ -17,6 +18,8 @@ const ActionButton = ({
   disabled = false,
   ...props 
 }) => {
+  const { currentTheme } = useThemeToggle();
+  
   const getButtonColors = () => {
     switch (variant) {
       case 'primary':
@@ -142,7 +145,7 @@ const ActionButton = ({
       onPress={onPress}
       loading={loading}
       disabled={disabled}
-      buttonColor={mode === 'outlined' ? 'transparent' : undefined}
+      buttonColor={mode === 'outlined' ? currentTheme.transparent || currentTheme.transparent || currentTheme.transparent || "transparent" : undefined}
       textColor={disabled ? COLORS.gray[400] : colors.text}
       style={[
         styles.button,
@@ -221,11 +224,11 @@ const styles = StyleSheet.create({
     borderRadius: BORDER_RADIUS.md,
     ...Platform.select({
       web: {
-        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
+        boxShadow: '0 2px 4px currentTheme.black + "1A"'
       },
       default: {
         elevation: 2,
-        shadowColor: '#000',
+        shadowColor: 'currentTheme.black',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
         shadowRadius: 4,
@@ -242,11 +245,11 @@ const styles = StyleSheet.create({
     borderRadius: BORDER_RADIUS.md,
     ...Platform.select({
       web: {
-        boxShadow: '0 2px 6px rgba(0, 0, 0, 0.15)'
+        boxShadow: '0 2px 6px currentTheme.black + "26"'
       },
       default: {
         elevation: 3,
-        shadowColor: '#000',
+        shadowColor: 'currentTheme.black',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.15,
         shadowRadius: 6,
@@ -259,7 +262,7 @@ const styles = StyleSheet.create({
   },
   gradientButton: {
     borderRadius: BORDER_RADIUS.md,
-    backgroundColor: 'transparent',
+    backgroundColor: currentTheme.transparent || currentTheme.transparent || currentTheme.transparent || "transparent",
     margin: 0,
   },
   gradientButtonText: {
@@ -284,11 +287,11 @@ const styles = StyleSheet.create({
     borderRadius: 28,
     ...Platform.select({
       web: {
-        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.3)'
+        boxShadow: '0 4px 8px currentTheme.black + "4D"'
       },
       default: {
         elevation: 6,
-        shadowColor: '#000',
+        shadowColor: 'currentTheme.black',
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.3,
         shadowRadius: 8,
@@ -301,7 +304,7 @@ const styles = StyleSheet.create({
   },
   fab: {
     borderRadius: 28,
-    backgroundColor: 'transparent',
+    backgroundColor: currentTheme.transparent || currentTheme.transparent || currentTheme.transparent || "transparent",
     margin: 0,
   },
   fabText: {

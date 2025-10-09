@@ -64,7 +64,7 @@ export const ResponsiveUtils = {
   elevation: Platform.OS === 'android' ? {
     elevation: width >= 768 ? 8 : 4,
   } : {
-    shadowColor: '#000',
+    shadowColor: 'currentTheme.black',
     shadowOffset: {
       width: 0,
       height: width >= 768 ? 4 : 2,
@@ -91,7 +91,7 @@ export const ShadowUtils = {
   light: Platform.OS === 'android' ? {
     elevation: 2,
   } : {
-    shadowColor: '#000',
+    shadowColor: 'currentTheme.black',
     shadowOffset: {
       width: 0,
       height: 1,
@@ -102,7 +102,7 @@ export const ShadowUtils = {
   medium: Platform.OS === 'android' ? {
     elevation: 4,
   } : {
-    shadowColor: '#000',
+    shadowColor: 'currentTheme.black',
     shadowOffset: {
       width: 0,
       height: 2,
@@ -113,7 +113,7 @@ export const ShadowUtils = {
   heavy: Platform.OS === 'android' ? {
     elevation: 8,
   } : {
-    shadowColor: '#000',
+    shadowColor: 'currentTheme.black',
     shadowOffset: {
       width: 0,
       height: 4,

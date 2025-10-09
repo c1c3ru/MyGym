@@ -98,33 +98,33 @@ class NodeMailerService {
             body {
                 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
                 line-height: 1.6;
-                color: #333;
+                color: currentTheme.gray[700];
                 max-width: 600px;
                 margin: 0 auto;
                 padding: 20px;
-                background-color: #f5f5f5;
+                background-color: currentTheme.gray[100];
             }
             .container {
-                background-color: #ffffff;
+                background-color: currentTheme.white;
                 border-radius: 12px;
                 padding: 32px;
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                box-shadow: 0 4px 12px currentTheme.black + "1A";
             }
             .header {
                 text-align: center;
                 margin-bottom: 32px;
-                border-bottom: 2px solid #f0f0f0;
+                border-bottom: 2px solid currentTheme.gray[100];
                 padding-bottom: 24px;
             }
             .logo {
                 font-size: 28px;
                 font-weight: bold;
-                color: #2196F3;
+                color: currentTheme.info[500];
                 margin-bottom: 8px;
             }
             .button {
                 display: inline-block;
-                background: linear-gradient(135deg, #2196F3, #1976D2);
+                background: linear-gradient(135deg, currentTheme.info[500], currentTheme.info[700]);
                 color: white;
                 padding: 16px 32px;
                 text-decoration: none;
@@ -132,22 +132,22 @@ class NodeMailerService {
                 font-weight: 600;
                 font-size: 16px;
                 margin: 24px 0;
-                box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+                box-shadow: 0 4px 12px currentTheme.info[500] + "4D";
             }
             .warning {
-                background-color: #FFF3E0;
-                border: 1px solid #FFB74D;
+                background-color: currentTheme.white3E0;
+                border: 1px solid currentTheme.warning[400];
                 border-radius: 8px;
                 padding: 16px;
                 margin: 16px 0;
-                color: #E65100;
+                color: currentTheme.warning[800];
             }
             .footer {
                 text-align: center;
                 margin-top: 32px;
                 padding-top: 24px;
-                border-top: 1px solid #e0e0e0;
-                color: #888;
+                border-top: 1px solid currentTheme.gray[300];
+                color: currentTheme.gray[500];
                 font-size: 14px;
             }
         </style>
@@ -176,7 +176,7 @@ class NodeMailerService {
             </div>
             
             <p>Se o botão não funcionar, copie e cole este link no seu navegador:</p>
-            <p style="word-break: break-all; background-color: #f8f9fa; padding: 12px; border-radius: 4px;">
+            <p style="word-break: break-all; background-color: currentTheme.background.light; padding: 12px; border-radius: 4px;">
                 ${resetLink}
             </p>
             
@@ -215,33 +215,33 @@ class NodeMailerService {
             body {
                 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
                 line-height: 1.6;
-                color: #333;
+                color: currentTheme.gray[700];
                 max-width: 600px;
                 margin: 0 auto;
                 padding: 20px;
-                background-color: #f5f5f5;
+                background-color: currentTheme.gray[100];
             }
             .container {
-                background-color: #ffffff;
+                background-color: currentTheme.white;
                 border-radius: 12px;
                 padding: 32px;
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                box-shadow: 0 4px 12px currentTheme.black + "1A";
             }
             .header {
                 text-align: center;
                 margin-bottom: 32px;
-                border-bottom: 2px solid #f0f0f0;
+                border-bottom: 2px solid currentTheme.gray[100];
                 padding-bottom: 24px;
             }
             .logo {
                 font-size: 28px;
                 font-weight: bold;
-                color: #2196F3;
+                color: currentTheme.info[500];
                 margin-bottom: 8px;
             }
             .user-type {
-                background-color: #E3F2FD;
-                color: #1976D2;
+                background-color: currentTheme.info[50];
+                color: currentTheme.info[700];
                 padding: 4px 12px;
                 border-radius: 16px;
                 font-size: 14px;
@@ -251,7 +251,7 @@ class NodeMailerService {
             }
             .button {
                 display: inline-block;
-                background: linear-gradient(135deg, #2196F3, #1976D2);
+                background: linear-gradient(135deg, currentTheme.info[500], currentTheme.info[700]);
                 color: white;
                 padding: 16px 32px;
                 text-decoration: none;
@@ -259,15 +259,15 @@ class NodeMailerService {
                 font-weight: 600;
                 font-size: 16px;
                 margin: 24px 0;
-                box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+                box-shadow: 0 4px 12px currentTheme.info[500] + "4D";
             }
             .expiration {
-                background-color: #FFF3E0;
-                border: 1px solid #FFB74D;
+                background-color: currentTheme.white3E0;
+                border: 1px solid currentTheme.warning[400];
                 border-radius: 8px;
                 padding: 12px;
                 margin: 16px 0;
-                color: #E65100;
+                color: currentTheme.warning[800];
                 text-align: center;
                 font-weight: 500;
             }
@@ -275,8 +275,8 @@ class NodeMailerService {
                 text-align: center;
                 margin-top: 32px;
                 padding-top: 24px;
-                border-top: 1px solid #e0e0e0;
-                color: #888;
+                border-top: 1px solid currentTheme.gray[300];
+                color: currentTheme.gray[500];
                 font-size: 14px;
             }
         </style>
@@ -292,7 +292,7 @@ class NodeMailerService {
             
             <p>Olá!</p>
             
-            <p><strong>${inviterName}</strong> convidou você para se juntar à academia <strong style="color: #2196F3;">${academyName}</strong> como <span class="user-type">${userTypeText[userType]}</span>.</p>
+            <p><strong>${inviterName}</strong> convidou você para se juntar à academia <strong style="color: currentTheme.info[500];">${academyName}</strong> como <span class="user-type">${userTypeText[userType]}</span>.</p>
             
             <p>Com o MyGym você poderá:</p>
             <ul>
@@ -314,7 +314,7 @@ class NodeMailerService {
             </div>
             
             <p>Se o botão não funcionar, copie e cole este link no seu navegador:</p>
-            <p style="word-break: break-all; background-color: #f8f9fa; padding: 12px; border-radius: 4px;">
+            <p style="word-break: break-all; background-color: currentTheme.background.light; padding: 12px; border-radius: 4px;">
                 ${inviteLink}
             </p>
             
@@ -352,32 +352,32 @@ class NodeMailerService {
             body {
                 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
                 line-height: 1.6;
-                color: #333;
+                color: currentTheme.gray[700];
                 max-width: 600px;
                 margin: 0 auto;
                 padding: 20px;
-                background-color: #f5f5f5;
+                background-color: currentTheme.gray[100];
             }
             .container {
-                background-color: #ffffff;
+                background-color: currentTheme.white;
                 border-radius: 12px;
                 padding: 32px;
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                box-shadow: 0 4px 12px currentTheme.black + "1A";
             }
             .header {
                 text-align: center;
                 margin-bottom: 32px;
-                border-bottom: 2px solid #f0f0f0;
+                border-bottom: 2px solid currentTheme.gray[100];
                 padding-bottom: 24px;
             }
             .logo {
                 font-size: 28px;
                 font-weight: bold;
-                color: #4CAF50;
+                color: currentTheme.success[500];
                 margin-bottom: 8px;
             }
             .steps {
-                background-color: #E8F5E8;
+                background-color: currentTheme.success[50];
                 border-radius: 8px;
                 padding: 20px;
                 margin: 20px 0;
@@ -386,8 +386,8 @@ class NodeMailerService {
                 text-align: center;
                 margin-top: 32px;
                 padding-top: 24px;
-                border-top: 1px solid #e0e0e0;
-                color: #888;
+                border-top: 1px solid currentTheme.gray[300];
+                color: currentTheme.gray[500];
                 font-size: 14px;
             }
         </style>
@@ -445,21 +445,21 @@ class NodeMailerService {
             body {
                 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
                 line-height: 1.6;
-                color: #333;
+                color: currentTheme.gray[700];
                 max-width: 600px;
                 margin: 0 auto;
                 padding: 20px;
-                background-color: #f5f5f5;
+                background-color: currentTheme.gray[100];
             }
             .container {
-                background-color: #ffffff;
+                background-color: currentTheme.white;
                 border-radius: 12px;
                 padding: 32px;
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                box-shadow: 0 4px 12px currentTheme.black + "1A";
             }
             .reminder {
-                background-color: #E3F2FD;
-                border-left: 4px solid #2196F3;
+                background-color: currentTheme.info[50];
+                border-left: 4px solid currentTheme.info[500];
                 border-radius: 8px;
                 padding: 20px;
                 margin: 20px 0;
@@ -467,7 +467,7 @@ class NodeMailerService {
             .time {
                 font-size: 24px;
                 font-weight: bold;
-                color: #2196F3;
+                color: currentTheme.info[500];
                 text-align: center;
                 margin: 16px 0;
             }

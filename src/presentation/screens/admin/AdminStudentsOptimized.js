@@ -20,8 +20,11 @@ import LoadingSpinner from '@components/LoadingSpinner';
 import StudentDisassociationDialog from '@components/StudentDisassociationDialog';
 import { useFocusEffect } from '@react-navigation/native';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { useThemeToggle } from '@contexts/ThemeToggleContext';
 
 const AdminStudentsOptimized = ({ navigation }) => {
+  const { currentTheme } = useThemeToggle();
+  
   const { user, userProfile, academia } = useAuth();
   const [students, setStudents] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -271,7 +274,7 @@ const AdminStudentsOptimized = ({ navigation }) => {
   const ListEmptyComponent = useMemo(() => (
     <Card style={styles.emptyCard}>
       <Card.Content style={styles.emptyContent}>
-        <Ionicons name="people-outline" size={48} color="#ccc" />
+        <Ionicons name="people-outline" size={48} color="currentTheme.gray[300]" />
         <Title style={styles.emptyTitle}>Nenhum aluno encontrado</Title>
         <Paragraph style={styles.emptyText}>
           {searchQuery ? 

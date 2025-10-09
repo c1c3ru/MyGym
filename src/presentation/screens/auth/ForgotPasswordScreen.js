@@ -239,7 +239,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: 'transparent',
+    backgroundColor: currentTheme.transparent || currentTheme.transparent || currentTheme.transparent || "transparent",
   },
   keyboardAvoidingView: {
     flex: 1,
@@ -268,7 +268,7 @@ const styles = StyleSheet.create({
   },
   headerSubtitle: {
     fontSize: ResponsiveUtils?.fontSize?.medium || 16,
-    color: 'rgba(255, 255, 255, 0.9)',
+    color: 'currentTheme.white + "E6"',
     textAlign: 'center',
   },
   content: {

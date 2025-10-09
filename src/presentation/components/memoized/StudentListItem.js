@@ -3,6 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import { Card, Text, Avatar, Chip, Divider, IconButton, Menu } from 'react-native-paper';
 import ActionButton, { ActionButtonGroup } from '@components/ActionButton';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { useThemeToggle } from '@contexts/ThemeToggleContext';
 
 const StudentListItem = memo(({ 
   student, 
@@ -60,10 +61,10 @@ const StudentListItem = memo(({
               mode="outlined"
               style={[
                 styles.statusChip,
-                { backgroundColor: student.isActive ? '#E8F5E8' : COLORS.error[50] }
+                { backgroundColor: student.isActive ? 'currentTheme.success[50]' : COLORS.error[50] }
               ]}
               textStyle={{ 
-                color: student.isActive ? COLORS.primary[800] : '#C62828',
+                color: student.isActive ? COLORS.primary[800] : 'currentTheme.error[800]',
                 fontSize: FONT_SIZE.sm 
               }}
             >

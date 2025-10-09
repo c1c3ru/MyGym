@@ -17,8 +17,11 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '@contexts/AuthProvider';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT , BORDER_WIDTH } from '@presentation/theme/designTokens';
+import { useThemeToggle } from '@contexts/ThemeToggleContext';
 
 const UserTypeSelectionScreen = ({ navigation, route }) => {
+  const { currentTheme } = useThemeToggle();
+  
   const { user, updateUserProfile, logout } = useAuth();
   const [selectedType, setSelectedType] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -236,7 +239,7 @@ const UserTypeSelectionScreen = ({ navigation, route }) => {
       <View style={styles.footer}>
         <Button
           mode="contained"
-          buttonColor={selectedType ? COLORS.info[500] : '#CCCCCC'}
+          buttonColor={selectedType ? COLORS.info[500] : 'currentTheme.gray[300]CCC'}
           style={styles.continueButton}
           onPress={handleSelectType}
           loading={loading}
@@ -283,7 +286,7 @@ const styles = StyleSheet.create({
         elevation: 4,
       },
       web: {
-        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.5)',
+        boxShadow: '0 2px 4px currentTheme.black + "80"',
       },
     }),
   },
@@ -373,7 +376,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   continueButtonDisabled: {
-    backgroundColor: '#CCCCCC',
+    backgroundColor: 'currentTheme.gray[300]CCC',
   },
   continueButtonText: {
     fontSize: FONT_SIZE.lg,

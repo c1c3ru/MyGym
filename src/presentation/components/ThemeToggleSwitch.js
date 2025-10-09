@@ -236,15 +236,15 @@ const styles = StyleSheet.create({
     borderRadius: BORDER_RADIUS.sm,
     marginRight: SPACING.sm,
     borderWidth: 1,
-    borderColor: '#E0E0E0',
+    borderColor: 'currentTheme.gray[300]',
   },
   
   previewDark: {
-    backgroundColor: '#1A1A1A',
+    backgroundColor: 'currentTheme.background.paper',
   },
   
   previewLight: {
-    backgroundColor: '#FAFBFC',
+    backgroundColor: 'currentTheme.background.light',
   },
   
   previewInfo: {
