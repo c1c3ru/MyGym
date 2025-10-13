@@ -603,7 +603,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   gradientHeader: {
-    paddingTop: 40,
+    paddingTop: SPACING.xs0,
     paddingBottom: 30,
     paddingHorizontal: 20,
     borderBottomLeftRadius: 30,
@@ -652,7 +652,7 @@ const styles = StyleSheet.create({
   },
   studentName: {
     fontSize: FONT_SIZE.xxl,
-    fontWeight: '800',
+    fontWeight: FONT_WEIGHT.extrabold,
     color: COLORS.white,
     marginBottom: SPACING.xs,
     letterSpacing: 0.5,
@@ -664,13 +664,13 @@ const styles = StyleSheet.create({
   },
   statusRow: {
     flexDirection: 'row',
-    gap: 16,
+    gap: SPACING.base,
     marginBottom: SPACING.sm,
   },
   statusItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 4,
+    gap: SPACING.xs,
   },
   statusText: {
     fontSize: FONT_SIZE.base,
@@ -693,7 +693,7 @@ const styles = StyleSheet.create({
   statsContainer: {
     flexDirection: 'row',
     paddingHorizontal: 20,
-    gap: 12,
+    gap: SPACING.md,
     marginBottom: 20,
   },
   statCard: {
@@ -730,7 +730,7 @@ const styles = StyleSheet.create({
   },
   statNumber: {
     fontSize: FONT_SIZE.xxl,
-    fontWeight: '800',
+    fontWeight: FONT_WEIGHT.extrabold,
     color: COLORS.text.primary,
     marginBottom: SPACING.xs,
   },
@@ -768,7 +768,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 20,
-    paddingBottom: 16,
+    paddingBottom: SPACING.base,
     borderBottomWidth: 1,
     borderBottomColor: COLORS.gray[100],
   },
@@ -779,7 +779,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.card.elevated.background,
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 12,
+    marginRight: SPACING.md,
   },
   modernCardTitle: {
     fontSize: FONT_SIZE.lg,
@@ -793,7 +793,7 @@ const styles = StyleSheet.create({
 
   // Informações pessoais
   modernInfoGrid: {
-    gap: 16,
+    gap: SPACING.base,
   },
   modernInfoItem: {
     flexDirection: 'row',
@@ -809,7 +809,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.card.default.background,
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 12,
+    marginRight: SPACING.md,
   },
   infoContent: {
     flex: 1,
@@ -830,7 +830,7 @@ const styles = StyleSheet.create({
 
   // Turmas
   classesGrid: {
-    gap: 12,
+    gap: SPACING.md,
   },
   classCard: {
     backgroundColor: COLORS.card.elevated.background,
@@ -873,7 +873,7 @@ const styles = StyleSheet.create({
   scheduleInfo: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 4,
+    gap: SPACING.xs,
   },
   scheduleText: {
     fontSize: FONT_SIZE.sm,
@@ -935,7 +935,7 @@ const styles = StyleSheet.create({
   graduationDate: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 4,
+    gap: SPACING.xs,
   },
   graduationDateText: {
     fontSize: FONT_SIZE.sm,
@@ -946,7 +946,7 @@ const styles = StyleSheet.create({
   // Resumo financeiro
   financialIndicators: {
     flexDirection: 'row',
-    gap: 12,
+    gap: SPACING.md,
     marginBottom: 20,
   },
   financialCard: {
@@ -958,7 +958,7 @@ const styles = StyleSheet.create({
   },
   financialValue: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: '800',
+    fontWeight: FONT_WEIGHT.extrabold,
     color: COLORS.text.primary,
     marginBottom: SPACING.xs,
   },
@@ -983,7 +983,7 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.bold,
     color: COLORS.text.primary,
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   paymentItem: {
     flexDirection: 'row',
@@ -1029,7 +1029,7 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.semibold,
     color: COLORS.gray[500],
-    marginTop: 16,
+    marginTop: SPACING.base,
     marginBottom: SPACING.xs,
   },
   emptyStateSubtext: {
@@ -1049,7 +1049,7 @@ const styles = StyleSheet.create({
   quickActionsContainer: {
     flexDirection: 'row',
     paddingHorizontal: 20,
-    gap: 12,
+    gap: SPACING.md,
     marginBottom: 20,
   },
   actionCard: {

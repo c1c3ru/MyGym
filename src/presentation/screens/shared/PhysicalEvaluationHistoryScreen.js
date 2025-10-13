@@ -386,18 +386,18 @@ const styles = StyleSheet.create({
     padding: SPACING.base,
   },
   card: {
-    marginBottom: 16,
+    marginBottom: SPACING.base,
     elevation: 4,
   },
   cardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   cardTitle: {
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
-    marginLeft: 8,
+    marginLeft: SPACING.sm,
     flex: 1,
   },
   dateText: {
@@ -412,7 +412,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   statItem: {
     width: '48%',
@@ -458,10 +458,10 @@ const styles = StyleSheet.create({
     fontWeight: FONT_WEIGHT.bold,
   },
   metricsContainer: {
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   metricChip: {
-    marginRight: 8,
+    marginRight: SPACING.sm,
   },
   chart: {
     marginVertical: 8,
@@ -475,7 +475,7 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
     color: COLORS.text.secondary,
-    marginTop: 16,
+    marginTop: SPACING.base,
     textAlign: 'center',
   },
   emptySubtext: {

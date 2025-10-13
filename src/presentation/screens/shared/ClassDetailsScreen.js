@@ -210,7 +210,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
               <View style={styles.statItem}>
                 <Ionicons name="people" size={24} color={COLORS.info[500]} />
                 <Text style={styles.statNumber}>{students.length}</Text>
-                <Text style={styles.statLabel}>Alunos</Text>
+                <Text style={styles.statLabel}>{getString('students')}</Text>
               </View>
               <View style={styles.statDivider} />
               <View style={styles.statItem}>
@@ -236,7 +236,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
             <View style={styles.infoRow}>
               <Ionicons name="person-circle" size={24} color={COLORS.info[500]} />
               <View style={styles.infoContent}>
-                <Text style={styles.infoLabel}>Instrutor</Text>
+                <Text style={styles.infoLabel}>{getString('instructor')}</Text>
                 <Text style={styles.infoValue}>
                   {classInfo?.instructorName || classInfo?.instructor || getString('notDefined')}
                 </Text>
@@ -265,7 +265,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
             
             {classInfo?.description && (
               <View style={styles.descriptionContainer}>
-                <Text style={styles.infoLabel}>Descrição</Text>
+                <Text style={styles.infoLabel}>{getString('description')}</Text>
                 <Text style={styles.descriptionText}>{classInfo.description}</Text>
               </View>
             )}
@@ -436,7 +436,7 @@ const styles = StyleSheet.create({
   },
   classInfo: {
     flex: 1,
-    marginRight: 16,
+    marginRight: SPACING.base,
   },
   className: {
     fontSize: FONT_SIZE.xxl,
@@ -496,16 +496,16 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
     color: COLORS.gray[900],
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   infoRow: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   infoContent: {
     flex: 1,
-    marginLeft: 12,
+    marginLeft: SPACING.md,
   },
   infoLabel: {
     fontSize: FONT_SIZE.base,
@@ -537,7 +537,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   studentsInfo: {
     flex: 1,
@@ -551,7 +551,7 @@ const styles = StyleSheet.create({
     borderRadius: BORDER_RADIUS.md,
   },
   studentsList: {
-    marginTop: 16,
+    marginTop: SPACING.base,
   },
   studentItem: {
     flexDirection: 'row',
@@ -571,7 +571,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.info[500],
   },
   studentDetails: {
-    marginLeft: 12,
+    marginLeft: SPACING.md,
     flex: 1,
   },
   studentName: {
@@ -613,7 +613,7 @@ const styles = StyleSheet.create({
   actionsGrid: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   actionItem: {
     flex: 1,
@@ -644,7 +644,7 @@ const styles = StyleSheet.create({
   },
   deleteButtonContent: {
     height: 48,
-    paddingHorizontal: 16,
+    paddingHorizontal: SPACING.base,
   },
 });
 

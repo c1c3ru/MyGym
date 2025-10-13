@@ -363,7 +363,7 @@ const GraduationBoardScreen = ({ navigation }) => {
               left={props => <List.Icon {...props} icon="karate" />}
             />
             <List.Item
-              title="Data"
+              title={getString('date')}
               description={formatDate(selectedExam.date)}
               left={props => <List.Icon {...props} icon="calendar" />}
             />
@@ -384,7 +384,7 @@ const GraduationBoardScreen = ({ navigation }) => {
             />
           </Dialog.Content>
           <Dialog.Actions>
-            <Button onPress={() => setExamDialogVisible(false)}>Fechar</Button>
+            <Button onPress={() => setExamDialogVisible(false)}>{getString('close')}</Button>
             {(userProfile?.userType === 'admin' || userProfile?.userType === 'instructor') && (
               <Button 
                 mode="contained"
@@ -479,13 +479,13 @@ const styles = StyleSheet.create({
     padding: SPACING.lg,
   },
   loadingText: {
-    marginTop: 16,
+    marginTop: SPACING.base,
     textAlign: 'center',
   },
   summaryContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   summaryCard: {
     flex: 1,
@@ -498,7 +498,7 @@ const styles = StyleSheet.create({
     padding: SPACING.md,
   },
   summaryIcon: {
-    marginRight: 12,
+    marginRight: SPACING.md,
   },
   summaryText: {
     flex: 1,
@@ -513,13 +513,13 @@ const styles = StyleSheet.create({
     color: COLORS.text.secondary,
   },
   filterContainer: {
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   filterChip: {
-    marginRight: 8,
+    marginRight: SPACING.sm,
   },
   card: {
-    marginBottom: 16,
+    marginBottom: SPACING.base,
     elevation: 2,
   },
   cardHeader: {
@@ -532,7 +532,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.info[500],
   },
   divider: {
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   studentItem: {
     flexDirection: 'row',
@@ -549,7 +549,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   studentDetails: {
-    marginLeft: 12,
+    marginLeft: SPACING.md,
     flex: 1,
   },
   studentName: {
@@ -609,7 +609,7 @@ const styles = StyleSheet.create({
     color: COLORS.gray[500],
   },
   addButton: {
-    marginTop: 16,
+    marginTop: SPACING.base,
   },
   statItem: {
     padding: SPACING.md,

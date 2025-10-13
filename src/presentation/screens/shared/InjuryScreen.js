@@ -448,9 +448,7 @@ const InjuryScreen = ({ navigation, route }) => {
                 onPress={() => navigation.goBack()}
                 style={styles.button}
                 disabled={loading}
-              >
-                Cancelar
-              </Button>
+              >{getString('cancel')}</Button>
               <Button
                 mode="contained"
                 onPress={handleSave}
@@ -491,12 +489,12 @@ const styles = StyleSheet.create({
     padding: SPACING.base,
   },
   card: {
-    marginBottom: 16,
+    marginBottom: SPACING.base,
     elevation: 4,
   },
   headerSection: {
     alignItems: 'center',
-    marginBottom: 24,
+    marginBottom: SPACING.lg,
   },
   title: {
     fontSize: FONT_SIZE.xxl,
@@ -514,7 +512,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
-    marginTop: 16,
+    marginTop: SPACING.base,
     marginBottom: SPACING.md,
     color: COLORS.text.primary,
   },
@@ -552,12 +550,12 @@ const styles = StyleSheet.create({
   summaryTitle: {
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.bold,
-    marginLeft: 8,
+    marginLeft: SPACING.sm,
     color: COLORS.info[700],
   },
   summaryContent: {
     flexDirection: 'row',
-    gap: 8,
+    gap: SPACING.sm,
   },
   summaryChip: {
     elevation: 2,
@@ -565,8 +563,8 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 24,
-    gap: 12,
+    marginTop: SPACING.lg,
+    gap: SPACING.md,
   },
   button: {
     flex: 1,

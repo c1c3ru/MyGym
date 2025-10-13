@@ -700,13 +700,13 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     marginTop: SPACING.md,
     marginBottom: SPACING.sm,
-    gap: 8,
+    gap: SPACING.sm,
   },
   filtersGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
-    gap: 8,
+    gap: SPACING.sm,
     marginBottom: SPACING.md,
   },
   filterButtonImproved: {
@@ -745,13 +745,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginBottom: SPACING.sm,
     flexWrap: 'wrap',
-    gap: 8,
+    gap: SPACING.sm,
   },
   filterActionsRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: SPACING.md,
-    gap: 12,
+    gap: SPACING.md,
   },
   clearButtonImproved: {
     flex: 1,
@@ -790,7 +790,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.black + "80",
     justifyContent: 'flex-start',
     alignItems: 'center',
-    paddingTop: 120,
+    paddingTop: SPACING.md0,
     paddingBottom: 50,
     paddingHorizontal: 20,
   },
@@ -817,7 +817,7 @@ const styles = StyleSheet.create({
   },
   dropdownItem: {
     paddingVertical: SPACING.md,
-    paddingHorizontal: 16,
+    paddingHorizontal: SPACING.base,
     borderBottomWidth: 1,
     borderBottomColor: COLORS.gray[100],
   },
@@ -835,13 +835,13 @@ const styles = StyleSheet.create({
   advancedFilterInput: {
     flexGrow: 1,
     minWidth: 110,
-    marginRight: 8,
+    marginRight: SPACING.sm,
     marginBottom: SPACING.sm,
   },
   advancedFilterLong: {
     flexGrow: 2,
     minWidth: 160,
-    marginRight: 8,
+    marginRight: SPACING.sm,
     marginBottom: SPACING.sm,
   },
   scrollView: {
@@ -867,7 +867,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primary[500],
   },
   studentDetails: {
-    marginLeft: 12,
+    marginLeft: SPACING.md,
     flex: 1,
   },
   studentName: {
@@ -883,7 +883,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
   },
   graduationText: {
-    fontSize: 10,
+    fontSize: FONT_SIZE.xxs,
   },
   studentStats: {
     flexDirection: 'row',
@@ -942,7 +942,7 @@ const styles = StyleSheet.create({
     padding: 32,
   },
   emptyTitle: {
-    marginTop: 16,
+    marginTop: SPACING.base,
     textAlign: 'center',
   },
   emptyText: {
@@ -957,7 +957,7 @@ const styles = StyleSheet.create({
   },
   statsTitle: {
     textAlign: 'center',
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   statsRow: {
     flexDirection: 'row',

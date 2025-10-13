@@ -83,7 +83,7 @@ const SettingsScreen = ({ navigation }) => {
           </View>
           
           <List.Item
-            title="Nome"
+            title={getString('name')}
             description={userProfile?.name || getString('notInformed')}
             left={(props) => <Ionicons name="person" size={20} color={COLORS.text.secondary} />}
           />
@@ -207,7 +207,7 @@ const SettingsScreen = ({ navigation }) => {
         <Card containerStyle={styles.card}>
           <View style={styles.cardHeader}>
             <Ionicons name="information-circle" size={24} color={COLORS.secondary[500]} />
-            <Text h4 style={styles.cardTitle}>Sobre</Text>
+            <Text h4 style={styles.cardTitle}>{getString('about')}</Text>
           </View>
           
           <List.Item

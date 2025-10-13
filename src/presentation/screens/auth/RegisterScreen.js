@@ -509,14 +509,14 @@ const styles = StyleSheet.create({
   scrollContainer: {
     flexGrow: 1,
     padding: SPACING.lg,
-    paddingBottom: 120,
+    paddingBottom: SPACING.md0,
   },
   header: {
     alignItems: 'center',
     marginBottom: 30,
   },
   headerIcon: {
-    marginBottom: 16,
+    marginBottom: SPACING.base,
     ...Platform.select({
       web: {
         boxShadow: '0 2px 3.84px currentTheme.black + "40"'
@@ -534,7 +534,7 @@ const styles = StyleSheet.create({
     }),
   },
   title: {
-    fontSize: 32,
+    fontSize: FONT_SIZE.xxxl,
     fontWeight: FONT_WEIGHT.bold,
     color: COLORS.white,
     marginBottom: SPACING.sm,
@@ -586,14 +586,14 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     textAlign: 'center',
-    marginBottom: 24,
+    marginBottom: SPACING.lg,
     color: COLORS.text.primary,
     fontSize: FONT_SIZE.xl,
     fontWeight: FONT_WEIGHT.semibold,
   },
   sectionTitle: {
     fontSize: FONT_SIZE.lg,
-    marginBottom: 16,
+    marginBottom: SPACING.base,
     color: COLORS.text.primary,
     fontWeight: FONT_WEIGHT.semibold,
   },
@@ -606,7 +606,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.gray[300],
   },
   userTypeContainer: {
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   userTypeCard: {
     marginBottom: SPACING.md,
@@ -626,7 +626,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   userTypeText: {
-    marginLeft: 12,
+    marginLeft: SPACING.md,
     flex: 1,
   },
   userTypeLabel: {
@@ -676,9 +676,9 @@ const styles = StyleSheet.create({
     marginLeft: SPACING.lg,
   },
   button: {
-    marginTop: 16,
+    marginTop: SPACING.base,
     paddingVertical: SPACING.xs,
-    borderRadius: 25,
+    borderRadius: BORDER_RADIUS.xs5,
     elevation: 3,
   },
   buttonContent: {
@@ -691,7 +691,7 @@ const styles = StyleSheet.create({
   },
   loadingText: {
     color: COLORS.white,
-    marginLeft: 8,
+    marginLeft: SPACING.sm,
     fontSize: FONT_SIZE.md,
   },
   loginContainer: {

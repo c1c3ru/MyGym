@@ -410,9 +410,7 @@ const StudentDashboard = ({ navigation }) => {
                 icon="credit-card"
                 onPress={handlePayments}
                 style={styles.quickActionButton}
-              >
-                Pagamentos
-              </AnimatedButton>
+              >{getString('payments')}</AnimatedButton>
             </View>
           </Card.Content>
         </AnimatedCard>
@@ -504,8 +502,8 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.sm,
   },
   refreshButton: {
-    margin: 0,
-    padding: 0,
+    margin: SPACING.none,
+    padding: SPACING.none,
   },
   announcementsContainer: {
     maxHeight: 400,
@@ -519,7 +517,7 @@ const styles = StyleSheet.create({
     borderRadius: BORDER_RADIUS.md,
     marginHorizontal: -8,
     paddingHorizontal: SPACING.sm,
-    paddingTop: 8,
+    paddingTop: SPACING.sm,
   },
   priorityBadge: {
     flexDirection: 'row',

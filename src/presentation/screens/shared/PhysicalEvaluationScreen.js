@@ -416,9 +416,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
                 onPress={() => navigation.goBack()}
                 style={styles.button}
                 disabled={loading}
-              >
-                Cancelar
-              </Button>
+              >{getString('cancel')}</Button>
               <Button
                 mode="contained"
                 onPress={handleSave}
@@ -459,12 +457,12 @@ const styles = StyleSheet.create({
     padding: SPACING.base,
   },
   card: {
-    marginBottom: 16,
+    marginBottom: SPACING.base,
     elevation: 4,
   },
   headerSection: {
     alignItems: 'center',
-    marginBottom: 24,
+    marginBottom: SPACING.lg,
   },
   title: {
     fontSize: FONT_SIZE.xxl,
@@ -482,7 +480,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
-    marginTop: 16,
+    marginTop: SPACING.base,
     marginBottom: SPACING.md,
     color: COLORS.text.primary,
   },
@@ -492,7 +490,7 @@ const styles = StyleSheet.create({
   inputRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    gap: 12,
+    gap: SPACING.md,
   },
   halfInput: {
     flex: 1,
@@ -515,7 +513,7 @@ const styles = StyleSheet.create({
   imcTitle: {
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.bold,
-    marginLeft: 8,
+    marginLeft: SPACING.sm,
     color: COLORS.info[700],
   },
   imcResult: {
@@ -524,7 +522,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   imcValue: {
-    fontSize: 32,
+    fontSize: FONT_SIZE.xxxl,
     fontWeight: FONT_WEIGHT.bold,
     color: COLORS.info[700],
   },
@@ -537,8 +535,8 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 24,
-    gap: 12,
+    marginTop: SPACING.lg,
+    gap: SPACING.md,
   },
   button: {
     flex: 1,

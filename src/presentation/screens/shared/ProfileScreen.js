@@ -613,9 +613,7 @@ const ProfileScreen = ({ navigation }) => {
             title="Treinos no ano"
             left={() => <Ionicons name="calendar" size={24} color={COLORS.info[500]} />}
             right={() => (
-              <Button onPress={() => setShowYearModal(false)} icon="close">
-                Fechar
-              </Button>
+              <Button onPress={() => setShowYearModal(false)} icon="close">{getString('close')}</Button>
             )}
           />
           
@@ -724,7 +722,7 @@ const styles = StyleSheet.create({
     padding: SPACING.sm,
   },
   avatar: {
-    marginRight: 16,
+    marginRight: SPACING.base,
   },
   headerText: {
     flex: 1,
@@ -762,7 +760,7 @@ const styles = StyleSheet.create({
   warningDetails: {
     fontSize: FONT_SIZE.base,
     color: COLORS.text.secondary,
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   warningButtons: {
     flexDirection: 'row',
@@ -770,12 +768,12 @@ const styles = StyleSheet.create({
   },
   editDateButton: {
     flex: 1,
-    marginRight: 8,
+    marginRight: SPACING.sm,
     borderColor: COLORS.warning[500],
   },
   payNowButton: {
     flex: 1,
-    marginLeft: 8,
+    marginLeft: SPACING.sm,
     backgroundColor: COLORS.primary[500],
   },
   card: {
@@ -789,10 +787,10 @@ const styles = StyleSheet.create({
   cardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   cardTitle: {
-    marginLeft: 8,
+    marginLeft: SPACING.sm,
     fontSize: FONT_SIZE.lg,
     flex: 1,
   },

@@ -629,9 +629,7 @@ const AdminModalities = ({ navigation }) => {
                           textColor={COLORS.info[500]}
                           icon="pencil"
                           compact
-                        >
-                          Editar
-                        </Button>
+                        >{getString('edit')}</Button>
                         <Button 
                           mode="text" 
                           onPress={() => {
@@ -691,9 +689,7 @@ const AdminModalities = ({ navigation }) => {
                           textColor={COLORS.info[500]}
                           icon="pencil"
                           compact
-                        >
-                          Editar
-                        </Button>
+                        >{getString('edit')}</Button>
                         <Button 
                           mode="text" 
                           onPress={() => handleDeletePlan(plan)}
@@ -750,9 +746,7 @@ const AdminModalities = ({ navigation }) => {
                           textColor={COLORS.info[500]}
                           icon="pencil"
                           compact
-                        >
-                          Editar
-                        </Button>
+                        >{getString('edit')}</Button>
                         <Button 
                           mode="text" 
                           onPress={() => handleDeleteAnnouncement(announcement)}
@@ -997,10 +991,10 @@ const styles = StyleSheet.create({
   cardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   cardTitle: {
-    marginLeft: 8,
+    marginLeft: SPACING.sm,
     fontSize: FONT_SIZE.lg,
     flex: 1,
   },
@@ -1032,7 +1026,7 @@ const styles = StyleSheet.create({
   },
   statsTitle: {
     textAlign: 'center',
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   statsRow: {
     flexDirection: 'row',
@@ -1052,22 +1046,22 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   dialogInput: {
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   sectionLabel: {
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.bold,
-    marginTop: 16,
+    marginTop: SPACING.base,
     marginBottom: SPACING.sm,
     color: COLORS.text.primary,
   },
   audienceContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   audienceChip: {
-    marginRight: 8,
+    marginRight: SPACING.sm,
     marginBottom: SPACING.sm,
   },
 });

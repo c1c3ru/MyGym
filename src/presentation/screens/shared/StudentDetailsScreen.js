@@ -415,7 +415,7 @@ const styles = StyleSheet.create({
   studentHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   avatar: {
     backgroundColor: COLORS.info[500],
@@ -425,7 +425,7 @@ const styles = StyleSheet.create({
     fontWeight: FONT_WEIGHT.semibold,
   },
   studentInfo: {
-    marginLeft: 16,
+    marginLeft: SPACING.base,
     flex: 1,
   },
   studentName: {
@@ -454,17 +454,17 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.md,
   },
   infoText: {
-    marginLeft: 12,
+    marginLeft: SPACING.md,
     fontSize: FONT_SIZE.md,
     color: COLORS.text.primary,
   },
   cardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   cardTitle: {
-    marginLeft: 8,
+    marginLeft: SPACING.sm,
     fontSize: FONT_SIZE.lg,
   },
   noDataText: {
@@ -489,7 +489,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   listIcon: {
-    marginRight: 12,
+    marginRight: SPACING.md,
   },
   listTitle: {
     fontSize: FONT_SIZE.md,
@@ -502,12 +502,12 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   viewAllButton: {
-    marginTop: 16,
+    marginTop: SPACING.base,
   },
   actionsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 16,
+    marginTop: SPACING.base,
   },
   actionButton: {
     width: '48%',

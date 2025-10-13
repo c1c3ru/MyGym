@@ -265,7 +265,7 @@ const InjuryHistoryScreen = ({ navigation }) => {
                               mode="flat"
                               compact
                               style={[styles.statusChip, { backgroundColor: getStatusColor(injury.status) }]}
-                              textStyle={{ color: COLORS.white, fontSize: 10 }}
+                              textStyle={{ color: COLORS.white, fontSize: FONT_SIZE.xxs }}
                             >
                               {getStatusLabel(injury.status)}
                             </Chip>
@@ -273,7 +273,7 @@ const InjuryHistoryScreen = ({ navigation }) => {
                               mode="flat"
                               compact
                               style={[styles.severityChip, { backgroundColor: getSeverityColor(injury.severity) }]}
-                              textStyle={{ color: COLORS.white, fontSize: 10 }}
+                              textStyle={{ color: COLORS.white, fontSize: FONT_SIZE.xxs }}
                             >
                               {getSeverityLabel(injury.severity)}
                             </Chip>
@@ -350,18 +350,18 @@ const styles = StyleSheet.create({
     padding: SPACING.base,
   },
   card: {
-    marginBottom: 16,
+    marginBottom: SPACING.base,
     elevation: 4,
   },
   cardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   cardTitle: {
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
-    marginLeft: 8,
+    marginLeft: SPACING.sm,
     flex: 1,
   },
   statsGrid: {
@@ -392,7 +392,7 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.sm,
   },
   filterChip: {
-    marginRight: 8,
+    marginRight: SPACING.sm,
   },
   injuryDescription: {
     marginTop: SPACING.xs,
@@ -413,7 +413,7 @@ const styles = StyleSheet.create({
   },
   chipContainer: {
     flexDirection: 'row',
-    gap: 4,
+    gap: SPACING.xs,
   },
   statusChip: {
     height: 20,
@@ -423,7 +423,7 @@ const styles = StyleSheet.create({
   },
   iconContainer: {
     position: 'relative',
-    marginLeft: 8,
+    marginLeft: SPACING.sm,
   },
   activeBadge: {
     position: 'absolute',
@@ -441,7 +441,7 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
     color: COLORS.text.secondary,
-    marginTop: 16,
+    marginTop: SPACING.base,
     textAlign: 'center',
   },
   emptySubtext: {

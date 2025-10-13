@@ -36,10 +36,10 @@ module.exports = {
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
     
-    // ⚠️ REGRAS PARA PREVENIR VALORES HARDCODED
-    // Previne cores hexadecimais hardcoded
+    // 🎨 REGRAS PARA DESIGN TOKENS - PREVENIR VALORES HARDCODED
     'no-restricted-syntax': [
-      'warn',
+      'error',
+      // Cores hexadecimais hardcoded
       {
         selector: "Literal[value=/#[0-9A-Fa-f]{3,6}/]",
         message: '🎨 Evite cores hardcoded. Use COLORS do @presentation/theme/designTokens',
@@ -48,9 +48,44 @@ module.exports = {
         selector: "TemplateLiteral[quasis.0.value.raw=/#[0-9A-Fa-f]{3,6}/]",
         message: '🎨 Evite cores hardcoded. Use COLORS do @presentation/theme/designTokens',
       },
+      // Cores RGB/RGBA hardcoded
       {
-        selector: "Literal[value=/^COLORS\\./]",
-        message: '⚠️ COLORS deve ser usado sem aspas. Use {COLORS.xxx} em JSX ou COLORS.xxx em código',
+        selector: "Literal[value=/rgba?\\(/]",
+        message: '🎨 Evite cores RGB hardcoded. Use COLORS do @presentation/theme/designTokens',
+      },
+      // FontSize hardcoded em objetos de estilo
+      {
+        selector: "Property[key.name='fontSize'] > Literal[value=/^[0-9]+$/]",
+        message: '📝 Use FONT_SIZE do @presentation/theme/designTokens em vez de números',
+      },
+      // FontWeight hardcoded
+      {
+        selector: "Property[key.name='fontWeight'] > Literal[value=/^[0-9]+$/]",
+        message: '📝 Use FONT_WEIGHT do @presentation/theme/designTokens em vez de números',
+      },
+      // Spacing hardcoded (margin, padding, etc.)
+      {
+        selector: "Property[key.name=/^(margin|padding|gap|top|bottom|left|right)$/] > Literal[value=/^[0-9]+$/]",
+        message: '📏 Use SPACING do @presentation/theme/designTokens em vez de números',
+      },
+      // BorderRadius hardcoded
+      {
+        selector: "Property[key.name='borderRadius'] > Literal[value=/^[0-9]+$/]",
+        message: '🔲 Use BORDER_RADIUS do @presentation/theme/designTokens em vez de números',
+      },
+      // Elevation hardcoded
+      {
+        selector: "Property[key.name='elevation'] > Literal[value=/^[0-9]+$/]",
+        message: '📦 Use ELEVATION do @presentation/theme/designTokens em vez de números',
+      },
+    ],
+
+    // 🌍 REGRAS PARA INTERNACIONALIZAÇÃO (i18n)
+    'no-restricted-globals': [
+      'error',
+      {
+        name: 'alert',
+        message: '🌍 Use Alert.alert() do React Native e getString() para mensagens',
       },
     ],
     

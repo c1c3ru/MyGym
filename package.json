@@ -80,7 +80,18 @@
     "build": "npx expo export --platform web --output-dir dist",
     "build:prod": "NODE_ENV=production npx expo export --platform web --output-dir dist",
     "build:analyze": "npm run build && npx bundlesize",
-    "start:simple": "npx expo start --web --port 5000"
+    "start:simple": "npx expo start --web --port 5000",
+    "audit:tokens": "node scripts/audit-design-tokens.js",
+    "audit:i18n": "node scripts/audit-i18n.js",
+    "audit:all": "npm run audit:tokens && npm run audit:i18n",
+    "migrate:tokens": "node scripts/auto-migrate-tokens.js",
+    "migrate:i18n": "node scripts/auto-migrate-i18n.js",
+    "migrate:all": "npm run migrate:tokens && npm run migrate:i18n",
+    "migrate:plan": "node scripts/migration-plan.js",
+    "migrate:validate": "node scripts/validate-migration.js",
+    "migrate:phase1": "node scripts/migrate-phase-1.js",
+    "migrate:phase2": "node scripts/migrate-phase-2.js",
+    "migrate:phase3": "node scripts/migrate-phase-3.js"
   },
   "dependencies": {
     "@expo/metro-runtime": "~5.0.5",

@@ -1025,8 +1025,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   refreshButton: {
-    margin: 0,
-    padding: 0,
+    margin: SPACING.none,
+    padding: SPACING.none,
   },
   loadingContainer: {
     alignItems: 'center',

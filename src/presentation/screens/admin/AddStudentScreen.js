@@ -563,11 +563,11 @@ const AddStudentScreen = ({ navigation, route }) => {
               >
                 <View style={styles.radioItem}>
                   <RadioButton value="active" />
-                  <Text style={styles.radioLabel}>Ativo</Text>
+                  <Text style={styles.radioLabel}>{getString('active')}</Text>
                 </View>
                 <View style={styles.radioItem}>
                   <RadioButton value="inactive" />
-                  <Text style={styles.radioLabel}>Inativo</Text>
+                  <Text style={styles.radioLabel}>{getString('inactive')}</Text>
                 </View>
               </RadioButton.Group>
             </View>
@@ -579,9 +579,7 @@ const AddStudentScreen = ({ navigation, route }) => {
                 onPress={() => navigation.goBack()}
                 style={styles.button}
                 disabled={loading}
-              >
-                Cancelar
-              </Button>
+              >{getString('cancel')}</Button>
               <Button
                 mode="contained"
                 onPress={handleSubmit}
@@ -644,13 +642,13 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
     marginTop: 20,
-    marginBottom: 16,
+    marginBottom: SPACING.base,
     color: COLORS.text.primary,
   },
   sectionSubtitle: {
     fontSize: FONT_SIZE.base,
     color: COLORS.text.secondary,
-    marginBottom: 16,
+    marginBottom: SPACING.base,
     fontStyle: 'italic',
   },
   divider: {
@@ -659,8 +657,8 @@ const styles = StyleSheet.create({
   classesContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 8,
-    marginBottom: 16,
+    gap: SPACING.sm,
+    marginBottom: SPACING.base,
   },
   classChip: {
     marginBottom: SPACING.sm,
@@ -683,7 +681,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     marginTop: 20,
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   loadingContainer: {
     alignItems: 'center',
@@ -710,7 +708,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   clearButton: {
-    marginLeft: 8,
+    marginLeft: SPACING.sm,
   },
   emptyStateContainer: {
     alignItems: 'center',
@@ -720,7 +718,7 @@ const styles = StyleSheet.create({
     marginVertical: 16,
   },
   emptyStateIcon: {
-    fontSize: 48,
+    fontSize: FONT_SIZE.display,
     marginBottom: SPACING.md,
   },
   noClassesSubtext: {
@@ -728,7 +726,7 @@ const styles = StyleSheet.create({
     color: COLORS.gray[500],
     textAlign: 'center',
     marginTop: SPACING.xs,
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   retryButton: {
     marginTop: SPACING.sm,
@@ -752,9 +750,9 @@ const styles = StyleSheet.create({
   radioContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginBottom: 16,
+    marginBottom: SPACING.base,
     marginTop: SPACING.sm,
-    paddingHorizontal: 16,
+    paddingHorizontal: SPACING.base,
   },
   radioItem: {
     flexDirection: 'row',
@@ -762,7 +760,7 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.sm,
   },
   radioLabel: {
-    marginLeft: 8,
+    marginLeft: SPACING.sm,
     fontSize: FONT_SIZE.md,
   },
   buttonContainer: {
@@ -778,7 +776,7 @@ const styles = StyleSheet.create({
     opacity: 0.7,
   },
   snackbar: {
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   snackbarSuccess: {
     backgroundColor: COLORS.primary[500],
@@ -801,13 +799,13 @@ const styles = StyleSheet.create({
     zIndex: 1000,
   },
   loadingText: {
-    marginTop: 16,
+    marginTop: SPACING.base,
     fontSize: FONT_SIZE.md,
     color: COLORS.white,
     fontWeight: FONT_WEIGHT.medium,
   },
   snackbar: {
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   snackbarSuccess: {
     backgroundColor: COLORS.primary[500],

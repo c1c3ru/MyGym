@@ -5,6 +5,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { LIGHT_THEME, ACADEMY_LIGHT_COLORS, LIGHT_TYPOGRAPHY } from '@presentation/theme/lightTheme';
+import { COLORS, SPACING, FONT_SIZE, FONT_WEIGHT, BORDER_RADIUS, ELEVATION } from '@presentation/theme/designTokens';
+import { getString } from '@utils/theme';
 
 const { width } = Dimensions.get('window');
 
@@ -159,7 +161,7 @@ const LightThemeExampleScreen = ({ navigation }) => {
               <Card.Content style={styles.statContent}>
                 <Ionicons name="school-outline" size={24} color={ACADEMY_LIGHT_COLORS.instructor.primary} />
                 <Text style={styles.statNumber}>89</Text>
-                <Text style={styles.statLabel}>Turmas</Text>
+                <Text style={styles.statLabel}>{getString('classes')}</Text>
               </Card.Content>
             </Card>
 
@@ -167,7 +169,7 @@ const LightThemeExampleScreen = ({ navigation }) => {
               <Card.Content style={styles.statContent}>
                 <Ionicons name="trophy-outline" size={24} color={ACADEMY_LIGHT_COLORS.student.primary} />
                 <Text style={styles.statNumber}>156</Text>
-                <Text style={styles.statLabel}>Graduações</Text>
+                <Text style={styles.statLabel}>{getString('graduations')}</Text>
               </Card.Content>
             </Card>
           </View>
@@ -226,7 +228,7 @@ const LightThemeExampleScreen = ({ navigation }) => {
               <View style={styles.contactRow}>
                 <MaterialCommunityIcons name="email-outline" size={24} color={LIGHT_THEME.primary[600]} />
                 <View style={styles.contactInfo}>
-                  <Text style={styles.contactLabel}>Email</Text>
+                  <Text style={styles.contactLabel}>{getString('email')}</Text>
                   <Text style={styles.contactValue}>contato@mygym.app</Text>
                 </View>
               </View>
@@ -236,7 +238,7 @@ const LightThemeExampleScreen = ({ navigation }) => {
               <View style={styles.contactRow}>
                 <MaterialCommunityIcons name="phone-outline" size={24} color={LIGHT_THEME.primary[600]} />
                 <View style={styles.contactInfo}>
-                  <Text style={styles.contactLabel}>Telefone</Text>
+                  <Text style={styles.contactLabel}>{getString('phone')}</Text>
                   <Text style={styles.contactValue}>(85) 3366-9999</Text>
                 </View>
               </View>
@@ -267,7 +269,7 @@ const styles = StyleSheet.create({
   
   // Header
   header: {
-    paddingVertical: 40,
+    paddingVertical: SPACING.xs0,
     paddingHorizontal: 20,
   },
   headerContent: {
@@ -277,7 +279,7 @@ const styles = StyleSheet.create({
     ...LIGHT_TYPOGRAPHY.h1,
     color: LIGHT_THEME.primary[800],
     textAlign: 'center',
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   headerSubtitle: {
     ...LIGHT_TYPOGRAPHY.body1,
@@ -292,7 +294,7 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     ...LIGHT_TYPOGRAPHY.h2,
-    marginBottom: 24,
+    marginBottom: SPACING.lg,
     textAlign: 'center',
   },
   
@@ -301,21 +303,21 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
-    gap: 16,
+    gap: SPACING.base,
   },
   missionCard: {
     width: width > 768 ? '31%' : '100%',
-    marginBottom: 16,
+    marginBottom: SPACING.base,
     elevation: 2,
     shadowColor: LIGHT_THEME.shadows.default,
   },
   missionIcon: {
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   missionCardTitle: {
     ...LIGHT_TYPOGRAPHY.h3,
-    fontSize: 18,
-    marginBottom: 8,
+    fontSize: FONT_SIZE.md,
+    marginBottom: SPACING.sm,
   },
   missionCardText: {
     ...LIGHT_TYPOGRAPHY.body2,
@@ -325,18 +327,18 @@ const styles = StyleSheet.create({
   // Explicação
   explanationSection: {
     flexDirection: width > 768 ? 'row' : 'column',
-    gap: 24,
+    gap: SPACING.xxs4,
   },
   explanationText: {
     flex: width > 768 ? 2 : 1,
   },
   explanationTitle: {
     ...LIGHT_TYPOGRAPHY.h2,
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   explanationBody: {
     ...LIGHT_TYPOGRAPHY.body1,
-    marginBottom: 16,
+    marginBottom: SPACING.base,
     lineHeight: 24,
   },
   infoCard: {
@@ -345,16 +347,16 @@ const styles = StyleSheet.create({
   },
   infoCardTitle: {
     ...LIGHT_TYPOGRAPHY.h3,
-    fontSize: 16,
+    fontSize: FONT_SIZE.base,
     color: LIGHT_THEME.primary[700],
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   infoList: {
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   infoItem: {
     ...LIGHT_TYPOGRAPHY.body2,
-    marginBottom: 4,
+    marginBottom: SPACING.xs,
   },
   infoDivider: {
     marginVertical: 12,
@@ -375,20 +377,20 @@ const styles = StyleSheet.create({
   featuresDefinition: {
     ...LIGHT_TYPOGRAPHY.h3,
     color: LIGHT_THEME.primary[600],
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   featuresBody: {
     ...LIGHT_TYPOGRAPHY.body1,
-    marginBottom: 24,
+    marginBottom: SPACING.lg,
     lineHeight: 24,
   },
   featuresAreaTitle: {
     ...LIGHT_TYPOGRAPHY.h3,
-    fontSize: 18,
-    marginBottom: 12,
+    fontSize: FONT_SIZE.md,
+    marginBottom: SPACING.md,
   },
   featuresList: {
-    marginLeft: 8,
+    marginLeft: SPACING.sm,
   },
   featuresItem: {
     ...LIGHT_TYPOGRAPHY.body2,
@@ -400,20 +402,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
-    marginBottom: 24,
+    marginBottom: SPACING.lg,
   },
   statCard: {
     width: width > 768 ? '31%' : '48%',
-    marginBottom: 16,
+    marginBottom: SPACING.base,
     elevation: 2,
   },
   statContent: {
     alignItems: 'center',
-    paddingVertical: 8,
+    paddingVertical: SPACING.sm,
   },
   statNumber: {
     ...LIGHT_TYPOGRAPHY.h1,
-    fontSize: 24,
+    fontSize: FONT_SIZE.xl,
     marginVertical: 8,
   },
   statLabel: {
@@ -423,7 +425,7 @@ const styles = StyleSheet.create({
   
   // Componentes
   componentsSection: {
-    marginTop: 16,
+    marginTop: SPACING.base,
   },
   buttonRow: {
     flexDirection: 'row',
@@ -431,17 +433,17 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   primaryButton: {
-    borderRadius: 8,
+    borderRadius: BORDER_RADIUS.base,
   },
   secondaryButton: {
-    borderRadius: 8,
+    borderRadius: BORDER_RADIUS.base,
     borderColor: LIGHT_THEME.secondary[300],
   },
   chipRow: {
     flexDirection: 'row',
     justifyContent: 'center',
     flexWrap: 'wrap',
-    gap: 12,
+    gap: SPACING.md,
   },
   chip: {
     marginHorizontal: 4,
@@ -455,10 +457,10 @@ const styles = StyleSheet.create({
   contactRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 12,
+    paddingVertical: SPACING.md,
   },
   contactInfo: {
-    marginLeft: 16,
+    marginLeft: SPACING.base,
     flex: 1,
   },
   contactLabel: {
@@ -468,7 +470,7 @@ const styles = StyleSheet.create({
   },
   contactValue: {
     ...LIGHT_TYPOGRAPHY.body1,
-    fontWeight: '500',
+    fontWeight: FONT_WEIGHT.medium,
   },
   contactDivider: {
     backgroundColor: LIGHT_THEME.border.light,

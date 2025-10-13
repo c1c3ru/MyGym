@@ -263,7 +263,7 @@ const styles = StyleSheet.create({
   gradientButton: {
     borderRadius: BORDER_RADIUS.md,
     backgroundColor: 'transparent',
-    margin: 0,
+    margin: SPACING.none,
   },
   gradientButtonText: {
     color: COLORS.white,
@@ -284,7 +284,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   fabContainer: {
-    borderRadius: 28,
+    borderRadius: BORDER_RADIUS.xs8,
     ...Platform.select({
       web: {
         boxShadow: '0 4px 8px currentTheme.black + "4D"'
@@ -299,13 +299,13 @@ const styles = StyleSheet.create({
     }),
   },
   fabGradient: {
-    borderRadius: 28,
+    borderRadius: BORDER_RADIUS.xs8,
     minHeight: 56,
   },
   fab: {
-    borderRadius: 28,
+    borderRadius: BORDER_RADIUS.xs8,
     backgroundColor: 'transparent',
-    margin: 0,
+    margin: SPACING.none,
   },
   fabText: {
     color: COLORS.white,
@@ -314,7 +314,7 @@ const styles = StyleSheet.create({
   },
   fabContent: {
     height: 56,
-    paddingHorizontal: 16,
+    paddingHorizontal: SPACING.base,
   },
 });
 

@@ -257,7 +257,7 @@ Academia App - Sistema de Gestão de Academias
       const subject = `⏰ Lembrete: Seu convite para ${academiaName} expira em ${daysLeft} dia(s)`;
       
       const html = `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: SPACING.none auto; padding: 20px;">
           <h2>⏰ Lembrete de Convite</h2>
           <p>Você ainda não aceitou seu convite para se juntar à <strong>${academiaName}</strong>.</p>
           <p>Seu convite expira em <strong>${daysLeft} dia(s)</strong>.</p>
@@ -299,7 +299,7 @@ Academia App - Sistema de Gestão de Academias
       const subject = `🎉 Bem-vindo(a) à ${academiaName}!`;
       
       const html = `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: SPACING.none auto; padding: 20px;">
           <h2>🎉 Bem-vindo(a) à ${academiaName}!</h2>
           <p>Olá <strong>${name}</strong>,</p>
           <p>Parabéns! Você agora faz parte da ${academiaName} como <strong>${userTypeText[userType] || 'membro'}</strong>.</p>

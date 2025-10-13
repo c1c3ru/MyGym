@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
+import { getString } from '@utils/theme';
   View,
   Text,
   ScrollView,
@@ -419,7 +420,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
 
             {/* Observações */}
             <View style={styles.inputGroup}>
-              <Text style={styles.inputLabel}>Observações</Text>
+              <Text style={styles.inputLabel}>{getString('notes')}</Text>
               <TextInput
                 mode="outlined"
                 multiline
@@ -472,9 +473,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
             style={styles.cancelButton}
             contentStyle={styles.cancelButtonContent}
             labelStyle={styles.cancelButtonLabel}
-          >
-            Cancelar
-          </Button>
+          >{getString('cancel')}</Button>
         </View>
       </ScrollView>
 
@@ -521,9 +520,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
             </ScrollView>
           </Dialog.ScrollArea>
           <Dialog.Actions>
-            <Button onPress={() => setModalityDialogVisible(false)}>
-              Cancelar
-            </Button>
+            <Button onPress={() => setModalityDialogVisible(false)}>{getString('cancel')}</Button>
           </Dialog.Actions>
         </Dialog>
       </Portal>
@@ -558,7 +555,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
             </ScrollView>
           </Dialog.Content>
           <Dialog.Actions>
-            <Button onPress={() => setGraduationDialogVisible(false)}>Cancelar</Button>
+            <Button onPress={() => setGraduationDialogVisible(false)}>{getString('cancel')}</Button>
           </Dialog.Actions>
         </Dialog>
       </Portal>
@@ -597,7 +594,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
             </ScrollView>
           </Dialog.Content>
           <Dialog.Actions>
-            <Button onPress={() => setInstructorDialogVisible(false)}>Cancelar</Button>
+            <Button onPress={() => setInstructorDialogVisible(false)}>{getString('cancel')}</Button>
           </Dialog.Actions>
         </Dialog>
       </Portal>

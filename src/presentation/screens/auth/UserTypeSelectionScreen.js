@@ -216,9 +216,7 @@ const UserTypeSelectionScreen = ({ navigation, route }) => {
             icon="logout"
             textColor={COLORS.text.secondary}
             style={styles.logoutButton}
-          >
-            Sair
-          </Button>
+          >{getString('logout')}</Button>
         </View>
         <Avatar.Text
           size={80}
@@ -265,8 +263,8 @@ const styles = StyleSheet.create({
   headerTop: {
     width: '100%',
     alignItems: 'flex-end',
-    paddingHorizontal: 16,
-    paddingTop: 16,
+    paddingHorizontal: SPACING.base,
+    paddingTop: SPACING.base,
   },
   logoutButton: {
     marginBottom: 10,
@@ -275,7 +273,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: SPACING.xl,
     backgroundColor: COLORS.white,
-    marginBottom: 16,
+    marginBottom: SPACING.base,
     ...Platform.select({
       ios: {
         shadowColor: COLORS.black,
@@ -292,7 +290,7 @@ const styles = StyleSheet.create({
     }),
   },
   avatar: {
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   welcomeText: {
     fontSize: FONT_SIZE.xxl,
@@ -308,11 +306,11 @@ const styles = StyleSheet.create({
     lineHeight: 22,
   },
   typesContainer: {
-    paddingHorizontal: 16,
+    paddingHorizontal: SPACING.base,
   },
   typeCard: {
     borderRadius: BORDER_RADIUS.md,
-    marginBottom: 16,
+    marginBottom: SPACING.base,
     padding: SPACING.lg,
     borderWidth: BORDER_WIDTH.base,
     borderColor: COLORS.gray[300],
@@ -320,7 +318,7 @@ const styles = StyleSheet.create({
   cardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   iconContainer: {
     width: 60,
@@ -328,7 +326,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 16,
+    marginRight: SPACING.base,
   },
   titleContainer: {
     flex: 1,
@@ -355,7 +353,7 @@ const styles = StyleSheet.create({
   featureText: {
     fontSize: FONT_SIZE.base,
     color: '#555',
-    marginLeft: 8,
+    marginLeft: SPACING.sm,
     flex: 1,
   },
   selectButton: {
@@ -368,13 +366,13 @@ const styles = StyleSheet.create({
   },
   footer: {
     padding: SPACING.xl,
-    paddingBottom: 40,
+    paddingBottom: SPACING.xs0,
   },
   continueButton: {
     backgroundColor: COLORS.info[500],
     borderRadius: BORDER_RADIUS.md,
-    paddingVertical: 16,
-    marginBottom: 16,
+    paddingVertical: SPACING.base,
+    marginBottom: SPACING.base,
   },
   continueButtonDisabled: {
     backgroundColor: COLORS.gray[300],

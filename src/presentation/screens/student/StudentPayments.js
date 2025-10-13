@@ -270,14 +270,14 @@ const styles = StyleSheet.create({
   cardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   cardTitle: {
-    marginLeft: 8,
+    marginLeft: SPACING.sm,
     fontSize: FONT_SIZE.lg,
   },
   currentPaymentInfo: {
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   paymentRow: {
     flexDirection: 'row',

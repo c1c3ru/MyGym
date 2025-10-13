@@ -52,7 +52,7 @@ const NovaAula = ({ navigation }) => {
               mode="outlined"
             />
             
-            <Text style={styles.sectionTitle}>Modalidade</Text>
+            <Text style={styles.sectionTitle}>{getString('modality')}</Text>
             <View style={styles.chipContainer}>
               {modalidades.map((modalidade) => (
                 <Chip
@@ -85,7 +85,7 @@ const NovaAula = ({ navigation }) => {
             />
             
             <TextInput
-              label="Descrição"
+              label={getString('description')}
               value={formData.descricao}
               onChangeText={(text) => setFormData({...formData, descricao: text})}
               style={styles.input}
@@ -101,9 +101,7 @@ const NovaAula = ({ navigation }) => {
                 mode="outlined"
                 onPress={() => navigation.goBack()}
                 style={styles.cancelButton}
-              >
-                Cancelar
-              </Button>
+              >{getString('cancel')}</Button>
               
               <Button
                 mode="contained"

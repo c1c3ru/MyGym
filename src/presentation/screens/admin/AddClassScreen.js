@@ -326,7 +326,7 @@ const AddClassScreen = ({ navigation }) => {
 
             {/* Modalidade */}
             <View style={styles.pickerContainer}>
-              <Text style={styles.label}>Modalidade</Text>
+              <Text style={styles.label}>{getString('modality')}</Text>
               <View style={styles.chipContainer}>
                 {modalities.length === 0 && (
                   <Text style={{ color: COLORS.text.secondary }}>Nenhuma modalidade cadastrada</Text>
@@ -511,9 +511,7 @@ const AddClassScreen = ({ navigation }) => {
                 onPress={() => navigation.goBack()}
                 style={styles.button}
                 disabled={loading}
-              >
-                Cancelar
-              </Button>
+              >{getString('cancel')}</Button>
               <Button
                 mode="contained"
                 onPress={handleSubmit}
@@ -578,12 +576,12 @@ const styles = StyleSheet.create({
     color: COLORS.text.primary,
   },
   pickerContainer: {
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   chipContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 8,
+    gap: SPACING.sm,
   },
   chip: {
     marginBottom: SPACING.sm,
@@ -606,7 +604,7 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.sm,
   },
   radioLabel: {
-    marginLeft: 8,
+    marginLeft: SPACING.sm,
     fontSize: FONT_SIZE.md,
   },
   buttonContainer: {

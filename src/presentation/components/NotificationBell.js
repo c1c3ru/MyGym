@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, ScrollView, TouchableOpacity, Platform } from 'react-native';
 import { 
+import { getString } from '@utils/theme';
   IconButton, 
   Badge, 
   Modal, 
@@ -196,9 +197,7 @@ const NotificationBell = ({ color = COLORS.white, size = 24 }) => {
                   <Button
                     mode="contained"
                     onPress={() => setModalVisible(false)}
-                  >
-                    Fechar
-                  </Button>
+                  >{getString('close')}</Button>
                 </Card.Actions>
               </>
             )}
@@ -247,7 +246,7 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.base,
     textAlign: 'center',
     color: COLORS.text.secondary,
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   permissionButton: {
     backgroundColor: COLORS.warning[500],
@@ -273,7 +272,7 @@ const styles = StyleSheet.create({
   notificationTime: {
     fontSize: FONT_SIZE.sm,
     color: COLORS.text.secondary,
-    marginLeft: 8,
+    marginLeft: SPACING.sm,
   },
   notificationTitle: {
     fontSize: FONT_SIZE.base,
@@ -291,7 +290,7 @@ const styles = StyleSheet.create({
     height: 8,
     borderRadius: BORDER_RADIUS.sm,
     backgroundColor: COLORS.info[500],
-    marginLeft: 8,
+    marginLeft: SPACING.sm,
     marginTop: SPACING.sm,
   },
   emptyState: {
@@ -301,7 +300,7 @@ const styles = StyleSheet.create({
   emptyText: {
     fontSize: FONT_SIZE.md,
     color: COLORS.text.secondary,
-    marginTop: 16,
+    marginTop: SPACING.base,
     textAlign: 'center',
   },
 });

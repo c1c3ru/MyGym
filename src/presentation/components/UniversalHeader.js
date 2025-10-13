@@ -274,17 +274,13 @@ const UniversalHeader = ({
               mode="outlined"
               onPress={cancelLogout}
               style={styles.modalButton}
-            >
-              Cancelar
-            </Button>
+            >{getString('cancel')}</Button>
             <Button
               mode="contained"
               onPress={confirmLogout}
               style={[styles.modalButton, styles.logoutButton]}
               buttonColor={COLORS.error[500]}
-            >
-              Sair
-            </Button>
+            >{getString('logout')}</Button>
           </View>
         </View>
       </Modal>
@@ -379,8 +375,8 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
     padding: SPACING.xl,
     marginHorizontal: 20,
-    marginTop: 320,
-    marginBottom: 160,
+    marginTop: SPACING.xl0,
+    marginBottom: SPACING.base0,
     borderRadius: BORDER_RADIUS.md,
     elevation: 8,
     shadowColor: COLORS.black,
@@ -400,13 +396,13 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontSize: FONT_SIZE.xl,
     fontWeight: FONT_WEIGHT.bold,
-    marginBottom: 16,
+    marginBottom: SPACING.base,
     color: COLORS.text.primary,
   },
   modalMessage: {
     fontSize: FONT_SIZE.md,
     textAlign: 'center',
-    marginBottom: 24,
+    marginBottom: SPACING.lg,
     color: COLORS.text.secondary,
   },
   modalButtons: {
@@ -414,7 +410,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: '100%',
     marginTop: SPACING.sm,
-    gap: 12,
+    gap: SPACING.md,
   },
   modalButton: {
     flex: 1,
