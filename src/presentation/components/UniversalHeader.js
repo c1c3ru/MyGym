@@ -296,11 +296,11 @@ const styles = StyleSheet.create({
   header: {
     ...Platform.select({
       web: {
-        boxShadow: '0 2px 3.84px currentTheme.black + "40"'
+        boxShadow: `0 2px 3.84px ${COLORS.black}40`
       },
       default: {
         elevation: 4,
-        shadowColor: 'currentTheme.black',
+        shadowColor: COLORS.black,
         shadowOffset: {
           width: 0,
           height: 2,
