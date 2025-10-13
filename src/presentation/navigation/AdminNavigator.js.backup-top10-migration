@@ -57,15 +57,15 @@ const AdminTabNavigator = () => {
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
-          if (route.name === getString('dashboard')) {
+          if (route.name === 'Dashboard') {
             iconName = focused ? 'home' : 'home-outline';
           } else if (route.name === getString('students')) {
             iconName = focused ? 'people' : 'people-outline';
           } else if (route.name === getString('classes')) {
             iconName = focused ? 'school' : 'school-outline';
-          } else if (route.name === getString('modalities')) {
+          } else if (route.name === 'Modalidades') {
             iconName = focused ? 'fitness' : 'fitness-outline';
-          } else if (route.name === getString('management')) {
+          } else if (route.name === 'Gestão') {
             iconName = focused ? 'stats-chart' : 'stats-chart-outline';
           } else if (route.name === 'Convites') {
             iconName = focused ? 'mail' : 'mail-outline';
@@ -80,7 +80,7 @@ const AdminTabNavigator = () => {
       })}
     >
       <Tab.Screen 
-        name=getString('dashboard') 
+        name="Dashboard" 
         component={AdminDashboard}
         options={{ title: getString('dashboard') }}
       />
@@ -95,14 +95,14 @@ const AdminTabNavigator = () => {
         options={{ title: getString('classes') }}
       />
       <Tab.Screen 
-        name=getString('modalities') 
+        name="Modalidades" 
         component={AdminModalities}
-        options={{ title: getString('modalities') }}
+        options={{ title: 'Modalidades' }}
       />
       <Tab.Screen 
-        name=getString('management') 
+        name="Gestão" 
         component={ReportsScreen}
-        options={{ title: getString('reports') }}
+        options={{ title: 'Relatórios' }}
       />
       <Tab.Screen 
         name="Convites" 
@@ -121,7 +121,7 @@ const AdminNavigator = () => {
     <Stack.Navigator id="AdminStack" screenOptions={{ headerShown: false }}>
       <Stack.Screen name="AdminTabs" component={AdminTabNavigator} />
       <Stack.Screen 
-        name=getString('addClass') 
+        name="AddClass" 
         component={AddClassScreen}
         options={{
           headerShown: true,
@@ -181,7 +181,7 @@ const AdminNavigator = () => {
         }}
       />
       <Stack.Screen 
-        name=getString('classDetails') 
+        name="ClassDetails" 
         component={ClassDetailsScreen}
         options={{
           headerShown: true,
@@ -196,7 +196,7 @@ const AdminNavigator = () => {
         }}
       />
       <Stack.Screen 
-        name=getString('addStudent') 
+        name="AddStudent" 
         component={AddStudentScreen}
         options={{
           headerShown: true,
@@ -226,7 +226,7 @@ const AdminNavigator = () => {
         }}
       />
       <Stack.Screen 
-        name=getString('studentDetails') 
+        name="StudentDetails" 
         component={StudentDetailsScreen}
         options={{
           headerShown: true,
@@ -277,7 +277,7 @@ const AdminNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title=getString('modalities')
+              title="Modalidades"
               navigation={navigation}
               showBack={true}
               backgroundColor={PROFILE_COLORS.admin.primary}
@@ -308,7 +308,7 @@ const AdminNavigator = () => {
         }}
       />
       <Stack.Screen 
-        name=getString('profile') 
+        name="Profile" 
         component={ProfileScreen}
         options={{
           headerShown: true,
@@ -340,13 +340,13 @@ const AdminNavigator = () => {
         }}
       />
       <Stack.Screen 
-        name=getString('physicalEvaluation') 
+        name="PhysicalEvaluation" 
         component={PhysicalEvaluationScreen}
         options={{
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title=getString('physicalEvaluation')
+              title="Avaliação Física"
               navigation={navigation}
               showBack={true}
               backgroundColor={PROFILE_COLORS.admin.primary}
@@ -406,7 +406,7 @@ const AdminNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title=getString('settings')
+              title="Configurações"
               navigation={navigation}
               showBack={true}
               backgroundColor={PROFILE_COLORS.admin.primary}

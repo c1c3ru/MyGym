@@ -363,7 +363,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
 
             {/* Modalidade */}
             <SelectionField
-              label=getString('modality')
+              label="Modalidade"
               value={formData.modality}
               placeholder="Selecionar Modalidade"
               icon={formData.modality ? "karate" : "plus"}
@@ -383,7 +383,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
 
             {/* Nova Graduação */}
             <SelectionField
-              label=getString('newGraduation')
+              label="Nova Graduação"
               value={formData.graduation}
               placeholder="Selecionar Graduação"
               icon={formData.graduation ? "trophy" : "plus"}
@@ -585,7 +585,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
                     onPress={() => {
                       setFormData(prev => ({
                         ...prev,
-                        instructor: instructor.name || instructor.displayName || instructor.email || getString('instructor'),
+                        instructor: instructor.name || instructor.displayName || instructor.email || 'Instrutor',
                         instructorId: instructor.id
                       }));
                       setInstructorDialogVisible(false);

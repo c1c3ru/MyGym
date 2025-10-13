@@ -195,7 +195,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
                   style={[styles.modalityChip, { backgroundColor: getModalityColor(classInfo?.modality) }]}
                   textStyle={styles.modalityText}
                 >
-                  {classInfo?.modality || getString('modality')}
+                  {classInfo?.modality || 'Modalidade'}
                 </Chip>
               </View>
               <Avatar.Icon 
@@ -220,7 +220,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
               <View style={styles.statDivider} />
               <View style={styles.statItem}>
                 <Ionicons name="trophy" size={24} color={COLORS.warning[500]} />
-                <Text style={styles.statNumber}>{classInfo?.level || getString('all')}</Text>
+                <Text style={styles.statNumber}>{classInfo?.level || 'Todos'}</Text>
                 <Text style={styles.statLabel}>Nível</Text>
               </View>
             </View>
@@ -308,7 +308,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
                       <Button
                         mode="outlined"
                         compact
-                        onPress={() => navigation.navigate(getString('studentDetails'), { 
+                        onPress={() => navigation.navigate('StudentDetails', { 
                           studentId: student.id, 
                           studentData: student 
                         })}

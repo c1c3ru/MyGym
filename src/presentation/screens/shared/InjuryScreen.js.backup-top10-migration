@@ -65,15 +65,15 @@ const InjuryScreen = ({ navigation, route }) => {
   ];
 
   const severityLevels = [
-    { value: 'leve', label: getString('mild'), color: COLORS.primary[500], description: 'Desconforto mínimo, sem limitação' },
-    { value: 'moderada', label: getString('moderate'), color: COLORS.warning[500], description: 'Dor perceptível, limitação parcial' },
-    { value: 'grave', label: getString('severe'), color: COLORS.error[500], description: 'Dor intensa, limitação significativa' }
+    { value: 'leve', label: 'Leve', color: COLORS.primary[500], description: 'Desconforto mínimo, sem limitação' },
+    { value: 'moderada', label: 'Moderada', color: COLORS.warning[500], description: 'Dor perceptível, limitação parcial' },
+    { value: 'grave', label: 'Grave', color: COLORS.error[500], description: 'Dor intensa, limitação significativa' }
   ];
 
   const statusOptions = [
     { value: 'ativo', label: getString('active'), color: COLORS.error[500], description: 'Lesão atual em tratamento' },
     { value: 'recuperando', label: 'Recuperando', color: COLORS.warning[500], description: 'Em processo de recuperação' },
-    { value: 'recuperado', label: getString('recovered'), color: COLORS.primary[500], description: 'Totalmente recuperado' },
+    { value: 'recuperado', label: 'Recuperado', color: COLORS.primary[500], description: 'Totalmente recuperado' },
     { value: 'cronico', label: 'Crônico', color: COLORS.secondary[500], description: 'Condição permanente ou recorrente' }
   ];
 
@@ -305,7 +305,7 @@ const InjuryScreen = ({ navigation, route }) => {
 
             {/* Data da Lesão */}
             <TextInput
-              label=getString('injuryDate')
+              label="Data da Lesão"
               value={formData.dateOccurred.toLocaleDateString('pt-BR')}
               mode="outlined"
               style={styles.input}

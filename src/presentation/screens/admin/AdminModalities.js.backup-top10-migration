@@ -570,7 +570,7 @@ const AdminModalities = ({ navigation }) => {
   const formatCurrency = (value) => {
     return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
-      currency: getString('currency')
+      currency: 'BRL'
     }).format(value || 0);
   };
 
@@ -813,7 +813,7 @@ const AdminModalities = ({ navigation }) => {
           setEditingModality(null);
           setNewModality({ name: '', description: '' });
         }}>
-          <Dialog.Title>{editingModality ? getString('editModality') : getString('newModality')}</Dialog.Title>
+          <Dialog.Title>{editingModality ? 'Editar Modalidade' : getString('newModality')}</Dialog.Title>
           <Dialog.Content>
             <TextInput
               label={getString('modalityName')}

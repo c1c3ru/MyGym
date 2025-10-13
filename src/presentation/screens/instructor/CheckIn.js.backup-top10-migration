@@ -552,8 +552,8 @@ const CheckIn = ({ navigation }) => {
                       textStyle={{ color: COLORS.white }}
                     >
                       {typeof classItem.modality === 'object' && classItem.modality
-                        ? classItem.modality.name || getString('modality')
-                        : classItem.modality || getString('modality')
+                        ? classItem.modality.name || 'Modalidade'
+                        : classItem.modality || 'Modalidade'
                       }
                     </Chip>
                   </View>
@@ -685,7 +685,7 @@ const CheckIn = ({ navigation }) => {
                       compact
                       style={{ marginTop: SPACING.sm }}
                     >
-                      {checkIn.type === 'manual' ? getString('manual') : getString('qrCode')}
+                      {checkIn.type === 'manual' ? 'Manual' : 'QR Code'}
                     </Chip>
                   )}
                 />

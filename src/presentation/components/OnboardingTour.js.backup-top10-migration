@@ -425,7 +425,7 @@ const OnboardingTooltip = ({
                 stepIndex === totalSteps - 1 ? 'Concluir tour' : 'Próximo passo'
               }
             >
-              {stepIndex === totalSteps - 1 ? 'Concluir' : getString('next')}
+              {stepIndex === totalSteps - 1 ? 'Concluir' : 'Próximo'}
             </Button>
           </View>
 

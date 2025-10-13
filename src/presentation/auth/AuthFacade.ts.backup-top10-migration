@@ -127,7 +127,7 @@ export function useAuthFacade() {
       const errorMessage = getErrorMessage(error);
       
       // Tratamento especial para UserProfileNotFoundError
-      if (errorName === getString('userProfileNotFoundError')) {
+      if (errorName === 'UserProfileNotFoundError') {
         console.log('👤 Login realizado mas perfil não encontrado. Usuário precisa criar perfil.');
         
         // Não manter o usuário autenticado automaticamente
@@ -149,7 +149,7 @@ export function useAuthFacade() {
       console.error('🔐 Erro no login:', { errorName, errorMessage });
       
       switch (errorName) {
-        case getString('unauthorizedError'):
+        case 'UnauthorizedError':
           showError('Acesso não autorizado. Verifique se seu email e senha estão corretos.');
           break;
         case 'InvalidCredentialsError':
@@ -161,10 +161,10 @@ export function useAuthFacade() {
         case 'TooManyRequestsError':
           showError('Muitas tentativas de login. Aguarde alguns minutos antes de tentar novamente.');
           break;
-        case getString('networkError'):
+        case 'NetworkError':
           showError(getString('networkError'));
           break;
-        case getString('userProfileNotFoundError'):
+        case 'UserProfileNotFoundError':
           showError('Perfil não encontrado. Vamos configurá-lo.');
           break;
         case 'SessionExpiredError':
@@ -215,7 +215,7 @@ export function useAuthFacade() {
         case 'InvalidEmailError':
           showError('Email inválido. Verifique o formato do email.');
           break;
-        case getString('networkError'):
+        case 'NetworkError':
           showError(getString('networkError'));
           break;
         case 'ValidationError':
@@ -259,7 +259,7 @@ export function useAuthFacade() {
         case 'InvalidEmailError':
           showError('Email inválido. Verifique o formato do email.');
           break;
-        case getString('networkError'):
+        case 'NetworkError':
           showError(getString('networkError'));
           break;
         case 'TooManyRequestsError':
@@ -302,7 +302,7 @@ export function useAuthFacade() {
         
         // Notificação amigável para usuários do Google
         const errorName = getErrorName(sessionError);
-        if (errorName === getString('userProfileNotFoundError')) {
+        if (errorName === 'UserProfileNotFoundError') {
           showError('Bem-vindo! Como é seu primeiro acesso, precisamos configurar seu perfil. Por favor, complete suas informações.');
         }
       }
@@ -317,10 +317,10 @@ export function useAuthFacade() {
       console.error('🔍 Erro no login com Google:', { errorName, errorMessage });
       
       switch (errorName) {
-        case getString('networkError'):
+        case 'NetworkError':
           showError(getString('networkError'));
           break;
-        case getString('unauthorizedError'):
+        case 'UnauthorizedError':
           showError('Erro na autenticação com Google. Tente novamente.');
           break;
         default:
@@ -360,7 +360,7 @@ export function useAuthFacade() {
         
         // Notificação amigável para usuários do Facebook
         const errorName = getErrorName(sessionError);
-        if (errorName === getString('userProfileNotFoundError')) {
+        if (errorName === 'UserProfileNotFoundError') {
           showError('Bem-vindo! Como é seu primeiro acesso, precisamos configurar seu perfil. Por favor, complete suas informações.');
         }
       }
@@ -375,10 +375,10 @@ export function useAuthFacade() {
       console.error('📘 Erro no login com Facebook:', { errorName, errorMessage });
       
       switch (errorName) {
-        case getString('networkError'):
+        case 'NetworkError':
           showError(getString('networkError'));
           break;
-        case getString('unauthorizedError'):
+        case 'UnauthorizedError':
           showError('Erro na autenticação com Facebook. Tente novamente.');
           break;
         default:
@@ -418,7 +418,7 @@ export function useAuthFacade() {
         
         // Notificação amigável para usuários do Microsoft
         const errorName = getErrorName(sessionError);
-        if (errorName === getString('userProfileNotFoundError')) {
+        if (errorName === 'UserProfileNotFoundError') {
           showError('Bem-vindo! Como é seu primeiro acesso, precisamos configurar seu perfil. Por favor, complete suas informações.');
         }
       }
@@ -433,10 +433,10 @@ export function useAuthFacade() {
       console.error('🔷 Erro no login com Microsoft:', { errorName, errorMessage });
       
       switch (errorName) {
-        case getString('networkError'):
+        case 'NetworkError':
           showError(getString('networkError'));
           break;
-        case getString('unauthorizedError'):
+        case 'UnauthorizedError':
           showError('Erro na autenticação com Microsoft. Tente novamente.');
           break;
         default:
@@ -476,7 +476,7 @@ export function useAuthFacade() {
         
         // Notificação amigável para usuários do Apple
         const errorName = getErrorName(sessionError);
-        if (errorName === getString('userProfileNotFoundError')) {
+        if (errorName === 'UserProfileNotFoundError') {
           showError('Bem-vindo! Como é seu primeiro acesso, precisamos configurar seu perfil. Por favor, complete suas informações.');
         }
       }
@@ -491,10 +491,10 @@ export function useAuthFacade() {
       console.error('🍎 Erro no login com Apple:', { errorName, errorMessage });
       
       switch (errorName) {
-        case getString('networkError'):
+        case 'NetworkError':
           showError(getString('networkError'));
           break;
-        case getString('unauthorizedError'):
+        case 'UnauthorizedError':
           showError('Erro na autenticação com Apple. Tente novamente.');
           break;
         default:
@@ -533,7 +533,7 @@ export function useAuthFacade() {
                 const errorName = getErrorName(error);
                 const errorMessage = getErrorMessage(error);
                 
-                if (errorName === getString('userProfileNotFoundError')) {
+                if (errorName === 'UserProfileNotFoundError') {
                   // Este é um cenário esperado, não um erro crítico
                   console.log('👤 Usuário autenticado mas sem perfil. Direcionando para criação de perfil...');
                   

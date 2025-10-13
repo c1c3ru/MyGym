@@ -22,7 +22,7 @@ const ERROR_CATALOG = {
     icon: 'wifi-off',
     color: 'warning',
     actions: [
-      { label: getString('tryAgain'), action: 'retry' },
+      { label: 'Tentar Novamente', action: 'retry' },
       { label: 'Verificar Conexão', action: 'settings' }
     ],
     helpLink: null,
@@ -33,7 +33,7 @@ const ERROR_CATALOG = {
     icon: 'clock-alert-outline',
     color: 'warning',
     actions: [
-      { label: getString('tryAgain'), action: 'retry' }
+      { label: 'Tentar Novamente', action: 'retry' }
     ],
   },
   'network/server-error': {
@@ -42,7 +42,7 @@ const ERROR_CATALOG = {
     icon: 'server-network-off',
     color: 'error',
     actions: [
-      { label: getString('tryAgain'), action: 'retry' }
+      { label: 'Tentar Novamente', action: 'retry' }
     ],
   },
 
@@ -57,7 +57,7 @@ const ERROR_CATALOG = {
     ],
   },
   'auth/user-not-found': {
-    title: getString('userNotFound'),
+    title: 'Usuário não encontrado',
     message: 'Não existe uma conta com este email. Verifique o email ou crie uma nova conta.',
     icon: 'account-question-outline',
     color: 'error',
@@ -67,12 +67,12 @@ const ERROR_CATALOG = {
     ],
   },
   'auth/wrong-password': {
-    title: getString('wrongPassword'),
+    title: 'Senha incorreta',
     message: 'A senha digitada está incorreta. Tente novamente ou redefina sua senha.',
     icon: 'lock-alert-outline',
     color: 'error',
     actions: [
-      { label: getString('tryAgain'), action: 'focus-password' },
+      { label: 'Tentar Novamente', action: 'focus-password' },
       { label: 'Esqueci Minha Senha', action: 'reset-password' }
     ],
   },
@@ -96,7 +96,7 @@ const ERROR_CATALOG = {
     ],
   },
   'auth/weak-password': {
-    title: getString('weakPassword'),
+    title: 'Senha muito fraca',
     message: 'Sua senha deve ter pelo menos 6 caracteres. Use letras, números e símbolos para maior segurança.',
     icon: 'shield-lock-outline',
     color: 'warning',
@@ -153,18 +153,18 @@ const ERROR_CATALOG = {
     icon: 'content-save-alert-outline',
     color: 'error',
     actions: [
-      { label: getString('tryAgain'), action: 'retry' }
+      { label: 'Tentar Novamente', action: 'retry' }
     ],
   },
 
   // Erro genérico
   'unknown': {
-    title: getString('somethingWentWrong'),
+    title: 'Algo deu errado',
     message: 'Ocorreu um erro inesperado. Tente novamente ou entre em contato com o suporte.',
     icon: 'alert-octagon-outline',
     color: 'error',
     actions: [
-      { label: getString('tryAgain'), action: 'retry' },
+      { label: 'Tentar Novamente', action: 'retry' },
       { label: 'Contatar Suporte', action: 'support' }
     ],
   },
