@@ -1,4 +1,5 @@
 import sgMail from '@sendgrid/mail';
+import { COLORS } from '@presentation/theme/designTokens';
 
 // Configuração do SendGrid
 const isDev = (typeof process !== 'undefined' && process.env?.NODE_ENV === 'development') || false;

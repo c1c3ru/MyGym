@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { COLORS } from '@presentation/theme/designTokens';
 import {
   View,
   Text,

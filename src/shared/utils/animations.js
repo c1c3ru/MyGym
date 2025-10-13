@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Animated, Easing, Platform, Dimensions } from 'react-native';
+import { COLORS } from '@presentation/theme/designTokens';
 
 // Configurações de animação otimizadas para web e mobile
 export const AnimationConfig = {

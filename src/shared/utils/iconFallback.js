@@ -362,6 +362,7 @@ export const getIconFallback = (name) => {
  * Componente de ícone com fallback automático
  */
 import React from 'react';
+import { COLORS } from '@presentation/theme/designTokens';
 import { Text, Platform } from 'react-native';
 
 export const IconWithFallback = ({ 

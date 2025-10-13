@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import { COLORS } from '@presentation/theme/designTokens';
 import { Platform } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { IconWithFallback } from '@utils/iconFallback';

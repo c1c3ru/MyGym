@@ -1,4 +1,5 @@
 import * as Notifications from 'expo-notifications';
+import { COLORS } from '@presentation/theme/designTokens';
 import * as Device from 'expo-device';
 import { Platform } from 'react-native';
 import { firestoreService } from './firestoreService';

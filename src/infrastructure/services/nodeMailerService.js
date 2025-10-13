@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer';
+import { COLORS } from '@presentation/theme/designTokens';
 
 // Email service configuration
 const EMAIL_CONFIG = {
