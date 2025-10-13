@@ -105,8 +105,8 @@ const ImprovedScheduleSelector = ({
           const dateString = targetDate.toISOString().split('T')[0];
           marked[dateString] = {
             marked: true,
-            dotColor: colors?.primary || '#6200ea',
-            selectedColor: colors?.primary || '#6200ea',
+            dotColor: colors?.primary || COLORS.primary[500],
+            selectedColor: colors?.primary || COLORS.primary[500],
             customStyles: {
               container: {
                 backgroundColor: hours.length > 1 ? colors?.primary : colors?.primaryContainer,
@@ -136,7 +136,7 @@ const ImprovedScheduleSelector = ({
         style={[
           styles.dayCard,
           { backgroundColor: colors?.surface },
-          hasHours && { backgroundColor: (colors?.primary || '#6200ea') + '20' }
+          hasHours && { backgroundColor: (colors?.primary || COLORS.primary[500]) + '20' }
         ]}
         onPress={() => {
           setSelectedDay(dayKey);
@@ -146,7 +146,7 @@ const ImprovedScheduleSelector = ({
         <Card.Content style={styles.dayCardContent}>
           <Text style={[
             styles.dayName, 
-            hasHours && { color: colors?.primary || '#6200ea' }
+            hasHours && { color: colors?.primary || COLORS.primary[500] }
           ]}>
             {DAY_NAMES[dayKey]}
           </Text>
@@ -157,8 +157,8 @@ const ImprovedScheduleSelector = ({
                 <Chip
                   key={hour}
                   compact
-                  style={[styles.hourChip, { backgroundColor: colors?.primary || '#6200ea' }]}
-                  textStyle={{ color: colors?.onPrimary || getString('colorWhite'), fontSize: 10 }}
+                  style={[styles.hourChip, { backgroundColor: colors?.primary || COLORS.primary[500] }]}
+                  textStyle={{ color: colors?.onPrimary || COLORS.white, fontSize: FONT_SIZE.xs }}
                 >
                   {hour}
                 </Chip>
@@ -167,7 +167,7 @@ const ImprovedScheduleSelector = ({
           ) : (
             <Text style={[
               styles.noHours, 
-              { color: colors?.onSurfaceVariant || getString('textSecondary') }
+              { color: colors?.onSurfaceVariant || COLORS.text.secondary }
             ]}>
               Toque para definir
             </Text>
@@ -181,7 +181,7 @@ const ImprovedScheduleSelector = ({
     <View style={[styles.container, style]}>
       <Text style={[styles.label, { color: colors?.onSurface }]}>
         {label}
-        {required && <Text style={{ color: colors?.error || 'currentTheme.error[500]' }}> *</Text>}
+        {required && <Text style={{ color: colors?.error || COLORS.error[500] }}> *</Text>}
       </Text>
 
       {/* Botões de ação */}
@@ -273,7 +273,7 @@ const ImprovedScheduleSelector = ({
             {selectedDay ? DAY_NAMES[selectedDay] : 'Selecionar Horários'}
           </Text>
           
-          <Divider style={{ marginVertical: 16 }} />
+          <Divider style={{ marginVertical: SPACING.base }} />
           
           <ScrollView style={styles.timeSlotsContainer}>
             <View style={styles.timeSlotsGrid}>
@@ -314,7 +314,7 @@ const ImprovedScheduleSelector = ({
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: 8
+    marginVertical: SPACING.sm
   },
   label: {
     fontSize: FONT_SIZE.md,
@@ -323,14 +323,14 @@ const styles = StyleSheet.create({
   },
   actionButtons: {
     flexDirection: 'row',
-    gap: 8,
-    marginBottom: 16
+    gap: SPACING.sm,
+    marginBottom: SPACING.base
   },
   actionButton: {
     flex: 1
   },
   daysContainer: {
-    maxHeight: 400
+    maxHeight: 400 // Mantém valor fixo para controle de scroll
   },
   dayCard: {
     marginBottom: SPACING.sm,
@@ -347,10 +347,10 @@ const styles = StyleSheet.create({
   hoursContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 4
+    gap: SPACING.xs
   },
   hourChip: {
-    height: 28,
+    height: 28, // Mantém altura específica para chips
     marginBottom: SPACING.xs
   },
   noHours: {
@@ -376,22 +376,22 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.sm
   },
   calendar: {
-    marginVertical: 16
+    marginVertical: SPACING.base
   },
   previewDescription: {
     fontSize: FONT_SIZE.sm,
     textAlign: 'center',
-    marginBottom: 16,
+    marginBottom: SPACING.base,
     fontStyle: 'italic'
   },
   timeSlotsContainer: {
-    maxHeight: 300,
-    marginBottom: 16
+    maxHeight: 300, // Mantém valor fixo para controle de scroll
+    marginBottom: SPACING.base
   },
   timeSlotsGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 8
+    gap: SPACING.sm
   },
   timeSlot: {
     marginBottom: SPACING.xs
