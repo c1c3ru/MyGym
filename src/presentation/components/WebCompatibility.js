@@ -2,7 +2,6 @@
 import React, { useEffect } from 'react';
 import { Platform } from 'react-native';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
-import { getString } from '@shared/utils/theme';
 
 const WebCompatibility = ({ children }) => {
   const { currentTheme } = useThemeToggle();
@@ -27,7 +26,7 @@ const WebCompatibility = ({ children }) => {
           height: 100%;
         }
         body {
-          font-family: -apple-system, BlinkMacSystemFont, getString('systemFont'), 'Roboto', sans-serif;
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
           margin: 0;
           padding: 0;
           overflow-x: hidden;

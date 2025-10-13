@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import SkeletonLoader from './SkeletonLoader';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { COLORS, SPACING, BORDER_RADIUS } from '@presentation/theme/designTokens';
 
 const InstructorDashboardSkeleton = () => {
   return (
