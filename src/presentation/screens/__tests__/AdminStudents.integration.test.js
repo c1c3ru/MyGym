@@ -4,14 +4,21 @@ import { Provider as PaperProvider } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
 import AdminStudents from '../admin/AdminStudents';
 import { AuthProvider } from '@contexts/AuthProvider';
+import { ThemeToggleProvider } from '@contexts/ThemeToggleContext';
+import { NotificationProvider } from '@contexts/NotificationContext';
 import { firestoreService, paymentService } from '@services/firestoreService';
+import { academyFirestoreService } from '@services/academyFirestoreService';
 
 const TestWrapper = ({ children }) => (
   <NavigationContainer>
     <PaperProvider>
-      <AuthProvider>
-        {children}
-      </AuthProvider>
+      <ThemeToggleProvider>
+        <NotificationProvider>
+          <AuthProvider>
+            {children}
+          </AuthProvider>
+        </NotificationProvider>
+      </ThemeToggleProvider>
     </PaperProvider>
   </NavigationContainer>
 );
@@ -59,6 +66,29 @@ describe('AdminStudents Integration', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     
+    // Mock academyFirestoreService
+    academyFirestoreService.getAll = jest.fn().mockImplementation((collection, academiaId) => {
+      if (collection === 'students') {
+        return Promise.resolve(mockStudents);
+      }
+      return Promise.resolve([]);
+    });
+
+    academyFirestoreService.getWhere = jest.fn().mockImplementation((collection, field, operator, value, academiaId) => {
+      if (collection === 'payments') {
+        return Promise.resolve([
+          { id: 'payment1', status: 'paid', createdAt: { seconds: Date.now() / 1000 } }
+        ]);
+      }
+      if (collection === 'classes') {
+        return Promise.resolve([
+          { id: 'class1', modality: 'Jiu-Jitsu', students: [value] }
+        ]);
+      }
+      return Promise.resolve([]);
+    });
+
+    // Mock firestoreService
     firestoreService.getAll = jest.fn().mockImplementation((collection) => {
       if (collection === 'users') {
         return Promise.resolve(mockStudents);

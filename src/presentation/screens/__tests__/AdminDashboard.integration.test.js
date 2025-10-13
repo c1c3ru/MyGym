@@ -4,14 +4,20 @@ import { Provider as PaperProvider } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
 import AdminDashboard from '../admin/AdminDashboard';
 import { AuthProvider } from '@contexts/AuthProvider';
+import { ThemeToggleProvider } from '@contexts/ThemeToggleContext';
+import { NotificationProvider } from '@contexts/NotificationContext';
 import { firestoreService } from '@services/firestoreService';
 
 const TestWrapper = ({ children }) => (
   <NavigationContainer>
     <PaperProvider>
-      <AuthProvider>
-        {children}
-      </AuthProvider>
+      <ThemeToggleProvider>
+        <NotificationProvider>
+          <AuthProvider>
+            {children}
+          </AuthProvider>
+        </NotificationProvider>
+      </ThemeToggleProvider>
     </PaperProvider>
   </NavigationContainer>
 );
