@@ -295,7 +295,7 @@ export default function LoginScreen({ navigation }) {
                   <TouchableRipple 
                     style={styles.languageButton}
                     onPress={() => setLanguageMenuVisible(true)}
-                    rippleColor={currentTheme.white + "1A"}
+                    rippleColor={COLORS.white + "1A"}
                   >
                     <View style={styles.languageButtonContent}>
                       <Text style={styles.flagEmoji}>{languages[currentLanguage].flag}</Text>
@@ -563,7 +563,7 @@ const styles = StyleSheet.create({
     borderRadius: BORDER_RADIUS.lg,
     paddingHorizontal: SPACING.md,
     paddingVertical: 6,
-    backgroundColor: 'currentTheme.white + "1A"',
+    backgroundColor: COLORS.white + "1A",
   },
   languageButtonContent: {
     flexDirection: 'row',
@@ -581,7 +581,7 @@ const styles = StyleSheet.create({
   darkModeToggle: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'currentTheme.white + "1A"',
+    backgroundColor: COLORS.white + "1A",
     borderRadius: BORDER_RADIUS.lg,
     paddingHorizontal: SPACING.md,
     paddingVertical: 6,
