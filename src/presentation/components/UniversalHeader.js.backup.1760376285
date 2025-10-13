@@ -383,7 +383,7 @@ const styles = StyleSheet.create({
     marginBottom: 160,
     borderRadius: BORDER_RADIUS.md,
     elevation: 8,
-    shadowColor: COLORS.black,
+    shadowColor: 'currentTheme.black',
     shadowOffset: {
       width: 0,
       height: 4,
@@ -425,7 +425,7 @@ const styles = StyleSheet.create({
   },
   gradientHeader: {
     elevation: ResponsiveUtils?.elevation?.small || 4,
-    shadowColor: COLORS.black,
+    shadowColor: 'currentTheme.black',
     shadowOffset: {
       width: 0,
       height: 2,

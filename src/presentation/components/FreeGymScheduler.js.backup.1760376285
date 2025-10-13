@@ -58,11 +58,11 @@ const FreeGymScheduler = ({
     'jiu jitsu': COLORS.secondary[500],
     'muay-thai': COLORS.error[500],
     'muay thai': COLORS.error[500],
-    'judo': COLORS.info[700],
-    'judô': COLORS.info[700],
+    'judo': 'currentTheme.info[700]',
+    'judô': 'currentTheme.info[700]',
     'taekwondo': COLORS.warning[500],
     'boxe': COLORS.gray[700],
-    'default': COLORS.gray[600]
+    'default': 'currentTheme.gray[600]'
   };
 
   // Carregar dados da academia

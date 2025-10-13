@@ -1,18 +1,21 @@
 #!/bin/bash
 
-# Script para corrigir todas as strings hardcoded 'currentTheme.*' no projeto
-
-echo "🔧 Corrigindo strings hardcoded 'currentTheme.*' em todo o projeto..."
+echo "🔧 Corrigindo TODAS as strings hardcoded 'currentTheme.*' no projeto..."
 
 # Função para corrigir um arquivo
 fix_file() {
     local file="$1"
+    if [ ! -f "$file" ]; then
+        echo "⚠️  Arquivo não encontrado: $file"
+        return
+    fi
+    
     echo "Corrigindo: $file"
     
     # Backup do arquivo
-    cp "$file" "$file.backup"
+    cp "$file" "$file.backup.$(date +%s)"
     
-    # Substituições usando sed - EXPANDIDO
+    # Substituições completas
     sed -i "s/'currentTheme\.black + \"80\"'/COLORS.black + \"80\"/g" "$file"
     sed -i "s/'currentTheme\.black + \"4D\"'/COLORS.black + \"4D\"/g" "$file"
     sed -i "s/'currentTheme\.black'/COLORS.black/g" "$file"
@@ -39,32 +42,32 @@ fix_file() {
     echo "✅ $file corrigido"
 }
 
-# Lista de arquivos com problemas
-files=(
-    "src/presentation/screens/instructor/InstructorStudents.js"
-    "src/presentation/screens/onboarding/AcademyOnboardingScreen.js"
-    "src/presentation/screens/student/CheckInScreen.js"
-    "src/presentation/screens/shared/InjuryHistoryScreen.js"
-    "src/presentation/screens/shared/PrivacyPolicyScreen.js"
-    "src/presentation/screens/shared/PrivacySettingsScreen.js"
-    "src/presentation/screens/admin/GraduationManagementScreen.js"
-)
+# Buscar todos os arquivos com 'currentTheme.' em strings
+echo "🔍 Buscando arquivos com strings 'currentTheme.*'..."
+files=$(grep -r -l "'currentTheme\." src/ | grep -v "\.backup" | grep -v "_old\.js")
+
+if [ -z "$files" ]; then
+    echo "✅ Nenhum arquivo com strings 'currentTheme.*' encontrado!"
+    exit 0
+fi
+
+echo "📋 Arquivos encontrados:"
+echo "$files"
+echo ""
 
 # Corrigir cada arquivo
-for file in "${files[@]}"; do
-    if [ -f "$file" ]; then
-        fix_file "$file"
-    else
-        echo "⚠️  Arquivo não encontrado: $file"
-    fi
+count=0
+for file in $files; do
+    fix_file "$file"
+    ((count++))
 done
 
 echo ""
 echo "🎉 Correção concluída!"
-echo "📊 Arquivos corrigidos: ${#files[@]}"
+echo "📊 Arquivos corrigidos: $count"
 echo ""
 echo "Para verificar as mudanças:"
 echo "git diff --name-only"
 echo ""
 echo "Para remover backups após validação:"
-echo "find src -name '*.backup' -delete"
+echo "find src -name '*.backup.*' -delete"

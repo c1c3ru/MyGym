@@ -368,7 +368,7 @@ export const IconWithFallback = ({
   IconComponent, 
   name, 
   size = 24, 
-  color = COLORS.black, 
+  color = 'currentTheme.black', 
   style = {},
   fallbackStyle = {},
   ...props 

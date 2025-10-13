@@ -543,7 +543,7 @@ const styles = StyleSheet.create({
         textShadow: '1px 1px 3px currentTheme.black + "4D"'
       },
       default: {
-        textShadowColor: COLORS.black + "4D",
+        textShadowColor: 'currentTheme.black + "4D"',
         textShadowOffset: { width: 1, height: 1 },
         textShadowRadius: 3,
       }
@@ -559,7 +559,7 @@ const styles = StyleSheet.create({
         textShadow: '1px 1px 2px currentTheme.black + "4D"'
       },
       default: {
-        textShadowColor: COLORS.black + "4D",
+        textShadowColor: 'currentTheme.black + "4D"',
         textShadowOffset: { width: 1, height: 1 },
         textShadowRadius: 2,
       }
