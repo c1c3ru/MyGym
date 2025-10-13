@@ -270,8 +270,7 @@ export const OnboardingProvider = ({ children }) => {
     <OnboardingContext.Provider value={value}>
       {children}
       {isVisible && currentTour && (
-        <OnboardingOverlay
-          tour={currentTour}
+        <OnboardingTooltip
           step={currentTour.steps[currentStep]}
           stepIndex={currentStep}
           totalSteps={currentTour.steps.length}
