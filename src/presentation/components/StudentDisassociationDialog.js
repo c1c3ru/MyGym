@@ -15,6 +15,7 @@ import { useCustomClaims } from '@hooks/useCustomClaims';
 import { useNotification } from '@contexts/NotificationContext';
 import { firestoreService } from '@services/firestoreService';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { getString } from '@shared/utils/theme';
 
 const StudentDisassociationDialog = ({ visible, onDismiss, student, onSuccess }) => {
   const { user, userProfile, academia } = useAuth();

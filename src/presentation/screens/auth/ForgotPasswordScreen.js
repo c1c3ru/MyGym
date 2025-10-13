@@ -21,6 +21,7 @@ import AnimatedButton from '@components/AnimatedButton';
 import { ResponsiveUtils } from '@utils/animations';
 import { useTheme } from '@contexts/ThemeContext';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { getString } from '@shared/utils/theme';
 
 export default function ForgotPasswordScreen({ navigation }) {
   const { getString } = useTheme();

@@ -29,6 +29,7 @@ import DashboardSkeleton from '@components/skeletons/DashboardSkeleton';
 import FreeGymScheduler from '@components/FreeGymScheduler';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { useOnboarding } from '@components/OnboardingTour';
+import { getString } from '@shared/utils/theme';
 
 const AdminDashboard = ({ navigation }) => {
   const { user, userProfile, logout, academia } = useAuth();

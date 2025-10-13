@@ -15,6 +15,7 @@ import PrivacyPolicyScreen from '@screens/shared/PrivacyPolicyScreen';
 import NotificationSettingsScreen from '@screens/shared/NotificationSettingsScreen';
 import PrivacySettingsScreen from '@screens/shared/PrivacySettingsScreen';
 import { COLORS } from '@presentation/theme/designTokens';
+import { getString } from '@shared/utils/theme';
 
 const Stack = createStackNavigator();
 

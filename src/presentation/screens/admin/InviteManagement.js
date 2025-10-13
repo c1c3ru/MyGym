@@ -17,6 +17,7 @@ import { InviteService } from '@services/inviteService';
 import QRCodeGenerator from '@components/QRCodeGenerator';
 import ActionButton, { ActionButtonGroup } from '@components/ActionButton';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { getString } from '@shared/utils/theme';
 
 export default function InviteManagement({ navigation }) {
   const { user, userProfile, academia } = useAuth();

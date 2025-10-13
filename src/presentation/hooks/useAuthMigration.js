@@ -5,6 +5,7 @@ import { auth, db } from '@services/firebase';
 import useAuthStore from '@presentation/stores/AuthUIStore';
 import { normalizeUserProfile } from '@utils/userTypeHelpers';
 import { getUserClaims, refreshUserToken } from '@utils/customClaimsHelper';
+import { getString } from '@shared/utils/theme';
 
 // Variável global para controlar a inicialização do listener
 let authListenerInitialized = false;

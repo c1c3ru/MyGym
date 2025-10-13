@@ -2,6 +2,7 @@
 import React, { useEffect } from 'react';
 import { Platform } from 'react-native';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
+import { getString } from '@shared/utils/theme';
 
 const WebCompatibility = ({ children }) => {
   const { currentTheme } = useThemeToggle();

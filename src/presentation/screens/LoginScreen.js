@@ -27,6 +27,7 @@ import { useFormValidation } from '@hooks/useFormValidation';
 import { rateLimitService } from '@services/rateLimitService';
 import LoginSkeleton from '@components/skeletons/LoginSkeleton';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { getString } from '@shared/utils/theme';
 
 // Mapear erros de autenticação para códigos do EnhancedErrorMessage
 const mapAuthErrorToCode = (error) => {

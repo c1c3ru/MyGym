@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { collection, query, onSnapshot, doc, getDoc, addDoc, updateDoc, deleteDoc, where } from 'firebase/firestore';
 import { db } from '@services/firebase';
 import { useAuth } from '@contexts/AuthProvider';
+import { getString } from '@shared/utils/theme';
 
 /**
  * Hook personalizado para acessar dados de uma coleção específica da academia

@@ -15,6 +15,7 @@ import {
 import { useScheduleConflictValidator } from '@utils/scheduleConflictValidator';
 import ConflictWarning from './ConflictWarning';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { getString } from '@shared/utils/theme';
 
 const ScheduleSelector = ({
   value = null,

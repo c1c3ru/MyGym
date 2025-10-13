@@ -4,6 +4,7 @@ import { Card, Text, Avatar, Chip, Divider, IconButton, Menu } from 'react-nativ
 import ActionButton, { ActionButtonGroup } from '@components/ActionButton';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
+import { getString } from '@shared/utils/theme';
 
 const StudentListItem = memo(({ 
   student, 

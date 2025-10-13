@@ -22,6 +22,7 @@ import {
 import Breadcrumb, { useBreadcrumb } from '@components/Breadcrumb';
 import { useUndo, useDeleteWithUndo } from '@components/UndoManager';
 import { useOnboarding, ONBOARDING_TOURS } from '@components/OnboardingTour';
+import { getString } from '@shared/utils/theme';
 
 const UIUXExampleScreen = ({ navigation }) => {
   // ============================================

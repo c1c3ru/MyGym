@@ -1,5 +1,6 @@
 import { useCallback, useMemo } from 'react';
 import { Platform, AccessibilityInfo } from 'react-native';
+import { getString } from '@shared/utils/theme';
 
 /**
  * Hook customizado para melhorias de acessibilidade

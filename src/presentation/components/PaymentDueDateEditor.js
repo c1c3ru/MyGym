@@ -14,6 +14,7 @@ import { useAuth } from '@contexts/AuthProvider';
 import { useNotification } from '@contexts/NotificationContext';
 import { firestoreService } from '@services/firestoreService';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { getString } from '@shared/utils/theme';
 
 const PaymentDueDateEditor = ({ visible, onDismiss, currentPayment, onUpdate }) => {
   const { user, userProfile, academia } = useAuth();

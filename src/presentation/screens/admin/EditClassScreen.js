@@ -15,6 +15,7 @@ import ActionButton, { ActionButtonGroup } from '@components/ActionButton';
 import ImprovedScheduleSelector from '@components/ImprovedScheduleSelector';
 import { createEmptySchedule, isValidSchedule, scheduleToDisplayString } from '@utils/scheduleUtils';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT , BORDER_WIDTH } from '@presentation/theme/designTokens';
+import { getString } from '@shared/utils/theme';
 
 const EditClassScreen = ({ route, navigation }) => {
   const { classId } = route.params;

@@ -22,6 +22,7 @@ import { useCustomClaims } from '@hooks/useCustomClaims';
 import { firestoreService } from '@services/firestoreService';
 import PaymentDueDateEditor from '@components/PaymentDueDateEditor';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT , BORDER_WIDTH } from '@presentation/theme/designTokens';
+import { getString } from '@shared/utils/theme';
 
 const { width } = Dimensions.get('window');
 

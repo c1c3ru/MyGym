@@ -14,6 +14,7 @@ import { useAuth } from '@contexts/AuthProvider';
 import { ResponsiveUtils } from '@utils/animations';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT , BORDER_WIDTH } from '@presentation/theme/designTokens';
 import ThemeToggleSwitch from '@components/ThemeToggleSwitch';
+import { getString } from '@shared/utils/theme';
 
 const SettingsScreen = ({ navigation }) => {
   const { user, userProfile, logout } = useAuth();

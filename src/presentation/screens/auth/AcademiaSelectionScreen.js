@@ -26,6 +26,7 @@ import CountryStatePicker from '@components/CountryStatePicker';
 import PhonePicker from '@components/PhonePicker';
 import ModalityPicker from '@components/ModalityPicker';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { getString } from '@shared/utils/theme';
 
 export default function AcademiaSelectionScreen({ navigation, route }) {
   const { user, userProfile, setUserProfile, signOut } = useAuth();

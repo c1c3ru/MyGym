@@ -21,6 +21,7 @@ import {
   OPACITY 
 } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
+import { getString } from '@shared/utils/theme';
 
 const { width, height } = Dimensions.get('window');
 

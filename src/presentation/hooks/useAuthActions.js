@@ -9,6 +9,7 @@ import {
 } from '@domain/auth/usecases';
 import { FirebaseAuthRepository } from '@data/auth/FirebaseAuthRepository';
 import { auth, db } from '@services/firebase';
+import { getString } from '@shared/utils/theme';
 
 /**
  * useAuthActions - Presentation Layer

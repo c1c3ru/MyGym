@@ -22,6 +22,7 @@ import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import InstructorClassesSkeleton from '@components/skeletons/InstructorClassesSkeleton';
 import { EnhancedFlashList } from '@components/EnhancedFlashList';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { getString } from '@shared/utils/theme';
 
 const InstructorClasses = ({ navigation }) => {
   const { user, userProfile } = useAuth();

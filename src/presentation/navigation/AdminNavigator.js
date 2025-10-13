@@ -36,6 +36,7 @@ import SettingsScreen from '@screens/shared/SettingsScreen';
 import StudentPayments from '@screens/student/StudentPayments';
 import CheckIn from '@screens/instructor/CheckIn';
 import { COLORS } from '@presentation/theme/designTokens';
+import { getString } from '@shared/utils/theme';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();

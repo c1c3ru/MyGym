@@ -4,6 +4,7 @@ import { Text, Chip, Card, ActivityIndicator } from 'react-native-paper';
 import useAuthMigration from '@hooks/useAuthMigration';
 import academyCollectionsService from '@services/academyCollectionsService';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { getString } from '@shared/utils/theme';
 
 export default function ModalityPicker({ 
   selectedModalities = [], 

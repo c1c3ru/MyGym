@@ -22,6 +22,7 @@ import { firestoreService } from '@services/firestoreService';
 import { getThemeColors } from '@theme/professionalTheme';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
+import { getString } from '@shared/utils/theme';
 
 const PaymentManagementScreen = ({ navigation }) => {
   const { currentTheme } = useThemeToggle();

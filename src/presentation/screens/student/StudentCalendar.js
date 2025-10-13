@@ -7,6 +7,7 @@ import { academyFirestoreService } from '@services/academyFirestoreService';
 import FreeGymScheduler from '@components/FreeGymScheduler';
 import { useCustomClaims } from '@hooks/useCustomClaims';
 import { COLORS } from '@presentation/theme/designTokens';
+import { getString } from '@shared/utils/theme';
 
 /**
  * Calendário do Aluno usando FreeGymScheduler

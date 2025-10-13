@@ -6,6 +6,7 @@ import GraduationBoard from '@components/GraduationBoard';
 import LoadingSpinner from '@components/LoadingSpinner';
 import { useAuth } from '@contexts/AuthProvider';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { getString } from '@shared/utils/theme';
 
 const GraduationBoardScreen = ({ navigation }) => {
   const { user } = useAuth();

@@ -18,6 +18,7 @@ import { academyFirestoreService } from '@services/academyFirestoreService';
 import { getThemeColors } from '@theme/professionalTheme';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
+import { getString } from '@shared/utils/theme';
 
 const { width } = Dimensions.get('window');
 
