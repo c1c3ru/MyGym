@@ -17,7 +17,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
-import { useThemeToggle } from '@contexts/ThemeToggleContext';
+import { useTheme } from '@contexts/ThemeContext';
 import AnimatedCard from '@components/AnimatedCard';
 import AnimatedButton from '@components/AnimatedButton';
 import EnhancedErrorBoundary from '@components/EnhancedErrorBoundary';
@@ -105,15 +105,7 @@ export default function LoginScreen({ navigation }) {
   const { trackButtonClick, trackFeatureUsage } = useUserActionTracking();
   
   const { signIn, signInWithGoogle, signInWithFacebook, signInWithMicrosoft, signInWithApple } = useAuthFacade();
-  const { currentTheme } = useThemeToggle();
-  
-  // Configurações de idioma (temporário - mover para contexto específico depois)
-  const currentLanguage = 'pt';
-  const languages = {
-    pt: { name: 'Português', flag: '🇧🇷' },
-    en: { name: 'English', flag: '🇺🇸' },
-    es: { name: 'Español', flag: '🇪🇸' }
-  };
+  const { isDarkMode, currentLanguage, languages, theme, toggleDarkMode, changeLanguage, getString } = useTheme();
 
   const showSnackbar = useCallback((message, type = 'info') => {
     setSnackbar({
@@ -126,7 +118,6 @@ export default function LoginScreen({ navigation }) {
   const hideSnackbar = useCallback(() => {
     setSnackbar(prev => ({ ...prev, visible: false }));
   }, []);
-
   // Usar hook de validação customizado
   const validationRules = useMemo(() => ({
     email: {
@@ -153,12 +144,12 @@ export default function LoginScreen({ navigation }) {
     // Rate limiting para login
     const rateLimitKey = `login_${email.trim()}`;
     if (!rateLimitService.checkLimit(rateLimitKey, 5, 300000)) { // 5 tentativas por 5 minutos
-      showSnackbar('Muitas tentativas de login. Tente novamente em alguns minutos.', 'error');
+      showSnackbar(getString('rateLimitExceeded') || 'Muitas tentativas de login. Tente novamente em alguns minutos.', 'error');
       return;
     }
 
     if (!validateForm()) {
-      showSnackbar(getString('fillAllFields') || 'Preencha todos os campos corretamente', 'error');
+      showSnackbar(getString('fillAllFields'), 'error');
       return;
     }
 
