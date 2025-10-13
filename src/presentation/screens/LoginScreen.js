@@ -17,7 +17,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
-import { useTheme } from '@contexts/ThemeContext';
+import { useThemeToggle } from '@contexts/ThemeToggleContext';
 import AnimatedCard from '@components/AnimatedCard';
 import AnimatedButton from '@components/AnimatedButton';
 import EnhancedErrorBoundary from '@components/EnhancedErrorBoundary';
@@ -105,7 +105,15 @@ export default function LoginScreen({ navigation }) {
   const { trackButtonClick, trackFeatureUsage } = useUserActionTracking();
   
   const { signIn, signInWithGoogle, signInWithFacebook, signInWithMicrosoft, signInWithApple } = useAuthFacade();
-  const { isDarkMode, currentLanguage, languages, theme, toggleDarkMode, changeLanguage, getString } = useTheme();
+  const { currentTheme } = useThemeToggle();
+  
+  // Configurações de idioma (temporário - mover para contexto específico depois)
+  const currentLanguage = 'pt';
+  const languages = {
+    pt: { name: 'Português', flag: '🇧🇷' },
+    en: { name: 'English', flag: '🇺🇸' },
+    es: { name: 'Español', flag: '🇪🇸' }
+  };
 
   const showSnackbar = useCallback((message, type = 'info') => {
     setSnackbar({
