@@ -406,7 +406,7 @@ const styles = StyleSheet.create({
   },
   divider: {
     marginVertical: 20,
-    backgroundColor: COLORS.gray[300],
+    backgroundColor: 'currentTheme.gray[300]',
   },
   infoCard: {
     backgroundColor: COLORS.primary[50],

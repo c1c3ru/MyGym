@@ -787,7 +787,7 @@ const styles = StyleSheet.create({
   },
   modalOverlay: {
     flex: 1,
-    backgroundColor: COLORS.black + "80",
+    backgroundColor: 'currentTheme.black + "80"',
     justifyContent: 'flex-start',
     alignItems: 'center',
     paddingTop: 120,
