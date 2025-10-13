@@ -23,7 +23,7 @@ import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import StudentDashboardSkeleton from '@components/skeletons/StudentDashboardSkeleton';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { useOnboarding } from '@components/OnboardingTour';
-import { getString } from '@shared/utils/theme';
+import { getString } from '@utils/theme';
 
 const StudentDashboard = ({ navigation }) => {
   const { user, userProfile } = useAuth();

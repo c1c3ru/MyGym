@@ -23,7 +23,7 @@ import { useAuth } from '@contexts/AuthProvider';
 import { academyFirestoreService } from '@services/academyFirestoreService';
 import { COLORS, SPACING, FONT_SIZE, FONT_WEIGHT, BORDER_RADIUS } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
-import { getString } from '@shared/utils/theme';
+import { getString } from '@utils/theme';
 
 const ScheduleClassesScreen = ({ navigation, route }) => {
   const { currentTheme } = useThemeToggle();

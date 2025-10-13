@@ -3,7 +3,7 @@ import { View, StyleSheet, ScrollView } from 'react-native';
 import { Card, Button, Chip, Divider, Text } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getString } from '@shared/utils/theme';
+import { getString } from '@utils/theme';
 
 class EnhancedErrorBoundary extends React.Component {
   constructor(props) {

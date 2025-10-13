@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '@contexts/AuthProvider';
 import { getUserClaims } from '@utils/customClaimsHelper';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getString } from '@shared/utils/theme';
+import { getString } from '@utils/theme';
 
 /**
  * Hook para acessar Custom Claims de forma consistente

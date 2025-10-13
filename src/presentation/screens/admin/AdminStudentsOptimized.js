@@ -21,7 +21,7 @@ import StudentDisassociationDialog from '@components/StudentDisassociationDialog
 import { useFocusEffect } from '@react-navigation/native';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
-import { getString } from '@shared/utils/theme';
+import { getString } from '@utils/theme';
 
 const AdminStudentsOptimized = ({ navigation }) => {
   const { currentTheme } = useThemeToggle();

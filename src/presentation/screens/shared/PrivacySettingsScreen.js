@@ -412,7 +412,7 @@ const PrivacySettingsScreen = ({ navigation }) => {
           <Card.Content>
             <Title style={styles.cardTitle}>{getString('importantInfo')}</Title>
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
-import { getString } from '@shared/utils/theme';
+import { getString } from '@utils/theme';
             <Text style={styles.infoText}>
               {getString('infoChangeConsents')}
             </Text>

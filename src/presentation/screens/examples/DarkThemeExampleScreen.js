@@ -10,7 +10,7 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import {
-import { getString } from '@shared/utils/theme';
+import { getString } from '@utils/theme';
   COLORS,
   SPACING,
   FONT_SIZE,

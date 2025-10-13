@@ -20,7 +20,7 @@ import PhysicalEvaluationHistoryScreen from '@screens/shared/PhysicalEvaluationH
 import NotificationSettingsScreen from '@screens/shared/NotificationSettingsScreen';
 import PrivacySettingsScreen from '@screens/shared/PrivacySettingsScreen';
 import { COLORS } from '@presentation/theme/designTokens';
-import { getString } from '@shared/utils/theme';
+import { getString } from '@utils/theme';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();

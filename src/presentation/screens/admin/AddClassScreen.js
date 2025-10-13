@@ -14,7 +14,7 @@ import ImprovedScheduleSelector from '@components/ImprovedScheduleSelector';
 import { createEmptySchedule, isValidSchedule, scheduleToDisplayString } from '@utils/scheduleUtils';
 import { notifyNewClass } from '@services/scheduleNotificationService';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT , BORDER_WIDTH } from '@presentation/theme/designTokens';
-import { getString } from '@shared/utils/theme';
+import { getString } from '@utils/theme';
 
 const AddClassScreen = ({ navigation }) => {
   const { user, userProfile, academia } = useAuth();

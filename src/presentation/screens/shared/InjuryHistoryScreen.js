@@ -17,7 +17,7 @@ import { useAuth } from '@contexts/AuthProvider';
 import { firestoreService } from '@services/firestoreService';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
-import { getString } from '@shared/utils/theme';
+import { getString } from '@utils/theme';
 
 const InjuryHistoryScreen = ({ navigation }) => {
   const { currentTheme } = useThemeToggle();

@@ -28,7 +28,7 @@ import PhysicalEvaluationScreen from '@screens/shared/PhysicalEvaluationScreen';
 import PhysicalEvaluationHistoryScreen from '@screens/shared/PhysicalEvaluationHistoryScreen';
 import NotificationSettingsScreen from '@screens/shared/NotificationSettingsScreen';
 import PrivacySettingsScreen from '@screens/shared/PrivacySettingsScreen';
-import { getString } from '@shared/utils/theme';
+import { getString } from '@utils/theme';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();

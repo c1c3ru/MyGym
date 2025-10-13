@@ -13,7 +13,7 @@ import {
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { auth, db } from '@services/firebase';
 import { getUserClaims, refreshUserToken, needsOnboarding } from '@utils/customClaimsHelper';
-import { getString } from '@shared/utils/theme';
+import { getString } from '@utils/theme';
 
 const AuthContext = createContext();
 

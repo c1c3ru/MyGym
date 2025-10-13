@@ -9,7 +9,7 @@ import { useAuth } from '@contexts/AuthProvider';
 import { useUserProfile } from '@hooks/useUserProfile';
 import { PROFILE_COLORS, STATUS_COLORS, APP_COLORS } from '@shared/constants/colors';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getString } from '@shared/utils/theme';
+import { getString } from '@utils/theme';
 
 const CheckInButton = ({ classId, className, onCheckInSuccess }) => {
   const [loading, setLoading] = useState(false);

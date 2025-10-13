@@ -1,6 +1,6 @@
 import React, { lazy } from 'react';
 import { withLazyLoading } from '@components/LazyScreen';
-import { getString } from '@shared/utils/theme';
+import { getString } from '@utils/theme';
 
 // Admin Screens com Lazy Loading
 export const AdminDashboard = lazy(() => import('./admin/AdminDashboard'));

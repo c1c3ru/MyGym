@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import useAuthUIStore from '@presentation/stores/AuthUIStore';
 import useAppUIStore from '@presentation/stores/AppUIStore';
-import { getString } from '@shared/utils/theme';
+import { getString } from '@utils/theme';
 
 /**
  * useAuthUI - Presentation Layer

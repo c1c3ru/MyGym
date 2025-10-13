@@ -29,7 +29,7 @@ import { useClassCreationRateLimit } from '@hooks/useRateLimit';
 import FreeGymScheduler from '@components/FreeGymScheduler';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT , BORDER_WIDTH } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
-import { getString } from '@shared/utils/theme';
+import { getString } from '@utils/theme';
 
 const AdminClasses = ({ navigation }) => {
   const { currentTheme } = useThemeToggle();
@@ -223,22 +223,22 @@ const AdminClasses = ({ navigation }) => {
       // Tenta navegar através do navigator do Stack pai, usando o ID definido
       const adminStackNav = navigation.getParent && navigation.getParent(getString('adminStack'));
       if (adminStackNav && typeof adminStackNav.navigate === 'function') {
-        adminStackNav.navigate(getString('addClassScreen'));
+        adminStackNav.navigate('AddClass');
         return;
       }
       // Fallback 1: subir um nível (Tab) e depois tentar o Stack acima
       const parentNav = navigation.getParent && navigation.getParent();
       const grandParentNav = parentNav && parentNav.getParent ? parentNav.getParent() : null;
       if (grandParentNav && typeof grandParentNav.navigate === 'function') {
-        grandParentNav.navigate(getString('addClassScreen'));
+        grandParentNav.navigate('AddClass');
         return;
       }
       if (parentNav && typeof parentNav.navigate === 'function') {
-        parentNav.navigate(getString('addClassScreen'));
+        parentNav.navigate('AddClass');
         return;
       }
       // Fallback final
-      navigation.navigate(getString('addClassScreen'));
+      navigation.navigate('AddClass');
     });
 
     if (result.blocked) {
@@ -508,7 +508,7 @@ const AdminClasses = ({ navigation }) => {
                 console.log('🚀 Botão criar turma clicado no AdminClasses');
                 setShowCalendarModal(false);
                 console.log('📱 Navegando para AddClass...');
-                navigation.navigate(getString('addClassScreen'));
+                navigation.navigate('AddClass');
               }}
               navigation={navigation}
             />

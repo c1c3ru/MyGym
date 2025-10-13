@@ -3,7 +3,7 @@ import { useAuthActions } from './useAuthActions';
 import { useAuthUI } from './useAuthUI';
 import useAuthStore from '@presentation/stores/AuthUIStore';
 import { loginSchema, signUpSchema } from '@domain/auth/usecases/schemas';
-import { getString } from '@shared/utils/theme';
+import { getString } from '@utils/theme';
 
 /**
  * useAuthClean - Presentation Layer

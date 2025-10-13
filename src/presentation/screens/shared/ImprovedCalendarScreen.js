@@ -10,7 +10,7 @@ import cacheService, { CACHE_KEYS, CACHE_TTL } from '@services/cacheService';
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import FreeGymScheduler from '@components/FreeGymScheduler';
 import { COLORS } from '@presentation/theme/designTokens';
-import { getString } from '@shared/utils/theme';
+import { getString } from '@utils/theme';
 
 /**
  * Tela de calendário melhorada usando o FreeGymScheduler

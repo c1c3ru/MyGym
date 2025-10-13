@@ -1,5 +1,5 @@
 import { useAuthClean } from './useAuthClean';
-import { getString } from '@shared/utils/theme';
+import { getString } from '@utils/theme';
 
 /**
  * useAuthMigrationV2 - Compatibility Layer

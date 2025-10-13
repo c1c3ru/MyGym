@@ -18,7 +18,7 @@ import { useTheme } from '@contexts/ThemeContext';
 import { paymentService } from '@services/firestoreService';
 import { Linking } from 'react-native';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT , BORDER_WIDTH } from '@presentation/theme/designTokens';
-import { getString } from '@shared/utils/theme';
+import { getString } from '@utils/theme';
 
 const StudentPayments = ({ navigation }) => {
   const { user, userProfile, academia } = useAuth();
