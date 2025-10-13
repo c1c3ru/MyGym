@@ -219,7 +219,7 @@ const UIUXExampleScreen = ({ navigation }) => {
           </AccessibleCard>
 
           <View style={styles.chipRow}>
-            {['Karatê', 'Jiu-Jitsu', 'Muay Thai'].map((modality, index) => (
+            {[getString('karate'), getString('jiujitsu'), getString('muayThai')].map((modality, index) => (
               <AccessibleChip
                 key={index}
                 selected={selectedChips.includes(index)}

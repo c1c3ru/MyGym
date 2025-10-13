@@ -115,7 +115,7 @@ const CheckInScreen = ({ navigation }) => {
       // Obter ID da academia
       const academiaId = userProfile?.academiaId || academia?.id;
       if (!academiaId) {
-        console.error('Academia ID não encontrado');
+        console.error(getString('academyIdNotFound'));
         return;
       }
       
@@ -174,7 +174,7 @@ const CheckInScreen = ({ navigation }) => {
 
     } catch (error) {
       console.error('Erro ao fazer check-in:', error);
-      Alert.alert('Erro', 'Não foi possível realizar o check-in. Tente novamente.');
+      Alert.alert(getString('error'), 'Não foi possível realizar o check-in. Tente novamente.');
     } finally {
       setLoading(false);
     }

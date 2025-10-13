@@ -44,9 +44,9 @@ const GraduationBoard = ({
 
   const getModalityIcon = (modality) => {
     const icons = {
-      'Karatê': 'hand-right',
-      'Jiu-Jitsu': 'fitness',
-      'Muay Thai': 'flash',
+      getString('karate'): 'hand-right',
+      getString('jiujitsu'): 'fitness',
+      getString('muayThai'): 'flash',
       'Judô': 'body',
       'Taekwondo': 'footsteps'
     };

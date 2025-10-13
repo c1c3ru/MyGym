@@ -92,7 +92,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
       // Obter ID da academia
       const academiaId = userProfile?.academiaId || academia?.id;
       if (!academiaId) {
-        console.error('Academia ID não encontrado');
+        console.error(getString('academyIdNotFound'));
         showSnackbar('Academia não encontrada. Faça login novamente.', 'error');
         return;
       }
@@ -285,7 +285,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
       console.log('Academia:', academia);
       
       if (!academiaId) {
-        console.error('Academia ID não encontrado');
+        console.error(getString('academyIdNotFound'));
         showSnackbar('Academia não encontrada. Faça login novamente.', 'error');
         return;
       }
@@ -333,7 +333,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
           />
           <View style={styles.headerTextContainer}>
             <Text style={styles.headerTitle}>Nova Graduação</Text>
-            <Text style={styles.headerSubtitle}>{studentName || 'Aluno'}</Text>
+            <Text style={styles.headerSubtitle}>{studentName || getString('student')}</Text>
           </View>
         </View>
       </LinearGradient>

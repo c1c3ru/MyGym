@@ -82,7 +82,7 @@ export default function QRCodeGenerator({ size = 200, showActions = true, academ
         setTimeout(() => document.body.removeChild(notification), 300);
       }, type === 'success' ? 3000 : 4000);
     } else {
-      Alert.alert(type === 'success' ? 'Sucesso' : 'Erro', message);
+      Alert.alert(type === 'success' ? getString('success') : getString('error'), message);
     }
   };
 

@@ -148,7 +148,7 @@ const AddStudentScreen = ({ navigation, route }) => {
         : [...prev, classId];
       
       // Feedback visual
-      const className = availableClasses.find(c => c.id === classId)?.name || 'Turma';
+      const className = availableClasses.find(c => c.id === classId)?.name || getString('class');
       if (isSelected) {
         showSnackbar(`${className} removida da seleção`, 'info');
         trackButtonClick('remove_class_selection', { classId, className });
@@ -210,7 +210,7 @@ const AddStudentScreen = ({ navigation, route }) => {
 
         const academiaId = userProfile?.academiaId || academia?.id;
         if (!academiaId) {
-          throw new Error('Academia ID não encontrado');
+          throw new Error(getString('academyIdNotFound'));
         }
         
         studentData.academiaId = academiaId;

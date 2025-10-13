@@ -153,7 +153,7 @@ const AdminModalities = ({ navigation }) => {
 
     try {
       if (!userProfile?.academiaId) {
-        Alert.alert(getString('error'), 'Usuário não associado a uma academia');
+        Alert.alert(getString('error'), getString('userNotAssociated'));
         return;
       }
 
@@ -203,12 +203,12 @@ const AdminModalities = ({ navigation }) => {
         `Tem certeza que deseja excluir a modalidade "${modality.name}"?`,
         [
           { 
-            text: 'Cancelar', 
+            text: getString('cancel'), 
             style: 'cancel',
             onPress: () => console.log('❌ Exclusão cancelada pelo usuário')
           },
           { 
-            text: 'Excluir', 
+            text: getString('delete'), 
             style: 'destructive',
             onPress: () => executeDelete(modality)
           }
@@ -259,7 +259,7 @@ const AdminModalities = ({ navigation }) => {
         setTimeout(() => document.body.removeChild(notification), 300);
       }, type === 'success' ? 3000 : 4000);
     } else {
-      Alert.alert(type === 'success' ? 'Sucesso' : 'Erro', message);
+      Alert.alert(type === 'success' ? getString('success') : getString('error'), message);
     }
   };
 
@@ -283,7 +283,7 @@ const AdminModalities = ({ navigation }) => {
       }
       
       if (!userProfile?.academiaId) {
-        throw new Error('Usuário não associado a uma academia');
+        throw new Error(getString('userNotAssociated'));
       }
 
       console.log('🗑️ Iniciando exclusão da modalidade:', modality.id);
@@ -321,7 +321,7 @@ const AdminModalities = ({ navigation }) => {
 
     try {
       if (!userProfile?.academiaId) {
-        Alert.alert(getString('error'), 'Usuário não associado a uma academia');
+        Alert.alert(getString('error'), getString('userNotAssociated'));
         return;
       }
 
@@ -382,12 +382,12 @@ const AdminModalities = ({ navigation }) => {
         `Tem certeza que deseja excluir o plano "${plan.name}"?`,
         [
           { 
-            text: 'Cancelar', 
+            text: getString('cancel'), 
             style: 'cancel',
             onPress: () => console.log('❌ Exclusão cancelada pelo usuário')
           },
           { 
-            text: 'Excluir', 
+            text: getString('delete'), 
             style: 'destructive',
             onPress: () => executeDeletePlan(plan)
           }
@@ -413,7 +413,7 @@ const AdminModalities = ({ navigation }) => {
       }
       
       if (!userProfile?.academiaId) {
-        throw new Error('Usuário não associado a uma academia');
+        throw new Error(getString('userNotAssociated'));
       }
 
       console.log('🗑️ Iniciando exclusão do plano:', plan.id);
@@ -447,7 +447,7 @@ const AdminModalities = ({ navigation }) => {
 
     try {
       if (!userProfile?.academiaId) {
-        Alert.alert(getString('error'), 'Usuário não associado a uma academia');
+        Alert.alert(getString('error'), getString('userNotAssociated'));
         return;
       }
 
@@ -511,12 +511,12 @@ const AdminModalities = ({ navigation }) => {
         `Tem certeza que deseja excluir o aviso "${announcement.title}"?`,
         [
           { 
-            text: 'Cancelar', 
+            text: getString('cancel'), 
             style: 'cancel',
             onPress: () => console.log('❌ Exclusão cancelada pelo usuário')
           },
           { 
-            text: 'Excluir', 
+            text: getString('delete'), 
             style: 'destructive',
             onPress: () => executeDeleteAnnouncement(announcement)
           }
@@ -542,7 +542,7 @@ const AdminModalities = ({ navigation }) => {
       }
       
       if (!userProfile?.academiaId) {
-        throw new Error('Usuário não associado a uma academia');
+        throw new Error(getString('userNotAssociated'));
       }
 
       console.log('🗑️ Iniciando exclusão do aviso:', announcement.id);
@@ -643,7 +643,7 @@ const AdminModalities = ({ navigation }) => {
                           disabled={deletingIds.has(modality.id)}
                           loading={deletingIds.has(modality.id)}
                         >
-                          {deletingIds.has(modality.id) ? 'Excluindo...' : 'Excluir'}
+                          {deletingIds.has(modality.id) ? 'Excluindo...' : getString('delete')}
                         </Button>
                       </View>
                     )}
@@ -702,7 +702,7 @@ const AdminModalities = ({ navigation }) => {
                           disabled={deletingPlanIds.has(plan.id)}
                           loading={deletingPlanIds.has(plan.id)}
                         >
-                          {deletingPlanIds.has(plan.id) ? 'Excluindo...' : 'Excluir'}
+                          {deletingPlanIds.has(plan.id) ? 'Excluindo...' : getString('delete')}
                         </Button>
                       </View>
                     )}
@@ -761,7 +761,7 @@ const AdminModalities = ({ navigation }) => {
                           disabled={deletingAnnouncementIds.has(announcement.id)}
                           loading={deletingAnnouncementIds.has(announcement.id)}
                         >
-                          {deletingAnnouncementIds.has(announcement.id) ? 'Excluindo...' : 'Excluir'}
+                          {deletingAnnouncementIds.has(announcement.id) ? 'Excluindo...' : getString('delete')}
                         </Button>
                       </View>
                     )}
@@ -839,7 +839,7 @@ const AdminModalities = ({ navigation }) => {
               setNewModality({ name: '', description: '' });
             }}>{getString('cancel')}</Button>
             <Button onPress={handleAddModality}>
-              {editingModality ? 'Atualizar' : getString('create')}
+              {editingModality ? getString('update') : getString('create')}
             </Button>
           </Dialog.Actions>
         </Dialog>
@@ -892,7 +892,7 @@ const AdminModalities = ({ navigation }) => {
               setNewPlan({ name: '', value: '', duration: '', description: '' });
             }}>{getString('cancel')}</Button>
             <Button onPress={handleAddPlan}>
-              {editingPlan ? 'Atualizar' : getString('create')}
+              {editingPlan ? getString('update') : getString('create')}
             </Button>
           </Dialog.Actions>
         </Dialog>
@@ -962,7 +962,7 @@ const AdminModalities = ({ navigation }) => {
               setNewAnnouncement({ title: '', content: '', expirationDate: '', targetAudience: 'all' });
             }}>{getString('cancel')}</Button>
             <Button onPress={handleAddAnnouncement}>
-              {editingAnnouncement ? 'Atualizar' : getString('publish')}
+              {editingAnnouncement ? getString('update') : getString('publish')}
             </Button>
           </Dialog.Actions>
         </Dialog>

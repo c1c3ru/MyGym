@@ -26,7 +26,7 @@ const SettingsScreen = ({ navigation }) => {
       'Confirmar Logout',
       'Tem certeza que deseja sair da sua conta?',
       [
-        { text: 'Cancelar', style: 'cancel' },
+        { text: getString('cancel'), style: 'cancel' },
         { 
           text: 'Sair', 
           style: 'destructive',
@@ -34,7 +34,7 @@ const SettingsScreen = ({ navigation }) => {
             try {
               await logout();
             } catch (error) {
-              Alert.alert('Erro', 'Não foi possível fazer logout');
+              Alert.alert(getString('error'), 'Não foi possível fazer logout');
             }
           }
         }
@@ -55,9 +55,9 @@ const SettingsScreen = ({ navigation }) => {
       'Excluir Conta',
       'Esta ação é irreversível. Todos os seus dados serão perdidos.',
       [
-        { text: 'Cancelar', style: 'cancel' },
+        { text: getString('cancel'), style: 'cancel' },
         { 
-          text: 'Excluir', 
+          text: getString('delete'), 
           style: 'destructive',
           onPress: () => {
             Alert.alert('Em Desenvolvimento', 'Funcionalidade será implementada em breve');

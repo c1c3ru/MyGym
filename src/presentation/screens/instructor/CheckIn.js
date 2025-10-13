@@ -127,7 +127,7 @@ const CheckIn = ({ navigation }) => {
 
     } catch (error) {
       console.error('❌ CheckIn: Erro ao carregar dados:', error);
-      Alert.alert('Erro', 'Não foi possível carregar os dados. Tente novamente.');
+      Alert.alert(getString('error'), getString('dataLoadError'));
     } finally {
       setLoading(false);
       setRefreshing(false);
@@ -247,7 +247,7 @@ const CheckIn = ({ navigation }) => {
       
       const classInfo = classes.find(c => c.id === classId);
       if (!classInfo) {
-        Alert.alert('Erro', 'Turma não encontrada');
+        Alert.alert(getString('error'), 'Turma não encontrada');
         return;
       }
 
@@ -277,10 +277,10 @@ const CheckIn = ({ navigation }) => {
       // Recarregar dados
       await loadActiveCheckIns();
       
-      Alert.alert('Sucesso', `Check-in iniciado para ${classInfo.name}`);
+      Alert.alert(getString('success'), `Check-in iniciado para ${classInfo.name}`);
     } catch (error) {
       console.error('❌ Erro ao iniciar check-in:', error);
-      Alert.alert('Erro', 'Não foi possível iniciar o check-in. Tente novamente.');
+      Alert.alert(getString('error'), 'Não foi possível iniciar o check-in. Tente novamente.');
     }
   };
 
@@ -289,10 +289,10 @@ const CheckIn = ({ navigation }) => {
       console.log('⏹️ Parando check-in para sessão:', sessionId);
       
       Alert.alert(
-        'Confirmar',
+        getString('confirm'),
         'Deseja realmente parar esta sessão de check-in?',
         [
-          { text: 'Cancelar', style: 'cancel' },
+          { text: getString('cancel'), style: 'cancel' },
           { 
             text: 'Parar', 
             style: 'destructive',
@@ -310,10 +310,10 @@ const CheckIn = ({ navigation }) => {
                 await loadRecentCheckIns();
                 await loadTodayCheckIns();
                 
-                Alert.alert('Sucesso', 'Sessão de check-in finalizada');
+                Alert.alert(getString('success'), getString('checkInStopped'));
               } catch (error) {
                 console.error('❌ Erro ao parar check-in:', error);
-                Alert.alert('Erro', 'Não foi possível parar o check-in');
+                Alert.alert(getString('error'), 'Não foi possível parar o check-in');
               }
             }
           }
@@ -334,7 +334,7 @@ const CheckIn = ({ navigation }) => {
       console.log('🔍 Debug - User profile:', userProfile);
       
       if (!selectedClass) {
-        Alert.alert('Erro', 'Selecione uma turma primeiro');
+        Alert.alert(getString('error'), 'Selecione uma turma primeiro');
         return;
       }
 
@@ -367,14 +367,14 @@ const CheckIn = ({ navigation }) => {
         tokenAcademiaId
       );
       
-      Alert.alert('Sucesso', `Check-in realizado para ${studentName}!`);
+      Alert.alert(getString('success'), `Check-in realizado para ${studentName}!`);
       
       // Recarregar dados
       await loadRecentCheckIns();
       await loadTodayCheckIns();
     } catch (error) {
       console.error('❌ Erro no check-in manual:', error);
-      Alert.alert('Erro', 'Não foi possível realizar o check-in');
+      Alert.alert(getString('error'), 'Não foi possível realizar o check-in');
     }
   };
 
@@ -457,7 +457,7 @@ const CheckIn = ({ navigation }) => {
     }
 
     if (!selectedClass) {
-      Alert.alert('Erro', 'Selecione uma turma primeiro');
+      Alert.alert(getString('error'), 'Selecione uma turma primeiro');
       return;
     }
 
@@ -477,7 +477,7 @@ const CheckIn = ({ navigation }) => {
         
         const checkInData = {
           studentId,
-          studentName: student?.name || 'Nome não informado',
+          studentName: student?.name || getString('nameNotInformed'),
           classId: selectedClass.id,
           className: selectedClass.name,
           instructorId: user.id,
@@ -516,7 +516,7 @@ const CheckIn = ({ navigation }) => {
       
     } catch (error) {
       console.error('❌ Erro no check-in em lote:', error);
-      Alert.alert('Erro', 'Falha ao realizar check-in em lote. Tente novamente.');
+      Alert.alert(getString('error'), 'Falha ao realizar check-in em lote. Tente novamente.');
     } finally {
       setBatchProcessing(false);
     }
@@ -569,7 +569,7 @@ const CheckIn = ({ navigation }) => {
                             const minute = String(classItem.schedule.minute || 0).padStart(2, '0');
                             return `${day} ${hour}:${minute}`;
                           }
-                          return String(classItem.schedule || 'Horário não definido');
+                          return String(classItem.schedule || getString('scheduleNotDefined'));
                         })()}
                       </Text>
                     </View>
@@ -631,7 +631,7 @@ const CheckIn = ({ navigation }) => {
                     <View style={styles.detailItem}>
                       <MaterialCommunityIcons name="clock" size={16} color={COLORS.text.secondary} />
                       <Text style={styles.detailText}>
-                        Iniciado: {session.startTime?.toDate?.()?.toLocaleTimeString() || 'Agora'}
+                        Iniciado: {session.startTime?.toDate?.()?.toLocaleTimeString() || getString('now')}
                       </Text>
                     </View>
                     <View style={styles.detailItem}>
@@ -672,7 +672,7 @@ const CheckIn = ({ navigation }) => {
                 <List.Item
                   key={checkIn.id}
                   title={checkIn.studentName}
-                  description={`${checkIn.className} • ${checkIn.date?.toDate?.()?.toLocaleTimeString() || 'Agora'}`}
+                  description={`${checkIn.className} • ${checkIn.date?.toDate?.()?.toLocaleTimeString() || getString('now')}`}
                   left={() => (
                     <List.Icon 
                       icon="check-circle" 
@@ -740,7 +740,7 @@ const CheckIn = ({ navigation }) => {
 
           {/* Busca de Alunos */}
           <Searchbar
-            placeholder="Buscar aluno..."
+            placeholder=getString('searchStudent')
             onChangeText={filterStudents}
             value={searchQuery}
             style={styles.searchbar}
@@ -783,11 +783,11 @@ const CheckIn = ({ navigation }) => {
                 return (
                   <List.Item
                     key={student.id}
-                    title={student.name || 'Nome não informado'}
+                    title={student.name || getString('nameNotInformed')}
                     description={
                       <View style={styles.studentDescription}>
                         <Text style={styles.studentEmail}>
-                          {student.email || 'Email não informado'}
+                          {student.email || getString('emailNotInformed')}
                         </Text>
                         {hasCheckIn && (
                           <Chip
@@ -920,7 +920,7 @@ const CheckIn = ({ navigation }) => {
           
           setManualCheckInVisible(true);
         }}
-        label="Check-in Manual"
+        label=getString('manualCheckIn')
       />
     </SafeAreaView>
   );

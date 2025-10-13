@@ -59,9 +59,9 @@ const AdminTabNavigator = () => {
 
           if (route.name === 'Dashboard') {
             iconName = focused ? 'home' : 'home-outline';
-          } else if (route.name === 'Alunos') {
+          } else if (route.name === getString('students')) {
             iconName = focused ? 'people' : 'people-outline';
-          } else if (route.name === 'Turmas') {
+          } else if (route.name === getString('classes')) {
             iconName = focused ? 'school' : 'school-outline';
           } else if (route.name === 'Modalidades') {
             iconName = focused ? 'fitness' : 'fitness-outline';
@@ -85,12 +85,12 @@ const AdminTabNavigator = () => {
         options={{ title: getString('dashboard') }}
       />
       <Tab.Screen 
-        name="Alunos" 
+        name=getString('students') 
         component={AdminStudents}
         options={{ title: getString('students') }}
       />
       <Tab.Screen 
-        name="Turmas" 
+        name=getString('classes') 
         component={AdminClasses}
         options={{ title: getString('classes') }}
       />

@@ -68,14 +68,14 @@ const StudentListItem = memo(({
                 fontSize: FONT_SIZE.sm 
               }}
             >
-              {student.isActive ? 'Ativo' : 'Inativo'}
+              {student.isActive ? getString('active') : getString('inactive')}
             </Chip>
           </View>
           
           <View style={styles.statColumn}>
             <Text style={styles.statLabel}>Graduação</Text>
             <Text style={styles.statValue}>
-              {student.currentGraduation || 'Iniciante'}
+              {student.currentGraduation || getString('beginner')}
             </Text>
           </View>
           
@@ -91,7 +91,7 @@ const StudentListItem = memo(({
         
         <ActionButtonGroup style={styles.actionButtonsContainer}>
           <ActionButton
-            title="Ver Detalhes"
+            title=getString('viewDetails')
             icon="eye"
             onPress={handleView}
             variant="outline"
@@ -100,7 +100,7 @@ const StudentListItem = memo(({
             style={styles.actionButton}
           />
           <ActionButton
-            title="Editar"
+            title=getString('edit')
             icon="pencil"
             onPress={handleEdit}
             variant="primary"

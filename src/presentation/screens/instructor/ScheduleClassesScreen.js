@@ -61,7 +61,7 @@ const ScheduleClassesScreen = ({ navigation, route }) => {
       setClasses(instructorClasses);
     } catch (error) {
       console.error('Erro ao carregar turmas:', error);
-      Alert.alert('Erro', 'Não foi possível carregar suas turmas');
+      Alert.alert(getString('error'), 'Não foi possível carregar suas turmas');
     }
   };
 
@@ -99,7 +99,7 @@ const ScheduleClassesScreen = ({ navigation, route }) => {
         
         const lessonData = {
           classId,
-          className: classData?.name || 'Turma',
+          className: classData?.name || getString('class'),
           instructorId: user.id,
           instructorName: userProfile?.name || user.email,
           academiaId: userProfile.academiaId,
@@ -131,7 +131,7 @@ const ScheduleClassesScreen = ({ navigation, route }) => {
 
     } catch (error) {
       console.error('Erro ao agendar aulas:', error);
-      Alert.alert('Erro', 'Não foi possível agendar as aulas. Tente novamente.');
+      Alert.alert(getString('error'), 'Não foi possível agendar as aulas. Tente novamente.');
     } finally {
       setLoading(false);
     }

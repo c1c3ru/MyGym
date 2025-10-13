@@ -57,7 +57,7 @@ const EditClassScreen = ({ route, navigation }) => {
       // Obter ID da academia
       const academiaId = userProfile?.academiaId || academia?.id;
       if (!academiaId) {
-        console.error('Academia ID não encontrado');
+        console.error(getString('academyIdNotFound'));
         return;
       }
       
@@ -80,7 +80,7 @@ const EditClassScreen = ({ route, navigation }) => {
       setLoadingData(true);
       const academiaId = userProfile?.academiaId || academia?.id;
       if (!academiaId) {
-        console.error('Academia ID não encontrado');
+        console.error(getString('academyIdNotFound'));
         return;
       }
       
@@ -116,7 +116,7 @@ const EditClassScreen = ({ route, navigation }) => {
       // Obter ID da academia
       const academiaId = userProfile?.academiaId || academia?.id;
       if (!academiaId) {
-        console.error('Academia ID não encontrado');
+        console.error(getString('academyIdNotFound'));
         return;
       }
       
@@ -192,7 +192,7 @@ const EditClassScreen = ({ route, navigation }) => {
 
       const academiaId = userProfile?.academiaId || academia?.id;
       if (!academiaId) {
-        throw new Error('Academia ID não encontrado');
+        throw new Error(getString('academyIdNotFound'));
       }
       
       await academyFirestoreService.update('classes', classId, classData, academiaId);
@@ -214,7 +214,7 @@ const EditClassScreen = ({ route, navigation }) => {
         setLoading(true);
         const academiaId = userProfile?.academiaId || academia?.id;
         if (!academiaId) {
-          throw new Error('Academia ID não encontrado');
+          throw new Error(getString('academyIdNotFound'));
         }
         
         await academyFirestoreService.delete('classes', classId, academiaId);

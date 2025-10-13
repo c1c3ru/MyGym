@@ -425,7 +425,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
                 loading={loading}
                 disabled={loading}
               >
-                {isEditing ? 'Atualizar' : 'Salvar'}
+                {isEditing ? getString('update') : getString('save')}
               </Button>
             </View>
           </Card.Content>

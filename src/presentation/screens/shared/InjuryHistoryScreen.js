@@ -83,7 +83,7 @@ const InjuryHistoryScreen = ({ navigation }) => {
 
   const getStatusLabel = (status) => {
     switch (status) {
-      case 'ativo': return 'Ativo';
+      case 'ativo': return getString('active');
       case 'recuperando': return 'Recuperando';
       case 'recuperado': return 'Recuperado';
       case 'cronico': return 'Crônico';

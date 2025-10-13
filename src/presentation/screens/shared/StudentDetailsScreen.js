@@ -61,7 +61,7 @@ const StudentDetailsScreen = ({ route, navigation }) => {
       
       const academiaId = userProfile?.academiaId || academia?.id;
       if (!academiaId) {
-        console.error('Academia ID não encontrado');
+        console.error(getString('academyIdNotFound'));
         return;
       }
 
@@ -148,7 +148,7 @@ const StudentDetailsScreen = ({ route, navigation }) => {
   const getPaymentStatusText = useCallback((status) => {
     const texts = {
       'paid': 'Pago',
-      'pending': 'Pendente',
+      'pending': getString('paymentPending'),
       'overdue': 'Atrasado'
     };
     return texts[status] || status;
@@ -231,13 +231,13 @@ const StudentDetailsScreen = ({ route, navigation }) => {
               style={styles.avatar}
             />
             <View style={styles.studentInfo}>
-              <Text variant="headlineSmall" style={styles.studentName}>{studentInfo?.name || 'Aluno'}</Text>
+              <Text variant="headlineSmall" style={styles.studentName}>{studentInfo?.name || getString('student')}</Text>
               <Text style={styles.studentEmail}>{studentInfo?.email}</Text>
               <Text style={[
                 styles.statusBadge,
                 { color: studentInfo?.isActive ? COLORS.primary[500] : COLORS.error[500] }
               ]}>
-                {studentInfo?.isActive ? 'Ativo' : 'Inativo'}
+                {studentInfo?.isActive ? getString('active') : getString('inactive')}
               </Text>
             </View>
           </View>

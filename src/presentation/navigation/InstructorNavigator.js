@@ -51,9 +51,9 @@ const InstructorTabNavigator = () => {
 
           if (route.name === 'Dashboard') {
             iconName = focused ? 'home' : 'home-outline';
-          } else if (route.name === 'Turmas') {
+          } else if (route.name === getString('classes')) {
             iconName = focused ? 'school' : 'school-outline';
-          } else if (route.name === 'Alunos') {
+          } else if (route.name === getString('students')) {
             iconName = focused ? 'people' : 'people-outline';
           }
           return <Ionicons name={iconName} size={size} color={color} />;
@@ -71,12 +71,12 @@ const InstructorTabNavigator = () => {
         options={{ title: getString('dashboard') }}
       />
       <Tab.Screen 
-        name="Turmas" 
+        name=getString('classes') 
         component={InstructorClasses}
         options={{ title: getString('classes') }}
       />
       <Tab.Screen 
-        name="Alunos" 
+        name=getString('students') 
         component={InstructorStudents}
         options={{ title: getString('students') }}
       />

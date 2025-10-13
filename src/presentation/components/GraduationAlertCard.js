@@ -55,7 +55,7 @@ const GraduationAlertCard = ({
   };
 
   const getDaysText = (days) => {
-    if (days === 0) return 'Hoje';
+    if (days === 0) return getString('today');
     if (days === 1) return '1 dia';
     if (days < 30) return `${days} dias`;
     

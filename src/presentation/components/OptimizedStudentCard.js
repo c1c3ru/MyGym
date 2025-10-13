@@ -31,8 +31,8 @@ const OptimizedStudentCard = memo(({
 
   const getPaymentStatusText = (status) => {
     switch (status) {
-      case 'paid': return 'Em dia';
-      case 'pending': return 'Pendente';
+      case 'paid': return getString('paymentUpToDate');
+      case 'pending': return getString('paymentPending');
       case 'overdue': return 'Atrasado';
       default: return 'N/A';
     }
@@ -86,9 +86,9 @@ const OptimizedStudentCard = memo(({
                 fontSize: FONT_SIZE.sm
               }}
               accessible={true}
-              accessibilityLabel={`Status: ${student.isActive !== false ? 'Ativo' : 'Inativo'}`}
+              accessibilityLabel={`Status: ${student.isActive !== false ? getString('active') : getString('inactive')}`}
             >
-              {student.isActive !== false ? 'Ativo' : 'Inativo'}
+              {student.isActive !== false ? getString('active') : getString('inactive')}
             </Chip>
           </View>
 
@@ -114,7 +114,7 @@ const OptimizedStudentCard = memo(({
           <View style={styles.statColumn}>
             <Text style={styles.statLabel}>Graduação</Text>
             <Text style={styles.graduationText} accessible={true}>
-              {student.currentGraduation || 'Iniciante'}
+              {student.currentGraduation || getString('beginner')}
             </Text>
           </View>
         </View>

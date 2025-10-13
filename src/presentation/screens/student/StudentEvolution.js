@@ -43,7 +43,7 @@ const StudentEvolution = ({ navigation }) => {
       // Obter ID da academia
       const academiaId = userProfile?.academiaId || academia?.id;
       if (!academiaId) {
-        console.error('Academia ID não encontrado');
+        console.error(getString('academyIdNotFound'));
         return;
       }
       
@@ -69,7 +69,7 @@ const StudentEvolution = ({ navigation }) => {
       
       setStats({
         totalGraduations: userGraduations.length,
-        currentGraduation: currentGrad?.graduation || 'Iniciante',
+        currentGraduation: currentGrad?.graduation || getString('beginner'),
         timeInCurrentGraduation: timeInCurrent,
         modalities
       });
@@ -111,11 +111,11 @@ const StudentEvolution = ({ navigation }) => {
 
   const getGraduationIcon = (modality) => {
     const icons = {
-      'Jiu-Jitsu': 'fitness-outline',
-      'Muay Thai': 'hand-left-outline',
-      'Boxe': 'hand-right-outline',
+      getString('jiujitsu'): 'fitness-outline',
+      getString('muayThai'): 'hand-left-outline',
+      getString('boxing'): 'hand-right-outline',
       'MMA': 'shield-outline',
-      'Karatê': 'body-outline',
+      getString('karate'): 'body-outline',
       'Judô': 'person-outline'
     };
     return icons[modality] || 'medal-outline';

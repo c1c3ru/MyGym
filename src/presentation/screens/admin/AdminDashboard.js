@@ -94,7 +94,7 @@ const AdminDashboard = ({ navigation }) => {
       // Buscar todos os alunos da academia
       const academiaId = userProfile?.academiaId || academia?.id;
       if (!academiaId) {
-        console.error('Academia ID não encontrado');
+        console.error(getString('academyIdNotFound'));
         return;
       }
 
@@ -245,12 +245,12 @@ const AdminDashboard = ({ navigation }) => {
   // Memoized navigation handlers
   const handleNavigateToStudents = useCallback(() => {
     trackButtonClick('navigate_students');
-    navigation.navigate('Alunos');
+    navigation.navigate(getString('students'));
   }, [navigation, trackButtonClick]);
 
   const handleNavigateToClasses = useCallback(() => {
     trackButtonClick('navigate_classes');
-    navigation.navigate('Turmas');
+    navigation.navigate(getString('classes'));
   }, [navigation, trackButtonClick]);
 
   const handleNavigateToManagement = useCallback(() => {
@@ -527,8 +527,8 @@ const AdminDashboard = ({ navigation }) => {
 
             <View style={styles.modernQuickActions}>
               {[
-                { key: 'students', title: 'Alunos', subtitle: 'Gerenciar alunos', icon: ADMIN_ICONS.quickActions.students, colors: ADMIN_COLORS.blue, onPress: handleNavigateToStudents },
-                { key: 'classes', title: 'Turmas', subtitle: 'Gerenciar turmas', icon: ADMIN_ICONS.quickActions.classes, colors: ADMIN_COLORS.green, onPress: handleNavigateToClasses },
+                { key: 'students', title: getString('students'), subtitle: 'Gerenciar alunos', icon: ADMIN_ICONS.quickActions.students, colors: ADMIN_COLORS.blue, onPress: handleNavigateToStudents },
+                { key: 'classes', title: getString('classes'), subtitle: 'Gerenciar turmas', icon: ADMIN_ICONS.quickActions.classes, colors: ADMIN_COLORS.green, onPress: handleNavigateToClasses },
                 { key: 'calendar', title: 'Calendário', subtitle: 'Visualizar cronograma', icon: 'calendar-month', colors: ADMIN_COLORS.teal, onPress: handleShowCalendar },
                 { key: 'settings', title: 'Configurações', subtitle: 'Preferências e gestão', icon: ADMIN_ICONS.quickActions.settings, colors: ADMIN_COLORS.orange, onPress: handleNavigateToManagement },
               ].map((action, idx) => (

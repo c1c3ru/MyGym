@@ -69,7 +69,7 @@ export const useCustomClaims = () => {
       case 'instructor':
         return 'Instrutor';
       case 'student':
-        return 'Aluno';
+        return getString('student');
       default:
         return 'Usuário';
     }

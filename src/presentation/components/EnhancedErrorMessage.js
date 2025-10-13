@@ -144,7 +144,7 @@ const ERROR_CATALOG = {
     color: 'error',
     actions: [
       { label: 'Voltar', action: 'back' },
-      { label: 'Atualizar', action: 'retry' }
+      { label: getString('update'), action: 'retry' }
     ],
   },
   'data/save-failed': {

@@ -1,0 +1,276 @@
+import React, { useState, useEffect } from 'react';
+import { View, ScrollView } from 'react-native';
+import { Text, Chip, Card, ActivityIndicator } from 'react-native-paper';
+import useAuthMigration from '@hooks/useAuthMigration';
+import academyCollectionsService from '@services/academyCollectionsService';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+
+export default function ModalityPicker({ 
+  selectedModalities = [], 
+  onModalitiesChange,
+  label = "Modalidades Oferecidas"
+}) {
+  const [availableModalities, setAvailableModalities] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { userProfile } = useAuthMigration();
+
+  useEffect(() => {
+    if (userProfile?.academiaId) {
+      loadModalities();
+    }
+  }, [userProfile?.academiaId]);
+
+  const loadModalities = async () => {
+    console.time('ModalityPicker.loadModalities');
+    console.log('🔄 ModalityPicker: Iniciando carregamento de modalidades');
+    
+    try {
+      setLoading(true);
+      
+      // Verificar se o usuário tem academiaId
+      if (!userProfile?.academiaId) {
+        console.warn('❌ ModalityPicker: Usuário não tem academiaId, usando fallback');
+        throw new Error('Usuário não associado a uma academia');
+      }
+      
+      console.log('🔄 ModalityPicker: Buscando modalidades da academia:', userProfile.academiaId);
+      
+      // Buscar modalidades usando o novo serviço
+      const modalities = await academyCollectionsService.getModalities(userProfile.academiaId);
+      console.log('✅ ModalityPicker: Modalidades carregadas:', modalities.length);
+      console.log('🔍 ModalityPicker: Modalidades brutas:', modalities.map(m => ({ id: m.id, name: m.name })));
+      
+      // Remover duplicatas baseado no ID e nome
+      const uniqueModalities = modalities.filter((modality, index, self) => 
+        index === self.findIndex(m => m.id === modality.id || m.name === modality.name)
+      );
+      
+      console.log('🧹 ModalityPicker: Modalidades após deduplicação:', uniqueModalities.length);
+      console.log('📝 ModalityPicker: Lista final:', uniqueModalities.map(m => ({ id: m.id, name: m.name })));
+      
+      // Se não conseguiu carregar nenhuma modalidade, usar fallback
+      if (uniqueModalities.length === 0) {
+        setAvailableModalities([
+          { id: 'bjj', name: 'Jiu-Jitsu Brasileiro', description: 'Arte marcial brasileira' },
+          { id: 'muaythai', name: 'Muay Thai', description: 'Arte marcial tailandesa' },
+          { id: 'boxe', name: 'Boxe', description: 'Esporte de combate' },
+          { id: 'mma', name: 'MMA', description: 'Artes marciais mistas' },
+          { id: 'judo', name: 'Judô', description: 'Arte marcial japonesa' },
+          { id: 'karate', name: 'Karatê', description: 'Arte marcial japonesa' },
+          { id: 'taekwondo', name: 'Taekwondo', description: 'Arte marcial coreana' },
+          { id: 'capoeira', name: 'Capoeira', description: 'Arte marcial brasileira' }
+        ]);
+      } else {
+        setAvailableModalities(uniqueModalities);
+      }
+    } catch (error) {
+      console.error('❌ ModalityPicker: Erro ao carregar modalidades:', error.message);
+      // Modalidades padrão caso não consiga carregar do banco
+      setAvailableModalities([
+        { id: 'bjj', name: 'Jiu-Jitsu Brasileiro', description: 'Arte marcial brasileira' },
+        { id: 'muaythai', name: 'Muay Thai', description: 'Arte marcial tailandesa' },
+        { id: 'boxe', name: 'Boxe', description: 'Esporte de combate' },
+        { id: 'mma', name: 'MMA', description: 'Artes marciais mistas' },
+        { id: 'judo', name: 'Judô', description: 'Arte marcial japonesa' },
+        { id: 'karate', name: 'Karatê', description: 'Arte marcial japonesa' },
+        { id: 'taekwondo', name: 'Taekwondo', description: 'Arte marcial coreana' },
+        { id: 'capoeira', name: 'Capoeira', description: 'Arte marcial brasileira' }
+      ]);
+    } finally {
+      console.timeEnd('ModalityPicker.loadModalities');
+      console.log('✅ ModalityPicker: Carregamento finalizado, definindo loading=false');
+      setLoading(false);
+    }
+  };
+
+  const handleModalityToggle = (modalityId) => {
+    console.log('🔄 ModalityPicker: Toggle clicado para modalidade:', modalityId);
+    console.log('🔄 ModalityPicker: Modalidades selecionadas antes:', selectedModalities);
+    
+    const isSelected = selectedModalities.includes(modalityId);
+    let newSelection;
+    
+    if (isSelected) {
+      // Remover modalidade
+      newSelection = selectedModalities.filter(id => id !== modalityId);
+      console.log('➖ ModalityPicker: Removendo modalidade:', modalityId);
+    } else {
+      // Adicionar modalidade
+      newSelection = [...selectedModalities, modalityId];
+      console.log('➕ ModalityPicker: Adicionando modalidade:', modalityId);
+    }
+    
+    console.log('🔄 ModalityPicker: Nova seleção:', newSelection);
+    
+    if (onModalitiesChange && typeof onModalitiesChange === 'function') {
+      onModalitiesChange(newSelection);
+      console.log('✅ ModalityPicker: Callback executado com sucesso');
+    } else {
+      console.error('❌ ModalityPicker: onModalitiesChange não é uma função válida:', onModalitiesChange);
+    }
+  };
+
+  const getModalityName = (modalityId) => {
+    const modality = availableModalities.find(m => m.id === modalityId);
+    return modality ? modality.name : modalityId;
+  };
+
+  if (loading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="small" />
+        <Text style={styles.loadingText}>Carregando modalidades...</Text>
+      </View>
+    );
+  }
+
+  return (
+    <View style={styles.container}>
+      <Text variant="titleMedium" style={styles.label}>
+        {label}
+      </Text>
+      
+      <Card style={styles.card}>
+        <Card.Content>
+          <ScrollView 
+            horizontal 
+            showsHorizontalScrollIndicator={true}
+            style={styles.scrollView}
+            contentContainerStyle={styles.scrollContent}
+            bounces={false}
+            decelerationRate="fast"
+            snapToInterval={120}
+            snapToAlignment="start"
+          >
+            <View style={styles.chipsContainer}>
+              {availableModalities.map((modality, index) => (
+                <Chip
+                  key={modality.id}
+                  mode={selectedModalities.includes(modality.id) ? 'flat' : 'outlined'}
+                  selected={selectedModalities.includes(modality.id)}
+                  onPress={() => handleModalityToggle(modality.id)}
+                  style={[
+                    styles.chip,
+                    selectedModalities.includes(modality.id) && styles.selectedChip,
+                    index === availableModalities.length - 1 && styles.lastChip
+                  ]}
+                  textStyle={[
+                    styles.chipText,
+                    selectedModalities.includes(modality.id) && styles.selectedChipText
+                  ]}
+                >
+                  {modality.name}
+                </Chip>
+              ))}
+            </View>
+          </ScrollView>
+          
+          {selectedModalities.length > 0 && (
+            <View style={styles.selectedContainer}>
+              <Text variant="bodySmall" style={styles.selectedLabel}>
+                Selecionadas ({selectedModalities.length}):
+              </Text>
+              <View style={styles.selectedChips}>
+                {selectedModalities.map((modalityId) => (
+                  <Chip
+                    key={modalityId}
+                    mode="flat"
+                    selected
+                    onClose={() => handleModalityToggle(modalityId)}
+                    style={styles.selectedChip}
+                    textStyle={styles.selectedChipText}
+                  >
+                    {getModalityName(modalityId)}
+                  </Chip>
+                ))}
+              </View>
+            </View>
+          )}
+          
+          {selectedModalities.length === 0 && (
+            <Text variant="bodySmall" style={styles.emptyText}>
+              Selecione as modalidades que sua academia oferece
+            </Text>
+          )}
+        </Card.Content>
+      </Card>
+    </View>
+  );
+}
+
+const styles = {
+  container: {
+    marginBottom: 16,
+  },
+  label: {
+    marginBottom: SPACING.sm,
+    fontWeight: FONT_WEIGHT.semibold,
+  },
+  card: {
+    backgroundColor: COLORS.background.light,
+  },
+  loadingContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: SPACING.base,
+  },
+  loadingText: {
+    marginLeft: 8,
+    color: COLORS.text.secondary,
+  },
+  scrollView: {
+    marginBottom: SPACING.md,
+    maxHeight: 60,
+  },
+  scrollContent: {
+    paddingRight: 20,
+    paddingLeft: 4,
+  },
+  chipsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    minHeight: 50,
+  },
+  chip: {
+    marginRight: 10,
+    backgroundColor: COLORS.white,
+    minWidth: 100,
+    justifyContent: 'center',
+  },
+  lastChip: {
+    marginRight: 20,
+  },
+  selectedChip: {
+    backgroundColor: COLORS.primary[500],
+  },
+  chipText: {
+    fontSize: FONT_SIZE.base,
+  },
+  selectedChipText: {
+    color: COLORS.white,
+    fontWeight: FONT_WEIGHT.semibold,
+  },
+  selectedContainer: {
+    marginTop: SPACING.md,
+    paddingTop: 12,
+    borderTopWidth: 1,
+    borderTopColor: COLORS.gray[300],
+  },
+  selectedLabel: {
+    marginBottom: SPACING.sm,
+    color: COLORS.text.secondary,
+    fontWeight: FONT_WEIGHT.semibold,
+  },
+  selectedChips: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 6,
+  },
+  emptyText: {
+    textAlign: 'center',
+    color: COLORS.gray[500],
+    fontStyle: 'italic',
+    marginTop: SPACING.sm,
+  },
+};

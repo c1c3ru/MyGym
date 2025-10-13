@@ -59,7 +59,7 @@ const ReportsScreen = ({ navigation }) => {
       
       const academiaId = userProfile?.academiaId || academia?.id;
       if (!academiaId) {
-        console.error('Academia ID não encontrado');
+        console.error(getString('academyIdNotFound'));
         return;
       }
 

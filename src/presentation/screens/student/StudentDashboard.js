@@ -92,7 +92,7 @@ const StudentDashboard = ({ navigation }) => {
               id: cls.id,
               name: cls.name,
               time: cls.schedule?.[0]?.time || '00:00',
-              date: 'Hoje', // Simplificado - em produção calcular baseado no schedule
+              date: getString('today'), // Simplificado - em produção calcular baseado no schedule
               instructor: cls.instructorName || 'Instrutor'
             }))
             .slice(0, 3);
@@ -142,7 +142,7 @@ const StudentDashboard = ({ navigation }) => {
         id: 'error',
         title: 'Erro ao carregar',
         message: 'Não foi possível carregar os dados. Tente novamente mais tarde.',
-        date: 'Agora',
+        date: getString('now'),
         isError: true
       }]);
     } finally {
@@ -187,7 +187,7 @@ const StudentDashboard = ({ navigation }) => {
       const diffTime = Math.abs(now - announcementDate);
       const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
       
-      if (diffDays === 0) return 'Hoje';
+      if (diffDays === 0) return getString('today');
       if (diffDays === 1) return 'Ontem';
       if (diffDays < 7) return `Há ${diffDays} dias`;
       
@@ -265,7 +265,7 @@ const StudentDashboard = ({ navigation }) => {
             />
             <View style={styles.welcomeText}>
               <Text style={styles.welcomeTitle}>
-                Olá, {userProfile?.name || 'Aluno'}!
+                Olá, {userProfile?.name || getString('student')}!
               </Text>
               <Text style={styles.welcomeSubtitle}>
                 Bem-vindo de volta à academia
@@ -336,7 +336,7 @@ const StudentDashboard = ({ navigation }) => {
                 compact
                 style={styles.refreshButton}
               >
-                {loadingAnnouncements ? '' : 'Atualizar'}
+                {loadingAnnouncements ? '' : getString('update')}
               </AnimatedButton>
             </View>
             

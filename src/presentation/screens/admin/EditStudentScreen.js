@@ -58,7 +58,7 @@ const EditStudentScreen = ({ navigation, route }) => {
       // Obter ID da academia
       const academiaId = userProfile?.academiaId || academia?.id;
       if (!academiaId) {
-        throw new Error('Academia ID não encontrado');
+        throw new Error(getString('academyIdNotFound'));
       }
       
       // Buscar aluno na subcoleção da academia
@@ -78,12 +78,12 @@ const EditStudentScreen = ({ navigation, route }) => {
           status: studentData.status || 'active'
         });
       } else {
-        Alert.alert('Erro', 'Aluno não encontrado');
+        Alert.alert(getString('error'), 'Aluno não encontrado');
         navigation.goBack();
       }
     } catch (error) {
       console.error('Erro ao carregar aluno:', error);
-      Alert.alert('Erro', 'Não foi possível carregar os dados do aluno');
+      Alert.alert(getString('error'), 'Não foi possível carregar os dados do aluno');
     } finally {
       setLoadingData(false);
     }
@@ -148,7 +148,7 @@ const EditStudentScreen = ({ navigation, route }) => {
       // Obter ID da academia
       const academiaId = userProfile?.academiaId || academia?.id;
       if (!academiaId) {
-        throw new Error('Academia ID não encontrado');
+        throw new Error(getString('academyIdNotFound'));
       }
       
       // Atualizar aluno na subcoleção da academia
@@ -179,11 +179,11 @@ const EditStudentScreen = ({ navigation, route }) => {
       'Tem certeza que deseja excluir este aluno? Esta ação não pode ser desfeita.',
       [
         {
-          text: 'Cancelar',
+          text: getString('cancel'),
           style: 'cancel'
         },
         {
-          text: 'Excluir',
+          text: getString('delete'),
           style: 'destructive',
           onPress: async () => {
             try {

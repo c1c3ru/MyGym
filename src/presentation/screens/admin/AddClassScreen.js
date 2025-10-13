@@ -70,7 +70,7 @@ const AddClassScreen = ({ navigation }) => {
     // Obter ID da academia
     const academiaId = userProfile?.academiaId || academia?.id;
     if (!academiaId) {
-      console.error('Academia ID não encontrado');
+      console.error(getString('academyIdNotFound'));
       return;
     }
 
@@ -111,7 +111,7 @@ const AddClassScreen = ({ navigation }) => {
       // Obter ID da academia
       const academiaId = userProfile?.academiaId || academia?.id;
       if (!academiaId) {
-        console.error('Academia ID não encontrado');
+        console.error(getString('academyIdNotFound'));
         return;
       }
       
@@ -228,7 +228,7 @@ const AddClassScreen = ({ navigation }) => {
       // Obter ID da academia para criar na subcoleção correta
       const academiaId = userProfile?.academiaId || academia?.id;
       if (!academiaId) {
-        throw new Error('Academia ID não encontrado');
+        throw new Error(getString('academyIdNotFound'));
       }
 
       console.log('✅ Criando turma na coleção:', `gyms/${academiaId}/classes`);

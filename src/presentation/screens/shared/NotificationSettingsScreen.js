@@ -71,12 +71,12 @@ const NotificationSettingsScreen = ({ navigation }) => {
         notificationSettings: settings
       });
       
-      Alert.alert('Sucesso', 'Configurações de notificação salvas com sucesso');
+      Alert.alert(getString('success'), 'Configurações de notificação salvas com sucesso');
       navigation.goBack();
       
     } catch (error) {
       console.error('Erro ao salvar configurações:', error);
-      Alert.alert('Erro', 'Não foi possível salvar as configurações');
+      Alert.alert(getString('error'), 'Não foi possível salvar as configurações');
     } finally {
       setLoading(false);
     }
@@ -87,7 +87,7 @@ const NotificationSettingsScreen = ({ navigation }) => {
       'Restaurar Padrões',
       'Tem certeza que deseja restaurar as configurações padrão?',
       [
-        { text: 'Cancelar', style: 'cancel' },
+        { text: getString('cancel'), style: 'cancel' },
         {
           text: 'Restaurar',
           onPress: () => {
@@ -231,7 +231,7 @@ const NotificationSettingsScreen = ({ navigation }) => {
                     { text: '3 dias', onPress: () => updateSetting('paymentReminderDays', 3) },
                     { text: '5 dias', onPress: () => updateSetting('paymentReminderDays', 5) },
                     { text: '7 dias', onPress: () => updateSetting('paymentReminderDays', 7) },
-                    { text: 'Cancelar', style: 'cancel' }
+                    { text: getString('cancel'), style: 'cancel' }
                   ]
                 );
               }}
@@ -251,7 +251,7 @@ const NotificationSettingsScreen = ({ navigation }) => {
                     { text: '15 min', onPress: () => updateSetting('classReminderMinutes', 15) },
                     { text: '30 min', onPress: () => updateSetting('classReminderMinutes', 30) },
                     { text: '60 min', onPress: () => updateSetting('classReminderMinutes', 60) },
-                    { text: 'Cancelar', style: 'cancel' }
+                    { text: getString('cancel'), style: 'cancel' }
                   ]
                 );
               }}

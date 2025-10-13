@@ -47,7 +47,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
         // Obter ID da academia para buscar a turma
         const academiaId = userProfile?.academiaId || academia?.id;
         if (!academiaId) {
-          console.error('Academia ID não encontrado');
+          console.error(getString('academyIdNotFound'));
           return;
         }
         
@@ -59,7 +59,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
       // Obter ID da academia
       const academiaId = userProfile?.academiaId || academia?.id;
       if (!academiaId) {
-        console.error('Academia ID não encontrado');
+        console.error(getString('academyIdNotFound'));
         return;
       }
       
@@ -92,9 +92,9 @@ const ClassDetailsScreen = ({ route, navigation }) => {
       '🗑️ Confirmar Exclusão',
       'Tem certeza que deseja excluir esta turma? Esta ação não pode ser desfeita e todos os alunos serão desvinculados.',
       [
-        { text: 'Cancelar', style: 'cancel' },
+        { text: getString('cancel'), style: 'cancel' },
         {
-          text: 'Excluir',
+          text: getString('delete'),
           style: 'destructive',
           onPress: async () => {
             try {
@@ -151,15 +151,15 @@ const ClassDetailsScreen = ({ route, navigation }) => {
       }).join(', ');
     }
     
-    return 'Horário não definido';
+    return getString('scheduleNotDefined');
   };
 
   const getModalityColor = (modality) => {
     const colors = {
-      'Jiu-Jitsu': COLORS.info[500],
-      'Muay Thai': COLORS.error[500],
+      getString('jiujitsu'): COLORS.info[500],
+      getString('muayThai'): COLORS.error[500],
       'MMA': COLORS.warning[500],
-      'Boxe': COLORS.primary[500]
+      getString('boxing'): COLORS.primary[500]
     };
     return colors[modality] || COLORS.text.secondary;
   };
@@ -189,7 +189,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
           <View style={styles.headerContent}>
             <View style={styles.headerTop}>
               <View style={styles.classInfo}>
-                <Text style={styles.className}>{classInfo?.name || 'Turma'}</Text>
+                <Text style={styles.className}>{classInfo?.name || getString('class')}</Text>
                 <Chip 
                   mode="flat"
                   style={[styles.modalityChip, { backgroundColor: getModalityColor(classInfo?.modality) }]}
@@ -247,7 +247,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
               <View style={styles.infoContent}>
                 <Text style={styles.infoLabel}>Horários</Text>
                 <Text style={styles.infoValue}>
-                  {formatSchedule(classInfo?.schedule) || classInfo?.scheduleText || 'Horário não definido'}
+                  {formatSchedule(classInfo?.schedule) || classInfo?.scheduleText || getString('scheduleNotDefined')}
                 </Text>
               </View>
             </View>

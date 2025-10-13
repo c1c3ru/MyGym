@@ -99,7 +99,7 @@ const GraduationManagementScreen = ({ navigation }) => {
       'Verificação Automática',
       'Deseja executar uma verificação automática de graduações? Isso enviará notificações para instrutores sobre estudantes elegíveis.',
       [
-        { text: 'Cancelar', style: 'cancel' },
+        { text: getString('cancel'), style: 'cancel' },
         { 
           text: 'Executar', 
           onPress: async () => {

@@ -232,7 +232,7 @@ const InstructorDashboard = ({ navigation }) => {
         {
           studentName: 'João Silva',
           graduation: 'Faixa Azul',
-          modality: 'Jiu-Jitsu',
+          modality: getString('jiujitsu'),
           date: new Date()
         }
       ];
@@ -475,7 +475,7 @@ const InstructorDashboard = ({ navigation }) => {
                       
                       <AnimatedButton 
                         mode="contained" 
-                        onPress={() => navigation.navigate('Turmas', { classId: classItem.id })}
+                        onPress={() => navigation.navigate(getString('classes'), { classId: classItem.id })}
                         style={styles.timelineButton}
                         compact
                       >
@@ -532,7 +532,7 @@ const InstructorDashboard = ({ navigation }) => {
                           'Nenhuma Turma', 
                           'Você precisa ter pelo menos uma turma criada para agendar aulas.',
                           [
-                            { text: 'Cancelar', style: 'cancel' },
+                            { text: getString('cancel'), style: 'cancel' },
                             { text: 'Criar Turma', onPress: () => navigation.navigate('AddClass') }
                           ]
                         );
@@ -762,7 +762,7 @@ const InstructorDashboard = ({ navigation }) => {
             
             <AnimatedButton 
               mode="outlined" 
-              onPress={() => navigation.navigate('Turmas')}
+              onPress={() => navigation.navigate(getString('classes'))}
               style={styles.viewAllButton}
             >
               {getString('viewAllClasses')}

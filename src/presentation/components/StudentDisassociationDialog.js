@@ -44,8 +44,8 @@ const StudentDisassociationDialog = ({ visible, onDismiss, student, onSuccess })
       'Confirmar Desassociação',
       `Tem certeza que deseja desassociar ${student?.name} da academia?\n\nEsta ação não pode ser desfeita.`,
       [
-        { text: 'Cancelar', style: 'cancel' },
-        { text: 'Confirmar', style: 'destructive', onPress: performDisassociation }
+        { text: getString('cancel'), style: 'cancel' },
+        { text: getString('confirm'), style: 'destructive', onPress: performDisassociation }
       ]
     );
   };

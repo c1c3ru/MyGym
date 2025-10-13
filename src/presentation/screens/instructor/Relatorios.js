@@ -74,7 +74,7 @@ const Relatorios = ({ navigation }) => {
             aulasPopulares: [
               { nome: 'Karatê Iniciante', alunos: 25, frequencia: 92 },
               { nome: 'Muay Thai Avançado', alunos: 18, frequencia: 88 },
-              { nome: 'Jiu-Jitsu', alunos: 22, frequencia: 85 }
+              { nome: getString('jiujitsu'), alunos: 22, frequencia: 85 }
             ],
             evolucaoMensal: [
               { mes: 'Jan', alunos: 95, receita: 12000 },

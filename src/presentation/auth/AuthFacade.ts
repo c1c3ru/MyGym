@@ -162,7 +162,7 @@ export function useAuthFacade() {
           showError('Muitas tentativas de login. Aguarde alguns minutos antes de tentar novamente.');
           break;
         case 'NetworkError':
-          showError('Erro de conexão. Verifique sua internet e tente novamente.');
+          showError(getString('networkError'));
           break;
         case 'UserProfileNotFoundError':
           showError('Perfil não encontrado. Vamos configurá-lo.');
@@ -216,7 +216,7 @@ export function useAuthFacade() {
           showError('Email inválido. Verifique o formato do email.');
           break;
         case 'NetworkError':
-          showError('Erro de conexão. Verifique sua internet e tente novamente.');
+          showError(getString('networkError'));
           break;
         case 'ValidationError':
           showError('Dados inválidos. Verifique as informações e tente novamente.');
@@ -260,7 +260,7 @@ export function useAuthFacade() {
           showError('Email inválido. Verifique o formato do email.');
           break;
         case 'NetworkError':
-          showError('Erro de conexão. Verifique sua internet e tente novamente.');
+          showError(getString('networkError'));
           break;
         case 'TooManyRequestsError':
           showError('Muitas tentativas. Aguarde alguns minutos antes de tentar novamente.');
@@ -318,7 +318,7 @@ export function useAuthFacade() {
       
       switch (errorName) {
         case 'NetworkError':
-          showError('Erro de conexão. Verifique sua internet e tente novamente.');
+          showError(getString('networkError'));
           break;
         case 'UnauthorizedError':
           showError('Erro na autenticação com Google. Tente novamente.');
@@ -376,7 +376,7 @@ export function useAuthFacade() {
       
       switch (errorName) {
         case 'NetworkError':
-          showError('Erro de conexão. Verifique sua internet e tente novamente.');
+          showError(getString('networkError'));
           break;
         case 'UnauthorizedError':
           showError('Erro na autenticação com Facebook. Tente novamente.');
@@ -434,7 +434,7 @@ export function useAuthFacade() {
       
       switch (errorName) {
         case 'NetworkError':
-          showError('Erro de conexão. Verifique sua internet e tente novamente.');
+          showError(getString('networkError'));
           break;
         case 'UnauthorizedError':
           showError('Erro na autenticação com Microsoft. Tente novamente.');
@@ -492,7 +492,7 @@ export function useAuthFacade() {
       
       switch (errorName) {
         case 'NetworkError':
-          showError('Erro de conexão. Verifique sua internet e tente novamente.');
+          showError(getString('networkError'));
           break;
         case 'UnauthorizedError':
           showError('Erro na autenticação com Apple. Tente novamente.');

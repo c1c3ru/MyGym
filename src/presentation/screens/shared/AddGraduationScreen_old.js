@@ -93,7 +93,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
       
     } catch (error) {
       console.error('Erro ao carregar dados:', error);
-      Alert.alert('Erro', 'Não foi possível carregar os dados necessários');
+      Alert.alert(getString('error'), 'Não foi possível carregar os dados necessários');
     }
   };
 

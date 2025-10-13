@@ -83,8 +83,8 @@ export const useAccessibility = () => {
       view: { label: `Ver detalhes ${context}`, hint: 'Toque duas vezes para ver detalhes' },
       back: { label: 'Voltar', hint: 'Toque duas vezes para voltar' },
       close: { label: 'Fechar', hint: 'Toque duas vezes para fechar' },
-      save: { label: 'Salvar', hint: 'Toque duas vezes para salvar' },
-      cancel: { label: 'Cancelar', hint: 'Toque duas vezes para cancelar' },
+      save: { label: getString('save'), hint: 'Toque duas vezes para salvar' },
+      cancel: { label: getString('cancel'), hint: 'Toque duas vezes para cancelar' },
     };
 
     return getAccessibilityProps({
@@ -109,10 +109,10 @@ export const useAccessibility = () => {
   // Props para status/chips
   const getStatusAccessibilityProps = useCallback((status, type = 'status') => {
     const statusMessages = {
-      active: 'Ativo',
-      inactive: 'Inativo',
+      active: getString('active'),
+      inactive: getString('inactive'),
       paid: 'Pago',
-      pending: 'Pendente', 
+      pending: getString('paymentPending'), 
       overdue: 'Atrasado',
       approved: 'Aprovado',
       rejected: 'Rejeitado'

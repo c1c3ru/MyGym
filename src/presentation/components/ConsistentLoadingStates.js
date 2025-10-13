@@ -62,7 +62,7 @@ export const FormLoading = memo(({ message = 'Salvando...' }) => (
 // Estado de erro consistente
 export const ErrorState = memo(({ 
   title = 'Ops! Algo deu errado',
-  message = 'Não foi possível carregar os dados. Tente novamente.',
+  message = getString('dataLoadError'),
   onRetry,
   showIcon = true 
 }) => (

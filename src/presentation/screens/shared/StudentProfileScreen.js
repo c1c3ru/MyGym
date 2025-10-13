@@ -58,7 +58,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
       // Obter ID da academia
       const academiaId = userProfile?.academiaId || academia?.id;
       if (!academiaId) {
-        console.error('Academia ID não encontrado');
+        console.error(getString('academyIdNotFound'));
         return;
       }
       
@@ -102,7 +102,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
         errorMessage = 'Serviço temporariamente indisponível. Tente novamente.';
       }
       
-      Alert.alert('Erro', errorMessage);
+      Alert.alert(getString('error'), errorMessage);
     } finally {
       setLoading(false);
       setRefreshing(false);
@@ -126,7 +126,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
   const getPaymentStatusText = (status) => {
     const texts = {
       'paid': 'Pago',
-      'pending': 'Pendente',
+      'pending': getString('paymentPending'),
       'overdue': 'Atrasado'
     };
     return texts[status] || status;
@@ -168,7 +168,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
   const handleAddGraduation = () => {
     navigation.navigate('AddGraduation', { 
       studentId: studentId, 
-      studentName: studentInfo?.name || 'Aluno' 
+      studentName: studentInfo?.name || getString('student') 
     });
   };
 
@@ -214,7 +214,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
               </View>
               
               <View style={styles.profileInfo}>
-                <Title style={styles.studentName}>{studentInfo?.name || 'Aluno'}</Title>
+                <Title style={styles.studentName}>{studentInfo?.name || getString('student')}</Title>
                 <Text style={styles.studentEmail}>{studentInfo?.email}</Text>
                 
                 <View style={styles.statusRow}>

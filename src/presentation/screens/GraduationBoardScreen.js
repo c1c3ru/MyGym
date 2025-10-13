@@ -20,7 +20,7 @@ const GraduationBoardScreen = ({ navigation }) => {
       {
         id: 'exam_1',
         date: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 dias
-        modality: 'Karatê',
+        modality: getString('karate'),
         examiner: 'Sensei João Silva',
         location: 'Dojo Principal',
         candidateStudents: ['student_1', 'student_2', 'student_3'],
@@ -31,7 +31,7 @@ const GraduationBoardScreen = ({ navigation }) => {
       {
         id: 'exam_2',
         date: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000), // 14 dias
-        modality: 'Jiu-Jitsu',
+        modality: getString('jiujitsu'),
         examiner: 'Professor Carlos Santos',
         location: 'Tatame 2',
         candidateStudents: ['student_4', 'student_5'],
@@ -47,7 +47,7 @@ const GraduationBoardScreen = ({ navigation }) => {
         studentName: 'Ana Silva',
         currentBelt: 'Verde',
         nextBelt: 'Azul',
-        modality: 'Karatê',
+        modality: getString('karate'),
         estimatedGraduationDate: new Date(),
         trainingStartDate: new Date(Date.now() - 200 * 24 * 60 * 60 * 1000),
         minimumTrainingDays: 180,
@@ -63,7 +63,7 @@ const GraduationBoardScreen = ({ navigation }) => {
         studentName: 'Pedro Santos',
         currentBelt: 'Azul',
         nextBelt: 'Marrom',
-        modality: 'Karatê',
+        modality: getString('karate'),
         estimatedGraduationDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
         trainingStartDate: new Date(Date.now() - 210 * 24 * 60 * 60 * 1000),
         minimumTrainingDays: 240,
@@ -79,7 +79,7 @@ const GraduationBoardScreen = ({ navigation }) => {
         studentName: 'Maria Oliveira',
         currentBelt: 'Branca',
         nextBelt: 'Azul',
-        modality: 'Jiu-Jitsu',
+        modality: getString('jiujitsu'),
         estimatedGraduationDate: new Date(),
         trainingStartDate: new Date(Date.now() - 750 * 24 * 60 * 60 * 1000),
         minimumTrainingDays: 730,
@@ -118,21 +118,21 @@ const GraduationBoardScreen = ({ navigation }) => {
     ],
     modalityStats: [
       {
-        modality: 'Karatê',
+        modality: getString('karate'),
         totalStudents: 45,
         eligibleStudents: 8,
         averageTrainingTime: 180,
         nextExamDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
       },
       {
-        modality: 'Jiu-Jitsu',
+        modality: getString('jiujitsu'),
         totalStudents: 32,
         eligibleStudents: 5,
         averageTrainingTime: 365,
         nextExamDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000)
       },
       {
-        modality: 'Muay Thai',
+        modality: getString('muayThai'),
         totalStudents: 28,
         eligibleStudents: 3,
         averageTrainingTime: 150

@@ -30,7 +30,7 @@ const UserTypeSelectionScreen = ({ navigation, route }) => {
     {
       id: 'student',
       tipo: 'aluno',
-      title: 'Aluno',
+      title: getString('student'),
       description: 'Sou um praticante que quer treinar e acompanhar meu progresso',
       icon: 'school',
       color: COLORS.info[500],
@@ -92,7 +92,7 @@ const UserTypeSelectionScreen = ({ navigation, route }) => {
       console.log('✅ UserTypeSelection: Perfil atualizado, AppNavigator irá redirecionar');
     } catch (error) {
       console.error('Erro ao atualizar perfil:', error);
-      Alert.alert('Erro', 'Não foi possível salvar o tipo de usuário. Tente novamente.');
+      Alert.alert(getString('error'), 'Não foi possível salvar o tipo de usuário. Tente novamente.');
     } finally {
       setLoading(false);
     }
@@ -181,7 +181,7 @@ const UserTypeSelectionScreen = ({ navigation, route }) => {
       'Tem certeza que deseja sair da sua conta?',
       [
         {
-          text: 'Cancelar',
+          text: getString('cancel'),
           style: 'cancel'
         },
         {
@@ -195,7 +195,7 @@ const UserTypeSelectionScreen = ({ navigation, route }) => {
               console.log('✅ UserTypeSelection: Logout concluído');
             } catch (error) {
               console.error('❌ UserTypeSelection: Erro ao fazer logout:', error);
-              Alert.alert('Erro', `Não foi possível sair da conta: ${error.message}`);
+              Alert.alert(getString('error'), `Não foi possível sair da conta: ${error.message}`);
             } finally {
               setLoading(false);
             }

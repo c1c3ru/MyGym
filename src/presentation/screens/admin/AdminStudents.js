@@ -269,17 +269,17 @@ const AdminStudents = ({ navigation }) => {
       'Confirmar Exclusão',
       `Tem certeza que deseja excluir o aluno ${student.name}?`,
       [
-        { text: 'Cancelar', style: 'cancel' },
+        { text: getString('cancel'), style: 'cancel' },
         { 
-          text: 'Excluir', 
+          text: getString('delete'), 
           style: 'destructive',
           onPress: async () => {
             try {
               await firestoreService.delete('users', student.id);
               loadStudents();
-              Alert.alert('Sucesso', 'Aluno excluído com sucesso');
+              Alert.alert(getString('success'), 'Aluno excluído com sucesso');
             } catch (error) {
-              Alert.alert('Erro', 'Não foi possível excluir o aluno');
+              Alert.alert(getString('error'), 'Não foi possível excluir o aluno');
             }
           }
         }
@@ -298,8 +298,8 @@ const AdminStudents = ({ navigation }) => {
 
   const getPaymentStatusText = (status) => {
     switch (status) {
-      case 'paid': return 'Em dia';
-      case 'pending': return 'Pendente';
+      case 'paid': return getString('paymentUpToDate');
+      case 'pending': return getString('paymentPending');
       case 'overdue': return 'Atrasado';
       default: return 'N/A';
     }
@@ -369,7 +369,7 @@ const AdminStudents = ({ navigation }) => {
             refreshing={refreshing}
             onRefresh={onRefresh}
             ListEmptyComponent={renderEmptyList}
-            emptyMessage="Nenhum aluno encontrado"
+            emptyMessage=getString('noStudentsFound')
             loadingMore={false}
             contentContainerStyle={styles.listContainer}
             accessible={true}

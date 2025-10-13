@@ -87,7 +87,7 @@ const PaymentManagementScreen = ({ navigation }) => {
 
   const handleSelectPlan = async () => {
     if (!selectedPlan) {
-      Alert.alert('Erro', 'Selecione um plano');
+      Alert.alert(getString('error'), 'Selecione um plano');
       return;
     }
 
@@ -119,7 +119,7 @@ const PaymentManagementScreen = ({ navigation }) => {
 
     } catch (error) {
       console.error('Erro ao selecionar plano:', error);
-      Alert.alert('Erro', 'Não foi possível selecionar o plano');
+      Alert.alert(getString('error'), 'Não foi possível selecionar o plano');
     }
   };
 
@@ -128,9 +128,9 @@ const PaymentManagementScreen = ({ navigation }) => {
       'Realizar Pagamento',
       `Confirmar pagamento de ${formatCurrency(payment.amount)}?`,
       [
-        { text: 'Cancelar', style: 'cancel' },
+        { text: getString('cancel'), style: 'cancel' },
         {
-          text: 'Confirmar',
+          text: getString('confirm'),
           onPress: async () => {
             try {
               await firestoreService.update(`gyms/${academia.id}/payments`, payment.id, {
@@ -139,10 +139,10 @@ const PaymentManagementScreen = ({ navigation }) => {
                 paymentMethod: 'app'
               });
               
-              Alert.alert('Sucesso', 'Pagamento realizado com sucesso!');
+              Alert.alert(getString('success'), 'Pagamento realizado com sucesso!');
               loadPaymentData();
             } catch (error) {
-              Alert.alert('Erro', 'Não foi possível processar o pagamento');
+              Alert.alert(getString('error'), 'Não foi possível processar o pagamento');
             }
           }
         }
@@ -176,9 +176,9 @@ const PaymentManagementScreen = ({ navigation }) => {
   const getPaymentStatusText = (status) => {
     const texts = {
       'paid': 'Pago',
-      'pending': 'Pendente',
+      'pending': getString('paymentPending'),
       'overdue': 'Atrasado',
-      'active': 'Ativo'
+      'active': getString('active')
     };
     return texts[status] || status;
   };

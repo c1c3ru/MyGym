@@ -30,7 +30,7 @@ export default function ModalityPicker({
       // Verificar se o usuário tem academiaId
       if (!userProfile?.academiaId) {
         console.warn('❌ ModalityPicker: Usuário não tem academiaId, usando fallback');
-        throw new Error('Usuário não associado a uma academia');
+        throw new Error(getString('userNotAssociated'));
       }
       
       console.log('🔄 ModalityPicker: Buscando modalidades da academia:', userProfile.academiaId);
@@ -52,11 +52,11 @@ export default function ModalityPicker({
       if (uniqueModalities.length === 0) {
         setAvailableModalities([
           { id: 'bjj', name: 'Jiu-Jitsu Brasileiro', description: 'Arte marcial brasileira' },
-          { id: 'muaythai', name: 'Muay Thai', description: 'Arte marcial tailandesa' },
-          { id: 'boxe', name: 'Boxe', description: 'Esporte de combate' },
+          { id: 'muaythai', name: getString('muayThai'), description: 'Arte marcial tailandesa' },
+          { id: 'boxe', name: getString('boxing'), description: 'Esporte de combate' },
           { id: 'mma', name: 'MMA', description: 'Artes marciais mistas' },
           { id: 'judo', name: 'Judô', description: 'Arte marcial japonesa' },
-          { id: 'karate', name: 'Karatê', description: 'Arte marcial japonesa' },
+          { id: 'karate', name: getString('karate'), description: 'Arte marcial japonesa' },
           { id: 'taekwondo', name: 'Taekwondo', description: 'Arte marcial coreana' },
           { id: 'capoeira', name: 'Capoeira', description: 'Arte marcial brasileira' }
         ]);
@@ -68,11 +68,11 @@ export default function ModalityPicker({
       // Modalidades padrão caso não consiga carregar do banco
       setAvailableModalities([
         { id: 'bjj', name: 'Jiu-Jitsu Brasileiro', description: 'Arte marcial brasileira' },
-        { id: 'muaythai', name: 'Muay Thai', description: 'Arte marcial tailandesa' },
-        { id: 'boxe', name: 'Boxe', description: 'Esporte de combate' },
+        { id: 'muaythai', name: getString('muayThai'), description: 'Arte marcial tailandesa' },
+        { id: 'boxe', name: getString('boxing'), description: 'Esporte de combate' },
         { id: 'mma', name: 'MMA', description: 'Artes marciais mistas' },
         { id: 'judo', name: 'Judô', description: 'Arte marcial japonesa' },
-        { id: 'karate', name: 'Karatê', description: 'Arte marcial japonesa' },
+        { id: 'karate', name: getString('karate'), description: 'Arte marcial japonesa' },
         { id: 'taekwondo', name: 'Taekwondo', description: 'Arte marcial coreana' },
         { id: 'capoeira', name: 'Capoeira', description: 'Arte marcial brasileira' }
       ]);

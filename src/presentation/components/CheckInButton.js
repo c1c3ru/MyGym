@@ -18,7 +18,7 @@ const CheckInButton = ({ classId, className, onCheckInSuccess }) => {
 
   const handleCheckIn = async () => {
     if (!user || !classId) {
-      Alert.alert('Erro', 'Dados de usuário ou aula não encontrados');
+      Alert.alert(getString('error'), 'Dados de usuário ou aula não encontrados');
       return;
     }
 
@@ -105,7 +105,7 @@ const CheckInButton = ({ classId, className, onCheckInSuccess }) => {
       setLocationStatus('Erro no check-in');
       
       Alert.alert(
-        'Erro',
+        getString('error'),
         'Não foi possível realizar o check-in. Tente novamente.',
         [{ text: 'OK', onPress: () => setLocationStatus(null) }]
       );

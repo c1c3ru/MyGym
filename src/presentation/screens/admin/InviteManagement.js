@@ -43,7 +43,7 @@ export default function InviteManagement({ navigation }) {
       setInvites(activeInvites);
     } catch (error) {
       console.error('Erro ao carregar convites:', error);
-      Alert.alert('Erro', 'Não foi possível carregar os convites');
+      Alert.alert(getString('error'), 'Não foi possível carregar os convites');
     } finally {
       setLoading(false);
     }
@@ -51,12 +51,12 @@ export default function InviteManagement({ navigation }) {
 
   const sendInvite = async () => {
     if (!newInvite.email.trim()) {
-      Alert.alert('Erro', 'Email é obrigatório');
+      Alert.alert(getString('error'), 'Email é obrigatório');
       return;
     }
 
     if (!academia || !academia.id) {
-      Alert.alert('Erro', 'Você precisa estar associado a uma academia para enviar convites. Crie ou associe-se a uma academia primeiro.');
+      Alert.alert(getString('error'), 'Você precisa estar associado a uma academia para enviar convites. Crie ou associe-se a uma academia primeiro.');
       return;
     }
 
@@ -98,7 +98,7 @@ export default function InviteManagement({ navigation }) {
       );
     } catch (error) {
       console.error('Erro ao enviar convite:', error);
-      Alert.alert('Erro', 'Não foi possível enviar o convite');
+      Alert.alert(getString('error'), 'Não foi possível enviar o convite');
     } finally {
       setLoading(false);
     }
@@ -134,7 +134,7 @@ export default function InviteManagement({ navigation }) {
       }
     } catch (error) {
       console.error('Erro ao limpar convites:', error);
-      Alert.alert('Erro', 'Não foi possível limpar os convites aceitos');
+      Alert.alert(getString('error'), 'Não foi possível limpar os convites aceitos');
     } finally {
       setLoading(false);
     }
@@ -151,7 +151,7 @@ export default function InviteManagement({ navigation }) {
 
   const getStatusText = (status) => {
     switch (status) {
-      case 'pending': return 'Pendente';
+      case 'pending': return getString('paymentPending');
       case 'accepted': return 'Aceito';
       case 'expired': return 'Expirado';
       default: return 'Desconhecido';
@@ -167,7 +167,7 @@ export default function InviteManagement({ navigation }) {
               {invite.email}
             </Text>
             <Text variant="bodySmall" style={styles.inviteType}>
-              {invite.tipo === 'aluno' ? 'Aluno' : 'Instrutor'}
+              {invite.tipo === 'aluno' ? getString('student') : 'Instrutor'}
             </Text>
           </View>
           <Chip 

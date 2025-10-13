@@ -71,7 +71,7 @@ const InjuryScreen = ({ navigation, route }) => {
   ];
 
   const statusOptions = [
-    { value: 'ativo', label: 'Ativo', color: COLORS.error[500], description: 'Lesão atual em tratamento' },
+    { value: 'ativo', label: getString('active'), color: COLORS.error[500], description: 'Lesão atual em tratamento' },
     { value: 'recuperando', label: 'Recuperando', color: COLORS.warning[500], description: 'Em processo de recuperação' },
     { value: 'recuperado', label: 'Recuperado', color: COLORS.primary[500], description: 'Totalmente recuperado' },
     { value: 'cronico', label: 'Crônico', color: COLORS.secondary[500], description: 'Condição permanente ou recorrente' }
@@ -457,7 +457,7 @@ const InjuryScreen = ({ navigation, route }) => {
                 loading={loading}
                 disabled={loading}
               >
-                {isEditing ? 'Atualizar' : 'Registrar'}
+                {isEditing ? getString('update') : 'Registrar'}
               </Button>
             </View>
           </Card.Content>

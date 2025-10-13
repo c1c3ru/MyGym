@@ -96,7 +96,7 @@ const InstructorClasses = ({ navigation }) => {
     } catch (error) {
       console.error('❌ Erro ao carregar turmas:', error);
       setClasses([]);
-      Alert.alert('Erro', 'Não foi possível carregar as turmas.');
+      Alert.alert(getString('error'), 'Não foi possível carregar as turmas.');
     } finally {
       setLoading(false);
       setRefreshing(false);
@@ -207,9 +207,9 @@ const InstructorClasses = ({ navigation }) => {
       if (typeof classItem?.scheduleText === 'string' && classItem.scheduleText.trim()) {
         return classItem.scheduleText.trim();
       }
-      return 'Horário não definido';
+      return getString('scheduleNotDefined');
     } catch (e) {
-      return 'Horário não definido';
+      return getString('scheduleNotDefined');
     }
   }, []);
 
@@ -312,7 +312,7 @@ const InstructorClasses = ({ navigation }) => {
           <View style={styles.emptyContainer}>
             <Ionicons name="school-outline" size={64} color={COLORS.gray[400]} />
             <Text style={styles.emptyText}>
-              {searchQuery ? 'Nenhuma turma encontrada' : 'Nenhuma turma cadastrada'}
+              {searchQuery ? getString('noClassesFound') : 'Nenhuma turma cadastrada'}
             </Text>
             {!searchQuery && (
               <Text style={styles.emptySubtext}>

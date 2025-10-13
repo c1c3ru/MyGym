@@ -127,7 +127,7 @@ const AdminStudentsOptimized = ({ navigation }) => {
       setStudents(studentsWithPayments);
     } catch (error) {
       console.error('Erro ao carregar alunos:', error);
-      Alert.alert('Erro', 'Não foi possível carregar os alunos');
+      Alert.alert(getString('error'), 'Não foi possível carregar os alunos');
     } finally {
       setLoading(false);
       setRefreshing(false);

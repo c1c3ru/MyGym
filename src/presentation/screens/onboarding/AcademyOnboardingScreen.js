@@ -43,7 +43,7 @@ const AcademyOnboardingScreen = () => {
 
   const handleCreateAcademy = async () => {
     if (!academyData.name.trim()) {
-      Alert.alert('Erro', 'Nome da academia é obrigatório');
+      Alert.alert(getString('error'), 'Nome da academia é obrigatório');
       return;
     }
 
@@ -74,7 +74,7 @@ const AcademyOnboardingScreen = () => {
       }
     } catch (error) {
       console.error('Erro ao criar academia:', error);
-      Alert.alert('Erro', error.message || 'Erro ao criar academia');
+      Alert.alert(getString('error'), error.message || 'Erro ao criar academia');
     } finally {
       setCreatingAcademy(false);
     }
@@ -82,7 +82,7 @@ const AcademyOnboardingScreen = () => {
 
   const handleUseInvite = async () => {
     if (!inviteCode.trim()) {
-      Alert.alert('Erro', 'Código de convite é obrigatório');
+      Alert.alert(getString('error'), 'Código de convite é obrigatório');
       return;
     }
 
@@ -115,7 +115,7 @@ const AcademyOnboardingScreen = () => {
       }
     } catch (error) {
       console.error('Erro ao usar convite:', error);
-      Alert.alert('Erro', error.message || 'Código de convite inválido ou expirado');
+      Alert.alert(getString('error'), error.message || 'Código de convite inválido ou expirado');
     } finally {
       setUsingInvite(false);
     }

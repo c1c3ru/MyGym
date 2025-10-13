@@ -101,7 +101,7 @@ const StudentPayments = ({ navigation }) => {
   const getStatusText = (status) => {
     switch (status) {
       case 'paid': return 'Pago';
-      case 'pending': return 'Pendente';
+      case 'pending': return getString('paymentPending');
       case 'overdue': return 'Atrasado';
       default: return 'Não informado';
     }
