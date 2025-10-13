@@ -85,7 +85,7 @@ const CheckInButton = ({ classId, className, onCheckInSuccess }) => {
       setLocationStatus('Check-in realizado!');
       
       Alert.alert(
-        'Sucesso! ✅',
+        getString('successCheck'),
         `Check-in realizado na aula de ${className}!\n\nDistância da academia: ${locationValidation.distance}m`,
         [
           {

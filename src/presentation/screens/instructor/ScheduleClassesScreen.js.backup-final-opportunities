@@ -122,7 +122,7 @@ const ScheduleClassesScreen = ({ navigation, route }) => {
       await Promise.all(schedulePromises);
 
       Alert.alert(
-        getString('successCheck'),
+        'Sucesso! ✅',
         `Aula agendada para ${selectedClasses.size} turma(s)!`,
         [
           { text: getString('ok'), onPress: () => navigation.goBack() }

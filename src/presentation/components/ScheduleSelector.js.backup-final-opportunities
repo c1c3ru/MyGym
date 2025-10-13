@@ -185,7 +185,7 @@ const ScheduleSelector = ({
                 mode="flat"
                 compact
                 style={[styles.hourChip, { backgroundColor: colors?.primary || '#6200ea' }]}
-                textStyle={{ color: colors?.onPrimary || 'COLORS.whitefff', fontSize: 10 }}
+                textStyle={{ color: colors?.onPrimary || getString('colorWhite'), fontSize: 10 }}
               >
                 {schedule.hours[dayKey].length}h
               </Chip>
@@ -271,7 +271,7 @@ const ScheduleSelector = ({
         <Modal
           visible={modalVisible}
           onDismiss={() => setModalVisible(false)}
-          contentContainerStyle={[styles.modal, { backgroundColor: colors?.surface || 'COLORS.whitefff' }]}
+          contentContainerStyle={[styles.modal, { backgroundColor: colors?.surface || getString('colorWhite') }]}
         >
           <View style={styles.modalHeader}>
             <Text style={styles.modalTitle}>

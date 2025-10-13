@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     marginLeft: SPACING.xs,
   },
   button: {
-    backgroundColor: getString('colorWhite'),
+    backgroundColor: 'COLORS.white',
     borderColor: 'currentTheme.gray[300]',
     justifyContent: 'flex-start',
   },

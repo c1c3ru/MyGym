@@ -505,7 +505,7 @@ const CheckIn = ({ navigation }) => {
       console.log('✅ Todos os check-ins concluídos!');
       
       Alert.alert(
-        getString('successCheck'), 
+        'Sucesso! ✅', 
         `Check-in realizado para ${selectedStudents.size} aluno(s)!`
       );
       

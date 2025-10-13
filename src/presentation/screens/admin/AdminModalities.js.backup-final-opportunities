@@ -65,7 +65,7 @@ const AdminModalities = ({ navigation }) => {
     console.log('=== DEBUG USER INFO ===');
     console.log('User:', user);
     console.log('User Profile:', userProfile);
-    console.log(getString('userUID'), user?.uid);
+    console.log('User UID:', user?.uid);
     console.log('User Type:', user?.userType);
     console.log('User Tipo:', user?.tipo);
     console.log('Profile UserType:', userProfile?.userType);
@@ -272,7 +272,7 @@ const AdminModalities = ({ navigation }) => {
     try {
       console.log('=== DEBUG DELETE MODALITY ===');
       console.log('Modalidade ID:', modality.id);
-      console.log(getString('userUID'), user?.uid);
+      console.log('User UID:', user?.uid);
       console.log('User Type:', user?.userType);
       console.log('User Tipo:', user?.tipo);
       console.log('User Profile:', userProfile);
@@ -405,7 +405,7 @@ const AdminModalities = ({ navigation }) => {
     try {
       console.log('=== DEBUG DELETE PLAN ===');
       console.log('Plano ID:', plan.id);
-      console.log(getString('userUID'), user?.uid);
+      console.log('User UID:', user?.uid);
       console.log('================================');
       
       if (!plan.id) {
@@ -534,7 +534,7 @@ const AdminModalities = ({ navigation }) => {
     try {
       console.log('=== DEBUG DELETE ANNOUNCEMENT ===');
       console.log('Aviso ID:', announcement.id);
-      console.log(getString('userUID'), user?.uid);
+      console.log('User UID:', user?.uid);
       console.log('================================');
       
       if (!announcement.id) {

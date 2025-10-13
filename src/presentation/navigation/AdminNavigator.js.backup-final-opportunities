@@ -5,35 +5,43 @@ import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '@contexts/ThemeContext';
 import UniversalHeader from '@components/UniversalHeader';
 import { PROFILE_COLORS } from '@shared/constants/colors';
-import { COLORS } from '@presentation/theme/designTokens';
 
-// Telas do Professor
-import InstructorDashboard from '@screens/instructor/InstructorDashboard';
-import InstructorClasses from '@screens/instructor/InstructorClasses';
-import InstructorStudents from '@screens/instructor/InstructorStudents';
-import NovaAula from '@screens/instructor/NovaAula';
-import CheckIn from '@screens/instructor/CheckIn';
-import Relatorios from '@screens/instructor/Relatorios';
-import ScheduleClassesScreen from '@screens/instructor/ScheduleClassesScreen';
+// Telas do Admin
+import AdminDashboard from '@screens/admin/AdminDashboard';
+import AdminStudents from '@screens/admin/AdminStudents';
+import AdminClasses from '@screens/admin/AdminClasses';
+import AdminModalities from '@screens/admin/AdminModalities';
+import AddClassScreen from '@screens/admin/AddClassScreen';
+import EditClassScreen from '@screens/admin/EditClassScreen';
+import AddStudentScreen from '@screens/admin/AddStudentScreen';
+import EditStudentScreen from '@screens/admin/EditStudentScreen';
+import ReportsScreen from '@screens/admin/ReportsScreen';
+import InviteManagement from '@screens/admin/InviteManagement';
+
+// Telas de Exemplo e Demonstração
+import LightThemeExampleScreen from '@screens/examples/LightThemeExampleScreen';
 
 // Telas Compartilhadas
 import ClassDetailsScreen from '@screens/shared/ClassDetailsScreen';
-import AddClassScreen from '@screens/admin/AddClassScreen';
-import AddStudentScreen from '@screens/admin/AddStudentScreen';
+import StudentDetailsScreen from '@screens/shared/StudentDetailsScreen';
 import StudentProfileScreen from '@screens/shared/StudentProfileScreen';
-import AddGraduationScreen from '@screens/shared/AddGraduationScreen';
 import ProfileScreen from '@screens/shared/ProfileScreen';
+import AddGraduationScreen from '@screens/shared/AddGraduationScreen';
 import ChangePasswordScreen from '@screens/shared/ChangePasswordScreen';
 import PhysicalEvaluationScreen from '@screens/shared/PhysicalEvaluationScreen';
 import PhysicalEvaluationHistoryScreen from '@screens/shared/PhysicalEvaluationHistoryScreen';
 import NotificationSettingsScreen from '@screens/shared/NotificationSettingsScreen';
 import PrivacySettingsScreen from '@screens/shared/PrivacySettingsScreen';
+import SettingsScreen from '@screens/shared/SettingsScreen';
+import StudentPayments from '@screens/student/StudentPayments';
+import CheckIn from '@screens/instructor/CheckIn';
+import { COLORS } from '@presentation/theme/designTokens';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-// Navegação para Professores
-const InstructorTabNavigator = () => {
+// Navegação para Administradores
+const AdminTabNavigator = () => {
   const { getString } = useTheme();
   
   return (
@@ -41,9 +49,9 @@ const InstructorTabNavigator = () => {
       screenOptions={({ route, navigation }) => ({
         header: ({ options, route: hdrRoute, navigation: hdrNav }) => (
           <UniversalHeader
-            title={(options && options.title) || (hdrRoute && hdrRoute.name) || route.name || getString('instructor')}
+            title={(options && options.title) || (hdrRoute && hdrRoute.name) || route.name || 'Admin'}
             navigation={hdrNav || navigation}
-            backgroundColor={PROFILE_COLORS.instructor.primary}
+            backgroundColor={PROFILE_COLORS.admin.primary}
           />
         ),
         tabBarIcon: ({ focused, color, size }) => {
@@ -51,10 +59,16 @@ const InstructorTabNavigator = () => {
 
           if (route.name === getString('dashboard')) {
             iconName = focused ? 'home' : 'home-outline';
-          } else if (route.name === getString('classes')) {
-            iconName = focused ? 'school' : 'school-outline';
           } else if (route.name === getString('students')) {
             iconName = focused ? 'people' : 'people-outline';
+          } else if (route.name === getString('classes')) {
+            iconName = focused ? 'school' : 'school-outline';
+          } else if (route.name === getString('modalities')) {
+            iconName = focused ? 'fitness' : 'fitness-outline';
+          } else if (route.name === getString('management')) {
+            iconName = focused ? 'stats-chart' : 'stats-chart-outline';
+          } else if (route.name === 'Convites') {
+            iconName = focused ? 'mail' : 'mail-outline';
           }
           return <Ionicons name={iconName} size={size} color={color} />;
         },
@@ -67,101 +81,71 @@ const InstructorTabNavigator = () => {
     >
       <Tab.Screen 
         name=getString('dashboard') 
-        component={InstructorDashboard}
+        component={AdminDashboard}
         options={{ title: getString('dashboard') }}
       />
       <Tab.Screen 
+        name=getString('students') 
+        component={AdminStudents}
+        options={{ title: getString('students') }}
+      />
+      <Tab.Screen 
         name=getString('classes') 
-        component={InstructorClasses}
+        component={AdminClasses}
         options={{ title: getString('classes') }}
       />
       <Tab.Screen 
-        name=getString('students') 
-        component={InstructorStudents}
-        options={{ title: getString('students') }}
+        name=getString('modalities') 
+        component={AdminModalities}
+        options={{ title: getString('modalities') }}
+      />
+      <Tab.Screen 
+        name=getString('management') 
+        component={ReportsScreen}
+        options={{ title: getString('reports') }}
+      />
+      <Tab.Screen 
+        name="Convites" 
+        component={InviteManagement}
+        options={{ title: getString('invites') }}
       />
     </Tab.Navigator>
   );
 };
 
-// Stack Navigator para Instrutor (para incluir telas modais)
-const InstructorNavigator = () => {
+// Stack Navigator para Admin (para telas modais/detalhes)
+const AdminNavigator = () => {
   const { getString } = useTheme();
   
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="InstructorTabs" component={InstructorTabNavigator} />
+    <Stack.Navigator id=getString('adminStack') screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="AdminTabs" component={AdminTabNavigator} />
       <Stack.Screen 
-        name="NovaAula" 
-        component={NovaAula}
+        name=getString('addClass') 
+        component={AddClassScreen}
         options={{
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title={getString('newLesson')}
+              title={getString('newClass')}
               navigation={navigation}
               showBack={true}
-              backgroundColor={PROFILE_COLORS.instructor.primary}
+              backgroundColor={PROFILE_COLORS.admin.primary}
             />
           ),
         }}
       />
       <Stack.Screen 
-        name="ScheduleClasses" 
-        component={ScheduleClassesScreen}
+        name="ClassStudents" 
+        component={AdminStudents}
         options={{
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title="Agendar Aulas"
+              title={getString('classStudents')}
               navigation={navigation}
               showBack={true}
-              backgroundColor={PROFILE_COLORS.instructor.primary}
-            />
-          ),
-        }}
-      />
-      <Stack.Screen 
-        name=getString('checkIn') 
-        component={CheckIn}
-        options={{
-          headerShown: true,
-          header: ({ navigation }) => (
-            <UniversalHeader
-              title={getString('checkIn')}
-              navigation={navigation}
-              showBack={true}
-              backgroundColor={PROFILE_COLORS.instructor.primary}
-            />
-          ),
-        }}
-      />
-      <Stack.Screen 
-        name="Relatorios" 
-        component={Relatorios}
-        options={{
-          headerShown: true,
-          header: ({ navigation }) => (
-            <UniversalHeader
-              title={getString('reports')}
-              navigation={navigation}
-              showBack={true}
-              backgroundColor={PROFILE_COLORS.instructor.primary}
-            />
-          ),
-        }}
-      />
-      <Stack.Screen 
-        name=getString('classDetailsScreen') 
-        component={ClassDetailsScreen}
-        options={{
-          headerShown: true,
-          header: ({ navigation }) => (
-            <UniversalHeader
-              title={getString('classDetails')}
-              navigation={navigation}
-              showBack={true}
-              backgroundColor={PROFILE_COLORS.instructor.primary}
+              backgroundColor={PROFILE_COLORS.admin.primary}
             />
           ),
         }}
@@ -173,25 +157,40 @@ const InstructorNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title={getString('checkIns')}
+              title="Check-ins"
               navigation={navigation}
               showBack={true}
-              backgroundColor={PROFILE_COLORS.instructor.primary}
+              backgroundColor={PROFILE_COLORS.admin.primary}
             />
           ),
         }}
       />
       <Stack.Screen 
-        name=getString('addClassScreen') 
-        component={AddClassScreen}
+        name=getString('editClass') 
+        component={EditClassScreen}
         options={{
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title={getString('newClass')}
+              title={getString('editClass')}
               navigation={navigation}
               showBack={true}
-              backgroundColor={PROFILE_COLORS.instructor.primary}
+              backgroundColor={PROFILE_COLORS.admin.primary}
+            />
+          ),
+        }}
+      />
+      <Stack.Screen 
+        name=getString('classDetails') 
+        component={ClassDetailsScreen}
+        options={{
+          headerShown: true,
+          header: ({ navigation }) => (
+            <UniversalHeader
+              title={getString('classDetails')}
+              navigation={navigation}
+              showBack={true}
+              backgroundColor={PROFILE_COLORS.admin.primary}
             />
           ),
         }}
@@ -206,13 +205,88 @@ const InstructorNavigator = () => {
               title={getString('newStudent')}
               navigation={navigation}
               showBack={true}
-              backgroundColor={PROFILE_COLORS.instructor.primary}
+              backgroundColor={PROFILE_COLORS.admin.primary}
             />
           ),
         }}
       />
       <Stack.Screen 
-        name=getString('studentProfile') 
+        name=getString('editStudent') 
+        component={EditStudentScreen}
+        options={{
+          headerShown: true,
+          header: ({ navigation }) => (
+            <UniversalHeader
+              title={getString('editStudent')}
+              navigation={navigation}
+              showBack={true}
+              backgroundColor={PROFILE_COLORS.admin.primary}
+            />
+          ),
+        }}
+      />
+      <Stack.Screen 
+        name=getString('studentDetails') 
+        component={StudentDetailsScreen}
+        options={{
+          headerShown: true,
+          header: ({ navigation }) => (
+            <UniversalHeader
+              title={getString('studentDetails')}
+              navigation={navigation}
+              showBack={true}
+              backgroundColor={PROFILE_COLORS.admin.primary}
+            />
+          ),
+        }}
+      />
+      <Stack.Screen 
+        name=getString('studentPayments') 
+        component={StudentPayments}
+        options={{
+          headerShown: true,
+          header: ({ navigation }) => (
+            <UniversalHeader
+              title={getString('studentPayments')}
+              navigation={navigation}
+              showBack={true}
+              backgroundColor={PROFILE_COLORS.admin.primary}
+            />
+          ),
+        }}
+      />
+      <Stack.Screen 
+        name="Reports" 
+        component={ReportsScreen}
+        options={{
+          headerShown: true,
+          header: ({ navigation }) => (
+            <UniversalHeader
+              title={getString('reports')}
+              navigation={navigation}
+              showBack={true}
+              backgroundColor={PROFILE_COLORS.admin.primary}
+            />
+          ),
+        }}
+      />
+      <Stack.Screen 
+        name="Modalities" 
+        component={AdminModalities}
+        options={{
+          headerShown: true,
+          header: ({ navigation }) => (
+            <UniversalHeader
+              title=getString('modalities')
+              navigation={navigation}
+              showBack={true}
+              backgroundColor={PROFILE_COLORS.admin.primary}
+            />
+          ),
+        }}
+      />
+      <Stack.Screen 
+        name="StudentProfile" 
         component={StudentProfileScreen}
         options={{
           headerShown: true,
@@ -221,7 +295,7 @@ const InstructorNavigator = () => {
               title="Perfil do Aluno"
               navigation={navigation}
               showBack={true}
-              backgroundColor={PROFILE_COLORS.instructor.primary}
+              backgroundColor={PROFILE_COLORS.admin.primary}
             />
           ),
         }}
@@ -230,19 +304,9 @@ const InstructorNavigator = () => {
         name=getString('addGraduationScreen') 
         component={AddGraduationScreen}
         options={{
-          headerShown: true,
-          header: ({ navigation }) => (
-            <UniversalHeader
-              title="Nova Graduação"
-              navigation={navigation}
-              showBack={true}
-              backgroundColor={PROFILE_COLORS.instructor.primary}
-            />
-          ),
+          headerShown: false
         }}
       />
-      
-      {/* Profile-related screens */}
       <Stack.Screen 
         name=getString('profile') 
         component={ProfileScreen}
@@ -253,11 +317,13 @@ const InstructorNavigator = () => {
               title=getString('profile')
               navigation={navigation}
               showBack={true}
-              backgroundColor={PROFILE_COLORS.instructor.primary}
+              backgroundColor={PROFILE_COLORS.admin.primary}
             />
           ),
         }}
       />
+      
+      {/* Nested SharedNavigator screens */}
       <Stack.Screen 
         name=getString('changePassword') 
         component={ChangePasswordScreen}
@@ -268,7 +334,7 @@ const InstructorNavigator = () => {
               title=getString('changePassword')
               navigation={navigation}
               showBack={true}
-              backgroundColor={PROFILE_COLORS.instructor.primary}
+              backgroundColor={PROFILE_COLORS.admin.primary}
             />
           ),
         }}
@@ -280,10 +346,10 @@ const InstructorNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title="Avaliação Física"
+              title=getString('physicalEvaluation')
               navigation={navigation}
               showBack={true}
-              backgroundColor={PROFILE_COLORS.instructor.primary}
+              backgroundColor={PROFILE_COLORS.admin.primary}
             />
           ),
         }}
@@ -295,10 +361,10 @@ const InstructorNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title=getString('evaluationHistory')
+              title="Histórico de Avaliações"
               navigation={navigation}
               showBack={true}
-              backgroundColor={PROFILE_COLORS.instructor.primary}
+              backgroundColor={PROFILE_COLORS.admin.primary}
             />
           ),
         }}
@@ -313,7 +379,7 @@ const InstructorNavigator = () => {
               title="Configurações de Notificação"
               navigation={navigation}
               showBack={true}
-              backgroundColor={PROFILE_COLORS.instructor.primary}
+              backgroundColor={PROFILE_COLORS.admin.primary}
             />
           ),
         }}
@@ -325,10 +391,40 @@ const InstructorNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title=getString('privacyAndSecurity')
+              title="Privacidade e Segurança"
               navigation={navigation}
               showBack={true}
-              backgroundColor={PROFILE_COLORS.instructor.primary}
+              backgroundColor={PROFILE_COLORS.admin.primary}
+            />
+          ),
+        }}
+      />
+      <Stack.Screen 
+        name="Settings" 
+        component={SettingsScreen}
+        options={{
+          headerShown: true,
+          header: ({ navigation }) => (
+            <UniversalHeader
+              title=getString('settings')
+              navigation={navigation}
+              showBack={true}
+              backgroundColor={PROFILE_COLORS.admin.primary}
+            />
+          ),
+        }}
+      />
+      <Stack.Screen 
+        name="ThemeDemo" 
+        component={LightThemeExampleScreen}
+        options={{
+          headerShown: true,
+          header: ({ navigation }) => (
+            <UniversalHeader
+              title="Demonstração de Temas"
+              navigation={navigation}
+              showBack={true}
+              backgroundColor={PROFILE_COLORS.admin.primary}
             />
           ),
         }}
@@ -337,4 +433,4 @@ const InstructorNavigator = () => {
   );
 };
 
-export default InstructorNavigator;
+export default AdminNavigator;

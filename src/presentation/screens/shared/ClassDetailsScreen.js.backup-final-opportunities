@@ -285,7 +285,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
                 icon={showStudents ? "chevron-up" : "chevron-down"}
                 style={styles.toggleButton}
               >
-                {showStudents ? getString('hide') : 'Ver Alunos'}
+                {showStudents ? 'Ocultar' : 'Ver Alunos'}
               </Button>
             </View>
             
@@ -369,7 +369,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
                   labelStyle={styles.actionButtonLabel}
                 >
                   <Ionicons name={showStudents ? "eye-off" : "eye"} size={20} color={COLORS.white} />
-                  {"\n"}{isAdmin() ? 'Gerenciar' : (showStudents ? getString('hide') : 'Ver Alunos')}
+                  {"\n"}{isAdmin() ? 'Gerenciar' : (showStudents ? 'Ocultar' : 'Ver Alunos')}
                 </Button>
               </Surface>
             </View>

@@ -109,7 +109,7 @@ const LoginScreenDebug = ({ navigation }) => {
             <Title style={styles.cardTitle}>Credenciais</Title>
             
             <TextInput
-              label=getString('email')
+              label="Email"
               value={email}
               onChangeText={setEmail}
               mode="outlined"

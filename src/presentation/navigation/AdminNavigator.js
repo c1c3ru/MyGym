@@ -286,7 +286,7 @@ const AdminNavigator = () => {
         }}
       />
       <Stack.Screen 
-        name="StudentProfile" 
+        name=getString('studentProfile') 
         component={StudentProfileScreen}
         options={{
           headerShown: true,
@@ -361,7 +361,7 @@ const AdminNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title="Histórico de Avaliações"
+              title=getString('evaluationHistory')
               navigation={navigation}
               showBack={true}
               backgroundColor={PROFILE_COLORS.admin.primary}
@@ -391,7 +391,7 @@ const AdminNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title="Privacidade e Segurança"
+              title=getString('privacyAndSecurity')
               navigation={navigation}
               showBack={true}
               backgroundColor={PROFILE_COLORS.admin.primary}

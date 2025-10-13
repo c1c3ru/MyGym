@@ -264,7 +264,7 @@ const EditStudentScreen = ({ navigation, route }) => {
             {errors.name && <HelperText type="error">{errors.name}</HelperText>}
 
             <TextInput
-              label=getString('email')
+              label="Email"
               value={formData.email}
               onChangeText={(value) => updateFormData('email', value)}
               mode="outlined"

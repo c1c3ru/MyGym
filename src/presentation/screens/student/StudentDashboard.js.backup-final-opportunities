@@ -29,7 +29,7 @@ const StudentDashboard = ({ navigation }) => {
   const [nextClasses, setNextClasses] = useState([]);
   const [announcements, setAnnouncements] = useState([]);
   const [dashboardData, setDashboardData] = useState({
-    graduationStatus: getString('whiteBelt'),
+    graduationStatus: 'Faixa Branca',
     nextEvaluation: '2 meses',
     totalClasses: 0,
     attendanceRate: 0
@@ -108,7 +108,7 @@ const StudentDashboard = ({ navigation }) => {
           
           // Dados do dashboard
           const dashboardInfo = {
-            graduationStatus: studentProfile?.currentBelt || studentProfile?.currentGraduation || getString('whiteBelt'),
+            graduationStatus: studentProfile?.currentBelt || studentProfile?.currentGraduation || 'Faixa Branca',
             nextEvaluation: studentProfile?.nextEvaluationDate || '2 meses', // Usar dados do backend
             totalClasses: userClasses.length,
             attendanceRate: studentProfile?.attendanceRate || 0 // Usar dados reais do backend

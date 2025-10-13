@@ -269,7 +269,7 @@ const AcademyOnboardingScreen = () => {
               disabled={creatingAcademy}
             />
             <TextInput
-              label=getString('email')
+              label="Email"
               value={academyData.email}
               onChangeText={(text) => setAcademyData(prev => ({ ...prev, email: text }))}
               mode="outlined"

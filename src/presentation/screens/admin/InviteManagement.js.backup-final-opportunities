@@ -179,12 +179,12 @@ export default function InviteManagement({ navigation }) {
         </View>
         
         <Text variant="bodySmall" style={styles.inviteDate}>
-          Enviado em: {invite.createdAt?.toDate?.()?.toLocaleDateString() || getString('dataNotAvailable')}
+          Enviado em: {invite.createdAt?.toDate?.()?.toLocaleDateString() || 'Data não disponível'}
         </Text>
         
         {invite.status === 'pending' && (
           <Text variant="bodySmall" style={styles.expiryDate}>
-            Expira em: {invite.expiresAt?.toDate?.()?.toLocaleDateString() || getString('dataNotAvailable')}
+            Expira em: {invite.expiresAt?.toDate?.()?.toLocaleDateString() || 'Data não disponível'}
           </Text>
         )}
       </Card.Content>

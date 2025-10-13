@@ -22,7 +22,7 @@ const ImprovedScheduleSelector = ({
   value = null,
   onScheduleChange,
   duration = 60,
-  timezone = 'America/Fortaleza',
+  timezone = getString('timezone'),
   startHour = 6,
   endHour = 22,
   interval = 60,

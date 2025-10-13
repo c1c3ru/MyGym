@@ -403,9 +403,9 @@ const FreeGymScheduler = ({
               textDisabledColor: colors?.onSurfaceVariant,
               arrowColor: colors?.primary,
               monthTextColor: colors?.onSurface,
-              textDayFontFamily: 'System',
-              textMonthFontFamily: 'System',
-              textDayHeaderFontFamily: 'System',
+              textDayFontFamily: getString('system'),
+              textMonthFontFamily: getString('system'),
+              textDayHeaderFontFamily: getString('system'),
               textDayFontSize: 16,
               textMonthFontSize: 16,
               textDayHeaderFontSize: 13

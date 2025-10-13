@@ -329,7 +329,7 @@ const AdminDashboard = ({ navigation }) => {
             {(academia?.id || userProfile?.academiaId) ? (
               <QRCodeGenerator 
                 academiaId={academia?.id || userProfile?.academiaId}
-                academiaNome={academia?.nome || getString('academy')}
+                academiaNome={academia?.nome || 'Academia'}
                 size={250}
                 showActions={true}
               />

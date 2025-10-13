@@ -558,7 +558,7 @@ const ProfileScreen = ({ navigation }) => {
             <Divider />
             
             <List.Item
-              title=getString('evaluationHistory')
+              title="Histórico de Avaliações"
               description="Veja todas suas avaliações anteriores"
               left={() => <List.Icon icon="history" />}
               right={() => <List.Icon icon="chevron-right" />}
@@ -576,7 +576,7 @@ const ProfileScreen = ({ navigation }) => {
             <Divider />
             
             <List.Item
-              title=getString('privacyAndSecurity')
+              title="Privacidade e Segurança"
               description="Configurações de privacidade e LGPD"
               left={() => <List.Icon icon="shield" />}
               right={() => <List.Icon icon="chevron-right" />}

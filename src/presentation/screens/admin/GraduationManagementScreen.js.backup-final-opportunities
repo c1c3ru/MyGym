@@ -206,7 +206,7 @@ const GraduationManagementScreen = ({ navigation }) => {
             <GraduationAlertCard
               key={alert.id}
               alert={alert}
-              onViewDetails={(alert) => navigation.navigate(getString('studentDetails'), { studentId: alert.studentId })}
+              onViewDetails={(alert) => navigation.navigate('StudentDetails', { studentId: alert.studentId })}
               onScheduleExam={(alert) => {
                 setExamForm(prev => ({
                   ...prev,
@@ -405,7 +405,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   headerSubtitle: {
-    color: getString('colorWhite'),
+    color: 'COLORS.white',
     fontSize: FONT_SIZE.base,
     textAlign: 'center',
   },

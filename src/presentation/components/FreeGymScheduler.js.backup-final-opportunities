@@ -205,7 +205,7 @@ const FreeGymScheduler = ({
             borderColor: primaryColor
           },
           text: {
-            color: hasMultipleEvents ? 'COLORS.whitefff' : primaryColor,
+            color: hasMultipleEvents ? getString('colorWhite') : primaryColor,
             fontWeight: hasMultipleEvents ? 'bold' : 'normal'
           }
         }
@@ -386,11 +386,11 @@ const FreeGymScheduler = ({
             onDayPress={handleDayPress}
             firstDay={1} // Segunda-feira como primeiro dia
             monthFormat={'MMMM yyyy'}
-            dayNames={['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']}
+            dayNames={[getString('sunday'), getString('monday'), getString('tuesday'), getString('wednesday'), getString('thursday'), getString('friday'), getString('saturday')]}
             dayNamesShort={['D', 'S', 'T', 'Q', 'Q', 'S', 'S']}
             monthNames={[
-              'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-              'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+              getString('january'), getString('february'), getString('march'), getString('april'), getString('may'), getString('june'),
+              getString('july'), getString('august'), getString('september'), getString('october'), getString('november'), getString('december')
             ]}
             theme={{
               backgroundColor: colors?.surface,

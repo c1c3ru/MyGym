@@ -155,7 +155,7 @@ const StudentDetailsScreen = ({ route, navigation }) => {
   }, []);
 
   const formatDate = useCallback((date) => {
-    if (!date) return getString('dataNotAvailable');
+    if (!date) return 'Data não disponível';
     const dateObj = date.seconds ? new Date(date.seconds * 1000) : new Date(date);
     return dateObj.toLocaleDateString('pt-BR');
   }, []);

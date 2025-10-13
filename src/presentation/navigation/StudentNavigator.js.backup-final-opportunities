@@ -33,7 +33,7 @@ const StudentNavigator = () => {
       screenOptions={({ route, navigation }) => ({
         header: ({ options, route: hdrRoute, navigation: hdrNav }) => (
           <UniversalHeader
-            title={(options && options.title) || (hdrRoute && hdrRoute.name) || route.name || getString('academy')}
+            title={(options && options.title) || (hdrRoute && hdrRoute.name) || route.name || 'Academia'}
             navigation={hdrNav || navigation}
             backgroundColor={PROFILE_COLORS.student.primary}
           />
@@ -41,7 +41,7 @@ const StudentNavigator = () => {
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
-          if (route.name === getString('dashboard')) {
+          if (route.name === 'Dashboard') {
             iconName = focused ? 'home' : 'home-outline';
           } else if (route.name === 'Pagamentos') {
             iconName = focused ? 'card' : 'card-outline';
@@ -60,7 +60,7 @@ const StudentNavigator = () => {
       })}
     >
       <Tab.Screen 
-        name=getString('dashboard') 
+        name="Dashboard" 
         component={StudentDashboard}
         options={{ title: getString('studentDashboard') }}
       />
@@ -146,7 +146,7 @@ const StudentStackNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title=getString('evaluationHistory')
+              title="Histórico de Avaliações"
               navigation={navigation}
               showBack={true}
               backgroundColor={PROFILE_COLORS.student.primary}
@@ -176,7 +176,7 @@ const StudentStackNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title=getString('privacyAndSecurity')
+              title="Privacidade e Segurança"
               navigation={navigation}
               showBack={true}
               backgroundColor={PROFILE_COLORS.student.primary}

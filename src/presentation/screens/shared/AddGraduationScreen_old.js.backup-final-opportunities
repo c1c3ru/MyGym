@@ -51,7 +51,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
 
   // Níveis de graduação comuns para artes marciais
   const defaultGraduationLevels = [
-    { id: COLORS.white, name: getString('whiteBelt'), color: COLORS.white, order: 1 },
+    { id: COLORS.white, name: 'Faixa Branca', color: COLORS.white, order: 1 },
     { id: currentTheme.warning[500], name: 'Faixa Amarela', color: COLORS.warning[400], order: 2 },
     { id: currentTheme.warning[600], name: 'Faixa Laranja', color: COLORS.warning[500], order: 3 },
     { id: currentTheme.success[500], name: 'Faixa Verde', color: COLORS.primary[500], order: 4 },

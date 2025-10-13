@@ -84,6 +84,6 @@ export class AuthSelectors {
   }
 
   static getAcademiaName(state: AuthState): string {
-    return state.academia?.name || getString('academy');
+    return state.academia?.name || 'Academia';
   }
 }

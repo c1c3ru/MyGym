@@ -49,7 +49,7 @@ const InstructorTabNavigator = () => {
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
-          if (route.name === getString('dashboard')) {
+          if (route.name === 'Dashboard') {
             iconName = focused ? 'home' : 'home-outline';
           } else if (route.name === getString('classes')) {
             iconName = focused ? 'school' : 'school-outline';
@@ -66,7 +66,7 @@ const InstructorTabNavigator = () => {
       })}
     >
       <Tab.Screen 
-        name=getString('dashboard') 
+        name="Dashboard" 
         component={InstructorDashboard}
         options={{ title: getString('dashboard') }}
       />
@@ -212,7 +212,7 @@ const InstructorNavigator = () => {
         }}
       />
       <Stack.Screen 
-        name=getString('studentProfile') 
+        name="StudentProfile" 
         component={StudentProfileScreen}
         options={{
           headerShown: true,
@@ -295,7 +295,7 @@ const InstructorNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title=getString('evaluationHistory')
+              title="Histórico de Avaliações"
               navigation={navigation}
               showBack={true}
               backgroundColor={PROFILE_COLORS.instructor.primary}
@@ -325,7 +325,7 @@ const InstructorNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title=getString('privacyAndSecurity')
+              title="Privacidade e Segurança"
               navigation={navigation}
               showBack={true}
               backgroundColor={PROFILE_COLORS.instructor.primary}

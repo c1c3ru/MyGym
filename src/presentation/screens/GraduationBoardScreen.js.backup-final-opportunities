@@ -197,7 +197,7 @@ const GraduationBoardScreen = ({ navigation }) => {
   const handleViewStudentDetails = useCallback((alertOrExam) => {
     if (alertOrExam.studentId) {
       // É um alerta de graduação
-      navigation.navigate(getString('studentDetails'), { 
+      navigation.navigate('StudentDetails', { 
         studentId: alertOrExam.studentId,
         tab: 'graduation'
       });

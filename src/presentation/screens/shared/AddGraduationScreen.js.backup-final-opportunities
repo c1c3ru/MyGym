@@ -67,7 +67,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   const defaultGraduationLevels = [
-    { id: COLORS.special.belt.white, name: getString('whiteBelt'), color: COLORS.special.belt.white, order: 1 },
+    { id: COLORS.special.belt.white, name: 'Faixa Branca', color: COLORS.special.belt.white, order: 1 },
     { id: currentTheme.warning[500], name: 'Faixa Amarela', color: COLORS.special.belt.yellow, order: 2 },
     { id: currentTheme.warning[600], name: 'Faixa Laranja', color: COLORS.special.belt.orange, order: 3 },
     { id: currentTheme.success[500], name: 'Faixa Verde', color: COLORS.special.belt.green, order: 4 },
@@ -619,7 +619,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
           onPress: () => setSnackbarVisible(false),
         }}
       >
-        <Text style={{ color: COLORS.white }}>{snackbarMessage || getString('message')}</Text>
+        <Text style={{ color: COLORS.white }}>{snackbarMessage || 'Mensagem'}</Text>
       </Snackbar>
     </SafeAreaView>
   );
