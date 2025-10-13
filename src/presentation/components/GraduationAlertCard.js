@@ -9,7 +9,7 @@ import {
   Surface
 } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
-import { getBeltColor, getStatusColor, APP_COLORS, STATUS_COLORS, TEXT_COLORS } from '@shared/constants/colors';
+import { getBeltColor } from '@shared/constants/colors';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { getString } from '@shared/utils/theme';
 
@@ -23,13 +23,13 @@ const GraduationAlertCard = ({
   const getAlertLevelColor = (level) => {
     switch (level) {
       case 'ready':
-        return getStatusColor('success');
+        return COLORS.success[500];
       case 'warning':
-        return getStatusColor('warning');
+        return COLORS.warning[500];
       case 'info':
-        return getStatusColor('info');
+        return COLORS.info[500];
       default:
-        return APP_COLORS.gray[300];
+        return COLORS.gray[300];
     }
   };
 
@@ -88,7 +88,7 @@ const GraduationAlertCard = ({
               <Chip size="small" style={[styles.compactBelt, { backgroundColor: getBeltColor(alert.currentBelt) }]}>
                 {alert.currentBelt}
               </Chip>
-              <Ionicons name="arrow-forward" size={12} color={APP_COLORS.gray[600]} style={{ marginHorizontal: 4 }} />
+              <Ionicons name="arrow-forward" size={12} color={COLORS.gray[600]} style={{ marginHorizontal: 4 }} />
               <Chip size="small" style={[styles.compactBelt, { backgroundColor: getBeltColor(alert.nextBelt) }]}>
                 {alert.nextBelt}
               </Chip>
@@ -145,7 +145,7 @@ const GraduationAlertCard = ({
               </Chip>
             </View>
             
-            <Ionicons name="arrow-forward" size={24} color={APP_COLORS.gray[600]} style={styles.arrow} />
+            <Ionicons name="arrow-forward" size={24} color={COLORS.gray[600]} style={styles.arrow} />
             
             <View style={styles.nextBelt}>
               <Text style={styles.beltLabel}>Próxima</Text>
@@ -160,14 +160,14 @@ const GraduationAlertCard = ({
 
         <View style={styles.details}>
           <View style={styles.detailRow}>
-            <Ionicons name="calendar" size={16} color={APP_COLORS.gray[600]} />
+            <Ionicons name="calendar" size={16} color={COLORS.gray[600]} />
             <Text style={styles.detailText}>
               Início do treinamento: {formatDate(alert.trainingStartDate)}
             </Text>
           </View>
           
           <View style={styles.detailRow}>
-            <Ionicons name="time" size={16} color={APP_COLORS.gray[600]} />
+            <Ionicons name="time" size={16} color={COLORS.gray[600]} />
             <Text style={styles.detailText}>
               Tempo mínimo: {Math.floor(alert.minimumTrainingDays / 30)} meses
             </Text>
@@ -175,7 +175,7 @@ const GraduationAlertCard = ({
           
           {alert.minimumClasses && (
             <View style={styles.detailRow}>
-              <Ionicons name="library" size={16} color={APP_COLORS.gray[600]} />
+              <Ionicons name="library" size={16} color={COLORS.gray[600]} />
               <Text style={styles.detailText}>
                 Aulas: {alert.classesCompleted || 0}/{alert.minimumClasses}
               </Text>
@@ -184,7 +184,7 @@ const GraduationAlertCard = ({
           
           {!alert.isEligible && (
             <View style={styles.detailRow}>
-              <Ionicons name="hourglass" size={16} color={APP_COLORS.gray[600]} />
+              <Ionicons name="hourglass" size={16} color={COLORS.gray[600]} />
               <Text style={styles.detailText}>
                 Elegível em: {getDaysText(alert.daysUntilEligible)}
               </Text>
@@ -193,8 +193,8 @@ const GraduationAlertCard = ({
           
           {alert.isEligible && (
             <View style={styles.detailRow}>
-              <Ionicons name="checkmark-circle" size={16} color={STATUS_COLORS.success} />
-              <Text style={[styles.detailText, { color: STATUS_COLORS.success, fontWeight: FONT_WEIGHT.bold }]}>
+              <Ionicons name="checkmark-circle" size={16} color={COLORS.success[500]} />
+              <Text style={[styles.detailText, { color: COLORS.success[500], fontWeight: FONT_WEIGHT.bold }]}>
                 Elegível para graduação!
               </Text>
             </View>
@@ -230,14 +230,14 @@ const GraduationAlertCard = ({
 
 const styles = StyleSheet.create({
   card: {
-    marginVertical: 8,
+    marginVertical: SPACING.sm,
     elevation: 2,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   studentInfo: {
     flexDirection: 'row',
@@ -245,7 +245,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   studentDetails: {
-    marginLeft: 12,
+    marginLeft: SPACING.md,
     flex: 1,
   },
   studentName: {
@@ -255,19 +255,19 @@ const styles = StyleSheet.create({
   },
   modality: {
     fontSize: FONT_SIZE.base,
-    color: APP_COLORS.gray[600],
+    color: COLORS.gray[600],
   },
   alertChip: {
     paddingHorizontal: SPACING.sm,
   },
   progression: {
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   beltProgression: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    backgroundColor: APP_COLORS.gray[50],
+    backgroundColor: COLORS.gray[50],
     padding: SPACING.base,
     borderRadius: BORDER_RADIUS.md,
   },
@@ -279,17 +279,17 @@ const styles = StyleSheet.create({
   },
   beltLabel: {
     fontSize: FONT_SIZE.sm,
-    color: APP_COLORS.gray[600],
+    color: COLORS.gray[600],
     marginBottom: SPACING.sm,
   },
   beltChip: {
-    paddingHorizontal: 16,
+    paddingHorizontal: SPACING.base,
   },
   arrow: {
-    marginHorizontal: 16,
+    marginHorizontal: SPACING.base,
   },
   details: {
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   detailRow: {
     flexDirection: 'row',
@@ -297,9 +297,9 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.sm,
   },
   detailText: {
-    marginLeft: 8,
+    marginLeft: SPACING.sm,
     fontSize: FONT_SIZE.base,
-    color: TEXT_COLORS.primary,
+    color: COLORS.text.primary,
   },
   actions: {
     flexDirection: 'row',
@@ -307,11 +307,11 @@ const styles = StyleSheet.create({
   },
   actionButton: {
     flex: 1,
-    marginHorizontal: 4,
+    marginHorizontal: SPACING.xs,
   },
   // Compact styles
   compactCard: {
-    marginVertical: 4,
+    marginVertical: SPACING.xs,
     borderRadius: BORDER_RADIUS.md,
     elevation: 1,
   },
@@ -322,7 +322,7 @@ const styles = StyleSheet.create({
   },
   compactInfo: {
     flex: 1,
-    marginLeft: 12,
+    marginLeft: SPACING.md,
   },
   compactName: {
     fontSize: FONT_SIZE.base,
@@ -330,7 +330,7 @@ const styles = StyleSheet.create({
   },
   compactModality: {
     fontSize: FONT_SIZE.sm,
-    color: APP_COLORS.gray[600],
+    color: COLORS.gray[600],
     marginBottom: SPACING.xs,
   },
   compactBelts: {
@@ -338,7 +338,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   compactBelt: {
-    paddingHorizontal: 6,
+    paddingHorizontal: SPACING.xs,
   },
   compactStatus: {
     alignItems: 'center',
