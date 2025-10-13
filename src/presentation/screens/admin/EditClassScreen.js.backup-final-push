@@ -100,7 +100,7 @@ const EditClassScreen = ({ route, navigation }) => {
           status: classData.status || 'active'
         });
       } else {
-        setSnackbar({ visible: true, message: getString('classNotFound'), type: 'error' });
+        setSnackbar({ visible: true, message: 'Turma não encontrada', type: 'error' });
         setTimeout(() => navigation.goBack(), 800);
       }
     } catch (error) {

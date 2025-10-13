@@ -156,7 +156,7 @@ const UserTypeSelectionScreen = ({ navigation, route }) => {
     
     // Para web, usar confirm nativo do browser
     if (Platform.OS === 'web') {
-      const confirmed = window.confirm(getString('confirmLogout'));
+      const confirmed = window.confirm('Tem certeza que deseja sair da sua conta?');
       console.log('🔘 UserTypeSelection: Web confirm result:', confirmed);
       
       if (confirmed) {
@@ -178,7 +178,7 @@ const UserTypeSelectionScreen = ({ navigation, route }) => {
     // Para mobile, usar Alert.alert
     Alert.alert(
       getString('logout'),
-      getString('confirmLogout'),
+      'Tem certeza que deseja sair da sua conta?',
       [
         {
           text: getString('cancel'),

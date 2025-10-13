@@ -126,7 +126,7 @@ const CheckInScreen = ({ navigation }) => {
       );
       setAvailableClasses(userClasses);
     } catch (error) {
-      console.error(getString('loadClassesError'), error);
+      console.error('Erro ao carregar turmas:', error);
     }
   };
 

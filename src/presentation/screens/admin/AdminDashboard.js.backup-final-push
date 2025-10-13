@@ -529,7 +529,7 @@ const AdminDashboard = ({ navigation }) => {
               {[
                 { key: 'students', title: getString('students'), subtitle: 'Gerenciar alunos', icon: ADMIN_ICONS.quickActions.students, colors: ADMIN_COLORS.blue, onPress: handleNavigateToStudents },
                 { key: 'classes', title: getString('classes'), subtitle: 'Gerenciar turmas', icon: ADMIN_ICONS.quickActions.classes, colors: ADMIN_COLORS.green, onPress: handleNavigateToClasses },
-                { key: 'calendar', title: getString('calendar'), subtitle: 'Visualizar cronograma', icon: 'calendar-month', colors: ADMIN_COLORS.teal, onPress: handleShowCalendar },
+                { key: 'calendar', title: 'Calendário', subtitle: 'Visualizar cronograma', icon: 'calendar-month', colors: ADMIN_COLORS.teal, onPress: handleShowCalendar },
                 { key: 'settings', title: getString('settings'), subtitle: 'Preferências e gestão', icon: ADMIN_ICONS.quickActions.settings, colors: ADMIN_COLORS.orange, onPress: handleNavigateToManagement },
               ].map((action, idx) => (
                 <Animated.View key={action.key} style={[styles.actionCard, { opacity: animations.fadeAnim, width: ResponsiveUtils.isTablet() ? '31%' : '48%' }]}>

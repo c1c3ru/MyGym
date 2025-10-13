@@ -99,7 +99,7 @@ const SharedNavigator = ({ userType }) => {
         })}
       />
       <Stack.Screen
-        name=getString('injury')
+        name="Injury"
         component={InjuryScreen}
         options={({ navigation }) => ({
           header: () => (
@@ -129,7 +129,7 @@ const SharedNavigator = ({ userType }) => {
         })}
       />
       <Stack.Screen
-        name=getString('privacyPolicy')
+        name="PrivacyPolicy"
         component={PrivacyPolicyScreen}
         options={({ navigation }) => ({
           header: () => (

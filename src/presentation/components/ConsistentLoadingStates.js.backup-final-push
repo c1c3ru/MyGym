@@ -52,7 +52,7 @@ export const ListItemSkeleton = memo(() => (
 ));
 
 // Loading state para formulários
-export const FormLoading = memo(({ message = getString('saving') }) => (
+export const FormLoading = memo(({ message = 'Salvando...' }) => (
   <View style={styles.formLoadingContainer}>
     <ActivityIndicator size="small" color={COLORS.info[500]} />
     <Text style={styles.formLoadingText}>{message}</Text>

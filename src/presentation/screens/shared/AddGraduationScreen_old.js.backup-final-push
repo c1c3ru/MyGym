@@ -55,7 +55,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
     { id: currentTheme.warning[500], name: 'Faixa Amarela', color: COLORS.warning[400], order: 2 },
     { id: currentTheme.warning[600], name: 'Faixa Laranja', color: COLORS.warning[500], order: 3 },
     { id: currentTheme.success[500], name: 'Faixa Verde', color: COLORS.primary[500], order: 4 },
-    { id: currentTheme.info[500], name: getString('blueBelt'), color: COLORS.info[500], order: 5 },
+    { id: currentTheme.info[500], name: 'Faixa Azul', color: COLORS.info[500], order: 5 },
     { id: 'purple', name: 'Faixa Roxa', color: COLORS.secondary[500], order: 6 },
     { id: 'brown', name: 'Faixa Marrom', color: COLORS.gray[700], order: 7 },
     { id: 'black-1', name: 'Faixa Preta 1º Dan', color: COLORS.black, order: 8 },
@@ -286,7 +286,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
 
             {/* Observações */}
             <TextInput
-              label=getString('optionalObservations')
+              label="Observações (opcional)"
               value={formData.notes}
               onChangeText={(text) => setFormData(prev => ({ ...prev, notes: text }))}
               mode="outlined"

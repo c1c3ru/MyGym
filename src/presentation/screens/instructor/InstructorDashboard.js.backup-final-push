@@ -231,7 +231,7 @@ const InstructorDashboard = ({ navigation }) => {
       const recentGraduations = [
         {
           studentName: 'João Silva',
-          graduation: getString('blueBelt'),
+          graduation: 'Faixa Azul',
           modality: getString('jiujitsu'),
           date: new Date()
         }
@@ -539,7 +539,7 @@ const InstructorDashboard = ({ navigation }) => {
                       }
                     }}
                     style={styles.modernActionButton}
-                    buttonColor=getString('whiteTransparent')
+                    buttonColor="COLORS.white + '33'"
                     textColor={COLORS.white}
                     compact
                   >
@@ -560,7 +560,7 @@ const InstructorDashboard = ({ navigation }) => {
                     mode="contained"
                     onPress={() => navigation.navigate(getString('checkIn'))}
                     style={styles.modernActionButton}
-                    buttonColor=getString('whiteTransparent')
+                    buttonColor="COLORS.white + '33'"
                     textColor={COLORS.white}
                     compact
                   >
@@ -581,7 +581,7 @@ const InstructorDashboard = ({ navigation }) => {
                     mode="contained"
                     onPress={() => navigation.navigate('Relatorios')}
                     style={styles.modernActionButton}
-                    buttonColor=getString('whiteTransparent')
+                    buttonColor="COLORS.white + '33'"
                     textColor={COLORS.white}
                     compact
                   >

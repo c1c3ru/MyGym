@@ -159,7 +159,7 @@ const LoginScreenDebug = ({ navigation }) => {
 
             <Button
               mode="text"
-              onPress={() => navigation.navigate('Login')}
+              onPress={() => navigation.navigate(getString('login'))}
             >
               Voltar para Login Normal
             </Button>

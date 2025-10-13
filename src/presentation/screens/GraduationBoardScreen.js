@@ -187,7 +187,7 @@ const GraduationBoardScreen = ({ navigation }) => {
 
     if (exam) {
       // Editar exame existente
-      navigation.navigate('ScheduleExam', { examId: exam.id, exam });
+      navigation.navigate(getString('scheduleExam'), { examId: exam.id, exam });
     } else {
       // Criar novo exame
       setShowScheduleDialog(true);
@@ -212,7 +212,7 @@ const GraduationBoardScreen = ({ navigation }) => {
 
   const handleCreateNewExam = useCallback(() => {
     setShowScheduleDialog(false);
-    navigation.navigate('ScheduleExam');
+    navigation.navigate(getString('scheduleExam'));
   }, [navigation]);
 
   const isAdmin = user?.role === 'admin';

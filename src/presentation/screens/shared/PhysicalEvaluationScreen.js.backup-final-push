@@ -398,7 +398,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
             {/* Observações */}
             <Text style={styles.sectionTitle}>📝 Observações</Text>
             <TextInput
-              label=getString('optionalObservations')
+              label="Observações (opcional)"
               value={formData.notes}
               onChangeText={(value) => updateFormData('notes', value)}
               mode="outlined"

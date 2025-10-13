@@ -30,7 +30,7 @@ const LoginScreenDebug = ({ navigation }) => {
     
     if (!email || !password) {
       addDebugInfo('❌ Email ou senha vazios');
-      Alert.alert('Erro', 'Por favor, preencha todos os campos');
+      Alert.alert(getString('error'), 'Por favor, preencha todos os campos');
       return;
     }
 
@@ -46,7 +46,7 @@ const LoginScreenDebug = ({ navigation }) => {
       addDebugInfo('🚀 Iniciando login...');
       await signIn(email, password);
       addDebugInfo('✅ Login bem-sucedido!');
-      Alert.alert('Sucesso', 'Login realizado com sucesso!');
+      Alert.alert(getString('success'), getString('loginSuccess'));
     } catch (error) {
       addDebugInfo(`❌ Erro: ${error.code}`);
       addDebugInfo(`📝 Mensagem: ${error.message}`);
@@ -60,7 +60,7 @@ const LoginScreenDebug = ({ navigation }) => {
         addDebugInfo('   - Verificar configuração do Firebase');
       }
       
-      Alert.alert('Erro', `Erro no login: ${error.code}`);
+      Alert.alert(getString('error'), `Erro no login: ${error.code}`);
     } finally {
       setLoading(false);
     }
@@ -84,11 +84,11 @@ const LoginScreenDebug = ({ navigation }) => {
       addDebugInfo('🚀 Tentando login com dados limpos...');
       await signIn(cleanEmail, cleanPassword);
       addDebugInfo('✅ Login com dados limpos bem-sucedido!');
-      Alert.alert('Sucesso', 'Login com dados limpos realizado!');
+      Alert.alert(getString('success'), 'Login com dados limpos realizado!');
     } catch (error) {
       addDebugInfo(`❌ Erro com dados limpos: ${error.code}`);
       addDebugInfo(`📝 Mensagem: ${error.message}`);
-      Alert.alert('Erro', `Erro com dados limpos: ${error.code}`);
+      Alert.alert(getString('error'), `Erro com dados limpos: ${error.code}`);
     } finally {
       setLoading(false);
     }
@@ -109,7 +109,7 @@ const LoginScreenDebug = ({ navigation }) => {
             <Title style={styles.cardTitle}>Credenciais</Title>
             
             <TextInput
-              label="Email"
+              label=getString('email')
               value={email}
               onChangeText={setEmail}
               mode="outlined"

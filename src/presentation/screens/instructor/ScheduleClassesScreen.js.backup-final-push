@@ -60,7 +60,7 @@ const ScheduleClassesScreen = ({ navigation, route }) => {
       );
       setClasses(instructorClasses);
     } catch (error) {
-      console.error(getString('loadClassesError'), error);
+      console.error('Erro ao carregar turmas:', error);
       Alert.alert(getString('error'), 'Não foi possível carregar suas turmas');
     }
   };
@@ -171,7 +171,7 @@ const ScheduleClassesScreen = ({ navigation, route }) => {
                 <List.Item
                   key={classItem.id}
                   title={classItem.name}
-                  description={`${classItem.modality || getString('modality')} • ${classItem.students?.length || 0} alunos`}
+                  description={`${classItem.modality || 'Modalidade'} • ${classItem.students?.length || 0} alunos`}
                   left={() => (
                     <Checkbox
                       status={selectedClasses.has(classItem.id) ? 'checked' : 'unchecked'}
@@ -283,7 +283,7 @@ const ScheduleClassesScreen = ({ navigation, route }) => {
 
             {/* Observações */}
             <TextInput
-              label=getString('optionalObservations')
+              label="Observações (opcional)"
               value={notes}
               onChangeText={setNotes}
               mode="outlined"

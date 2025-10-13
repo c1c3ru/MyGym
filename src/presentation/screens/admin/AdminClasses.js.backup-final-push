@@ -177,7 +177,7 @@ const AdminClasses = ({ navigation }) => {
       });
 
     } catch (error) {
-      console.error(getString('loadClassesError'), error);
+      console.error('Erro ao carregar turmas:', error);
       Alert.alert(getString('error'), getString('errorLoadingClasses'));
     } finally {
       setLoading(false);

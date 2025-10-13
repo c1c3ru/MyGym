@@ -165,7 +165,7 @@ const CheckIn = ({ navigation }) => {
         const classInfo = classes.find(c => c.id === session.classId);
         return {
           ...session,
-          className: classInfo?.name || getString('classNotFound'),
+          className: classInfo?.name || 'Turma não encontrada',
           classSchedule: classInfo?.scheduleText || '',
           maxStudents: classInfo?.maxStudents || 0
         };
@@ -247,7 +247,7 @@ const CheckIn = ({ navigation }) => {
       
       const classInfo = classes.find(c => c.id === classId);
       if (!classInfo) {
-        Alert.alert(getString('error'), getString('classNotFound'));
+        Alert.alert(getString('error'), 'Turma não encontrada');
         return;
       }
 
@@ -334,7 +334,7 @@ const CheckIn = ({ navigation }) => {
       console.log('🔍 Debug - User profile:', userProfile);
       
       if (!selectedClass) {
-        Alert.alert(getString('error'), getString('selectClassFirst'));
+        Alert.alert(getString('error'), 'Selecione uma turma primeiro');
         return;
       }
 
@@ -457,7 +457,7 @@ const CheckIn = ({ navigation }) => {
     }
 
     if (!selectedClass) {
-      Alert.alert(getString('error'), getString('selectClassFirst'));
+      Alert.alert(getString('error'), 'Selecione uma turma primeiro');
       return;
     }
 
@@ -876,7 +876,7 @@ const CheckIn = ({ navigation }) => {
               mode="contained"
               onPress={async () => {
                 if (!selectedClass) {
-                  Alert.alert(getString('attention'), getString('selectClassFirst'));
+                  Alert.alert(getString('attention'), 'Selecione uma turma primeiro');
                   return;
                 }
                 if (selectedStudents.size === 0) {

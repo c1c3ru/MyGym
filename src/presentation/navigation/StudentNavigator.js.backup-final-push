@@ -47,7 +47,7 @@ const StudentNavigator = () => {
             iconName = focused ? 'card' : 'card-outline';
           } else if (route.name === 'Evolução') {
             iconName = focused ? 'trending-up' : 'trending-up-outline';
-          } else if (route.name === getString('calendar')) {
+          } else if (route.name === 'Calendário') {
             iconName = focused ? 'calendar' : 'calendar-outline';
           }
           return <Ionicons name={iconName} size={size} color={color} />;
@@ -75,7 +75,7 @@ const StudentNavigator = () => {
         options={{ title: getString('evolution') }}
       />
       <Tab.Screen 
-        name=getString('calendar') 
+        name="Calendário" 
         component={StudentCalendar}
         options={{ title: getString('calendar') }}
       />
@@ -161,7 +161,7 @@ const StudentStackNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title=getString('notificationSettings')
+              title="Configurações de Notificação"
               navigation={navigation}
               showBack={true}
               backgroundColor={PROFILE_COLORS.student.primary}

@@ -57,12 +57,12 @@ export const UserTypeSelectionScreen = lazy(() => import('./auth/UserTypeSelecti
 export const AcademyOnboardingScreen = lazy(() => import('./onboarding/AcademyOnboardingScreen'));
 
 // Screens com Lazy Loading pré-configurado
-export const LazyAdminDashboard = withLazyLoading(AdminDashboard, getString('loadingDashboard'));
+export const LazyAdminDashboard = withLazyLoading(AdminDashboard, 'Carregando dashboard...');
 export const LazyAdminStudents = withLazyLoading(AdminStudents, 'Carregando lista de alunos...');
 export const LazyAdminClasses = withLazyLoading(AdminClasses, 'Carregando turmas...');
-export const LazyInstructorDashboard = withLazyLoading(InstructorDashboard, getString('loadingDashboard'));
+export const LazyInstructorDashboard = withLazyLoading(InstructorDashboard, 'Carregando dashboard...');
 export const LazyInstructorClasses = withLazyLoading(InstructorClasses, 'Carregando suas turmas...');
-export const LazyStudentDashboard = withLazyLoading(StudentDashboard, getString('loadingDashboard'));
+export const LazyStudentDashboard = withLazyLoading(StudentDashboard, 'Carregando dashboard...');
 export const LazyStudentPayments = withLazyLoading(StudentPayments, 'Carregando pagamentos...');
 
 // Função utilitária para preload de screens

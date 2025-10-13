@@ -24,12 +24,12 @@ const AuthNavigator = () => {
         animationEnabled: true,
       }}
     >
-      <Stack.Screen name=getString('login') component={LoginScreen} />
-      <Stack.Screen name=getString('register') component={RegisterScreen} />
-      <Stack.Screen name=getString('forgotPassword') component={ForgotPasswordScreen} />
+      <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="Register" component={RegisterScreen} />
+      <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
       <Stack.Screen name="AcademiaSelection" component={AcademiaSelectionScreen} />
       <Stack.Screen name="TermsOfService" component={TermsOfServiceScreen} />
-      <Stack.Screen name=getString('privacyPolicy') component={PrivacyPolicyScreen} />
+      <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicyScreen} />
     </Stack.Navigator>
   );
 };

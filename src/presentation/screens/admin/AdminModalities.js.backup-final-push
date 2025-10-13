@@ -643,7 +643,7 @@ const AdminModalities = ({ navigation }) => {
                           disabled={deletingIds.has(modality.id)}
                           loading={deletingIds.has(modality.id)}
                         >
-                          {deletingIds.has(modality.id) ? getString('deleting') : getString('delete')}
+                          {deletingIds.has(modality.id) ? 'Excluindo...' : getString('delete')}
                         </Button>
                       </View>
                     )}
@@ -702,7 +702,7 @@ const AdminModalities = ({ navigation }) => {
                           disabled={deletingPlanIds.has(plan.id)}
                           loading={deletingPlanIds.has(plan.id)}
                         >
-                          {deletingPlanIds.has(plan.id) ? getString('deleting') : getString('delete')}
+                          {deletingPlanIds.has(plan.id) ? 'Excluindo...' : getString('delete')}
                         </Button>
                       </View>
                     )}
@@ -761,7 +761,7 @@ const AdminModalities = ({ navigation }) => {
                           disabled={deletingAnnouncementIds.has(announcement.id)}
                           loading={deletingAnnouncementIds.has(announcement.id)}
                         >
-                          {deletingAnnouncementIds.has(announcement.id) ? getString('deleting') : getString('delete')}
+                          {deletingAnnouncementIds.has(announcement.id) ? 'Excluindo...' : getString('delete')}
                         </Button>
                       </View>
                     )}

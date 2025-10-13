@@ -71,7 +71,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
     { id: currentTheme.warning[500], name: 'Faixa Amarela', color: COLORS.special.belt.yellow, order: 2 },
     { id: currentTheme.warning[600], name: 'Faixa Laranja', color: COLORS.special.belt.orange, order: 3 },
     { id: currentTheme.success[500], name: 'Faixa Verde', color: COLORS.special.belt.green, order: 4 },
-    { id: currentTheme.info[500], name: getString('blueBelt'), color: COLORS.special.belt.blue, order: 5 },
+    { id: currentTheme.info[500], name: 'Faixa Azul', color: COLORS.special.belt.blue, order: 5 },
     { id: 'purple', name: 'Faixa Roxa', color: COLORS.special.belt.purple, order: 6 },
     { id: 'brown', name: 'Faixa Marrom', color: COLORS.special.belt.brown, order: 7 },
     { id: 'black-1', name: 'Faixa Preta 1º Dan', color: COLORS.special.belt.black, order: 8 },
@@ -467,7 +467,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
             labelStyle={styles.submitButtonLabel}
             icon={loading ? undefined : "content-save"}
           >
-            {loading ? getString('saving') : 'Salvar Graduação'}
+            {loading ? 'Salvando...' : 'Salvar Graduação'}
           </Button>
           
           <Button

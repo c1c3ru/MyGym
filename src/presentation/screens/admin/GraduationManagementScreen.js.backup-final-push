@@ -176,7 +176,7 @@ const GraduationManagementScreen = ({ navigation }) => {
                 onPress={() => setSelectedModality(modality)}
                 style={styles.filterChip}
               >
-                {modality === 'all' ? getString('all') : modality}
+                {modality === 'all' ? 'Todas' : modality}
               </Chip>
             ))}
           </View>
@@ -279,7 +279,7 @@ const GraduationManagementScreen = ({ navigation }) => {
           <Dialog.Title>Agendar Exame de Graduação</Dialog.Title>
           <Dialog.Content>
             <TextInput
-              label=getString('modality')
+              label="Modalidade"
               value={examForm.modality}
               onChangeText={(text) => setExamForm(prev => ({ ...prev, modality: text }))}
               style={styles.input}

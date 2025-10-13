@@ -84,7 +84,7 @@ const InjuryHistoryScreen = ({ navigation }) => {
   const getStatusLabel = (status) => {
     switch (status) {
       case 'ativo': return getString('active');
-      case 'recuperando': return getString('recovering');
+      case 'recuperando': return 'Recuperando';
       case 'recuperado': return 'Recuperado';
       case 'cronico': return 'Crônico';
       default: return status;
@@ -152,9 +152,9 @@ const InjuryHistoryScreen = ({ navigation }) => {
   const stats = getStats();
 
   const filters = [
-    { key: 'all', label: getString('all'), count: stats.total },
+    { key: 'all', label: 'Todas', count: stats.total },
     { key: 'ativo', label: 'Ativas', count: stats.active },
-    { key: 'recuperando', label: getString('recovering'), count: stats.recovering },
+    { key: 'recuperando', label: 'Recuperando', count: stats.recovering },
     { key: 'recuperado', label: 'Recuperadas', count: stats.recovered },
     { key: 'cronico', label: 'Crônicas', count: stats.chronic }
   ];
@@ -293,7 +293,7 @@ const InjuryHistoryScreen = ({ navigation }) => {
                       </View>
                     )}
                     right={() => <List.Icon icon="chevron-right" />}
-                    onPress={() => navigation.navigate(getString('injury'), {
+                    onPress={() => navigation.navigate('Injury', {
                       injury,
                       isEditing: true
                     })}
@@ -332,7 +332,7 @@ const InjuryHistoryScreen = ({ navigation }) => {
       <FAB
         style={styles.fab}
         icon="plus"
-        onPress={() => navigation.navigate(getString('injury'))}
+        onPress={() => navigation.navigate('Injury')}
         label="Nova Lesão"
       />
     </SafeAreaView>

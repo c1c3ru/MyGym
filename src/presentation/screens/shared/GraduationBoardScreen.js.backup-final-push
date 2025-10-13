@@ -164,7 +164,7 @@ const GraduationBoardScreen = ({ navigation }) => {
             onPress={() => setSelectedModality(modality)}
             style={styles.filterChip}
           >
-            {modality === 'all' ? getString('all') : modality}
+            {modality === 'all' ? 'Todas' : modality}
           </Chip>
         ))}
       </ScrollView>
@@ -291,7 +291,7 @@ const GraduationBoardScreen = ({ navigation }) => {
             <Button
               mode="outlined"
               icon="plus"
-              onPress={() => navigation.navigate(getString('scheduleExam'))}
+              onPress={() => navigation.navigate('ScheduleExam')}
               style={styles.addButton}
             >
               Agendar Exame
@@ -357,7 +357,7 @@ const GraduationBoardScreen = ({ navigation }) => {
           <Dialog.Title>Detalhes do Exame</Dialog.Title>
           <Dialog.Content>
             <List.Item
-              title=getString('modality')
+              title="Modalidade"
               description={selectedExam.modality}
               left={props => <List.Icon {...props} icon="karate" />}
             />

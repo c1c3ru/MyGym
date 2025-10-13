@@ -67,7 +67,7 @@ const AdminTabNavigator = () => {
             iconName = focused ? 'fitness' : 'fitness-outline';
           } else if (route.name === getString('management')) {
             iconName = focused ? 'stats-chart' : 'stats-chart-outline';
-          } else if (route.name === 'Convites') {
+          } else if (route.name === getString('invitations')) {
             iconName = focused ? 'mail' : 'mail-outline';
           }
           return <Ionicons name={iconName} size={size} color={color} />;
@@ -105,7 +105,7 @@ const AdminTabNavigator = () => {
         options={{ title: getString('reports') }}
       />
       <Tab.Screen 
-        name="Convites" 
+        name=getString('invitations') 
         component={InviteManagement}
         options={{ title: getString('invites') }}
       />
@@ -376,7 +376,7 @@ const AdminNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title="Configurações de Notificação"
+              title=getString('notificationSettings')
               navigation={navigation}
               showBack={true}
               backgroundColor={PROFILE_COLORS.admin.primary}

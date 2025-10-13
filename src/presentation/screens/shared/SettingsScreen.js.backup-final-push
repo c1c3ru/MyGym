@@ -24,7 +24,7 @@ const SettingsScreen = ({ navigation }) => {
   const handleLogout = () => {
     Alert.alert(
       'Confirmar Logout',
-      getString('confirmLogout'),
+      'Tem certeza que deseja sair da sua conta?',
       [
         { text: getString('cancel'), style: 'cancel' },
         { 

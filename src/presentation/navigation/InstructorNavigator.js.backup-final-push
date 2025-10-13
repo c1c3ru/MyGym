@@ -310,7 +310,7 @@ const InstructorNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title=getString('notificationSettings')
+              title="Configurações de Notificação"
               navigation={navigation}
               showBack={true}
               backgroundColor={PROFILE_COLORS.instructor.primary}
