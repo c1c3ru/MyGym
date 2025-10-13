@@ -7,7 +7,6 @@ import { firestoreService } from '@services/firestoreService';
 import { academyFirestoreService } from '@services/academyFirestoreService';
 import { useAuth } from '@contexts/AuthProvider';
 import { useUserProfile } from '@hooks/useUserProfile';
-import { PROFILE_COLORS, STATUS_COLORS, APP_COLORS } from '@shared/constants/colors';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { getString } from '@utils/theme';
 
@@ -116,9 +115,9 @@ const CheckInButton = ({ classId, className, onCheckInSuccess }) => {
   };
 
   const getStatusColor = () => {
-    if (locationStatus?.includes('inválida')) return STATUS_COLORS.error;
-    if (locationStatus?.includes('realizado')) return STATUS_COLORS.success;
-    return STATUS_COLORS.warning;
+    if (locationStatus?.includes('inválida')) return COLORS.error[500];
+    if (locationStatus?.includes('realizado')) return COLORS.success[500];
+    return COLORS.warning[500];
   };
 
   return (
@@ -128,7 +127,7 @@ const CheckInButton = ({ classId, className, onCheckInSuccess }) => {
           <MaterialCommunityIcons 
             name="map-marker-check" 
             size={24} 
-            color={PROFILE_COLORS.student.primary} 
+            color={COLORS.primary[500]} 
           />
           <Text style={styles.title}>Check-in com Localização</Text>
         </View>

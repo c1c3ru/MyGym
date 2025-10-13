@@ -2,7 +2,6 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useTheme } from '@contexts/ThemeContext';
 import UniversalHeader from '@components/UniversalHeader';
-import { PROFILE_COLORS } from '@shared/constants/colors';
 
 // Telas Compartilhadas
 import ProfileScreen from '@screens/shared/ProfileScreen';

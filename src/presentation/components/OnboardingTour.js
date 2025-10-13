@@ -6,7 +6,6 @@
  */
 
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
-import { COLORS } from '@presentation/theme/designTokens';
 import { View, StyleSheet, Modal, Dimensions, TouchableOpacity, Platform } from 'react-native';
 import { Text, Button, IconButton } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';

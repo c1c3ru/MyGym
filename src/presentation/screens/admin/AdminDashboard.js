@@ -15,7 +15,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { SafeIonicons, SafeMaterialCommunityIcons } from '@components/SafeIcon';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useAuth } from '@contexts/AuthProvider';
-import { ADMIN_COLORS, ADMIN_ICONS } from '@presentation/theme/adminTheme';
 import { academyFirestoreService } from '@services/academyFirestoreService';
 import AnimatedCard from '@components/AnimatedCard';
 import AnimatedButton from '@components/AnimatedButton';
@@ -518,7 +517,7 @@ const AdminDashboard = ({ navigation }) => {
           <Card.Content>
             <View style={styles.modernCardHeader}>
               <View style={styles.headerIconContainer}>
-                <SafeMaterialCommunityIcons name="lightning-bolt" size={24} color={ADMIN_COLORS.accentWarning} />
+                <SafeMaterialCommunityIcons name="lightning-bolt" size={24} color={COLORS.info[500]Warning} />
               </View>
               <View>
                 <Text style={styles.modernCardTitle}>Ações Rápidas</Text>

@@ -4,7 +4,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '@contexts/ThemeContext';
 import UniversalHeader from '@components/UniversalHeader';
-import { PROFILE_COLORS } from '@shared/constants/colors';
 
 // Telas do Aluno
 import StudentDashboard from '@screens/student/StudentDashboard';
@@ -36,7 +35,7 @@ const StudentNavigator = () => {
           <UniversalHeader
             title={(options && options.title) || (hdrRoute && hdrRoute.name) || route.name || getString('academy')}
             navigation={hdrNav || navigation}
-            backgroundColor={PROFILE_COLORS.student.primary}
+            backgroundColor={COLORS.info[500]}
           />
         ),
         tabBarIcon: ({ focused, color, size }) => {
@@ -105,7 +104,7 @@ const StudentStackNavigator = () => {
               title="Profile"
               navigation={navigation}
               showBack={true}
-              backgroundColor={PROFILE_COLORS.student.primary}
+              backgroundColor={COLORS.info[500]}
             />
           ),
         }}
@@ -120,7 +119,7 @@ const StudentStackNavigator = () => {
               title="ChangePassword"
               navigation={navigation}
               showBack={true}
-              backgroundColor={PROFILE_COLORS.student.primary}
+              backgroundColor={COLORS.info[500]}
             />
           ),
         }}
@@ -135,7 +134,7 @@ const StudentStackNavigator = () => {
               title="Avaliação Física"
               navigation={navigation}
               showBack={true}
-              backgroundColor={PROFILE_COLORS.student.primary}
+              backgroundColor={COLORS.info[500]}
             />
           ),
         }}
@@ -150,7 +149,7 @@ const StudentStackNavigator = () => {
               title="evaluationHistory"
               navigation={navigation}
               showBack={true}
-              backgroundColor={PROFILE_COLORS.student.primary}
+              backgroundColor={COLORS.info[500]}
             />
           ),
         }}
@@ -165,7 +164,7 @@ const StudentStackNavigator = () => {
               title="NotificationSettings"
               navigation={navigation}
               showBack={true}
-              backgroundColor={PROFILE_COLORS.student.primary}
+              backgroundColor={COLORS.info[500]}
             />
           ),
         }}
@@ -180,7 +179,7 @@ const StudentStackNavigator = () => {
               title="privacyAndSecurity"
               navigation={navigation}
               showBack={true}
-              backgroundColor={PROFILE_COLORS.student.primary}
+              backgroundColor={COLORS.info[500]}
             />
           ),
         }}

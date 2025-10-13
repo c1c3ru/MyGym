@@ -4,7 +4,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '@contexts/ThemeContext';
 import UniversalHeader from '@components/UniversalHeader';
-import { PROFILE_COLORS } from '@shared/constants/colors';
 import { COLORS } from '@presentation/theme/designTokens';
 
 // Telas do Professor
@@ -44,7 +43,7 @@ const InstructorTabNavigator = () => {
           <UniversalHeader
             title={(options && options.title) || (hdrRoute && hdrRoute.name) || route.name || getString('instructor')}
             navigation={hdrNav || navigation}
-            backgroundColor={PROFILE_COLORS.instructor.primary}
+            backgroundColor={COLORS.secondary[500]}
           />
         ),
         tabBarIcon: ({ focused, color, size }) => {
@@ -102,7 +101,7 @@ const InstructorNavigator = () => {
               title={getString('newLesson')}
               navigation={navigation}
               showBack={true}
-              backgroundColor={PROFILE_COLORS.instructor.primary}
+              backgroundColor={COLORS.secondary[500]}
             />
           ),
         }}
@@ -117,7 +116,7 @@ const InstructorNavigator = () => {
               title="Agendar Aulas"
               navigation={navigation}
               showBack={true}
-              backgroundColor={PROFILE_COLORS.instructor.primary}
+              backgroundColor={COLORS.secondary[500]}
             />
           ),
         }}
@@ -132,7 +131,7 @@ const InstructorNavigator = () => {
               title={getString('checkIn')}
               navigation={navigation}
               showBack={true}
-              backgroundColor={PROFILE_COLORS.instructor.primary}
+              backgroundColor={COLORS.secondary[500]}
             />
           ),
         }}
@@ -147,7 +146,7 @@ const InstructorNavigator = () => {
               title={getString('reports')}
               navigation={navigation}
               showBack={true}
-              backgroundColor={PROFILE_COLORS.instructor.primary}
+              backgroundColor={COLORS.secondary[500]}
             />
           ),
         }}
@@ -162,7 +161,7 @@ const InstructorNavigator = () => {
               title={getString('classDetails')}
               navigation={navigation}
               showBack={true}
-              backgroundColor={PROFILE_COLORS.instructor.primary}
+              backgroundColor={COLORS.secondary[500]}
             />
           ),
         }}
@@ -177,7 +176,7 @@ const InstructorNavigator = () => {
               title={getString('checkIns')}
               navigation={navigation}
               showBack={true}
-              backgroundColor={PROFILE_COLORS.instructor.primary}
+              backgroundColor={COLORS.secondary[500]}
             />
           ),
         }}
@@ -192,7 +191,7 @@ const InstructorNavigator = () => {
               title={getString('newClass')}
               navigation={navigation}
               showBack={true}
-              backgroundColor={PROFILE_COLORS.instructor.primary}
+              backgroundColor={COLORS.secondary[500]}
             />
           ),
         }}
@@ -207,7 +206,7 @@ const InstructorNavigator = () => {
               title={getString('newStudent')}
               navigation={navigation}
               showBack={true}
-              backgroundColor={PROFILE_COLORS.instructor.primary}
+              backgroundColor={COLORS.secondary[500]}
             />
           ),
         }}
@@ -222,7 +221,7 @@ const InstructorNavigator = () => {
               title="Perfil do Aluno"
               navigation={navigation}
               showBack={true}
-              backgroundColor={PROFILE_COLORS.instructor.primary}
+              backgroundColor={COLORS.secondary[500]}
             />
           ),
         }}
@@ -237,7 +236,7 @@ const InstructorNavigator = () => {
               title="Nova Graduação"
               navigation={navigation}
               showBack={true}
-              backgroundColor={PROFILE_COLORS.instructor.primary}
+              backgroundColor={COLORS.secondary[500]}
             />
           ),
         }}
@@ -254,7 +253,7 @@ const InstructorNavigator = () => {
               title="Profile"
               navigation={navigation}
               showBack={true}
-              backgroundColor={PROFILE_COLORS.instructor.primary}
+              backgroundColor={COLORS.secondary[500]}
             />
           ),
         }}
@@ -269,7 +268,7 @@ const InstructorNavigator = () => {
               title="ChangePassword"
               navigation={navigation}
               showBack={true}
-              backgroundColor={PROFILE_COLORS.instructor.primary}
+              backgroundColor={COLORS.secondary[500]}
             />
           ),
         }}
@@ -284,7 +283,7 @@ const InstructorNavigator = () => {
               title="Avaliação Física"
               navigation={navigation}
               showBack={true}
-              backgroundColor={PROFILE_COLORS.instructor.primary}
+              backgroundColor={COLORS.secondary[500]}
             />
           ),
         }}
@@ -299,7 +298,7 @@ const InstructorNavigator = () => {
               title="evaluationHistory"
               navigation={navigation}
               showBack={true}
-              backgroundColor={PROFILE_COLORS.instructor.primary}
+              backgroundColor={COLORS.secondary[500]}
             />
           ),
         }}
@@ -314,7 +313,7 @@ const InstructorNavigator = () => {
               title="NotificationSettings"
               navigation={navigation}
               showBack={true}
-              backgroundColor={PROFILE_COLORS.instructor.primary}
+              backgroundColor={COLORS.secondary[500]}
             />
           ),
         }}
@@ -329,7 +328,7 @@ const InstructorNavigator = () => {
               title="privacyAndSecurity"
               navigation={navigation}
               showBack={true}
-              backgroundColor={PROFILE_COLORS.instructor.primary}
+              backgroundColor={COLORS.secondary[500]}
             />
           ),
         }}
