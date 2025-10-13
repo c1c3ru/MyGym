@@ -126,16 +126,16 @@ const AddGraduationScreen = ({ route, navigation }) => {
 
   const getGraduationColor = (levelName, index) => {
     const colorMap = {
-      getString('white'): COLORS.special.belt.white,
-      getString('yellow'): COLORS.special.belt.yellow,
-      getString('orange'): COLORS.special.belt.orange,
-      getString('green'): COLORS.special.belt.green,
-      getString('blue'): COLORS.special.belt.blue,
-      getString('purple'): COLORS.special.belt.purple,
-      getString('brown'): COLORS.special.belt.brown,
-      getString('black'): COLORS.special.belt.black,
-      getString('red'): COLORS.special.belt.red,
-      getString('coral'): COLORS.special.belt.red,
+      'Branca': COLORS.special.belt.white,
+      'Amarela': COLORS.special.belt.yellow,
+      'Laranja': COLORS.special.belt.orange,
+      'Verde': COLORS.special.belt.green,
+      'Azul': COLORS.special.belt.blue,
+      'Roxa': COLORS.special.belt.purple,
+      'Marrom': COLORS.special.belt.brown,
+      'Preta': COLORS.special.belt.black,
+      'Vermelha': COLORS.special.belt.red,
+      'Coral': COLORS.special.belt.red,
       'Crua': COLORS.gray[600],
       'Cordão': COLORS.warning[300]
     };
@@ -363,7 +363,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
 
             {/* Modalidade */}
             <SelectionField
-              label=getString('modality')
+              label="modality"
               value={formData.modality}
               placeholder="Selecionar Modalidade"
               icon={formData.modality ? "karate" : "plus"}
@@ -383,7 +383,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
 
             {/* Nova Graduação */}
             <SelectionField
-              label=getString('newGraduation')
+              label="newGraduation"
               value={formData.graduation}
               placeholder="Selecionar Graduação"
               icon={formData.graduation ? "trophy" : "plus"}
@@ -467,7 +467,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
             labelStyle={styles.submitButtonLabel}
             icon={loading ? undefined : "content-save"}
           >
-            {loading ? getString('saving') : 'Salvar Graduação'}
+            {loading ? 'saving' : 'Salvar Graduação'}
           </Button>
           
           <Button

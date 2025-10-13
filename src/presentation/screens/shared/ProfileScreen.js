@@ -540,7 +540,7 @@ const ProfileScreen = ({ navigation }) => {
             </View>
 
             <List.Item
-              title=getString('changePassword')
+              title="ChangePassword"
               description="Clique para alterar sua senha"
               left={() => <List.Icon icon="lock" />}
               right={() => <List.Icon icon="chevron-right" />}
@@ -558,7 +558,7 @@ const ProfileScreen = ({ navigation }) => {
             <Divider />
             
             <List.Item
-              title=getString('evaluationHistory')
+              title="evaluationHistory"
               description="Veja todas suas avaliações anteriores"
               left={() => <List.Icon icon="history" />}
               right={() => <List.Icon icon="chevron-right" />}
@@ -567,7 +567,7 @@ const ProfileScreen = ({ navigation }) => {
             <Divider />
             
             <List.Item
-              title=getString('notifications')
+              title="notifications"
               description="Configurar notificações do app"
               left={() => <List.Icon icon="bell" />}
               right={() => <List.Icon icon="chevron-right" />}
@@ -576,7 +576,7 @@ const ProfileScreen = ({ navigation }) => {
             <Divider />
             
             <List.Item
-              title=getString('privacyAndSecurity')
+              title="privacyAndSecurity"
               description="Configurações de privacidade e LGPD"
               left={() => <List.Icon icon="shield" />}
               right={() => <List.Icon icon="chevron-right" />}

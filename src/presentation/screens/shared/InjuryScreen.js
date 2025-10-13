@@ -305,7 +305,7 @@ const InjuryScreen = ({ navigation, route }) => {
 
             {/* Data da Lesão */}
             <TextInput
-              label=getString('injuryDate')
+              label="injuryDate"
               value={formData.dateOccurred.toLocaleDateString('pt-BR')}
               mode="outlined"
               style={styles.input}

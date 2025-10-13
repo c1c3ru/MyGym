@@ -165,7 +165,7 @@ const PaymentDueDateEditor = ({ visible, onDismiss, currentPayment, onUpdate }) 
               label="Nova data de vencimento"
               value={newDueDate}
               onChangeText={(text) => setNewDueDate(formatDateInput(text))}
-              placeholder=getString('dateFormat')
+              placeholder="dateFormat"
               keyboardType="numeric"
               maxLength={10}
               style={styles.input}

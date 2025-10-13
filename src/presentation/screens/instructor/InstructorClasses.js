@@ -312,7 +312,7 @@ const InstructorClasses = ({ navigation }) => {
           <View style={styles.emptyContainer}>
             <Ionicons name="school-outline" size={64} color={COLORS.gray[400]} />
             <Text style={styles.emptyText}>
-              {searchQuery ? getString('noClassesFound') : 'Nenhuma turma cadastrada'}
+              {searchQuery ? 'noClassesFound' : 'Nenhuma turma cadastrada'}
             </Text>
             {!searchQuery && (
               <Text style={styles.emptySubtext}>

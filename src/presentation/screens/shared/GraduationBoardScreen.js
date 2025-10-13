@@ -77,15 +77,15 @@ const GraduationBoardScreen = ({ navigation }) => {
 
   const getBeltColor = (belt) => {
     const colors = {
-      getString('white'): COLORS.special.belt.white,
+      'Branca': COLORS.special.belt.white,
       'Cinza': COLORS.gray[500],
-      getString('yellow'): COLORS.special.belt.yellow,
-      getString('orange'): COLORS.special.belt.orange,
-      getString('green'): COLORS.special.belt.green,
-      getString('blue'): COLORS.special.belt.blue,
-      getString('purple'): COLORS.special.belt.purple,
-      getString('brown'): COLORS.special.belt.brown,
-      getString('black'): COLORS.special.belt.black
+      'Amarela': COLORS.special.belt.yellow,
+      'Laranja': COLORS.special.belt.orange,
+      'Verde': COLORS.special.belt.green,
+      'Azul': COLORS.special.belt.blue,
+      'Roxa': COLORS.special.belt.purple,
+      'Marrom': COLORS.special.belt.brown,
+      'Preta': COLORS.special.belt.black
     };
     return colors[belt] || COLORS.gray[300];
   };
@@ -164,7 +164,7 @@ const GraduationBoardScreen = ({ navigation }) => {
             onPress={() => setSelectedModality(modality)}
             style={styles.filterChip}
           >
-            {modality === 'all' ? getString('all') : modality}
+            {modality === 'all' ? 'all' : modality}
           </Chip>
         ))}
       </ScrollView>
@@ -357,7 +357,7 @@ const GraduationBoardScreen = ({ navigation }) => {
           <Dialog.Title>Detalhes do Exame</Dialog.Title>
           <Dialog.Content>
             <List.Item
-              title=getString('modality')
+              title="modality"
               description={selectedExam.modality}
               left={props => <List.Icon {...props} icon="karate" />}
             />
@@ -372,7 +372,7 @@ const GraduationBoardScreen = ({ navigation }) => {
               left={props => <List.Icon {...props} icon="account" />}
             />
             <List.Item
-              title=getString('local')
+              title="local"
               description={selectedExam.location}
               left={props => <List.Icon {...props} icon="map-marker" />}
             />

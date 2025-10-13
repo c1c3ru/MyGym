@@ -286,7 +286,7 @@ const AdminClasses = ({ navigation }) => {
         <Title style={styles.emptyTitle}>{getString('noClassesFound')}</Title>
         <Paragraph style={styles.emptyText}>
           {searchQuery ? 
-            getString('noMatchingClasses') : 
+            'noMatchingClasses' : 
             getString('noClassesRegistered')
           }
         </Paragraph>

@@ -926,7 +926,7 @@ const AdminModalities = ({ navigation }) => {
               value={newAnnouncement.expirationDate}
               onChangeText={(text) => setNewAnnouncement({...newAnnouncement, expirationDate: text})}
               mode="outlined"
-              placeholder=getString('dateFormat')
+              placeholder="dateFormat"
               style={styles.dialogInput}
             />
             

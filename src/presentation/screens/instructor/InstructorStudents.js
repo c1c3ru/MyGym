@@ -510,7 +510,7 @@ const InstructorStudents = ({ navigation }) => {
                         fontSize: FONT_SIZE.sm
                       }}
                     >
-                      {student.isActive !== false ? getString('active') : getString('inactive')}
+                      {student.isActive !== false ? 'active' : getString('inactive')}
                     </Chip>
                   </View>
 

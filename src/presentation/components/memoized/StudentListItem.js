@@ -91,7 +91,7 @@ const StudentListItem = memo(({
         
         <ActionButtonGroup style={styles.actionButtonsContainer}>
           <ActionButton
-            title=getString('viewDetails')
+            title="viewDetails"
             icon="eye"
             onPress={handleView}
             variant="outline"
@@ -100,7 +100,7 @@ const StudentListItem = memo(({
             style={styles.actionButton}
           />
           <ActionButton
-            title=getString('edit')
+            title="edit"
             icon="pencil"
             onPress={handleEdit}
             variant="primary"

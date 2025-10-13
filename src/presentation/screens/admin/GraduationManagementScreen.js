@@ -279,7 +279,7 @@ const GraduationManagementScreen = ({ navigation }) => {
           <Dialog.Title>Agendar Exame de Graduação</Dialog.Title>
           <Dialog.Content>
             <TextInput
-              label=getString('modality')
+              label="modality"
               value={examForm.modality}
               onChangeText={(text) => setExamForm(prev => ({ ...prev, modality: text }))}
               style={styles.input}
@@ -297,7 +297,7 @@ const GraduationManagementScreen = ({ navigation }) => {
               style={styles.input}
             />
             <TextInput
-              label=getString('local')
+              label="local"
               value={examForm.location}
               onChangeText={(text) => setExamForm(prev => ({ ...prev, location: text }))}
               style={styles.input}

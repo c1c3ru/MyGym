@@ -462,11 +462,11 @@ const AddClassScreen = ({ navigation }) => {
               value={formData.schedule}
               onScheduleChange={(schedule) => updateFormData('schedule', schedule)}
               duration={60}
-              timezone=getString('timezone')
+              timezone="timezone"
               startHour={6}
               endHour={22}
               required={true}
-              label=getString('classSchedules')
+              label="classSchedules"
               style={styles.input}
               instructorId={formData.instructorId || user.id}
               enableConflictValidation={true}

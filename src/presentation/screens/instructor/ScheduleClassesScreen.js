@@ -283,7 +283,7 @@ const ScheduleClassesScreen = ({ navigation, route }) => {
 
             {/* Observações */}
             <TextInput
-              label=getString('optionalObservations')
+              label="optionalObservations"
               value={notes}
               onChangeText={setNotes}
               mode="outlined"

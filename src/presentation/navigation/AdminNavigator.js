@@ -80,32 +80,32 @@ const AdminTabNavigator = () => {
       })}
     >
       <Tab.Screen 
-        name=getString('dashboard') 
+        name="Dashboard" 
         component={AdminDashboard}
         options={{ title: getString('dashboard') }}
       />
       <Tab.Screen 
-        name=getString('students') 
+        name="Students" 
         component={AdminStudents}
         options={{ title: getString('students') }}
       />
       <Tab.Screen 
-        name=getString('classes') 
+        name="Classes" 
         component={AdminClasses}
         options={{ title: getString('classes') }}
       />
       <Tab.Screen 
-        name=getString('modalities') 
+        name="Modalities" 
         component={AdminModalities}
         options={{ title: getString('modalities') }}
       />
       <Tab.Screen 
-        name=getString('management') 
+        name="Management" 
         component={ReportsScreen}
         options={{ title: getString('reports') }}
       />
       <Tab.Screen 
-        name=getString('invitations') 
+        name="Invitations" 
         component={InviteManagement}
         options={{ title: getString('invites') }}
       />
@@ -118,10 +118,10 @@ const AdminNavigator = () => {
   const { getString } = useTheme();
   
   return (
-    <Stack.Navigator id=getString('adminStack') screenOptions={{ headerShown: false }}>
+    <Stack.Navigator id="AdminStack" screenOptions={{ headerShown: false }}>
       <Stack.Screen name="AdminTabs" component={AdminTabNavigator} />
       <Stack.Screen 
-        name=getString('addClass') 
+        name="AddClass" 
         component={AddClassScreen}
         options={{
           headerShown: true,
@@ -151,7 +151,7 @@ const AdminNavigator = () => {
         }}
       />
       <Stack.Screen 
-        name=getString('checkIns') 
+        name="CheckIns" 
         component={CheckIn}
         options={{
           headerShown: true,
@@ -166,7 +166,7 @@ const AdminNavigator = () => {
         }}
       />
       <Stack.Screen 
-        name=getString('editClass') 
+        name="EditClass" 
         component={EditClassScreen}
         options={{
           headerShown: true,
@@ -181,7 +181,7 @@ const AdminNavigator = () => {
         }}
       />
       <Stack.Screen 
-        name=getString('classDetails') 
+        name="ClassDetails" 
         component={ClassDetailsScreen}
         options={{
           headerShown: true,
@@ -196,7 +196,7 @@ const AdminNavigator = () => {
         }}
       />
       <Stack.Screen 
-        name=getString('addStudent') 
+        name="AddStudent" 
         component={AddStudentScreen}
         options={{
           headerShown: true,
@@ -211,7 +211,7 @@ const AdminNavigator = () => {
         }}
       />
       <Stack.Screen 
-        name=getString('editStudent') 
+        name="EditStudent" 
         component={EditStudentScreen}
         options={{
           headerShown: true,
@@ -226,7 +226,7 @@ const AdminNavigator = () => {
         }}
       />
       <Stack.Screen 
-        name=getString('studentDetails') 
+        name="StudentDetails" 
         component={StudentDetailsScreen}
         options={{
           headerShown: true,
@@ -241,7 +241,7 @@ const AdminNavigator = () => {
         }}
       />
       <Stack.Screen 
-        name=getString('studentPayments') 
+        name="StudentPayments" 
         component={StudentPayments}
         options={{
           headerShown: true,
@@ -277,7 +277,7 @@ const AdminNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title=getString('modalities')
+              title="Modalities"
               navigation={navigation}
               showBack={true}
               backgroundColor={PROFILE_COLORS.admin.primary}
@@ -286,7 +286,7 @@ const AdminNavigator = () => {
         }}
       />
       <Stack.Screen 
-        name=getString('studentProfile') 
+        name="StudentProfile" 
         component={StudentProfileScreen}
         options={{
           headerShown: true,
@@ -301,20 +301,20 @@ const AdminNavigator = () => {
         }}
       />
       <Stack.Screen 
-        name=getString('addGraduationScreen') 
+        name="AddGraduation" 
         component={AddGraduationScreen}
         options={{
           headerShown: false
         }}
       />
       <Stack.Screen 
-        name=getString('profile') 
+        name="Profile" 
         component={ProfileScreen}
         options={{
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title=getString('profile')
+              title="Profile"
               navigation={navigation}
               showBack={true}
               backgroundColor={PROFILE_COLORS.admin.primary}
@@ -325,13 +325,13 @@ const AdminNavigator = () => {
       
       {/* Nested SharedNavigator screens */}
       <Stack.Screen 
-        name=getString('changePassword') 
+        name="ChangePassword" 
         component={ChangePasswordScreen}
         options={{
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title=getString('changePassword')
+              title="ChangePassword"
               navigation={navigation}
               showBack={true}
               backgroundColor={PROFILE_COLORS.admin.primary}
@@ -340,13 +340,13 @@ const AdminNavigator = () => {
         }}
       />
       <Stack.Screen 
-        name=getString('physicalEvaluation') 
+        name="PhysicalEvaluation" 
         component={PhysicalEvaluationScreen}
         options={{
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title=getString('physicalEvaluation')
+              title="PhysicalEvaluation"
               navigation={navigation}
               showBack={true}
               backgroundColor={PROFILE_COLORS.admin.primary}
@@ -355,13 +355,13 @@ const AdminNavigator = () => {
         }}
       />
       <Stack.Screen 
-        name=getString('physicalEvaluationHistory') 
+        name="PhysicalEvaluationHistory" 
         component={PhysicalEvaluationHistoryScreen}
         options={{
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title=getString('evaluationHistory')
+              title="evaluationHistory"
               navigation={navigation}
               showBack={true}
               backgroundColor={PROFILE_COLORS.admin.primary}
@@ -370,13 +370,13 @@ const AdminNavigator = () => {
         }}
       />
       <Stack.Screen 
-        name=getString('notificationSettings') 
+        name="NotificationSettings" 
         component={NotificationSettingsScreen}
         options={{
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title=getString('notificationSettings')
+              title="NotificationSettings"
               navigation={navigation}
               showBack={true}
               backgroundColor={PROFILE_COLORS.admin.primary}
@@ -385,13 +385,13 @@ const AdminNavigator = () => {
         }}
       />
       <Stack.Screen 
-        name=getString('privacySettings') 
+        name="PrivacySettings" 
         component={PrivacySettingsScreen}
         options={{
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title=getString('privacyAndSecurity')
+              title="privacyAndSecurity"
               navigation={navigation}
               showBack={true}
               backgroundColor={PROFILE_COLORS.admin.primary}
@@ -406,7 +406,7 @@ const AdminNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title=getString('settings')
+              title="settings"
               navigation={navigation}
               showBack={true}
               backgroundColor={PROFILE_COLORS.admin.primary}

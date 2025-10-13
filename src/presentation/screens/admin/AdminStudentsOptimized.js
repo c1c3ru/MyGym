@@ -215,13 +215,13 @@ const AdminStudentsOptimized = ({ navigation }) => {
             </Button>
           }
         >
-          <Menu.Item onPress={() => { setSelectedFilter('all'); setFilterVisible(false); }} title=getString('all') />
-          <Menu.Item onPress={() => { setSelectedFilter('active'); setFilterVisible(false); }} title=getString('active') />
-          <Menu.Item onPress={() => { setSelectedFilter('inactive'); setFilterVisible(false); }} title=getString('inactive') />
+          <Menu.Item onPress={() => { setSelectedFilter('all'); setFilterVisible(false); }} title="all" />
+          <Menu.Item onPress={() => { setSelectedFilter('active'); setFilterVisible(false); }} title="active" />
+          <Menu.Item onPress={() => { setSelectedFilter('inactive'); setFilterVisible(false); }} title="inactive" />
           <Divider />
-          <Menu.Item onPress={() => { setSelectedFilter('payment_ok'); setFilterVisible(false); }} title=getString('paymentOK') />
-          <Menu.Item onPress={() => { setSelectedFilter('payment_pending'); setFilterVisible(false); }} title=getString('paymentPending') />
-          <Menu.Item onPress={() => { setSelectedFilter('payment_overdue'); setFilterVisible(false); }} title=getString('paymentOverdue') />
+          <Menu.Item onPress={() => { setSelectedFilter('payment_ok'); setFilterVisible(false); }} title="paymentOK" />
+          <Menu.Item onPress={() => { setSelectedFilter('payment_pending'); setFilterVisible(false); }} title="paymentPending" />
+          <Menu.Item onPress={() => { setSelectedFilter('payment_overdue'); setFilterVisible(false); }} title="paymentOverdue" />
         </Menu>
       </View>
     </View>

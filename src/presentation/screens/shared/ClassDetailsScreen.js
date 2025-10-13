@@ -156,10 +156,10 @@ const ClassDetailsScreen = ({ route, navigation }) => {
 
   const getModalityColor = (modality) => {
     const colors = {
-      getString('jiujitsu'): COLORS.info[500],
-      getString('muayThai'): COLORS.error[500],
-      getString('mma'): COLORS.warning[500],
-      getString('boxing'): COLORS.primary[500]
+      'Jiu-Jitsu': COLORS.info[500],
+      'Muay Thai': COLORS.error[500],
+      'MMA': COLORS.warning[500],
+      'Boxe': COLORS.primary[500]
     };
     return colors[modality] || COLORS.text.secondary;
   };
@@ -285,7 +285,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
                 icon={showStudents ? "chevron-up" : "chevron-down"}
                 style={styles.toggleButton}
               >
-                {showStudents ? getString('hide') : 'Ver Alunos'}
+                {showStudents ? 'hide' : 'Ver Alunos'}
               </Button>
             </View>
             
@@ -369,7 +369,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
                   labelStyle={styles.actionButtonLabel}
                 >
                   <Ionicons name={showStudents ? "eye-off" : "eye"} size={20} color={COLORS.white} />
-                  {"\n"}{isAdmin() ? 'Gerenciar' : (showStudents ? getString('hide') : 'Ver Alunos')}
+                  {"\n"}{isAdmin() ? 'Gerenciar' : (showStudents ? 'hide' : 'Ver Alunos')}
                 </Button>
               </Surface>
             </View>

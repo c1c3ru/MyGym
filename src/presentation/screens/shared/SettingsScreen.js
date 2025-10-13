@@ -88,7 +88,7 @@ const SettingsScreen = ({ navigation }) => {
           />
           
           <List.Item
-            title=getString('email')
+            title="email"
             description={user?.email}
             left={(props) => <Ionicons name="mail" size={20} color={COLORS.text.secondary} />}
           />
@@ -101,7 +101,7 @@ const SettingsScreen = ({ navigation }) => {
           />
           
           <List.Item
-            title=getString('changePassword')
+            title="ChangePassword"
             left={(props) => <Ionicons name="lock-closed" size={20} color={COLORS.text.secondary} />}
             right={(props) => <List.Icon icon="chevron-right" />}
             onPress={handleChangePassword}
@@ -135,7 +135,7 @@ const SettingsScreen = ({ navigation }) => {
           </View>
           
           <List.Item
-            title=getString('notifications')
+            title="notifications"
             description="Receber notificações push"
             left={(props) => <Ionicons name="notifications" size={20} color={COLORS.text.secondary} />}
             right={(props) => (

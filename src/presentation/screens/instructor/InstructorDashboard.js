@@ -539,7 +539,7 @@ const InstructorDashboard = ({ navigation }) => {
                       }
                     }}
                     style={styles.modernActionButton}
-                    buttonColor=getString('whiteTransparent')
+                    buttonColor="whiteTransparent"
                     textColor={COLORS.white}
                     compact
                   >
@@ -560,7 +560,7 @@ const InstructorDashboard = ({ navigation }) => {
                     mode="contained"
                     onPress={() => navigation.navigate(getString('checkIn'))}
                     style={styles.modernActionButton}
-                    buttonColor=getString('whiteTransparent')
+                    buttonColor="whiteTransparent"
                     textColor={COLORS.white}
                     compact
                   >
@@ -581,7 +581,7 @@ const InstructorDashboard = ({ navigation }) => {
                     mode="contained"
                     onPress={() => navigation.navigate('Relatorios')}
                     style={styles.modernActionButton}
-                    buttonColor=getString('whiteTransparent')
+                    buttonColor="whiteTransparent"
                     textColor={COLORS.white}
                     compact
                   >

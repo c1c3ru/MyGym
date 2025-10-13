@@ -44,11 +44,11 @@ const GraduationBoard = ({
 
   const getModalityIcon = (modality) => {
     const icons = {
-      getString('karate'): 'hand-right',
-      getString('jiujitsu'): 'fitness',
-      getString('muayThai'): 'flash',
-      getString('judo'): 'body',
-      getString('taekwondo'): 'footsteps'
+      'Karatê': 'hand-right',
+      'Jiu-Jitsu': 'fitness',
+      'Muay Thai': 'flash',
+      'Judô': 'body',
+      'taekwondo': 'footsteps'
     };
     return icons[modality] || 'trophy';
   };
@@ -179,7 +179,7 @@ const GraduationBoard = ({
                 { backgroundColor: result.passed ? COLORS.primary[500] : COLORS.error[500] }
               ]}
             >
-              {result.passed ? getString('approved') : 'Reprovado'}
+              {result.passed ? 'approved' : 'Reprovado'}
             </Chip>
           </View>
 

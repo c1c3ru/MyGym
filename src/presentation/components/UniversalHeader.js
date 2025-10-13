@@ -232,7 +232,7 @@ const UniversalHeader = ({
                   closeMenu();
                   navigation?.navigate('Settings');
                 }}
-                title=getString('settings')
+                title="settings"
                 leadingIcon={() => (
                   <MaterialCommunityIcons name="cog" size={20} color={COLORS.text.secondary} />
                 )}
@@ -246,7 +246,7 @@ const UniversalHeader = ({
                   closeMenu();
                   handleLogout();
                 }}
-                title=getString('logout')
+                title="logout"
                 leadingIcon={() => (
                   <MaterialCommunityIcons name="logout" size={20} color={COLORS.error[500]} />
                 )}

@@ -39,7 +39,7 @@ const SharedNavigator = ({ userType }) => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name=getString('profile')
+        name="Profile"
         component={ProfileScreen}
         options={({ navigation }) => ({
           header: () => (
@@ -54,7 +54,7 @@ const SharedNavigator = ({ userType }) => {
         })}
       />
       <Stack.Screen
-        name=getString('changePassword')
+        name="ChangePassword"
         component={ChangePasswordScreen}
         options={({ navigation }) => ({
           header: () => (
@@ -69,7 +69,7 @@ const SharedNavigator = ({ userType }) => {
         })}
       />
       <Stack.Screen
-        name=getString('physicalEvaluation')
+        name="PhysicalEvaluation"
         component={PhysicalEvaluationScreen}
         options={({ navigation }) => ({
           header: () => (
@@ -84,7 +84,7 @@ const SharedNavigator = ({ userType }) => {
         })}
       />
       <Stack.Screen
-        name=getString('physicalEvaluationHistory')
+        name="PhysicalEvaluationHistory"
         component={PhysicalEvaluationHistoryScreen}
         options={({ navigation }) => ({
           header: () => (
@@ -99,7 +99,7 @@ const SharedNavigator = ({ userType }) => {
         })}
       />
       <Stack.Screen
-        name=getString('injury')
+        name="Injury"
         component={InjuryScreen}
         options={({ navigation }) => ({
           header: () => (
@@ -129,7 +129,7 @@ const SharedNavigator = ({ userType }) => {
         })}
       />
       <Stack.Screen
-        name=getString('privacyPolicy')
+        name="PrivacyPolicy"
         component={PrivacyPolicyScreen}
         options={({ navigation }) => ({
           header: () => (
@@ -144,7 +144,7 @@ const SharedNavigator = ({ userType }) => {
         })}
       />
       <Stack.Screen
-        name=getString('notificationSettings')
+        name="NotificationSettings"
         component={NotificationSettingsScreen}
         options={({ navigation }) => ({
           header: () => (
@@ -159,7 +159,7 @@ const SharedNavigator = ({ userType }) => {
         })}
       />
       <Stack.Screen
-        name=getString('privacySettings')
+        name="PrivacySettings"
         component={PrivacySettingsScreen}
         options={({ navigation }) => ({
           header: () => (

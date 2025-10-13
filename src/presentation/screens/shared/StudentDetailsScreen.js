@@ -237,7 +237,7 @@ const StudentDetailsScreen = ({ route, navigation }) => {
                 styles.statusBadge,
                 { color: studentInfo?.isActive ? COLORS.primary[500] : COLORS.error[500] }
               ]}>
-                {studentInfo?.isActive ? getString('active') : getString('inactive')}
+                {studentInfo?.isActive ? 'active' : getString('inactive')}
               </Text>
             </View>
           </View>

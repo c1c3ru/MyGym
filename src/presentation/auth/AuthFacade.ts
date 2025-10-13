@@ -149,7 +149,7 @@ export function useAuthFacade() {
       console.error('🔐 Erro no login:', { errorName, errorMessage });
       
       switch (errorName) {
-        case getString('unauthorizedError'):
+        case 'unauthorizedError':
           showError('Acesso não autorizado. Verifique se seu email e senha estão corretos.');
           break;
         case 'InvalidCredentialsError':
@@ -215,7 +215,7 @@ export function useAuthFacade() {
         case 'InvalidEmailError':
           showError('Email inválido. Verifique o formato do email.');
           break;
-        case getString('networkError'):
+        case 'networkError':
           showError(getString('networkError'));
           break;
         case 'ValidationError':
@@ -259,7 +259,7 @@ export function useAuthFacade() {
         case 'InvalidEmailError':
           showError('Email inválido. Verifique o formato do email.');
           break;
-        case getString('networkError'):
+        case 'networkError':
           showError(getString('networkError'));
           break;
         case 'TooManyRequestsError':
@@ -317,7 +317,7 @@ export function useAuthFacade() {
       console.error('🔍 Erro no login com Google:', { errorName, errorMessage });
       
       switch (errorName) {
-        case getString('networkError'):
+        case 'networkError':
           showError(getString('networkError'));
           break;
         case getString('unauthorizedError'):
@@ -375,7 +375,7 @@ export function useAuthFacade() {
       console.error('📘 Erro no login com Facebook:', { errorName, errorMessage });
       
       switch (errorName) {
-        case getString('networkError'):
+        case 'networkError':
           showError(getString('networkError'));
           break;
         case getString('unauthorizedError'):
@@ -433,7 +433,7 @@ export function useAuthFacade() {
       console.error('🔷 Erro no login com Microsoft:', { errorName, errorMessage });
       
       switch (errorName) {
-        case getString('networkError'):
+        case 'networkError':
           showError(getString('networkError'));
           break;
         case getString('unauthorizedError'):
@@ -491,7 +491,7 @@ export function useAuthFacade() {
       console.error('🍎 Erro no login com Apple:', { errorName, errorMessage });
       
       switch (errorName) {
-        case getString('networkError'):
+        case 'networkError':
           showError(getString('networkError'));
           break;
         case getString('unauthorizedError'):

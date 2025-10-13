@@ -262,7 +262,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
               }}
               mode="outlined"
               style={styles.input}
-              placeholder=getString('dateFormat')
+              placeholder="dateFormat"
               left={<TextInput.Icon icon="calendar" />}
             />
 
@@ -286,7 +286,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
 
             {/* Observações */}
             <TextInput
-              label=getString('optionalObservations')
+              label="optionalObservations"
               value={formData.notes}
               onChangeText={(text) => setFormData(prev => ({ ...prev, notes: text }))}
               mode="outlined"

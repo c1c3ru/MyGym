@@ -552,7 +552,7 @@ const CheckIn = ({ navigation }) => {
                       textStyle={{ color: COLORS.white }}
                     >
                       {typeof classItem.modality === 'object' && classItem.modality
-                        ? classItem.modality.name || getString('modality')
+                        ? classItem.modality.name || 'modality'
                         : classItem.modality || getString('modality')
                       }
                     </Chip>
@@ -685,7 +685,7 @@ const CheckIn = ({ navigation }) => {
                       compact
                       style={{ marginTop: SPACING.sm }}
                     >
-                      {checkIn.type === 'manual' ? getString('manual') : getString('qrCode')}
+                      {checkIn.type === 'manual' ? 'manual' : getString('qrCode')}
                     </Chip>
                   )}
                 />
@@ -740,7 +740,7 @@ const CheckIn = ({ navigation }) => {
 
           {/* Busca de Alunos */}
           <Searchbar
-            placeholder=getString('searchStudent')
+            placeholder="searchStudent"
             onChangeText={filterStudents}
             value={searchQuery}
             style={styles.searchbar}
@@ -920,7 +920,7 @@ const CheckIn = ({ navigation }) => {
           
           setManualCheckInVisible(true);
         }}
-        label=getString('manualCheckIn')
+        label="manualCheckIn"
       />
     </SafeAreaView>
   );
