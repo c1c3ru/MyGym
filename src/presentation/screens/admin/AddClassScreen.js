@@ -466,7 +466,7 @@ const AddClassScreen = ({ navigation }) => {
               startHour={6}
               endHour={22}
               required={true}
-              label="Horários da Turma"
+              label=getString('classSchedules')
               style={styles.input}
               instructorId={formData.instructorId || user.id}
               enableConflictValidation={true}

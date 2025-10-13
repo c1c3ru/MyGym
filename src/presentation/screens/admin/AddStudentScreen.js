@@ -279,7 +279,7 @@ const AddStudentScreen = ({ navigation, route }) => {
     });
 
     if (result.blocked) {
-      Alert.alert('Ação Bloqueada', 'Muitas criações de aluno. Aguarde alguns minutos.');
+      Alert.alert(getString('actionBlocked'), 'Muitas criações de aluno. Aguarde alguns minutos.');
     }
   }, [validateForm, executeStudentCreation, formData, selectedClasses, user.id, userProfile?.academiaId, academia?.id, trackFormSubmission, route.params, resetForm, navigation]);
 

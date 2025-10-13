@@ -79,7 +79,7 @@ export default function InviteManagement({ navigation }) {
         newInvite.email,
         academia.nome,
         inviteLink,
-        userProfile.name || 'Administrador',
+        userProfile.name || getString('administrator'),
         newInvite.tipo
       );
       

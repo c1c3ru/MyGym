@@ -117,7 +117,7 @@ const PaymentDueDateEditor = ({ visible, onDismiss, currentPayment, onUpdate }) 
             paymentId: payment.id,
             oldDate: payment.dueDate,
             newDate: newDate,
-            planName: payment.planName || 'Mensalidade'
+            planName: payment.planName || getString('monthlyFee')
           },
           read: false,
           priority: 'medium'
@@ -131,7 +131,7 @@ const PaymentDueDateEditor = ({ visible, onDismiss, currentPayment, onUpdate }) 
   };
 
   const formatCurrentDate = (date) => {
-    if (!date) return 'Data não informada';
+    if (!date) return getString('dateNotInformed');
     const dateObj = date.seconds ? new Date(date.seconds * 1000) : new Date(date);
     return dateObj.toLocaleDateString('pt-BR');
   };
@@ -157,7 +157,7 @@ const PaymentDueDateEditor = ({ visible, onDismiss, currentPayment, onUpdate }) 
             <View style={styles.planInfo}>
               <Text style={styles.label}>Plano:</Text>
               <Text style={styles.planName}>
-                {currentPayment?.planName || 'Mensalidade'}
+                {currentPayment?.planName || getString('monthlyFee')}
               </Text>
             </View>
 
@@ -165,7 +165,7 @@ const PaymentDueDateEditor = ({ visible, onDismiss, currentPayment, onUpdate }) 
               label="Nova data de vencimento"
               value={newDueDate}
               onChangeText={(text) => setNewDueDate(formatDateInput(text))}
-              placeholder="DD/MM/AAAA"
+              placeholder=getString('dateFormat')
               keyboardType="numeric"
               maxLength={10}
               style={styles.input}

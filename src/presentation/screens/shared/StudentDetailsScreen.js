@@ -248,7 +248,7 @@ const StudentDetailsScreen = ({ route, navigation }) => {
             <View style={styles.infoRow}>
               <Ionicons name="call" size={20} color={COLORS.text.secondary} />
               <Text style={styles.infoText}>
-                {studentInfo?.phone || 'Telefone não informado'}
+                {studentInfo?.phone || getString('phoneNotInformed')}
               </Text>
             </View>
             

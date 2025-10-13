@@ -27,7 +27,7 @@ const ScheduleSelector = ({
   style,
   disabled = false,
   required = false,
-  label = 'Horários da Turma',
+  label = getString('classSchedules'),
   // Validação de conflitos
   enableConflictValidation = false,
   instructorId = null,
@@ -193,7 +193,7 @@ const ScheduleSelector = ({
           </View>
           <Text style={[
             styles.daySchedule,
-            hasHours ? { color: colors?.primary || '#6200ea' } : { color: colors?.onSurfaceVariant || 'COLORS.text.secondary666' }
+            hasHours ? { color: colors?.primary || '#6200ea' } : { color: colors?.onSurfaceVariant || getString('textSecondary') }
           ]}>
             {getDayScheduleText(dayKey)}
           </Text>
@@ -301,7 +301,7 @@ const ScheduleSelector = ({
                       {...props}
                       name={isSelected ? 'checkmark-circle' : 'time-outline'}
                       size={24}
-                      color={isSelected ? (colors?.primary || '#6200ea') : (colors?.onSurfaceVariant || 'COLORS.text.secondary666')}
+                      color={isSelected ? (colors?.primary || '#6200ea') : (colors?.onSurfaceVariant || getString('textSecondary'))}
                     />
                   )}
                   onPress={() => handleTimeToggle(time)}

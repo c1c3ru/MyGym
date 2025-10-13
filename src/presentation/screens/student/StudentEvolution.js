@@ -88,7 +88,7 @@ const StudentEvolution = ({ navigation }) => {
   };
 
   const formatDate = (date) => {
-    if (!date) return 'Data não informada';
+    if (!date) return getString('dateNotInformed');
     return new Date(date).toLocaleDateString('pt-BR');
   };
 

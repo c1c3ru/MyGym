@@ -249,7 +249,7 @@ const AdminModalities = ({ navigation }) => {
         border-radius: 8px;
         box-shadow: 0 4px 12px currentTheme.black + "26";
         z-index: 9999;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, getString('systemFont'), Roboto, sans-serif;
         font-size: 14px;
         animation: slideIn 0.3s ease-out;
       `;
@@ -926,7 +926,7 @@ const AdminModalities = ({ navigation }) => {
               value={newAnnouncement.expirationDate}
               onChangeText={(text) => setNewAnnouncement({...newAnnouncement, expirationDate: text})}
               mode="outlined"
-              placeholder="DD/MM/AAAA"
+              placeholder=getString('dateFormat')
               style={styles.dialogInput}
             />
             

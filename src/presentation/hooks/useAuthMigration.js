@@ -254,7 +254,7 @@ export const useAuthMigration = () => {
       
       return firebaseUser;
     } catch (error) {
-      console.error('Erro no login Google:', error);
+      console.error(getString('googleLoginError'), error);
       throw error;
     }
   };
@@ -287,7 +287,7 @@ export const useAuthMigration = () => {
       
       return firebaseUser;
     } catch (error) {
-      console.error('Erro no login Facebook:', error);
+      console.error(getString('facebookLoginError'), error);
       throw error;
     }
   };
@@ -319,7 +319,7 @@ export const useAuthMigration = () => {
       
       return firebaseUser;
     } catch (error) {
-      console.error('Erro no login Microsoft:', error);
+      console.error(getString('microsoftLoginError'), error);
       throw error;
     }
   };
@@ -351,7 +351,7 @@ export const useAuthMigration = () => {
       
       return firebaseUser;
     } catch (error) {
-      console.error('Erro no login Apple:', error);
+      console.error(getString('appleLoginError'), error);
       throw error;
     }
   };
@@ -360,7 +360,7 @@ export const useAuthMigration = () => {
   const updateUserProfile = async (updates) => {
     try {
       if (!user?.uid) {
-        throw new Error('Usuário não autenticado');
+        throw new Error(getString('userNotAuthenticated'));
       }
       
       console.log('🔄 updateUserProfile: Atualizando perfil:', updates);
@@ -402,7 +402,7 @@ export const useAuthMigration = () => {
   const updateAcademiaAssociation = async (academiaId, academiaData = null) => {
     try {
       if (!user?.uid) {
-        throw new Error('Usuário não autenticado');
+        throw new Error(getString('userNotAuthenticated'));
       }
       
       console.log('🏢 updateAcademiaAssociation: Associando usuário à academia:', academiaId);

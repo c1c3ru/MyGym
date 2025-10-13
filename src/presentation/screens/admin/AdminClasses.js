@@ -241,7 +241,7 @@ const AdminClasses = ({ navigation }) => {
     });
 
     if (result.blocked) {
-      Alert.alert('Ação Bloqueada', 'Muitas criações de turma. Aguarde alguns minutos.');
+      Alert.alert(getString('actionBlocked'), 'Muitas criações de turma. Aguarde alguns minutos.');
     }
   }, [navigation, trackButtonClick, executeClassAction, userProfile?.academiaId, academia?.id]);
 
@@ -370,7 +370,7 @@ const AdminClasses = ({ navigation }) => {
       if (Array.isArray(schedule) && schedule.length > 0) {
         const days = [getString('sunday'), getString('monday'), getString('tuesday'), getString('wednesday'), getString('thursday'), getString('friday'), getString('saturday')];
         return schedule.map((s) => {
-          const day = typeof s.dayOfWeek === 'number' ? days[s.dayOfWeek] : 'Dia';
+          const day = typeof s.dayOfWeek === 'number' ? days[s.dayOfWeek] : getString('day');
           const hour = (s.hour ?? '').toString().padStart(2, '0');
           const minute = (s.minute ?? 0).toString().padStart(2, '0');
           return `${day} ${hour}:${minute}`;

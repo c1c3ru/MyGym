@@ -262,7 +262,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
               }}
               mode="outlined"
               style={styles.input}
-              placeholder="DD/MM/AAAA"
+              placeholder=getString('dateFormat')
               left={<TextInput.Icon icon="calendar" />}
             />
 

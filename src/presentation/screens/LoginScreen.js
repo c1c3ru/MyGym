@@ -163,7 +163,7 @@ export default function LoginScreen({ navigation }) {
       
       // Track successful login (without exposing email)
       trackFeatureUsage('login_success', { emailDomain });
-      showSnackbar(getString('loginSuccess') || 'Login realizado com sucesso!', 'success');
+      showSnackbar(getString('loginSuccess') || getString('loginSuccess'), 'success');
       
       // Reset rate limit on success
       rateLimitService.resetLimit(rateLimitKey);
@@ -214,7 +214,7 @@ export default function LoginScreen({ navigation }) {
       await signInWithGoogle();
       showSnackbar('Login com Google realizado com sucesso!', 'success');
     } catch (error) {
-      console.error('Erro no login Google:', error);
+      console.error(getString('googleLoginError'), error);
       const errorCode = mapAuthErrorToCode(error);
       showEnhancedError(errorCode);
     } finally {
@@ -229,7 +229,7 @@ export default function LoginScreen({ navigation }) {
       await signInWithFacebook();
       showSnackbar('Login com Facebook realizado com sucesso!', 'success');
     } catch (error) {
-      console.error('Erro no login Facebook:', error);
+      console.error(getString('facebookLoginError'), error);
       const errorCode = mapAuthErrorToCode(error);
       showEnhancedError(errorCode);
     } finally {
@@ -244,7 +244,7 @@ export default function LoginScreen({ navigation }) {
       await signInWithMicrosoft();
       showSnackbar('Login com Microsoft realizado com sucesso!', 'success');
     } catch (error) {
-      console.error('Erro no login Microsoft:', error);
+      console.error(getString('microsoftLoginError'), error);
       const errorCode = mapAuthErrorToCode(error);
       showEnhancedError(errorCode);
     } finally {
@@ -259,7 +259,7 @@ export default function LoginScreen({ navigation }) {
       await signInWithApple();
       showSnackbar('Login com Apple realizado com sucesso!', 'success');
     } catch (error) {
-      console.error('Erro no login Apple:', error);
+      console.error(getString('appleLoginError'), error);
       const errorCode = mapAuthErrorToCode(error);
       showEnhancedError(errorCode);
     } finally {

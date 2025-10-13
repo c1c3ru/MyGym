@@ -38,7 +38,7 @@ export const useAuthActions = () => {
       const result = await signInUseCase.executeWithEmailAndPassword(email, password);
 
       if (result.isSuccess()) {
-        authUI.showSuccessToast('Login realizado com sucesso!');
+        authUI.showSuccessToast(getString('loginSuccess'));
         return result;
       } else {
         const errorMessage = result.error?.message || 'Erro ao fazer login';

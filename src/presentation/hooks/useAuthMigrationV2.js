@@ -75,14 +75,14 @@ export const useAuthMigrationV2 = () => {
     signOut: async () => {
       const result = await authClean.signOut();
       if (!result?.success) {
-        throw new Error(result?.error?.message || 'Erro no logout');
+        throw new Error(result?.error?.message || getString('logoutError'));
       }
       return result;
     },
     logout: async () => {
       const result = await authClean.signOut();
       if (!result?.success) {
-        throw new Error(result?.error?.message || 'Erro no logout');
+        throw new Error(result?.error?.message || getString('logoutError'));
       }
       return result;
     },
@@ -90,7 +90,7 @@ export const useAuthMigrationV2 = () => {
     logoutUser: async () => {
       const result = await authClean.signOut();
       if (!result?.success) {
-        throw new Error(result?.error?.message || 'Erro no logout');
+        throw new Error(result?.error?.message || getString('logoutError'));
       }
       return result;
     },

@@ -115,7 +115,7 @@ const StudentPayments = ({ navigation }) => {
   };
 
   const formatDate = (date) => {
-    if (!date) return 'Data não informada';
+    if (!date) return getString('dateNotInformed');
     return new Date(date.seconds ? date.seconds * 1000 : date).toLocaleDateString('pt-BR');
   };
 
@@ -190,7 +190,7 @@ const StudentPayments = ({ navigation }) => {
               payments.map((payment, index) => (
                 <View key={payment.id || index}>
                   <List.Item
-                    title={`${payment.planName || 'Mensalidade'} - ${formatCurrency(payment.amount)}`}
+                    title={`${payment.planName || getString('monthlyFee')} - ${formatCurrency(payment.amount)}`}
                     description={`Vencimento: ${formatDate(payment.dueDate)}`}
                     left={() => (
                       <List.Icon 

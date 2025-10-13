@@ -122,7 +122,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
   };
 
   const formatSchedule = (schedule) => {
-    if (!schedule) return 'Não definido';
+    if (!schedule) return getString('notDefined');
     
     // Se for uma string, retornar diretamente
     if (typeof schedule === 'string') {
@@ -147,7 +147,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
           const time = `${s.hour.toString().padStart(2, '0')}:${s.minute.toString().padStart(2, '0')}`;
           return `${dayName} - ${time}`;
         }
-        return `${s.day || 'Dia'} - ${s.time || 'Horário'}`;
+        return `${s.day || getString('day')} - ${s.time || 'Horário'}`;
       }).join(', ');
     }
     
@@ -237,7 +237,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
               <View style={styles.infoContent}>
                 <Text style={styles.infoLabel}>Instrutor</Text>
                 <Text style={styles.infoValue}>
-                  {classInfo?.instructorName || classInfo?.instructor || 'Não definido'}
+                  {classInfo?.instructorName || classInfo?.instructor || getString('notDefined')}
                 </Text>
               </View>
             </View>
@@ -339,7 +339,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
               <Surface style={styles.actionItem} elevation={2}>
                 <Button
                   mode="contained"
-                  onPress={() => navigation.navigate('CheckIns', { 
+                  onPress={() => navigation.navigate(getString('checkIns'), { 
                     classId: classId, 
                     className: classInfo?.name 
                   })}

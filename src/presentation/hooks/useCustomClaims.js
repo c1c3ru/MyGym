@@ -65,7 +65,7 @@ export const useCustomClaims = () => {
   const getUserTypeText = () => {
     switch (claims?.role) {
       case 'admin':
-        return 'Administrador';
+        return getString('administrator');
       case 'instructor':
         return getString('instructor');
       case 'student':

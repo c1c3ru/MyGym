@@ -72,7 +72,7 @@ export default function QRCodeGenerator({ size = 200, showActions = true, academ
         border-radius: 8px;
         box-shadow: 0 4px 12px currentTheme.black + "26";
         z-index: 9999;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, getString('systemFont'), Roboto, sans-serif;
         font-size: 14px;
         animation: slideIn 0.3s ease-out;
       `;

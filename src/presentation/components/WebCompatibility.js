@@ -26,7 +26,7 @@ const WebCompatibility = ({ children }) => {
           height: 100%;
         }
         body {
-          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+          font-family: -apple-system, BlinkMacSystemFont, getString('systemFont'), 'Roboto', sans-serif;
           margin: 0;
           padding: 0;
           overflow-x: hidden;

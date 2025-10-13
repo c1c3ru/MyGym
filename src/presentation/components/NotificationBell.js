@@ -105,7 +105,7 @@ const NotificationBell = ({ color = COLORS.white, size = 24 }) => {
       >
           <Card style={styles.modalCard}>
             <Card.Title
-              title="Notificações"
+              title=getString('notifications')
               subtitle={`${unreadCount} não lida${unreadCount !== 1 ? 's' : ''}`}
               left={(props) => <Ionicons name="notifications" size={24} color={COLORS.info[500]} />}
               right={(props) => (

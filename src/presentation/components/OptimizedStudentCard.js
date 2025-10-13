@@ -58,7 +58,7 @@ const OptimizedStudentCard = memo(({
                 {student.email}
               </Text>
               <Text style={styles.studentPhone} accessible={true}>
-                {student.phone || 'Telefone não informado'}
+                {student.phone || getString('phoneNotInformed')}
               </Text>
             </View>
           </View>
@@ -121,7 +121,7 @@ const OptimizedStudentCard = memo(({
 
         <View style={styles.additionalInfo}>
           <Text style={styles.infoText} accessible={true}>
-            Plano: {student.currentPlan || 'Não definido'}
+            Plano: {student.currentPlan || getString('notDefined')}
           </Text>
           <Text style={styles.infoText} accessible={true}>
             Total de pagamentos: {student.totalPayments}

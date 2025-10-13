@@ -167,7 +167,7 @@ const InstructorNavigator = () => {
         }}
       />
       <Stack.Screen 
-        name="CheckIns" 
+        name=getString('checkIns') 
         component={CheckIn}
         options={{
           headerShown: true,

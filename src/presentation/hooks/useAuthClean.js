@@ -149,7 +149,7 @@ export const useAuthClean = () => {
   const updateUserProfile = useCallback(async (updates) => {
     try {
       if (!user?.uid) {
-        throw new Error('Usuário não autenticado');
+        throw new Error(getString('userNotAuthenticated'));
       }
 
       // Atualizar via use case (através do repository)

@@ -58,7 +58,7 @@ const UserTypeSelectionScreen = ({ navigation, route }) => {
     {
       id: 'admin',
       tipo: 'administrador',
-      title: 'Administrador',
+      title: getString('administrator'),
       description: 'Sou responsável pela gestão completa da academia',
       icon: 'business',
       color: COLORS.primary[500],

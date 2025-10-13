@@ -250,7 +250,7 @@ export const AuthProvider = ({ children }) => {
       await fetchUserProfile(firebaseUser.uid);
       return firebaseUser;
     } catch (error) {
-      console.error('Erro no login Google:', error);
+      console.error(getString('googleLoginError'), error);
       throw error;
     }
   };
@@ -284,7 +284,7 @@ export const AuthProvider = ({ children }) => {
       await fetchUserProfile(firebaseUser.uid);
       return firebaseUser;
     } catch (error) {
-      console.error('Erro no login Facebook:', error);
+      console.error(getString('facebookLoginError'), error);
       throw error;
     }
   };
@@ -321,7 +321,7 @@ export const AuthProvider = ({ children }) => {
       await fetchUserProfile(firebaseUser.uid);
       return firebaseUser;
     } catch (error) {
-      console.error('Erro no login Microsoft:', error);
+      console.error(getString('microsoftLoginError'), error);
       throw error;
     }
   };
@@ -358,7 +358,7 @@ export const AuthProvider = ({ children }) => {
       await fetchUserProfile(firebaseUser.uid);
       return firebaseUser;
     } catch (error) {
-      console.error('Erro no login Apple:', error);
+      console.error(getString('appleLoginError'), error);
       throw error;
     }
   };

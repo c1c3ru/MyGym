@@ -135,7 +135,7 @@ const SettingsScreen = ({ navigation }) => {
           </View>
           
           <List.Item
-            title="Notificações"
+            title=getString('notifications')
             description="Receber notificações push"
             left={(props) => <Ionicons name="notifications" size={20} color={COLORS.text.secondary} />}
             right={(props) => (

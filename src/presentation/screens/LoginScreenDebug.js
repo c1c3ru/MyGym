@@ -46,7 +46,7 @@ const LoginScreenDebug = ({ navigation }) => {
       addDebugInfo('🚀 Iniciando login...');
       await signIn(email, password);
       addDebugInfo('✅ Login bem-sucedido!');
-      Alert.alert(getString('success'), 'Login realizado com sucesso!');
+      Alert.alert(getString('success'), getString('loginSuccess'));
     } catch (error) {
       addDebugInfo(`❌ Erro: ${error.code}`);
       addDebugInfo(`📝 Mensagem: ${error.message}`);

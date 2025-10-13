@@ -29,7 +29,7 @@ const ImprovedScheduleSelector = ({
   style,
   disabled = false,
   required = false,
-  label = 'Horários da Turma',
+  label = getString('classSchedules'),
   enableConflictValidation = true,
   instructorId,
   excludeClassId
@@ -166,7 +166,7 @@ const ImprovedScheduleSelector = ({
           ) : (
             <Text style={[
               styles.noHours, 
-              { color: colors?.onSurfaceVariant || 'COLORS.text.secondary666' }
+              { color: colors?.onSurfaceVariant || getString('textSecondary') }
             ]}>
               Toque para definir
             </Text>

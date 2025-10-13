@@ -567,7 +567,7 @@ const ProfileScreen = ({ navigation }) => {
             <Divider />
             
             <List.Item
-              title="Notificações"
+              title=getString('notifications')
               description="Configurar notificações do app"
               left={() => <List.Icon icon="bell" />}
               right={() => <List.Icon icon="chevron-right" />}

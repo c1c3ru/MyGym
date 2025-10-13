@@ -43,7 +43,7 @@ const StudentListItem = memo(({
               <Text style={styles.studentName}>{student.name}</Text>
               <Text style={styles.studentEmail}>{student.email}</Text>
               <Text style={styles.studentPhone}>
-                {student.phone || 'Telefone não informado'}
+                {student.phone || getString('phoneNotInformed')}
               </Text>
             </View>
           </View>
