@@ -217,7 +217,16 @@ const AdminDashboard = ({ navigation }) => {
     }).format(value || 0);
   };
 
-  const getActivityIcon = (type) => ADMIN_ICONS.activities[type] || ADMIN_ICONS.activities.fallback;
+  const getActivityIcon = (type) => {
+    const icons = {
+      checkin: 'account-check',
+      payment: 'cash',
+      graduation: 'medal',
+      class: 'school',
+      fallback: 'information'
+    };
+    return icons[type] || icons.fallback;
+  };
 
   const getActivityColor = (type) => {
     const colors = {
@@ -358,7 +367,7 @@ const AdminDashboard = ({ navigation }) => {
         <Animated.View style={[headerTransform]}>
           <View style={styles.headerContainer}>
             <LinearGradient
-              colors={ADMIN_COLORS.headerGradient}
+              colors={[COLORS.primary[600], COLORS.primary[800]]}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 1 }}
               style={styles.headerGradient}
@@ -412,7 +421,7 @@ const AdminDashboard = ({ navigation }) => {
         {/* Estatísticas principais em cards com gradiente (estilo Instrutor) */}
         <View style={styles.statsContainer}>
           <Animated.View style={[styles.statCard, { opacity: animations.fadeAnim }]}>
-            <LinearGradient colors={ADMIN_COLORS.blue} style={styles.statGradient}>
+            <LinearGradient colors={[COLORS.info[500], COLORS.info[700]]} style={styles.statGradient}>
               <SafeMaterialCommunityIcons name="account-group" size={32} color={COLORS.white} />
               <Text style={styles.statNumberModern}>{dashboardData.totalStudents}</Text>
               <Text style={styles.statLabelModern}>Total de Alunos</Text>
@@ -420,7 +429,7 @@ const AdminDashboard = ({ navigation }) => {
           </Animated.View>
 
           <Animated.View style={[styles.statCard, { opacity: animations.fadeAnim }]}>
-            <LinearGradient colors={ADMIN_COLORS.green} style={styles.statGradient}>
+            <LinearGradient colors={[COLORS.success[500], COLORS.success[700]]} style={styles.statGradient}>
               <SafeMaterialCommunityIcons name="account-check" size={32} color={COLORS.white} />
               <Text style={styles.statNumberModern}>{dashboardData.activeStudents}</Text>
               <Text style={styles.statLabelModern}>Alunos Ativos</Text>
@@ -428,7 +437,7 @@ const AdminDashboard = ({ navigation }) => {
           </Animated.View>
 
           <Animated.View style={[styles.statCard, { opacity: animations.fadeAnim }]}>
-            <LinearGradient colors={ADMIN_COLORS.orange} style={styles.statGradient}>
+            <LinearGradient colors={[COLORS.warning[500], COLORS.warning[700]]} style={styles.statGradient}>
               <SafeMaterialCommunityIcons name="school-outline" size={32} color={COLORS.white} />
               <Text style={styles.statNumberModern}>{dashboardData.totalClasses}</Text>
               <Text style={styles.statLabelModern}>Turmas</Text>
@@ -436,7 +445,7 @@ const AdminDashboard = ({ navigation }) => {
           </Animated.View>
 
           <Animated.View style={[styles.statCard, { opacity: animations.fadeAnim }]}>
-            <LinearGradient colors={ADMIN_COLORS.purple} style={styles.statGradient}>
+            <LinearGradient colors={[COLORS.secondary[500], COLORS.secondary[700]]} style={styles.statGradient}>
               <SafeMaterialCommunityIcons name="cash-multiple" size={32} color={COLORS.white} />
               <Text style={styles.statNumberModern}>{dashboardData.pendingPayments}</Text>
               <Text style={styles.statLabelModern}>Pendências</Text>
@@ -517,7 +526,7 @@ const AdminDashboard = ({ navigation }) => {
           <Card.Content>
             <View style={styles.modernCardHeader}>
               <View style={styles.headerIconContainer}>
-                <SafeMaterialCommunityIcons name="lightning-bolt" size={24} color={COLORS.info[500]Warning} />
+                <SafeMaterialCommunityIcons name="lightning-bolt" size={24} color={COLORS.info[500]} />
               </View>
               <View>
                 <Text style={styles.modernCardTitle}>Ações Rápidas</Text>
@@ -526,16 +535,17 @@ const AdminDashboard = ({ navigation }) => {
             </View>
 
             <View style={styles.modernQuickActions}>
-              {[
-                { key: 'students', title: getString('students'), subtitle: 'Gerenciar alunos', icon: ADMIN_ICONS.quickActions.students, colors: ADMIN_COLORS.blue, onPress: handleNavigateToStudents },
-                { key: 'classes', title: getString('classes'), subtitle: 'Gerenciar turmas', icon: ADMIN_ICONS.quickActions.classes, colors: ADMIN_COLORS.green, onPress: handleNavigateToClasses },
-                { key: 'calendar', title: getString('calendar'), subtitle: 'Visualizar cronograma', icon: 'calendar-month', colors: ADMIN_COLORS.teal, onPress: handleShowCalendar },
-                { key: 'settings', title: getString('settings'), subtitle: 'Preferências e gestão', icon: ADMIN_ICONS.quickActions.settings, colors: ADMIN_COLORS.orange, onPress: handleNavigateToManagement },
-              ].map((action, idx) => (
-                <Animated.View key={action.key} style={[styles.actionCard, { opacity: animations.fadeAnim, width: ResponsiveUtils.isTablet() ? '31%' : '48%' }]}>
-                  <LinearGradient colors={action.colors} style={styles.actionGradient}>
-                    <SafeMaterialCommunityIcons name={action.icon} size={28} color={COLORS.white} />
-                    <Text style={styles.actionTitle}>{action.title}</Text>
+              {
+                [
+                  { key: 'students', title: getString('students'), subtitle: 'Gerenciar aluno', icon: 'account-group', colors: [COLORS.info[500], COLORS.info[700]], onPress: handleNavigateToStudents },
+                  { key: 'classes', title: getString('classes'), subtitle: 'Gerenciar turmas', icon: 'school', colors: [COLORS.success[500], COLORS.success[700]], onPress: handleNavigateToClasses },
+                  { key: 'calendar', title: getString('calendar'), subtitle: 'Visualizar cronograma', icon: 'calendar-month', colors: [COLORS.secondary[400], COLORS.secondary[600]], onPress: handleShowCalendar },
+                  { key: 'settings', title: getString('settings'), subtitle: 'Preferências e gestão', icon: 'cog', colors: [COLORS.warning[500], COLORS.warning[700]], onPress: handleNavigateToManagement },
+                ].map((action, idx) => (
+                  <Animated.View key={action.key} style={[styles.actionCard, { opacity: animations.fadeAnim, width: ResponsiveUtils.isTablet() ? '31%' : '48%' }]}>
+                    <LinearGradient colors={action.colors} style={styles.actionGradient}>
+                      <SafeMaterialCommunityIcons name={action.icon} size={28} color={COLORS.white} />
+                      <Text style={styles.actionTitle}>{action.title}</Text>
                     <Text style={styles.actionSubtitle}>{action.subtitle}</Text>
                     <AnimatedButton
                       mode="contained"
