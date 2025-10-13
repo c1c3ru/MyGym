@@ -1,3 +1,7 @@
+// Import design tokens
+import { COLORS } from '@presentation/theme/designTokens';
+import { LIGHT_THEME } from '@presentation/theme/lightTheme';
+
 export const languages = {
   pt: {
     code: 'pt',
@@ -156,33 +160,12 @@ export const languages = {
       dataLoadError: 'Could not load data. Please try again.',
       saveError: 'Could not save. Please try again.',
       deleteError: 'Could not delete. Please try again.',
-      updateError: 'Could not update. Please try again.',
       permissionDenied: 'Permission denied',
       sessionExpired: 'Session expired',
       connectionTimeout: 'Connection timeout exceeded',
       serverError: 'Server error. Please try again later.',
       validationError: 'Invalid data. Please check the fields.',
       rateLimitExceeded: 'Too many attempts. Please wait a few minutes.',
-
-      // ACTIONS
-      create: 'Create',
-      add: 'Add',
-      edit: 'Edit',
-      update: 'Update',
-      delete: 'Delete',
-      remove: 'Remove',
-      search: 'Search',
-      filter: 'Filter',
-      sort: 'Sort',
-      export: 'Export',
-      import: 'Import',
-      share: 'Share',
-      copy: 'Copy',
-      paste: 'Paste',
-      duplicate: 'Duplicate',
-      archive: 'Archive',
-      restore: 'Restore',
-      refresh: 'Refresh',
       reload: 'Reload',
       reset: 'Reset',
       clear: 'Clear',
@@ -446,6 +429,71 @@ export const getLanguages = () => {
 
 export const isLanguageSupported = (language) => {
   return Object.keys(languages).includes(language);
+};
+
+// Temas básicos usando design tokens
+export const lightTheme = {
+  colors: {
+    primary: COLORS.primary[500],
+    primaryVariant: COLORS.primary[700],
+    secondary: COLORS.secondary[500],
+    background: LIGHT_THEME.background.default,
+    surface: LIGHT_THEME.background.paper,
+    card: LIGHT_THEME.background.paper,
+    text: LIGHT_THEME.text.primary,
+    accent: COLORS.info[500],
+    textSecondary: LIGHT_THEME.text.secondary,
+    textDisabled: LIGHT_THEME.text.disabled,
+  }
+};
+
+export const darkTheme = {
+  colors: {
+    primary: COLORS.primary[400],
+    primaryVariant: COLORS.primary[300],
+    secondary: COLORS.secondary[400],
+    background: COLORS.gray[900],
+    surface: COLORS.gray[800],
+    card: COLORS.gray[800],
+    text: COLORS.white,
+    accent: COLORS.info[400],
+    textSecondary: COLORS.gray[300],
+    textDisabled: COLORS.gray[500],
+  }
+};
+
+// Função para obter tema baseado no tipo de usuário
+export const getThemeForUserType = (userType = 'student', isDarkMode = false) => {
+  const baseTheme = isDarkMode ? darkTheme : lightTheme;
+  
+  // Cores específicas por tipo de usuário usando design tokens
+  const userColors = {
+    student: {
+      primary: isDarkMode ? COLORS.info[400] : COLORS.primary[500],
+      accent: isDarkMode ? COLORS.info[300] : COLORS.info[500],
+    },
+    instructor: {
+      primary: isDarkMode ? COLORS.secondary[400] : COLORS.secondary[600],
+      accent: isDarkMode ? COLORS.secondary[300] : COLORS.secondary[500],
+    },
+    admin: {
+      primary: isDarkMode ? COLORS.primary[400] : COLORS.primary[700],
+      accent: isDarkMode ? COLORS.primary[300] : COLORS.primary[600],
+    }
+  };
+
+  const colors = userColors[userType] || userColors.student;
+
+  return {
+    ...baseTheme,
+    colors: {
+      ...baseTheme.colors,
+      primary: colors.primary,
+      accent: colors.accent,
+    },
+    userType,
+    isDarkMode
+  };
 };
 
 export default languages;
