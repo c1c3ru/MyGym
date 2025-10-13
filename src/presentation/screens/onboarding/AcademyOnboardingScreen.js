@@ -63,7 +63,7 @@ const AcademyOnboardingScreen = () => {
           'Academia criada com sucesso! Você agora é o administrador.',
           [
             {
-              text: 'OK',
+              text: getString('ok'),
               onPress: () => {
                 setCreateAcademyVisible(false);
                 // A navegação será automática após o AuthContext detectar as mudanças
@@ -104,7 +104,7 @@ const AcademyOnboardingScreen = () => {
           `Você foi associado à academia como ${roleText}!`,
           [
             {
-              text: 'OK',
+              text: getString('ok'),
               onPress: () => {
                 setUseInviteVisible(false);
                 // A navegação será automática após o AuthContext detectar as mudanças

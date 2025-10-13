@@ -77,12 +77,12 @@ const ScheduleClassesScreen = ({ navigation, route }) => {
 
   const handleSchedule = async () => {
     if (selectedClasses.size === 0) {
-      Alert.alert('Atenção', 'Selecione pelo menos uma turma');
+      Alert.alert(getString('attention'), 'Selecione pelo menos uma turma');
       return;
     }
 
     if (!topic.trim()) {
-      Alert.alert('Atenção', 'Informe o tema da aula');
+      Alert.alert(getString('attention'), 'Informe o tema da aula');
       return;
     }
 
@@ -125,7 +125,7 @@ const ScheduleClassesScreen = ({ navigation, route }) => {
         'Sucesso! ✅',
         `Aula agendada para ${selectedClasses.size} turma(s)!`,
         [
-          { text: 'OK', onPress: () => navigation.goBack() }
+          { text: getString('ok'), onPress: () => navigation.goBack() }
         ]
       );
 
@@ -191,7 +191,7 @@ const ScheduleClassesScreen = ({ navigation, route }) => {
                 <Text style={styles.emptyText}>Nenhuma turma encontrada</Text>
                 <Button
                   mode="contained"
-                  onPress={() => navigation.navigate('AddClass')}
+                  onPress={() => navigation.navigate(getString('addClassScreen'))}
                   style={styles.createButton}
                 >
                   Criar Turma

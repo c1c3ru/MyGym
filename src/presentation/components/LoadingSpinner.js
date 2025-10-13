@@ -6,7 +6,7 @@ import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@present
 const LoadingSpinner = ({ 
   size = 'large', 
   color = COLORS.info[500], 
-  message = 'Carregando...', 
+  message = getString('loadingState'), 
   style 
 }) => {
   return (

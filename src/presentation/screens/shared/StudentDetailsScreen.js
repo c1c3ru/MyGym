@@ -149,7 +149,7 @@ const StudentDetailsScreen = ({ route, navigation }) => {
     const texts = {
       'paid': 'Pago',
       'pending': getString('paymentPending'),
-      'overdue': 'Atrasado'
+      'overdue': getString('overdue')
     };
     return texts[status] || status;
   }, []);
@@ -163,7 +163,7 @@ const StudentDetailsScreen = ({ route, navigation }) => {
   const formatCurrency = useCallback((value) => {
     return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
-      currency: 'BRL'
+      currency: getString('currency')
     }).format(value || 0);
   }, []);
 
@@ -178,7 +178,7 @@ const StudentDetailsScreen = ({ route, navigation }) => {
 
   const handleAddGraduation = useCallback(() => {
     trackButtonClick('add_graduation', { studentId });
-    navigation.navigate('AddGraduation', { 
+    navigation.navigate(getString('addGraduationScreen'), { 
       studentId, 
       studentName: studentInfo?.name 
     });
@@ -186,7 +186,7 @@ const StudentDetailsScreen = ({ route, navigation }) => {
 
   const handleViewClassDetails = useCallback((classItem) => {
     trackButtonClick('view_class_details', { classId: classItem.id, studentId });
-    navigation.navigate('ClassDetails', { 
+    navigation.navigate(getString('classDetailsScreen'), { 
       classId: classItem.id, 
       classData: classItem 
     });

@@ -169,7 +169,7 @@ const CheckInScreen = ({ navigation }) => {
       Alert.alert(
         '✅ Check-in realizado!',
         classId ? `Check-in na aula de ${className} realizado com sucesso!` : 'Check-in geral realizado com sucesso!',
-        [{ text: 'OK', onPress: () => loadCheckInData() }]
+        [{ text: getString('ok'), onPress: () => loadCheckInData() }]
       );
 
     } catch (error) {

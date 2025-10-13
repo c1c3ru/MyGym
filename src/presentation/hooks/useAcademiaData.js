@@ -63,7 +63,7 @@ export function useAcademiaCollection(collectionName, options = {}) {
   // Função para adicionar item
   const addItem = async (itemData) => {
     if (!userProfile?.academiaId) {
-      throw new Error('Academia não identificada');
+      throw new Error(getString('academyNotIdentified'));
     }
 
     try {
@@ -83,7 +83,7 @@ export function useAcademiaCollection(collectionName, options = {}) {
   // Função para atualizar item
   const updateItem = async (itemId, updates) => {
     if (!userProfile?.academiaId) {
-      throw new Error('Academia não identificada');
+      throw new Error(getString('academyNotIdentified'));
     }
 
     try {
@@ -101,7 +101,7 @@ export function useAcademiaCollection(collectionName, options = {}) {
   // Função para deletar item
   const deleteItem = async (itemId) => {
     if (!userProfile?.academiaId) {
-      throw new Error('Academia não identificada');
+      throw new Error(getString('academyNotIdentified'));
     }
 
     try {

@@ -310,7 +310,7 @@ const AddStudentScreen = ({ navigation, route }) => {
         visible={showValidationBanner}
         actions={[
           {
-            label: 'OK',
+            label: getString('ok'),
             onPress: () => setShowValidationBanner(false),
           },
         ]}
@@ -607,7 +607,7 @@ const AddStudentScreen = ({ navigation, route }) => {
           snackbar.type === 'error' && styles.snackbarError
         ]}
         action={{
-          label: 'Fechar',
+          label: getString('close'),
           onPress: hideSnackbar,
         }}
       >

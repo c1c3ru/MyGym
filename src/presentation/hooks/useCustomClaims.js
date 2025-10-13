@@ -67,11 +67,11 @@ export const useCustomClaims = () => {
       case 'admin':
         return 'Administrador';
       case 'instructor':
-        return 'Instrutor';
+        return getString('instructor');
       case 'student':
         return getString('student');
       default:
-        return 'Usuário';
+        return getString('user');
     }
   };
 

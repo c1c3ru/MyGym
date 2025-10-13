@@ -196,17 +196,17 @@ const AdminClasses = ({ navigation }) => {
     // Navegar para o AdminStack pai para acessar ClassDetails
     const adminStackNav = navigation.getParent && navigation.getParent('AdminStack');
     if (adminStackNav && typeof adminStackNav.navigate === 'function') {
-      adminStackNav.navigate('ClassDetails', { classId: classItem.id, classData: classItem });
+      adminStackNav.navigate(getString('classDetailsScreen'), { classId: classItem.id, classData: classItem });
       return;
     }
     // Fallback: tentar navegar pelo parent
     const parentNav = navigation.getParent && navigation.getParent();
     if (parentNav && typeof parentNav.navigate === 'function') {
-      parentNav.navigate('ClassDetails', { classId: classItem.id, classData: classItem });
+      parentNav.navigate(getString('classDetailsScreen'), { classId: classItem.id, classData: classItem });
       return;
     }
     // Fallback final
-    navigation.navigate('ClassDetails', { classId: classItem.id, classData: classItem });
+    navigation.navigate(getString('classDetailsScreen'), { classId: classItem.id, classData: classItem });
   }, [navigation, trackButtonClick]);
 
   const handleAddClass = useCallback(async () => {
@@ -222,22 +222,22 @@ const AdminClasses = ({ navigation }) => {
       // Tenta navegar através do navigator do Stack pai, usando o ID definido
       const adminStackNav = navigation.getParent && navigation.getParent('AdminStack');
       if (adminStackNav && typeof adminStackNav.navigate === 'function') {
-        adminStackNav.navigate('AddClass');
+        adminStackNav.navigate(getString('addClassScreen'));
         return;
       }
       // Fallback 1: subir um nível (Tab) e depois tentar o Stack acima
       const parentNav = navigation.getParent && navigation.getParent();
       const grandParentNav = parentNav && parentNav.getParent ? parentNav.getParent() : null;
       if (grandParentNav && typeof grandParentNav.navigate === 'function') {
-        grandParentNav.navigate('AddClass');
+        grandParentNav.navigate(getString('addClassScreen'));
         return;
       }
       if (parentNav && typeof parentNav.navigate === 'function') {
-        parentNav.navigate('AddClass');
+        parentNav.navigate(getString('addClassScreen'));
         return;
       }
       // Fallback final
-      navigation.navigate('AddClass');
+      navigation.navigate(getString('addClassScreen'));
     });
 
     if (result.blocked) {
@@ -368,7 +368,7 @@ const AdminClasses = ({ navigation }) => {
     try {
       const schedule = classItem?.schedule;
       if (Array.isArray(schedule) && schedule.length > 0) {
-        const days = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+        const days = [getString('sunday'), getString('monday'), getString('tuesday'), getString('wednesday'), getString('thursday'), getString('friday'), getString('saturday')];
         return schedule.map((s) => {
           const day = typeof s.dayOfWeek === 'number' ? days[s.dayOfWeek] : 'Dia';
           const hour = (s.hour ?? '').toString().padStart(2, '0');
@@ -498,7 +498,7 @@ const AdminClasses = ({ navigation }) => {
               classes={classes}
               onClassPress={(event) => {
                 setShowCalendarModal(false);
-                navigation.navigate('ClassDetails', { 
+                navigation.navigate(getString('classDetailsScreen'), { 
                   classId: event.classId,
                   className: event.title 
                 });
@@ -507,7 +507,7 @@ const AdminClasses = ({ navigation }) => {
                 console.log('🚀 Botão criar turma clicado no AdminClasses');
                 setShowCalendarModal(false);
                 console.log('📱 Navegando para AddClass...');
-                navigation.navigate('AddClass');
+                navigation.navigate(getString('addClassScreen'));
               }}
               navigation={navigation}
             />

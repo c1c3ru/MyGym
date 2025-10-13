@@ -170,7 +170,7 @@ const ReportsScreen = ({ navigation }) => {
   const formatCurrency = useCallback((value) => {
     return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
-      currency: 'BRL'
+      currency: getString('currency')
     }).format(value || 0);
   }, []);
 
@@ -373,7 +373,7 @@ const ReportsScreen = ({ navigation }) => {
             <View style={styles.actionsContainer}>
               <Button
                 mode="contained"
-                onPress={() => navigation.navigate('AddStudent')}
+                onPress={() => navigation.navigate(getString('addStudent'))}
                 style={[styles.actionButton, { backgroundColor: COLORS.info[500] }]}
                 icon={<MaterialCommunityIcons name="account-plus" size={18} color={COLORS.white} />}
               >
@@ -382,7 +382,7 @@ const ReportsScreen = ({ navigation }) => {
               
               <Button
                 mode="contained"
-                onPress={() => navigation.navigate('AddClass')}
+                onPress={() => navigation.navigate(getString('addClassScreen'))}
                 style={[styles.actionButton, { backgroundColor: COLORS.primary[500] }]}
                 icon={<MaterialCommunityIcons name="school-outline" size={18} color={COLORS.white} />}
               >

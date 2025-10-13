@@ -138,7 +138,7 @@ export const useAuthUI = () => {
     if (isSigningIn) return 'Fazendo login...';
     if (isSigningUp) return 'Criando conta...';
     if (isSigningOut) return 'Saindo...';
-    if (isLoading) return 'Carregando...';
+    if (isLoading) return getString('loadingState');
     return '';
   }, [isSigningIn, isSigningUp, isSigningOut, isLoading]);
 

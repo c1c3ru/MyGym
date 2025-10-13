@@ -127,7 +127,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
     const texts = {
       'paid': 'Pago',
       'pending': getString('paymentPending'),
-      'overdue': 'Atrasado'
+      'overdue': getString('overdue')
     };
     return texts[status] || status;
   };
@@ -149,7 +149,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
   const formatCurrency = (value) => {
     return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
-      currency: 'BRL'
+      currency: getString('currency')
     }).format(value || 0);
   };
 
@@ -166,7 +166,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
   };
 
   const handleAddGraduation = () => {
-    navigation.navigate('AddGraduation', { 
+    navigation.navigate(getString('addGraduationScreen'), { 
       studentId: studentId, 
       studentName: studentInfo?.name || getString('student') 
     });
@@ -371,7 +371,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
                         icon="chevron-right"
                         size={20}
                         iconColor={COLORS.secondary[400]}
-                        onPress={() => navigation.navigate('ClassDetails', { 
+                        onPress={() => navigation.navigate(getString('classDetailsScreen'), { 
                           classId: classItem.id, 
                           classData: classItem 
                         })}
@@ -562,7 +562,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
           <View style={styles.actionCard}>
             <Button
               mode="contained"
-              onPress={() => navigation.navigate('AddGraduation', { 
+              onPress={() => navigation.navigate(getString('addGraduationScreen'), { 
                 studentId, 
                 studentName: studentInfo?.name 
               })}

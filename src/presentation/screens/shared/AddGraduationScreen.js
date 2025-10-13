@@ -130,7 +130,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
       'Amarela': COLORS.special.belt.yellow,
       'Laranja': COLORS.special.belt.orange,
       'Verde': COLORS.special.belt.green,
-      'Azul': COLORS.special.belt.blue,
+      getString('blue'): COLORS.special.belt.blue,
       'Roxa': COLORS.special.belt.purple,
       'Marrom': COLORS.special.belt.brown,
       'Preta': COLORS.special.belt.black,
@@ -615,7 +615,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
           backgroundColor: snackbarType === 'success' ? COLORS.primary[500] : COLORS.error[500]
         }}
         action={{
-          label: 'OK',
+          label: getString('ok'),
           onPress: () => setSnackbarVisible(false),
         }}
       >

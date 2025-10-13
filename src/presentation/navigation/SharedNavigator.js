@@ -54,7 +54,7 @@ const SharedNavigator = ({ userType }) => {
         })}
       />
       <Stack.Screen
-        name="ChangePassword"
+        name=getString('changePassword')
         component={ChangePasswordScreen}
         options={({ navigation }) => ({
           header: () => (
@@ -69,7 +69,7 @@ const SharedNavigator = ({ userType }) => {
         })}
       />
       <Stack.Screen
-        name="PhysicalEvaluation"
+        name=getString('physicalEvaluation')
         component={PhysicalEvaluationScreen}
         options={({ navigation }) => ({
           header: () => (
@@ -84,7 +84,7 @@ const SharedNavigator = ({ userType }) => {
         })}
       />
       <Stack.Screen
-        name="PhysicalEvaluationHistory"
+        name=getString('physicalEvaluationHistory')
         component={PhysicalEvaluationHistoryScreen}
         options={({ navigation }) => ({
           header: () => (

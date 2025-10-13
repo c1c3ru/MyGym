@@ -213,7 +213,7 @@ const AdminDashboard = ({ navigation }) => {
   const formatCurrency = (value) => {
     return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
-      currency: 'BRL'
+      currency: getString('currency')
     }).format(value || 0);
   };
 
@@ -304,7 +304,7 @@ const AdminDashboard = ({ navigation }) => {
               classes={classes}
               onClassPress={(event) => {
                 setShowCalendarModal(false);
-                navigation.navigate('ClassDetails', { 
+                navigation.navigate(getString('classDetailsScreen'), { 
                   classId: event.classId,
                   className: event.title 
                 });
@@ -313,7 +313,7 @@ const AdminDashboard = ({ navigation }) => {
                 console.log('🚀 Botão criar turma clicado no AdminDashboard');
                 setShowCalendarModal(false);
                 console.log('📱 Navegando para AddClass...');
-                navigation.navigate('AddClass');
+                navigation.navigate(getString('addClassScreen'));
               }}
               navigation={navigation}
             />
@@ -530,7 +530,7 @@ const AdminDashboard = ({ navigation }) => {
                 { key: 'students', title: getString('students'), subtitle: 'Gerenciar alunos', icon: ADMIN_ICONS.quickActions.students, colors: ADMIN_COLORS.blue, onPress: handleNavigateToStudents },
                 { key: 'classes', title: getString('classes'), subtitle: 'Gerenciar turmas', icon: ADMIN_ICONS.quickActions.classes, colors: ADMIN_COLORS.green, onPress: handleNavigateToClasses },
                 { key: 'calendar', title: 'Calendário', subtitle: 'Visualizar cronograma', icon: 'calendar-month', colors: ADMIN_COLORS.teal, onPress: handleShowCalendar },
-                { key: 'settings', title: 'Configurações', subtitle: 'Preferências e gestão', icon: ADMIN_ICONS.quickActions.settings, colors: ADMIN_COLORS.orange, onPress: handleNavigateToManagement },
+                { key: 'settings', title: getString('settings'), subtitle: 'Preferências e gestão', icon: ADMIN_ICONS.quickActions.settings, colors: ADMIN_COLORS.orange, onPress: handleNavigateToManagement },
               ].map((action, idx) => (
                 <Animated.View key={action.key} style={[styles.actionCard, { opacity: animations.fadeAnim, width: ResponsiveUtils.isTablet() ? '31%' : '48%' }]}>
                   <LinearGradient colors={action.colors} style={styles.actionGradient}>

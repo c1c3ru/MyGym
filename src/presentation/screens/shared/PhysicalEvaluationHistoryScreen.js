@@ -38,7 +38,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
       // Verificar se academia está disponível
       const academiaId = academia?.id || userProfile?.academiaId;
       if (!academiaId) {
-        console.error('Academia não identificada');
+        console.error(getString('academyNotIdentified'));
         setEvaluations([]);
         return;
       }
@@ -352,7 +352,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
                     description={`${formatDate(evaluation.date)} • ${evaluation.imcClassification}`}
                     left={() => <List.Icon icon="scale" />}
                     right={() => <List.Icon icon="chevron-right" />}
-                    onPress={() => navigation.navigate('PhysicalEvaluation', {
+                    onPress={() => navigation.navigate(getString('physicalEvaluation'), {
                       evaluation,
                       isEditing: true
                     })}
@@ -368,7 +368,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
       <FAB
         style={styles.fab}
         icon="plus"
-        onPress={() => navigation.navigate('PhysicalEvaluation')}
+        onPress={() => navigation.navigate(getString('physicalEvaluation'))}
         label="Nova Avaliação"
       />
     </SafeAreaView>

@@ -132,7 +132,7 @@ const ERROR_CATALOG = {
     icon: 'shield-off-outline',
     color: 'error',
     actions: [
-      { label: 'Voltar', action: 'back' }
+      { label: getString('back'), action: 'back' }
     ],
   },
 
@@ -143,7 +143,7 @@ const ERROR_CATALOG = {
     icon: 'database-remove-outline',
     color: 'error',
     actions: [
-      { label: 'Voltar', action: 'back' },
+      { label: getString('back'), action: 'back' },
       { label: getString('update'), action: 'retry' }
     ],
   },

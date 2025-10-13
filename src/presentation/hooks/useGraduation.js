@@ -64,7 +64,7 @@ export const useGraduation = () => {
    */
   const scheduleExam = useCallback(async (examData) => {
     if (!academia?.id) {
-      showError('Academia não identificada');
+      showError(getString('academyNotIdentified'));
       return false;
     }
 
@@ -93,7 +93,7 @@ export const useGraduation = () => {
    */
   const processExamResults = useCallback(async (examId, results) => {
     if (!academia?.id) {
-      showError('Academia não identificada');
+      showError(getString('academyNotIdentified'));
       return false;
     }
 

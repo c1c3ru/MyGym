@@ -41,7 +41,7 @@ const InstructorTabNavigator = () => {
       screenOptions={({ route, navigation }) => ({
         header: ({ options, route: hdrRoute, navigation: hdrNav }) => (
           <UniversalHeader
-            title={(options && options.title) || (hdrRoute && hdrRoute.name) || route.name || 'Instrutor'}
+            title={(options && options.title) || (hdrRoute && hdrRoute.name) || route.name || getString('instructor')}
             navigation={hdrNav || navigation}
             backgroundColor={PROFILE_COLORS.instructor.primary}
           />
@@ -152,7 +152,7 @@ const InstructorNavigator = () => {
         }}
       />
       <Stack.Screen 
-        name="ClassDetails" 
+        name=getString('classDetailsScreen') 
         component={ClassDetailsScreen}
         options={{
           headerShown: true,
@@ -182,7 +182,7 @@ const InstructorNavigator = () => {
         }}
       />
       <Stack.Screen 
-        name="AddClass" 
+        name=getString('addClassScreen') 
         component={AddClassScreen}
         options={{
           headerShown: true,
@@ -197,7 +197,7 @@ const InstructorNavigator = () => {
         }}
       />
       <Stack.Screen 
-        name="AddStudent" 
+        name=getString('addStudent') 
         component={AddStudentScreen}
         options={{
           headerShown: true,
@@ -227,7 +227,7 @@ const InstructorNavigator = () => {
         }}
       />
       <Stack.Screen 
-        name="AddGraduation" 
+        name=getString('addGraduationScreen') 
         component={AddGraduationScreen}
         options={{
           headerShown: true,
@@ -250,7 +250,7 @@ const InstructorNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title="Perfil"
+              title=getString('profile')
               navigation={navigation}
               showBack={true}
               backgroundColor={PROFILE_COLORS.instructor.primary}
@@ -259,7 +259,7 @@ const InstructorNavigator = () => {
         }}
       />
       <Stack.Screen 
-        name="ChangePassword" 
+        name=getString('changePassword') 
         component={ChangePasswordScreen}
         options={{
           headerShown: true,
@@ -274,7 +274,7 @@ const InstructorNavigator = () => {
         }}
       />
       <Stack.Screen 
-        name="PhysicalEvaluation" 
+        name=getString('physicalEvaluation') 
         component={PhysicalEvaluationScreen}
         options={{
           headerShown: true,
@@ -289,7 +289,7 @@ const InstructorNavigator = () => {
         }}
       />
       <Stack.Screen 
-        name="PhysicalEvaluationHistory" 
+        name=getString('physicalEvaluationHistory') 
         component={PhysicalEvaluationHistoryScreen}
         options={{
           headerShown: true,

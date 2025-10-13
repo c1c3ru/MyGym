@@ -101,7 +101,7 @@ export const NotificationProvider = ({ children }) => {
               { backgroundColor: getSnackbarColor(notification.type) }
             ]}
             action={{
-              label: 'Fechar',
+              label: getString('close'),
               onPress: () => hideNotification(notification.id),
               textColor: COLORS.white
             }}

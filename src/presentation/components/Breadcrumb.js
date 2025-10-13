@@ -84,7 +84,7 @@ const Breadcrumb = ({
 }) => {
   // Adiciona item Home se configurado
   const allItems = showHome
-    ? [{ label: 'Início', icon: 'home', onPress: onHomePress }, ...items]
+    ? [{ label: getString('home'), icon: 'home', onPress: onHomePress }, ...items]
     : items;
 
   // Trunca itens se exceder maxItems

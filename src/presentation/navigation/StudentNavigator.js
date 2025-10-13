@@ -101,7 +101,7 @@ const StudentStackNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title="Perfil"
+              title=getString('profile')
               navigation={navigation}
               showBack={true}
               backgroundColor={PROFILE_COLORS.student.primary}
@@ -110,7 +110,7 @@ const StudentStackNavigator = () => {
         }}
       />
       <Stack.Screen 
-        name="ChangePassword" 
+        name=getString('changePassword') 
         component={ChangePasswordScreen}
         options={{
           headerShown: true,
@@ -125,7 +125,7 @@ const StudentStackNavigator = () => {
         }}
       />
       <Stack.Screen 
-        name="PhysicalEvaluation" 
+        name=getString('physicalEvaluation') 
         component={PhysicalEvaluationScreen}
         options={{
           headerShown: true,
@@ -140,7 +140,7 @@ const StudentStackNavigator = () => {
         }}
       />
       <Stack.Screen 
-        name="PhysicalEvaluationHistory" 
+        name=getString('physicalEvaluationHistory') 
         component={PhysicalEvaluationHistoryScreen}
         options={{
           headerShown: true,

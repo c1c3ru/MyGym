@@ -57,7 +57,7 @@ const Button = memo(({
       {...props}
     >
       <Text style={textStyle}>
-        {loading ? 'Carregando...' : title}
+        {loading ? getString('loadingState') : title}
       </Text>
     </TouchableOpacity>
   );

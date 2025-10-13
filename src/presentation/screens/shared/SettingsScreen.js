@@ -28,7 +28,7 @@ const SettingsScreen = ({ navigation }) => {
       [
         { text: getString('cancel'), style: 'cancel' },
         { 
-          text: 'Sair', 
+          text: getString('logout'), 
           style: 'destructive',
           onPress: async () => {
             try {
@@ -43,7 +43,7 @@ const SettingsScreen = ({ navigation }) => {
   };
 
   const handleChangePassword = () => {
-    navigation.navigate('ChangePassword');
+    navigation.navigate(getString('changePassword'));
   };
 
   const handleDataExport = () => {

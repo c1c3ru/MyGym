@@ -35,7 +35,7 @@ export const useRateLimit = (action, options = {}) => {
         Alert.alert(
           'Ação Bloqueada',
           result.message,
-          [{ text: 'OK' }]
+          [{ text: getString('ok') }]
         );
       }
       

@@ -803,7 +803,7 @@ export default function AcademiaSelectionScreen({ navigation, route }) {
           snackbar.type === 'info' && styles.snackbarInfo
         ]}
         action={{
-          label: 'Fechar',
+          label: getString('close'),
           onPress: hideSnackbar,
         }}
       >

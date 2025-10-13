@@ -376,7 +376,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
           backgroundColor: snackbarType === 'success' ? COLORS.primary[500] : COLORS.error[500]
         }}
         action={{
-          label: 'OK',
+          label: getString('ok'),
           onPress: () => setSnackbarVisible(false),
         }}
       >

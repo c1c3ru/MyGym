@@ -8,7 +8,7 @@ const { width } = Dimensions.get('window');
 
 // Loading state para tela completa
 export const FullScreenLoading = memo(({ 
-  message = 'Carregando...', 
+  message = getString('loadingState'), 
   showLogo = false 
 }) => (
   <View style={styles.fullScreenContainer}>
@@ -22,7 +22,7 @@ export const FullScreenLoading = memo(({
 
 // Loading state para seções
 export const SectionLoading = memo(({ 
-  message = 'Carregando...', 
+  message = getString('loadingState'), 
   size = 'medium',
   style 
 }) => (

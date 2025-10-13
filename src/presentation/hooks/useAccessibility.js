@@ -81,8 +81,8 @@ export const useAccessibility = () => {
       edit: { label: `Editar ${context}`, hint: 'Toque duas vezes para editar' },
       delete: { label: `Excluir ${context}`, hint: 'Toque duas vezes para excluir' },
       view: { label: `Ver detalhes ${context}`, hint: 'Toque duas vezes para ver detalhes' },
-      back: { label: 'Voltar', hint: 'Toque duas vezes para voltar' },
-      close: { label: 'Fechar', hint: 'Toque duas vezes para fechar' },
+      back: { label: getString('back'), hint: 'Toque duas vezes para voltar' },
+      close: { label: getString('close'), hint: 'Toque duas vezes para fechar' },
       save: { label: getString('save'), hint: 'Toque duas vezes para salvar' },
       cancel: { label: getString('cancel'), hint: 'Toque duas vezes para cancelar' },
     };
@@ -113,7 +113,7 @@ export const useAccessibility = () => {
       inactive: getString('inactive'),
       paid: 'Pago',
       pending: getString('paymentPending'), 
-      overdue: 'Atrasado',
+      overdue: getString('overdue'),
       approved: 'Aprovado',
       rejected: 'Rejeitado'
     };

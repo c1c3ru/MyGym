@@ -33,8 +33,8 @@ const OptimizedStudentCard = memo(({
     switch (status) {
       case 'paid': return getString('paymentUpToDate');
       case 'pending': return getString('paymentPending');
-      case 'overdue': return 'Atrasado';
-      default: return 'N/A';
+      case 'overdue': return getString('overdue');
+      default: return getString('notAvailable');
     }
   };
 

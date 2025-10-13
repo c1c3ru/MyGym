@@ -266,7 +266,7 @@ export function useAuthFacade() {
           showError('Muitas tentativas. Aguarde alguns minutos antes de tentar novamente.');
           break;
         default:
-          showError(`Erro ao enviar email: ${errorMessage || 'Tente novamente.'}`);
+          showError(`Erro ao enviar email: ${errorMessage || getString('tryAgainPeriod')}`);
           break;
       }
       
@@ -324,7 +324,7 @@ export function useAuthFacade() {
           showError('Erro na autenticação com Google. Tente novamente.');
           break;
         default:
-          showError(`Erro no login com Google: ${errorMessage || 'Tente novamente.'}`);
+          showError(`Erro no login com Google: ${errorMessage || getString('tryAgainPeriod')}`);
           break;
       }
       
@@ -382,7 +382,7 @@ export function useAuthFacade() {
           showError('Erro na autenticação com Facebook. Tente novamente.');
           break;
         default:
-          showError(`Erro no login com Facebook: ${errorMessage || 'Tente novamente.'}`);
+          showError(`Erro no login com Facebook: ${errorMessage || getString('tryAgainPeriod')}`);
           break;
       }
       
@@ -440,7 +440,7 @@ export function useAuthFacade() {
           showError('Erro na autenticação com Microsoft. Tente novamente.');
           break;
         default:
-          showError(`Erro no login com Microsoft: ${errorMessage || 'Tente novamente.'}`);
+          showError(`Erro no login com Microsoft: ${errorMessage || getString('tryAgainPeriod')}`);
           break;
       }
       
@@ -498,7 +498,7 @@ export function useAuthFacade() {
           showError('Erro na autenticação com Apple. Tente novamente.');
           break;
         default:
-          showError(`Erro no login com Apple: ${errorMessage || 'Tente novamente.'}`);
+          showError(`Erro no login com Apple: ${errorMessage || getString('tryAgainPeriod')}`);
           break;
       }
       

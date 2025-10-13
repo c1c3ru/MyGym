@@ -80,7 +80,7 @@ const AddClassScreen = ({ navigation }) => {
       userInstructors = instructorsData
         .map(u => ({
           id: u.id,
-          name: u.name || u.displayName || u.fullName || u.email || 'Instrutor',
+          name: u.name || u.displayName || u.fullName || u.email || getString('instructor'),
           email: u.email || null,
           academiaId: u.academiaId || null
         }));
@@ -535,7 +535,7 @@ const AddClassScreen = ({ navigation }) => {
                           snackbar.type === 'error' ? COLORS.error[500] : COLORS.info[500]
         }}
         action={{
-          label: 'OK',
+          label: getString('ok'),
           onPress: () => setSnackbar((s) => ({ ...s, visible: false })),
           labelStyle: { color: COLORS.white }
         }}

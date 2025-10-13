@@ -525,7 +525,7 @@ export default function LoginScreen({ navigation }) {
             snackbar.type === 'error' && styles.snackbarError
           ]}
           action={{
-            label: 'Fechar',
+            label: getString('close'),
             onPress: hideSnackbar,
             textColor: COLORS.white
           }}

@@ -29,7 +29,7 @@ const ClassListItem = memo(({
     try {
       const schedule = classData?.schedule;
       if (Array.isArray(schedule) && schedule.length > 0) {
-        const days = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+        const days = [getString('sunday'), getString('monday'), getString('tuesday'), getString('wednesday'), getString('thursday'), getString('friday'), getString('saturday')];
         return schedule.map((s) => {
           const day = typeof s.dayOfWeek === 'number' ? days[s.dayOfWeek] : 'Dia';
           const hour = (s.hour ?? '').toString().padStart(2, '0');
@@ -95,7 +95,7 @@ const ClassListItem = memo(({
               styles.detailText,
               { color: getCapacityColor(classItem.currentStudents, classItem.maxCapacity) }
             ]}>
-              {classItem.currentStudents}/{classItem.maxCapacity || 'N/A'} {getString('students')}
+              {classItem.currentStudents}/{classItem.maxCapacity || getString('notAvailable')} {getString('students')}
             </Text>
           </View>
 

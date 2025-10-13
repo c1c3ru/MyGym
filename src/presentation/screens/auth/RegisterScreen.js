@@ -480,7 +480,7 @@ const RegisterScreen = ({ navigation }) => {
             snackbar.type === 'success' ? styles.successSnackbar : styles.errorSnackbar
           ]}
           action={{
-            label: 'OK',
+            label: getString('ok'),
             onPress: () => setSnackbar({ ...snackbar, visible: false }),
           }}
         >

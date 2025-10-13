@@ -126,7 +126,7 @@ export const useAuthMigration = () => {
         
         // Criar perfil básico se não existir
         const basicProfile = {
-          name: firebaseUser?.displayName || firebaseUser?.email?.split('@')[0] || 'Usuário',
+          name: firebaseUser?.displayName || firebaseUser?.email?.split('@')[0] || getString('user'),
           email: firebaseUser?.email || '',
           photoURL: firebaseUser?.photoURL || null,
           tipo: null, // Será definido na tela de seleção

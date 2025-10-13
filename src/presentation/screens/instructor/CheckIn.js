@@ -254,7 +254,7 @@ const CheckIn = ({ navigation }) => {
       // Verificar se já existe uma sessão ativa para esta turma
       const existingSession = activeCheckIns.find(session => session.classId === classId);
       if (existingSession) {
-        Alert.alert('Aviso', 'Já existe uma sessão de check-in ativa para esta turma');
+        Alert.alert(getString('warning'), 'Já existe uma sessão de check-in ativa para esta turma');
         return;
       }
 
@@ -452,7 +452,7 @@ const CheckIn = ({ navigation }) => {
     console.log('🔍 Debug - Turma selecionada:', selectedClass?.name);
     
     if (selectedStudents.size === 0) {
-      Alert.alert('Atenção', 'Selecione pelo menos um aluno para fazer check-in');
+      Alert.alert(getString('attention'), 'Selecione pelo menos um aluno para fazer check-in');
       return;
     }
 
@@ -876,11 +876,11 @@ const CheckIn = ({ navigation }) => {
               mode="contained"
               onPress={async () => {
                 if (!selectedClass) {
-                  Alert.alert('Atenção', 'Selecione uma turma primeiro');
+                  Alert.alert(getString('attention'), 'Selecione uma turma primeiro');
                   return;
                 }
                 if (selectedStudents.size === 0) {
-                  Alert.alert('Atenção', 'Selecione pelo menos um aluno para fazer check-in');
+                  Alert.alert(getString('attention'), 'Selecione pelo menos um aluno para fazer check-in');
                   return;
                 }
                 await handleBatchCheckIn();
@@ -909,7 +909,7 @@ const CheckIn = ({ navigation }) => {
           console.log('🔍 Debug - Alunos carregados:', students.length);
           
           if (classes.length === 0) {
-            Alert.alert('Aviso', 'Você precisa ter pelo menos uma turma para fazer check-in manual');
+            Alert.alert(getString('warning'), 'Você precisa ter pelo menos uma turma para fazer check-in manual');
             return;
           }
           

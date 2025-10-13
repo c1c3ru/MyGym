@@ -111,7 +111,7 @@ const PaymentManagementScreen = ({ navigation }) => {
       Alert.alert(
         'Plano Selecionado!',
         `Plano ${selectedPlan.name} selecionado com sucesso. Vencimento: ${customDueDate.toLocaleDateString('pt-BR')}`,
-        [{ text: 'OK', onPress: () => {
+        [{ text: getString('ok'), onPress: () => {
           setShowPlanModal(false);
           loadPaymentData();
         }}]
@@ -153,7 +153,7 @@ const PaymentManagementScreen = ({ navigation }) => {
   const formatCurrency = (value) => {
     return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
-      currency: 'BRL'
+      currency: getString('currency')
     }).format(value || 0);
   };
 
@@ -177,7 +177,7 @@ const PaymentManagementScreen = ({ navigation }) => {
     const texts = {
       'paid': 'Pago',
       'pending': getString('paymentPending'),
-      'overdue': 'Atrasado',
+      'overdue': getString('overdue'),
       'active': getString('active')
     };
     return texts[status] || status;

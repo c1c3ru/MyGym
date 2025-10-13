@@ -116,7 +116,7 @@ const ImprovedCalendarScreen = ({ navigation }) => {
       modality: event.modality 
     });
     
-    navigation.navigate('ClassDetails', { 
+    navigation.navigate(getString('classDetailsScreen'), { 
       classId: event.classId,
       className: event.title 
     });
@@ -127,9 +127,9 @@ const ImprovedCalendarScreen = ({ navigation }) => {
     trackButtonClick('calendar_create_class');
     
     if (isAdmin()) {
-      navigation.navigate('AddClass');
+      navigation.navigate(getString('addClassScreen'));
     } else if (isInstructor()) {
-      navigation.navigate('AddClass', { instructorId: user.id });
+      navigation.navigate(getString('addClassScreen'), { instructorId: user.id });
     }
   }, [navigation, trackButtonClick, isAdmin, isInstructor, user.id]);
 

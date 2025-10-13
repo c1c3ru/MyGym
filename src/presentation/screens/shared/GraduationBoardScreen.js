@@ -82,7 +82,7 @@ const GraduationBoardScreen = ({ navigation }) => {
       'Amarela': COLORS.special.belt.yellow,
       'Laranja': COLORS.special.belt.orange,
       'Verde': COLORS.special.belt.green,
-      'Azul': COLORS.special.belt.blue,
+      getString('blue'): COLORS.special.belt.blue,
       'Roxa': COLORS.special.belt.purple,
       'Marrom': COLORS.special.belt.brown,
       'Preta': COLORS.special.belt.black
@@ -421,7 +421,7 @@ const GraduationBoardScreen = ({ navigation }) => {
         <View style={styles.headerContent}>
           <Title style={styles.headerTitle}>Painel de Graduações</Title>
           <Paragraph style={styles.headerSubtitle}>
-            Última atualização: {graduationBoard?.lastUpdated ? formatDate(graduationBoard.lastUpdated) : 'N/A'}
+            Última atualização: {graduationBoard?.lastUpdated ? formatDate(graduationBoard.lastUpdated) : getString('notAvailable')}
           </Paragraph>
         </View>
       </LinearGradient>

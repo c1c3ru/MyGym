@@ -84,13 +84,13 @@ export default function InviteManagement({ navigation }) {
       );
       
       if (!emailSent) {
-        Alert.alert('Aviso', 'Convite criado, mas houve problema no envio do email. O convite ainda é válido.');
+        Alert.alert(getString('warning'), 'Convite criado, mas houve problema no envio do email. O convite ainda é válido.');
       }
 
       Alert.alert(
         'Convite Enviado!',
         `Convite enviado para ${newInvite.email}`,
-        [{ text: 'OK', onPress: () => {
+        [{ text: getString('ok'), onPress: () => {
           setShowInviteModal(false);
           setNewInvite({ email: '', tipo: 'aluno' });
           loadInvites();
@@ -127,10 +127,10 @@ export default function InviteManagement({ navigation }) {
         Alert.alert(
           'Limpeza Concluída',
           `${cleanedCount} convite(s) aceito(s) foram removidos do mural.`,
-          [{ text: 'OK', onPress: loadInvites }]
+          [{ text: getString('ok'), onPress: loadInvites }]
         );
       } else {
-        Alert.alert('Info', 'Nenhum convite aceito encontrado para remover.');
+        Alert.alert(getString('info'), 'Nenhum convite aceito encontrado para remover.');
       }
     } catch (error) {
       console.error('Erro ao limpar convites:', error);
@@ -167,7 +167,7 @@ export default function InviteManagement({ navigation }) {
               {invite.email}
             </Text>
             <Text variant="bodySmall" style={styles.inviteType}>
-              {invite.tipo === 'aluno' ? getString('student') : 'Instrutor'}
+              {invite.tipo === 'aluno' ? getString('student') : getString('instructor')}
             </Text>
           </View>
           <Chip 

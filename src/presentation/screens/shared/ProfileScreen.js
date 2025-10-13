@@ -508,7 +508,7 @@ const ProfileScreen = ({ navigation }) => {
                   }
                   left={() => <List.Icon icon="clipboard-pulse-outline" />}
                   right={() => <List.Icon icon="chevron-right" />}
-                  onPress={() => navigation.navigate('PhysicalEvaluationHistory')}
+                  onPress={() => navigation.navigate(getString('physicalEvaluationHistory'))}
                 />
               </Card.Content>
             </Card>
@@ -544,7 +544,7 @@ const ProfileScreen = ({ navigation }) => {
               description="Clique para alterar sua senha"
               left={() => <List.Icon icon="lock" />}
               right={() => <List.Icon icon="chevron-right" />}
-              onPress={() => navigation.navigate('ChangePassword')}
+              onPress={() => navigation.navigate(getString('changePassword'))}
             />
             <Divider />
             
@@ -553,7 +553,7 @@ const ProfileScreen = ({ navigation }) => {
               description="Acompanhe sua evolução física e IMC"
               left={() => <List.Icon icon="scale" />}
               right={() => <List.Icon icon="chevron-right" />}
-              onPress={() => navigation.navigate('PhysicalEvaluation')}
+              onPress={() => navigation.navigate(getString('physicalEvaluation'))}
             />
             <Divider />
             
@@ -562,7 +562,7 @@ const ProfileScreen = ({ navigation }) => {
               description="Veja todas suas avaliações anteriores"
               left={() => <List.Icon icon="history" />}
               right={() => <List.Icon icon="chevron-right" />}
-              onPress={() => navigation.navigate('PhysicalEvaluationHistory')}
+              onPress={() => navigation.navigate(getString('physicalEvaluationHistory'))}
             />
             <Divider />
             

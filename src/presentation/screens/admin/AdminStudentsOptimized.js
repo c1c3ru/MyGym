@@ -144,7 +144,7 @@ const AdminStudentsOptimized = ({ navigation }) => {
   }, [navigation]);
 
   const handleAddStudent = useCallback(() => {
-    navigation.navigate('AddStudent');
+    navigation.navigate(getString('addStudent'));
   }, [navigation]);
 
   const handleDisassociateStudent = useCallback((student) => {
@@ -163,14 +163,14 @@ const AdminStudentsOptimized = ({ navigation }) => {
 
   const getFilterText = useCallback((filter) => {
     const filters = {
-      'all': 'Todos',
+      'all': getString('all'),
       'active': 'Ativos',
       'inactive': 'Inativos',
       'payment_ok': 'Pagamento OK',
       'payment_pending': 'Pagamento Pendente',
       'payment_overdue': 'Pagamento Atrasado'
     };
-    return filters[filter] || 'Todos';
+    return filters[filter] || getString('all');
   }, []);
 
   // Render item otimizado para FlashList
@@ -215,7 +215,7 @@ const AdminStudentsOptimized = ({ navigation }) => {
             </Button>
           }
         >
-          <Menu.Item onPress={() => { setSelectedFilter('all'); setFilterVisible(false); }} title="Todos" />
+          <Menu.Item onPress={() => { setSelectedFilter('all'); setFilterVisible(false); }} title=getString('all') />
           <Menu.Item onPress={() => { setSelectedFilter('active'); setFilterVisible(false); }} title="Ativos" />
           <Menu.Item onPress={() => { setSelectedFilter('inactive'); setFilterVisible(false); }} title="Inativos" />
           <Divider />

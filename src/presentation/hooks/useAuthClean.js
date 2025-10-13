@@ -68,7 +68,7 @@ export const useAuthClean = () => {
         email, 
         password, 
         confirmPassword: password,
-        name: userData.name || userData.displayName || email.split('@')[0] || 'Usuário',
+        name: userData.name || userData.displayName || email.split('@')[0] || getString('user'),
         acceptTerms: userData.acceptTerms !== undefined ? userData.acceptTerms : true,
         acceptPrivacyPolicy: userData.acceptPrivacyPolicy !== undefined ? userData.acceptPrivacyPolicy : true,
         ...userData 

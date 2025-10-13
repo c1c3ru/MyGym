@@ -44,7 +44,7 @@ const UserTypeSelectionScreen = ({ navigation, route }) => {
     {
       id: 'instructor',
       tipo: 'instrutor',
-      title: 'Instrutor',
+      title: getString('instructor'),
       description: 'Sou um instrutor que ministra aulas e acompanha alunos',
       icon: 'fitness-center',
       color: COLORS.warning[500],
@@ -177,7 +177,7 @@ const UserTypeSelectionScreen = ({ navigation, route }) => {
     
     // Para mobile, usar Alert.alert
     Alert.alert(
-      'Sair',
+      getString('logout'),
       'Tem certeza que deseja sair da sua conta?',
       [
         {
@@ -185,7 +185,7 @@ const UserTypeSelectionScreen = ({ navigation, route }) => {
           style: 'cancel'
         },
         {
-          text: 'Sair',
+          text: getString('logout'),
           style: 'destructive',
           onPress: async () => {
             try {

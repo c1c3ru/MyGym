@@ -204,7 +204,7 @@ const UniversalHeader = ({
                 />
                 <View style={styles.menuUserInfo}>
                   <Menu.Item
-                    title={userProfile?.name || 'Usuário'}
+                    title={userProfile?.name || getString('user')}
                     titleStyle={styles.menuUserName}
                     disabled
                   />
@@ -232,7 +232,7 @@ const UniversalHeader = ({
                   closeMenu();
                   navigation?.navigate('Settings');
                 }}
-                title="Configurações"
+                title=getString('settings')
                 leadingIcon={() => (
                   <MaterialCommunityIcons name="cog" size={20} color={COLORS.text.secondary} />
                 )}
@@ -246,7 +246,7 @@ const UniversalHeader = ({
                   closeMenu();
                   handleLogout();
                 }}
-                title="Sair"
+                title=getString('logout')
                 leadingIcon={() => (
                   <MaterialCommunityIcons name="logout" size={20} color={COLORS.error[500]} />
                 )}

@@ -93,7 +93,7 @@ const StudentDashboard = ({ navigation }) => {
               name: cls.name,
               time: cls.schedule?.[0]?.time || '00:00',
               date: getString('today'), // Simplificado - em produção calcular baseado no schedule
-              instructor: cls.instructorName || 'Instrutor'
+              instructor: cls.instructorName || getString('instructor')
             }))
             .slice(0, 3);
           
@@ -204,7 +204,7 @@ const StudentDashboard = ({ navigation }) => {
     if (navigation) {
       navigation.navigate('Calendar');
     } else {
-      Alert.alert('Info', 'Funcionalidade em desenvolvimento');
+      Alert.alert(getString('info'), 'Funcionalidade em desenvolvimento');
     }
   }, [navigation, trackButtonClick]);
 
@@ -213,7 +213,7 @@ const StudentDashboard = ({ navigation }) => {
     if (navigation) {
       navigation.navigate('CheckIn');
     } else {
-      Alert.alert('Info', 'Check-in em desenvolvimento');
+      Alert.alert(getString('info'), 'Check-in em desenvolvimento');
     }
   }, [navigation, trackButtonClick]);
 
@@ -222,7 +222,7 @@ const StudentDashboard = ({ navigation }) => {
     if (navigation) {
       navigation.navigate('Payments');
     } else {
-      Alert.alert('Info', 'Pagamentos em desenvolvimento');
+      Alert.alert(getString('info'), 'Pagamentos em desenvolvimento');
     }
   }, [navigation, trackButtonClick]);
 

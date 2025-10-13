@@ -301,7 +301,7 @@ const AdminNavigator = () => {
         }}
       />
       <Stack.Screen 
-        name="AddGraduation" 
+        name=getString('addGraduationScreen') 
         component={AddGraduationScreen}
         options={{
           headerShown: false
@@ -314,7 +314,7 @@ const AdminNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title="Perfil"
+              title=getString('profile')
               navigation={navigation}
               showBack={true}
               backgroundColor={PROFILE_COLORS.admin.primary}
@@ -325,7 +325,7 @@ const AdminNavigator = () => {
       
       {/* Nested SharedNavigator screens */}
       <Stack.Screen 
-        name="ChangePassword" 
+        name=getString('changePassword') 
         component={ChangePasswordScreen}
         options={{
           headerShown: true,
@@ -355,7 +355,7 @@ const AdminNavigator = () => {
         }}
       />
       <Stack.Screen 
-        name="PhysicalEvaluationHistory" 
+        name=getString('physicalEvaluationHistory') 
         component={PhysicalEvaluationHistoryScreen}
         options={{
           headerShown: true,

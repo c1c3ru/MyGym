@@ -64,7 +64,7 @@ const GraduationManagementScreen = ({ navigation }) => {
       Alert.alert(
         'Acesso Negado',
         'Você não tem permissão para acessar esta funcionalidade.',
-        [{ text: 'OK', onPress: () => navigation.goBack() }]
+        [{ text: getString('ok'), onPress: () => navigation.goBack() }]
       );
     }
   }, [canManageGraduations, navigation]);

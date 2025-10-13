@@ -34,7 +34,7 @@ const CheckInButton = ({ classId, className, onCheckInSuccess }) => {
         Alert.alert(
           'Check-in Negado',
           locationValidation.reason,
-          [{ text: 'OK', onPress: () => setLocationStatus(null) }]
+          [{ text: getString('ok'), onPress: () => setLocationStatus(null) }]
         );
         return;
       }
@@ -89,7 +89,7 @@ const CheckInButton = ({ classId, className, onCheckInSuccess }) => {
         `Check-in realizado na aula de ${className}!\n\nDistância da academia: ${locationValidation.distance}m`,
         [
           {
-            text: 'OK',
+            text: getString('ok'),
             onPress: () => {
               setLocationStatus(null);
               if (onCheckInSuccess) {
@@ -107,7 +107,7 @@ const CheckInButton = ({ classId, className, onCheckInSuccess }) => {
       Alert.alert(
         getString('error'),
         'Não foi possível realizar o check-in. Tente novamente.',
-        [{ text: 'OK', onPress: () => setLocationStatus(null) }]
+        [{ text: getString('ok'), onPress: () => setLocationStatus(null) }]
       );
     } finally {
       setLoading(false);

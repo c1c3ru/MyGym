@@ -72,7 +72,7 @@ export class AuthSelectors {
   }
 
   static getDisplayName(state: AuthState): string {
-    return state.userProfile?.name || state.user?.email || 'Usuário';
+    return state.userProfile?.name || state.user?.email || getString('user');
   }
 
   static getEmail(state: AuthState): string {

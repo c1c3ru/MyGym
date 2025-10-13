@@ -233,7 +233,7 @@ const AdminStudents = ({ navigation }) => {
 
   const handleAddStudent = () => {
     trackButtonClick('add_student');
-    navigation.navigate('AddStudent', {
+    navigation.navigate(getString('addStudent'), {
       onStudentAdded: (newStudent) => {
         console.log('🔄 Novo aluno adicionado, atualizando lista:', newStudent.name);
         
@@ -300,21 +300,21 @@ const AdminStudents = ({ navigation }) => {
     switch (status) {
       case 'paid': return getString('paymentUpToDate');
       case 'pending': return getString('paymentPending');
-      case 'overdue': return 'Atrasado';
-      default: return 'N/A';
+      case 'overdue': return getString('overdue');
+      default: return getString('notAvailable');
     }
   };
 
   const getFilterText = (filter) => {
     const filters = {
-      'all': 'Todos',
+      'all': getString('all'),
       'active': 'Ativos',
       'inactive': 'Inativos',
       'payment_ok': 'Pagamento OK',
       'payment_pending': 'Pagamento Pendente',
       'payment_overdue': 'Pagamento Atrasado'
     };
-    return filters[filter] || 'Todos';
+    return filters[filter] || getString('all');
   };
 
   return (
@@ -348,7 +348,7 @@ const AdminStudents = ({ navigation }) => {
                 </Button>
               }
             >
-              <Menu.Item onPress={() => { setSelectedFilter('all'); setFilterVisible(false); }} title="Todos" />
+              <Menu.Item onPress={() => { setSelectedFilter('all'); setFilterVisible(false); }} title=getString('all') />
               <Menu.Item onPress={() => { setSelectedFilter('active'); setFilterVisible(false); }} title="Ativos" />
               <Menu.Item onPress={() => { setSelectedFilter('inactive'); setFilterVisible(false); }} title="Inativos" />
               <Menu.Item onPress={() => { setSelectedFilter('payment_ok'); setFilterVisible(false); }} title="Pagamento OK" />
@@ -380,7 +380,7 @@ const AdminStudents = ({ navigation }) => {
         <FAB
           style={styles.fab}
           icon="plus"
-          onPress={() => navigation.navigate('AddStudent')}
+          onPress={() => navigation.navigate(getString('addStudent'))}
         />
 
         <StudentDisassociationDialog

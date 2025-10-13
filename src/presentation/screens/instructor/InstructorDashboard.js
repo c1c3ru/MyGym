@@ -283,8 +283,8 @@ const InstructorDashboard = ({ navigation }) => {
   };
 
   const getDayName = (dayNumber) => {
-    const days = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
-    return days[dayNumber] || 'N/A';
+    const days = [getString('sunday'), getString('monday'), getString('tuesday'), getString('wednesday'), getString('thursday'), getString('friday'), getString('saturday')];
+    return days[dayNumber] || getString('notAvailable');
   };
 
 
@@ -468,7 +468,7 @@ const InstructorDashboard = ({ navigation }) => {
                         <View style={styles.timelineInfo}>
                           <MaterialCommunityIcons name="account-multiple" size={16} color={COLORS.text.secondary} />
                           <Text style={styles.timelineText}>
-                            {classItem.currentStudents || 0}/{classItem.maxCapacity || 'N/A'} {getString('students')}
+                            {classItem.currentStudents || 0}/{classItem.maxCapacity || getString('notAvailable')} {getString('students')}
                           </Text>
                         </View>
                       </View>
@@ -533,7 +533,7 @@ const InstructorDashboard = ({ navigation }) => {
                           'Você precisa ter pelo menos uma turma criada para agendar aulas.',
                           [
                             { text: getString('cancel'), style: 'cancel' },
-                            { text: 'Criar Turma', onPress: () => navigation.navigate('AddClass') }
+                            { text: 'Criar Turma', onPress: () => navigation.navigate(getString('addClassScreen')) }
                           ]
                         );
                       }

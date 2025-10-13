@@ -176,7 +176,7 @@ const InstructorClasses = ({ navigation }) => {
 
   const handleClassPress = useCallback((classItem) => {
     trackButtonClick('instructor_class_details', { classId: classItem.id });
-    navigation.navigate('ClassDetails', { classId: classItem.id, classData: classItem });
+    navigation.navigate(getString('classDetailsScreen'), { classId: classItem.id, classData: classItem });
   }, [navigation, trackButtonClick]);
 
   const handleCheckIns = useCallback((classItem) => {
@@ -189,14 +189,14 @@ const InstructorClasses = ({ navigation }) => {
 
   const handleAddClass = useCallback(() => {
     trackButtonClick('instructor_add_class');
-    navigation.navigate('AddClass');
+    navigation.navigate(getString('addClassScreen'));
   }, [navigation, trackButtonClick]);
 
   const formatSchedule = useCallback((classItem) => {
     try {
       const schedule = classItem?.schedule;
       if (Array.isArray(schedule) && schedule.length > 0) {
-        const days = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+        const days = [getString('sunday'), getString('monday'), getString('tuesday'), getString('wednesday'), getString('thursday'), getString('friday'), getString('saturday')];
         return schedule.map(s => 
           `${days[s.dayOfWeek]} ${String(s.hour ?? '').padStart(2, '0')}:${String(s.minute ?? 0).padStart(2, '0')}`
         ).join(', ');

@@ -102,7 +102,7 @@ const StudentPayments = ({ navigation }) => {
     switch (status) {
       case 'paid': return 'Pago';
       case 'pending': return getString('paymentPending');
-      case 'overdue': return 'Atrasado';
+      case 'overdue': return getString('overdue');
       default: return 'Não informado';
     }
   };
@@ -110,7 +110,7 @@ const StudentPayments = ({ navigation }) => {
   const formatCurrency = (value) => {
     return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
-      currency: 'BRL'
+      currency: getString('currency')
     }).format(value || 0);
   };
 

@@ -288,7 +288,7 @@ const NotificationSettingsScreen = ({ navigation }) => {
                   left={() => <List.Icon icon="clock-start" />}
                   right={() => <List.Icon icon="chevron-right" />}
                   onPress={() => {
-                    Alert.alert('Info', 'Seletor de horário será implementado');
+                    Alert.alert(getString('info'), 'Seletor de horário será implementado');
                   }}
                 />
                 <Divider />
@@ -298,7 +298,7 @@ const NotificationSettingsScreen = ({ navigation }) => {
                   left={() => <List.Icon icon="clock-end" />}
                   right={() => <List.Icon icon="chevron-right" />}
                   onPress={() => {
-                    Alert.alert('Info', 'Seletor de horário será implementado');
+                    Alert.alert(getString('info'), 'Seletor de horário será implementado');
                   }}
                 />
               </>
