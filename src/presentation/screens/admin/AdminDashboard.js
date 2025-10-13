@@ -138,20 +138,20 @@ const AdminDashboard = ({ navigation }) => {
           const recentActivities = [
             {
               type: 'new_student',
-              message: 'Novo aluno cadastrado',
-              time: '2 horas atrás',
+              message: getString('newStudentRegistered'),
+              time: `2 ${getString('hoursAgo')}`,
               icon: 'person-add'
             },
             {
               type: 'payment',
-              message: 'Pagamento recebido',
-              time: '4 horas atrás',
+              message: getString('paymentReceived'),
+              time: `4 ${getString('hoursAgo')}`,
               icon: 'card'
             },
             {
               type: 'graduation',
-              message: 'Graduação registrada',
-              time: '1 dia atrás',
+              message: getString('graduationRegistered'),
+              time: `1 ${getString('daysAgo')}`,
               icon: 'trophy'
             }
           ];
@@ -264,7 +264,7 @@ const AdminDashboard = ({ navigation }) => {
 
   const handleNavigateToManagement = useCallback(() => {
     trackButtonClick('navigate_management');
-    navigation.navigate('Gestão');
+    navigation.navigate(getString('management'));
   }, [navigation, trackButtonClick]);
 
   const handleShowCalendar = useCallback(() => {
@@ -305,8 +305,8 @@ const AdminDashboard = ({ navigation }) => {
             dismissable={true}
           >
           <View style={styles.calendarModalHeader}>
-            <Text style={styles.calendarModalTitle}>Cronograma das Turmas</Text>
-            <Button onPress={() => setShowCalendarModal(false)}>Fechar</Button>
+            <Text style={styles.calendarModalTitle}>{getString('classSchedule')}</Text>
+            <Button onPress={() => setShowCalendarModal(false)}>{getString('close')}</Button>
           </View>
           <View style={styles.calendarContainer}>
             <FreeGymScheduler
@@ -345,7 +345,7 @@ const AdminDashboard = ({ navigation }) => {
             ) : (
               <View style={{ padding: SPACING.xl, alignItems: 'center' }}>
                 <Text style={{ color: COLORS.text.secondary, textAlign: 'center' }}>
-                  Carregando informações da academia...
+                  {getString('loadingAcademyInfo')}
                 </Text>
               </View>
             )}
@@ -382,14 +382,14 @@ const AdminDashboard = ({ navigation }) => {
                 </Animated.View>
                 <View style={styles.headerTextModern}>
                   <Text style={styles.welcomeTextModern}>
-                    Olá, {userProfile?.name?.split(' ')[0] || 'Admin'}! 👋
+                    {getString('hello')}, {userProfile?.name?.split(' ')[0] || getString('admin')}! 👋
                   </Text>
                   <Text style={styles.roleTextModern}>
-                    Administrador da Academia
+                    {getString('academyAdministrator')}
                   </Text>
                   <View style={styles.statusBadge}>
                     <SafeMaterialCommunityIcons name="circle" size={8} color={COLORS.primary[500]} />
-                    <Text style={styles.statusText}>Online</Text>
+                    <Text style={styles.statusText}>{getString('online')}</Text>
                   </View>
                   {/* Código da Academia */}
                   {academia?.codigo && (
@@ -399,7 +399,7 @@ const AdminDashboard = ({ navigation }) => {
                     >
                       <SafeMaterialCommunityIcons name="qrcode" size={16} color={COLORS.white + 'E6'} />
                       <Text style={styles.academiaCodeText}>
-                        Código: {academia.codigo}
+                        {getString('code')}: {academia.codigo}
                       </Text>
                     </TouchableOpacity>
                   )}
@@ -424,7 +424,7 @@ const AdminDashboard = ({ navigation }) => {
             <LinearGradient colors={[COLORS.info[500], COLORS.info[700]]} style={styles.statGradient}>
               <SafeMaterialCommunityIcons name="account-group" size={32} color={COLORS.white} />
               <Text style={styles.statNumberModern}>{dashboardData.totalStudents}</Text>
-              <Text style={styles.statLabelModern}>Total de Alunos</Text>
+              <Text style={styles.statLabelModern}>{getString('totalStudents')}</Text>
             </LinearGradient>
           </Animated.View>
 
@@ -432,7 +432,7 @@ const AdminDashboard = ({ navigation }) => {
             <LinearGradient colors={[COLORS.success[500], COLORS.success[700]]} style={styles.statGradient}>
               <SafeMaterialCommunityIcons name="account-check" size={32} color={COLORS.white} />
               <Text style={styles.statNumberModern}>{dashboardData.activeStudents}</Text>
-              <Text style={styles.statLabelModern}>Alunos Ativos</Text>
+              <Text style={styles.statLabelModern}>{getString('activeStudents')}</Text>
             </LinearGradient>
           </Animated.View>
 
@@ -440,7 +440,7 @@ const AdminDashboard = ({ navigation }) => {
             <LinearGradient colors={[COLORS.warning[500], COLORS.warning[700]]} style={styles.statGradient}>
               <SafeMaterialCommunityIcons name="school-outline" size={32} color={COLORS.white} />
               <Text style={styles.statNumberModern}>{dashboardData.totalClasses}</Text>
-              <Text style={styles.statLabelModern}>Turmas</Text>
+              <Text style={styles.statLabelModern}>{getString('classes')}</Text>
             </LinearGradient>
           </Animated.View>
 
@@ -448,7 +448,7 @@ const AdminDashboard = ({ navigation }) => {
             <LinearGradient colors={[COLORS.secondary[500], COLORS.secondary[700]]} style={styles.statGradient}>
               <SafeMaterialCommunityIcons name="cash-multiple" size={32} color={COLORS.white} />
               <Text style={styles.statNumberModern}>{dashboardData.pendingPayments}</Text>
-              <Text style={styles.statLabelModern}>Pendências</Text>
+              <Text style={styles.statLabelModern}>{getString('pendingPaymentsCount')}</Text>
             </LinearGradient>
           </Animated.View>
         </View>
@@ -459,7 +459,7 @@ const AdminDashboard = ({ navigation }) => {
             <View style={styles.cardHeader}>
               <SafeIonicons name="cash-outline" size={24} color={COLORS.primary[500]} />
               <Text style={[styles.cardTitle, { fontSize: ResponsiveUtils.fontSize.medium }]}>
-                Financeiro do Mês
+                {getString('monthlyFinancials')}
               </Text>
             </View>
             
@@ -474,7 +474,7 @@ const AdminDashboard = ({ navigation }) => {
                 ]}
               >
                 <Text style={[styles.revenueLabel, { fontSize: ResponsiveUtils.fontSize.medium }]}>
-                  Receita do Mês
+                  {getString('monthlyRevenue')}
                 </Text>
                 <Text style={[styles.revenueValue, { fontSize: ResponsiveUtils.fontSize.extraLarge }]}>
                   {formatCurrency(dashboardData.monthlyRevenue)}
@@ -489,7 +489,7 @@ const AdminDashboard = ({ navigation }) => {
                     {dashboardData.pendingPayments}
                   </Text>
                   <Text style={[styles.paymentLabel, { fontSize: ResponsiveUtils.fontSize.small }]}>
-                    Pendentes
+                    {getString('pendingCount')}
                   </Text>
                 </View>
                 
@@ -504,7 +504,7 @@ const AdminDashboard = ({ navigation }) => {
                     {dashboardData.overduePayments}
                   </Text>
                   <Text style={[styles.paymentLabel, { fontSize: ResponsiveUtils.fontSize.small }]}>
-                    Atrasados
+                    {getString('overdueCount')}
                   </Text>
                 </View>
               </View>
@@ -516,7 +516,7 @@ const AdminDashboard = ({ navigation }) => {
               style={styles.viewReportsButton}
               icon="chart-line"
             >
-              Acessar Gestão e Relatórios
+              {getString('accessManagementReports')}
             </AnimatedButton>
           </Card.Content>
         </AnimatedCard>
@@ -529,18 +529,18 @@ const AdminDashboard = ({ navigation }) => {
                 <SafeMaterialCommunityIcons name="lightning-bolt" size={24} color={COLORS.info[500]} />
               </View>
               <View>
-                <Text style={styles.modernCardTitle}>Ações Rápidas</Text>
-                <Text style={styles.modernCardSubtitle}>Acesso direto às principais funcionalidades</Text>
+                <Text style={styles.modernCardTitle}>{getString('quickActions')}</Text>
+                <Text style={styles.modernCardSubtitle}>{getString('quickActionsSubtitle')}</Text>
               </View>
             </View>
 
             <View style={styles.modernQuickActions}>
               {
                 [
-                  { key: 'students', title: getString('students'), subtitle: 'Gerenciar aluno', icon: 'account-group', colors: [COLORS.info[500], COLORS.info[700]], onPress: handleNavigateToStudents },
-                  { key: 'classes', title: getString('classes'), subtitle: 'Gerenciar turmas', icon: 'school', colors: [COLORS.success[500], COLORS.success[700]], onPress: handleNavigateToClasses },
-                  { key: 'calendar', title: getString('calendar'), subtitle: 'Visualizar cronograma', icon: 'calendar-month', colors: [COLORS.secondary[400], COLORS.secondary[600]], onPress: handleShowCalendar },
-                  { key: 'settings', title: getString('settings'), subtitle: 'Preferências e gestão', icon: 'cog', colors: [COLORS.warning[500], COLORS.warning[700]], onPress: handleNavigateToManagement },
+                  { key: 'students', title: getString('students'), subtitle: getString('manageStudentsSubtitle'), icon: 'account-group', colors: [COLORS.info[500], COLORS.info[700]], onPress: handleNavigateToStudents },
+                  { key: 'classes', title: getString('classes'), subtitle: getString('manageClassesSubtitle'), icon: 'school', colors: [COLORS.success[500], COLORS.success[700]], onPress: handleNavigateToClasses },
+                  { key: 'calendar', title: getString('calendar'), subtitle: getString('viewSchedule'), icon: 'calendar-month', colors: [COLORS.secondary[400], COLORS.secondary[600]], onPress: handleShowCalendar },
+                  { key: 'settings', title: getString('settings'), subtitle: getString('settingsManagement'), icon: 'cog', colors: [COLORS.warning[500], COLORS.warning[700]], onPress: handleNavigateToManagement },
                 ].map((action, idx) => (
                   <Animated.View key={action.key} style={[styles.actionCard, { opacity: animations.fadeAnim, width: ResponsiveUtils.isTablet() ? '31%' : '48%' }]}>
                     <LinearGradient colors={action.colors} style={styles.actionGradient}>
@@ -555,7 +555,7 @@ const AdminDashboard = ({ navigation }) => {
                       textColor={COLORS.white}
                       compact
                     >
-                      Abrir
+                      {getString('open')}
                     </AnimatedButton>
                   </LinearGradient>
                 </Animated.View>
@@ -570,7 +570,7 @@ const AdminDashboard = ({ navigation }) => {
             <View style={styles.cardHeader}>
               <SafeIonicons name="time-outline" size={24} color={COLORS.text.secondary} />
               <Text style={[styles.cardTitle, { fontSize: ResponsiveUtils.fontSize.medium }]}>
-                Atividades Recentes
+                {getString('recentActivities')}
               </Text>
             </View>
             
@@ -607,7 +607,7 @@ const AdminDashboard = ({ navigation }) => {
               onPress={() => {/* Implementar histórico completo */}}
               style={styles.viewAllButton}
             >
-              Ver Todas as Atividades
+              {getString('viewAllActivities')}
             </AnimatedButton>
           </Card.Content>
         </AnimatedCard>
@@ -619,19 +619,19 @@ const AdminDashboard = ({ navigation }) => {
               <View style={styles.cardHeader}>
                 <SafeIonicons name="warning-outline" size={24} color={COLORS.warning[500]} />
                 <Text style={[styles.cardTitle, { fontSize: ResponsiveUtils.fontSize.medium }]}>
-                  Alertas
+                  {getString('alerts')}
                 </Text>
               </View>
               
               {dashboardData.overduePayments > 0 && (
                 <Text style={[styles.alertText, { fontSize: ResponsiveUtils.fontSize.small }]}>
-                  • {dashboardData.overduePayments} pagamento(s) em atraso
+                  • {dashboardData.overduePayments} {getString('paymentsOverdue')}
                 </Text>
               )}
               
               {dashboardData.pendingPayments > 5 && (
                 <Text style={[styles.alertText, { fontSize: ResponsiveUtils.fontSize.small }]}>
-                  • Muitos pagamentos pendentes ({dashboardData.pendingPayments})
+                  • {getString('manyPendingPayments')} ({dashboardData.pendingPayments})
                 </Text>
               )}
             </Card.Content>

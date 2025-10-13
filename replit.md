@@ -78,20 +78,22 @@ Preferred communication style: Simple, everyday language.
 
 # Replit Environment Setup
 
-## Initial Setup Status
-✅ **Project successfully configured and running in Replit** (October 2, 2025)
-- All dependencies installed successfully (1853 packages)
-- Environment variables configured from `.env` file
+## Latest Setup Status
+✅ **Project successfully re-imported and configured in Replit** (October 13, 2025)
+- Fresh clone from GitHub repository set up successfully
+- All dependencies installed successfully (1815 packages)
 - Development server running on port 5000 with Metro bundler
-- Application tested and verified working correctly - Login screen displays properly
+- Application tested and verified working correctly - Login screen displays properly with all UI elements
 - Deployment configuration completed (autoscale with build and serve commands)
 - Firebase services initialized successfully for web platform
+- Dark mode toggle working
+- Language selector functional (Portuguese)
 
 ## Configuration Files
-- **metro.config.js**: Configured Expo Metro bundler for Replit environment with proper caching headers
-- **scripts/start-replit.js**: Custom startup script that launches Expo dev server on port 5000 with `lan` host mode
-- **package.json**: Removed husky prepare script (git hooks not needed in Replit)
-- **.env**: Environment variables for Firebase configuration (created from env.example)
+- **metro.config.js**: Configured Expo Metro bundler for Replit environment with proper caching headers and port 5000
+- **scripts/start-replit.js**: Custom startup script using local Expo CLI (`node_modules/.bin/expo`) to avoid version conflicts, runs on port 5000 with `lan` host mode (binds to 0.0.0.0)
+- **babel.config.js**: Configured with module resolver for import aliases (@components, @screens, @services, etc.)
+- **Firebase Config**: Hardcoded Firebase credentials in `src/infrastructure/firebase/app.ts` and `src/services/firebase.js` (can be overridden with EXPO_PUBLIC_* environment variables)
 
 ## Development Workflow
 - **Port**: Frontend runs on port 5000 (required for Replit proxy)
@@ -110,7 +112,16 @@ Preferred communication style: Simple, everyday language.
 - **Target**: Autoscale deployment (stateless web app)
 - **Deployment**: Ready to publish when needed
 
+## Recent Changes (October 13, 2025)
+- **GitHub Import**: Fresh clone of repository successfully imported to Replit
+- **Dependency Installation**: All 1815 packages installed without critical errors
+- **Startup Script Fix**: Updated `scripts/start-replit.js` to use local Expo CLI instead of npx to prevent version mismatch
+- **Host Configuration**: Verified `lan` host mode (0.0.0.0) works correctly with Replit's proxy
+- **Deployment Setup**: Configured autoscale deployment with production build and serve commands
+- **Testing**: Login screen verified working with all features (dark mode, language selector, social auth buttons)
+
 ## Known Issues
 - One remaining require cycle in `src/shared/utils/scheduleUtils.js` (does not affect functionality)
 - Some peer dependency warnings (do not affect runtime)
 - Some deprecation warnings for native animations (expected for web platform)
+- Node version warning: Metro requires Node >=20.19.4, but 20.19.3 is installed (still works correctly)

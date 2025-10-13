@@ -25,7 +25,8 @@ console.log('\n✅ Setup completed. Starting Expo dev server...\n');
 // Iniciar o servidor Expo na porta 5000 para Replit
 try {
   // Para Replit, usar lan como host (que escuta em 0.0.0.0) e CI=1 para modo não-interativo
-  execSync('npx --yes expo start --web --port 5000 --host lan', { 
+  // Use local expo instead of npx to avoid version mismatch
+  execSync('node_modules/.bin/expo start --web --port 5000 --host lan', { 
     cwd: rootDir, 
     stdio: 'inherit',
     env: { 

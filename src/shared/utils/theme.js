@@ -141,7 +141,97 @@ export const languages = {
       submit: 'Enviar',
       confirm: 'Confirmar',
       validate: 'Validar',
-      verify: 'Verificar'
+      verify: 'Verificar',
+
+      // TIME
+      today: 'Hoje',
+      yesterday: 'Ontem',
+      tomorrow: 'Amanhã',
+      now: 'Agora mesmo',
+      minutesAgo: 'minutos atrás',
+      hoursAgo: 'horas atrás',
+      daysAgo: 'dias atrás',
+      weeksAgo: 'semanas atrás',
+      monthsAgo: 'meses atrás',
+      unknownDate: 'Data desconhecida',
+
+      // ACTIVITIES
+      newStudentRegistered: 'Novo aluno cadastrado',
+      paymentReceived: 'Pagamento recebido',
+      graduationRegistered: 'Graduação registrada',
+      checkInRegistered: 'Check-in registrado',
+      classScheduled: 'Aula agendada',
+      announcementPosted: 'Aviso publicado',
+
+      // DASHBOARD
+      quickActions: 'Ações Rápidas',
+      quickActionsSubtitle: 'Acesso direto às principais funcionalidades',
+      checkIn: 'Check-in',
+      viewCalendar: 'Ver Calendário',
+      viewReports: 'Ver Relatórios',
+      manageStudents: 'Gerenciar Alunos',
+      manageStudentsSubtitle: 'Gerenciar alunos',
+      manageClasses: 'Gerenciar Turmas',
+      manageClassesSubtitle: 'Gerenciar turmas',
+      managePayments: 'Gerenciar Pagamentos',
+      viewGraduations: 'Ver Graduações',
+      viewSchedule: 'Visualizar cronograma',
+      recentActivities: 'Atividades Recentes',
+      viewAllActivities: 'Ver Todas as Atividades',
+      calendar: 'Calendário',
+      classSchedule: 'Cronograma das Turmas',
+      management: 'Gestão',
+      settingsManagement: 'Preferências e gestão',
+      accessManagementReports: 'Acessar Gestão e Relatórios',
+      
+      // USER & ADMIN
+      hello: 'Olá',
+      admin: 'Admin',
+      academyAdministrator: 'Administrador da Academia',
+      online: 'Online',
+      code: 'Código',
+      
+      // STATS
+      totalStudents: 'Total de Alunos',
+      activeStudents: 'Alunos Ativos',
+      pendingPaymentsCount: 'Pendências',
+      monthlyFinancials: 'Financeiro do Mês',
+      monthlyRevenue: 'Receita do Mês',
+      pendingCount: 'Pendentes',
+      overdueCount: 'Atrasados',
+      alerts: 'Alertas',
+      paymentsOverdue: 'pagamento(s) em atraso',
+      manyPendingPayments: 'Muitos pagamentos pendentes',
+      loadingAcademyInfo: 'Carregando informações da academia...',
+      
+      // ANNOUNCEMENTS
+      announcements: 'Avisos',
+      noAnnouncementsNow: 'Nenhum aviso no momento',
+      highPriority: 'Alta Prioridade',
+      
+      // BELT LEVELS
+      whiteBelt: 'Faixa Branca',
+      yellowBelt: 'Faixa Amarela',
+      orangeBelt: 'Faixa Laranja',
+      greenBelt: 'Faixa Verde',
+      blueBelt: 'Faixa Azul',
+      purpleBelt: 'Faixa Roxa',
+      brownBelt: 'Faixa Marrom',
+      blackBelt: 'Faixa Preta',
+
+      // MESSAGES
+      functionalityInDevelopment: 'Funcionalidade em desenvolvimento',
+      errorLoadingAnnouncements: 'Erro ao carregar anúncios',
+      errorLoadingData: 'Erro ao carregar dados',
+      couldNotLoadAnnouncements: 'Não foi possível carregar os anúncios. Tente novamente mais tarde.',
+      loadingInstructorDashboard: 'Carregando dashboard do instrutor',
+      loadingStudentDashboard: 'Carregando dashboard do aluno',
+      loadingAdminDashboard: 'Carregando dashboard do administrador',
+      studentsLoaded: 'Alunos carregados',
+      errorSearchingStudents: 'Erro ao buscar alunos',
+      errorFormattingDate: 'Erro ao formatar data',
+      couldNotLoadData: 'Não foi possível carregar os dados. Tente novamente.',
+      tryAgainLater: 'Tente novamente mais tarde'
     }
   },
 
@@ -262,7 +352,97 @@ export const languages = {
       submit: 'Submit',
       confirm: 'Confirm',
       validate: 'Validate',
-      verify: 'Verify'
+      verify: 'Verify',
+
+      // TIME
+      today: 'Today',
+      yesterday: 'Yesterday',
+      tomorrow: 'Tomorrow',
+      now: 'Just now',
+      minutesAgo: 'minutes ago',
+      hoursAgo: 'hours ago',
+      daysAgo: 'days ago',
+      weeksAgo: 'weeks ago',
+      monthsAgo: 'months ago',
+      unknownDate: 'Unknown date',
+
+      // ACTIVITIES
+      newStudentRegistered: 'New student registered',
+      paymentReceived: 'Payment received',
+      graduationRegistered: 'Graduation registered',
+      checkInRegistered: 'Check-in registered',
+      classScheduled: 'Class scheduled',
+      announcementPosted: 'Announcement posted',
+
+      // DASHBOARD
+      quickActions: 'Quick Actions',
+      quickActionsSubtitle: 'Direct access to main features',
+      checkIn: 'Check-in',
+      viewCalendar: 'View Calendar',
+      viewReports: 'View Reports',
+      manageStudents: 'Manage Students',
+      manageStudentsSubtitle: 'Manage students',
+      manageClasses: 'Manage Classes',
+      manageClassesSubtitle: 'Manage classes',
+      managePayments: 'Manage Payments',
+      viewGraduations: 'View Graduations',
+      viewSchedule: 'View schedule',
+      recentActivities: 'Recent Activities',
+      viewAllActivities: 'View All Activities',
+      calendar: 'Calendar',
+      classSchedule: 'Class Schedule',
+      management: 'Management',
+      settingsManagement: 'Preferences and management',
+      accessManagementReports: 'Access Management and Reports',
+      
+      // USER & ADMIN
+      hello: 'Hello',
+      admin: 'Admin',
+      academyAdministrator: 'Academy Administrator',
+      online: 'Online',
+      code: 'Code',
+      
+      // STATS
+      totalStudents: 'Total Students',
+      activeStudents: 'Active Students',
+      pendingPaymentsCount: 'Pending',
+      monthlyFinancials: 'Monthly Financials',
+      monthlyRevenue: 'Monthly Revenue',
+      pendingCount: 'Pending',
+      overdueCount: 'Overdue',
+      alerts: 'Alerts',
+      paymentsOverdue: 'overdue payment(s)',
+      manyPendingPayments: 'Many pending payments',
+      loadingAcademyInfo: 'Loading academy information...',
+      
+      // ANNOUNCEMENTS
+      announcements: 'Announcements',
+      noAnnouncementsNow: 'No announcements at the moment',
+      highPriority: 'High Priority',
+      
+      // BELT LEVELS
+      whiteBelt: 'White Belt',
+      yellowBelt: 'Yellow Belt',
+      orangeBelt: 'Orange Belt',
+      greenBelt: 'Green Belt',
+      blueBelt: 'Blue Belt',
+      purpleBelt: 'Purple Belt',
+      brownBelt: 'Brown Belt',
+      blackBelt: 'Black Belt',
+
+      // MESSAGES
+      functionalityInDevelopment: 'Feature under development',
+      errorLoadingAnnouncements: 'Error loading announcements',
+      errorLoadingData: 'Error loading data',
+      couldNotLoadAnnouncements: 'Could not load announcements. Please try again later.',
+      loadingInstructorDashboard: 'Loading instructor dashboard',
+      loadingStudentDashboard: 'Loading student dashboard',
+      loadingAdminDashboard: 'Loading admin dashboard',
+      studentsLoaded: 'Students loaded',
+      errorSearchingStudents: 'Error searching students',
+      errorFormattingDate: 'Error formatting date',
+      couldNotLoadData: 'Could not load data. Please try again.',
+      tryAgainLater: 'Please try again later'
     }
   },
 
@@ -404,7 +584,97 @@ export const languages = {
       submit: 'Enviar',
       confirm: 'Confirmar',
       validate: 'Validar',
-      verify: 'Verificar'
+      verify: 'Verificar',
+
+      // TIME
+      today: 'Hoy',
+      yesterday: 'Ayer',
+      tomorrow: 'Mañana',
+      now: 'Ahora mismo',
+      minutesAgo: 'minutos atrás',
+      hoursAgo: 'horas atrás',
+      daysAgo: 'días atrás',
+      weeksAgo: 'semanas atrás',
+      monthsAgo: 'meses atrás',
+      unknownDate: 'Fecha desconocida',
+
+      // ACTIVITIES
+      newStudentRegistered: 'Nuevo estudiante registrado',
+      paymentReceived: 'Pago recibido',
+      graduationRegistered: 'Graduación registrada',
+      checkInRegistered: 'Check-in registrado',
+      classScheduled: 'Clase programada',
+      announcementPosted: 'Aviso publicado',
+
+      // DASHBOARD
+      quickActions: 'Acciones Rápidas',
+      quickActionsSubtitle: 'Acceso directo a las principales funcionalidades',
+      checkIn: 'Check-in',
+      viewCalendar: 'Ver Calendario',
+      viewReports: 'Ver Informes',
+      manageStudents: 'Gestionar Estudiantes',
+      manageStudentsSubtitle: 'Gestionar estudiantes',
+      manageClasses: 'Gestionar Clases',
+      manageClassesSubtitle: 'Gestionar clases',
+      managePayments: 'Gestionar Pagos',
+      viewGraduations: 'Ver Graduaciones',
+      viewSchedule: 'Ver cronograma',
+      recentActivities: 'Actividades Recientes',
+      viewAllActivities: 'Ver Todas las Actividades',
+      calendar: 'Calendario',
+      classSchedule: 'Cronograma de Clases',
+      management: 'Gestión',
+      settingsManagement: 'Preferencias y gestión',
+      accessManagementReports: 'Acceder a Gestión e Informes',
+      
+      // USER & ADMIN
+      hello: 'Hola',
+      admin: 'Admin',
+      academyAdministrator: 'Administrador de la Academia',
+      online: 'En línea',
+      code: 'Código',
+      
+      // STATS
+      totalStudents: 'Total de Estudiantes',
+      activeStudents: 'Estudiantes Activos',
+      pendingPaymentsCount: 'Pendientes',
+      monthlyFinancials: 'Financiero del Mes',
+      monthlyRevenue: 'Ingresos del Mes',
+      pendingCount: 'Pendientes',
+      overdueCount: 'Vencidos',
+      alerts: 'Alertas',
+      paymentsOverdue: 'pago(s) vencido(s)',
+      manyPendingPayments: 'Muchos pagos pendientes',
+      loadingAcademyInfo: 'Cargando información de la academia...',
+      
+      // ANNOUNCEMENTS
+      announcements: 'Avisos',
+      noAnnouncementsNow: 'Ningún aviso en este momento',
+      highPriority: 'Alta Prioridad',
+      
+      // BELT LEVELS
+      whiteBelt: 'Cinturón Blanco',
+      yellowBelt: 'Cinturón Amarillo',
+      orangeBelt: 'Cinturón Naranja',
+      greenBelt: 'Cinturón Verde',
+      blueBelt: 'Cinturón Azul',
+      purpleBelt: 'Cinturón Morado',
+      brownBelt: 'Cinturón Marrón',
+      blackBelt: 'Cinturón Negro',
+
+      // MESSAGES
+      functionalityInDevelopment: 'Funcionalidad en desarrollo',
+      errorLoadingAnnouncements: 'Error al cargar avisos',
+      errorLoadingData: 'Error al cargar datos',
+      couldNotLoadAnnouncements: 'No se pudieron cargar los avisos. Intente nuevamente más tarde.',
+      loadingInstructorDashboard: 'Cargando panel del instructor',
+      loadingStudentDashboard: 'Cargando panel del estudiante',
+      loadingAdminDashboard: 'Cargando panel del administrador',
+      studentsLoaded: 'Estudiantes cargados',
+      errorSearchingStudents: 'Error al buscar estudiantes',
+      errorFormattingDate: 'Error al formatear fecha',
+      couldNotLoadData: 'No se pudieron cargar los datos. Intente nuevamente.',
+      tryAgainLater: 'Intente nuevamente más tarde'
     }
   }
 };
