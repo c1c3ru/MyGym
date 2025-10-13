@@ -3,7 +3,6 @@ import {
   View,
   Text,
   ScrollView,
-  Alert,
   TouchableOpacity,
   StyleSheet,
   Dimensions,
@@ -26,19 +25,14 @@ import {
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useAuth } from '@contexts/AuthProvider';
 import { useTheme } from '@contexts/ThemeContext';
-import academyCollectionsService from '@services/academyCollectionsService';
 import { LinearGradient } from 'expo-linear-gradient';
 import SelectionField from '@components/SelectionField';
 import graduationRepository from '@presentation/repositories/graduationRepository';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, BORDER_WIDTH, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { useThemeToggle } from '@contexts/ThemeToggleContext';
-import { getString } from '@utils/theme';
 
 const { width } = Dimensions.get('window');
 
 const AddGraduationScreen = ({ route, navigation }) => {
-  const { currentTheme } = useThemeToggle();
-  
   const { studentId, studentName } = route.params;
   const { user, userProfile, academia } = useAuth();
   const { getString } = useTheme();
