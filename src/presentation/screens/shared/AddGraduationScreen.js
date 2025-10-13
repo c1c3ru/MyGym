@@ -69,10 +69,10 @@ const AddGraduationScreen = ({ route, navigation }) => {
 
   const defaultGraduationLevels = [
     { id: COLORS.special.belt.white, name: getString('whiteBelt'), color: COLORS.special.belt.white, order: 1 },
-    { id: currentTheme.warning[500], name: 'Faixa Amarela', color: COLORS.special.belt.yellow, order: 2 },
-    { id: currentTheme.warning[600], name: 'Faixa Laranja', color: COLORS.special.belt.orange, order: 3 },
-    { id: currentTheme.success[500], name: 'Faixa Verde', color: COLORS.special.belt.green, order: 4 },
-    { id: currentTheme.info[500], name: getString('blueBelt'), color: COLORS.special.belt.blue, order: 5 },
+    { id: COLORS.warning[500], name: 'Faixa Amarela', color: COLORS.special.belt.yellow, order: 2 },
+    { id: COLORS.warning[600], name: 'Faixa Laranja', color: COLORS.special.belt.orange, order: 3 },
+    { id: COLORS.success[500], name: 'Faixa Verde', color: COLORS.special.belt.green, order: 4 },
+    { id: COLORS.info[500], name: getString('blueBelt'), color: COLORS.special.belt.blue, order: 5 },
     { id: 'purple', name: 'Faixa Roxa', color: COLORS.special.belt.purple, order: 6 },
     { id: 'brown', name: 'Faixa Marrom', color: COLORS.special.belt.brown, order: 7 },
     { id: 'black-1', name: 'Faixa Preta 1º Dan', color: COLORS.special.belt.black, order: 8 },
@@ -322,7 +322,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
     <SafeAreaView style={styles.container}>
       {/* Header com gradiente */}
       <LinearGradient
-        colors={[COLORS.info[700], 'currentTheme.info[800]']}
+        colors={[COLORS.info[700], COLORS.info[800]]}
         style={styles.header}
       >
         <View style={styles.headerContent}>
@@ -651,7 +651,7 @@ const styles = StyleSheet.create({
   },
   headerSubtitle: {
     fontSize: FONT_SIZE.base,
-    color: 'currentTheme.white + "CC"',
+    color: COLORS.white + "CC",
     marginTop: 2,
   },
   scrollContainer: {
