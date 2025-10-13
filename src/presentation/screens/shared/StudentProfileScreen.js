@@ -125,7 +125,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
 
   const getPaymentStatusText = (status) => {
     const texts = {
-      'paid': 'Pago',
+      'paid': getString('paid'),
       'pending': getString('paymentPending'),
       'overdue': getString('overdue')
     };
@@ -291,7 +291,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
                 <View style={styles.infoContent}>
                   <Text style={styles.modernInfoLabel}>Telefone</Text>
                   <Text style={styles.modernInfoValue}>
-                    {studentInfo?.phone || 'Não informado'}
+                    {studentInfo?.phone || getString('notInformed')}
                   </Text>
                 </View>
               </View>
@@ -303,7 +303,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
                 <View style={styles.infoContent}>
                   <Text style={styles.modernInfoLabel}>Endereço</Text>
                   <Text style={styles.modernInfoValue}>
-                    {studentInfo?.address || 'Não informado'}
+                    {studentInfo?.address || getString('notInformed')}
                   </Text>
                 </View>
               </View>
@@ -315,7 +315,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
                 <View style={styles.infoContent}>
                   <Text style={styles.modernInfoLabel}>Data de Nascimento</Text>
                   <Text style={styles.modernInfoValue}>
-                    {formatDate(studentInfo?.birthDate) || 'Não informado'}
+                    {formatDate(studentInfo?.birthDate) || getString('notInformed')}
                   </Text>
                 </View>
               </View>
@@ -520,7 +520,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
                 {payments.length > 3 && (
                   <Button
                     mode="text"
-                    onPress={() => navigation.navigate('StudentPayments', { studentId })}
+                    onPress={() => navigation.navigate(getString('studentPayments'), { studentId })}
                     style={styles.viewAllPaymentsButton}
                     textColor={COLORS.secondary[400]}
                   >
@@ -547,7 +547,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
           <View style={styles.actionCard}>
             <Button
               mode="contained"
-              onPress={() => navigation.navigate('EditStudent', { 
+              onPress={() => navigation.navigate(getString('editStudent'), { 
                 studentId, 
                 studentData: studentInfo 
               })}

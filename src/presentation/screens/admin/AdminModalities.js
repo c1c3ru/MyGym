@@ -199,7 +199,7 @@ const AdminModalities = ({ navigation }) => {
     } else {
       console.log('📱 Usando Alert.alert para mobile');
       Alert.alert(
-        'Confirmar Exclusão',
+        getString('confirmDelete'),
         `Tem certeza que deseja excluir a modalidade "${modality.name}"?`,
         [
           { 
@@ -378,7 +378,7 @@ const AdminModalities = ({ navigation }) => {
     } else {
       console.log('📱 Usando Alert.alert para mobile');
       Alert.alert(
-        'Confirmar Exclusão',
+        getString('confirmDelete'),
         `Tem certeza que deseja excluir o plano "${plan.name}"?`,
         [
           { 
@@ -507,7 +507,7 @@ const AdminModalities = ({ navigation }) => {
     } else {
       console.log('📱 Usando Alert.alert para mobile');
       Alert.alert(
-        'Confirmar Exclusão',
+        getString('confirmDelete'),
         `Tem certeza que deseja excluir o aviso "${announcement.title}"?`,
         [
           { 

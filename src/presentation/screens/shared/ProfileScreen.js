@@ -287,7 +287,7 @@ const ProfileScreen = ({ navigation }) => {
                   </Button>
                   <Button 
                     mode="contained" 
-                    onPress={() => navigation.navigate('StudentPayments')}
+                    onPress={() => navigation.navigate(getString('studentPayments'))}
                     style={styles.payNowButton}
                     icon="credit-card"
                   >
@@ -540,7 +540,7 @@ const ProfileScreen = ({ navigation }) => {
             </View>
 
             <List.Item
-              title="Alterar Senha"
+              title=getString('changePassword')
               description="Clique para alterar sua senha"
               left={() => <List.Icon icon="lock" />}
               right={() => <List.Icon icon="chevron-right" />}
@@ -571,7 +571,7 @@ const ProfileScreen = ({ navigation }) => {
               description="Configurar notificações do app"
               left={() => <List.Icon icon="bell" />}
               right={() => <List.Icon icon="chevron-right" />}
-              onPress={() => navigation.navigate('NotificationSettings')}
+              onPress={() => navigation.navigate(getString('notificationSettings'))}
             />
             <Divider />
             
@@ -580,7 +580,7 @@ const ProfileScreen = ({ navigation }) => {
               description="Configurações de privacidade e LGPD"
               left={() => <List.Icon icon="shield" />}
               right={() => <List.Icon icon="chevron-right" />}
-              onPress={() => navigation.navigate('PrivacySettings')}
+              onPress={() => navigation.navigate(getString('privacySettings'))}
             />
           </Card.Content>
         </Card>

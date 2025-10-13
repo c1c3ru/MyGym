@@ -126,16 +126,16 @@ const AddGraduationScreen = ({ route, navigation }) => {
 
   const getGraduationColor = (levelName, index) => {
     const colorMap = {
-      'Branca': COLORS.special.belt.white,
-      'Amarela': COLORS.special.belt.yellow,
-      'Laranja': COLORS.special.belt.orange,
-      'Verde': COLORS.special.belt.green,
+      getString('white'): COLORS.special.belt.white,
+      getString('yellow'): COLORS.special.belt.yellow,
+      getString('orange'): COLORS.special.belt.orange,
+      getString('green'): COLORS.special.belt.green,
       getString('blue'): COLORS.special.belt.blue,
-      'Roxa': COLORS.special.belt.purple,
-      'Marrom': COLORS.special.belt.brown,
-      'Preta': COLORS.special.belt.black,
-      'Vermelha': COLORS.special.belt.red,
-      'Coral': COLORS.special.belt.red,
+      getString('purple'): COLORS.special.belt.purple,
+      getString('brown'): COLORS.special.belt.brown,
+      getString('black'): COLORS.special.belt.black,
+      getString('red'): COLORS.special.belt.red,
+      getString('coral'): COLORS.special.belt.red,
       'Crua': COLORS.gray[600],
       'Cordão': COLORS.warning[300]
     };

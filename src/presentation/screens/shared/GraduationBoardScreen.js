@@ -77,15 +77,15 @@ const GraduationBoardScreen = ({ navigation }) => {
 
   const getBeltColor = (belt) => {
     const colors = {
-      'Branca': COLORS.special.belt.white,
+      getString('white'): COLORS.special.belt.white,
       'Cinza': COLORS.gray[500],
-      'Amarela': COLORS.special.belt.yellow,
-      'Laranja': COLORS.special.belt.orange,
-      'Verde': COLORS.special.belt.green,
+      getString('yellow'): COLORS.special.belt.yellow,
+      getString('orange'): COLORS.special.belt.orange,
+      getString('green'): COLORS.special.belt.green,
       getString('blue'): COLORS.special.belt.blue,
-      'Roxa': COLORS.special.belt.purple,
-      'Marrom': COLORS.special.belt.brown,
-      'Preta': COLORS.special.belt.black
+      getString('purple'): COLORS.special.belt.purple,
+      getString('brown'): COLORS.special.belt.brown,
+      getString('black'): COLORS.special.belt.black
     };
     return colors[belt] || COLORS.gray[300];
   };
@@ -372,7 +372,7 @@ const GraduationBoardScreen = ({ navigation }) => {
               left={props => <List.Icon {...props} icon="account" />}
             />
             <List.Item
-              title="Local"
+              title=getString('local')
               description={selectedExam.location}
               left={props => <List.Icon {...props} icon="map-marker" />}
             />

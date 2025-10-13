@@ -51,14 +51,14 @@ export default function ModalityPicker({
       // Se não conseguiu carregar nenhuma modalidade, usar fallback
       if (uniqueModalities.length === 0) {
         setAvailableModalities([
-          { id: 'bjj', name: 'Jiu-Jitsu Brasileiro', description: 'Arte marcial brasileira' },
-          { id: 'muaythai', name: getString('muayThai'), description: 'Arte marcial tailandesa' },
+          { id: 'bjj', name: 'Jiu-Jitsu Brasileiro', description: getString('brazilianMartialArt') },
+          { id: 'muaythai', name: getString('muayThai'), description: getString('thaiMartialArt') },
           { id: 'boxe', name: getString('boxing'), description: 'Esporte de combate' },
-          { id: 'mma', name: 'MMA', description: 'Artes marciais mistas' },
-          { id: 'judo', name: 'Judô', description: 'Arte marcial japonesa' },
-          { id: 'karate', name: getString('karate'), description: 'Arte marcial japonesa' },
-          { id: 'taekwondo', name: 'Taekwondo', description: 'Arte marcial coreana' },
-          { id: 'capoeira', name: 'Capoeira', description: 'Arte marcial brasileira' }
+          { id: 'mma', name: getString('mma'), description: 'Artes marciais mistas' },
+          { id: 'judo', name: getString('judo'), description: getString('japaneseMartialArt') },
+          { id: 'karate', name: getString('karate'), description: getString('japaneseMartialArt') },
+          { id: 'taekwondo', name: getString('taekwondo'), description: getString('koreanMartialArt') },
+          { id: 'capoeira', name: 'Capoeira', description: getString('brazilianMartialArt') }
         ]);
       } else {
         setAvailableModalities(uniqueModalities);
@@ -67,14 +67,14 @@ export default function ModalityPicker({
       console.error('❌ ModalityPicker: Erro ao carregar modalidades:', error.message);
       // Modalidades padrão caso não consiga carregar do banco
       setAvailableModalities([
-        { id: 'bjj', name: 'Jiu-Jitsu Brasileiro', description: 'Arte marcial brasileira' },
-        { id: 'muaythai', name: getString('muayThai'), description: 'Arte marcial tailandesa' },
+        { id: 'bjj', name: 'Jiu-Jitsu Brasileiro', description: getString('brazilianMartialArt') },
+        { id: 'muaythai', name: getString('muayThai'), description: getString('thaiMartialArt') },
         { id: 'boxe', name: getString('boxing'), description: 'Esporte de combate' },
-        { id: 'mma', name: 'MMA', description: 'Artes marciais mistas' },
-        { id: 'judo', name: 'Judô', description: 'Arte marcial japonesa' },
-        { id: 'karate', name: getString('karate'), description: 'Arte marcial japonesa' },
-        { id: 'taekwondo', name: 'Taekwondo', description: 'Arte marcial coreana' },
-        { id: 'capoeira', name: 'Capoeira', description: 'Arte marcial brasileira' }
+        { id: 'mma', name: getString('mma'), description: 'Artes marciais mistas' },
+        { id: 'judo', name: getString('judo'), description: getString('japaneseMartialArt') },
+        { id: 'karate', name: getString('karate'), description: getString('japaneseMartialArt') },
+        { id: 'taekwondo', name: getString('taekwondo'), description: getString('koreanMartialArt') },
+        { id: 'capoeira', name: 'Capoeira', description: getString('brazilianMartialArt') }
       ]);
     } finally {
       console.timeEnd('ModalityPicker.loadModalities');

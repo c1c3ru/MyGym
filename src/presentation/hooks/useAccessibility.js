@@ -111,11 +111,11 @@ export const useAccessibility = () => {
     const statusMessages = {
       active: getString('active'),
       inactive: getString('inactive'),
-      paid: 'Pago',
+      paid: getString('paid'),
       pending: getString('paymentPending'), 
       overdue: getString('overdue'),
-      approved: 'Aprovado',
-      rejected: 'Rejeitado'
+      approved: getString('approved'),
+      rejected: getString('rejected')
     };
 
     return getAccessibilityProps({

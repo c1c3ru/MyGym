@@ -48,7 +48,7 @@ const CheckIn = ({ navigation }) => {
   const [studentsWithCheckIn, setStudentsWithCheckIn] = useState(new Set());
 
   // Analytics tracking
-  useScreenTracking('CheckIn', { 
+  useScreenTracking(getString('checkIn'), { 
     academiaId: userProfile?.academiaId,
     userType: 'instructor',
     instructorId: user?.uid 

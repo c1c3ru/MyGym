@@ -111,7 +111,7 @@ export const useAuthUI = () => {
     if (rules.required && (!value || value.trim() === '')) {
       error = 'Este campo é obrigatório';
     } else if (rules.email && value && !/\S+@\S+\.\S+/.test(value)) {
-      error = 'Email inválido';
+      error = getString('invalidEmail');
     } else if (rules.minLength && value && value.length < rules.minLength) {
       error = `Mínimo ${rules.minLength} caracteres`;
     } else if (rules.maxLength && value && value.length > rules.maxLength) {

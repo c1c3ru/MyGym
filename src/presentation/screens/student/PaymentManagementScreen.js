@@ -175,7 +175,7 @@ const PaymentManagementScreen = ({ navigation }) => {
 
   const getPaymentStatusText = (status) => {
     const texts = {
-      'paid': 'Pago',
+      'paid': getString('paid'),
       'pending': getString('paymentPending'),
       'overdue': getString('overdue'),
       'active': getString('active')

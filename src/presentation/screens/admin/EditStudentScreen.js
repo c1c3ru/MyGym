@@ -99,7 +99,7 @@ const EditStudentScreen = ({ navigation, route }) => {
     if (!formData.email.trim()) {
       newErrors.email = 'Email é obrigatório';
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Email inválido';
+      newErrors.email = getString('invalidEmail');
     }
 
     if (!formData.phone.trim()) {
@@ -175,7 +175,7 @@ const EditStudentScreen = ({ navigation, route }) => {
 
   const handleDelete = () => {
     Alert.alert(
-      'Confirmar Exclusão',
+      getString('confirmDelete'),
       'Tem certeza que deseja excluir este aluno? Esta ação não pode ser desfeita.',
       [
         {

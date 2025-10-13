@@ -303,7 +303,7 @@ export function useAuthFacade() {
         // Notificação amigável para usuários do Google
         const errorName = getErrorName(sessionError);
         if (errorName === getString('userProfileNotFoundError')) {
-          showError('Bem-vindo! Como é seu primeiro acesso, precisamos configurar seu perfil. Por favor, complete suas informações.');
+          showError(getString('welcomeFirstAccess'));
         }
       }
       
@@ -361,7 +361,7 @@ export function useAuthFacade() {
         // Notificação amigável para usuários do Facebook
         const errorName = getErrorName(sessionError);
         if (errorName === getString('userProfileNotFoundError')) {
-          showError('Bem-vindo! Como é seu primeiro acesso, precisamos configurar seu perfil. Por favor, complete suas informações.');
+          showError(getString('welcomeFirstAccess'));
         }
       }
       
@@ -419,7 +419,7 @@ export function useAuthFacade() {
         // Notificação amigável para usuários do Microsoft
         const errorName = getErrorName(sessionError);
         if (errorName === getString('userProfileNotFoundError')) {
-          showError('Bem-vindo! Como é seu primeiro acesso, precisamos configurar seu perfil. Por favor, complete suas informações.');
+          showError(getString('welcomeFirstAccess'));
         }
       }
       
@@ -477,7 +477,7 @@ export function useAuthFacade() {
         // Notificação amigável para usuários do Apple
         const errorName = getErrorName(sessionError);
         if (errorName === getString('userProfileNotFoundError')) {
-          showError('Bem-vindo! Como é seu primeiro acesso, precisamos configurar seu perfil. Por favor, complete suas informações.');
+          showError(getString('welcomeFirstAccess'));
         }
       }
       

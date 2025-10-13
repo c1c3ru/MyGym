@@ -83,7 +83,7 @@ const SettingsScreen = ({ navigation }) => {
           
           <List.Item
             title="Nome"
-            description={userProfile?.name || 'Não informado'}
+            description={userProfile?.name || getString('notInformed')}
             left={(props) => <Ionicons name="person" size={20} color={COLORS.text.secondary} />}
           />
           
@@ -97,11 +97,11 @@ const SettingsScreen = ({ navigation }) => {
             title="Editar Perfil"
             left={(props) => <Ionicons name="create" size={20} color={COLORS.text.secondary} />}
             right={(props) => <List.Icon icon="chevron-right" />}
-            onPress={() => navigation.navigate('Profile')}
+            onPress={() => navigation.navigate(getString('profile'))}
           />
           
           <List.Item
-            title="Alterar Senha"
+            title=getString('changePassword')
             left={(props) => <Ionicons name="lock-closed" size={20} color={COLORS.text.secondary} />}
             right={(props) => <List.Icon icon="chevron-right" />}
             onPress={handleChangePassword}

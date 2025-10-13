@@ -108,7 +108,7 @@ const UniversalHeader = ({
 
   const handleProfile = () => {
     closeMenu();
-    navigation?.navigate('Profile');
+    navigation?.navigate(getString('profile'));
   };
 
   const getHeaderColor = () => {

@@ -122,7 +122,7 @@ const InstructorNavigator = () => {
         }}
       />
       <Stack.Screen 
-        name="CheckIn" 
+        name=getString('checkIn') 
         component={CheckIn}
         options={{
           headerShown: true,
@@ -244,7 +244,7 @@ const InstructorNavigator = () => {
       
       {/* Profile-related screens */}
       <Stack.Screen 
-        name="Profile" 
+        name=getString('profile') 
         component={ProfileScreen}
         options={{
           headerShown: true,
@@ -265,7 +265,7 @@ const InstructorNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title="Alterar Senha"
+              title=getString('changePassword')
               navigation={navigation}
               showBack={true}
               backgroundColor={PROFILE_COLORS.instructor.primary}
@@ -304,7 +304,7 @@ const InstructorNavigator = () => {
         }}
       />
       <Stack.Screen 
-        name="NotificationSettings" 
+        name=getString('notificationSettings') 
         component={NotificationSettingsScreen}
         options={{
           headerShown: true,
@@ -319,7 +319,7 @@ const InstructorNavigator = () => {
         }}
       />
       <Stack.Screen 
-        name="PrivacySettings" 
+        name=getString('privacySettings') 
         component={PrivacySettingsScreen}
         options={{
           headerShown: true,

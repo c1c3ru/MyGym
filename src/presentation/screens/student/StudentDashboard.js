@@ -211,7 +211,7 @@ const StudentDashboard = ({ navigation }) => {
   const handleCheckIn = useCallback(() => {
     trackButtonClick('quick_checkin');
     if (navigation) {
-      navigation.navigate('CheckIn');
+      navigation.navigate(getString('checkIn'));
     } else {
       Alert.alert(getString('info'), 'Check-in em desenvolvimento');
     }

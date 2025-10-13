@@ -181,7 +181,7 @@ const InstructorClasses = ({ navigation }) => {
 
   const handleCheckIns = useCallback((classItem) => {
     trackButtonClick('instructor_class_checkins', { classId: classItem.id });
-    navigation.navigate('CheckIn', { 
+    navigation.navigate(getString('checkIn'), { 
       classId: classItem.id,
       className: classItem.name 
     });

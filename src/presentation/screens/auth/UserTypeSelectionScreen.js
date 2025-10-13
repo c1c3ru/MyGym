@@ -145,7 +145,7 @@ const UserTypeSelectionScreen = ({ navigation, route }) => {
           style={styles.selectButton}
           onPress={() => setSelectedType(userType.id)}
         >
-          {selectedType === userType.id ? "Selecionado" : "Selecionar"}
+          {selectedType === userType.id ? getString('selected') : "Selecionar"}
         </Button>
       </Card.Content>
     </Card>

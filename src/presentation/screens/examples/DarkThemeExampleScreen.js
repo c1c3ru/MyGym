@@ -161,7 +161,7 @@ export default function DarkThemeExampleScreen() {
         {isSelected && (
           <View style={styles.cardDetails}>
             <Text style={[styles.detailsText, { color: COLORS.text.tertiary }]}>
-              Tipo: {card.type} • Estado: {isPressed ? 'Pressionado' : 'Normal'}
+              Tipo: {card.type} • Estado: {isPressed ? 'Pressionado' : getString('normal')}
             </Text>
           </View>
         )}
@@ -214,7 +214,7 @@ export default function DarkThemeExampleScreen() {
           
           <View style={styles.gradientGrid}>
             {renderGradientExample('Combat', COLORS.gradients.combat, 'Energia e força')}
-            {renderGradientExample('Dark', COLORS.gradients.dark, 'Profissional')}
+            {renderGradientExample('Dark', COLORS.gradients.dark, getString('professional'))}
             {renderGradientExample('Accent', COLORS.gradients.accent, 'Headers premium')}
             {renderGradientExample('Subtle', COLORS.gradients.subtle, 'Backgrounds neutros')}
             {renderGradientExample('Elevated', COLORS.gradients.elevated, 'Cards flutuantes')}

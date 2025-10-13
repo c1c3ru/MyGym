@@ -94,17 +94,17 @@ const StudentEvolution = ({ navigation }) => {
 
   const getGraduationColor = (graduation) => {
     const colors = {
-      'Branca': COLORS.special.belt.white,
+      getString('white'): COLORS.special.belt.white,
       'Cinza': COLORS.gray[500],
-      'Amarela': COLORS.special.belt.yellow,
-      'Laranja': COLORS.special.belt.orange,
-      'Verde': COLORS.special.belt.green,
+      getString('yellow'): COLORS.special.belt.yellow,
+      getString('orange'): COLORS.special.belt.orange,
+      getString('green'): COLORS.special.belt.green,
       getString('blue'): COLORS.special.belt.blue,
-      'Roxa': COLORS.special.belt.purple,
-      'Marrom': COLORS.special.belt.brown,
-      'Preta': COLORS.special.belt.black,
-      'Coral': COLORS.special.belt.red,
-      'Vermelha': COLORS.special.belt.red
+      getString('purple'): COLORS.special.belt.purple,
+      getString('brown'): COLORS.special.belt.brown,
+      getString('black'): COLORS.special.belt.black,
+      getString('coral'): COLORS.special.belt.red,
+      getString('red'): COLORS.special.belt.red
     };
     return colors[graduation] || COLORS.info[500];
   };
@@ -114,9 +114,9 @@ const StudentEvolution = ({ navigation }) => {
       getString('jiujitsu'): 'fitness-outline',
       getString('muayThai'): 'hand-left-outline',
       getString('boxing'): 'hand-right-outline',
-      'MMA': 'shield-outline',
+      getString('mma'): 'shield-outline',
       getString('karate'): 'body-outline',
-      'Judô': 'person-outline'
+      getString('judo'): 'person-outline'
     };
     return icons[modality] || 'medal-outline';
   };

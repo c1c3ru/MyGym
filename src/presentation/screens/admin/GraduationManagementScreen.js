@@ -297,7 +297,7 @@ const GraduationManagementScreen = ({ navigation }) => {
               style={styles.input}
             />
             <TextInput
-              label="Local"
+              label=getString('local')
               value={examForm.location}
               onChangeText={(text) => setExamForm(prev => ({ ...prev, location: text }))}
               style={styles.input}

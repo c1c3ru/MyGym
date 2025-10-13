@@ -194,7 +194,7 @@ const AdminClasses = ({ navigation }) => {
     trackButtonClick('class_details', { classId: classItem.id });
     
     // Navegar para o AdminStack pai para acessar ClassDetails
-    const adminStackNav = navigation.getParent && navigation.getParent('AdminStack');
+    const adminStackNav = navigation.getParent && navigation.getParent(getString('adminStack'));
     if (adminStackNav && typeof adminStackNav.navigate === 'function') {
       adminStackNav.navigate(getString('classDetailsScreen'), { classId: classItem.id, classData: classItem });
       return;
@@ -220,7 +220,7 @@ const AdminClasses = ({ navigation }) => {
       }
       
       // Tenta navegar através do navigator do Stack pai, usando o ID definido
-      const adminStackNav = navigation.getParent && navigation.getParent('AdminStack');
+      const adminStackNav = navigation.getParent && navigation.getParent(getString('adminStack'));
       if (adminStackNav && typeof adminStackNav.navigate === 'function') {
         adminStackNav.navigate(getString('addClassScreen'));
         return;
@@ -249,19 +249,19 @@ const AdminClasses = ({ navigation }) => {
     trackButtonClick('edit_class', { classId: classItem.id });
     
     // Navegar para o AdminStack pai para acessar EditClass
-    const adminStackNav = navigation.getParent && navigation.getParent('AdminStack');
+    const adminStackNav = navigation.getParent && navigation.getParent(getString('adminStack'));
     if (adminStackNav && typeof adminStackNav.navigate === 'function') {
-      adminStackNav.navigate('EditClass', { classId: classItem.id, classData: classItem });
+      adminStackNav.navigate(getString('editClass'), { classId: classItem.id, classData: classItem });
       return;
     }
     // Fallback: tentar navegar pelo parent
     const parentNav = navigation.getParent && navigation.getParent();
     if (parentNav && typeof parentNav.navigate === 'function') {
-      parentNav.navigate('EditClass', { classId: classItem.id, classData: classItem });
+      parentNav.navigate(getString('editClass'), { classId: classItem.id, classData: classItem });
       return;
     }
     // Fallback final
-    navigation.navigate('EditClass', { classId: classItem.id, classData: classItem });
+    navigation.navigate(getString('editClass'), { classId: classItem.id, classData: classItem });
   }, [navigation, trackButtonClick]);
 
   // Memoized render functions

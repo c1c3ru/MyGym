@@ -158,7 +158,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
     const colors = {
       getString('jiujitsu'): COLORS.info[500],
       getString('muayThai'): COLORS.error[500],
-      'MMA': COLORS.warning[500],
+      getString('mma'): COLORS.warning[500],
       getString('boxing'): COLORS.primary[500]
     };
     return colors[modality] || COLORS.text.secondary;

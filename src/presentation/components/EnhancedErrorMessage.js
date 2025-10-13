@@ -48,7 +48,7 @@ const ERROR_CATALOG = {
 
   // Erros de Autenticação
   'auth/invalid-email': {
-    title: 'Email inválido',
+    title: getString('invalidEmail'),
     message: 'O formato do email está incorreto. Verifique se digitou corretamente (ex: usuario@exemplo.com).',
     icon: 'email-alert-outline',
     color: 'error',
@@ -107,7 +107,7 @@ const ERROR_CATALOG = {
 
   // Erros de Validação
   'validation/required-field': {
-    title: 'Campo obrigatório',
+    title: getString('required'),
     message: 'Este campo é obrigatório. Por favor, preencha-o para continuar.',
     icon: 'alert-circle-outline',
     color: 'warning',
@@ -127,7 +127,7 @@ const ERROR_CATALOG = {
 
   // Erros de Permissão
   'permission/denied': {
-    title: 'Permissão negada',
+    title: getString('permissionDenied'),
     message: 'Você não tem permissão para realizar esta ação. Entre em contato com o administrador.',
     icon: 'shield-off-outline',
     color: 'error',

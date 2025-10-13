@@ -256,7 +256,7 @@ const AdminStudents = ({ navigation }) => {
 
   const handleEditStudent = (student) => {
     trackButtonClick('edit_student', { studentId: student.id });
-    navigation.navigate('EditStudent', { studentId: student.id, studentData: student });
+    navigation.navigate(getString('editStudent'), { studentId: student.id, studentData: student });
   };
 
   const handleDisassociateStudent = (student) => {
@@ -266,7 +266,7 @@ const AdminStudents = ({ navigation }) => {
 
   const handleDeleteStudent = (student) => {
     Alert.alert(
-      'Confirmar Exclusão',
+      getString('confirmDelete'),
       `Tem certeza que deseja excluir o aluno ${student.name}?`,
       [
         { text: getString('cancel'), style: 'cancel' },

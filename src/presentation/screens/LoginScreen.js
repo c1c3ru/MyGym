@@ -123,7 +123,7 @@ export default function LoginScreen({ navigation }) {
     email: {
       required: true,
       pattern: /\S+@\S+\.\S+/,
-      message: getString('invalidEmail') || 'Email inválido'
+      message: getString('invalidEmail') || getString('invalidEmail')
     },
     password: {
       required: true,

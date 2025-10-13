@@ -39,7 +39,7 @@ const SharedNavigator = ({ userType }) => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Profile"
+        name=getString('profile')
         component={ProfileScreen}
         options={({ navigation }) => ({
           header: () => (
@@ -144,7 +144,7 @@ const SharedNavigator = ({ userType }) => {
         })}
       />
       <Stack.Screen
-        name="NotificationSettings"
+        name=getString('notificationSettings')
         component={NotificationSettingsScreen}
         options={({ navigation }) => ({
           header: () => (
@@ -159,7 +159,7 @@ const SharedNavigator = ({ userType }) => {
         })}
       />
       <Stack.Screen
-        name="PrivacySettings"
+        name=getString('privacySettings')
         component={PrivacySettingsScreen}
         options={({ navigation }) => ({
           header: () => (

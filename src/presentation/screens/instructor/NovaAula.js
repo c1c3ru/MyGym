@@ -25,7 +25,7 @@ const NovaAula = ({ navigation }) => {
     descricao: ''
   });
 
-  const modalidades = [getString('karate'), getString('jiujitsu'), getString('muayThai'), getString('boxing'), 'Taekwondo', 'Judo'];
+  const modalidades = [getString('karate'), getString('jiujitsu'), getString('muayThai'), getString('boxing'), getString('taekwondo'), 'Judo'];
 
   const handleSubmit = () => {
     // Implementar lógica de criação da aula

@@ -153,7 +153,7 @@ export default function InviteManagement({ navigation }) {
     switch (status) {
       case 'pending': return getString('paymentPending');
       case 'accepted': return 'Aceito';
-      case 'expired': return 'Expirado';
+      case 'expired': return getString('expired');
       default: return 'Desconhecido';
     }
   };

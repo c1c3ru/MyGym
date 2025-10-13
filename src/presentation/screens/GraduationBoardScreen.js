@@ -45,7 +45,7 @@ const GraduationBoardScreen = ({ navigation }) => {
         id: 'alert_1',
         studentId: 'student_1',
         studentName: 'Ana Silva',
-        currentBelt: 'Verde',
+        currentBelt: getString('green'),
         nextBelt: getString('blue'),
         modality: getString('karate'),
         estimatedGraduationDate: new Date(),
@@ -62,7 +62,7 @@ const GraduationBoardScreen = ({ navigation }) => {
         studentId: 'student_2',
         studentName: 'Pedro Santos',
         currentBelt: getString('blue'),
-        nextBelt: 'Marrom',
+        nextBelt: getString('brown'),
         modality: getString('karate'),
         estimatedGraduationDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
         trainingStartDate: new Date(Date.now() - 210 * 24 * 60 * 60 * 1000),
@@ -77,7 +77,7 @@ const GraduationBoardScreen = ({ navigation }) => {
         id: 'alert_3',
         studentId: 'student_3',
         studentName: 'Maria Oliveira',
-        currentBelt: 'Branca',
+        currentBelt: getString('white'),
         nextBelt: getString('blue'),
         modality: getString('jiujitsu'),
         estimatedGraduationDate: new Date(),
@@ -103,7 +103,7 @@ const GraduationBoardScreen = ({ navigation }) => {
         studentId: 'student_7',
         studentName: 'Carla Lima',
         passed: true,
-        newBelt: 'Marrom',
+        newBelt: getString('brown'),
         notes: 'Boa evolução',
         score: 8.0
       },
@@ -138,7 +138,7 @@ const GraduationBoardScreen = ({ navigation }) => {
         averageTrainingTime: 150
       },
       {
-        modality: 'Judô',
+        modality: getString('judo'),
         totalStudents: 20,
         eligibleStudents: 2,
         averageTrainingTime: 200

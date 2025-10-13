@@ -118,7 +118,7 @@ const AdminNavigator = () => {
   const { getString } = useTheme();
   
   return (
-    <Stack.Navigator id="AdminStack" screenOptions={{ headerShown: false }}>
+    <Stack.Navigator id=getString('adminStack') screenOptions={{ headerShown: false }}>
       <Stack.Screen name="AdminTabs" component={AdminTabNavigator} />
       <Stack.Screen 
         name=getString('addClass') 
@@ -166,7 +166,7 @@ const AdminNavigator = () => {
         }}
       />
       <Stack.Screen 
-        name="EditClass" 
+        name=getString('editClass') 
         component={EditClassScreen}
         options={{
           headerShown: true,
@@ -211,7 +211,7 @@ const AdminNavigator = () => {
         }}
       />
       <Stack.Screen 
-        name="EditStudent" 
+        name=getString('editStudent') 
         component={EditStudentScreen}
         options={{
           headerShown: true,
@@ -241,7 +241,7 @@ const AdminNavigator = () => {
         }}
       />
       <Stack.Screen 
-        name="StudentPayments" 
+        name=getString('studentPayments') 
         component={StudentPayments}
         options={{
           headerShown: true,
@@ -331,7 +331,7 @@ const AdminNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title="Alterar Senha"
+              title=getString('changePassword')
               navigation={navigation}
               showBack={true}
               backgroundColor={PROFILE_COLORS.admin.primary}
@@ -370,7 +370,7 @@ const AdminNavigator = () => {
         }}
       />
       <Stack.Screen 
-        name="NotificationSettings" 
+        name=getString('notificationSettings') 
         component={NotificationSettingsScreen}
         options={{
           headerShown: true,
@@ -385,7 +385,7 @@ const AdminNavigator = () => {
         }}
       />
       <Stack.Screen 
-        name="PrivacySettings" 
+        name=getString('privacySettings') 
         component={PrivacySettingsScreen}
         options={{
           headerShown: true,

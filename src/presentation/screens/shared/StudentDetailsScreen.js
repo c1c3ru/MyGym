@@ -147,7 +147,7 @@ const StudentDetailsScreen = ({ route, navigation }) => {
 
   const getPaymentStatusText = useCallback((status) => {
     const texts = {
-      'paid': 'Pago',
+      'paid': getString('paid'),
       'pending': getString('paymentPending'),
       'overdue': getString('overdue')
     };
@@ -170,7 +170,7 @@ const StudentDetailsScreen = ({ route, navigation }) => {
   // Memoized navigation handlers
   const handleEditStudent = useCallback(() => {
     trackButtonClick('edit_student', { studentId });
-    navigation.navigate('EditStudent', { 
+    navigation.navigate(getString('editStudent'), { 
       studentId, 
       studentData: studentInfo 
     });
@@ -194,7 +194,7 @@ const StudentDetailsScreen = ({ route, navigation }) => {
 
   const handleViewAllPayments = useCallback(() => {
     trackButtonClick('view_all_payments', { studentId });
-    navigation.navigate('StudentPayments', { studentId });
+    navigation.navigate(getString('studentPayments'), { studentId });
   }, [navigation, studentId, trackButtonClick]);
 
   if (loading && !studentInfo) {
