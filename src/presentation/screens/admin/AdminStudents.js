@@ -224,12 +224,12 @@ const AdminStudents = ({ navigation }) => {
 
   const handleStudentPress = (student) => {
     trackButtonClick('student_details', { studentId: student.id });
-    navigation.navigate('StudentDetails', { studentId: student.id, studentData: student }));
+    navigation.navigate('StudentDetails', { studentId: student.id, studentData: student });
   };
 
   const handleViewStudent = (student) => {
     trackButtonClick('view_student', { studentId: student.id });
-    navigation.navigate('StudentDetails', { studentId: student.id, studentData: student }));
+    navigation.navigate('StudentDetails', { studentId: student.id, studentData: student });
   };
 
   const handleAddStudent = () => {
@@ -257,7 +257,7 @@ const AdminStudents = ({ navigation }) => {
 
   const handleEditStudent = (student) => {
     trackButtonClick('edit_student', { studentId: student.id });
-    navigation.navigate('EditStudent', { studentId: student.id, studentData: student }));
+    navigation.navigate('EditStudent', { studentId: student.id, studentData: student });
   };
 
   const handleDisassociateStudent = (student) => {

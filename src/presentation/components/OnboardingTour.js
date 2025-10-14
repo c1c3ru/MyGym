@@ -312,6 +312,9 @@ const OnboardingTooltip = ({
           shadowOffset: { width: 0, height: 4 },
           shadowOpacity: 0.3,
         },
+        web: {
+          boxShadow: `0 4px 8px ${COLORS.black}30`,
+        },
         android: {
           elevation: 8,
         },
@@ -336,7 +339,17 @@ const OnboardingTooltip = ({
     spotlight: {
       ...styles.spotlight,
       borderColor: COLORS.border.default,
-      shadowColor: COLORS.black,
+      ...Platform.select({
+        ios: {
+          shadowColor: COLORS.black,
+        },
+        android: {
+          shadowColor: COLORS.black,
+        },
+        web: {
+          boxShadow: `0 0 20px ${COLORS.black}50`,
+        },
+      }),
     },
   });
   
@@ -480,10 +493,23 @@ const styles = StyleSheet.create({
     borderRadius: BORDER_RADIUS.md,
     borderWidth: BORDER_WIDTH.thick,  // Borda mais visível
     borderColor: COLORS.primary[400],  // Será sobrescrito pelos estilos dinâmicos
-    shadowColor: COLORS.primary[500],
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.9,  // Sombra mais forte
-    shadowRadius: 12,    // Raio maior
+    ...Platform.select({
+      ios: {
+        shadowColor: COLORS.primary[500],
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0.9,
+        shadowRadius: 12,
+      },
+      android: {
+        shadowColor: COLORS.primary[500],
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0.9,
+        shadowRadius: 12,
+      },
+      web: {
+        boxShadow: `0 0 24px ${COLORS.primary[500]}E6`,
+      },
+    }),
     elevation: 12,       // Elevação maior
   },
   tooltip: {

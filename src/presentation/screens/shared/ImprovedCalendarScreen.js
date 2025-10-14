@@ -120,19 +120,33 @@ const ImprovedCalendarScreen = ({ navigation }) => {
     navigation.navigate('ClassDetails', { 
       classId: event.classId,
       className: event.title 
-    }));
+    });
   }, [navigation, trackButtonClick]);
 
   // Navegar para criar nova turma (apenas admin/instrutor)
   const handleCreateClass = useCallback(() => {
     trackButtonClick('calendar_create_class');
     
-    if (isAdmin()) {
-      navigation.navigate(getString('addClassScreen'));
-    } else if (isInstructor()) {
-      navigation.navigate(getString('addClassScreen', { instructorId: user.id }));
+    console.log('🔍 Debug navegação:', { 
+      role, 
+      userType: userProfile?.userType,
+      isAdmin: isAdmin(), 
+      isInstructor: isInstructor() 
+    });
+    
+    // Verificar por userType também para maior robustez
+    const userType = userProfile?.userType;
+    
+    if (isAdmin() || userType === 'admin') {
+      console.log('📱 Navegando para AddClass (admin)');
+      navigation.navigate('AddClass');
+    } else if (isInstructor() || userType === 'instructor') {
+      console.log('📱 Navegando para addClassScreen (instrutor)');
+      navigation.navigate('addClassScreen', { instructorId: user.id });
+    } else {
+      console.warn('⚠️ Usuário sem permissão para criar turma:', { role, userType });
     }
-  }, [navigation, trackButtonClick, isAdmin, isInstructor, user.id]);
+  }, [navigation, trackButtonClick, isAdmin, isInstructor, user.id, role, userProfile?.userType]);
 
   // Callback para seleção de data
   const handleDatePress = useCallback((date, dayEvents) => {

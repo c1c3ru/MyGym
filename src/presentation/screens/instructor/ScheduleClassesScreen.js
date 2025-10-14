@@ -188,11 +188,11 @@ const ScheduleClassesScreen = ({ navigation, route }) => {
               ))
             ) : (
               <View style={styles.emptyState}>
-                <MaterialCommunityIcons name="school-off" size={48} color="currentTheme.gray[300]" />
+                <MaterialCommunityIcons name="school-off" size={48} color={COLORS.gray[300]} />
                 <Text style={styles.emptyText}>Nenhuma turma encontrada</Text>
                 <Button
                   mode="contained"
-                  onPress={() => navigation.navigate(getString('addClassScreen')
+                  onPress={() => navigation.navigate('AddClass')}
                   style={styles.createButton}
                 >
                   Criar Turma

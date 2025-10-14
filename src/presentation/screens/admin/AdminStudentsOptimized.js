@@ -139,11 +139,11 @@ const AdminStudentsOptimized = ({ navigation }) => {
   }, [navigation]);
 
   const handleEditStudent = useCallback((student) => {
-    navigation.navigate('EditStudent', { student }));
+    navigation.navigate('EditStudent', { student });
   }, [navigation]);
 
   const handleAddStudent = useCallback(() => {
-    navigation.navigate('AddStudent'));
+    navigation.navigate('AddStudent');
   }, [navigation]);
 
   const handleDisassociateStudent = useCallback((student) => {
@@ -152,7 +152,7 @@ const AdminStudentsOptimized = ({ navigation }) => {
   }, []);
 
   const handleNavigateToPayments = useCallback((studentId) => {
-    navigation.navigate('StudentPayments', { studentId }));
+    navigation.navigate('StudentPayments', { studentId });
   }, [navigation]);
 
   const onRefresh = useCallback(() => {
@@ -231,34 +231,34 @@ const AdminStudentsOptimized = ({ navigation }) => {
     students.length > 0 ? (
       <Card style={styles.statsCard}>
         <Card.Content>
-          <Text style={styles.statsTitle} accessibilityRole="header" style={styles.title}>
+          <Text style={[styles.statsTitle, styles.title]} accessibilityRole="header">
             Estatísticas Gerais
           </Text>
           
           <View style={styles.statsGrid}>
             <View style={styles.statItem}>
-              <Text style={styles.statNumber} accessible={true} style={styles.title}>
+              <Text style={[styles.statNumber, styles.title]} accessible={true}>
                 {stats.total}
               </Text>
               <Text style={[styles.statLabel, styles.paragraph]}>Total</Text>
             </View>
             
             <View style={styles.statItem}>
-              <Text style={styles.statNumber} accessible={true} style={styles.title}>
+              <Text style={[styles.statNumber, styles.title]} accessible={true}>
                 {stats.active}
               </Text>
               <Text style={[styles.statLabel, styles.paragraph]}>Ativos</Text>
             </View>
             
             <View style={styles.statItem}>
-              <Text style={styles.statNumber} accessible={true} style={styles.title}>
+              <Text style={[styles.statNumber, styles.title]} accessible={true}>
                 {stats.paymentOk}
               </Text>
               <Text style={[styles.statLabel, styles.paragraph]}>Pagamento OK</Text>
             </View>
             
             <View style={styles.statItem}>
-              <Text style={styles.statNumber} accessible={true} style={styles.title}>
+              <Text style={[styles.statNumber, styles.title]} accessible={true}>
                 {stats.overdue}
               </Text>
               <Text style={[styles.statLabel, styles.paragraph]}>Atrasados</Text>
@@ -302,6 +302,7 @@ const AdminStudentsOptimized = ({ navigation }) => {
         refreshing={refreshing}
         onRefresh={onRefresh}
         contentContainerStyle={styles.listContainer}
+        style={styles.flashList}
         showsVerticalScrollIndicator={false}
         accessible={true}
         accessibilityLabel={`Lista de ${filteredStudents.length} alunos`}
@@ -341,6 +342,11 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     paddingBottom: 80,
+    minHeight: 2, // Garantir altura mínima para FlashList
+  },
+  flashList: {
+    flex: 1,
+    minHeight: 200, // Altura mínima para evitar erro do FlashList
   },
   header: {
     padding: SPACING.base,

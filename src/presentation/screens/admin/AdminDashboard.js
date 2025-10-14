@@ -316,13 +316,13 @@ const AdminDashboard = ({ navigation }) => {
                 navigation.navigate('ClassDetails', { 
                   classId: event.classId,
                   className: event.title 
-                }));
+                });
               }}
               onCreateClass={() => {
                 console.log('🚀 Botão criar turma clicado no AdminDashboard');
                 setShowCalendarModal(false);
                 console.log('📱 Navegando para AddClass...');
-                navigation.navigate(getString('addClassScreen'));
+                navigation.navigate('AddClass');
               }}
               navigation={navigation}
             />

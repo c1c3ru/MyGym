@@ -373,7 +373,7 @@ const ReportsScreen = ({ navigation }) => {
             <View style={styles.actionsContainer}>
               <Button
                 mode="contained"
-                onPress={() => navigation.navigate('AddStudent')
+                onPress={() => navigation.navigate('AddStudent')}
                 style={[styles.actionButton, { backgroundColor: COLORS.info[500] }]}
                 icon={<MaterialCommunityIcons name="account-plus" size={18} color={COLORS.white} />}
               >
@@ -382,7 +382,7 @@ const ReportsScreen = ({ navigation }) => {
               
               <Button
                 mode="contained"
-                onPress={() => navigation.navigate(getString('addClassScreen')
+                onPress={() => navigation.navigate('AddClass')}
                 style={[styles.actionButton, { backgroundColor: COLORS.primary[500] }]}
                 icon={<MaterialCommunityIcons name="school-outline" size={18} color={COLORS.white} />}
               >

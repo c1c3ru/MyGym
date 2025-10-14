@@ -89,7 +89,7 @@ const EnhancedFlashList = memo(({
       ListFooterComponent={memoizedListFooter}
       ListEmptyComponent={memoizedListEmpty}
       contentContainerStyle={contentContainerStyle}
-      style={style}
+      style={[styles.defaultFlashList, style]}
       accessible={accessible}
       accessibilityLabel={accessibilityLabel || `Lista com ${data?.length || 0} itens`}
       {...props}
@@ -100,6 +100,10 @@ const EnhancedFlashList = memo(({
 EnhancedFlashList.displayName = 'EnhancedFlashList';
 
 const styles = StyleSheet.create({
+  defaultFlashList: {
+    flex: 1,
+    minHeight: 200, // Altura mínima para evitar erro do FlashList
+  },
   loadingFooter: {
     flexDirection: 'row',
     justifyContent: 'center',

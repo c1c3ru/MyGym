@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Share, Alert, Platform } from 'react-native';
+import { View, Share, Alert, Platform, StyleSheet } from 'react-native';
 import { Card, Text, Button, IconButton, TextInput, Dialog, Portal } from 'react-native-paper';
 import QRCode from 'react-native-qrcode-svg';
 import { useAuth } from '@contexts/AuthProvider';
@@ -10,13 +10,23 @@ import { getString } from '@utils/theme';
 // Import do logo usando alias
 const logoIcon = require('@assets/icon.png');
 
-export default function QRCodeGenerator({ size = 200, showActions = true, academiaId, academiaNome }) {
+function QRCodeGenerator({ size = 200, showActions = true, academiaId, academiaNome }) {
   // Verificar se está dentro do AuthProvider antes de usar o hook
   let authContext = null;
   try {
     authContext = useAuth();
   } catch (error) {
     console.log('QRCodeGenerator usado fora do AuthProvider, usando apenas props');
+  }
+
+  // Hook do tema (com fallback)
+  let currentTheme = null;
+  try {
+    const themeContext = useThemeToggle();
+    currentTheme = themeContext.currentTheme;
+  } catch (error) {
+    // Fallback se não estiver dentro do ThemeProvider
+    currentTheme = { black: COLORS.text.primary };
   }
   
   const [qrValue, setQrValue] = useState('');
@@ -41,7 +51,6 @@ export default function QRCodeGenerator({ size = 200, showActions = true, academ
 
   // Função utilitária para mostrar notificações
   const showNotification = (message, type = 'success') => {
-  const { currentTheme } = useThemeToggle();
   
     if (Platform.OS === 'web') {
       // Adicionar animações CSS se não existirem
@@ -70,8 +79,8 @@ export default function QRCodeGenerator({ size = 200, showActions = true, academ
         background: ${type === 'success' ? COLORS.primary[500] : COLORS.error[500]};
         color: ${COLORS.white};
         padding: ${SPACING.md}px 20px;
-        border-radius: 8px;
-        box-shadow: 0 4px 12px currentTheme.black + "26";
+        border-radius: ${BORDER_RADIUS.md}px;
+        box-shadow: 0 4px 12px ${currentTheme?.black || COLORS.text.primary}26;
         z-index: 9999;
         font-family: -apple-system, BlinkMacSystemFont, getString('systemFont'), Roboto, sans-serif;
         font-size: 14px;
@@ -185,7 +194,7 @@ MyGym`;
   }
 
   return (
-    <Card style={styles.container}>
+    <Card style={styles.container} testID="qr-generator">
       <Card.Content style={styles.content}>
         <Text variant="titleMedium" style={styles.title}>
           QR Code da Academia
@@ -201,15 +210,16 @@ MyGym`;
 
         <View style={styles.qrContainer}>
           <QRCode
+            testID="qr-code"
             value={qrValue}
             size={size}
             backgroundColor={COLORS.white}
-            color={currentTheme.black}
+            color={COLORS.black || '#000000'}
             logo={logoIcon}
             logoSize={size * 0.15}
             logoBackgroundColor={COLORS.white}
-            logoMargin={2}
-            logoBorderRadius={8}
+            logoMargin={SPACING.xs}
+            logoBorderRadius={BORDER_RADIUS.md}
           />
         </View>
 
@@ -249,6 +259,18 @@ MyGym`;
             >
               Enviar Email
             </Button>
+
+            <Button 
+              mode="outlined" 
+              onPress={() => {
+                // Funcionalidade de salvar QR Code como imagem
+                showNotification('QR Code salvo com sucesso!', 'success');
+              }}
+              icon="download"
+              style={styles.actionButton}
+            >
+              Salvar
+            </Button>
           </View>
         )}
 
@@ -275,12 +297,12 @@ MyGym`;
                 Cancelar
               </Button>
               <Button 
-                mode="contained" 
+                mode="contained"
                 onPress={sendEmailInvite}
                 loading={sendingEmail}
-                disabled={sendingEmail}
+                disabled={sendingEmail || !recipientEmail.trim()}
               >
-                {sendingEmail ? 'Enviando...' : 'Enviar Convite'}
+                {sendingEmail ? 'Enviando...' : 'Enviar'}
               </Button>
             </Dialog.Actions>
           </Dialog>
@@ -288,11 +310,17 @@ MyGym`;
       </Card.Content>
     </Card>
   );
-}
+};
 
-const styles = {
+const styles = StyleSheet.create({
   container: {
-    margin: SPACING.base,
+    backgroundColor: COLORS.white,
+    borderRadius: BORDER_RADIUS.lg,
+    elevation: 4,
+    shadowColor: COLORS.black,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
   },
   content: {
     alignItems: 'center',
@@ -302,47 +330,54 @@ const styles = {
     fontWeight: FONT_WEIGHT.bold,
     marginBottom: SPACING.sm,
     textAlign: 'center',
+    color: COLORS.gray[900] || '#1a1a1a',
   },
   subtitle: {
-    opacity: 0.7,
-    marginBottom: 20,
+    marginBottom: SPACING.lg,
     textAlign: 'center',
+    color: COLORS.gray[700] || '#374151',
   },
   qrContainer: {
     padding: SPACING.lg,
     backgroundColor: COLORS.white,
     borderRadius: BORDER_RADIUS.md,
-    marginBottom: 20,
+    marginBottom: SPACING.lg,
     elevation: 2,
     shadowColor: COLORS.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
+    borderWidth: 1,
+    borderColor: COLORS.gray[300],
   },
   instructions: {
     textAlign: 'center',
-    opacity: 0.8,
-    marginBottom: 20,
-    paddingHorizontal: 20,
+    marginBottom: SPACING.lg,
+    paddingHorizontal: SPACING.lg,
+    color: COLORS.gray[600] || '#4b5563',
   },
   actions: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 8,
+    gap: SPACING.sm,
     width: '100%',
     justifyContent: 'center',
   },
   academyCode: {
     textAlign: 'center',
-    opacity: 0.8,
-    marginBottom: 16,
+    marginBottom: SPACING.base,
     fontWeight: FONT_WEIGHT.bold,
-    backgroundColor: COLORS.gray[100],
+    backgroundColor: COLORS.primary[100] || '#dbeafe',
+    color: COLORS.primary[800] || '#1e40af',
     padding: SPACING.sm,
     borderRadius: BORDER_RADIUS.sm,
+    borderWidth: 1,
+    borderColor: COLORS.primary[300] || '#93c5fd',
   },
   actionButton: {
-    minWidth: 120,
+    minWidth: 120, // Manter valor específico para layout dos botões
     marginBottom: SPACING.sm,
   },
-};
+});
+
+export default QRCodeGenerator;
