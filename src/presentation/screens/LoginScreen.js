@@ -63,12 +63,12 @@ const handleErrorAction = (action, navigation, setEmail, setPassword) => {
       break;
     case 'reset-password':
       if (navigation) {
-        navigation.navigate('ForgotPassword'));
+        navigation.navigate('ForgotPassword');
       }
       break;
     case 'register':
       if (navigation) {
-        navigation.navigate('Register'));
+        navigation.navigate('Register');
       }
       break;
     case 'retry':
@@ -190,7 +190,7 @@ export default function LoginScreen({ navigation }) {
 
   const handleForgotPassword = () => {
     if (navigation) {
-      navigation.navigate('ForgotPassword'));
+      navigation.navigate('ForgotPassword');
     } else {
       Alert.alert(
         getString('recoverPassword'),
@@ -202,7 +202,7 @@ export default function LoginScreen({ navigation }) {
 
   const handleGoToRegister = () => {
     if (navigation) {
-      navigation.navigate('Register'));
+      navigation.navigate('Register');
     } else {
       Alert.alert(getString('register'), getString('registrationDevelopment'));
     }
