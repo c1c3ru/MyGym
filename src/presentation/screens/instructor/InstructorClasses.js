@@ -219,7 +219,7 @@ const InstructorClasses = ({ navigation }) => {
       <Card key={classItem.id} style={styles.card}>
         <Card.Content>
           <View style={styles.cardHeader}>
-            <Text style={styles.className} style={[styles.title, props.style]}>{classItem.name}</Text>
+            <Text style={[styles.className, styles.title]}>{classItem.name}</Text>
             <Chip 
               style={[styles.statusChip, { backgroundColor: classItem.status === 'active' ? COLORS.primary[500] : COLORS.warning[400] }]}
               textStyle={{ color: COLORS.white, fontSize: FONT_SIZE.sm }}
@@ -253,7 +253,7 @@ const InstructorClasses = ({ navigation }) => {
           </View>
 
           {classItem.description && (
-            <Text style={styles.description} style={[styles.paragraph, props.style]}>{classItem.description}</Text>
+            <Text style={[styles.description, styles.paragraph]}>{classItem.description}</Text>
           )}
         </Card.Content>
         

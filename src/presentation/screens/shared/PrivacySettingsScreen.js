@@ -182,7 +182,7 @@ const PrivacySettingsScreen = ({ navigation }) => {
           <Card.Content>
             <View style={styles.cardHeader}>
               <Ionicons name="shield-checkmark-outline" size={24} color={COLORS.primary[500]} />
-              <Text style={styles.cardTitle} style={[styles.title, props.style]}>{getString('lgpdStatus')}</Text>
+              <Text style={[styles.cardTitle, styles.title]}>{getString('lgpdStatus')}</Text>
               <Chip 
                 mode="outlined"
                 style={styles.statusChip}
@@ -192,7 +192,7 @@ const PrivacySettingsScreen = ({ navigation }) => {
               </Chip>
             </View>
 
-            <Text style={styles.lgpdInfo} style={[styles.paragraph, props.style]}>
+            <Text style={[styles.lgpdInfo, styles.paragraph]}>
               {getString('lgpdInfo')}
             </Text>
 
@@ -209,7 +209,7 @@ const PrivacySettingsScreen = ({ navigation }) => {
           <Card.Content>
             <View style={styles.cardHeader}>
               <Ionicons name="document-text-outline" size={24} color={COLORS.info[500]} />
-              <Text style={styles.cardTitle} style={[styles.title, props.style]}>{getString('consents')}</Text>
+              <Text style={[styles.cardTitle, styles.title]}>{getString('consents')}</Text>
             </View>
 
             <List.Item
@@ -270,7 +270,7 @@ const PrivacySettingsScreen = ({ navigation }) => {
           <Card.Content>
             <View style={styles.cardHeader}>
               <Ionicons name="eye-outline" size={24} color={COLORS.warning[500]} />
-              <Text style={styles.cardTitle} style={[styles.title, props.style]}>{getString('profileVisibility')}</Text>
+              <Text style={[styles.cardTitle, styles.title]}>{getString('profileVisibility')}</Text>
             </View>
 
             <List.Item
@@ -325,7 +325,7 @@ const PrivacySettingsScreen = ({ navigation }) => {
           <Card.Content>
             <View style={styles.cardHeader}>
               <Ionicons name="call-outline" size={24} color={COLORS.secondary[500]} />
-              <Text style={styles.cardTitle} style={[styles.title, props.style]}>{getString('contactMethods')}</Text>
+              <Text style={[styles.cardTitle, styles.title]}>{getString('contactMethods')}</Text>
             </View>
 
             <List.Item
@@ -373,7 +373,7 @@ const PrivacySettingsScreen = ({ navigation }) => {
           <Card.Content>
             <View style={styles.cardHeader}>
               <Ionicons name="person-outline" size={24} color={COLORS.error[500]} />
-              <Text style={styles.cardTitle} style={[styles.title, props.style]}>{getString('yourRights')}</Text>
+              <Text style={[styles.cardTitle, styles.title]}>{getString('yourRights')}</Text>
             </View>
 
             <List.Item
@@ -408,7 +408,7 @@ const PrivacySettingsScreen = ({ navigation }) => {
         {/* Informações Importantes */}
         <Card style={styles.card}>
           <Card.Content>
-            <Text style={styles.cardTitle} style={[styles.title, props.style]}>{getString('importantInfo')}</Text>
+            <Text style={[styles.cardTitle, styles.title]}>{getString('importantInfo')}</Text>
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
 import { getString } from '@utils/theme';
             <Text style={styles.infoText}>

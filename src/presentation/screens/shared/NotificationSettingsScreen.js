@@ -118,7 +118,7 @@ const NotificationSettingsScreen = ({ navigation }) => {
           <Card.Content>
             <View style={styles.cardHeader}>
               <Ionicons name="notifications-outline" size={24} color={COLORS.info[500]} />
-              <Text style={styles.cardTitle} style={[styles.title, props.style]}>Notificações Gerais</Text>
+              <Text style={[styles.cardTitle, styles.title]}>Notificações Gerais</Text>
             </View>
 
             <List.Item
@@ -153,7 +153,7 @@ const NotificationSettingsScreen = ({ navigation }) => {
           <Card.Content>
             <View style={styles.cardHeader}>
               <Ionicons name="list-outline" size={24} color={COLORS.primary[500]} />
-              <Text style={styles.cardTitle} style={[styles.title, props.style]}>Tipos de Notificação</Text>
+              <Text style={[styles.cardTitle, styles.title]}>Tipos de Notificação</Text>
             </View>
 
             <List.Item
@@ -214,7 +214,7 @@ const NotificationSettingsScreen = ({ navigation }) => {
           <Card.Content>
             <View style={styles.cardHeader}>
               <Ionicons name="time-outline" size={24} color={COLORS.warning[500]} />
-              <Text style={styles.cardTitle} style={[styles.title, props.style]}>Configurações de Tempo</Text>
+              <Text style={[styles.cardTitle, styles.title]}>Configurações de Tempo</Text>
             </View>
 
             <List.Item
@@ -264,7 +264,7 @@ const NotificationSettingsScreen = ({ navigation }) => {
           <Card.Content>
             <View style={styles.cardHeader}>
               <Ionicons name="moon-outline" size={24} color={COLORS.secondary[500]} />
-              <Text style={styles.cardTitle} style={[styles.title, props.style]}>Horário Silencioso</Text>
+              <Text style={[styles.cardTitle, styles.title]}>Horário Silencioso</Text>
             </View>
 
             <List.Item
@@ -309,7 +309,7 @@ const NotificationSettingsScreen = ({ navigation }) => {
         {/* Informações */}
         <Card style={styles.card}>
           <Card.Content>
-            <Text style={styles.cardTitle} style={[styles.title, props.style]}>Informações</Text>
+            <Text style={[styles.cardTitle, styles.title]}>Informações</Text>
             <Text style={styles.infoText}>
               • As notificações push requerem permissão do sistema
             </Text>

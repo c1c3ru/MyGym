@@ -97,15 +97,15 @@ const LoginScreenDebug = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.header}>
-          <Text style={styles.title} style={[styles.title, props.style]}>Debug de Login</Text>
-          <Text style={styles.subtitle} style={[styles.paragraph, props.style]}>
+          <Text style={[styles.title, styles.title]}>Debug de Login</Text>
+          <Text style={[styles.subtitle, styles.paragraph]}>
             Teste de autenticação com logs detalhados
           </Text>
         </View>
 
         <Card style={styles.card}>
           <Card.Content>
-            <Text style={styles.cardTitle} style={[styles.title, props.style]}>Credenciais</Text>
+            <Text style={[styles.cardTitle, styles.title]}>Credenciais</Text>
             
             <TextInput
               label="email"

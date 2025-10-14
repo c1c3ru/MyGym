@@ -121,8 +121,8 @@ const GraduationManagementScreen = ({ navigation }) => {
               <Ionicons name="people" size={24} color={COLORS.info[500]} />
             </View>
             <View>
-              <Text style={styles.summaryNumber} style={[styles.title, props.style]}>{stats.totalStudents}</Text>
-              <Text style={styles.summaryLabel} style={[styles.paragraph, props.style]}>Total de Estudantes</Text>
+              <Text style={[styles.summaryNumber, styles.title]}>{stats.totalStudents}</Text>
+              <Text style={[styles.summaryLabel, styles.paragraph]}>Total de Estudantes</Text>
             </View>
           </Card.Content>
         </Card>
@@ -133,9 +133,9 @@ const GraduationManagementScreen = ({ navigation }) => {
               <Ionicons name="trophy" size={24} color={COLORS.primary[500]} />
             </View>
             <View>
-              <Text style={styles.summaryNumber} style={[styles.title, props.style]}>{stats.eligibleStudents}</Text>
-              <Text style={styles.summaryLabel} style={[styles.paragraph, props.style]}>Elegíveis</Text>
-              <Text style={styles.summaryPercentage} style={[styles.paragraph, props.style]}>
+              <Text style={[styles.summaryNumber, styles.title]}>{stats.eligibleStudents}</Text>
+              <Text style={[styles.summaryLabel, styles.paragraph]}>Elegíveis</Text>
+              <Text style={[styles.summaryPercentage, styles.paragraph]}>
                 {stats.eligibilityRate}% do total
               </Text>
             </View>
@@ -148,8 +148,8 @@ const GraduationManagementScreen = ({ navigation }) => {
               <Ionicons name="calendar" size={24} color={COLORS.warning[500]} />
             </View>
             <View>
-              <Text style={styles.summaryNumber} style={[styles.title, props.style]}>{stats.upcomingExams}</Text>
-              <Text style={styles.summaryLabel} style={[styles.paragraph, props.style]}>Próximos Exames</Text>
+              <Text style={[styles.summaryNumber, styles.title]}>{stats.upcomingExams}</Text>
+              <Text style={[styles.summaryLabel, styles.paragraph]}>Próximos Exames</Text>
             </View>
           </Card.Content>
         </Card>
@@ -164,7 +164,7 @@ const GraduationManagementScreen = ({ navigation }) => {
 
     return (
       <View style={styles.filterSection}>
-        <Text style={styles.sectionTitle} style={[styles.title, props.style]}>Filtrar por Modalidade</Text>
+        <Text style={[styles.sectionTitle, styles.title]}>Filtrar por Modalidade</Text>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           <View style={styles.filterContainer}>
             {modalities.map((modality) => (
@@ -190,7 +190,7 @@ const GraduationManagementScreen = ({ navigation }) => {
     return (
       <View style={styles.section}>
         <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle} style={[styles.title, props.style]}>Estudantes Elegíveis</Text>
+          <Text style={[styles.sectionTitle, styles.title]}>Estudantes Elegíveis</Text>
           <Chip style={styles.countChip}>{alerts.length}</Chip>
         </View>
 
@@ -226,7 +226,7 @@ const GraduationManagementScreen = ({ navigation }) => {
     return (
       <Card style={styles.actionsCard}>
         <Card.Content>
-          <Text style={styles.sectionTitle} style={[styles.title, props.style]}>Ações de Gerenciamento</Text>
+          <Text style={[styles.sectionTitle, styles.title]}>Ações de Gerenciamento</Text>
           <Divider style={styles.divider} />
 
           <List.Item
@@ -362,8 +362,8 @@ const GraduationManagementScreen = ({ navigation }) => {
         colors={[COLORS.info[500], COLORS.info[700]]}
         style={styles.header}
       >
-        <Text style={styles.headerTitle} style={[styles.title, props.style]}>Gerenciamento de Graduações</Text>
-        <Text style={styles.headerSubtitle} style={[styles.paragraph, props.style]}>
+        <Text style={[styles.headerTitle, styles.title]}>Gerenciamento de Graduações</Text>
+        <Text style={[styles.headerSubtitle, styles.paragraph]}>
           Administração e controle de graduações
         </Text>
       </LinearGradient>

@@ -132,7 +132,7 @@ const StudentPayments = ({ navigation }) => {
             <Card.Content>
               <View style={styles.cardHeader}>
                 <Ionicons name="card-outline" size={24} color={COLORS.info[500]} />
-                <Text style={styles.cardTitle} style={[styles.title, props.style]}>Mensalidade Atual</Text>
+                <Text style={[styles.cardTitle, styles.title]}>Mensalidade Atual</Text>
               </View>
               
               <View style={styles.currentPaymentInfo}>
@@ -182,7 +182,7 @@ const StudentPayments = ({ navigation }) => {
           <Card.Content>
             <View style={styles.cardHeader}>
               <Ionicons name="time-outline" size={24} color={COLORS.info[500]} />
-              <Text style={styles.cardTitle} style={[styles.title, props.style]}>Histórico de Pagamentos</Text>
+              <Text style={[styles.cardTitle, styles.title]}>Histórico de Pagamentos</Text>
             </View>
             
             {payments.length > 0 ? (
@@ -211,7 +211,7 @@ const StudentPayments = ({ navigation }) => {
                 </View>
               ))
             ) : (
-              <Text style={styles.emptyText} style={[styles.paragraph, props.style]}>
+              <Text style={[styles.emptyText, styles.paragraph]}>
                 Nenhum pagamento encontrado
               </Text>
             )}
@@ -221,14 +221,14 @@ const StudentPayments = ({ navigation }) => {
         {/* Informações Adicionais */}
         <Card style={styles.card}>
           <Card.Content>
-            <Text style={styles.cardTitle} style={[styles.title, props.style]}>Informações</Text>
-            <Text style={styles.infoText} style={[styles.paragraph, props.style]}>
+            <Text style={[styles.cardTitle, styles.title]}>Informações</Text>
+            <Text style={[styles.infoText, styles.paragraph]}>
               • Os pagamentos devem ser realizados até a data de vencimento
             </Text>
-            <Text style={styles.infoText} style={[styles.paragraph, props.style]}>
+            <Text style={[styles.infoText, styles.paragraph]}>
               • Após o vencimento, será cobrada multa de 2% + juros de 1% ao mês
             </Text>
-            <Text style={styles.infoText} style={[styles.paragraph, props.style]}>
+            <Text style={[styles.infoText, styles.paragraph]}>
               • Em caso de dúvidas, entre em contato com a administração
             </Text>
           </Card.Content>

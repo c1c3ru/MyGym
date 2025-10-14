@@ -475,7 +475,7 @@ const InstructorStudents = ({ navigation }) => {
                       style={styles.avatar}
                     />
                     <View style={styles.studentDetails}>
-                      <Text style={styles.studentName} style={[styles.title, props.style]}>{student.name}</Text>
+                      <Text style={[styles.studentName, styles.title]}>{student.name}</Text>
                       <Text style={styles.studentEmail}>{student.email}</Text>
                       {student.currentGraduation && (
                         <Chip 
@@ -581,7 +581,7 @@ const InstructorStudents = ({ navigation }) => {
         {students.length > 0 && (
           <Card style={styles.statsCard}>
             <Card.Content>
-              <Text style={styles.statsTitle} style={[styles.title, props.style]}>Resumo dos Alunos</Text>
+              <Text style={[styles.statsTitle, styles.title]}>Resumo dos Alunos</Text>
               
               <View style={styles.statsRow}>
                 <View style={styles.statItem}>

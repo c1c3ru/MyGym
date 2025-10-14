@@ -227,14 +227,14 @@ const ReportsScreen = ({ navigation }) => {
       >
         {/* Header */}
         <View style={styles.header}>
-          <Text style={styles.title} style={[styles.title, props.style]}>Relatórios Gerenciais</Text>
+          <Text style={styles.title}>Relatórios Gerenciais</Text>
           <Text style={styles.subtitle}>Visão geral do desempenho da academia</Text>
         </View>
 
         {/* Estatísticas Principais */}
         <Card style={styles.card}>
           <Card.Content>
-            <Text style={styles.cardTitle} style={[styles.title, props.style]}>Estatísticas Principais</Text>
+            <Text style={[styles.cardTitle, styles.title]}>Estatísticas Principais</Text>
             
             <View style={styles.statsGrid}>
               <View style={styles.statItem}>
@@ -287,7 +287,7 @@ const ReportsScreen = ({ navigation }) => {
         {/* Taxa de Ocupação */}
         <Card style={styles.card}>
           <Card.Content>
-            <Text style={styles.cardTitle} style={[styles.title, props.style]}>Taxa de Ocupação</Text>
+            <Text style={[styles.cardTitle, styles.title]}>Taxa de Ocupação</Text>
             
             <View style={styles.occupancyContainer}>
               <Text style={styles.occupancyLabel}>
@@ -322,7 +322,7 @@ const ReportsScreen = ({ navigation }) => {
         {/* Turmas Mais Populares */}
         <Card style={styles.card}>
           <Card.Content>
-            <Text style={styles.cardTitle} style={[styles.title, props.style]}>Turmas Mais Populares</Text>
+            <Text style={[styles.cardTitle, styles.title]}>Turmas Mais Populares</Text>
             
             <DataTable>
               <DataTable.Header>
@@ -349,7 +349,7 @@ const ReportsScreen = ({ navigation }) => {
         {/* Atividades Recentes */}
         <Card style={styles.card}>
           <Card.Content>
-            <Text style={styles.cardTitle} style={[styles.title, props.style]}>Atividades Recentes</Text>
+            <Text style={[styles.cardTitle, styles.title]}>Atividades Recentes</Text>
             
             {recentActivities.map((activity, index) => (
               <View key={index} style={styles.activityItem}>
@@ -368,7 +368,7 @@ const ReportsScreen = ({ navigation }) => {
         {/* Ações Rápidas */}
         <Card style={styles.card}>
           <Card.Content>
-            <Text style={styles.cardTitle} style={[styles.title, props.style]}>Ações Rápidas</Text>
+            <Text style={[styles.cardTitle, styles.title]}>Ações Rápidas</Text>
             
             <View style={styles.actionsContainer}>
               <Button

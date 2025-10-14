@@ -241,7 +241,7 @@ const ProfileScreen = ({ navigation }) => {
               style={[styles.avatar, { backgroundColor: getClaimsTypeColor() }]}
             />
             <View style={styles.headerText}>
-              <Text style={styles.userName} style={[styles.title, props.style]}>{userProfile?.name || getString('user')}</Text>
+              <Text style={[styles.userName, styles.title]}>{userProfile?.name || getString('user')}</Text>
               <Text style={styles.userEmail}>{user?.email}</Text>
               <Chip 
                 mode="outlined"
@@ -260,7 +260,7 @@ const ProfileScreen = ({ navigation }) => {
             <Card.Content>
               <View style={styles.cardHeader}>
                 <Ionicons name="warning-outline" size={24} color={COLORS.warning[500]} />
-                <Text style={[styles.cardTitle, { color: COLORS.warning[500] }]} style={[styles.title, props.style]}>{getString('paymentNearDue')}</Text>
+                <Text style={[styles.cardTitle, { color: COLORS.warning[500] }]} style={styles.title}>{getString('paymentNearDue')}</Text>
               </View>
               
               <View style={styles.paymentWarning}>
@@ -303,7 +303,7 @@ const ProfileScreen = ({ navigation }) => {
           <Card.Content>
             <View style={styles.cardHeader}>
               <Ionicons name="person-outline" size={24} color={COLORS.info[500]} />
-              <Text style={styles.cardTitle} style={[styles.title, props.style]}>{getString('personalInformation')}</Text>
+              <Text style={[styles.cardTitle, styles.title]}>{getString('personalInformation')}</Text>
               <Button 
                 mode="text" 
                 onPress={() => setEditing(!editing)}
@@ -417,7 +417,7 @@ const ProfileScreen = ({ navigation }) => {
               <Card.Content>
                 <View style={styles.cardHeader}>
                   <Ionicons name="school-outline" size={24} color={COLORS.primary[500]} />
-                  <Text style={styles.cardTitle} style={[styles.title, props.style]}>{getString('academyInformation')}</Text>
+                  <Text style={[styles.cardTitle, styles.title]}>{getString('academyInformation')}</Text>
                 </View>
 
                 <List.Item
@@ -450,7 +450,7 @@ const ProfileScreen = ({ navigation }) => {
               <Card.Content>
                 <View style={styles.cardHeader}>
                   <Ionicons name="calendar-outline" size={24} color={COLORS.info[500]} />
-                  <Text style={styles.cardTitle} style={[styles.title, props.style]}>Treinos esta semana</Text>
+                  <Text style={[styles.cardTitle, styles.title]}>Treinos esta semana</Text>
                   <Button 
                     mode="text" 
                     onPress={() => setShowYearModal(true)}
@@ -535,7 +535,7 @@ const ProfileScreen = ({ navigation }) => {
           <Card.Content>
             <View style={styles.cardHeader}>
               <Ionicons name="settings-outline" size={24} color={COLORS.text.secondary} />
-              <Text style={styles.cardTitle} style={[styles.title, props.style]}>Configurações da Conta</Text>
+              <Text style={[styles.cardTitle, styles.title]}>Configurações da Conta</Text>
             </View>
 
             <List.Item

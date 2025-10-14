@@ -134,8 +134,8 @@ export default function ForgotPasswordScreen({ navigation }) {
                 color={COLORS.white} 
                 style={styles.headerIcon}
               />
-              <Text style={styles.headerTitle} style={[styles.title, props.style]}>{getString('recoverPassword')}</Text>
-              <Text style={styles.headerSubtitle} style={[styles.paragraph, props.style]}>
+              <Text style={[styles.headerTitle, styles.title]}>{getString('recoverPassword')}</Text>
+              <Text style={[styles.headerSubtitle, styles.paragraph]}>
                 {getString('enterEmailForInstructions')}
               </Text>
             </View>
@@ -183,11 +183,11 @@ export default function ForgotPasswordScreen({ navigation }) {
                     color={COLORS.primary[500]} 
                     style={styles.successIcon}
                   />
-                  <Text style={styles.successTitle} style={[styles.title, props.style]}>{getString('emailSent')}</Text>
-                  <Text style={styles.successText} style={[styles.paragraph, props.style]}>
+                  <Text style={[styles.successTitle, styles.title]}>{getString('emailSent')}</Text>
+                  <Text style={[styles.successText, styles.paragraph]}>
                     {getString('checkInboxInstructions')}
                   </Text>
-                  <Text style={styles.spamWarning} style={[styles.paragraph, props.style]}>
+                  <Text style={[styles.spamWarning, styles.paragraph]}>
                     {getString('spamFolderWarning')}
                   </Text>
                 </View>

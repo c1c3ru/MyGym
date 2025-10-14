@@ -164,7 +164,7 @@ const Relatorios = ({ navigation }) => {
           <Card.Content>
             <View style={styles.header}>
               <MaterialCommunityIcons name="chart-line" size={32} color={COLORS.secondary[500]} />
-              <Text style={styles.title} style={[styles.title, props.style]}>Relatórios e Análises</Text>
+              <Text style={[styles.title, styles.title]}>Relatórios e Análises</Text>
             </View>
             
             <SegmentedButtons
@@ -186,7 +186,7 @@ const Relatorios = ({ navigation }) => {
         {/* Estatísticas Gerais */}
         <Card style={styles.card}>
           <Card.Content>
-            <Text style={styles.sectionTitle} style={[styles.title, props.style]}>Visão Geral</Text>
+            <Text style={[styles.sectionTitle, styles.title]}>Visão Geral</Text>
             
             <View style={styles.statsGrid}>
               <StatCard
@@ -227,7 +227,7 @@ const Relatorios = ({ navigation }) => {
         {/* Aulas Mais Populares */}
         <Card style={styles.card}>
           <Card.Content>
-            <Text style={styles.sectionTitle} style={[styles.title, props.style]}>Aulas Mais Populares</Text>
+            <Text style={[styles.sectionTitle, styles.title]}>Aulas Mais Populares</Text>
             
             {reportData.aulasPopulares.map((aula, index) => (
               <Surface key={index} style={styles.aulaItem}>
@@ -257,7 +257,7 @@ const Relatorios = ({ navigation }) => {
         {/* Evolução Mensal */}
         <Card style={styles.card}>
           <Card.Content>
-            <Text style={styles.sectionTitle} style={[styles.title, props.style]}>Evolução dos Últimos Meses</Text>
+            <Text style={[styles.sectionTitle, styles.title]}>Evolução dos Últimos Meses</Text>
             
             {reportData.evolucaoMensal.map((mes, index) => (
               <View key={index} style={styles.evolucaoItem}>
@@ -280,7 +280,7 @@ const Relatorios = ({ navigation }) => {
         {/* Ações */}
         <Card style={styles.card}>
           <Card.Content>
-            <Text style={styles.sectionTitle} style={[styles.title, props.style]}>Exportar Relatórios</Text>
+            <Text style={[styles.sectionTitle, styles.title]}>Exportar Relatórios</Text>
             
             <View style={styles.exportButtons}>
               <Button

@@ -282,8 +282,8 @@ const AdminClasses = ({ navigation }) => {
     <Card style={styles.emptyCard}>
       <Card.Content style={styles.emptyContent}>
         <Ionicons name="school-outline" size={48} color="currentTheme.gray[300]" />
-        <Text style={styles.emptyTitle} style={[styles.title, props.style]}>{getString('noClassesFound')}</Text>
-        <Text style={styles.emptyText} style={[styles.paragraph, props.style]}>
+        <Text style={[styles.emptyTitle, styles.title]}>{getString('noClassesFound')}</Text>
+        <Text style={[styles.emptyText, styles.paragraph]}>
           {searchQuery ? 
             'noMatchingClasses' : 
             getString('noClassesRegistered')
@@ -299,7 +299,7 @@ const AdminClasses = ({ navigation }) => {
     return (
       <Card style={styles.statsCard}>
         <Card.Content>
-          <Text style={styles.statsTitle} style={[styles.title, props.style]}>{getString('classStatistics')}</Text>
+          <Text style={[styles.statsTitle, styles.title]}>{getString('classStatistics')}</Text>
           
           <View style={styles.statsGrid}>
             <View style={styles.statItem}>

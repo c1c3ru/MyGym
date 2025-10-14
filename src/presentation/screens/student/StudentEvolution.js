@@ -133,7 +133,7 @@ const StudentEvolution = ({ navigation }) => {
           <Card.Content>
             <View style={styles.cardHeader}>
               <Ionicons name="trophy-outline" size={24} color={COLORS.warning[300]} />
-              <Text style={styles.cardTitle} style={[styles.title, props.style]}>Minha Evolução</Text>
+              <Text style={[styles.cardTitle, styles.title]}>Minha Evolução</Text>
             </View>
             
             <View style={styles.statsGrid}>
@@ -177,7 +177,7 @@ const StudentEvolution = ({ navigation }) => {
           <Card.Content>
             <View style={styles.cardHeader}>
               <Ionicons name="git-branch-outline" size={24} color={COLORS.info[500]} />
-              <Text style={styles.cardTitle} style={[styles.title, props.style]}>Timeline de Graduações</Text>
+              <Text style={[styles.cardTitle, styles.title]}>Timeline de Graduações</Text>
             </View>
             
             {graduations.length > 0 ? (
@@ -221,10 +221,10 @@ const StudentEvolution = ({ navigation }) => {
             ) : (
               <View style={styles.emptyState}>
                 <Ionicons name="medal-outline" size={48} color={COLORS.gray[300]} />
-                <Text style={styles.emptyText} style={[styles.paragraph, props.style]}>
+                <Text style={[styles.emptyText, styles.paragraph]}>
                   Nenhuma graduação registrada ainda
                 </Text>
-                <Text style={styles.emptySubtext} style={[styles.paragraph, props.style]}>
+                <Text style={[styles.emptySubtext, styles.paragraph]}>
                   Suas graduações aparecerão aqui conforme você evolui
                 </Text>
               </View>
@@ -238,7 +238,7 @@ const StudentEvolution = ({ navigation }) => {
             <Card.Content>
               <View style={styles.cardHeader}>
                 <Ionicons name="fitness-outline" size={24} color={COLORS.primary[500]} />
-                <Text style={styles.cardTitle} style={[styles.title, props.style]}>Modalidades Praticadas</Text>
+                <Text style={[styles.cardTitle, styles.title]}>Modalidades Praticadas</Text>
               </View>
               
               <View style={styles.modalitiesContainer}>
@@ -262,7 +262,7 @@ const StudentEvolution = ({ navigation }) => {
           <Card.Content>
             <View style={styles.cardHeader}>
               <Ionicons name="flag-outline" size={24} color={COLORS.warning[500]} />
-              <Text style={styles.cardTitle} style={[styles.title, props.style]}>Próximos Objetivos</Text>
+              <Text style={[styles.cardTitle, styles.title]}>Próximos Objetivos</Text>
             </View>
             
             <List.Item

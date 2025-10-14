@@ -336,7 +336,7 @@ const AddStudentScreen = ({ navigation, route }) => {
       >
         <Card style={styles.card}>
           <Card.Content>
-            <Text style={styles.title} style={[styles.title, props.style]}>Novo Aluno</Text>
+            <Text style={[styles.title, styles.title]}>Novo Aluno</Text>
 
             {/* Dados Pessoais */}
             <Text style={styles.sectionTitle}>Dados Pessoais</Text>

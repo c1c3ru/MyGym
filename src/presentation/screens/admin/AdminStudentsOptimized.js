@@ -231,37 +231,37 @@ const AdminStudentsOptimized = ({ navigation }) => {
     students.length > 0 ? (
       <Card style={styles.statsCard}>
         <Card.Content>
-          <Text style={styles.statsTitle} accessibilityRole="header" style={[styles.title, props.style]}>
+          <Text style={styles.statsTitle} accessibilityRole="header" style={styles.title}>
             Estatísticas Gerais
           </Text>
           
           <View style={styles.statsGrid}>
             <View style={styles.statItem}>
-              <Text style={styles.statNumber} accessible={true} style={[styles.title, props.style]}>
+              <Text style={styles.statNumber} accessible={true} style={styles.title}>
                 {stats.total}
               </Text>
-              <Text style={styles.statLabel} style={[styles.paragraph, props.style]}>Total</Text>
+              <Text style={[styles.statLabel, styles.paragraph]}>Total</Text>
             </View>
             
             <View style={styles.statItem}>
-              <Text style={styles.statNumber} accessible={true} style={[styles.title, props.style]}>
+              <Text style={styles.statNumber} accessible={true} style={styles.title}>
                 {stats.active}
               </Text>
-              <Text style={styles.statLabel} style={[styles.paragraph, props.style]}>Ativos</Text>
+              <Text style={[styles.statLabel, styles.paragraph]}>Ativos</Text>
             </View>
             
             <View style={styles.statItem}>
-              <Text style={styles.statNumber} accessible={true} style={[styles.title, props.style]}>
+              <Text style={styles.statNumber} accessible={true} style={styles.title}>
                 {stats.paymentOk}
               </Text>
-              <Text style={styles.statLabel} style={[styles.paragraph, props.style]}>Pagamento OK</Text>
+              <Text style={[styles.statLabel, styles.paragraph]}>Pagamento OK</Text>
             </View>
             
             <View style={styles.statItem}>
-              <Text style={styles.statNumber} accessible={true} style={[styles.title, props.style]}>
+              <Text style={styles.statNumber} accessible={true} style={styles.title}>
                 {stats.overdue}
               </Text>
-              <Text style={styles.statLabel} style={[styles.paragraph, props.style]}>Atrasados</Text>
+              <Text style={[styles.statLabel, styles.paragraph]}>Atrasados</Text>
             </View>
           </View>
         </Card.Content>
@@ -274,8 +274,8 @@ const AdminStudentsOptimized = ({ navigation }) => {
     <Card style={styles.emptyCard}>
       <Card.Content style={styles.emptyContent}>
         <Ionicons name="people-outline" size={48} color="currentTheme.gray[300]" />
-        <Text style={styles.emptyTitle} style={[styles.title, props.style]}>Nenhum aluno encontrado</Text>
-        <Text style={styles.emptyText} style={[styles.paragraph, props.style]}>
+        <Text style={[styles.emptyTitle, styles.title]}>Nenhum aluno encontrado</Text>
+        <Text style={[styles.emptyText, styles.paragraph]}>
           {searchQuery ? 
             'Nenhum aluno corresponde à sua busca' : 
             'Nenhum aluno cadastrado ainda'

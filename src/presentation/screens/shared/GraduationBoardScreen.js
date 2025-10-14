@@ -115,8 +115,8 @@ const GraduationBoardScreen = ({ navigation }) => {
               <Ionicons name="people" size={24} color={COLORS.info[500]} />
             </View>
             <View style={styles.summaryText}>
-              <Text style={styles.summaryNumber} style={[styles.title, props.style]}>{summary.totalStudents}</Text>
-              <Text style={styles.summaryLabel} style={[styles.paragraph, props.style]}>Estudantes</Text>
+              <Text style={[styles.summaryNumber, styles.title]}>{summary.totalStudents}</Text>
+              <Text style={[styles.summaryLabel, styles.paragraph]}>Estudantes</Text>
             </View>
           </Card.Content>
         </Card>
@@ -127,8 +127,8 @@ const GraduationBoardScreen = ({ navigation }) => {
               <Ionicons name="trophy" size={24} color={COLORS.success[500]} />
             </View>
             <View style={styles.summaryText}>
-              <Text style={styles.summaryNumber} style={[styles.title, props.style]}>{summary.totalEligible}</Text>
-              <Text style={styles.summaryLabel} style={[styles.paragraph, props.style]}>Elegíveis</Text>
+              <Text style={[styles.summaryNumber, styles.title]}>{summary.totalEligible}</Text>
+              <Text style={[styles.summaryLabel, styles.paragraph]}>Elegíveis</Text>
             </View>
           </Card.Content>
         </Card>
@@ -139,8 +139,8 @@ const GraduationBoardScreen = ({ navigation }) => {
               <Ionicons name="calendar" size={24} color={COLORS.warning[500]} />
             </View>
             <View style={styles.summaryText}>
-              <Text style={styles.summaryNumber} style={[styles.title, props.style]}>{summary.totalUpcomingExams}</Text>
-              <Text style={styles.summaryLabel} style={[styles.paragraph, props.style]}>Exames</Text>
+              <Text style={[styles.summaryNumber, styles.title]}>{summary.totalUpcomingExams}</Text>
+              <Text style={[styles.summaryLabel, styles.paragraph]}>Exames</Text>
             </View>
           </Card.Content>
         </Card>
@@ -418,8 +418,8 @@ const GraduationBoardScreen = ({ navigation }) => {
         style={styles.header}
       >
         <View style={styles.headerContent}>
-          <Text style={styles.headerTitle} style={[styles.title, props.style]}>Painel de Graduações</Text>
-          <Text style={styles.headerSubtitle} style={[styles.paragraph, props.style]}>
+          <Text style={[styles.headerTitle, styles.title]}>Painel de Graduações</Text>
+          <Text style={[styles.headerSubtitle, styles.paragraph]}>
             Última atualização: {graduationBoard?.lastUpdated ? formatDate(graduationBoard.lastUpdated) : getString('notAvailable')}
           </Text>
         </View>

@@ -601,7 +601,7 @@ const AdminModalities = ({ navigation }) => {
           <Card.Content>
             <View style={styles.cardHeader}>
               <Ionicons name="fitness-outline" size={24} color={COLORS.primary[500]} />
-              <Text style={styles.cardTitle} style={[styles.title, props.style]}>{getString('fightModalities')}</Text>
+              <Text style={[styles.cardTitle, styles.title]}>{getString('fightModalities')}</Text>
               <Button 
                 mode="contained" 
                 onPress={() => setModalityDialogVisible(true)}
@@ -649,7 +649,7 @@ const AdminModalities = ({ navigation }) => {
                 </View>
               ))
             ) : (
-              <Text style={styles.emptyText} style={[styles.paragraph, props.style]}>
+              <Text style={[styles.emptyText, styles.paragraph]}>
                 {getString('noModalitiesRegistered')}
               </Text>
             )}
@@ -661,7 +661,7 @@ const AdminModalities = ({ navigation }) => {
           <Card.Content>
             <View style={styles.cardHeader}>
               <Ionicons name="card-outline" size={24} color={COLORS.info[500]} />
-              <Text style={styles.cardTitle} style={[styles.title, props.style]}>{getString('paymentPlans')}</Text>
+              <Text style={[styles.cardTitle, styles.title]}>{getString('paymentPlans')}</Text>
               <Button 
                 mode="contained" 
                 onPress={() => setPlanDialogVisible(true)}
@@ -706,7 +706,7 @@ const AdminModalities = ({ navigation }) => {
                 </View>
               ))
             ) : (
-              <Text style={styles.emptyText} style={[styles.paragraph, props.style]}>
+              <Text style={[styles.emptyText, styles.paragraph]}>
                 {getString('noPlansRegistered')}
               </Text>
             )}
@@ -718,7 +718,7 @@ const AdminModalities = ({ navigation }) => {
           <Card.Content>
             <View style={styles.cardHeader}>
               <Ionicons name="megaphone-outline" size={24} color={COLORS.warning[500]} />
-              <Text style={styles.cardTitle} style={[styles.title, props.style]}>{getString('announcementBoard')}</Text>
+              <Text style={[styles.cardTitle, styles.title]}>{getString('announcementBoard')}</Text>
               <Button 
                 mode="contained" 
                 onPress={() => setAnnouncementDialogVisible(true)}
@@ -766,7 +766,7 @@ const AdminModalities = ({ navigation }) => {
                 </View>
               ))
             ) : (
-              <Text style={styles.emptyText} style={[styles.paragraph, props.style]}>
+              <Text style={[styles.emptyText, styles.paragraph]}>
                 {getString('noAnnouncementsPublished')}
               </Text>
             )}
@@ -776,7 +776,7 @@ const AdminModalities = ({ navigation }) => {
         {/* Estatísticas */}
         <Card style={styles.statsCard}>
           <Card.Content>
-            <Text style={styles.statsTitle} style={[styles.title, props.style]}>{getString('summary')}</Text>
+            <Text style={[styles.statsTitle, styles.title]}>{getString('summary')}</Text>
             
             <View style={styles.statsRow}>
               <View style={styles.statItem}>
