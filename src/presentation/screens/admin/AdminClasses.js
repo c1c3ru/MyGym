@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { View, StyleSheet, RefreshControl, Alert } from 'react-native';
-import { 
-  Card, 
-  Title, 
-  Paragraph, 
-  Button, 
+import {
+  Card,
+  Button,
   FAB,
   Searchbar,
   Menu,
@@ -284,13 +282,13 @@ const AdminClasses = ({ navigation }) => {
     <Card style={styles.emptyCard}>
       <Card.Content style={styles.emptyContent}>
         <Ionicons name="school-outline" size={48} color="currentTheme.gray[300]" />
-        <Title style={styles.emptyTitle}>{getString('noClassesFound')}</Title>
-        <Paragraph style={styles.emptyText}>
+        <Text style={styles.emptyTitle} style={[styles.title, props.style]}>{getString('noClassesFound')}</Text>
+        <Text style={styles.emptyText} style={[styles.paragraph, props.style]}>
           {searchQuery ? 
             'noMatchingClasses' : 
             getString('noClassesRegistered')
           }
-        </Paragraph>
+        </Text>
       </Card.Content>
     </Card>
   ), [searchQuery, getString]);
@@ -301,7 +299,7 @@ const AdminClasses = ({ navigation }) => {
     return (
       <Card style={styles.statsCard}>
         <Card.Content>
-          <Title style={styles.statsTitle}>{getString('classStatistics')}</Title>
+          <Text style={styles.statsTitle} style={[styles.title, props.style]}>{getString('classStatistics')}</Text>
           
           <View style={styles.statsGrid}>
             <View style={styles.statItem}>

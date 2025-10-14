@@ -1,9 +1,7 @@
 import React, { memo } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { 
-  Card, 
-  Title, 
-  Paragraph, 
+import {
+  Card,
   Avatar,
   Chip,
   Divider,
@@ -52,9 +50,9 @@ const OptimizedStudentCard = memo(({
               accessibilityLabel={`Avatar de ${student.name}`}
             />
             <View style={styles.studentDetails}>
-              <Title style={styles.studentName} accessibilityRole="header">
+              <Text style={styles.studentName} accessibilityRole="header" style={[styles.title, props.style]}>
                 {student.name}
-              </Title>
+              </Text>
               <Text style={styles.studentEmail} accessible={true}>
                 {student.email}
               </Text>

@@ -5,13 +5,12 @@ import {
   ScrollView, 
   Alert
 } from 'react-native';
-import { 
-  Card, 
-  Text, 
-  Button, 
+import {
+  Card,
+  Text,
+  Button,
   TextInput,
   HelperText,
-  Title,
   RadioButton,
   ActivityIndicator,
   Snackbar
@@ -249,7 +248,7 @@ const EditStudentScreen = ({ navigation, route }) => {
       >
         <Card style={styles.card}>
           <Card.Content>
-            <Title style={styles.title}>Editar Aluno</Title>
+            <Text style={styles.title} style={[styles.title, props.style]}>Editar Aluno</Text>
 
             {/* Dados Pessoais */}
             <Text style={styles.sectionTitle}>Dados Pessoais</Text>

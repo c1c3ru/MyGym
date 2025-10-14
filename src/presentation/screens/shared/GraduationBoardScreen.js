@@ -10,8 +10,6 @@ import {
 } from 'react-native';
 import {
   Card,
-  Title,
-  Paragraph,
   Button,
   Chip,
   Surface,
@@ -117,8 +115,8 @@ const GraduationBoardScreen = ({ navigation }) => {
               <Ionicons name="people" size={24} color={COLORS.info[500]} />
             </View>
             <View style={styles.summaryText}>
-              <Title style={styles.summaryNumber}>{summary.totalStudents}</Title>
-              <Paragraph style={styles.summaryLabel}>Estudantes</Paragraph>
+              <Text style={styles.summaryNumber} style={[styles.title, props.style]}>{summary.totalStudents}</Text>
+              <Text style={styles.summaryLabel} style={[styles.paragraph, props.style]}>Estudantes</Text>
             </View>
           </Card.Content>
         </Card>
@@ -129,8 +127,8 @@ const GraduationBoardScreen = ({ navigation }) => {
               <Ionicons name="trophy" size={24} color={COLORS.success[500]} />
             </View>
             <View style={styles.summaryText}>
-              <Title style={styles.summaryNumber}>{summary.totalEligible}</Title>
-              <Paragraph style={styles.summaryLabel}>Elegíveis</Paragraph>
+              <Text style={styles.summaryNumber} style={[styles.title, props.style]}>{summary.totalEligible}</Text>
+              <Text style={styles.summaryLabel} style={[styles.paragraph, props.style]}>Elegíveis</Text>
             </View>
           </Card.Content>
         </Card>
@@ -141,8 +139,8 @@ const GraduationBoardScreen = ({ navigation }) => {
               <Ionicons name="calendar" size={24} color={COLORS.warning[500]} />
             </View>
             <View style={styles.summaryText}>
-              <Title style={styles.summaryNumber}>{summary.totalUpcomingExams}</Title>
-              <Paragraph style={styles.summaryLabel}>Exames</Paragraph>
+              <Text style={styles.summaryNumber} style={[styles.title, props.style]}>{summary.totalUpcomingExams}</Text>
+              <Text style={styles.summaryLabel} style={[styles.paragraph, props.style]}>Exames</Text>
             </View>
           </Card.Content>
         </Card>
@@ -181,8 +179,8 @@ const GraduationBoardScreen = ({ navigation }) => {
       return (
         <Card style={styles.card}>
           <Card.Content>
-            <Title>Estudantes Elegíveis</Title>
-            <Paragraph>Nenhum estudante elegível para graduação no momento.</Paragraph>
+            <Text style={[styles.title, null]}>Estudantes Elegíveis</Text>
+            <Text style={[styles.paragraph, null]}>Nenhum estudante elegível para graduação no momento.</Text>
           </Card.Content>
         </Card>
       );
@@ -192,7 +190,7 @@ const GraduationBoardScreen = ({ navigation }) => {
       <Card style={styles.card}>
         <Card.Content>
           <View style={styles.cardHeader}>
-            <Title>Estudantes Elegíveis</Title>
+            <Text style={[styles.title, null]}>Estudantes Elegíveis</Text>
             <Badge style={styles.badge}>{filteredStudents.length}</Badge>
           </View>
           <Divider style={styles.divider} />
@@ -251,13 +249,13 @@ const GraduationBoardScreen = ({ navigation }) => {
       <Card style={styles.card}>
         <Card.Content>
           <View style={styles.cardHeader}>
-            <Title>Próximos Exames</Title>
+            <Text style={[styles.title, null]}>Próximos Exames</Text>
             <Badge style={styles.badge}>{filteredExams.length}</Badge>
           </View>
           <Divider style={styles.divider} />
 
           {filteredExams.length === 0 ? (
-            <Paragraph>Nenhum exame agendado.</Paragraph>
+            <Text style={[styles.paragraph, null]}>Nenhum exame agendado.</Text>
           ) : (
             filteredExams.map((exam) => (
               <Surface 
@@ -313,7 +311,7 @@ const GraduationBoardScreen = ({ navigation }) => {
     return (
       <Card style={styles.card}>
         <Card.Content>
-          <Title>Estatísticas por Modalidade</Title>
+          <Text style={[styles.title, null]}>Estatísticas por Modalidade</Text>
           <Divider style={styles.divider} />
 
           {filteredStats.map((stat) => (
@@ -420,10 +418,10 @@ const GraduationBoardScreen = ({ navigation }) => {
         style={styles.header}
       >
         <View style={styles.headerContent}>
-          <Title style={styles.headerTitle}>Painel de Graduações</Title>
-          <Paragraph style={styles.headerSubtitle}>
+          <Text style={styles.headerTitle} style={[styles.title, props.style]}>Painel de Graduações</Text>
+          <Text style={styles.headerSubtitle} style={[styles.paragraph, props.style]}>
             Última atualização: {graduationBoard?.lastUpdated ? formatDate(graduationBoard.lastUpdated) : getString('notAvailable')}
-          </Paragraph>
+          </Text>
         </View>
       </LinearGradient>
 

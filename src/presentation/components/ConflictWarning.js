@@ -1,6 +1,12 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Card, Text, Button, Chip, Divider } from 'react-native-paper';
+import {
+  Card,
+  Text,
+  Button,
+  Chip,
+  Divider
+} from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '@contexts/ThemeContext';
 import { DAY_NAMES } from '@utils/scheduleUtils';

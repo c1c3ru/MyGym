@@ -1,8 +1,8 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import { View, StyleSheet, Alert, Platform, ScrollView } from 'react-native';
-import { 
-  TextInput, 
-  Card, 
+import {
+  TextInput,
+  Card,
   Divider,
   ActivityIndicator,
   Button,

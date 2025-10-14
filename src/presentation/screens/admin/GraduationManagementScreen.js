@@ -9,8 +9,6 @@ import {
 } from 'react-native';
 import {
   Card,
-  Title,
-  Paragraph,
   Button,
   Chip,
   FAB,
@@ -123,8 +121,8 @@ const GraduationManagementScreen = ({ navigation }) => {
               <Ionicons name="people" size={24} color={COLORS.info[500]} />
             </View>
             <View>
-              <Title style={styles.summaryNumber}>{stats.totalStudents}</Title>
-              <Paragraph style={styles.summaryLabel}>Total de Estudantes</Paragraph>
+              <Text style={styles.summaryNumber} style={[styles.title, props.style]}>{stats.totalStudents}</Text>
+              <Text style={styles.summaryLabel} style={[styles.paragraph, props.style]}>Total de Estudantes</Text>
             </View>
           </Card.Content>
         </Card>
@@ -135,11 +133,11 @@ const GraduationManagementScreen = ({ navigation }) => {
               <Ionicons name="trophy" size={24} color={COLORS.primary[500]} />
             </View>
             <View>
-              <Title style={styles.summaryNumber}>{stats.eligibleStudents}</Title>
-              <Paragraph style={styles.summaryLabel}>Elegíveis</Paragraph>
-              <Paragraph style={styles.summaryPercentage}>
+              <Text style={styles.summaryNumber} style={[styles.title, props.style]}>{stats.eligibleStudents}</Text>
+              <Text style={styles.summaryLabel} style={[styles.paragraph, props.style]}>Elegíveis</Text>
+              <Text style={styles.summaryPercentage} style={[styles.paragraph, props.style]}>
                 {stats.eligibilityRate}% do total
-              </Paragraph>
+              </Text>
             </View>
           </Card.Content>
         </Card>
@@ -150,8 +148,8 @@ const GraduationManagementScreen = ({ navigation }) => {
               <Ionicons name="calendar" size={24} color={COLORS.warning[500]} />
             </View>
             <View>
-              <Title style={styles.summaryNumber}>{stats.upcomingExams}</Title>
-              <Paragraph style={styles.summaryLabel}>Próximos Exames</Paragraph>
+              <Text style={styles.summaryNumber} style={[styles.title, props.style]}>{stats.upcomingExams}</Text>
+              <Text style={styles.summaryLabel} style={[styles.paragraph, props.style]}>Próximos Exames</Text>
             </View>
           </Card.Content>
         </Card>
@@ -166,7 +164,7 @@ const GraduationManagementScreen = ({ navigation }) => {
 
     return (
       <View style={styles.filterSection}>
-        <Title style={styles.sectionTitle}>Filtrar por Modalidade</Title>
+        <Text style={styles.sectionTitle} style={[styles.title, props.style]}>Filtrar por Modalidade</Text>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           <View style={styles.filterContainer}>
             {modalities.map((modality) => (
@@ -192,14 +190,14 @@ const GraduationManagementScreen = ({ navigation }) => {
     return (
       <View style={styles.section}>
         <View style={styles.sectionHeader}>
-          <Title style={styles.sectionTitle}>Estudantes Elegíveis</Title>
+          <Text style={styles.sectionTitle} style={[styles.title, props.style]}>Estudantes Elegíveis</Text>
           <Chip style={styles.countChip}>{alerts.length}</Chip>
         </View>
 
         {alerts.length === 0 ? (
           <Card style={styles.emptyCard}>
             <Card.Content>
-              <Paragraph>Nenhum estudante elegível para graduação no momento.</Paragraph>
+              <Text style={[styles.paragraph, null]}>Nenhum estudante elegível para graduação no momento.</Text>
             </Card.Content>
           </Card>
         ) : (
@@ -228,7 +226,7 @@ const GraduationManagementScreen = ({ navigation }) => {
     return (
       <Card style={styles.actionsCard}>
         <Card.Content>
-          <Title style={styles.sectionTitle}>Ações de Gerenciamento</Title>
+          <Text style={styles.sectionTitle} style={[styles.title, props.style]}>Ações de Gerenciamento</Text>
           <Divider style={styles.divider} />
 
           <List.Item
@@ -364,10 +362,10 @@ const GraduationManagementScreen = ({ navigation }) => {
         colors={[COLORS.info[500], COLORS.info[700]]}
         style={styles.header}
       >
-        <Title style={styles.headerTitle}>Gerenciamento de Graduações</Title>
-        <Paragraph style={styles.headerSubtitle}>
+        <Text style={styles.headerTitle} style={[styles.title, props.style]}>Gerenciamento de Graduações</Text>
+        <Text style={styles.headerSubtitle} style={[styles.paragraph, props.style]}>
           Administração e controle de graduações
-        </Paragraph>
+        </Text>
       </LinearGradient>
 
       <ScrollView

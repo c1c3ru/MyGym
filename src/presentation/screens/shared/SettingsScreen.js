@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, ScrollView, Alert, Platform, Dimensions } from 'react-native';
-import { 
-  Card, 
-  Text, 
+import {
+  Card,
+  Text,
   Button,
   List,
   Switch,

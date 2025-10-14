@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { View, StyleSheet, ScrollView, Dimensions, RefreshControl } from 'react-native';
-import { 
-  Card, 
-  Title, 
+import {
+  Card,
   Text,
   Button,
   Chip,
@@ -165,7 +164,7 @@ const Relatorios = ({ navigation }) => {
           <Card.Content>
             <View style={styles.header}>
               <MaterialCommunityIcons name="chart-line" size={32} color={COLORS.secondary[500]} />
-              <Title style={styles.title}>Relatórios e Análises</Title>
+              <Text style={styles.title} style={[styles.title, props.style]}>Relatórios e Análises</Text>
             </View>
             
             <SegmentedButtons
@@ -187,7 +186,7 @@ const Relatorios = ({ navigation }) => {
         {/* Estatísticas Gerais */}
         <Card style={styles.card}>
           <Card.Content>
-            <Title style={styles.sectionTitle}>Visão Geral</Title>
+            <Text style={styles.sectionTitle} style={[styles.title, props.style]}>Visão Geral</Text>
             
             <View style={styles.statsGrid}>
               <StatCard
@@ -228,7 +227,7 @@ const Relatorios = ({ navigation }) => {
         {/* Aulas Mais Populares */}
         <Card style={styles.card}>
           <Card.Content>
-            <Title style={styles.sectionTitle}>Aulas Mais Populares</Title>
+            <Text style={styles.sectionTitle} style={[styles.title, props.style]}>Aulas Mais Populares</Text>
             
             {reportData.aulasPopulares.map((aula, index) => (
               <Surface key={index} style={styles.aulaItem}>
@@ -258,7 +257,7 @@ const Relatorios = ({ navigation }) => {
         {/* Evolução Mensal */}
         <Card style={styles.card}>
           <Card.Content>
-            <Title style={styles.sectionTitle}>Evolução dos Últimos Meses</Title>
+            <Text style={styles.sectionTitle} style={[styles.title, props.style]}>Evolução dos Últimos Meses</Text>
             
             {reportData.evolucaoMensal.map((mes, index) => (
               <View key={index} style={styles.evolucaoItem}>
@@ -281,7 +280,7 @@ const Relatorios = ({ navigation }) => {
         {/* Ações */}
         <Card style={styles.card}>
           <Card.Content>
-            <Title style={styles.sectionTitle}>Exportar Relatórios</Title>
+            <Text style={styles.sectionTitle} style={[styles.title, props.style]}>Exportar Relatórios</Text>
             
             <View style={styles.exportButtons}>
               <Button

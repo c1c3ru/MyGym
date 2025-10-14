@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Alert } from 'react-native';
-import { 
-  Modal, 
-  Card, 
-  Title, 
-  Button, 
+import {
+  Modal,
+  Card,
+  Button,
   TextInput,
   Text,
   Divider
@@ -143,7 +142,7 @@ const PaymentDueDateEditor = ({ visible, onDismiss, currentPayment, onUpdate }) 
           <Card.Content>
             <View style={styles.header}>
               <Ionicons name="calendar-outline" size={24} color={COLORS.info[500]} />
-              <Title style={styles.title}>Alterar Data de Vencimento</Title>
+              <Text style={styles.title} style={[styles.title, props.style]}>Alterar Data de Vencimento</Text>
             </View>
 
             <Divider style={styles.divider} />

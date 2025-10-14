@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { View, StyleSheet, Alert } from 'react-native';
-import { 
-  Card, 
-  Title, 
-  Paragraph, 
-  Button, 
+import {
+  Card,
+  Button,
   FAB,
   Searchbar,
   Menu,
@@ -233,37 +231,37 @@ const AdminStudentsOptimized = ({ navigation }) => {
     students.length > 0 ? (
       <Card style={styles.statsCard}>
         <Card.Content>
-          <Title style={styles.statsTitle} accessibilityRole="header">
+          <Text style={styles.statsTitle} accessibilityRole="header" style={[styles.title, props.style]}>
             Estatísticas Gerais
-          </Title>
+          </Text>
           
           <View style={styles.statsGrid}>
             <View style={styles.statItem}>
-              <Title style={styles.statNumber} accessible={true}>
+              <Text style={styles.statNumber} accessible={true} style={[styles.title, props.style]}>
                 {stats.total}
-              </Title>
-              <Paragraph style={styles.statLabel}>Total</Paragraph>
+              </Text>
+              <Text style={styles.statLabel} style={[styles.paragraph, props.style]}>Total</Text>
             </View>
             
             <View style={styles.statItem}>
-              <Title style={styles.statNumber} accessible={true}>
+              <Text style={styles.statNumber} accessible={true} style={[styles.title, props.style]}>
                 {stats.active}
-              </Title>
-              <Paragraph style={styles.statLabel}>Ativos</Paragraph>
+              </Text>
+              <Text style={styles.statLabel} style={[styles.paragraph, props.style]}>Ativos</Text>
             </View>
             
             <View style={styles.statItem}>
-              <Title style={styles.statNumber} accessible={true}>
+              <Text style={styles.statNumber} accessible={true} style={[styles.title, props.style]}>
                 {stats.paymentOk}
-              </Title>
-              <Paragraph style={styles.statLabel}>Pagamento OK</Paragraph>
+              </Text>
+              <Text style={styles.statLabel} style={[styles.paragraph, props.style]}>Pagamento OK</Text>
             </View>
             
             <View style={styles.statItem}>
-              <Title style={styles.statNumber} accessible={true}>
+              <Text style={styles.statNumber} accessible={true} style={[styles.title, props.style]}>
                 {stats.overdue}
-              </Title>
-              <Paragraph style={styles.statLabel}>Atrasados</Paragraph>
+              </Text>
+              <Text style={styles.statLabel} style={[styles.paragraph, props.style]}>Atrasados</Text>
             </View>
           </View>
         </Card.Content>
@@ -276,13 +274,13 @@ const AdminStudentsOptimized = ({ navigation }) => {
     <Card style={styles.emptyCard}>
       <Card.Content style={styles.emptyContent}>
         <Ionicons name="people-outline" size={48} color="currentTheme.gray[300]" />
-        <Title style={styles.emptyTitle}>Nenhum aluno encontrado</Title>
-        <Paragraph style={styles.emptyText}>
+        <Text style={styles.emptyTitle} style={[styles.title, props.style]}>Nenhum aluno encontrado</Text>
+        <Text style={styles.emptyText} style={[styles.paragraph, props.style]}>
           {searchQuery ? 
             'Nenhum aluno corresponde à sua busca' : 
             'Nenhum aluno cadastrado ainda'
           }
-        </Paragraph>
+        </Text>
       </Card.Content>
     </Card>
   ), [searchQuery]);

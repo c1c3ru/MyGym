@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView, RefreshControl, Alert, Platform } from 'react-native';
-import { 
-  Card, 
-  Title, 
-  Paragraph, 
-  Button, 
+import {
+  Card,
+  Button,
   Chip,
   Divider,
   Text,
@@ -603,7 +601,7 @@ const AdminModalities = ({ navigation }) => {
           <Card.Content>
             <View style={styles.cardHeader}>
               <Ionicons name="fitness-outline" size={24} color={COLORS.primary[500]} />
-              <Title style={styles.cardTitle}>{getString('fightModalities')}</Title>
+              <Text style={styles.cardTitle} style={[styles.title, props.style]}>{getString('fightModalities')}</Text>
               <Button 
                 mode="contained" 
                 onPress={() => setModalityDialogVisible(true)}
@@ -651,9 +649,9 @@ const AdminModalities = ({ navigation }) => {
                 </View>
               ))
             ) : (
-              <Paragraph style={styles.emptyText}>
+              <Text style={styles.emptyText} style={[styles.paragraph, props.style]}>
                 {getString('noModalitiesRegistered')}
-              </Paragraph>
+              </Text>
             )}
           </Card.Content>
         </Card>
@@ -663,7 +661,7 @@ const AdminModalities = ({ navigation }) => {
           <Card.Content>
             <View style={styles.cardHeader}>
               <Ionicons name="card-outline" size={24} color={COLORS.info[500]} />
-              <Title style={styles.cardTitle}>{getString('paymentPlans')}</Title>
+              <Text style={styles.cardTitle} style={[styles.title, props.style]}>{getString('paymentPlans')}</Text>
               <Button 
                 mode="contained" 
                 onPress={() => setPlanDialogVisible(true)}
@@ -708,9 +706,9 @@ const AdminModalities = ({ navigation }) => {
                 </View>
               ))
             ) : (
-              <Paragraph style={styles.emptyText}>
+              <Text style={styles.emptyText} style={[styles.paragraph, props.style]}>
                 {getString('noPlansRegistered')}
-              </Paragraph>
+              </Text>
             )}
           </Card.Content>
         </Card>
@@ -720,7 +718,7 @@ const AdminModalities = ({ navigation }) => {
           <Card.Content>
             <View style={styles.cardHeader}>
               <Ionicons name="megaphone-outline" size={24} color={COLORS.warning[500]} />
-              <Title style={styles.cardTitle}>{getString('announcementBoard')}</Title>
+              <Text style={styles.cardTitle} style={[styles.title, props.style]}>{getString('announcementBoard')}</Text>
               <Button 
                 mode="contained" 
                 onPress={() => setAnnouncementDialogVisible(true)}
@@ -768,9 +766,9 @@ const AdminModalities = ({ navigation }) => {
                 </View>
               ))
             ) : (
-              <Paragraph style={styles.emptyText}>
+              <Text style={styles.emptyText} style={[styles.paragraph, props.style]}>
                 {getString('noAnnouncementsPublished')}
-              </Paragraph>
+              </Text>
             )}
           </Card.Content>
         </Card>
@@ -778,7 +776,7 @@ const AdminModalities = ({ navigation }) => {
         {/* Estatísticas */}
         <Card style={styles.statsCard}>
           <Card.Content>
-            <Title style={styles.statsTitle}>{getString('summary')}</Title>
+            <Text style={styles.statsTitle} style={[styles.title, props.style]}>{getString('summary')}</Text>
             
             <View style={styles.statsRow}>
               <View style={styles.statItem}>

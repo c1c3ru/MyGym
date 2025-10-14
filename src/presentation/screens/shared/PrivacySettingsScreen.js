@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView, Alert, Linking } from 'react-native';
-import { 
-  Card, 
-  Title, 
+import {
+  Card,
   Text,
   Switch,
   List,
   Button,
   Divider,
-  Paragraph,
   Chip
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -184,7 +182,7 @@ const PrivacySettingsScreen = ({ navigation }) => {
           <Card.Content>
             <View style={styles.cardHeader}>
               <Ionicons name="shield-checkmark-outline" size={24} color={COLORS.primary[500]} />
-              <Title style={styles.cardTitle}>{getString('lgpdStatus')}</Title>
+              <Text style={styles.cardTitle} style={[styles.title, props.style]}>{getString('lgpdStatus')}</Text>
               <Chip 
                 mode="outlined"
                 style={styles.statusChip}
@@ -194,9 +192,9 @@ const PrivacySettingsScreen = ({ navigation }) => {
               </Chip>
             </View>
 
-            <Paragraph style={styles.lgpdInfo}>
+            <Text style={styles.lgpdInfo} style={[styles.paragraph, props.style]}>
               {getString('lgpdInfo')}
-            </Paragraph>
+            </Text>
 
             {settings.consentDate && (
               <Text style={styles.consentDate}>
@@ -211,7 +209,7 @@ const PrivacySettingsScreen = ({ navigation }) => {
           <Card.Content>
             <View style={styles.cardHeader}>
               <Ionicons name="document-text-outline" size={24} color={COLORS.info[500]} />
-              <Title style={styles.cardTitle}>{getString('consents')}</Title>
+              <Text style={styles.cardTitle} style={[styles.title, props.style]}>{getString('consents')}</Text>
             </View>
 
             <List.Item
@@ -272,7 +270,7 @@ const PrivacySettingsScreen = ({ navigation }) => {
           <Card.Content>
             <View style={styles.cardHeader}>
               <Ionicons name="eye-outline" size={24} color={COLORS.warning[500]} />
-              <Title style={styles.cardTitle}>{getString('profileVisibility')}</Title>
+              <Text style={styles.cardTitle} style={[styles.title, props.style]}>{getString('profileVisibility')}</Text>
             </View>
 
             <List.Item
@@ -327,7 +325,7 @@ const PrivacySettingsScreen = ({ navigation }) => {
           <Card.Content>
             <View style={styles.cardHeader}>
               <Ionicons name="call-outline" size={24} color={COLORS.secondary[500]} />
-              <Title style={styles.cardTitle}>{getString('contactMethods')}</Title>
+              <Text style={styles.cardTitle} style={[styles.title, props.style]}>{getString('contactMethods')}</Text>
             </View>
 
             <List.Item
@@ -375,7 +373,7 @@ const PrivacySettingsScreen = ({ navigation }) => {
           <Card.Content>
             <View style={styles.cardHeader}>
               <Ionicons name="person-outline" size={24} color={COLORS.error[500]} />
-              <Title style={styles.cardTitle}>{getString('yourRights')}</Title>
+              <Text style={styles.cardTitle} style={[styles.title, props.style]}>{getString('yourRights')}</Text>
             </View>
 
             <List.Item
@@ -410,7 +408,7 @@ const PrivacySettingsScreen = ({ navigation }) => {
         {/* Informações Importantes */}
         <Card style={styles.card}>
           <Card.Content>
-            <Title style={styles.cardTitle}>{getString('importantInfo')}</Title>
+            <Text style={styles.cardTitle} style={[styles.title, props.style]}>{getString('importantInfo')}</Text>
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
 import { getString } from '@utils/theme';
             <Text style={styles.infoText}>

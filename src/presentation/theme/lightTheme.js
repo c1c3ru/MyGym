@@ -1,4 +1,4 @@
-import { COLORS, SPACING, FONT_SIZE, FONT_WEIGHT, BORDER_RADIUS, ELEVATION } from '@presentation/theme/designTokens';
+// Removido import circular - valores serão definidos diretamente
 /**
  * Light Theme Premium - MyGym
  * Inspirado no padrão visual de incubadoras tecnológicas
@@ -236,50 +236,50 @@ export const ACADEMY_LIGHT_COLORS = {
 export const LIGHT_TYPOGRAPHY = {
   // Hierarquia clara de títulos
   display: {
-    fontSize: FONT_SIZE.xxxl,
-    fontWeight: FONT_WEIGHT.light,                      // Fonte clara
+    fontSize: 32,        // xxxl
+    fontWeight: '300',   // light
     color: LIGHT_THEME.text.primary,
     lineHeight: 40,
   },
   
   h1: {
-    fontSize: FONT_SIZE.xxl,
-    fontWeight: FONT_WEIGHT.light,                      // Fonte clara
+    fontSize: 28,        // xxl
+    fontWeight: '300',   // light
     color: LIGHT_THEME.text.primary,
     lineHeight: 36,
   },
   
   h2: {
-    fontSize: FONT_SIZE.xl,
-    fontWeight: FONT_WEIGHT.regular,                      // Peso médio
+    fontSize: 24,        // xl
+    fontWeight: '400',   // regular
     color: LIGHT_THEME.text.primary,
     lineHeight: 32,
   },
   
   h3: {
-    fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.regular,
+    fontSize: 20,        // lg
+    fontWeight: '400',   // regular
     color: LIGHT_THEME.text.primary,
     lineHeight: 28,
   },
   
   body1: {
-    fontSize: FONT_SIZE.base,
-    fontWeight: FONT_WEIGHT.regular,
+    fontSize: 16,        // base
+    fontWeight: '400',   // regular
     color: LIGHT_THEME.text.primary,
     lineHeight: 24,
   },
   
   body2: {
-    fontSize: FONT_SIZE.sm,
-    fontWeight: FONT_WEIGHT.regular,
+    fontSize: 14,        // sm
+    fontWeight: '400',   // regular
     color: LIGHT_THEME.text.secondary,
     lineHeight: 20,
   },
   
   caption: {
-    fontSize: FONT_SIZE.xs,
-    fontWeight: FONT_WEIGHT.regular,
+    fontSize: 12,        // xs
+    fontWeight: '400',   // regular
     color: LIGHT_THEME.text.tertiary,
     lineHeight: 16,
   },

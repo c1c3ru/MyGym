@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Alert, ScrollView, Text } from 'react-native';
-import { 
-  TextInput, 
-  Button, 
-  Card, 
-  Title, 
-  Paragraph,
+import {
+  TextInput,
+  Button,
+  Card,
   Divider,
   ActivityIndicator
 } from 'react-native-paper';
@@ -99,15 +97,15 @@ const LoginScreenDebug = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.header}>
-          <Title style={styles.title}>Debug de Login</Title>
-          <Paragraph style={styles.subtitle}>
+          <Text style={styles.title} style={[styles.title, props.style]}>Debug de Login</Text>
+          <Text style={styles.subtitle} style={[styles.paragraph, props.style]}>
             Teste de autenticação com logs detalhados
-          </Paragraph>
+          </Text>
         </View>
 
         <Card style={styles.card}>
           <Card.Content>
-            <Title style={styles.cardTitle}>Credenciais</Title>
+            <Text style={styles.cardTitle} style={[styles.title, props.style]}>Credenciais</Text>
             
             <TextInput
               label="email"
@@ -170,7 +168,7 @@ const LoginScreenDebug = ({ navigation }) => {
         {debugInfo ? (
           <Card style={styles.debugCard}>
             <Card.Content>
-              <Title>Logs de Debug</Title>
+              <Text style={[styles.title, null]}>Logs de Debug</Text>
               <Text style={styles.debugText}>
                 {debugInfo}
               </Text>

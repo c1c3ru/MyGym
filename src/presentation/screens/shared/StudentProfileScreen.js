@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView, RefreshControl, Alert, Platform, Dimensions } from 'react-native';
 import { 
   Card, 
-  Title, 
-  Paragraph, 
   Button, 
   Avatar,
   Chip,
@@ -215,7 +213,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
               </View>
               
               <View style={styles.profileInfo}>
-                <Title style={styles.studentName}>{studentInfo?.name || getString('student')}</Title>
+                <Text style={[styles.studentName, styles.title]}>{studentInfo?.name || getString('student')}</Text>
                 <Text style={styles.studentEmail}>{studentInfo?.email}</Text>
                 
                 <View style={styles.statusRow}>
@@ -281,7 +279,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
               <View style={styles.cardIconContainer}>
                 <Ionicons name="person-outline" size={24} color={COLORS.secondary[400]} />
               </View>
-              <Title style={styles.modernCardTitle}>Informações Pessoais</Title>
+              <Text style={[styles.modernCardTitle, styles.title]}>Informações Pessoais</Text>
             </View>
             
             <View style={styles.modernInfoGrid}>
@@ -343,7 +341,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
               <View style={styles.cardIconContainer}>
                 <Ionicons name="school-outline" size={24} color={COLORS.primary[500]} />
               </View>
-              <Title style={styles.modernCardTitle}>Turmas Matriculadas</Title>
+              <Text style={[styles.modernCardTitle, styles.title]}>Turmas Matriculadas</Text>
               <Badge style={styles.countBadge}>{studentClasses.length}</Badge>
             </View>
             
@@ -402,7 +400,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
               <View style={styles.cardIconContainer}>
                 <Ionicons name="trophy-outline" size={24} color={COLORS.warning[300]} />
               </View>
-              <Title style={styles.modernCardTitle}>Timeline de Graduações</Title>
+              <Text style={[styles.modernCardTitle, styles.title]}>Timeline de Graduações</Text>
               <Badge style={styles.countBadge}>{graduations.length}</Badge>
             </View>
             
@@ -463,7 +461,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
               <View style={styles.cardIconContainer}>
                 <Ionicons name="card-outline" size={24} color={COLORS.info[500]} />
               </View>
-              <Title style={styles.modernCardTitle}>Resumo Financeiro</Title>
+              <Text style={[styles.modernCardTitle, styles.title]}>Resumo Financeiro</Text>
             </View>
             
             {/* Indicadores Financeiros */}

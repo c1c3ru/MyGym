@@ -1,11 +1,9 @@
 
 import React, { useState } from 'react';
 import { View, StyleSheet, Alert, ScrollView, KeyboardAvoidingView, Platform, Dimensions } from 'react-native';
-import { 
-  TextInput, 
-  Card, 
-  Title, 
-  Paragraph,
+import {
+  TextInput,
+  Card,
   Button,
   ActivityIndicator,
   Snackbar,
@@ -136,10 +134,10 @@ export default function ForgotPasswordScreen({ navigation }) {
                 color={COLORS.white} 
                 style={styles.headerIcon}
               />
-              <Title style={styles.headerTitle}>{getString('recoverPassword')}</Title>
-              <Paragraph style={styles.headerSubtitle}>
+              <Text style={styles.headerTitle} style={[styles.title, props.style]}>{getString('recoverPassword')}</Text>
+              <Text style={styles.headerSubtitle} style={[styles.paragraph, props.style]}>
                 {getString('enterEmailForInstructions')}
-              </Paragraph>
+              </Text>
             </View>
 
             <View style={styles.content}>
@@ -185,13 +183,13 @@ export default function ForgotPasswordScreen({ navigation }) {
                     color={COLORS.primary[500]} 
                     style={styles.successIcon}
                   />
-                  <Title style={styles.successTitle}>{getString('emailSent')}</Title>
-                  <Paragraph style={styles.successText}>
+                  <Text style={styles.successTitle} style={[styles.title, props.style]}>{getString('emailSent')}</Text>
+                  <Text style={styles.successText} style={[styles.paragraph, props.style]}>
                     {getString('checkInboxInstructions')}
-                  </Paragraph>
-                  <Paragraph style={styles.spamWarning}>
+                  </Text>
+                  <Text style={styles.spamWarning} style={[styles.paragraph, props.style]}>
                     {getString('spamFolderWarning')}
-                  </Paragraph>
+                  </Text>
                 </View>
               )}
 

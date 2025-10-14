@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView, RefreshControl } from 'react-native';
-import { 
-  Card, 
-  Title, 
-  Paragraph, 
-  Button, 
+import {
+  Card,
+  Button,
   Avatar,
   Chip,
   Divider,
@@ -135,7 +133,7 @@ const StudentEvolution = ({ navigation }) => {
           <Card.Content>
             <View style={styles.cardHeader}>
               <Ionicons name="trophy-outline" size={24} color={COLORS.warning[300]} />
-              <Title style={styles.cardTitle}>Minha Evolução</Title>
+              <Text style={styles.cardTitle} style={[styles.title, props.style]}>Minha Evolução</Text>
             </View>
             
             <View style={styles.statsGrid}>
@@ -179,7 +177,7 @@ const StudentEvolution = ({ navigation }) => {
           <Card.Content>
             <View style={styles.cardHeader}>
               <Ionicons name="git-branch-outline" size={24} color={COLORS.info[500]} />
-              <Title style={styles.cardTitle}>Timeline de Graduações</Title>
+              <Text style={styles.cardTitle} style={[styles.title, props.style]}>Timeline de Graduações</Text>
             </View>
             
             {graduations.length > 0 ? (
@@ -223,12 +221,12 @@ const StudentEvolution = ({ navigation }) => {
             ) : (
               <View style={styles.emptyState}>
                 <Ionicons name="medal-outline" size={48} color={COLORS.gray[300]} />
-                <Paragraph style={styles.emptyText}>
+                <Text style={styles.emptyText} style={[styles.paragraph, props.style]}>
                   Nenhuma graduação registrada ainda
-                </Paragraph>
-                <Paragraph style={styles.emptySubtext}>
+                </Text>
+                <Text style={styles.emptySubtext} style={[styles.paragraph, props.style]}>
                   Suas graduações aparecerão aqui conforme você evolui
-                </Paragraph>
+                </Text>
               </View>
             )}
           </Card.Content>
@@ -240,7 +238,7 @@ const StudentEvolution = ({ navigation }) => {
             <Card.Content>
               <View style={styles.cardHeader}>
                 <Ionicons name="fitness-outline" size={24} color={COLORS.primary[500]} />
-                <Title style={styles.cardTitle}>Modalidades Praticadas</Title>
+                <Text style={styles.cardTitle} style={[styles.title, props.style]}>Modalidades Praticadas</Text>
               </View>
               
               <View style={styles.modalitiesContainer}>
@@ -264,7 +262,7 @@ const StudentEvolution = ({ navigation }) => {
           <Card.Content>
             <View style={styles.cardHeader}>
               <Ionicons name="flag-outline" size={24} color={COLORS.warning[500]} />
-              <Title style={styles.cardTitle}>Próximos Objetivos</Title>
+              <Text style={styles.cardTitle} style={[styles.title, props.style]}>Próximos Objetivos</Text>
             </View>
             
             <List.Item

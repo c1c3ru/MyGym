@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView, Alert, TouchableOpacity, Dimensions } from 'react-native';
-import { 
-  Card, 
-  Title, 
-  Paragraph, 
-  Button, 
+import {
+  Card,
+  Button,
   Avatar,
   TextInput,
   Divider,
@@ -243,7 +241,7 @@ const ProfileScreen = ({ navigation }) => {
               style={[styles.avatar, { backgroundColor: getClaimsTypeColor() }]}
             />
             <View style={styles.headerText}>
-              <Title style={styles.userName}>{userProfile?.name || getString('user')}</Title>
+              <Text style={styles.userName} style={[styles.title, props.style]}>{userProfile?.name || getString('user')}</Text>
               <Text style={styles.userEmail}>{user?.email}</Text>
               <Chip 
                 mode="outlined"
@@ -262,7 +260,7 @@ const ProfileScreen = ({ navigation }) => {
             <Card.Content>
               <View style={styles.cardHeader}>
                 <Ionicons name="warning-outline" size={24} color={COLORS.warning[500]} />
-                <Title style={[styles.cardTitle, { color: COLORS.warning[500] }]}>{getString('paymentNearDue')}</Title>
+                <Text style={[styles.cardTitle, { color: COLORS.warning[500] }]} style={[styles.title, props.style]}>{getString('paymentNearDue')}</Text>
               </View>
               
               <View style={styles.paymentWarning}>
@@ -305,7 +303,7 @@ const ProfileScreen = ({ navigation }) => {
           <Card.Content>
             <View style={styles.cardHeader}>
               <Ionicons name="person-outline" size={24} color={COLORS.info[500]} />
-              <Title style={styles.cardTitle}>{getString('personalInformation')}</Title>
+              <Text style={styles.cardTitle} style={[styles.title, props.style]}>{getString('personalInformation')}</Text>
               <Button 
                 mode="text" 
                 onPress={() => setEditing(!editing)}
@@ -419,7 +417,7 @@ const ProfileScreen = ({ navigation }) => {
               <Card.Content>
                 <View style={styles.cardHeader}>
                   <Ionicons name="school-outline" size={24} color={COLORS.primary[500]} />
-                  <Title style={styles.cardTitle}>{getString('academyInformation')}</Title>
+                  <Text style={styles.cardTitle} style={[styles.title, props.style]}>{getString('academyInformation')}</Text>
                 </View>
 
                 <List.Item
@@ -452,7 +450,7 @@ const ProfileScreen = ({ navigation }) => {
               <Card.Content>
                 <View style={styles.cardHeader}>
                   <Ionicons name="calendar-outline" size={24} color={COLORS.info[500]} />
-                  <Title style={styles.cardTitle}>Treinos esta semana</Title>
+                  <Text style={styles.cardTitle} style={[styles.title, props.style]}>Treinos esta semana</Text>
                   <Button 
                     mode="text" 
                     onPress={() => setShowYearModal(true)}
@@ -537,7 +535,7 @@ const ProfileScreen = ({ navigation }) => {
           <Card.Content>
             <View style={styles.cardHeader}>
               <Ionicons name="settings-outline" size={24} color={COLORS.text.secondary} />
-              <Title style={styles.cardTitle}>Configurações da Conta</Title>
+              <Text style={styles.cardTitle} style={[styles.title, props.style]}>Configurações da Conta</Text>
             </View>
 
             <List.Item

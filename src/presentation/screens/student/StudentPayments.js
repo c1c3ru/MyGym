@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView, RefreshControl, Alert } from 'react-native';
-import { 
-  Card, 
-  Title, 
-  Paragraph, 
-  Button, 
+import {
+  Card,
+  Button,
   Chip,
   Divider,
   Text,
@@ -134,7 +132,7 @@ const StudentPayments = ({ navigation }) => {
             <Card.Content>
               <View style={styles.cardHeader}>
                 <Ionicons name="card-outline" size={24} color={COLORS.info[500]} />
-                <Title style={styles.cardTitle}>Mensalidade Atual</Title>
+                <Text style={styles.cardTitle} style={[styles.title, props.style]}>Mensalidade Atual</Text>
               </View>
               
               <View style={styles.currentPaymentInfo}>
@@ -184,7 +182,7 @@ const StudentPayments = ({ navigation }) => {
           <Card.Content>
             <View style={styles.cardHeader}>
               <Ionicons name="time-outline" size={24} color={COLORS.info[500]} />
-              <Title style={styles.cardTitle}>Histórico de Pagamentos</Title>
+              <Text style={styles.cardTitle} style={[styles.title, props.style]}>Histórico de Pagamentos</Text>
             </View>
             
             {payments.length > 0 ? (
@@ -213,9 +211,9 @@ const StudentPayments = ({ navigation }) => {
                 </View>
               ))
             ) : (
-              <Paragraph style={styles.emptyText}>
+              <Text style={styles.emptyText} style={[styles.paragraph, props.style]}>
                 Nenhum pagamento encontrado
-              </Paragraph>
+              </Text>
             )}
           </Card.Content>
         </Card>
@@ -223,16 +221,16 @@ const StudentPayments = ({ navigation }) => {
         {/* Informações Adicionais */}
         <Card style={styles.card}>
           <Card.Content>
-            <Title style={styles.cardTitle}>Informações</Title>
-            <Paragraph style={styles.infoText}>
+            <Text style={styles.cardTitle} style={[styles.title, props.style]}>Informações</Text>
+            <Text style={styles.infoText} style={[styles.paragraph, props.style]}>
               • Os pagamentos devem ser realizados até a data de vencimento
-            </Paragraph>
-            <Paragraph style={styles.infoText}>
+            </Text>
+            <Text style={styles.infoText} style={[styles.paragraph, props.style]}>
               • Após o vencimento, será cobrada multa de 2% + juros de 1% ao mês
-            </Paragraph>
-            <Paragraph style={styles.infoText}>
+            </Text>
+            <Text style={styles.infoText} style={[styles.paragraph, props.style]}>
               • Em caso de dúvidas, entre em contato com a administração
-            </Paragraph>
+            </Text>
           </Card.Content>
         </Card>
       </ScrollView>

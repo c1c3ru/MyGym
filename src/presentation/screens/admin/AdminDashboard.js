@@ -1,9 +1,9 @@
 
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { View, StyleSheet, RefreshControl, Animated, Dimensions, Platform, TouchableOpacity } from 'react-native';
-import { 
-  Card, 
-  Button, 
+import {
+  Card,
+  Button,
   Avatar,
   Text,
   List,

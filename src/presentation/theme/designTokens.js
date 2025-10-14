@@ -5,7 +5,7 @@
  * Suporte a Light Theme e Dark Theme Premium
  */
 
-import { LIGHT_THEME } from './lightTheme';
+// Import do LIGHT_THEME será feito de forma lazy para evitar ciclo
 
 // @see https://www.designtokens.org/
 
@@ -669,8 +669,7 @@ export default {
   getFontSize,
   getColor,
   getElevation,
-  // Themes
-  LIGHT_THEME,
+  // Themes disponíveis via import direto
 };
 
 // ============================================
@@ -697,9 +696,19 @@ export const DARK_THEME = {
   shadows: COLORS.shadows,
 };
 
+// Lazy loading do LIGHT_THEME para evitar ciclo de dependência
+let _lightTheme = null;
+const getLightTheme = () => {
+  if (!_lightTheme) {
+    const { LIGHT_THEME } = require('./lightTheme');
+    _lightTheme = LIGHT_THEME;
+  }
+  return _lightTheme;
+};
+
 // Função para alternar entre temas
 export const getTheme = (isDark = true) => {
-  return isDark ? DARK_THEME : LIGHT_THEME;
+  return isDark ? DARK_THEME : getLightTheme();
 };
 
 // Hook para usar tema atual
@@ -707,6 +716,8 @@ export const useCurrentTheme = (isDark = true) => {
   return getTheme(isDark);
 };
 
+// Getter para LIGHT_THEME (lazy)
+export const getLightThemeTokens = () => getLightTheme();
+
 // Exportar temas para uso direto
-export { LIGHT_THEME as LIGHT_THEME_TOKENS };
 export { DARK_THEME as DARK_THEME_TOKENS };

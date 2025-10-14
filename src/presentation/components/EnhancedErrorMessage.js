@@ -7,7 +7,12 @@
 
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Text, Button, Card, IconButton } from 'react-native-paper';
+import {
+  Text,
+  Button,
+  Card,
+  IconButton
+} from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { getString } from '@utils/theme';

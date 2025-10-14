@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { View, StyleSheet, ScrollView, RefreshControl, Alert, TouchableOpacity, Modal } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
-import { 
-  Card, 
-  Title, 
-  Paragraph, 
-  Button, 
+import {
+  Card,
+  Button,
   Avatar,
   Chip,
   Divider,
@@ -477,7 +475,7 @@ const InstructorStudents = ({ navigation }) => {
                       style={styles.avatar}
                     />
                     <View style={styles.studentDetails}>
-                      <Title style={styles.studentName}>{student.name}</Title>
+                      <Text style={styles.studentName} style={[styles.title, props.style]}>{student.name}</Text>
                       <Text style={styles.studentEmail}>{student.email}</Text>
                       {student.currentGraduation && (
                         <Chip 
@@ -583,7 +581,7 @@ const InstructorStudents = ({ navigation }) => {
         {students.length > 0 && (
           <Card style={styles.statsCard}>
             <Card.Content>
-              <Title style={styles.statsTitle}>Resumo dos Alunos</Title>
+              <Text style={styles.statsTitle} style={[styles.title, props.style]}>Resumo dos Alunos</Text>
               
               <View style={styles.statsRow}>
                 <View style={styles.statItem}>

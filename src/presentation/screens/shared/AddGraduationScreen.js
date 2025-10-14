@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import {
 import { getString } from '@utils/theme';
+import {
   View,
   Text,
   ScrollView,

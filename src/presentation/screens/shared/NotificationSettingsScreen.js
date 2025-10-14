@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView, Alert } from 'react-native';
-import { 
-  Card, 
-  Title, 
+import {
+  Card,
   Text,
   Switch,
   List,
@@ -119,7 +118,7 @@ const NotificationSettingsScreen = ({ navigation }) => {
           <Card.Content>
             <View style={styles.cardHeader}>
               <Ionicons name="notifications-outline" size={24} color={COLORS.info[500]} />
-              <Title style={styles.cardTitle}>Notificações Gerais</Title>
+              <Text style={styles.cardTitle} style={[styles.title, props.style]}>Notificações Gerais</Text>
             </View>
 
             <List.Item
@@ -154,7 +153,7 @@ const NotificationSettingsScreen = ({ navigation }) => {
           <Card.Content>
             <View style={styles.cardHeader}>
               <Ionicons name="list-outline" size={24} color={COLORS.primary[500]} />
-              <Title style={styles.cardTitle}>Tipos de Notificação</Title>
+              <Text style={styles.cardTitle} style={[styles.title, props.style]}>Tipos de Notificação</Text>
             </View>
 
             <List.Item
@@ -215,7 +214,7 @@ const NotificationSettingsScreen = ({ navigation }) => {
           <Card.Content>
             <View style={styles.cardHeader}>
               <Ionicons name="time-outline" size={24} color={COLORS.warning[500]} />
-              <Title style={styles.cardTitle}>Configurações de Tempo</Title>
+              <Text style={styles.cardTitle} style={[styles.title, props.style]}>Configurações de Tempo</Text>
             </View>
 
             <List.Item
@@ -265,7 +264,7 @@ const NotificationSettingsScreen = ({ navigation }) => {
           <Card.Content>
             <View style={styles.cardHeader}>
               <Ionicons name="moon-outline" size={24} color={COLORS.secondary[500]} />
-              <Title style={styles.cardTitle}>Horário Silencioso</Title>
+              <Text style={styles.cardTitle} style={[styles.title, props.style]}>Horário Silencioso</Text>
             </View>
 
             <List.Item
@@ -310,7 +309,7 @@ const NotificationSettingsScreen = ({ navigation }) => {
         {/* Informações */}
         <Card style={styles.card}>
           <Card.Content>
-            <Title style={styles.cardTitle}>Informações</Title>
+            <Text style={styles.cardTitle} style={[styles.title, props.style]}>Informações</Text>
             <Text style={styles.infoText}>
               • As notificações push requerem permissão do sistema
             </Text>

@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { View, StyleSheet, ScrollView, RefreshControl, Alert } from 'react-native';
-import { 
-  Card, 
-  Title, 
-  Paragraph, 
-  Button, 
+import {
+  Card,
+  Button,
   Chip,
   Divider,
   Text,
@@ -221,7 +219,7 @@ const InstructorClasses = ({ navigation }) => {
       <Card key={classItem.id} style={styles.card}>
         <Card.Content>
           <View style={styles.cardHeader}>
-            <Title style={styles.className}>{classItem.name}</Title>
+            <Text style={styles.className} style={[styles.title, props.style]}>{classItem.name}</Text>
             <Chip 
               style={[styles.statusChip, { backgroundColor: classItem.status === 'active' ? COLORS.primary[500] : COLORS.warning[400] }]}
               textStyle={{ color: COLORS.white, fontSize: FONT_SIZE.sm }}
@@ -255,7 +253,7 @@ const InstructorClasses = ({ navigation }) => {
           </View>
 
           {classItem.description && (
-            <Paragraph style={styles.description}>{classItem.description}</Paragraph>
+            <Text style={styles.description} style={[styles.paragraph, props.style]}>{classItem.description}</Text>
           )}
         </Card.Content>
         

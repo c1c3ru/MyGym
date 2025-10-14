@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { View, StyleSheet, Animated, Dimensions, RefreshControl, Platform, ActivityIndicator, ScrollView, Alert } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
-import { 
-  Card, 
-  Button, 
+import {
+  Card,
+  Button,
   Avatar,
   Chip,
   Divider,

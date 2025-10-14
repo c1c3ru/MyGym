@@ -7,11 +7,10 @@ import {
   Platform
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { 
+import {
   Card,
   Text,
   Button,
-  Title,
   TextInput,
   HelperText,
   RadioButton,
@@ -337,7 +336,7 @@ const AddStudentScreen = ({ navigation, route }) => {
       >
         <Card style={styles.card}>
           <Card.Content>
-            <Title style={styles.title}>Novo Aluno</Title>
+            <Text style={styles.title} style={[styles.title, props.style]}>Novo Aluno</Text>
 
             {/* Dados Pessoais */}
             <Text style={styles.sectionTitle}>Dados Pessoais</Text>
