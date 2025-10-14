@@ -205,7 +205,7 @@ const AdminClasses = ({ navigation }) => {
       return;
     }
     // Fallback final
-    navigation.navigate('ClassDetails'), { classId: classItem.id, classData: classItem });
+    navigation.navigate('ClassDetails', { classId: classItem.id, classData: classItem });
   }, [navigation, trackButtonClick]);
 
   const handleAddClass = useCallback(async () => {
@@ -218,39 +218,39 @@ const AdminClasses = ({ navigation }) => {
         await cacheService.invalidatePattern(`classes:${academiaId}`);
       }
       
-      // Tenta navegar através do navigator do Stack pai, usando o ID definido
-      const adminStackNav = navigation.getParent && navigation.getParent(getString('adminStack'));
-      if (adminStackNav && typeof adminStackNav.navigate === 'function') {
+      // Navegação simplificada - busca o AdminStack navigator
+      const adminStackNav = navigation.getParent('AdminStack');
+      if (adminStackNav) {
         adminStackNav.navigate('AddClass');
         return;
       }
-      // Fallback 1: subir um nível (Tab) e depois tentar o Stack acima
-      const parentNav = navigation.getParent && navigation.getParent();
-      const grandParentNav = parentNav && parentNav.getParent ? parentNav.getParent() : null;
-      if (grandParentNav && typeof grandParentNav.navigate === 'function') {
-        grandParentNav.navigate('AddClass');
-        return;
+      
+      // Fallback: tenta através do parent
+      const parentNav = navigation.getParent();
+      if (parentNav) {
+        const grandParentNav = parentNav.getParent();
+        if (grandParentNav) {
+          grandParentNav.navigate('AddClass');
+          return;
+        }
       }
-      if (parentNav && typeof parentNav.navigate === 'function') {
-        parentNav.navigate('AddClass');
-        return;
-      }
-      // Fallback final
+      
+      // Último fallback: navegação direta
       navigation.navigate('AddClass');
     });
-
-    if (result.blocked) {
-      Alert.alert(getString('actionBlocked'), 'Muitas criações de turma. Aguarde alguns minutos.');
+    
+    if (!result.success) {
+      console.error('❌ Erro ao navegar para AddClass:', result.error);
     }
-  }, [navigation, trackButtonClick, executeClassAction, userProfile?.academiaId, academia?.id]);
+  }, [navigation, trackButtonClick, executeClassAction, userProfile, academia, cacheService]);
 
   const handleEditClass = useCallback((classItem) => {
     trackButtonClick('edit_class', { classId: classItem.id });
     
     // Navegar para o AdminStack pai para acessar EditClass
-    const adminStackNav = navigation.getParent && navigation.getParent(getString('adminStack'));
-    if (adminStackNav && typeof adminStackNav.navigate === 'function') {
-      adminStackNav.navigate(getString('editClass'), { classId: classItem.id, classData: classItem });
+    const adminStackNav = navigation.getParent('AdminStack');
+    if (adminStackNav) {
+      adminStackNav.navigate('EditClass', { classId: classItem.id, classData: classItem });
       return;
     }
     // Fallback: tentar navegar pelo parent
@@ -497,7 +497,7 @@ const AdminClasses = ({ navigation }) => {
               classes={classes}
               onClassPress={(event) => {
                 setShowCalendarModal(false);
-                navigation.navigate('ClassDetails'), { 
+                navigation.navigate('ClassDetails', { 
                   classId: event.classId,
                   className: event.title 
                 });
