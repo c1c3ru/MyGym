@@ -44,7 +44,7 @@ const SettingsScreen = ({ navigation }) => {
   };
 
   const handleChangePassword = () => {
-    navigation.navigate('ChangePassword'));
+    navigation.navigate('ChangePassword');
   };
 
   const handleDataExport = () => {
@@ -98,7 +98,7 @@ const SettingsScreen = ({ navigation }) => {
             title="Editar Perfil"
             left={(props) => <Ionicons name="create" size={20} color={COLORS.text.secondary} />}
             right={(props) => <List.Icon icon="chevron-right" />}
-            onPress={() => navigation.navigate('Profile')
+            onPress={() => navigation.navigate('Profile')}
           />
           
           <List.Item
