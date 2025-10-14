@@ -425,7 +425,7 @@ const RegisterScreen = ({ navigation }) => {
                     Aceito a{' '}
                     <Text 
                       style={styles.link}
-                      onPress={() => navigation.navigate('PrivacyPolicy'))}
+                      onPress={() => navigation.navigate('PrivacyPolicy')}
                     >
                       Política de Privacidade
                     </Text>
@@ -461,7 +461,7 @@ const RegisterScreen = ({ navigation }) => {
               <Text>{getString('alreadyHaveAccount')} </Text>
               <Button
                 mode="text"
-                onPress={() => navigation.navigate('Login'))}
+                onPress={() => navigation.navigate('Login')}
                 disabled={loading}
               >
                 {getString('signIn')}
