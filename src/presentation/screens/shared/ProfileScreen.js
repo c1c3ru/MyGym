@@ -286,7 +286,7 @@ const ProfileScreen = ({ navigation }) => {
                   </Button>
                   <Button 
                     mode="contained" 
-                    onPress={() => navigation.navigate('StudentPayments'))}
+                    onPress={() => navigation.navigate('StudentPayments')
                     style={styles.payNowButton}
                     icon="credit-card"
                   >
@@ -507,7 +507,7 @@ const ProfileScreen = ({ navigation }) => {
                   }
                   left={() => <List.Icon icon="clipboard-pulse-outline" />}
                   right={() => <List.Icon icon="chevron-right" />}
-                  onPress={() => navigation.navigate(getString('physicalEvaluationHistory'))}
+                  onPress={() => navigation.navigate(getString('physicalEvaluationHistory')
                 />
               </Card.Content>
             </Card>
@@ -543,7 +543,7 @@ const ProfileScreen = ({ navigation }) => {
               description="Clique para alterar sua senha"
               left={() => <List.Icon icon="lock" />}
               right={() => <List.Icon icon="chevron-right" />}
-              onPress={() => navigation.navigate('ChangePassword'))}
+              onPress={() => navigation.navigate('ChangePassword')
             />
             <Divider />
             
@@ -552,7 +552,7 @@ const ProfileScreen = ({ navigation }) => {
               description="Acompanhe sua evolução física e IMC"
               left={() => <List.Icon icon="scale" />}
               right={() => <List.Icon icon="chevron-right" />}
-              onPress={() => navigation.navigate('PhysicalEvaluation'))}
+              onPress={() => navigation.navigate('PhysicalEvaluation')
             />
             <Divider />
             
@@ -561,7 +561,7 @@ const ProfileScreen = ({ navigation }) => {
               description="Veja todas suas avaliações anteriores"
               left={() => <List.Icon icon="history" />}
               right={() => <List.Icon icon="chevron-right" />}
-              onPress={() => navigation.navigate(getString('physicalEvaluationHistory'))}
+              onPress={() => navigation.navigate(getString('physicalEvaluationHistory')
             />
             <Divider />
             
@@ -570,7 +570,7 @@ const ProfileScreen = ({ navigation }) => {
               description="Configurar notificações do app"
               left={() => <List.Icon icon="bell" />}
               right={() => <List.Icon icon="chevron-right" />}
-              onPress={() => navigation.navigate(getString('notificationSettings'))}
+              onPress={() => navigation.navigate(getString('notificationSettings')
             />
             <Divider />
             
@@ -579,7 +579,7 @@ const ProfileScreen = ({ navigation }) => {
               description="Configurações de privacidade e LGPD"
               left={() => <List.Icon icon="shield" />}
               right={() => <List.Icon icon="chevron-right" />}
-              onPress={() => navigation.navigate(getString('privacySettings'))}
+              onPress={() => navigation.navigate(getString('privacySettings')
             />
           </Card.Content>
         </Card>

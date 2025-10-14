@@ -373,7 +373,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
                         onPress={() => navigation.navigate('ClassDetails', { 
                           classId: classItem.id, 
                           classData: classItem 
-                        }))}
+                        })
                       />
                     </View>
                   </View>
@@ -519,7 +519,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
                 {payments.length > 3 && (
                   <Button
                     mode="text"
-                    onPress={() => navigation.navigate('StudentPayments', { studentId }))}
+                    onPress={() => navigation.navigate('StudentPayments', { studentId })
                     style={styles.viewAllPaymentsButton}
                     textColor={COLORS.secondary[400]}
                   >
@@ -549,7 +549,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
               onPress={() => navigation.navigate('EditStudent', { 
                 studentId, 
                 studentData: studentInfo 
-              }))}
+              })
               style={styles.primaryActionButton}
               icon="pencil"
               buttonColor={COLORS.secondary[400]}
@@ -564,7 +564,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
               onPress={() => navigation.navigate('AddGraduation', { 
                 studentId, 
                 studentName: studentInfo?.name 
-              }))}
+              })
               style={styles.primaryActionButton}
               icon="trophy"
               buttoncolor={COLORS.warning[300]}

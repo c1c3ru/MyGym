@@ -192,7 +192,7 @@ const ScheduleClassesScreen = ({ navigation, route }) => {
                 <Text style={styles.emptyText}>Nenhuma turma encontrada</Text>
                 <Button
                   mode="contained"
-                  onPress={() => navigation.navigate(getString('addClassScreen'))}
+                  onPress={() => navigation.navigate(getString('addClassScreen')
                   style={styles.createButton}
                 >
                   Criar Turma

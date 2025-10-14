@@ -356,7 +356,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
                     onPress={() => navigation.navigate('PhysicalEvaluation', {
                       evaluation,
                       isEditing: true
-                    }))}
+                    })
                   />
                   {index < evaluations.length - 1 && <Divider />}
                 </View>
@@ -369,7 +369,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
       <FAB
         style={styles.fab}
         icon="plus"
-        onPress={() => navigation.navigate('PhysicalEvaluation'))}
+        onPress={() => navigation.navigate('PhysicalEvaluation')
         label="Nova Avaliação"
       />
     </SafeAreaView>

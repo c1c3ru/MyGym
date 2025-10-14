@@ -312,7 +312,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
                         onPress={() => navigation.navigate('StudentDetails', { 
                           studentId: student.id, 
                           studentData: student 
-                        }))}
+                        })}
                         style={styles.studentButton}
                       >
                         Ver Perfil
