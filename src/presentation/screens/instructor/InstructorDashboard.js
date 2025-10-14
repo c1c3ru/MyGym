@@ -476,7 +476,7 @@ const InstructorDashboard = ({ navigation }) => {
                       
                       <AnimatedButton 
                         mode="contained" 
-                        onPress={() => navigation.navigate(getString('classes'), { classId: classItem.id })}
+                        onPress={() => navigation.navigate(getString('classes', { classId: classItem.id }))}
                         style={styles.timelineButton}
                         compact
                       >

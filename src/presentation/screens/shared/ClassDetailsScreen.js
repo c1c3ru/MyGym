@@ -309,10 +309,10 @@ const ClassDetailsScreen = ({ route, navigation }) => {
                       <Button
                         mode="outlined"
                         compact
-                        onPress={() => navigation.navigate('StudentDetails'), { 
+                        onPress={() => navigation.navigate('StudentDetails', { 
                           studentId: student.id, 
                           studentData: student 
-                        })}
+                        }))}
                         style={styles.studentButton}
                       >
                         Ver Perfil
@@ -340,10 +340,10 @@ const ClassDetailsScreen = ({ route, navigation }) => {
               <Surface style={styles.actionItem} elevation={2}>
                 <Button
                   mode="contained"
-                  onPress={() => navigation.navigate(getString('checkIns'), { 
+                  onPress={() => navigation.navigate(getString('checkIns', { 
                     classId: classId, 
                     className: classInfo?.name 
-                  })}
+                  }))}
                   style={[styles.actionButton, { backgroundColor: COLORS.info[500] }]}
                   contentStyle={styles.actionButtonContent}
                   labelStyle={styles.actionButtonLabel}

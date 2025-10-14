@@ -188,7 +188,7 @@ const GraduationBoardScreen = ({ navigation }) => {
 
     if (exam) {
       // Editar exame existente
-      navigation.navigate('ScheduleExam'), { examId: exam.id, exam });
+      navigation.navigate('ScheduleExam', { examId: exam.id, exam }));
     } else {
       // Criar novo exame
       setShowScheduleDialog(true);
@@ -198,10 +198,10 @@ const GraduationBoardScreen = ({ navigation }) => {
   const handleViewStudentDetails = useCallback((alertOrExam) => {
     if (alertOrExam.studentId) {
       // É um alerta de graduação
-      navigation.navigate('StudentDetails'), { 
+      navigation.navigate('StudentDetails', { 
         studentId: alertOrExam.studentId,
         tab: 'graduation'
-      });
+      }));
     } else if (alertOrExam.candidateStudents) {
       // É um exame com candidatos
       navigation.navigate('ExamCandidates', { 

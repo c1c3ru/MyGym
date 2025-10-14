@@ -135,11 +135,11 @@ const AdminStudentsOptimized = ({ navigation }) => {
 
   // Callbacks memoizados para performance
   const handleStudentPress = useCallback((student) => {
-    navigation.navigate(getString('studentProfile'), { student });
+    navigation.navigate(getString('studentProfile', { student }));
   }, [navigation]);
 
   const handleEditStudent = useCallback((student) => {
-    navigation.navigate('EditStudent'), { student });
+    navigation.navigate('EditStudent', { student }));
   }, [navigation]);
 
   const handleAddStudent = useCallback(() => {
@@ -152,7 +152,7 @@ const AdminStudentsOptimized = ({ navigation }) => {
   }, []);
 
   const handleNavigateToPayments = useCallback((studentId) => {
-    navigation.navigate('StudentPayments'), { studentId });
+    navigation.navigate('StudentPayments', { studentId }));
   }, [navigation]);
 
   const onRefresh = useCallback(() => {

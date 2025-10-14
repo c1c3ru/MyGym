@@ -63,7 +63,7 @@ const StudentCalendar = ({ navigation }) => {
 
   // Navegar para detalhes da turma
   const handleClassPress = useCallback((event) => {
-    navigation.navigate('ClassDetails'), { 
+    navigation.navigate('ClassDetails', { 
       classId: event.classId,
       className: event.title 
     });

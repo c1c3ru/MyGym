@@ -294,10 +294,10 @@ const InjuryHistoryScreen = ({ navigation }) => {
                       </View>
                     )}
                     right={() => <List.Icon icon="chevron-right" />}
-                    onPress={() => navigation.navigate('Injury'), {
+                    onPress={() => navigation.navigate('Injury', {
                       injury,
                       isEditing: true
-                    })}
+                    }))}
                     style={styles.listItem}
                   />
                   {index < filteredInjuries.length - 1 && <Divider />}

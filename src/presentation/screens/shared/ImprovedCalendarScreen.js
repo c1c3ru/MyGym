@@ -117,10 +117,10 @@ const ImprovedCalendarScreen = ({ navigation }) => {
       modality: event.modality 
     });
     
-    navigation.navigate('ClassDetails'), { 
+    navigation.navigate('ClassDetails', { 
       classId: event.classId,
       className: event.title 
-    });
+    }));
   }, [navigation, trackButtonClick]);
 
   // Navegar para criar nova turma (apenas admin/instrutor)
@@ -130,7 +130,7 @@ const ImprovedCalendarScreen = ({ navigation }) => {
     if (isAdmin()) {
       navigation.navigate(getString('addClassScreen'));
     } else if (isInstructor()) {
-      navigation.navigate(getString('addClassScreen'), { instructorId: user.id });
+      navigation.navigate(getString('addClassScreen', { instructorId: user.id }));
     }
   }, [navigation, trackButtonClick, isAdmin, isInstructor, user.id]);
 

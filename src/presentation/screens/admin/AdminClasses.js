@@ -260,7 +260,7 @@ const AdminClasses = ({ navigation }) => {
       return;
     }
     // Fallback final
-    navigation.navigate(getString('editClass'), { classId: classItem.id, classData: classItem });
+    navigation.navigate(getString('editClass', { classId: classItem.id, classData: classItem }));
   }, [navigation, trackButtonClick]);
 
   // Memoized render functions

@@ -353,10 +353,10 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
                     description={`${formatDate(evaluation.date)} • ${evaluation.imcClassification}`}
                     left={() => <List.Icon icon="scale" />}
                     right={() => <List.Icon icon="chevron-right" />}
-                    onPress={() => navigation.navigate('PhysicalEvaluation'), {
+                    onPress={() => navigation.navigate('PhysicalEvaluation', {
                       evaluation,
                       isEditing: true
-                    })}
+                    }))}
                   />
                   {index < evaluations.length - 1 && <Divider />}
                 </View>
