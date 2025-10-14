@@ -205,7 +205,7 @@ const GraduationManagementScreen = ({ navigation }) => {
             <GraduationAlertCard
               key={alert.id}
               alert={alert}
-              onViewDetails={(alert) => navigation.navigate(getString('studentDetails'), { studentId: alert.studentId })}
+              onViewDetails={(alert) => navigation.navigate('StudentDetails'), { studentId: alert.studentId })}
               onScheduleExam={(alert) => {
                 setExamForm(prev => ({
                   ...prev,

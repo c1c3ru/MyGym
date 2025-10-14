@@ -117,7 +117,7 @@ const ImprovedCalendarScreen = ({ navigation }) => {
       modality: event.modality 
     });
     
-    navigation.navigate(getString('classDetailsScreen'), { 
+    navigation.navigate('ClassDetails'), { 
       classId: event.classId,
       className: event.title 
     });

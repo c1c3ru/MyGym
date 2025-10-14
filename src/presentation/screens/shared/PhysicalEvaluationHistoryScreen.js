@@ -353,7 +353,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
                     description={`${formatDate(evaluation.date)} • ${evaluation.imcClassification}`}
                     left={() => <List.Icon icon="scale" />}
                     right={() => <List.Icon icon="chevron-right" />}
-                    onPress={() => navigation.navigate(getString('physicalEvaluation'), {
+                    onPress={() => navigation.navigate('PhysicalEvaluation'), {
                       evaluation,
                       isEditing: true
                     })}
@@ -369,7 +369,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
       <FAB
         style={styles.fab}
         icon="plus"
-        onPress={() => navigation.navigate(getString('physicalEvaluation'))}
+        onPress={() => navigation.navigate('PhysicalEvaluation'))}
         label="Nova Avaliação"
       />
     </SafeAreaView>

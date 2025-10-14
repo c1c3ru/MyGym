@@ -165,7 +165,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
   };
 
   const handleAddGraduation = () => {
-    navigation.navigate(getString('addGraduationScreen'), { 
+    navigation.navigate('AddGraduation'), { 
       studentId: studentId, 
       studentName: studentInfo?.name || getString('student') 
     });
@@ -370,7 +370,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
                         icon="chevron-right"
                         size={20}
                         iconColor={COLORS.secondary[400]}
-                        onPress={() => navigation.navigate(getString('classDetailsScreen'), { 
+                        onPress={() => navigation.navigate('ClassDetails'), { 
                           classId: classItem.id, 
                           classData: classItem 
                         })}
@@ -519,7 +519,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
                 {payments.length > 3 && (
                   <Button
                     mode="text"
-                    onPress={() => navigation.navigate(getString('studentPayments'), { studentId })}
+                    onPress={() => navigation.navigate('StudentPayments'), { studentId })}
                     style={styles.viewAllPaymentsButton}
                     textColor={COLORS.secondary[400]}
                   >
@@ -546,7 +546,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
           <View style={styles.actionCard}>
             <Button
               mode="contained"
-              onPress={() => navigation.navigate(getString('editStudent'), { 
+              onPress={() => navigation.navigate('EditStudent'), { 
                 studentId, 
                 studentData: studentInfo 
               })}
@@ -561,7 +561,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
           <View style={styles.actionCard}>
             <Button
               mode="contained"
-              onPress={() => navigation.navigate(getString('addGraduationScreen'), { 
+              onPress={() => navigation.navigate('AddGraduation'), { 
                 studentId, 
                 studentName: studentInfo?.name 
               })}

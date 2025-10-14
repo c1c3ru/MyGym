@@ -309,7 +309,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
                       <Button
                         mode="outlined"
                         compact
-                        onPress={() => navigation.navigate(getString('studentDetails'), { 
+                        onPress={() => navigation.navigate('StudentDetails'), { 
                           studentId: student.id, 
                           studentData: student 
                         })}

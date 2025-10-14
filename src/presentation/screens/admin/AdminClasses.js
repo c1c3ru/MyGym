@@ -205,7 +205,7 @@ const AdminClasses = ({ navigation }) => {
       return;
     }
     // Fallback final
-    navigation.navigate(getString('classDetailsScreen'), { classId: classItem.id, classData: classItem });
+    navigation.navigate('ClassDetails'), { classId: classItem.id, classData: classItem });
   }, [navigation, trackButtonClick]);
 
   const handleAddClass = useCallback(async () => {
@@ -497,7 +497,7 @@ const AdminClasses = ({ navigation }) => {
               classes={classes}
               onClassPress={(event) => {
                 setShowCalendarModal(false);
-                navigation.navigate(getString('classDetailsScreen'), { 
+                navigation.navigate('ClassDetails'), { 
                   classId: event.classId,
                   className: event.title 
                 });

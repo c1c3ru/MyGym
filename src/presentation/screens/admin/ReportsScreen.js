@@ -373,7 +373,7 @@ const ReportsScreen = ({ navigation }) => {
             <View style={styles.actionsContainer}>
               <Button
                 mode="contained"
-                onPress={() => navigation.navigate(getString('addStudent'))}
+                onPress={() => navigation.navigate('AddStudent'))}
                 style={[styles.actionButton, { backgroundColor: COLORS.info[500] }]}
                 icon={<MaterialCommunityIcons name="account-plus" size={18} color={COLORS.white} />}
               >

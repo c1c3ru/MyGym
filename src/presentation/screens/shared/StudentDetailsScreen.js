@@ -171,7 +171,7 @@ const StudentDetailsScreen = ({ route, navigation }) => {
   // Memoized navigation handlers
   const handleEditStudent = useCallback(() => {
     trackButtonClick('edit_student', { studentId });
-    navigation.navigate(getString('editStudent'), { 
+    navigation.navigate('EditStudent'), { 
       studentId, 
       studentData: studentInfo 
     });
@@ -179,7 +179,7 @@ const StudentDetailsScreen = ({ route, navigation }) => {
 
   const handleAddGraduation = useCallback(() => {
     trackButtonClick('add_graduation', { studentId });
-    navigation.navigate(getString('addGraduationScreen'), { 
+    navigation.navigate('AddGraduation'), { 
       studentId, 
       studentName: studentInfo?.name 
     });
@@ -187,7 +187,7 @@ const StudentDetailsScreen = ({ route, navigation }) => {
 
   const handleViewClassDetails = useCallback((classItem) => {
     trackButtonClick('view_class_details', { classId: classItem.id, studentId });
-    navigation.navigate(getString('classDetailsScreen'), { 
+    navigation.navigate('ClassDetails'), { 
       classId: classItem.id, 
       classData: classItem 
     });
@@ -195,7 +195,7 @@ const StudentDetailsScreen = ({ route, navigation }) => {
 
   const handleViewAllPayments = useCallback(() => {
     trackButtonClick('view_all_payments', { studentId });
-    navigation.navigate(getString('studentPayments'), { studentId });
+    navigation.navigate('StudentPayments'), { studentId });
   }, [navigation, studentId, trackButtonClick]);
 
   if (loading && !studentInfo) {

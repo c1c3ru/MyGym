@@ -224,17 +224,17 @@ const AdminStudents = ({ navigation }) => {
 
   const handleStudentPress = (student) => {
     trackButtonClick('student_details', { studentId: student.id });
-    navigation.navigate(getString('studentDetails'), { studentId: student.id, studentData: student });
+    navigation.navigate('StudentDetails'), { studentId: student.id, studentData: student });
   };
 
   const handleViewStudent = (student) => {
     trackButtonClick('view_student', { studentId: student.id });
-    navigation.navigate(getString('studentDetails'), { studentId: student.id, studentData: student });
+    navigation.navigate('StudentDetails'), { studentId: student.id, studentData: student });
   };
 
   const handleAddStudent = () => {
     trackButtonClick('add_student');
-    navigation.navigate(getString('addStudent'), {
+    navigation.navigate('AddStudent'), {
       onStudentAdded: (newStudent) => {
         console.log('🔄 Novo aluno adicionado, atualizando lista:', newStudent.name);
         
@@ -257,7 +257,7 @@ const AdminStudents = ({ navigation }) => {
 
   const handleEditStudent = (student) => {
     trackButtonClick('edit_student', { studentId: student.id });
-    navigation.navigate(getString('editStudent'), { studentId: student.id, studentData: student });
+    navigation.navigate('EditStudent'), { studentId: student.id, studentData: student });
   };
 
   const handleDisassociateStudent = (student) => {
@@ -381,7 +381,7 @@ const AdminStudents = ({ navigation }) => {
         <FAB
           style={styles.fab}
           icon="plus"
-          onPress={() => navigation.navigate(getString('addStudent'))}
+          onPress={() => navigation.navigate('AddStudent')}
         />
 
         <StudentDisassociationDialog

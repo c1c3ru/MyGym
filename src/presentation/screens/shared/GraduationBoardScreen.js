@@ -290,7 +290,7 @@ const GraduationBoardScreen = ({ navigation }) => {
             <Button
               mode="outlined"
               icon="plus"
-              onPress={() => navigation.navigate(getString('scheduleExam'))}
+              onPress={() => navigation.navigate('ScheduleExam'))}
               style={styles.addButton}
             >
               Agendar Exame

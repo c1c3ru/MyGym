@@ -265,7 +265,7 @@ const InstructorStudents = ({ navigation }) => {
   };
 
   const handleAddGraduation = (student) => {
-    navigation.navigate(getString('addGraduationScreen'), { studentId: student.id, studentName: student.name });
+    navigation.navigate('AddGraduation'), { studentId: student.id, studentName: student.name });
   };
 
   const getPaymentStatusColor = (status) => {
@@ -619,7 +619,7 @@ const InstructorStudents = ({ navigation }) => {
         style={styles.fab}
         icon="account-plus"
         label="Novo Aluno"
-        onPress={() => navigation.navigate(getString('addStudent'))}
+        onPress={() => navigation.navigate('AddStudent'))}
       />
 
       {/* Modal para Dropdown de Modalidade */}

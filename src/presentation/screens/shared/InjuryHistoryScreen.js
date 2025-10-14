@@ -294,7 +294,7 @@ const InjuryHistoryScreen = ({ navigation }) => {
                       </View>
                     )}
                     right={() => <List.Icon icon="chevron-right" />}
-                    onPress={() => navigation.navigate(getString('injury'), {
+                    onPress={() => navigation.navigate('Injury'), {
                       injury,
                       isEditing: true
                     })}
@@ -333,7 +333,7 @@ const InjuryHistoryScreen = ({ navigation }) => {
       <FAB
         style={styles.fab}
         icon="plus"
-        onPress={() => navigation.navigate(getString('injury'))}
+        onPress={() => navigation.navigate('Injury'))}
         label="Nova Lesão"
       />
     </SafeAreaView>

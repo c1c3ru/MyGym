@@ -175,12 +175,12 @@ const InstructorClasses = ({ navigation }) => {
 
   const handleClassPress = useCallback((classItem) => {
     trackButtonClick('instructor_class_details', { classId: classItem.id });
-    navigation.navigate(getString('classDetailsScreen'), { classId: classItem.id, classData: classItem });
+    navigation.navigate('ClassDetails'), { classId: classItem.id, classData: classItem });
   }, [navigation, trackButtonClick]);
 
   const handleCheckIns = useCallback((classItem) => {
     trackButtonClick('instructor_class_checkins', { classId: classItem.id });
-    navigation.navigate(getString('checkIn'), { 
+    navigation.navigate('CheckIn'), { 
       classId: classItem.id,
       className: classItem.name 
     });

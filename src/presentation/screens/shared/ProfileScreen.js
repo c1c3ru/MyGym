@@ -286,7 +286,7 @@ const ProfileScreen = ({ navigation }) => {
                   </Button>
                   <Button 
                     mode="contained" 
-                    onPress={() => navigation.navigate(getString('studentPayments'))}
+                    onPress={() => navigation.navigate('StudentPayments'))}
                     style={styles.payNowButton}
                     icon="credit-card"
                   >
@@ -543,7 +543,7 @@ const ProfileScreen = ({ navigation }) => {
               description="Clique para alterar sua senha"
               left={() => <List.Icon icon="lock" />}
               right={() => <List.Icon icon="chevron-right" />}
-              onPress={() => navigation.navigate(getString('changePassword'))}
+              onPress={() => navigation.navigate('ChangePassword'))}
             />
             <Divider />
             
@@ -552,7 +552,7 @@ const ProfileScreen = ({ navigation }) => {
               description="Acompanhe sua evolução física e IMC"
               left={() => <List.Icon icon="scale" />}
               right={() => <List.Icon icon="chevron-right" />}
-              onPress={() => navigation.navigate(getString('physicalEvaluation'))}
+              onPress={() => navigation.navigate('PhysicalEvaluation'))}
             />
             <Divider />
             

@@ -313,7 +313,7 @@ const AdminDashboard = ({ navigation }) => {
               classes={classes}
               onClassPress={(event) => {
                 setShowCalendarModal(false);
-                navigation.navigate(getString('classDetailsScreen'), { 
+                navigation.navigate('ClassDetails'), { 
                   classId: event.classId,
                   className: event.title 
                 });

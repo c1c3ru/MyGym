@@ -139,11 +139,11 @@ const AdminStudentsOptimized = ({ navigation }) => {
   }, [navigation]);
 
   const handleEditStudent = useCallback((student) => {
-    navigation.navigate(getString('editStudent'), { student });
+    navigation.navigate('EditStudent'), { student });
   }, [navigation]);
 
   const handleAddStudent = useCallback(() => {
-    navigation.navigate(getString('addStudent'));
+    navigation.navigate('AddStudent'));
   }, [navigation]);
 
   const handleDisassociateStudent = useCallback((student) => {
@@ -152,7 +152,7 @@ const AdminStudentsOptimized = ({ navigation }) => {
   }, []);
 
   const handleNavigateToPayments = useCallback((studentId) => {
-    navigation.navigate(getString('studentPayments'), { studentId });
+    navigation.navigate('StudentPayments'), { studentId });
   }, [navigation]);
 
   const onRefresh = useCallback(() => {
