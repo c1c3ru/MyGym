@@ -36,7 +36,7 @@ const FreeGymScheduler = ({
   onCreateClass,
   navigation
 }) => {
-  const { colors, getString } = useTheme();
+  const { colors } = useTheme();
   
   // Usa useContext diretamente para verificar se está dentro do AuthProvider
   const authContext = useContext(AuthContext);

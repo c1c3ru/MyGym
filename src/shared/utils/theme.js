@@ -231,7 +231,34 @@ export const languages = {
       errorSearchingStudents: 'Erro ao buscar alunos',
       errorFormattingDate: 'Erro ao formatar data',
       couldNotLoadData: 'Não foi possível carregar os dados. Tente novamente.',
-      tryAgainLater: 'Tente novamente mais tarde'
+      tryAgainLater: 'Tente novamente mais tarde',
+
+      // DAYS OF WEEK
+      sunday: 'Domingo',
+      monday: 'Segunda',
+      tuesday: 'Terça',
+      wednesday: 'Quarta',
+      thursday: 'Quinta',
+      friday: 'Sexta',
+      saturday: 'Sábado',
+
+      // MONTHS
+      january: 'Janeiro',
+      february: 'Fevereiro',
+      march: 'Março',
+      april: 'Abril',
+      may: 'Maio',
+      june: 'Junho',
+      july: 'Julho',
+      august: 'Agosto',
+      september: 'Setembro',
+      october: 'Outubro',
+      november: 'Novembro',
+      december: 'Dezembro',
+
+      // SYSTEM
+      system: 'system',
+      colorWhite: '#FFFFFF'
     }
   },
 
