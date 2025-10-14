@@ -507,7 +507,7 @@ const ProfileScreen = ({ navigation }) => {
                   }
                   left={() => <List.Icon icon="clipboard-pulse-outline" />}
                   right={() => <List.Icon icon="chevron-right" />}
-                  onPress={() => navigation.navigate(getString('physicalEvaluationHistory')
+                  onPress={() => navigation.navigate(getString('physicalEvaluationHistory'))}
                 />
               </Card.Content>
             </Card>
