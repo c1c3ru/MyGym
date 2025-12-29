@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useMemo } from 'react';
-import { View, StyleSheet, Alert, Platform, ScrollView } from 'react-native';
+import { View, StyleSheet, Alert, Platform, ScrollView, Linking } from 'react-native';
 import {
   TextInput,
   Card,
@@ -73,6 +73,13 @@ const handleErrorAction = (action, navigation, setEmail, setPassword) => {
       break;
     case 'retry':
       // Limpar campos para nova tentativa
+      break;
+    case 'support':
+      // Abrir link de suporte ou fallback para alerta
+      const supportUrl = 'mailto:support@mygym.app?subject=Ajuda%20no%20login';
+      Linking.openURL(supportUrl).catch(() => {
+        Alert.alert('Suporte', 'Envie um e-mail para support@mygym.app');
+      });
       break;
     default:
       console.log('Ação não mapeada:', action);
@@ -625,6 +632,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.1,
     shadowRadius: 8,
+    ...(Platform.OS === 'web' ? { boxShadow: '0px 4px 8px rgba(0,0,0,0.10)' } : {}),
   },
   input: {
     marginBottom: 16,

@@ -18,7 +18,7 @@ export const AnimationConfig = {
   },
   fade: {
     duration: Platform.OS === 'web' ? 400 : 300,
-    useNativeDriver: true,
+    useNativeDriver: Platform.OS !== 'web',
   }
 };
 
@@ -99,6 +99,7 @@ export const ShadowUtils = {
     },
     shadowOpacity: 0.05,
     shadowRadius: 2,
+    ...(Platform.OS === 'web' ? { boxShadow: '0px 1px 2px rgba(0,0,0,0.05)' } : {}),
   },
   medium: Platform.OS === 'android' ? {
     elevation: 4,
@@ -110,6 +111,7 @@ export const ShadowUtils = {
     },
     shadowOpacity: 0.1,
     shadowRadius: 4,
+    ...(Platform.OS === 'web' ? { boxShadow: '0px 2px 4px rgba(0,0,0,0.10)' } : {}),
   },
   heavy: Platform.OS === 'android' ? {
     elevation: 8,
@@ -121,6 +123,7 @@ export const ShadowUtils = {
     },
     shadowOpacity: 0.15,
     shadowRadius: 8,
+    ...(Platform.OS === 'web' ? { boxShadow: '0px 4px 8px rgba(0,0,0,0.15)' } : {}),
   },
 };
 

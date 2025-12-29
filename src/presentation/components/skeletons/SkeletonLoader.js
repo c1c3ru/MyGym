@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { View, Animated, StyleSheet } from 'react-native';
+import { View, Animated, StyleSheet, Platform } from 'react-native';
 
 /**
  * Componente base para skeleton loading com animação shimmer
@@ -23,7 +23,7 @@ const SkeletonLoader = ({
       Animated.timing(shimmerAnimation, {
         toValue: 1,
         duration: 1000,
-        useNativeDriver: true,
+        useNativeDriver: Platform.OS !== 'web',
       }).start(() => shimmer());
     };
 
