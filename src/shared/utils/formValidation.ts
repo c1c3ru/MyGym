@@ -98,7 +98,7 @@ class FormValidator {
     this.addRule('date', (value) => {
       if (!value) return true;
       const date = new Date(value);
-      return date instanceof Date && !isNaN(date);
+      return date instanceof Date && !isNaN(date.getTime());
     });
 
     this.addRule('dateAfter', (value, afterDate) => {
@@ -210,7 +210,8 @@ class FormValidator {
         const isValid = await validator(value, ...ruleParams, formData);
         
         if (!isValid) {
-          const message = this.getErrorMessage(ruleName, ruleParams, fieldName);
+          const safeRuleName = ruleName || 'unknown';
+          const message = this.getErrorMessage(safeRuleName, ruleParams, fieldName);
           errors.push(message);
         }
       } catch (error: any) {

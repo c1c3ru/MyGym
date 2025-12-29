@@ -7,7 +7,10 @@
  * @param {Array} params.filters - Array of filter objects
  * @returns {boolean} - True if valid, false otherwise
  */
-export const validateQuery = ({ collection, filters = [] }) => {
+type QueryFilter = { field: string; operator: string; value: any };
+type ValidateQueryParams = { collection: string; filters?: QueryFilter[] };
+
+export const validateQuery = ({ collection, filters = [] }: ValidateQueryParams): boolean => {
   // Validate collection path
   if (!collection || typeof collection !== 'string') {
     console.warn('Invalid collection path:', collection);
@@ -54,7 +57,13 @@ export const validateQuery = ({ collection, filters = [] }) => {
  * @param {number} limit - Query limit
  * @returns {Promise<Array>} - Query results or empty array
  */
-export const safeGetDocuments = async (firestoreService, collection, filters = [], orderBy = null, limit = null) => {
+export const safeGetDocuments = async (
+  firestoreService: { getDocuments: (collection: string, filters?: QueryFilter[], orderBy?: any, limit?: number | null) => Promise<any[]> },
+  collection: string,
+  filters: QueryFilter[] = [],
+  orderBy: any = null,
+  limit: number | null = null
+): Promise<any[]> => {
   try {
     // Validate query parameters
     if (!validateQuery({ collection, filters })) {
@@ -64,7 +73,7 @@ export const safeGetDocuments = async (firestoreService, collection, filters = [
 
     // Execute query
     return await firestoreService.getDocuments(collection, filters, orderBy, limit);
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error in safeGetDocuments:', error);
     return [];
   }
@@ -76,7 +85,10 @@ export const safeGetDocuments = async (firestoreService, collection, filters = [
  * @param {Object} academia - Academia object
  * @returns {Object|null} - Validated IDs or null if invalid
  */
-export const validateUserAcademiaIds = (user, academia) => {
+export const validateUserAcademiaIds = (
+  user: { uid?: string } | null | undefined,
+  academia: { id?: string } | null | undefined
+): { userId: string; academiaId: string } | null => {
   const userId = user?.uid;
   const academiaId = academia?.id;
 
@@ -85,5 +97,5 @@ export const validateUserAcademiaIds = (user, academia) => {
     return null;
   }
 
-  return { userId, academiaId };
+  return { userId, academiaId } as { userId: string; academiaId: string };
 };

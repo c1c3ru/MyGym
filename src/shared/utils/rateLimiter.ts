@@ -3,7 +3,29 @@
  * Previne spam e abuso de funcionalidades sensíveis
  */
 
+type LimitConfig = {
+  maxAttempts: number;
+  windowMs: number;
+  blockDurationMs: number;
+  message: string;
+  skipSuccessfulAttempts?: boolean;
+  progressive?: boolean;
+};
+
+type Attempt = { timestamp: number; success: boolean };
+type BlockInfo = { blockedAt: number; unblockAt: number; blockCount: number };
+
+type CanExecuteAllowed = { allowed: true; remainingAttempts: number; windowMs: number };
+type CanExecuteBlocked = { allowed: false; reason: 'blocked'; message: string; retryAfter: number; unblockAt: string };
+type CanExecuteExceeded = { allowed: false; reason: 'rate_limit_exceeded'; message: string; retryAfter: number; attempts: number; maxAttempts: number };
+type CanExecuteResult = CanExecuteAllowed | CanExecuteBlocked | CanExecuteExceeded | { allowed: true };
+
 class RateLimiter {
+  private limits: Map<string, LimitConfig>;
+  private attempts: Map<string, Attempt[]>;
+  private blockedUsers: Map<string, BlockInfo>;
+  private cleanupInterval: ReturnType<typeof setInterval> | null;
+
   constructor() {
     this.limits = new Map();
     this.attempts = new Map();
@@ -17,8 +39,8 @@ class RateLimiter {
    * @param {string} action - Nome da ação
    * @param {Object} config - Configuração do limite
    */
-  setLimit(action, config) {
-    const defaultConfig = {
+  setLimit(action: string, config: Partial<LimitConfig>) {
+    const defaultConfig: LimitConfig = {
       maxAttempts: 5,
       windowMs: 60000, // 1 minuto
       blockDurationMs: 300000, // 5 minutos
@@ -36,7 +58,7 @@ class RateLimiter {
    * @param {string} identifier - Identificador único (userId, IP, etc.)
    * @returns {Object} Resultado da verificação
    */
-  canExecute(action, identifier) {
+  canExecute(action: string, identifier: string): CanExecuteResult {
     const key = `${action}:${identifier}`;
     const limit = this.limits.get(action);
 
@@ -97,7 +119,7 @@ class RateLimiter {
    * @param {string} identifier - Identificador único
    * @param {boolean} success - Se a tentativa foi bem-sucedida
    */
-  recordAttempt(action, identifier, success = false) {
+  recordAttempt(action: string, identifier: string, success: boolean = false) {
     const key = `${action}:${identifier}`;
     const limit = this.limits.get(action);
 
@@ -110,10 +132,7 @@ class RateLimiter {
     }
 
     const attempts = this.attempts.get(key) || [];
-    attempts.push({
-      timestamp: Date.now(),
-      success
-    });
+    attempts.push({ timestamp: Date.now(), success });
 
     this.attempts.set(key, attempts);
   }
@@ -123,7 +142,7 @@ class RateLimiter {
    * @param {string} key - Chave única
    * @param {Object} limit - Configuração do limite
    */
-  blockUser(key, limit) {
+  blockUser(key: string, limit: LimitConfig) {
     const blockDuration = limit.progressive 
       ? this.calculateProgressiveBlock(key, limit.blockDurationMs)
       : limit.blockDurationMs;
@@ -143,7 +162,7 @@ class RateLimiter {
    * @param {number} baseDuration - Duração base
    * @returns {number} Duração calculada
    */
-  calculateProgressiveBlock(key, baseDuration) {
+  calculateProgressiveBlock(key: string, baseDuration: number): number {
     const blockInfo = this.blockedUsers.get(key);
     const blockCount = blockInfo?.blockCount || 0;
     
@@ -158,7 +177,7 @@ class RateLimiter {
    * Limpa tentativas para uma chave
    * @param {string} key - Chave única
    */
-  clearAttempts(key) {
+  clearAttempts(key: string) {
     this.attempts.delete(key);
   }
 
@@ -167,7 +186,7 @@ class RateLimiter {
    * @param {string} action - Nome da ação
    * @param {string} identifier - Identificador único
    */
-  unblock(action, identifier) {
+  unblock(action: string, identifier: string) {
     const key = `${action}:${identifier}`;
     this.blockedUsers.delete(key);
     this.clearAttempts(key);
@@ -179,7 +198,7 @@ class RateLimiter {
    * @param {string} identifier - Identificador único
    * @returns {Object} Informações de status
    */
-  getStatus(action, identifier) {
+  getStatus(action: string, identifier: string) {
     const key = `${action}:${identifier}`;
     const limit = this.limits.get(action);
     
@@ -197,7 +216,7 @@ class RateLimiter {
 
     return {
       hasLimit: true,
-      isBlocked: blockInfo && now < blockInfo.unblockAt,
+      isBlocked: !!(blockInfo && now < blockInfo.unblockAt),
       attempts: recentAttempts.length,
       maxAttempts: limit.maxAttempts,
       remainingAttempts: Math.max(0, limit.maxAttempts - recentAttempts.length),

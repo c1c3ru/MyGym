@@ -10,7 +10,8 @@ import { auth } from '@services/firebase';
  * Erros específicos para operações de academia
  */
 export class AcademyValidationError extends Error {
-  constructor(message, code = 'ACADEMY_VALIDATION_ERROR') {
+  code: string;
+  constructor(message: string, code: string = 'ACADEMY_VALIDATION_ERROR') {
     super(message);
     this.name = 'AcademyValidationError';
     this.code = code;
@@ -48,7 +49,7 @@ export const validators = {
   /**
    * Validar formato do academiaId
    */
-  isValidAcademiaId: (academiaId) => {
+  isValidAcademiaId: (academiaId: string) => {
     if (!academiaId || typeof academiaId !== 'string') {
       return { valid: false, error: 'academiaId deve ser uma string' };
     }
@@ -74,7 +75,7 @@ export const validators = {
   /**
    * Validar role do usuário
    */
-  isValidUserRole: (role) => {
+  isValidUserRole: (role: string) => {
     if (!role || !ACADEMY_VALIDATION_RULES.VALID_USER_ROLES.includes(role)) {
       return { 
         valid: false, 
@@ -87,7 +88,7 @@ export const validators = {
   /**
    * Validar se o usuário tem permissão para a academia
    */
-  hasAcademyAccess: (userAcademiaId, requiredAcademiaId) => {
+  hasAcademyAccess: (userAcademiaId: string, requiredAcademiaId: string) => {
     if (userAcademiaId !== requiredAcademiaId) {
       return { 
         valid: false, 
@@ -100,8 +101,8 @@ export const validators = {
   /**
    * Validar se o usuário tem role suficiente para a operação
    */
-  hasRequiredRole: (userRole, requiredRoles) => {
-    const roleHierarchy = { 'student': 1, 'instructor': 2, 'admin': 3 };
+  hasRequiredRole: (userRole: string, requiredRoles: string[]) => {
+    const roleHierarchy: Record<string, number> = { 'student': 1, 'instructor': 2, 'admin': 3 };
     const userLevel = roleHierarchy[userRole] || 0;
     const maxRequiredLevel = Math.max(...requiredRoles.map(role => roleHierarchy[role] || 0));
     
@@ -122,7 +123,7 @@ export const userContext = {
   /**
    * Obter ID da academia do usuário autenticado
    */
-  getAcademiaId: () => {
+  getAcademiaId: (): string => {
     try {
       const user = auth.currentUser;
       if (!user) {
@@ -130,18 +131,19 @@ export const userContext = {
       }
 
       // Tentar obter do token claims (preferido)
-      if (user.customClaims?.academiaId) {
-        return user.customClaims.academiaId;
+      const claims = (user as any).customClaims as { academiaId?: string } | undefined;
+      if (claims?.academiaId) {
+        return claims.academiaId;
       }
 
       // Fallback: tentar obter do contexto de aplicação
-      const academiaId = user.academiaId || localStorage.getItem('user_academiaId');
+      const academiaId = (user as any).academiaId || localStorage.getItem('user_academiaId');
       if (!academiaId) {
         throw new AcademyNotFoundError('usuário não está associado a nenhuma academia');
       }
 
       return academiaId;
-    } catch (error) {
+    } catch (error: any) {
       console.error('❌ Erro ao obter academiaId do usuário:', error);
       throw error;
     }
@@ -150,7 +152,7 @@ export const userContext = {
   /**
    * Obter role do usuário autenticado
    */
-  getUserRole: () => {
+  getUserRole: (): string => {
     try {
       const user = auth.currentUser;
       if (!user) {
@@ -158,18 +160,19 @@ export const userContext = {
       }
 
       // Tentar obter do token claims (preferido)
-      if (user.customClaims?.role) {
-        return user.customClaims.role;
+      const claims = (user as any).customClaims as { role?: string } | undefined;
+      if (claims?.role) {
+        return claims.role;
       }
 
       // Fallback: tentar obter do contexto de aplicação
-      const role = user.userRole || localStorage.getItem('user_role');
+      const role = (user as any).userRole || localStorage.getItem('user_role');
       if (!role) {
         throw new AcademyValidationError('Role do usuário não definido');
       }
 
       return role;
-    } catch (error) {
+    } catch (error: any) {
       console.error('❌ Erro ao obter role do usuário:', error);
       throw error;
     }
@@ -178,7 +181,7 @@ export const userContext = {
   /**
    * Obter informações completas do usuário
    */
-  getUserInfo: () => {
+  getUserInfo: (): { uid: string; email: string | null; academiaId: string; role: string; displayName: string | null; emailVerified: boolean } => {
     try {
       const user = auth.currentUser;
       if (!user) {
@@ -193,7 +196,7 @@ export const userContext = {
         displayName: user.displayName,
         emailVerified: user.emailVerified
       };
-    } catch (error) {
+    } catch (error: any) {
       console.error('❌ Erro ao obter informações do usuário:', error);
       throw error;
     }
@@ -202,17 +205,17 @@ export const userContext = {
   /**
    * Verificar se sessão é válida
    */
-  isSessionValid: () => {
+  isSessionValid: (): boolean => {
     try {
       const user = auth.currentUser;
       if (!user) return false;
 
       // Verificar se o token não expirou
-      const lastSignIn = user.metadata?.lastSignInTime;
+      const lastSignIn = user.metadata?.lastSignInTime as string | undefined;
       if (lastSignIn) {
         const lastSignInTime = new Date(lastSignIn);
         const now = new Date();
-        const diffMinutes = (now - lastSignInTime) / (1000 * 60);
+        const diffMinutes = (now.getTime() - lastSignInTime.getTime()) / (1000 * 60);
         
         if (diffMinutes > ACADEMY_VALIDATION_RULES.SESSION_TIMEOUT_MINUTES) {
           console.warn('⚠️ Sessão expirada');
@@ -221,7 +224,7 @@ export const userContext = {
       }
 
       return true;
-    } catch (error) {
+    } catch (error: any) {
       console.error('❌ Erro ao verificar validade da sessão:', error);
       return false;
     }
@@ -235,11 +238,14 @@ export const academyMiddleware = {
   /**
    * Validar acesso à academia
    */
-  validateAcademyAccess: (requiredAcademiaId, options = {}) => {
-    const { 
+  validateAcademyAccess: (
+    requiredAcademiaId: string,
+    options: { allowSuperAdmin?: boolean; requiredRoles?: string[]; throwOnError?: boolean } = {}
+  ) => {
+    const {
       allowSuperAdmin = false,
       requiredRoles = [],
-      throwOnError = true 
+      throwOnError = true,
     } = options;
 
     try {
@@ -253,7 +259,7 @@ export const academyMiddleware = {
       // Validar academiaId
       const academiaValidation = validators.isValidAcademiaId(requiredAcademiaId);
       if (!academiaValidation.valid) {
-        throw new AcademyValidationError(academiaValidation.error);
+        throw new AcademyValidationError(academiaValidation.error || 'academiaId inválido');
       }
 
       // Super admin bypass (se habilitado)
@@ -277,22 +283,22 @@ export const academyMiddleware = {
 
       return { valid: true, userInfo };
 
-    } catch (error) {
+    } catch (error: any) {
       if (throwOnError) {
         throw error;
       }
-      return { valid: false, error: error.message };
+      return { valid: false, error: error?.message };
     }
   },
 
   /**
    * Decorator para métodos que requerem validação de academia
    */
-  requireAcademyAccess: (requiredRoles = []) => {
-    return function(target, propertyKey, descriptor) {
+  requireAcademyAccess: (requiredRoles: string[] = []) => {
+    return function(target: any, propertyKey: string, descriptor: PropertyDescriptor) {
       const originalMethod = descriptor.value;
 
-      descriptor.value = async function(...args) {
+      descriptor.value = async function(...args: any[]) {
         // Assumir que o primeiro argumento é sempre academiaId
         const academiaId = args[0];
         
@@ -304,7 +310,8 @@ export const academyMiddleware = {
           });
 
           // Log da operação para auditoria
-          console.log(`🔒 Acesso validado para ${propertyKey}: usuário ${validation.userInfo.uid} (${validation.userInfo.role}) na academia ${academiaId}`);
+          const ui = (validation as any).userInfo;
+          console.log(`🔒 Acesso validado para ${propertyKey}: usuário ${ui.uid} (${ui.role}) na academia ${academiaId}`);
 
           // Executar método original
           return await originalMethod.apply(this, args);
@@ -327,10 +334,10 @@ export const academyUtils = {
   /**
    * Extrair academiaId do contexto do usuário (para uso quando não é passado explicitamente)
    */
-  getCurrentAcademiaId: () => {
+  getCurrentAcademiaId: (): string => {
     try {
       return userContext.getAcademiaId();
-    } catch (error) {
+    } catch (error: any) {
       throw new AcademyValidationError(`Não foi possível determinar academia atual: ${error.message}`);
     }
   },
@@ -338,14 +345,14 @@ export const academyUtils = {
   /**
    * Validar e normalizar academiaId
    */
-  normalizeAcademiaId: (academiaId) => {
+  normalizeAcademiaId: (academiaId?: string | null): string => {
     if (!academiaId) {
       academiaId = academyUtils.getCurrentAcademiaId();
     }
 
     const validation = validators.isValidAcademiaId(academiaId);
     if (!validation.valid) {
-      throw new AcademyValidationError(validation.error);
+      throw new AcademyValidationError(validation.error || 'Validação inválida');
     }
 
     return academiaId.trim();
@@ -354,7 +361,7 @@ export const academyUtils = {
   /**
    * Gerar log de auditoria padronizado
    */
-  createAuditLog: (operation, details = {}) => {
+  createAuditLog: (operation: string, details: Record<string, any> = {}) => {
     try {
       const userInfo = userContext.getUserInfo();
       
@@ -368,13 +375,13 @@ export const academyUtils = {
         userAgent: navigator?.userAgent,
         ip: 'client-side' // Será preenchido no backend se necessário
       };
-    } catch (error) {
+    } catch (error: any) {
       console.error('❌ Erro ao criar log de auditoria:', error);
       return {
         timestamp: new Date().toISOString(),
         operation,
         details,
-        error: error.message
+        error: error?.message
       };
     }
   },
@@ -382,7 +389,7 @@ export const academyUtils = {
   /**
    * Verificar se operação é permitida baseada no contexto
    */
-  isOperationAllowed: (operation, targetAcademiaId = null, requiredRoles = []) => {
+  isOperationAllowed: (operation: string, targetAcademiaId: string | null = null, requiredRoles: string[] = []) => {
     try {
       const academiaId = targetAcademiaId || academyUtils.getCurrentAcademiaId();
       
@@ -396,10 +403,10 @@ export const academyUtils = {
         reason: validation.error || null,
         userInfo: validation.userInfo || null
       };
-    } catch (error) {
+    } catch (error: any) {
       return {
         allowed: false,
-        reason: error.message,
+        reason: error?.message,
         userInfo: null
       };
     }
@@ -408,7 +415,11 @@ export const academyUtils = {
   /**
    * Wrapper para operações que requerem validação
    */
-  withAcademyValidation: async (academiaId, requiredRoles = [], operation) => {
+  withAcademyValidation: async (
+    academiaId: string,
+    requiredRoles: string[] = [],
+    operation: (academiaId: string, userInfo: any) => Promise<any>
+  ) => {
     const normalizedAcademiaId = academyUtils.normalizeAcademiaId(academiaId);
     
     // Validar acesso
@@ -425,8 +436,8 @@ export const academyUtils = {
 /**
  * Hook para React components que precisam de validação de academia
  */
-export const useAcademyValidation = (requiredRoles = []) => {
-  const [validationState, setValidationState] = useState({
+export const useAcademyValidation = (requiredRoles: string[] = []) => {
+  const [validationState, setValidationState] = useState<{ isValid: boolean; isLoading: boolean; error: string | null; userInfo: any | null; academiaId: string | null }>({
     isValid: false,
     isLoading: true,
     error: null,
@@ -449,15 +460,15 @@ export const useAcademyValidation = (requiredRoles = []) => {
           isValid: true,
           isLoading: false,
           error: null,
-          userInfo: validation.userInfo,
+          userInfo: (validation as any).userInfo || null,
           academiaId
         });
 
-      } catch (error) {
+      } catch (error: any) {
         setValidationState({
           isValid: false,
           isLoading: false,
-          error: error.message,
+          error: error?.message,
           userInfo: null,
           academiaId: null
         });
