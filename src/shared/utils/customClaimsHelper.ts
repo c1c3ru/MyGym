@@ -1,9 +1,6 @@
-import { auth } from '@services/firebase';
+import { auth as firebaseAuth } from '@services/firebase';
 import { Claims } from '@domain/auth/entities';
 import type { Auth } from 'firebase/auth';
-
-// Tipagem explícita para o auth
-const firebaseAuth = auth as Auth;
 
 /**
  * Utilitário para gerenciar Custom Claims do Firebase Authentication

@@ -34,39 +34,39 @@ export class GetStudentsUseCase extends BaseUseCase<GetStudentsInput, Student[]>
       
       // Apply filters based on input
       if (filters?.search) {
-        return await this.studentsRepository.search(academiaId, filters.search);
+        return await this.studentsRepository.search(academiaId, filters.search) as Student[];
       }
       
       if (filters?.modalityId) {
-        return await this.studentsRepository.getByModality(academiaId, filters.modalityId);
+        return await this.studentsRepository.getByModality(academiaId, filters.modalityId) as Student[];
       }
       
       if (filters?.classId) {
-        return await this.studentsRepository.getByClass(academiaId, filters.classId);
+        return await this.studentsRepository.getByClass(academiaId, filters.classId) as Student[];
       }
       
       if (filters?.instructorId) {
-        return await this.studentsRepository.getByInstructor(academiaId, filters.instructorId);
+        return await this.studentsRepository.getByInstructor(academiaId, filters.instructorId) as Student[];
       }
       
       if (filters?.paymentStatus) {
-        return await this.studentsRepository.getByPaymentStatus(academiaId, filters.paymentStatus);
+        return await this.studentsRepository.getByPaymentStatus(academiaId, filters.paymentStatus) as Student[];
       }
       
       if (filters?.graduation) {
-        return await this.studentsRepository.getByGraduation(academiaId, filters.graduation);
+        return await this.studentsRepository.getByGraduation(academiaId, filters.graduation) as Student[];
       }
       
       if (filters?.active === true) {
-        return await this.studentsRepository.getActiveStudents(academiaId);
+        return await this.studentsRepository.getActiveStudents(academiaId) as Student[];
       }
       
       if (filters?.active === false) {
-        return await this.studentsRepository.getInactiveStudents(academiaId);
+        return await this.studentsRepository.getInactiveStudents(academiaId) as Student[];
       }
       
       // No filters, return all students
-      return await this.studentsRepository.getAll(academiaId);
+      return await this.studentsRepository.getAll(academiaId) as Student[];
       
     } catch (error: any) {
       console.error('Error in GetStudentsUseCase:', error);

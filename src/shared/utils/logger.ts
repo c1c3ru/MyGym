@@ -25,7 +25,7 @@ export interface LogContext {
 /**
  * Configuração do logger
  */
-const defaultConfig = {
+const defaultConfig: configLoggerType<typeof consoleTransport, 'error' | 'info' | 'debug' | 'warn'> = {
   severity: __DEV__ ? 'debug' : 'error',
   transport: __DEV__ ? consoleTransport : undefined,
   transportOptions: {

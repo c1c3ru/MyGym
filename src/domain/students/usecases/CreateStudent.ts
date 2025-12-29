@@ -59,7 +59,7 @@ export class CreateStudentUseCase extends BaseUseCase<CreateStudentInput, Studen
       const student = await this.studentsRepository.create(academiaId, data);
       
       console.log('✅ Student created successfully:', student.id);
-      return student;
+      return student as Student;
       
     } catch (error: any) {
       console.error('Error in CreateStudentUseCase:', error);

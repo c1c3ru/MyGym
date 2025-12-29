@@ -2,6 +2,8 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore, initializeFirestore } from 'firebase/firestore';
+import type { Auth } from 'firebase/auth';
+import type { Firestore } from 'firebase/firestore';
 import { Platform } from 'react-native';
 
 // Detectar plataforma
@@ -27,8 +29,8 @@ console.log('📋 Config:', {
 
 // Função para inicializar Firebase com tratamento de erro
 let app;
-let auth;
-let db;
+let auth: Auth;
+let db: Firestore;
 
 try {
   // Inicializar Firebase
