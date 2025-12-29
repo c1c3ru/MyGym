@@ -25,20 +25,20 @@ export const AnimationConfig = {
 // Utilitários responsivos - definindo antes de usar
 const { width, height } = Dimensions.get('window');
 export const ResponsiveUtils = {
-  isTablet: width >= 768,
+  isTabletFlag: width >= 768,
   isMobile: width < 768,
   isSmallScreen: width < 480,
   screenWidth: width,
   screenHeight: height,
   
   // Função para obter tamanho responsivo
-  scale: (size) => {
+  scale: (size: number) => {
     const baseWidth = 375; // iPhone X width
     return (width / baseWidth) * size;
   },
   
   // Função para padding responsivo
-  padding: (basePadding) => {
+  padding: (basePadding: number) => {
     if (width >= 768) return basePadding * 1.5; // tablet/desktop
     if (width >= 480) return basePadding * 1.2; // phone landscape
     return basePadding; // phone portrait
@@ -129,7 +129,7 @@ export const ShadowUtils = {
 
 // Animações pré-definidas
 export const createFadeInAnimation = (
-  animatedValue, 
+  animatedValue: Animated.Value, 
   duration = AnimationConfig.fade.duration
 ) => {
   return Animated.timing(animatedValue, {
@@ -141,7 +141,7 @@ export const createFadeInAnimation = (
 };
 
 export const createSlideInAnimation = (
-  animatedValue, 
+  animatedValue: Animated.Value, 
   fromValue = 50, 
   toValue = 0,
   duration = AnimationConfig.timing.duration
@@ -155,7 +155,7 @@ export const createSlideInAnimation = (
 };
 
 export const createScaleAnimation = (
-  animatedValue, 
+  animatedValue: Animated.Value, 
   toValue = 1,
   duration = AnimationConfig.timing.duration
 ) => {
@@ -167,7 +167,7 @@ export const createScaleAnimation = (
   });
 };
 
-export const createSpringAnimation = (animatedValue, toValue = 1) => {
+export const createSpringAnimation = (animatedValue: Animated.Value, toValue = 1) => {
   return Animated.spring(animatedValue, {
     toValue,
     ...AnimationConfig.spring,
@@ -175,7 +175,7 @@ export const createSpringAnimation = (animatedValue, toValue = 1) => {
 };
 
 // Animação de entrada para cards
-export const createCardEntranceAnimation = (fadeAnim, slideAnim, scaleAnim) => {
+export const createCardEntranceAnimation = (fadeAnim: Animated.Value, slideAnim: Animated.Value, scaleAnim: Animated.Value) => {
   return Animated.parallel([
     createFadeInAnimation(fadeAnim),
     createSlideInAnimation(slideAnim),
@@ -184,7 +184,7 @@ export const createCardEntranceAnimation = (fadeAnim, slideAnim, scaleAnim) => {
 };
 
 // Animação de pressionar botão
-export const createButtonPressAnimation = (scaleAnim) => {
+export const createButtonPressAnimation = (scaleAnim: Animated.Value) => {
   return Animated.sequence([
     Animated.timing(scaleAnim, {
       toValue: 0.95,
@@ -200,7 +200,7 @@ export const createButtonPressAnimation = (scaleAnim) => {
 };
 
 // Animação de shake para erros
-export const createShakeAnimation = (animatedValue) => {
+export const createShakeAnimation = (animatedValue: Animated.Value) => {
   return Animated.sequence([
     Animated.timing(animatedValue, { toValue: -10, duration: 100, useNativeDriver: Platform.OS !== 'web' }),
     Animated.timing(animatedValue, { toValue: 10, duration: 100, useNativeDriver: Platform.OS !== 'web' }),
@@ -210,7 +210,7 @@ export const createShakeAnimation = (animatedValue) => {
 };
 
 // Animação de pulse
-export const createPulseAnimation = (scaleAnim) => {
+export const createPulseAnimation = (scaleAnim: Animated.Value) => {
   return Animated.loop(
     Animated.sequence([
       Animated.timing(scaleAnim, {
@@ -228,7 +228,7 @@ export const createPulseAnimation = (scaleAnim) => {
 };
 
 // Animação de rotação contínua
-export const createRotationAnimation = (rotateAnim) => {
+export const createRotationAnimation = (rotateAnim: Animated.Value) => {
   return Animated.loop(
     Animated.timing(rotateAnim, {
       toValue: 1,
@@ -240,7 +240,7 @@ export const createRotationAnimation = (rotateAnim) => {
 };
 
 // Função para interpolar rotação
-export const interpolateRotation = (animatedValue) => {
+export const interpolateRotation = (animatedValue: Animated.Value) => {
   return animatedValue.interpolate({
     inputRange: [0, 1],
     outputRange: ['0deg', '360deg'],

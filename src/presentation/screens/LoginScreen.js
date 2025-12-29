@@ -1,11 +1,9 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import { View, StyleSheet, Alert, Platform, ScrollView, Linking } from 'react-native';
 import {
-  TextInput,
   Card,
   Divider,
   ActivityIndicator,
-  Button,
   Text,
   Switch,
   Menu,
@@ -13,13 +11,15 @@ import {
   Snackbar,
   HelperText
 } from 'react-native-paper';
+import ModernCard from '@presentation/components/modern/ModernCard';
+import ModernButton from '@presentation/components/modern/ModernButton';
+import ModernTextField from '@presentation/components/modern/ModernTextField';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
-import AnimatedCard from '@components/AnimatedCard';
-import AnimatedButton from '@components/AnimatedButton';
+// AnimatedCard/AnimatedButton substituídos por versões Modern sem quebrar lógica
 import EnhancedErrorBoundary from '@components/EnhancedErrorBoundary';
 import EnhancedErrorMessage, { useEnhancedError } from '@components/EnhancedErrorMessage';
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
@@ -359,9 +359,8 @@ export default function LoginScreen({ navigation }) {
           </View>
 
           <View style={styles.content}>
-            <AnimatedCard style={[styles.loginCard, { backgroundColor: theme.colors.surface }]} delay={200}>
-              <Card.Content>
-                <TextInput
+            <ModernCard style={[styles.loginCard, { backgroundColor: theme.colors.surface }]}> 
+                <ModernTextField
                   label={getString('email')}
                   value={email}
                   onChangeText={(text) => {
@@ -371,18 +370,16 @@ export default function LoginScreen({ navigation }) {
                     }
                   }}
                   style={styles.input}
-                  mode="outlined"
                   keyboardType="email-address"
                   autoCapitalize="none"
                   autoComplete="email"
                   textContentType="emailAddress"
-                  left={<TextInput.Icon icon="email" />}
                   theme={theme}
                   error={!!errors.email}
                 />
                 {errors.email && <HelperText type="error" style={styles.errorText}>{errors.email}</HelperText>}
 
-                <TextInput
+                <ModernTextField
                   label={getString('password')}
                   value={password}
                   onChangeText={(text) => {
@@ -392,23 +389,15 @@ export default function LoginScreen({ navigation }) {
                     }
                   }}
                   style={styles.input}
-                  mode="outlined"
                   secureTextEntry={!showPassword}
                   autoComplete="password"
                   textContentType="password"
-                  left={<TextInput.Icon icon="lock" />}
-                  right={
-                    <TextInput.Icon
-                      icon={showPassword ? "eye-off" : "eye"}
-                      onPress={() => setShowPassword(!showPassword)}
-                    />
-                  }
                   theme={theme}
                   error={!!errors.password}
                 />
                 {errors.password && <HelperText type="error" style={styles.errorText}>{errors.password}</HelperText>}
 
-                <AnimatedButton
+                <ModernButton
                   mode="contained"
                   onPress={handleLogin}
                   style={styles.loginButton}
@@ -417,10 +406,9 @@ export default function LoginScreen({ navigation }) {
                   contentStyle={styles.buttonContent}
                   labelStyle={styles.buttonLabel}
                   buttonColor={theme.colors.primary}
-                  delay={400}
                 >
                   {getString('login')}
-                </AnimatedButton>
+                </ModernButton>
 
                 <Divider style={styles.divider} />
 
@@ -429,7 +417,7 @@ export default function LoginScreen({ navigation }) {
                   <Text style={[styles.socialLoginTitle, { color: theme.colors.onSurface }]}>{getString('orLoginWith')}</Text>
                   
                   <View style={styles.socialButtonsRow}>
-                    <Button
+                    <ModernButton
                       mode="outlined"
                       onPress={handleGoogleLogin}
                       style={[styles.socialButton, { borderColor: theme.colors.outline }]}
@@ -439,9 +427,9 @@ export default function LoginScreen({ navigation }) {
                       disabled={loading}
                     >
                       Google
-                    </Button>
+                    </ModernButton>
                     
-                    <Button
+                    <ModernButton
                       mode="outlined"
                       onPress={handleFacebookLogin}
                       style={[styles.socialButton, { borderColor: theme.colors.outline }]}
@@ -451,11 +439,11 @@ export default function LoginScreen({ navigation }) {
                       disabled={loading}
                     >
                       Facebook
-                    </Button>
+                    </ModernButton>
                   </View>
                   
                   <View style={styles.socialButtonsRow}>
-                    <Button
+                    <ModernButton
                       mode="outlined"
                       onPress={handleMicrosoftLogin}
                       style={[styles.socialButton, { borderColor: theme.colors.outline }]}
@@ -465,9 +453,9 @@ export default function LoginScreen({ navigation }) {
                       disabled={loading}
                     >
                       Microsoft
-                    </Button>
+                    </ModernButton>
                     
-                    <Button
+                    <ModernButton
                       mode="outlined"
                       onPress={handleAppleLogin}
                       style={[styles.socialButton, { borderColor: theme.colors.outline }]}
@@ -477,33 +465,32 @@ export default function LoginScreen({ navigation }) {
                       disabled={loading}
                     >
                       Apple
-                    </Button>
+                    </ModernButton>
                   </View>
                 </View>
 
                 <Divider style={styles.divider} />
 
                 <View style={styles.linkContainer}>
-                  <Button
+                  <ModernButton
                     mode="text"
                     onPress={handleForgotPassword}
                     textColor={theme.colors.primary}
                     style={styles.linkButton}
                   >
                     {getString('forgotPassword')}
-                  </Button>
+                  </ModernButton>
 
-                  <Button
+                  <ModernButton
                     mode="text"
                     onPress={handleGoToRegister}
                     textColor={theme.colors.primary}
                     style={styles.linkButton}
                   >
                     {getString('register')}
-                  </Button>
+                  </ModernButton>
                 </View>
-              </Card.Content>
-            </AnimatedCard>
+            </ModernCard>
           </View>
           
         </ScrollView>
