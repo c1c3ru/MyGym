@@ -1,5 +1,5 @@
 
-import { Platform, Dimensions } from 'react-native';
+import { Platform, Dimensions, ScaledSize } from 'react-native';
 
 // Detectar plataforma
 export const isWeb = Platform.OS === 'web';
@@ -9,32 +9,32 @@ export const isAndroid = Platform.OS === 'android';
 // Utilitários de responsividade
 export const ResponsiveUtils = {
   // Obter dimensões da tela
-  getScreenDimensions: () => {
-    const { width, height } = Dimensions.get('window');
+  getScreenDimensions: (): { width: number; height: number } => {
+    const { width, height }: ScaledSize = Dimensions.get('window');
     return { width, height };
   },
 
   // Verificar se é dispositivo móvel (baseado na largura)
-  isMobile: () => {
-    const { width } = Dimensions.get('window');
+  isMobile: (): boolean => {
+    const { width }: ScaledSize = Dimensions.get('window');
     return width < 768;
   },
 
   // Verificar se é tablet
-  isTablet: () => {
-    const { width } = Dimensions.get('window');
+  isTablet: (): boolean => {
+    const { width }: ScaledSize = Dimensions.get('window');
     return width >= 768 && width < 1024;
   },
 
   // Verificar se é desktop
-  isDesktop: () => {
-    const { width } = Dimensions.get('window');
+  isDesktop: (): boolean => {
+    const { width }: ScaledSize = Dimensions.get('window');
     return width >= 1024;
   },
 
   // Obter breakpoint atual
-  getCurrentBreakpoint: () => {
-    const { width } = Dimensions.get('window');
+  getCurrentBreakpoint: (): 'mobile' | 'tablet' | 'desktop' => {
+    const { width }: ScaledSize = Dimensions.get('window');
     if (width < 768) return 'mobile';
     if (width < 1024) return 'tablet';
     return 'desktop';
@@ -64,8 +64,12 @@ export const PlatformConfig = {
 };
 
 // Obter configuração da plataforma atual
-export const getCurrentPlatformConfig = () => {
-  return PlatformConfig[Platform.OS] || PlatformConfig.web;
+export const getCurrentPlatformConfig = (): { enableGestures: boolean; headerHeight: number; tabBarHeight: number; statusBarHeight: number } => {
+  const supported = ['web', 'ios', 'android'] as const;
+  const os = (supported as readonly string[]).includes(Platform.OS)
+    ? (Platform.OS as (typeof supported)[number])
+    : 'web';
+  return PlatformConfig[os];
 };
 
 // Utilitários para APK/AAB
@@ -86,7 +90,7 @@ export const BuildUtils = {
   }
 };
 
-export default {
+const platformUtils = {
   isWeb,
   isIOS,
   isAndroid,
@@ -95,3 +99,5 @@ export default {
   getCurrentPlatformConfig,
   BuildUtils
 };
+
+export default platformUtils;

@@ -3,12 +3,12 @@
  * Utilitários para validação de email
  */
 
-export const validateEmail = (email) => {
+export const validateEmail = (email: string): boolean => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
 };
 
-export const getEmailErrorMessage = (email) => {
+export const getEmailErrorMessage = (email: string | null | undefined): string | null => {
   if (!email || !email.trim()) {
     return 'Email é obrigatório';
   }
@@ -20,7 +20,7 @@ export const getEmailErrorMessage = (email) => {
   return null;
 };
 
-export const getPasswordErrorMessage = (password, minLength = 6) => {
+export const getPasswordErrorMessage = (password: string | null | undefined, minLength: number = 6): string | null => {
   if (!password || !password.trim()) {
     return 'Senha é obrigatória';
   }
@@ -32,12 +32,12 @@ export const getPasswordErrorMessage = (password, minLength = 6) => {
   return null;
 };
 
-export const formatEmailForDisplay = (email) => {
+export const formatEmailForDisplay = (email: string | null | undefined): string => {
   if (!email) return '';
   return email.trim().toLowerCase();
 };
 
-export const getFirebaseAuthErrorMessage = (errorCode) => {
+export const getFirebaseAuthErrorMessage = (errorCode: string): string => {
   const errorMessages = {
     'auth/user-not-found': 'Usuário não encontrado',
     'auth/wrong-password': 'Senha incorreta',
@@ -48,7 +48,7 @@ export const getFirebaseAuthErrorMessage = (errorCode) => {
     'auth/weak-password': 'Senha muito fraca',
     'auth/network-request-failed': 'Erro de conexão. Verifique sua internet',
     'auth/invalid-credential': 'Credenciais inválidas',
-  };
+  } as Record<string, string>;
   
   return errorMessages[errorCode] || 'Erro de autenticação';
 };

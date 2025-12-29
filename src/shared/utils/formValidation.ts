@@ -4,6 +4,10 @@
  */
 
 class FormValidator {
+  private rules: Map<string, (...args: any[]) => boolean | Promise<boolean>>;
+  private customValidators: Map<string, (...args: any[]) => boolean | Promise<boolean>>;
+  private messages: Map<string, string>;
+
   constructor() {
     this.rules = new Map();
     this.customValidators = new Map();
@@ -15,7 +19,7 @@ class FormValidator {
   /**
    * Configura regras de validação padrão
    */
-  setupDefaultRules() {
+  setupDefaultRules(): void {
     // Regras básicas
     this.addRule('required', (value) => {
       if (Array.isArray(value)) return value.length > 0;
@@ -138,7 +142,7 @@ class FormValidator {
   /**
    * Configura mensagens de erro padrão
    */
-  setupDefaultMessages() {
+  setupDefaultMessages(): void {
     this.messages.set('required', 'Este campo é obrigatório');
     this.messages.set('email', 'Digite um email válido');
     this.messages.set('phone', 'Digite um telefone válido');
@@ -164,25 +168,30 @@ class FormValidator {
   /**
    * Adiciona uma regra de validação customizada
    */
-  addRule(name, validator) {
+  addRule(name: string, validator: (...args: any[]) => boolean | Promise<boolean>): void {
     this.rules.set(name, validator);
   }
 
   /**
    * Adiciona uma mensagem de erro customizada
    */
-  addMessage(rule, message) {
+  addMessage(rule: string, message: string): void {
     this.messages.set(rule, message);
   }
 
   /**
    * Valida um campo específico
    */
-  async validateField(value, rules, formData = {}, fieldName = '') {
-    const errors = [];
+  async validateField(
+    value: any,
+    rules: Array<string | { rule: string; params?: any[] }>,
+    formData: Record<string, any> = {},
+    fieldName: string = ''
+  ): Promise<string[]> {
+    const errors: string[] = [];
 
     for (const rule of rules) {
-      let ruleName, ruleParams = [];
+      let ruleName: string | undefined, ruleParams: any[] = [];
 
       if (typeof rule === 'string') {
         ruleName = rule;
@@ -191,7 +200,7 @@ class FormValidator {
         ruleParams = rule.params || [];
       }
 
-      const validator = this.rules.get(ruleName);
+      const validator = ruleName ? this.rules.get(ruleName) : undefined;
       if (!validator) {
         console.warn(`Regra de validação '${ruleName}' não encontrada`);
         continue;
@@ -204,9 +213,9 @@ class FormValidator {
           const message = this.getErrorMessage(ruleName, ruleParams, fieldName);
           errors.push(message);
         }
-      } catch (error) {
+      } catch (error: any) {
         console.error(`Erro ao validar regra '${ruleName}':`, error);
-        errors.push(`Erro de validação: ${error.message}`);
+        errors.push(`Erro de validação: ${error?.message || 'desconhecido'}`);
       }
     }
 
@@ -216,19 +225,22 @@ class FormValidator {
   /**
    * Valida um formulário completo
    */
-  async validateForm(formData, validationSchema) {
-    const errors = {};
-    const validationPromises = [];
+  async validateForm(
+    formData: Record<string, any>,
+    validationSchema: Record<string, Array<string | { rule: string; params?: any[] }>>
+  ): Promise<{ isValid: boolean; errors: Record<string, string[]> }> {
+    const errors: Record<string, string[]> = {};
+    const validationPromises: Promise<void>[] = [];
 
     for (const [fieldName, fieldRules] of Object.entries(validationSchema)) {
-      const fieldValue = formData[fieldName];
+      const fieldValue = (formData as any)[fieldName];
       
       const validationPromise = this.validateField(
         fieldValue, 
         fieldRules, 
         formData, 
         fieldName
-      ).then(fieldErrors => {
+      ).then((fieldErrors) => {
         if (fieldErrors.length > 0) {
           errors[fieldName] = fieldErrors;
         }
@@ -241,14 +253,14 @@ class FormValidator {
 
     return {
       isValid: Object.keys(errors).length === 0,
-      errors
+      errors,
     };
   }
 
   /**
    * Obtém mensagem de erro formatada
    */
-  getErrorMessage(ruleName, params = [], fieldName = '') {
+  getErrorMessage(ruleName: string, params: any[] = [], fieldName: string = ''): string {
     let message = this.messages.get(ruleName) || `Erro de validação: ${ruleName}`;
     
     // Substituir placeholders na mensagem
@@ -263,7 +275,7 @@ class FormValidator {
   /**
    * Valida CPF
    */
-  validateCPF(cpf) {
+  validateCPF(cpf: string): boolean {
     cpf = cpf.replace(/[^\d]/g, '');
     
     if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) {
@@ -293,7 +305,7 @@ class FormValidator {
   /**
    * Valida CNPJ
    */
-  validateCNPJ(cnpj) {
+  validateCNPJ(cnpj: string): boolean {
     cnpj = cnpj.replace(/[^\d]/g, '');
     
     if (cnpj.length !== 14 || /^(\d)\1{13}$/.test(cnpj)) {
@@ -327,52 +339,49 @@ class FormValidator {
   /**
    * Cria um hook para validação em tempo real
    */
-  createValidationHook(initialData = {}, validationSchema = {}) {
+  createValidationHook(initialData: Record<string, any> = {}, validationSchema: Record<string, Array<string | { rule: string; params?: any[] }>> = {}) {
+    const self = this;
     return {
-      data: initialData,
-      errors: {},
+      data: initialData as Record<string, any>,
+      errors: {} as Record<string, string[]>,
       isValidating: false,
       
-      async validateField(fieldName, value) {
+      async validateField(fieldName: string, value: any): Promise<string[]> {
         if (!validationSchema[fieldName]) return [];
-        
-        const fieldErrors = await this.validateField(
-          value, 
-          validationSchema[fieldName], 
-          this.data, 
+        const fieldErrors = await self.validateField(
+          value,
+          validationSchema[fieldName],
+          this.data,
           fieldName
         );
-        
         this.errors[fieldName] = fieldErrors;
         return fieldErrors;
       },
       
-      async validateAll() {
+      async validateAll(): Promise<{ isValid: boolean; errors: Record<string, string[]> }> {
         this.isValidating = true;
-        const result = await this.validateForm(this.data, validationSchema);
+        const result = await self.validateForm(this.data, validationSchema);
         this.errors = result.errors;
         this.isValidating = false;
         return result;
       },
       
-      setFieldValue(fieldName, value) {
+      setFieldValue(fieldName: string, value: any): void {
         this.data[fieldName] = value;
         // Validar campo em tempo real (debounced)
         this.validateField(fieldName, value);
       },
       
-      getFieldError(fieldName) {
-        return this.errors[fieldName]?.[0] || '';
+      getFieldError(fieldName: string): string {
+        return (this.errors[fieldName]?.[0] as string) || '';
       },
       
-      hasErrors() {
-        return Object.keys(this.errors).some(key => 
-          this.errors[key] && this.errors[key].length > 0
-        );
+      hasErrors(): boolean {
+        return Object.keys(this.errors).some((key) => this.errors[key] && this.errors[key].length > 0);
       },
       
-      clearErrors() {
-        this.errors = {};
+      clearErrors(): void {
+        this.errors = {} as Record<string, string[]>;
       }
     };
   }
