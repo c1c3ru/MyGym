@@ -50,7 +50,7 @@ const OptimizedStudentCard = memo(({
               accessibilityLabel={`Avatar de ${student.name}`}
             />
             <View style={styles.studentDetails}>
-              <Text style={styles.studentName} accessibilityRole="header" style={styles.title}>
+              <Text style={styles.studentName} accessibilityRole="header">
                 {student.name}
               </Text>
               <Text style={styles.studentEmail} accessible={true}>

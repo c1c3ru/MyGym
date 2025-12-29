@@ -1,30 +1,9 @@
 import { GraduationAlert, GraduationRule, GraduationExam, GraduationBoard } from '@domain/entities/GraduationAlert';
 import { GraduationRepository } from '@domain/repositories/GraduationRepository';
+import { GraduationCalculationService, StudentTrainingData } from '@domain/services/GraduationCalculationService';
+import { GraduationNotificationService, NotificationRecipient } from '@domain/services/GraduationNotificationService';
 
-// Temporary types and services until proper implementation
-interface StudentTrainingData {
-  modality: string;
-  currentBelt: string;
-}
-
-class GraduationCalculationService {
-  calculateGraduationAlert(data: StudentTrainingData): GraduationAlert | null {
-    return null;
-  }
-}
-
-interface NotificationRecipient {
-  id: string;
-  name: string;
-}
-
-class GraduationNotificationService {
-  async sendNotification(message: string, recipients: NotificationRecipient[]): Promise<void> {
-    // Implementation
-  }
-}
-
-const GRADUATION_RULES: any[] = [];
+const GRADUATION_RULES: GraduationRule[] = [];
 
 export class GraduationManagementUseCase {
   private graduationRepository: GraduationRepository;
@@ -301,5 +280,14 @@ export class GraduationManagementUseCase {
       estimatedDate: alert.estimatedGraduationDate,
       nextBelt: alert.nextBelt
     };
+  }
+  
+  private validateRule(rule: any): rule is GraduationRule {
+    if (!rule || typeof rule !== 'object') return false;
+    const hasStrings = typeof rule.modality === 'string' && typeof rule.fromBelt === 'string' && typeof rule.toBelt === 'string';
+    const hasMinimumDays = typeof rule.minimumDays === 'number';
+    const validMinClasses = rule.minimumClasses === undefined || typeof rule.minimumClasses === 'number';
+    const validAdditional = rule.additionalRequirements === undefined || Array.isArray(rule.additionalRequirements);
+    return hasStrings && hasMinimumDays && validMinClasses && validAdditional;
   }
 }

@@ -56,7 +56,7 @@ class EnhancedErrorBoundary extends Component<Props, State> {
     }
 
     // Em produção, enviar para serviço de monitoramento
-    if (!__DEV__) {
+    if (!(globalThis as any).__DEV__) {
       this.reportError(error, errorInfo);
     }
   }
@@ -114,7 +114,7 @@ class EnhancedErrorBoundary extends Component<Props, State> {
                 Ops! Algo deu errado
               </Text>
               <Text style={styles.message}>
-                {__DEV__ 
+                {(globalThis as any).__DEV__ 
                   ? `Erro: ${this.state.error?.message || 'Erro desconhecido'}`
                   : 'Ocorreu um erro inesperado. Tente novamente ou reinicie o aplicativo.'
                 }
@@ -140,7 +140,7 @@ class EnhancedErrorBoundary extends Component<Props, State> {
                 </Button>
               </View>
 
-              {__DEV__ && this.state.error && (
+              {(globalThis as any).__DEV__ && this.state.error && (
                 <View style={styles.debugContainer}>
                   <Text style={styles.debugText}>
                     Debug Info: {this.state.error.stack}

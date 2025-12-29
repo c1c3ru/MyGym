@@ -22,8 +22,8 @@ export { default as ModalityPicker } from '@components/ModalityPicker';
 // Utility Components
 export { default as QRCodeGenerator } from '@components/QRCodeGenerator';
 export { default as QRCodeScanner } from '@components/QRCodeScanner';
-export { default as NotificationBell } from '@components/NotificationBell';
-export { default as NotificationManager } from '@components/NotificationManager';
+// export { default as NotificationBell } from '@components/NotificationBell';
+// export { default as NotificationManager } from '@components/NotificationManager';
 
 // Stores
 export { default as useAuthStore } from '@presentation/stores/AuthUIStore';

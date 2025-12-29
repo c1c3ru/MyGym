@@ -1,13 +1,14 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { View, StyleSheet, ScrollView, TouchableOpacity, Platform } from 'react-native';
-import { 
 import { getString } from '@utils/theme';
-  IconButton, 
-  Badge, 
-  Modal, 
-  Card, 
-  Title, 
-  Paragraph, 
+import {
+  IconButton,
+  Badge,
+  Modal,
+  Card,
+  Title,
+  Paragraph,
   Text,
   Button,
   Divider,

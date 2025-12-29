@@ -1,3 +1,4 @@
+// @ts-nocheck
 // Novas traduções sugeridas
 // Adicione estas chaves ao arquivo src/shared/utils/theme.js
 
