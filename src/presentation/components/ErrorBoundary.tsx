@@ -3,6 +3,7 @@ import { View, StyleSheet, Platform } from 'react-native';
 import { Card, Button, Text } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS } from '@presentation/theme/designTokens';
+import { Logger } from '@utils/logger';
 // import crashlyticsService from '@services/crashlyticsService'; // Serviço não implementado
 
 interface ErrorInfo {
@@ -39,13 +40,12 @@ class EnhancedErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('🚨 ErrorBoundary: Erro capturado:', {
-      error: error.message,
-      stack: error.stack,
+    // Log detalhado usando o sistema centralizado
+    Logger.errorWithContext(error, {
       componentStack: errorInfo.componentStack,
-      timestamp: new Date().toISOString(),
+      errorBoundary: this.constructor.name,
       platform: Platform.OS,
-      __DEV__,
+      timestamp: new Date().toISOString(),
     });
 
     this.setState({ errorInfo });

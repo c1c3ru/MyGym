@@ -8,27 +8,30 @@ import { AuthProvider } from './src/presentation/contexts/AuthProvider';
 import { NotificationProvider } from './src/presentation/contexts/NotificationContext';
 import { UndoProvider } from './src/presentation/components/UndoManager';
 import { OnboardingProvider } from './src/presentation/components/OnboardingTour';
+import { EnhancedErrorBoundary } from './src/presentation/components/ErrorBoundary';
 import AppNavigator from './src/presentation/navigation/AppNavigator';
 
 export default function App() {
   return (
-    <SafeAreaProvider>
-      <PaperProvider>
-        <ThemeToggleProvider>
-          <ThemeProvider>
-            <AuthProvider>
-            <NotificationProvider>
-              <UndoProvider>
-                <OnboardingProvider>
-                  <StatusBar style="auto" />
-                  <AppNavigator />
-                </OnboardingProvider>
-              </UndoProvider>
-            </NotificationProvider>
-            </AuthProvider>
-          </ThemeProvider>
-        </ThemeToggleProvider>
-      </PaperProvider>
-    </SafeAreaProvider>
+    <EnhancedErrorBoundary>
+      <SafeAreaProvider>
+        <PaperProvider>
+          <ThemeToggleProvider>
+            <ThemeProvider>
+              <AuthProvider>
+                <NotificationProvider>
+                  <UndoProvider>
+                    <OnboardingProvider>
+                      <StatusBar style="auto" />
+                      <AppNavigator />
+                    </OnboardingProvider>
+                  </UndoProvider>
+                </NotificationProvider>
+              </AuthProvider>
+            </ThemeProvider>
+          </ThemeToggleProvider>
+        </PaperProvider>
+      </SafeAreaProvider>
+    </EnhancedErrorBoundary>
   );
 }
