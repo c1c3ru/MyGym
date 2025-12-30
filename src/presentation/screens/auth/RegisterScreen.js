@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, StyleSheet, ScrollView, Animated, Alert, KeyboardAvoidingView, Platform, Dimensions, TouchableOpacity } from 'react-native';
-import { 
-  TextInput, 
-  Button, 
-  Text, 
-  Card, 
+import {
+  TextInput,
+  Button,
+  Text,
+  Card,
   Divider,
   ActivityIndicator,
   RadioButton,
@@ -25,8 +25,8 @@ import { getString } from '@utils/theme';
 const { width } = Dimensions.get('window');
 
 const RegisterScreen = ({ navigation }) => {
-  const { currentTheme } = useThemeToggle();
-  
+  const { isDarkMode, getString } = useTheme();
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -42,14 +42,13 @@ const RegisterScreen = ({ navigation }) => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const [snackbar, setSnackbar] = useState({ visible: false, message: '', type: 'error' });
-  
+
   // Animações
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(50)).current;
   const scaleAnim = useRef(new Animated.Value(0.95)).current;
 
   const { signUp } = useAuthFacade();
-  const { getString } = useTheme();
 
   useEffect(() => {
     // Animação de entrada
@@ -74,33 +73,33 @@ const RegisterScreen = ({ navigation }) => {
 
   const validateForm = () => {
     const newErrors = {};
-    
+
     if (!formData.name.trim()) {
       newErrors.name = getString('nameRequired');
     }
-    
+
     if (!formData.email.trim()) {
       newErrors.email = getString('emailRequired');
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = getString('invalidEmail');
     }
-    
+
     if (formData.password.length < 6) {
       newErrors.password = getString('passwordMinLength');
     }
-    
+
     if (formData.password !== formData.confirmPassword) {
       newErrors.confirmPassword = getString('passwordsMismatch');
     }
-    
+
     if (!formData.acceptTerms) {
       newErrors.acceptTerms = 'Você deve aceitar os termos de uso';
     }
-    
+
     if (!formData.acceptPrivacyPolicy) {
       newErrors.acceptPrivacyPolicy = 'Você deve aceitar a política de privacidade';
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -124,7 +123,7 @@ const RegisterScreen = ({ navigation }) => {
 
       await signUp(formData.email, formData.password, userData);
       showSnackbar(getString('accountCreatedSuccess'), 'success');
-      
+
       // Animação de sucesso
       Animated.sequence([
         Animated.timing(scaleAnim, {
@@ -141,7 +140,7 @@ const RegisterScreen = ({ navigation }) => {
     } catch (error) {
       console.error('Erro no cadastro:', error);
       let errorMessage = getString('registrationError');
-      
+
       // Mapear erros específicos do Firebase
       if (error.code === 'auth/email-already-in-use' || error.message?.includes('email-already-in-use')) {
         errorMessage = 'Este email já está cadastrado. Faça login ou use outro email.';
@@ -156,9 +155,9 @@ const RegisterScreen = ({ navigation }) => {
         errorMessage = 'Este email já está cadastrado. Faça login ou use outro email.';
         setErrors({ email: errorMessage });
       }
-      
+
       showSnackbar(errorMessage, 'error');
-      
+
       // Animação de erro (shake)
       Animated.sequence([
         Animated.timing(slideAnim, { toValue: -10, duration: 100, useNativeDriver: Platform.OS !== 'web' }),
@@ -199,7 +198,7 @@ const RegisterScreen = ({ navigation }) => {
 
   return (
     <LinearGradient
-      colors={COLORS.gradients.dark}
+      colors={isDarkMode ? COLORS.gradients.dark : COLORS.gradients.primary}
       style={styles.gradient}
     >
       <SafeAreaView style={styles.container}>
@@ -210,7 +209,7 @@ const RegisterScreen = ({ navigation }) => {
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={true}
         >
-          <Animated.View 
+          <Animated.View
             style={[
               styles.header,
               {
@@ -219,14 +218,14 @@ const RegisterScreen = ({ navigation }) => {
               }
             ]}
           >
-            <MaterialCommunityIcons 
-              name="account-plus" 
-              size={60} 
-              color={COLORS.white} 
+            <MaterialCommunityIcons
+              name="account-plus"
+              size={60}
+              color={COLORS.white}
               style={styles.headerIcon}
             />
-            <Text style={styles.title}>{getString('createAccount')}</Text>
-            <Text style={styles.subtitle}>
+            <Text style={[styles.title, { color: isDarkMode ? COLORS.white : COLORS.black }]}>{getString('createAccount')}</Text>
+            <Text style={[styles.subtitle, { color: isDarkMode ? COLORS.gray[300] : COLORS.gray[600] }]}>
               {getString('fillDataToRegister')}
             </Text>
           </Animated.View>
@@ -236,242 +235,258 @@ const RegisterScreen = ({ navigation }) => {
               { transform: [{ scale: scaleAnim }, { translateX: slideAnim }] }
             ]}
           >
-            <Card style={styles.card}>
-          <Card.Content>
-            <Text style={styles.cardTitle}>{getString('personalData')}</Text>
-            
-            <TextInput
-              label={getString('fullName')}
-              value={formData.name}
-              onChangeText={(text) => updateFormData('name', text)}
-              mode="outlined"
-              style={styles.input}
-              disabled={loading}
-              error={!!errors.name}
-              left={<TextInput.Icon icon="account" />}
-            />
-            {errors.name && (
-              <HelperText type="error" visible={!!errors.name}>
-                {errors.name}
-              </HelperText>
-            )}
+            <View style={[
+              styles.card,
+              {
+                backgroundColor: isDarkMode ? 'rgba(30, 30, 30, 0.4)' : 'rgba(255, 255, 255, 0.6)',
+                borderColor: isDarkMode ? 'rgba(255, 255, 255, 0.15)' : 'rgba(0, 0, 0, 0.1)',
+              }
+            ]}>
+              <Card.Content>
+                <Text style={[styles.cardTitle, { color: isDarkMode ? COLORS.white : COLORS.black }]}>{getString('personalData')}</Text>
 
-            <TextInput
-              label={getString('email') + ' *'}
-              value={formData.email}
-              onChangeText={(text) => updateFormData('email', text)}
-              mode="outlined"
-              keyboardType="email-address"
-              autoCapitalize="none"
-              style={styles.input}
-              disabled={loading}
-              error={!!errors.email}
-              left={<TextInput.Icon icon="email" />}
-            />
-            {errors.email && (
-              <HelperText type="error" visible={!!errors.email}>
-                {errors.email}
-              </HelperText>
-            )}
+                <TextInput
+                  label={getString('fullName')}
+                  value={formData.name}
+                  onChangeText={(text) => updateFormData('name', text)}
+                  mode="outlined"
+                  style={[styles.input, { backgroundColor: 'transparent' }]}
+                  textColor={isDarkMode ? COLORS.white : COLORS.black}
+                  disabled={loading}
+                  error={!!errors.name}
+                  left={<TextInput.Icon icon="account" color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
+                />
+                {errors.name && (
+                  <HelperText type="error" visible={!!errors.name}>
+                    {errors.name}
+                  </HelperText>
+                )}
 
-            <TextInput
-              label={getString('phoneWhatsApp')}
-              value={formData.phone}
-              onChangeText={(text) => updateFormData('phone', text)}
-              mode="outlined"
-              keyboardType="phone-pad"
-              style={styles.input}
-              disabled={loading}
-              left={<TextInput.Icon icon="phone" />}
-            />
+                <TextInput
+                  label={getString('email') + ' *'}
+                  value={formData.email}
+                  onChangeText={(text) => updateFormData('email', text)}
+                  mode="outlined"
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  style={[styles.input, { backgroundColor: 'transparent' }]}
+                  textColor={isDarkMode ? COLORS.white : COLORS.black}
+                  disabled={loading}
+                  error={!!errors.email}
+                  left={<TextInput.Icon icon="email" color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
+                />
+                {errors.email && (
+                  <HelperText type="error" visible={!!errors.email}>
+                    {errors.email}
+                  </HelperText>
+                )}
 
-            <Divider style={styles.divider} />
+                <TextInput
+                  label={getString('phoneWhatsApp')}
+                  value={formData.phone}
+                  onChangeText={(text) => updateFormData('phone', text)}
+                  mode="outlined"
+                  keyboardType="phone-pad"
+                  style={[styles.input, { backgroundColor: 'transparent' }]}
+                  textColor={isDarkMode ? COLORS.white : COLORS.black}
+                  disabled={loading}
+                  left={<TextInput.Icon icon="phone" color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
+                />
 
-            <Text style={styles.sectionTitle}>{getString('userType')}</Text>
-            <View style={styles.userTypeContainer}>
-              {[
-                { value: 'student', label: getString('student'), description: getString('studentDescription') },
-                { value: 'instructor', label: getString('instructor'), description: getString('instructorDescription') },
-                { value: 'admin', label: getString('administrator'), description: getString('adminDescription') }
-              ].map((type) => (
-                <Card 
-                  key={type.value}
-                  style={[
-                    styles.userTypeCard,
-                    formData.userType === type.value && {
-                      borderColor: getUserTypeColor(type.value),
-                      borderWidth: 2,
-                      backgroundColor: getUserTypeColor(type.value) + '10'
-                    }
-                  ]}
-                  onPress={() => updateFormData('userType', type.value)}
-                >
-                  <Card.Content style={styles.userTypeCardContent}>
-                    <View style={styles.userTypeInfo}>
-                      <MaterialCommunityIcons 
-                        name={getUserTypeIcon(type.value)} 
-                        size={24} 
-                        color={getUserTypeColor(type.value)}
-                      />
-                      <View style={styles.userTypeText}>
-                        <Text style={styles.userTypeLabel}>{type.label}</Text>
-                        <Text style={styles.userTypeDescription}>{type.description}</Text>
-                      </View>
-                    </View>
-                    <RadioButton
-                      value={type.value}
-                      status={formData.userType === type.value ? 'checked' : 'unchecked'}
+                <Divider style={styles.divider} />
+
+                <Text style={[styles.sectionTitle, { color: isDarkMode ? COLORS.white : COLORS.black }]}>{getString('userType')}</Text>
+                <View style={styles.userTypeContainer}>
+                  {[
+                    { value: 'student', label: getString('student'), description: getString('studentDescription') },
+                    { value: 'instructor', label: getString('instructor'), description: getString('instructorDescription') },
+                    { value: 'admin', label: getString('administrator'), description: getString('adminDescription') }
+                  ].map((type) => (
+                    <Card
+                      key={type.value}
+                      style={[
+                        styles.userTypeCard,
+                        formData.userType === type.value && {
+                          borderColor: getUserTypeColor(type.value),
+                          borderWidth: 2,
+                          backgroundColor: getUserTypeColor(type.value) + '10'
+                        }
+                      ]}
                       onPress={() => updateFormData('userType', type.value)}
-                      disabled={loading}
+                    >
+                      <Card.Content style={styles.userTypeCardContent}>
+                        <View style={styles.userTypeInfo}>
+                          <MaterialCommunityIcons
+                            name={getUserTypeIcon(type.value)}
+                            size={24}
+                            color={getUserTypeColor(type.value)}
+                          />
+                          <View style={styles.userTypeText}>
+                            <Text style={[styles.userTypeLabel, { color: isDarkMode ? COLORS.white : COLORS.black }]}>{type.label}</Text>
+                            <Text style={[styles.userTypeDescription, { color: isDarkMode ? COLORS.gray[300] : COLORS.gray[600] }]}>{type.description}</Text>
+                          </View>
+                        </View>
+                        <RadioButton
+                          value={type.value}
+                          status={formData.userType === type.value ? 'checked' : 'unchecked'}
+                          onPress={() => updateFormData('userType', type.value)}
+                          disabled={loading}
+                        />
+                      </Card.Content>
+                    </Card>
+                  ))}
+                </View>
+
+                <Divider style={styles.divider} />
+
+                <Text style={[styles.sectionTitle, { color: isDarkMode ? COLORS.white : COLORS.black }]}>{getString('passwordSection')}</Text>
+
+                <TextInput
+                  label={getString('password') + ' *'}
+                  value={formData.password}
+                  onChangeText={(text) => updateFormData('password', text)}
+                  mode="outlined"
+                  secureTextEntry={!showPassword}
+                  left={<TextInput.Icon icon="lock" color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
+                  right={
+                    <TextInput.Icon
+                      icon={showPassword ? "eye-off" : "eye"}
+                      onPress={() => setShowPassword(!showPassword)}
+                      color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]}
                     />
-                  </Card.Content>
-                </Card>
-              ))}
-            </View>
-
-            <Divider style={styles.divider} />
-
-            <Text style={styles.sectionTitle}>{getString('passwordSection')}</Text>
-
-            <TextInput
-              label={getString('password') + ' *'}
-              value={formData.password}
-              onChangeText={(text) => updateFormData('password', text)}
-              mode="outlined"
-              secureTextEntry={!showPassword}
-              left={<TextInput.Icon icon="lock" />}
-              right={
-                <TextInput.Icon 
-                  icon={showPassword ? "eye-off" : "eye"} 
-                  onPress={() => setShowPassword(!showPassword)}
-                />
-              }
-              style={styles.input}
-              disabled={loading}
-              error={!!errors.password}
-            />
-            {errors.password && (
-              <HelperText type="error" visible={!!errors.password}>
-                {errors.password}
-              </HelperText>
-            )}
-
-            <TextInput
-              label={getString('confirmPassword')}
-              value={formData.confirmPassword}
-              onChangeText={(text) => updateFormData('confirmPassword', text)}
-              mode="outlined"
-              secureTextEntry={!showConfirmPassword}
-              left={<TextInput.Icon icon="lock-check" />}
-              right={
-                <TextInput.Icon 
-                  icon={showConfirmPassword ? "eye-off" : "eye"} 
-                  onPress={() => setShowConfirmPassword(!showConfirmPassword)}
-                />
-              }
-              style={styles.input}
-              disabled={loading}
-              error={!!errors.confirmPassword}
-            />
-            {errors.confirmPassword && (
-              <HelperText type="error" visible={!!errors.confirmPassword}>
-                {errors.confirmPassword}
-              </HelperText>
-            )}
-
-            <Text style={styles.passwordHint}>
-              * {getString('passwordMinLength')}
-            </Text>
-
-            <Divider style={styles.divider} />
-
-            <View style={styles.checkboxContainer}>
-              <View style={styles.checkboxRow}>
-                <Checkbox
-                  status={formData.acceptTerms ? 'checked' : 'unchecked'}
-                  onPress={() => updateFormData('acceptTerms', !formData.acceptTerms)}
+                  }
+                  style={[styles.input, { backgroundColor: 'transparent' }]}
+                  textColor={isDarkMode ? COLORS.white : COLORS.black}
                   disabled={loading}
-                  color={COLORS.primary[500]}
+                  error={!!errors.password}
                 />
-                <View style={styles.checkboxTextContainer}>
-                  <Text style={styles.checkboxText}>
-                    Aceito os{' '}
-                    <Text 
-                      style={styles.link}
-                      onPress={() => navigation.navigate('TermsOfService')}
-                    >
-                      Termos de Uso
-                    </Text>
-                  </Text>
-                </View>
-              </View>
-              {errors.acceptTerms && (
-                <HelperText type="error" visible={!!errors.acceptTerms} style={styles.checkboxError}>
-                  {errors.acceptTerms}
-                </HelperText>
-              )}
-            </View>
+                {errors.password && (
+                  <HelperText type="error" visible={!!errors.password}>
+                    {errors.password}
+                  </HelperText>
+                )}
 
-            <View style={styles.checkboxContainer}>
-              <View style={styles.checkboxRow}>
-                <Checkbox
-                  status={formData.acceptPrivacyPolicy ? 'checked' : 'unchecked'}
-                  onPress={() => updateFormData('acceptPrivacyPolicy', !formData.acceptPrivacyPolicy)}
+                <TextInput
+                  label={getString('confirmPassword')}
+                  value={formData.confirmPassword}
+                  onChangeText={(text) => updateFormData('confirmPassword', text)}
+                  mode="outlined"
+                  secureTextEntry={!showConfirmPassword}
+                  left={<TextInput.Icon icon="lock-check" color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
+                  right={
+                    <TextInput.Icon
+                      icon={showConfirmPassword ? "eye-off" : "eye"}
+                      onPress={() => setShowConfirmPassword(!showConfirmPassword)}
+                      color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]}
+                    />
+                  }
+                  style={[styles.input, { backgroundColor: 'transparent' }]}
+                  textColor={isDarkMode ? COLORS.white : COLORS.black}
                   disabled={loading}
-                  color={COLORS.primary[500]}
+                  error={!!errors.confirmPassword}
                 />
-                <View style={styles.checkboxTextContainer}>
-                  <Text style={styles.checkboxText}>
-                    Aceito a{' '}
-                    <Text 
-                      style={styles.link}
-                      onPress={() => navigation.navigate('PrivacyPolicy')}
-                    >
-                      Política de Privacidade
-                    </Text>
+                {errors.confirmPassword && (
+                  <HelperText type="error" visible={!!errors.confirmPassword}>
+                    {errors.confirmPassword}
+                  </HelperText>
+                )}
+
+                <Text style={styles.passwordHint}>
+                  * {getString('passwordMinLength')}
+                </Text>
+
+                <Divider style={styles.divider} />
+
+                <View style={styles.checkboxContainer}>
+                  <View style={styles.checkboxRow}>
+                    <Checkbox
+                      status={formData.acceptTerms ? 'checked' : 'unchecked'}
+                      onPress={() => updateFormData('acceptTerms', !formData.acceptTerms)}
+                      disabled={loading}
+                      color={COLORS.primary[500]}
+                    />
+                    <View style={styles.checkboxTextContainer}>
+                      <Text style={[styles.checkboxText, { color: isDarkMode ? COLORS.gray[200] : COLORS.gray[800] }]}>
+                        Aceito os{' '}
+                        <Text
+                          style={styles.link}
+                          onPress={() => navigation.navigate('TermsOfService')}
+                        >
+                          Termos de Uso
+                        </Text>
+                      </Text>
+                    </View>
+                  </View>
+                  {errors.acceptTerms && (
+                    <HelperText type="error" visible={!!errors.acceptTerms} style={styles.checkboxError}>
+                      {errors.acceptTerms}
+                    </HelperText>
+                  )}
+                </View>
+
+                <View style={styles.checkboxContainer}>
+                  <View style={styles.checkboxRow}>
+                    <Checkbox
+                      status={formData.acceptPrivacyPolicy ? 'checked' : 'unchecked'}
+                      onPress={() => updateFormData('acceptPrivacyPolicy', !formData.acceptPrivacyPolicy)}
+                      disabled={loading}
+                      color={COLORS.primary[500]}
+                    />
+                    <View style={styles.checkboxTextContainer}>
+                      <Text style={[styles.checkboxText, { color: isDarkMode ? COLORS.gray[200] : COLORS.gray[800] }]}>
+                        Aceito a{' '}
+                        <Text
+                          style={styles.link}
+                          onPress={() => navigation.navigate('PrivacyPolicy')}
+                        >
+                          Política de Privacidade
+                        </Text>
+                      </Text>
+                    </View>
+                  </View>
+                  {errors.acceptPrivacyPolicy && (
+                    <HelperText type="error" visible={!!errors.acceptPrivacyPolicy} style={styles.checkboxError}>
+                      {errors.acceptPrivacyPolicy}
+                    </HelperText>
+                  )}
+                </View>
+
+                <Button
+                  mode="contained"
+                  onPress={handleRegister}
+                  style={styles.button}
+                  disabled={loading}
+                  icon={loading ? undefined : "account-plus"}
+                  contentStyle={styles.buttonContent}
+                >
+                  {loading ? (
+                    <View style={styles.loadingContainer}>
+                      <ActivityIndicator color={COLORS.white} size="small" />
+                      <Text style={styles.loadingText}>{getString('creatingAccount')}</Text>
+                    </View>
+                  ) : (
+                    getString('createAccount')
+                  )}
+                </Button>
+
+                <View style={styles.loginContainer}>
+                  <Text style={{ color: isDarkMode ? COLORS.gray[200] : COLORS.gray[800] }}>
+                    {getString('alreadyHaveAccount')}{' '}
                   </Text>
+                  <Button
+                    mode="text"
+                    onPress={() => navigation.navigate('Login')}
+                    disabled={loading}
+                    labelStyle={{ fontWeight: 'bold', color: COLORS.primary[500] }}
+                  >
+                    {getString('signIn')}
+                  </Button>
                 </View>
-              </View>
-              {errors.acceptPrivacyPolicy && (
-                <HelperText type="error" visible={!!errors.acceptPrivacyPolicy} style={styles.checkboxError}>
-                  {errors.acceptPrivacyPolicy}
-                </HelperText>
-              )}
+              </Card.Content>
             </View>
-
-            <Button
-              mode="contained"
-              onPress={handleRegister}
-              style={styles.button}
-              disabled={loading}
-              icon={loading ? undefined : "account-plus"}
-              contentStyle={styles.buttonContent}
-            >
-              {loading ? (
-                <View style={styles.loadingContainer}>
-                  <ActivityIndicator color={COLORS.white} size="small" />
-                  <Text style={styles.loadingText}>{getString('creatingAccount')}</Text>
-                </View>
-              ) : (
-                getString('createAccount')
-              )}
-            </Button>
-
-            <View style={styles.loginContainer}>
-              <Text>{getString('alreadyHaveAccount')} </Text>
-              <Button
-                mode="text"
-                onPress={() => navigation.navigate('Login')}
-                disabled={loading}
-              >
-                {getString('signIn')}
-              </Button>
-            </View>
-          </Card.Content>
-            </Card>
           </Animated.View>
         </ScrollView>
-        
+
         <Snackbar
           visible={snackbar.visible}
           onDismiss={() => setSnackbar({ ...snackbar, visible: false })}
@@ -567,18 +582,16 @@ const styles = StyleSheet.create({
   },
   card: {
     borderRadius: BORDER_RADIUS.lg,
-    backgroundColor: COLORS.white,
+    borderWidth: 1.5,
     ...Platform.select({
       web: {
-        boxShadow: '0 4px 4.65px currentTheme.black + "4D"'
+        backdropFilter: 'blur(10px)',
+        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
       },
       default: {
         elevation: 8,
         shadowColor: COLORS.black,
-        shadowOffset: {
-          width: 0,
-          height: 4,
-        },
+        shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.3,
         shadowRadius: 4.65,
       }
