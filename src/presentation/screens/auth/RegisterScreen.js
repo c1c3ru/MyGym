@@ -196,7 +196,7 @@ const RegisterScreen = ({ navigation }) => {
 
   return (
     <LinearGradient
-      colors={isDarkMode ? COLORS.gradients.dark : COLORS.gradients.primary}
+      colors={isDarkMode ? COLORS.gradients.dark : COLORS.gradients.accent}
       style={styles.gradient}
     >
       <SafeAreaView style={styles.container}>
