@@ -1,8 +1,17 @@
 import React from 'react';
-import { Button, ActivityIndicator } from 'react-native-paper';
+import { Button, ActivityIndicator, type ButtonProps } from 'react-native-paper';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { type StyleProp, type ViewStyle } from 'react-native';
 
-const LoadingButton = ({ 
+type LoadingButtonProps = Omit<ButtonProps, 'children' | 'loading' | 'style'> & {
+  loading?: boolean;
+  disabled?: boolean;
+  mode?: ButtonProps['mode'];
+  style?: StyleProp<ViewStyle>;
+  children?: React.ReactNode;
+};
+
+const LoadingButton: React.FC<LoadingButtonProps> = ({ 
   loading, 
   children, 
   onPress, 
