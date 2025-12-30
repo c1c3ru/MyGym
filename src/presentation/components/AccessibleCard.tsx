@@ -1,9 +1,21 @@
 import React, { memo } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, type AccessibilityRole, type StyleProp, type ViewStyle } from 'react-native';
 import { Card } from 'react-native-paper';
-import { useAccessibility } from '@hooks/useAccessibility';
+import { useAccessibility } from '@presentation/hooks/useAccessibility';
 
-const AccessibleCard = memo(({
+type AccessibleCardProps = {
+  children?: React.ReactNode;
+  onPress?: () => void;
+  accessible?: boolean;
+  accessibilityLabel?: string;
+  accessibilityHint?: string;
+  accessibilityRole?: AccessibilityRole | 'text';
+  isSelectable?: boolean;
+  isSelected?: boolean;
+  style?: StyleProp<ViewStyle>;
+} & Record<string, any>;
+
+const AccessibleCard = memo<AccessibleCardProps>(({
   children,
   onPress,
   accessible = true,
@@ -26,7 +38,7 @@ const AccessibleCard = memo(({
     }
   };
 
-  const accessibilityProps = getAccessibilityProps({
+  const accessibilityProps: any = getAccessibilityProps({
     label: accessibilityLabel,
     hint: accessibilityHint || (onPress ? 'Toque duas vezes para interagir' : undefined),
     role: onPress ? accessibilityRole : 'text',

@@ -1,10 +1,21 @@
 import React, { memo } from 'react';
-import { TouchableOpacity, StyleSheet } from 'react-native';
-import { Button as PaperButton, Text } from 'react-native-paper';
-import { useAccessibility } from '@hooks/useAccessibility';
+import { TouchableOpacity, StyleSheet, type StyleProp, type ViewStyle } from 'react-native';
+import { Button as PaperButton, type ButtonProps } from 'react-native-paper';
+import { useAccessibility } from '@presentation/hooks/useAccessibility';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
-const AccessibleButton = memo(({
+type AccessibleButtonProps = Omit<ButtonProps, 'style' | 'children' | 'onPress' | 'icon'> & {
+  children?: React.ReactNode;
+  onPress?: () => void;
+  variant?: 'primary' | 'secondary' | string;
+  size?: 'small' | 'medium' | 'large';
+  accessibilityAction?: string;
+  accessibilityContext?: string;
+  style?: StyleProp<ViewStyle>;
+  icon?: React.ReactNode | string;
+};
+
+const AccessibleButton = memo<AccessibleButtonProps>(({
   children,
   onPress,
   mode = 'contained',
@@ -34,11 +45,11 @@ const AccessibleButton = memo(({
   };
 
   // Gerar props de acessibilidade automaticamente
-  const accessibilityProps = accessibilityAction 
+  const accessibilityProps: any = accessibilityAction 
     ? getButtonAccessibilityProps(accessibilityAction, accessibilityContext)
     : {
         accessible: true,
-        accessibilityLabel: accessibilityLabel || children,
+        accessibilityLabel: accessibilityLabel || undefined,
         accessibilityHint: accessibilityHint || 'Toque duas vezes para executar esta ação',
         accessibilityRole: 'button',
         accessibilityState: {
@@ -47,7 +58,7 @@ const AccessibleButton = memo(({
         }
       };
 
-  const buttonStyles = [
+  const buttonStyles: any = [
     styles.button,
     size === 'small' && styles.smallButton,
     size === 'large' && styles.largeButton,
@@ -61,7 +72,7 @@ const AccessibleButton = memo(({
       onPress={handlePress}
       disabled={disabled || loading}
       loading={loading}
-      icon={icon}
+      icon={icon as any}
       style={buttonStyles}
       {...accessibilityProps}
       {...props}

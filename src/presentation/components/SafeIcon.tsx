@@ -5,13 +5,20 @@
 
 import React from 'react';
 import { COLORS } from '@presentation/theme/designTokens';
-import { Platform } from 'react-native';
+import { Platform, type StyleProp, type TextStyle, type ViewStyle } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { IconWithFallback } from '@utils/iconFallback';
-import { useThemeToggle } from '@contexts/ThemeToggleContext';
+import { useThemeToggle } from '@presentation/contexts/ThemeToggleContext';
 
 // Componente para Ionicons com fallback
-export const SafeIonicons = ({ name, size = 24, color = COLORS.black, style = {}, ...props }) => {
+type IconProps = {
+  name: string;
+  size?: number;
+  color?: string;
+  style?: StyleProp<TextStyle | ViewStyle>;
+} & Record<string, any>;
+
+export const SafeIonicons: React.FC<IconProps> = ({ name, size = 24, color = COLORS.black, style = {}, ...props }) => {
   const { currentTheme } = useThemeToggle();
   
   return (
@@ -27,7 +34,7 @@ export const SafeIonicons = ({ name, size = 24, color = COLORS.black, style = {}
 };
 
 // Componente para MaterialCommunityIcons com fallback
-export const SafeMaterialCommunityIcons = ({ name, size = 24, color = COLORS.black, style = {}, ...props }) => {
+export const SafeMaterialCommunityIcons: React.FC<IconProps> = ({ name, size = 24, color = COLORS.black, style = {}, ...props }) => {
   return (
     <IconWithFallback
       IconComponent={MaterialCommunityIcons}
@@ -41,7 +48,7 @@ export const SafeMaterialCommunityIcons = ({ name, size = 24, color = COLORS.bla
 };
 
 // Componente genérico que detecta o tipo de ícone automaticamente
-export const SafeIcon = ({ 
+export const SafeIcon: React.FC<IconProps & { type?: 'ionicons' | 'material-community' }> = ({ 
   type = 'ionicons', 
   name, 
   size = 24, 
