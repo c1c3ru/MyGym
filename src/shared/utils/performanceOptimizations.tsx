@@ -1,12 +1,12 @@
 import React, { useCallback, useMemo, memo, useState, useEffect, useRef } from 'react';
 import { COLORS } from '@presentation/theme/designTokens';
-import { View, StyleSheet, Image, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, Image, ActivityIndicator, ImageProps, StyleProp, ViewStyle } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 /**
  * Hook para debounce - útil para buscas e filtros
  */
-export const useDebounce = (value, delay) => {
+export const useDebounce = (value: any, delay: number): any => {
   const [debouncedValue, setDebouncedValue] = useState(value);
   
   useEffect(() => {
@@ -20,13 +20,13 @@ export const useDebounce = (value, delay) => {
 /**
  * Hook para throttle - útil para scroll events
  */
-export const useThrottle = (callback, delay) => {
-  const callbackRef = useRef(callback);
-  const lastCall = useRef(0);
+export const useThrottle = (callback: (...args: any[]) => any, delay: number) => {
+  const callbackRef = useRef<any>(callback);
+  const lastCall = useRef<number>(0);
   
   callbackRef.current = callback;
   
-  return useCallback((...args) => {
+  return useCallback((...args: any[]) => {
     const now = Date.now();
     if (now - lastCall.current >= delay) {
       lastCall.current = now;
@@ -38,27 +38,27 @@ export const useThrottle = (callback, delay) => {
 /**
  * HOC para memoização de componentes com props complexas
  */
-export const withMemoization = (Component, areEqual) => {
+export const withMemoization = (Component: React.ComponentType<any>, areEqual?: (prev: any, next: any) => boolean) => {
   return memo(Component, areEqual);
 };
 
 /**
  * Hook para memoização de arrays/objetos complexos
  */
-export const useDeepMemo = (value) => {
-  const ref = useRef();
+export const useDeepMemo = (value: any): any => {
+  const ref = useRef<any>(undefined);
   
   if (!ref.current || JSON.stringify(ref.current) !== JSON.stringify(value)) {
     ref.current = value;
   }
   
-  return ref.current;
+  return ref.current as any;
 };
 
 /**
  * Utilitário para lazy loading de imagens
  */
-export const LazyImage = memo(({ source, style, ...props }) => {
+export const LazyImage = memo<{ source: any; style?: any }>(({ source, style, ...props }) => {
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
   
@@ -67,14 +67,14 @@ export const LazyImage = memo(({ source, style, ...props }) => {
   
   if (error) {
     return (
-      <View style={[style, { backgroundColor: COLORS.gray[100], justifyContent: 'center', alignItems: 'center' }]}>
-        <Ionicons name="image-outline" size={24} color="currentTheme.gray[300]" />
+      <View style={[style as any, { backgroundColor: COLORS.gray[100], justifyContent: 'center', alignItems: 'center' }]}>
+        <Ionicons name="image-outline" size={24} color={COLORS.gray[300]} />
       </View>
     );
   }
   
   return (
-    <View style={style}>
+    <View style={style as any}>
       {!loaded && (
         <View style={[StyleSheet.absoluteFill, { backgroundColor: COLORS.gray[100], justifyContent: 'center', alignItems: 'center' }]}>
           <ActivityIndicator size="small" color={COLORS.info[500]} />
@@ -95,7 +95,7 @@ export const LazyImage = memo(({ source, style, ...props }) => {
  * Configurações de performance para FlashList
  */
 export const flashListConfig = {
-  getItemType: (item, index) => {
+  getItemType: (item: any, index: number) => {
     // Retorna tipos diferentes para otimizar renderização
     if (item.featured) return 'featured';
     if (index % 10 === 0) return 'ad'; // A cada 10 items, tipo diferente
@@ -110,23 +110,24 @@ export const flashListConfig = {
  * Utilitário para preload de dados críticos
  */
 export const preloadData = {
-  user: async (userId) => {
+  user: async (userId: string) => {
     // Preload user data
     return Promise.all([
       import('@services/academyFirestoreService').then(service => 
-        service.academyFirestoreService.get('users', userId)
+        service.academyFirestoreService.getById('users', userId)
       ),
       import('@services/academyFirestoreService').then(service =>
-        service.academyFirestoreService.getWhere('academies', 'ownerId', '==', userId)
+        service.academyFirestoreService.getWhere('gyms', 'ownerId', '==', userId)
       )
     ]);
   },
   
-  academy: async (academyId) => {
+  academy: async (academyId: string) => {
     // Preload academy data
+    const svc = await import('@services/academyFirestoreService');
     return Promise.all([
-      academyFirestoreService.get('academies', academyId),
-      academyFirestoreService.getAll('students', academyId)
+      svc.academyFirestoreService.getById('gyms', academyId),
+      svc.academyFirestoreService.getAll('students', academyId)
     ]);
   }
 };
@@ -135,13 +136,13 @@ export const preloadData = {
  * Monitor de performance (apenas em desenvolvimento)
  */
 export const PerformanceMonitor = {
-  start: (label) => {
+  start: (label: string) => {
     if (__DEV__) {
       performance.mark(`${label}-start`);
     }
   },
   
-  end: (label) => {
+  end: (label: string) => {
     if (__DEV__) {
       performance.mark(`${label}-end`);
       performance.measure(label, `${label}-start`, `${label}-end`);
@@ -150,14 +151,14 @@ export const PerformanceMonitor = {
     }
   },
   
-  component: (Component, displayName) => {
+  component: (Component: React.ComponentType<any>, displayName: string) => {
     if (!__DEV__) return Component;
     
-    return memo((props) => {
+    return memo<any>((props: any) => {
       PerformanceMonitor.start(`Render-${displayName}`);
-      const result = Component(props);
+      const element = React.createElement(Component, props);
       PerformanceMonitor.end(`Render-${displayName}`);
-      return result;
+      return element;
     });
   }
 };
