@@ -3,17 +3,21 @@
  */
 import React from 'react';
 
+type RefreshCallback = (data: any) => void;
+
 class RefreshManager {
+  private listeners: Map<string, Set<RefreshCallback>>;
+
   constructor() {
     this.listeners = new Map();
   }
 
   // Registrar listener para uma tela específica
-  subscribe(screenName, callback) {
+  subscribe(screenName: string, callback: RefreshCallback): () => void {
     if (!this.listeners.has(screenName)) {
       this.listeners.set(screenName, new Set());
     }
-    this.listeners.get(screenName).add(callback);
+    this.listeners.get(screenName)!.add(callback);
 
     // Retornar função para unsubscribe
     return () => {
@@ -28,11 +32,11 @@ class RefreshManager {
   }
 
   // Notificar todas as telas registradas para um tipo de dados
-  notifyRefresh(dataType, data = null) {
+  notifyRefresh(dataType: string, data: any = null): void {
     console.log(`🔄 RefreshManager: Notificando refresh para ${dataType}`);
     
     // Mapear tipos de dados para telas que devem ser atualizadas
-    const screenMappings = {
+    const screenMappings: Record<string, string[]> = {
       'students': ['AdminStudents', 'InstructorStudents', 'CheckIn'],
       'classes': ['AdminClasses', 'InstructorClasses', 'CheckIn'],
       'payments': ['AdminStudents', 'Reports'],
@@ -41,10 +45,10 @@ class RefreshManager {
 
     const screensToRefresh = screenMappings[dataType] || [];
     
-    screensToRefresh.forEach(screenName => {
+    screensToRefresh.forEach((screenName) => {
       const screenListeners = this.listeners.get(screenName);
       if (screenListeners) {
-        screenListeners.forEach(callback => {
+        screenListeners.forEach((callback) => {
           try {
             callback(data);
           } catch (error) {
@@ -56,19 +60,19 @@ class RefreshManager {
   }
 
   // Métodos específicos para cada tipo de dados
-  refreshStudents(studentData = null) {
+  refreshStudents(studentData: any = null): void {
     this.notifyRefresh('students', studentData);
   }
 
-  refreshClasses(classData = null) {
+  refreshClasses(classData: any = null): void {
     this.notifyRefresh('classes', classData);
   }
 
-  refreshPayments(paymentData = null) {
+  refreshPayments(paymentData: any = null): void {
     this.notifyRefresh('payments', paymentData);
   }
 
-  refreshGraduations(graduationData = null) {
+  refreshGraduations(graduationData: any = null): void {
     this.notifyRefresh('graduations', graduationData);
   }
 }
@@ -77,9 +81,9 @@ class RefreshManager {
 export const refreshManager = new RefreshManager();
 
 // Hook para usar o refresh manager (opcional - pode ser usado se necessário)
-export const useRefreshManager = (screenName, callback) => {
+export const useRefreshManager = (screenName: string, callback: RefreshCallback): boolean => {
   const { useState, useEffect } = React;
-  const [isSubscribed, setIsSubscribed] = useState(false);
+  const [isSubscribed, setIsSubscribed] = useState<boolean>(false);
 
   useEffect(() => {
     const unsubscribe = refreshManager.subscribe(screenName, callback);

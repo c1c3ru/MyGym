@@ -3,9 +3,13 @@
  * Usa ícones Unicode como fallback
  */
 
+import React from 'react';
+import { Text, Platform, TextStyle } from 'react-native';
+import { COLORS } from '@presentation/theme/designTokens';
+
 // Mapeamento de ícones comuns para Unicode
-const iconFallbacks = {
-  // Ionicons
+// Ionicons
+const iconFallbacksIon: Record<string, string> = {
   'home': '🏠',
   'home-outline': '🏠',
   'person': '👤',
@@ -224,11 +228,12 @@ const iconFallbacks = {
   'stormy-outline': '⛈️',
   'snow': '❄️',
   'snow-outline': '❄️',
-  'thermometer-outline': '🌡️',
   'umbrella': '☂️',
   'umbrella-outline': '☂️',
-  
-  // MaterialCommunityIcons
+};
+
+// MaterialCommunityIcons
+const iconFallbacksMci: Record<string, string> = {
   'account': '👤',
   'account-outline': '👤',
   'account-group': '👥',
@@ -346,12 +351,18 @@ const iconFallbacks = {
   'umbrella': '☂️'
 };
 
+// Merge final (MCI sobrescreve Ionicons quando há mesma chave)
+const iconFallbacks: Record<string, string> = {
+  ...iconFallbacksIon,
+  ...iconFallbacksMci,
+};
+
 /**
  * Obtém um ícone fallback baseado no nome
  * @param {string} name - Nome do ícone
  * @returns {string} - Emoji fallback ou ícone genérico
  */
-export const getIconFallback = (name) => {
+export const getIconFallback = (name: string | null | undefined): string => {
   if (!name) return '❓';
   
   const normalizedName = name.toLowerCase().replace(/-/g, '-');
@@ -361,18 +372,25 @@ export const getIconFallback = (name) => {
 /**
  * Componente de ícone com fallback automático
  */
-import React from 'react';
-import { COLORS } from '@presentation/theme/designTokens';
-import { Text, Platform } from 'react-native';
 
-export const IconWithFallback = ({ 
-  IconComponent, 
-  name, 
-  size = 24, 
-  color = COLORS.black, 
+type IconWithFallbackProps = {
+  IconComponent: React.ComponentType<any>;
+  name: string;
+  size?: number;
+  color?: string;
+  style?: any;
+  fallbackStyle?: TextStyle | TextStyle[];
+  [key: string]: any;
+};
+
+export const IconWithFallback: React.FC<IconWithFallbackProps> = ({ 
+  IconComponent,
+  name,
+  size = 24,
+  color = COLORS.black,
   style = {},
   fallbackStyle = {},
-  ...props 
+  ...props
 }) => {
   // No web, sempre usar fallback se houver problemas com fontes
   if (Platform.OS === 'web') {

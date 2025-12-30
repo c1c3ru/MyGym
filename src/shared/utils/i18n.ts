@@ -4,7 +4,8 @@
 /**
  * Mapeia idiomas da aplicação para códigos de localização
  */
-const LOCALE_MAP = {
+export type Language = 'pt' | 'en' | 'es';
+const LOCALE_MAP: Record<Language, string> = {
   pt: 'pt-BR',
   en: 'en-US', 
   es: 'es-ES'
@@ -13,7 +14,7 @@ const LOCALE_MAP = {
 /**
  * Configuração de moedas por localização
  */
-const CURRENCY_MAP = {
+const CURRENCY_MAP: Record<'pt-BR' | 'en-US' | 'es-ES', string> = {
   'pt-BR': 'BRL',
   'en-US': 'USD',
   'es-ES': 'EUR'
@@ -26,19 +27,23 @@ const CURRENCY_MAP = {
  * @param {object} options - Opções do Intl.DateTimeFormat
  * @returns {string} Data formatada
  */
-export const formatDate = (date, language = 'pt', options = {}) => {
+export const formatDate = (
+  date: Date | string,
+  language: Language = 'pt',
+  options: Intl.DateTimeFormatOptions = {}
+): string => {
   if (!date) return '';
   
   const locale = LOCALE_MAP[language] || 'pt-BR';
   const dateObj = date instanceof Date ? date : new Date(date);
   
-  const defaultOptions = {
+  const defaultOptions: Intl.DateTimeFormatOptions = {
     day: '2-digit',
     month: '2-digit', 
     year: 'numeric'
   };
 
-  return dateObj.toLocaleDateString(locale, { ...defaultOptions, ...options });
+  return dateObj.toLocaleDateString(locale, { ...defaultOptions, ...options } as Intl.DateTimeFormatOptions);
 };
 
 /**
@@ -47,7 +52,7 @@ export const formatDate = (date, language = 'pt', options = {}) => {
  * @param {string} language - Idioma ('pt', 'en', 'es')  
  * @returns {string} Data e hora formatadas
  */
-export const formatDateTime = (date, language = 'pt') => {
+export const formatDateTime = (date: Date | string, language: Language = 'pt'): string => {
   if (!date) return '';
   
   const locale = LOCALE_MAP[language] || 'pt-BR';
@@ -68,7 +73,7 @@ export const formatDateTime = (date, language = 'pt') => {
  * @param {string} language - Idioma ('pt', 'en', 'es')
  * @returns {string} Hora formatada
  */
-export const formatTime = (date, language = 'pt') => {
+export const formatTime = (date: Date | string, language: Language = 'pt'): string => {
   if (!date) return '';
   
   const locale = LOCALE_MAP[language] || 'pt-BR';
@@ -87,11 +92,11 @@ export const formatTime = (date, language = 'pt') => {
  * @param {string} currency - Código da moeda (opcional, detecta por idioma)
  * @returns {string} Valor formatado como moeda
  */
-export const formatCurrency = (amount, language = 'pt', currency = null) => {
+export const formatCurrency = (amount: number, language: Language = 'pt', currency: string | null = null): string => {
   if (amount === null || amount === undefined || isNaN(amount)) return '';
   
   const locale = LOCALE_MAP[language] || 'pt-BR';
-  const currencyCode = currency || CURRENCY_MAP[locale] || 'BRL';
+  const currencyCode = currency || CURRENCY_MAP[locale as keyof typeof CURRENCY_MAP] || 'BRL';
   
   return new Intl.NumberFormat(locale, {
     style: 'currency',
@@ -106,7 +111,7 @@ export const formatCurrency = (amount, language = 'pt', currency = null) => {
  * @param {object} options - Opções do Intl.NumberFormat
  * @returns {string} Número formatado
  */
-export const formatNumber = (number, language = 'pt', options = {}) => {
+export const formatNumber = (number: number, language: Language = 'pt', options: Intl.NumberFormatOptions = {}): string => {
   if (number === null || number === undefined || isNaN(number)) return '';
   
   const locale = LOCALE_MAP[language] || 'pt-BR';
@@ -120,7 +125,7 @@ export const formatNumber = (number, language = 'pt', options = {}) => {
  * @param {string} language - Idioma ('pt', 'en', 'es')
  * @returns {string} Porcentagem formatada
  */
-export const formatPercentage = (decimal, language = 'pt') => {
+export const formatPercentage = (decimal: number, language: Language = 'pt'): string => {
   if (decimal === null || decimal === undefined || isNaN(decimal)) return '';
   
   const locale = LOCALE_MAP[language] || 'pt-BR';
@@ -138,7 +143,7 @@ export const formatPercentage = (decimal, language = 'pt') => {
  * @param {string} language - Idioma ('pt', 'en', 'es')
  * @returns {string} Data relativa formatada
  */
-export const formatRelativeDate = (date, language = 'pt') => {
+export const formatRelativeDate = (date: Date | string, language: Language = 'pt'): string => {
   if (!date) return '';
   
   const locale = LOCALE_MAP[language] || 'pt-BR';
@@ -172,9 +177,9 @@ export const formatRelativeDate = (date, language = 'pt') => {
  * @param {string} language - Idioma ('pt', 'en', 'es')  
  * @returns {object} Configurações regionais
  */
-export const getLocaleSettings = (language = 'pt') => {
+export const getLocaleSettings = (language: Language = 'pt') => {
   const locale = LOCALE_MAP[language] || 'pt-BR';
-  const currency = CURRENCY_MAP[locale] || 'BRL';
+  const currency = CURRENCY_MAP[locale as keyof typeof CURRENCY_MAP] || 'BRL';
   
   return {
     locale,
@@ -190,19 +195,19 @@ export const getLocaleSettings = (language = 'pt') => {
  * Hook-like function para uso em componentes React
  * Requer o contexto de tema para obter o idioma atual
  */
-export const createI18nFormatters = (getString) => {
+export const createI18nFormatters = (getString: (key: string) => string) => {
   // Detecta idioma atual baseado no contexto
   const currentLanguage = getString('language') || 'pt';
   
   return {
-    formatDate: (date, options) => formatDate(date, currentLanguage, options),
-    formatDateTime: (date) => formatDateTime(date, currentLanguage),
-    formatTime: (date) => formatTime(date, currentLanguage),
-    formatCurrency: (amount, currency) => formatCurrency(amount, currentLanguage, currency),
-    formatNumber: (number, options) => formatNumber(number, currentLanguage, options),
-    formatPercentage: (decimal) => formatPercentage(decimal, currentLanguage),
-    formatRelativeDate: (date) => formatRelativeDate(date, currentLanguage),
-    getLocaleSettings: () => getLocaleSettings(currentLanguage)
+    formatDate: (date: Date | string, options?: Intl.DateTimeFormatOptions) => formatDate(date, currentLanguage as Language, options),
+    formatDateTime: (date: Date | string) => formatDateTime(date, currentLanguage as Language),
+    formatTime: (date: Date | string) => formatTime(date, currentLanguage as Language),
+    formatCurrency: (amount: number, currency?: string | null) => formatCurrency(amount, currentLanguage as Language, currency ?? null),
+    formatNumber: (number: number, options?: Intl.NumberFormatOptions) => formatNumber(number, currentLanguage as Language, options),
+    formatPercentage: (decimal: number) => formatPercentage(decimal, currentLanguage as Language),
+    formatRelativeDate: (date: Date | string) => formatRelativeDate(date, currentLanguage as Language),
+    getLocaleSettings: () => getLocaleSettings(currentLanguage as Language)
   };
 };
 
