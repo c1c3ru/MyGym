@@ -184,14 +184,14 @@ export const languages: Record<LanguageCode, any> = {
       management: 'Gestão',
       settingsManagement: 'Preferências e gestão',
       accessManagementReports: 'Acessar Gestão e Relatórios',
-      
+
       // USER & ADMIN
       hello: 'Olá',
       admin: 'Admin',
       academyAdministrator: 'Administrador da Academia',
       online: 'Online',
       code: 'Código',
-      
+
       // STATS
       totalStudents: 'Total de Alunos',
       activeStudents: 'Alunos Ativos',
@@ -204,12 +204,12 @@ export const languages: Record<LanguageCode, any> = {
       paymentsOverdue: 'pagamento(s) em atraso',
       manyPendingPayments: 'Muitos pagamentos pendentes',
       loadingAcademyInfo: 'Carregando informações da academia...',
-      
+
       // ANNOUNCEMENTS
       announcements: 'Avisos',
       noAnnouncementsNow: 'Nenhum aviso no momento',
       highPriority: 'Alta Prioridade',
-      
+
       // BELT LEVELS
       whiteBelt: 'Faixa Branca',
       yellowBelt: 'Faixa Amarela',
@@ -256,6 +256,26 @@ export const languages: Record<LanguageCode, any> = {
       october: 'Outubro',
       november: 'Novembro',
       december: 'Dezembro',
+
+      // AUTH/LOGIN
+      welcome: 'Bem-vindo de volta!',
+      email: 'E-mail',
+      password: 'Senha',
+      login: 'Entrar',
+      forgotPassword: 'Esqueceu a senha?',
+      orLoginWith: 'Ou entre com',
+      noAccount: 'Não tem uma conta?',
+      register: 'Cadastre-se',
+      loggingIn: 'Entrando',
+      loginSuccess: 'Login realizado com sucesso!',
+      invalidEmail: 'E-mail inválido',
+      passwordTooShort: 'A senha é muito curta',
+      fillAllFields: 'Preencha todos os campos',
+      googleLoginError: 'Erro ao entrar com Google',
+      facebookLoginError: 'Erro ao entrar com Facebook',
+      appleLoginError: 'Erro ao entrar com Apple',
+      microsoftLoginError: 'Erro ao entrar com Microsoft',
+      rateLimitExceeded: 'Muitas tentativas. Aguarde 5 minutos.',
 
       // SYSTEM
       system: 'system',
@@ -422,14 +442,14 @@ export const languages: Record<LanguageCode, any> = {
       management: 'Management',
       settingsManagement: 'Preferences and management',
       accessManagementReports: 'Access Management and Reports',
-      
+
       // USER & ADMIN
       hello: 'Hello',
       admin: 'Admin',
       academyAdministrator: 'Academy Administrator',
       online: 'Online',
       code: 'Code',
-      
+
       // STATS
       totalStudents: 'Total Students',
       activeStudents: 'Active Students',
@@ -442,12 +462,12 @@ export const languages: Record<LanguageCode, any> = {
       paymentsOverdue: 'overdue payment(s)',
       manyPendingPayments: 'Many pending payments',
       loadingAcademyInfo: 'Loading academy information...',
-      
+
       // ANNOUNCEMENTS
       announcements: 'Announcements',
       noAnnouncementsNow: 'No announcements at the moment',
       highPriority: 'High Priority',
-      
+
       // BELT LEVELS
       whiteBelt: 'White Belt',
       yellowBelt: 'Yellow Belt',
@@ -470,7 +490,27 @@ export const languages: Record<LanguageCode, any> = {
       errorSearchingStudents: 'Error searching students',
       errorFormattingDate: 'Error formatting date',
       couldNotLoadData: 'Could not load data. Please try again.',
-      tryAgainLater: 'Please try again later'
+      tryAgainLater: 'Please try again later',
+
+      // AUTH/LOGIN
+      welcome: 'Welcome back!',
+      email: 'Email',
+      password: 'Password',
+      login: 'Login',
+      forgotPassword: 'Forgot password?',
+      orLoginWith: 'Or login with',
+      noAccount: "Don't have an account?",
+      register: 'Sign up',
+      loggingIn: 'Logging in',
+      loginSuccess: 'Login successful!',
+      invalidEmail: 'Invalid email',
+      passwordTooShort: 'Password too short',
+      fillAllFields: 'Please fill all fields',
+      googleLoginError: 'Google login error',
+      facebookLoginError: 'Facebook login error',
+      appleLoginError: 'Apple login error',
+      microsoftLoginError: 'Microsoft login error',
+      rateLimitExceeded: 'Too many attempts. Please wait 5 minutes.'
     }
   },
 
@@ -654,14 +694,14 @@ export const languages: Record<LanguageCode, any> = {
       management: 'Gestión',
       settingsManagement: 'Preferencias y gestión',
       accessManagementReports: 'Acceder a Gestión e Informes',
-      
+
       // USER & ADMIN
       hello: 'Hola',
       admin: 'Admin',
       academyAdministrator: 'Administrador de la Academia',
       online: 'En línea',
       code: 'Código',
-      
+
       // STATS
       totalStudents: 'Total de Estudiantes',
       activeStudents: 'Estudiantes Activos',
@@ -674,12 +714,12 @@ export const languages: Record<LanguageCode, any> = {
       paymentsOverdue: 'pago(s) vencido(s)',
       manyPendingPayments: 'Muchos pagos pendientes',
       loadingAcademyInfo: 'Cargando información de la academia...',
-      
+
       // ANNOUNCEMENTS
       announcements: 'Avisos',
       noAnnouncementsNow: 'Ningún aviso en este momento',
       highPriority: 'Alta Prioridad',
-      
+
       // BELT LEVELS
       whiteBelt: 'Cinturón Blanco',
       yellowBelt: 'Cinturón Amarillo',
@@ -702,7 +742,27 @@ export const languages: Record<LanguageCode, any> = {
       errorSearchingStudents: 'Error al buscar estudiantes',
       errorFormattingDate: 'Error al formatear fecha',
       couldNotLoadData: 'No se pudieron cargar los datos. Intente nuevamente.',
-      tryAgainLater: 'Intente nuevamente más tarde'
+      tryAgainLater: 'Intente nuevamente más tarde',
+
+      // AUTH/LOGIN
+      welcome: '¡Bienvenido de nuevo!',
+      email: 'Correo electrónico',
+      password: 'Contraseña',
+      login: 'Entrar',
+      forgotPassword: '¿Olvidó su contraseña?',
+      orLoginWith: 'O inicie sesión con',
+      noAccount: '¿No tiene una cuenta?',
+      register: 'Registrarse',
+      loggingIn: 'Iniciando sesión',
+      loginSuccess: '¡Inicio de sesión exitoso!',
+      invalidEmail: 'Correo inválido',
+      passwordTooShort: 'Contraseña demasiado corta',
+      fillAllFields: 'Complete todos los campos',
+      googleLoginError: 'Error al iniciar con Google',
+      facebookLoginError: 'Error al iniciar con Facebook',
+      appleLoginError: 'Error al iniciar con Apple',
+      microsoftLoginError: 'Error al iniciar con Microsoft',
+      rateLimitExceeded: 'Demasiados intentos. Espere 5 minutos.'
     }
   }
 };
@@ -766,7 +826,7 @@ export const getThemeForUserType = (
   isDarkMode: boolean = false
 ): { colors: Record<string, string>; userType: string; isDarkMode: boolean } => {
   const baseTheme = isDarkMode ? darkTheme : lightTheme;
-  
+
   // Cores específicas por tipo de usuário usando design tokens
   const userColors = {
     student: {

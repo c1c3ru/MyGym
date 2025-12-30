@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useMemo } from 'react';
-import { View, StyleSheet, Alert, Platform, ScrollView, Linking } from 'react-native';
+import { View, StyleSheet, Alert, Platform, ScrollView, Linking, KeyboardAvoidingView } from 'react-native';
 import {
   Card,
   Divider,
@@ -294,200 +294,209 @@ export default function LoginScreen({ navigation }) {
       style={styles.gradient}
     >
       <SafeAreaView style={styles.container}>
-        <ScrollView
-          contentContainerStyle={styles.scrollContainer}
-          showsVerticalScrollIndicator={false}
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={{ flex: 1 }}
         >
-          {/* Top Decorative Element */}
-          <View style={styles.topDecoration}>
-            <LinearGradient
-              colors={[COLORS.primary[500] + '44', 'transparent']}
-              style={styles.topOrb}
-            />
-          </View>
-
-          {/* Settings Row */}
-          <View style={styles.settingsRow}>
-            <View style={styles.settingItem}>
-              <Menu
-                visible={languageMenuVisible}
-                onDismiss={() => setLanguageMenuVisible(false)}
-                anchor={
-                  <TouchableRipple
-                    style={[styles.glassButton, { backgroundColor: isDarkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)' }]}
-                    onPress={() => setLanguageMenuVisible(true)}
-                  >
-                    <View style={styles.languageButtonContent}>
-                      <Text style={styles.flagEmoji}>{languages[currentLanguage].flag}</Text>
-                      <MaterialCommunityIcons
-                        name="chevron-down"
-                        size={16}
-                        color={isDarkMode ? COLORS.white : COLORS.black}
-                      />
-                    </View>
-                  </TouchableRipple>
-                }
-              >
-                {Object.keys(languages).map((langCode) => (
-                  <Menu.Item
-                    key={langCode}
-                    onPress={() => {
-                      changeLanguage(langCode);
-                      setLanguageMenuVisible(false);
-                    }}
-                    title={`${languages[langCode].flag} ${languages[langCode].name}`}
-                  />
-                ))}
-              </Menu>
-            </View>
-
-            <View style={styles.settingItem}>
-              <TouchableRipple
-                onPress={toggleDarkMode}
-                style={[styles.glassButton, { backgroundColor: isDarkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)' }]}
-              >
-                <MaterialCommunityIcons
-                  name={isDarkMode ? "weather-night" : "weather-sunny"}
-                  size={20}
-                  color={isDarkMode ? COLORS.primary[400] : COLORS.warning[500]}
-                />
-              </TouchableRipple>
-            </View>
-          </View>
-
-          <View style={styles.header}>
-            <View style={styles.logoContainer}>
+          <ScrollView
+            contentContainerStyle={styles.scrollContainer}
+            showsVerticalScrollIndicator={false}
+            keyboardShouldPersistTaps="handled"
+          >
+            {/* Top Decorative Element */}
+            <View style={styles.topDecoration}>
               <LinearGradient
-                colors={[COLORS.primary[500], COLORS.primary[700]]}
-                style={styles.logoGradient}
-              >
-                <MaterialCommunityIcons name="fitness-center" size={40} color={COLORS.white} />
-              </LinearGradient>
+                colors={[COLORS.primary[500] + '44', 'transparent']}
+                style={styles.topOrb}
+              />
             </View>
-            <Text style={[styles.headerTitle, { color: isDarkMode ? COLORS.white : COLORS.black }]}>
-              My<Text style={{ color: COLORS.primary[500] }}>Gym</Text>
-            </Text>
-            <Text style={[styles.headerSubtitle, { color: isDarkMode ? COLORS.gray[400] : COLORS.gray[600] }]}>
-              {getString('welcome') || 'Bem-vindo de volta!'}
-            </Text>
-          </View>
 
-          <View style={styles.content}>
-            <ModernCard
-              style={[
-                styles.loginCard,
-                {
-                  backgroundColor: isDarkMode ? 'rgba(26, 26, 26, 0.8)' : 'rgba(255, 255, 255, 0.9)',
-                  borderColor: isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)'
-                }
-              ]}
-            >
-              <ModernTextField
-                label={getString('email')}
-                value={email}
-                onChangeText={(text) => {
-                  setEmail(text);
-                  if (errors.email) setErrors(prev => ({ ...prev, email: null }));
-                }}
-                style={styles.input}
-                keyboardType="email-address"
-                error={!!errors.email}
-                theme={theme}
-              />
-              {errors.email && <HelperText type="error" style={styles.errorText}>{errors.email}</HelperText>}
+            {/* Settings Row */}
+            <View style={styles.settingsRow}>
+              <View style={styles.settingItem}>
+                <Menu
+                  visible={languageMenuVisible}
+                  onDismiss={() => setLanguageMenuVisible(false)}
+                  anchor={
+                    <TouchableRipple
+                      style={[styles.glassButton, { backgroundColor: isDarkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)' }]}
+                      onPress={() => setLanguageMenuVisible(true)}
+                    >
+                      <View style={styles.languageButtonContent}>
+                        <Text style={styles.flagEmoji}>{languages[currentLanguage].flag}</Text>
+                        <MaterialCommunityIcons
+                          name="chevron-down"
+                          size={16}
+                          color={isDarkMode ? COLORS.white : COLORS.black}
+                        />
+                      </View>
+                    </TouchableRipple>
+                  }
+                >
+                  {Object.keys(languages).map((langCode) => (
+                    <Menu.Item
+                      key={langCode}
+                      onPress={() => {
+                        changeLanguage(langCode);
+                        setLanguageMenuVisible(false);
+                      }}
+                      title={`${languages[langCode].flag} ${languages[langCode].name}`}
+                    />
+                  ))}
+                </Menu>
+              </View>
 
-              <ModernTextField
-                label={getString('password')}
-                value={password}
-                onChangeText={(text) => {
-                  setPassword(text);
-                  if (errors.password) setErrors(prev => ({ ...prev, password: null }));
-                }}
-                secureTextEntry={!showPassword}
-                style={styles.input}
-                error={!!errors.password}
-                theme={theme}
-                right={<TextInput.Icon icon={showPassword ? "eye-off" : "eye"} onPress={() => setShowPassword(!showPassword)} />}
-              />
-              {errors.password && <HelperText type="error" style={styles.errorText}>{errors.password}</HelperText>}
+              <View style={styles.settingItem}>
+                <TouchableRipple
+                  onPress={toggleDarkMode}
+                  style={[styles.glassButton, { backgroundColor: isDarkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)' }]}
+                >
+                  <MaterialCommunityIcons
+                    name={isDarkMode ? "weather-night" : "weather-sunny"}
+                    size={20}
+                    color={isDarkMode ? COLORS.primary[400] : COLORS.warning[500]}
+                  />
+                </TouchableRipple>
+              </View>
+            </View>
 
-              <ModernButton
-                mode="contained"
-                onPress={handleLogin}
-                style={styles.loginButton}
-                loading={loading}
-                disabled={loading}
-                buttonColor={COLORS.primary[500]}
+            <View style={styles.header}>
+              <View style={styles.logoContainer}>
+                <LinearGradient
+                  colors={[COLORS.primary[500], COLORS.primary[700]]}
+                  style={styles.logoGradient}
+                >
+                  <MaterialCommunityIcons name="fitness-center" size={40} color={COLORS.white} />
+                </LinearGradient>
+              </View>
+              <Text style={[styles.headerTitle, { color: isDarkMode ? COLORS.white : COLORS.black }]}>
+                My<Text style={{ color: COLORS.primary[500] }}>Gym</Text>
+              </Text>
+              <Text style={[styles.headerSubtitle, { color: isDarkMode ? COLORS.gray[400] : COLORS.gray[600] }]}>
+                {getString('welcome')}
+              </Text>
+            </View>
+
+            <View style={styles.content}>
+              <ModernCard
+                style={[
+                  styles.loginCard,
+                  {
+                    backgroundColor: isDarkMode ? 'rgba(30, 30, 30, 0.4)' : 'rgba(255, 255, 255, 0.6)',
+                    borderColor: isDarkMode ? 'rgba(255, 255, 255, 0.15)' : 'rgba(255, 255, 255, 0.4)',
+                    backdropFilter: 'blur(10px)', // Para web se suportado
+                  }
+                ]}
               >
-                {getString('login')}
-              </ModernButton>
+                <ModernTextField
+                  label={getString('email')}
+                  value={email}
+                  onChangeText={(text) => {
+                    setEmail(text);
+                    if (errors.email) setErrors(prev => ({ ...prev, email: null }));
+                  }}
+                  style={styles.input}
+                  keyboardType="email-address"
+                  error={!!errors.email}
+                  theme={theme}
+                />
+                {errors.email && <HelperText type="error" style={styles.errorText}>{errors.email}</HelperText>}
 
-              <View style={styles.forgotPasswordRow}>
-                <TouchableRipple onPress={handleForgotPassword}>
-                  <Text style={[styles.forgotPasswordText, { color: COLORS.primary[500] }]}>
-                    {getString('forgotPassword')}?
+                <ModernTextField
+                  label={getString('password')}
+                  value={password}
+                  onChangeText={(text) => {
+                    setPassword(text);
+                    if (errors.password) setErrors(prev => ({ ...prev, password: null }));
+                  }}
+                  secureTextEntry={!showPassword}
+                  style={styles.input}
+                  error={!!errors.password}
+                  theme={theme}
+                  right={<TextInput.Icon icon={showPassword ? "eye-off" : "eye"} onPress={() => setShowPassword(!showPassword)} />}
+                />
+                {errors.password && <HelperText type="error" style={styles.errorText}>{errors.password}</HelperText>}
+
+                <ModernButton
+                  mode="contained"
+                  onPress={handleLogin}
+                  style={styles.loginButton}
+                  loading={loading}
+                  disabled={loading}
+                  buttonColor={COLORS.primary[500]}
+                >
+                  {getString('login')}
+                </ModernButton>
+
+                <View style={styles.forgotPasswordRow}>
+                  <TouchableRipple onPress={handleForgotPassword}>
+                    <Text style={[styles.forgotPasswordText, { color: COLORS.primary[500] }]}>
+                      {getString('forgotPassword')}
+                    </Text>
+                  </TouchableRipple>
+                </View>
+
+                <View style={styles.dividerRow}>
+                  <View style={[styles.line, { backgroundColor: isDarkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }]} />
+                  <Text style={[styles.dividerText, { color: isDarkMode ? COLORS.gray[500] : COLORS.gray[400] }]}>
+                    {getString('orLoginWith')}
                   </Text>
-                </TouchableRipple>
-              </View>
+                  <View style={[styles.line, { backgroundColor: isDarkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }]} />
+                </View>
 
-              <View style={styles.dividerRow}>
-                <View style={[styles.line, { backgroundColor: isDarkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }]} />
-                <Text style={[styles.dividerText, { color: isDarkMode ? COLORS.gray[500] : COLORS.gray[400] }]}>
-                  {getString('orLoginWith') || 'Ou entre com'}
-                </Text>
-                <View style={[styles.line, { backgroundColor: isDarkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }]} />
-              </View>
+                <View style={styles.socialRow}>
+                  <TouchableRipple
+                    onPress={handleGoogleLogin}
+                    style={[styles.socialIconBtn, { backgroundColor: isDarkMode ? 'rgba(255,255,255,0.05)' : COLORS.white, borderColor: isDarkMode ? 'rgba(255,255,255,0.1)' : COLORS.gray[200] }]}
+                  >
+                    <MaterialCommunityIcons name="google" size={24} color="#DB4437" />
+                  </TouchableRipple>
 
-              <View style={styles.socialRow}>
-                <TouchableRipple
-                  onPress={handleGoogleLogin}
-                  style={[styles.socialIconBtn, { backgroundColor: isDarkMode ? 'rgba(255,255,255,0.05)' : COLORS.white, borderColor: isDarkMode ? 'rgba(255,255,255,0.1)' : COLORS.gray[200] }]}
-                >
-                  <MaterialCommunityIcons name="google" size={24} color="#DB4437" />
-                </TouchableRipple>
+                  <TouchableRipple
+                    onPress={handleFacebookLogin}
+                    style={[styles.socialIconBtn, { backgroundColor: isDarkMode ? 'rgba(255,255,255,0.05)' : COLORS.white, borderColor: isDarkMode ? 'rgba(255,255,255,0.1)' : COLORS.gray[200] }]}
+                  >
+                    <MaterialCommunityIcons name="facebook" size={24} color="#4267B2" />
+                  </TouchableRipple>
 
-                <TouchableRipple
-                  onPress={handleFacebookLogin}
-                  style={[styles.socialIconBtn, { backgroundColor: isDarkMode ? 'rgba(255,255,255,0.05)' : COLORS.white, borderColor: isDarkMode ? 'rgba(255,255,255,0.1)' : COLORS.gray[200] }]}
-                >
-                  <MaterialCommunityIcons name="facebook" size={24} color="#4267B2" />
-                </TouchableRipple>
+                  <TouchableRipple
+                    onPress={handleAppleLogin}
+                    style={[styles.socialIconBtn, { backgroundColor: isDarkMode ? 'rgba(255,255,255,0.05)' : COLORS.white, borderColor: isDarkMode ? 'rgba(255,255,255,0.1)' : COLORS.gray[200] }]}
+                  >
+                    <MaterialCommunityIcons name="apple" size={24} color={isDarkMode ? COLORS.white : COLORS.black} />
+                  </TouchableRipple>
+                </View>
 
-                <TouchableRipple
-                  onPress={handleAppleLogin}
-                  style={[styles.socialIconBtn, { backgroundColor: isDarkMode ? 'rgba(255,255,255,0.05)' : COLORS.white, borderColor: isDarkMode ? 'rgba(255,255,255,0.1)' : COLORS.gray[200] }]}
-                >
-                  <MaterialCommunityIcons name="apple" size={24} color={isDarkMode ? COLORS.white : COLORS.black} />
-                </TouchableRipple>
-              </View>
-
-              <View style={styles.registerRow}>
-                <Text style={[styles.registerText, { color: isDarkMode ? COLORS.gray[400] : COLORS.gray[600] }]}>
-                  {getString('noAccount') || 'Não tem uma conta?'}
-                </Text>
-                <TouchableRipple onPress={handleGoToRegister} style={styles.registerLink}>
-                  <Text style={[styles.registerLinkText, { color: COLORS.primary[500] }]}>
-                    {getString('register') || 'Cadastre-se'}
+                <View style={styles.registerRow}>
+                  <Text style={[styles.registerText, { color: isDarkMode ? COLORS.gray[400] : COLORS.gray[600] }]}>
+                    {getString('noAccount')}
                   </Text>
-                </TouchableRipple>
-              </View>
-            </ModernCard>
-          </View>
-        </ScrollView>
+                  <TouchableRipple onPress={handleGoToRegister} style={styles.registerLink}>
+                    <Text style={[styles.registerLinkText, { color: COLORS.primary[500] }]}>
+                      {getString('register')}
+                    </Text>
+                  </TouchableRipple>
+                </View>
+              </ModernCard>
+            </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
 
         {/* Sistema de feedback visual para erros */}
-        {enhancedError && (
-          <View style={styles.errorContainer}>
-            <EnhancedErrorMessage
-              errorCode={enhancedError.errorCode}
-              customMessage={enhancedError.customMessage}
-              customTitle={enhancedError.customTitle}
-              onAction={(action) => handleErrorAction(action, navigation, setEmail, setPassword)}
-              onDismiss={clearEnhancedError}
-              compact={false}
-            />
-          </View>
-        )}
+        {
+          enhancedError && (
+            <View style={styles.errorContainer}>
+              <EnhancedErrorMessage
+                errorCode={enhancedError.errorCode}
+                customMessage={enhancedError.customMessage}
+                customTitle={enhancedError.customTitle}
+                onAction={(action) => handleErrorAction(action, navigation, setEmail, setPassword)}
+                onDismiss={clearEnhancedError}
+                compact={false}
+              />
+            </View>
+          )
+        }
 
         {/* Snackbar para feedback */}
         <Snackbar
@@ -507,7 +516,7 @@ export default function LoginScreen({ navigation }) {
         >
           <Text style={styles.snackbarText}>{snackbar.message}</Text>
         </Snackbar>
-      </SafeAreaView>
+      </SafeAreaView >
     </LinearGradient >
   );
 }
@@ -521,7 +530,7 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     flexGrow: 1,
-    paddingBottom: 40,
+    paddingBottom: 80,
   },
   topDecoration: {
     position: 'absolute',
@@ -597,7 +606,7 @@ const styles = StyleSheet.create({
   loginCard: {
     borderRadius: 32,
     padding: 24,
-    borderWidth: 1,
+    borderWidth: 1.5,
   },
   input: {
     marginBottom: 16,
