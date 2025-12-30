@@ -1,12 +1,32 @@
 import React, { useEffect, useRef } from 'react';
-import { View, Animated, StyleSheet, Platform } from 'react-native';
+import { View, Animated, StyleSheet, Platform, StyleProp, ViewStyle, DimensionValue } from 'react-native';
+
+/**
+ * Propriedades para o componente base SkeletonLoader
+ */
+interface SkeletonLoaderProps {
+  /** Largura do esqueleto */
+  width?: DimensionValue;
+  /** Altura do esqueleto */
+  height?: DimensionValue;
+  /** Raio da borda */
+  borderRadius?: number;
+  /** Estilo adicional */
+  style?: StyleProp<ViewStyle>;
+  /** Indica se possui animação shimmer */
+  animated?: boolean;
+  /** Cor de fundo base */
+  backgroundColor?: string;
+  /** Cor do destaque da animação */
+  highlightColor?: string;
+}
 
 /**
  * Componente base para skeleton loading com animação shimmer
  */
-const SkeletonLoader = ({ 
-  width = '100%', 
-  height = 20, 
+const SkeletonLoader: React.FC<SkeletonLoaderProps> = ({
+  width = '100%',
+  height = 20,
   borderRadius = 4,
   style = {},
   animated = true,
@@ -35,11 +55,11 @@ const SkeletonLoader = ({
     outputRange: [-100, 100],
   });
 
-  const skeletonStyle = [
+  const skeletonStyle: StyleProp<ViewStyle> = [
     styles.skeleton,
     {
-      width,
-      height,
+      width: width as any,
+      height: height as any,
       borderRadius,
       backgroundColor,
     },
@@ -57,7 +77,7 @@ const SkeletonLoader = ({
           styles.shimmer,
           {
             backgroundColor: highlightColor,
-            transform: [{ translateX }],
+            transform: [{ translateX } as any],
           },
         ]}
       />
