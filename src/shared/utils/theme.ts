@@ -25,7 +25,7 @@ export const languages: Record<LanguageCode, any> = {
       connectionTimeout: 'Tempo limite de conexão excedido',
       serverError: 'Erro no servidor. Tente novamente mais tarde.',
       validationError: 'Dados inválidos. Verifique os campos.',
-      rateLimitExceeded: 'Muitas tentativas. Aguarde alguns minutos.',
+      rateLimitExceeded: 'Muitas tentativas. Aguarde 5 minutos.',
 
       // ACTIONS
       create: 'Criar',
@@ -102,7 +102,7 @@ export const languages: Record<LanguageCode, any> = {
       warning: 'Aviso',
       info: 'Informação',
       name: 'Nome',
-      email: 'Email',
+      email: 'E-mail',
       phone: 'Telefone',
       address: 'Endereço',
       date: 'Data',
@@ -259,7 +259,6 @@ export const languages: Record<LanguageCode, any> = {
 
       // AUTH/LOGIN
       welcome: 'Bem-vindo de volta!',
-      email: 'E-mail',
       password: 'Senha',
       login: 'Entrar',
       forgotPassword: 'Esqueceu a senha?',
@@ -275,7 +274,6 @@ export const languages: Record<LanguageCode, any> = {
       facebookLoginError: 'Erro ao entrar com Facebook',
       appleLoginError: 'Erro ao entrar com Apple',
       microsoftLoginError: 'Erro ao entrar com Microsoft',
-      rateLimitExceeded: 'Muitas tentativas. Aguarde 5 minutos.',
 
       // SYSTEM
       system: 'system',
@@ -303,7 +301,7 @@ export const languages: Record<LanguageCode, any> = {
       connectionTimeout: 'Connection timeout exceeded',
       serverError: 'Server error. Please try again later.',
       validationError: 'Invalid data. Please check the fields.',
-      rateLimitExceeded: 'Too many attempts. Please wait a few minutes.',
+      rateLimitExceeded: 'Too many attempts. Please wait 5 minutes.',
       reload: 'Reload',
       reset: 'Reset',
       clear: 'Clear',
@@ -494,7 +492,6 @@ export const languages: Record<LanguageCode, any> = {
 
       // AUTH/LOGIN
       welcome: 'Welcome back!',
-      email: 'Email',
       password: 'Password',
       login: 'Login',
       forgotPassword: 'Forgot password?',
@@ -510,7 +507,6 @@ export const languages: Record<LanguageCode, any> = {
       facebookLoginError: 'Facebook login error',
       appleLoginError: 'Apple login error',
       microsoftLoginError: 'Microsoft login error',
-      rateLimitExceeded: 'Too many attempts. Please wait 5 minutes.'
     }
   },
 
@@ -535,7 +531,7 @@ export const languages: Record<LanguageCode, any> = {
       connectionTimeout: 'Tiempo límite de conexión excedido',
       serverError: 'Error del servidor. Intente nuevamente más tarde.',
       validationError: 'Datos inválidos. Verifique los campos.',
-      rateLimitExceeded: 'Demasiados intentos. Espere unos minutos.',
+      rateLimitExceeded: 'Demasiados intentos. Espere 5 minutos.',
 
       // ACTIONS
       create: 'Crear',
@@ -612,7 +608,7 @@ export const languages: Record<LanguageCode, any> = {
       warning: 'Advertencia',
       info: 'Información',
       name: 'Nombre',
-      email: 'Email',
+      email: 'Correo electrónico',
       phone: 'Teléfono',
       address: 'Dirección',
       date: 'Fecha',
@@ -746,7 +742,6 @@ export const languages: Record<LanguageCode, any> = {
 
       // AUTH/LOGIN
       welcome: '¡Bienvenido de nuevo!',
-      email: 'Correo electrónico',
       password: 'Contraseña',
       login: 'Entrar',
       forgotPassword: '¿Olvidó su contraseña?',
@@ -762,7 +757,6 @@ export const languages: Record<LanguageCode, any> = {
       facebookLoginError: 'Error al iniciar con Facebook',
       appleLoginError: 'Error al iniciar con Apple',
       microsoftLoginError: 'Error al iniciar con Microsoft',
-      rateLimitExceeded: 'Demasiados intentos. Espere 5 minutos.'
     }
   }
 };
