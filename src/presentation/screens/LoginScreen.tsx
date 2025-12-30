@@ -31,9 +31,10 @@ import LoginSkeleton from '@components/skeletons/LoginSkeleton';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { getAuthGradient, getAuthCardColors } from '@presentation/theme/authTheme';
 import { getString } from '@utils/theme';
+import type { AuthScreenProps, LoginFormErrors, SnackbarState } from './auth/types';
 
 // Mapear erros de autenticação para códigos do EnhancedErrorMessage
-const mapAuthErrorToCode = (error) => {
+const mapAuthErrorToCode = (error: any): string => {
   const errorCode = error.code || error.name || '';
 
   // Mapear erros específicos do Firebase Auth
@@ -56,7 +57,12 @@ const mapAuthErrorToCode = (error) => {
 };
 
 // Função para lidar com ações do EnhancedErrorMessage
-const handleErrorAction = (action, navigation, setEmail, setPassword) => {
+const handleErrorAction = (
+  action: string,
+  navigation: any,
+  setEmail: (email: string) => void,
+  setPassword: (password: string) => void
+): void => {
   switch (action) {
     case 'focus-email':
       // Focar no campo de email (implementar ref se necessário)
@@ -89,20 +95,24 @@ const handleErrorAction = (action, navigation, setEmail, setPassword) => {
   }
 };
 
-export default function LoginScreen({ navigation }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [languageMenuVisible, setLanguageMenuVisible] = useState(false);
+/**
+ * Tela de login
+ * Permite que o usuário faça login com e-mail/senha ou provedores sociais
+ */
+export default function LoginScreen({ navigation }: AuthScreenProps) {
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [languageMenuVisible, setLanguageMenuVisible] = useState<boolean>(false);
 
   // Feedback states
-  const [snackbar, setSnackbar] = useState({
+  const [snackbar, setSnackbar] = useState<SnackbarState>({
     visible: false,
     message: '',
-    type: 'info' // 'success', 'error', 'info'
+    type: 'info'
   });
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<LoginFormErrors>({});
 
   // Sistema de feedback visual para erros
   const {
@@ -116,9 +126,10 @@ export default function LoginScreen({ navigation }) {
   const { trackButtonClick, trackFeatureUsage } = useUserActionTracking();
 
   const { signIn, signInWithGoogle, signInWithFacebook, signInWithMicrosoft, signInWithApple } = useAuthFacade();
+  // @ts-ignore - ThemeContext needs proper typing
   const { isDarkMode, currentLanguage, languages, theme, toggleDarkMode, changeLanguage, getString } = useTheme();
 
-  const showSnackbar = useCallback((message, type = 'info') => {
+  const showSnackbar = useCallback((message: string, type: SnackbarState['type'] = 'info'): void => {
     setSnackbar({
       visible: true,
       message,
@@ -179,15 +190,15 @@ export default function LoginScreen({ navigation }) {
       // Reset rate limit on success
       rateLimitService.resetLimit(rateLimitKey);
 
-    } catch (error) {
+    } catch (error: any) {
       console.error('Erro no login:', error);
 
       // Track failed login (without exposing email)
       const emailDomain = email.trim().split('@')[1] || 'unknown';
       trackFeatureUsage('login_failed', {
         emailDomain,
-        errorCode: error.code || error.name,
-        errorType: error.code?.split('/')[1] || error.name || 'unknown'
+        errorCode: error?.code || error?.name,
+        errorType: error?.code?.split('/')[1] || error?.name || 'unknown'
       });
 
       // Mapear erro para código do EnhancedErrorMessage
@@ -291,7 +302,7 @@ export default function LoginScreen({ navigation }) {
 
   return (
     <LinearGradient
-      colors={getAuthGradient(isDarkMode)}
+      colors={getAuthGradient(isDarkMode) as any}
       style={styles.gradient}
     >
       <SafeAreaView style={styles.container}>
@@ -393,7 +404,7 @@ export default function LoginScreen({ navigation }) {
                   value={email}
                   onChangeText={(text) => {
                     setEmail(text);
-                    if (errors.email) setErrors(prev => ({ ...prev, email: null }));
+                    if (errors.email) setErrors(prev => ({ ...prev, email: undefined }));
                   }}
                   style={styles.input}
                   keyboardType="email-address"
@@ -407,7 +418,7 @@ export default function LoginScreen({ navigation }) {
                   value={password}
                   onChangeText={(text) => {
                     setPassword(text);
-                    if (errors.password) setErrors(prev => ({ ...prev, password: null }));
+                    if (errors.password) setErrors(prev => ({ ...prev, password: undefined }));
                   }}
                   secureTextEntry={!showPassword}
                   style={styles.input}
@@ -488,8 +499,8 @@ export default function LoginScreen({ navigation }) {
             <View style={styles.errorContainer}>
               <EnhancedErrorMessage
                 errorCode={enhancedError.errorCode}
-                customMessage={enhancedError.customMessage}
-                customTitle={enhancedError.customTitle}
+                customMessage={enhancedError.customMessage || undefined}
+                customTitle={enhancedError.customTitle || undefined}
                 onAction={(action) => handleErrorAction(action, navigation, setEmail, setPassword)}
                 onDismiss={clearEnhancedError}
                 compact={false}

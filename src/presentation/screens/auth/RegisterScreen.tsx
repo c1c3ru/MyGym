@@ -20,13 +20,19 @@ import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { getAuthGradient, getAuthCardColors } from '@presentation/theme/authTheme';
+import type { AuthScreenProps, RegisterFormData, RegisterFormErrors, SnackbarState } from './types';
 
 const { width } = Dimensions.get('window');
 
-const RegisterScreen = ({ navigation }) => {
+/**
+ * Tela de cadastro
+ * Permite que o usuário crie uma nova conta
+ */
+const RegisterScreen = ({ navigation }: AuthScreenProps) => {
+  // @ts-ignore - ThemeContext needs proper typing
   const { isDarkMode, getString } = useTheme();
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<RegisterFormData>({
     name: '',
     email: '',
     password: '',
@@ -36,11 +42,11 @@ const RegisterScreen = ({ navigation }) => {
     acceptTerms: false,
     acceptPrivacyPolicy: false
   });
-  const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [errors, setErrors] = useState({});
-  const [snackbar, setSnackbar] = useState({ visible: false, message: '', type: 'error' });
+  const [loading, setLoading] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
+  const [errors, setErrors] = useState<RegisterFormErrors>({});
+  const [snackbar, setSnackbar] = useState<SnackbarState>({ visible: false, message: '', type: 'error' });
 
   // Animações
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -70,8 +76,8 @@ const RegisterScreen = ({ navigation }) => {
     ]).start();
   }, []);
 
-  const validateForm = () => {
-    const newErrors = {};
+  const validateForm = (): boolean => {
+    const newErrors: RegisterFormErrors = {};
 
     if (!formData.name.trim()) {
       newErrors.name = getString('nameRequired');
@@ -103,7 +109,7 @@ const RegisterScreen = ({ navigation }) => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const showSnackbar = (message, type = 'error') => {
+  const showSnackbar = (message: string, type: SnackbarState['type'] = 'error'): void => {
     setSnackbar({ visible: true, message, type });
   };
 
@@ -136,7 +142,7 @@ const RegisterScreen = ({ navigation }) => {
           useNativeDriver: Platform.OS !== 'web',
         }),
       ]).start();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Erro no cadastro:', error);
       let errorMessage = getString('registrationError');
 
@@ -169,15 +175,15 @@ const RegisterScreen = ({ navigation }) => {
     }
   };
 
-  const updateFormData = (field, value) => {
+  const updateFormData = (field: keyof RegisterFormData, value: any): void => {
     setFormData(prev => ({ ...prev, [field]: value }));
     // Limpar erro do campo quando usuário começar a digitar
-    if (errors[field]) {
-      setErrors(prev => ({ ...prev, [field]: null }));
+    if (errors[field as keyof RegisterFormErrors]) {
+      setErrors(prev => ({ ...prev, [field]: undefined }));
     }
   };
 
-  const getUserTypeIcon = (type) => {
+  const getUserTypeIcon = (type: string): string => {
     switch (type) {
       case 'student': return 'school';
       case 'instructor': return 'account-tie';
@@ -186,7 +192,7 @@ const RegisterScreen = ({ navigation }) => {
     }
   };
 
-  const getUserTypeColor = (type) => {
+  const getUserTypeColor = (type: string): string => {
     switch (type) {
       case 'student': return COLORS.primary[500];
       case 'instructor': return COLORS.warning[500];
@@ -197,7 +203,7 @@ const RegisterScreen = ({ navigation }) => {
 
   return (
     <LinearGradient
-      colors={getAuthGradient(isDarkMode)}
+      colors={getAuthGradient(isDarkMode) as any}
       style={styles.gradient}
     >
       <SafeAreaView style={styles.container}>
@@ -520,7 +526,7 @@ const styles = StyleSheet.create({
   scrollContainer: {
     flexGrow: 1,
     padding: SPACING.lg,
-    paddingBottom: SPACING.md0,
+    paddingBottom: SPACING.lg,
   },
   header: {
     alignItems: 'center',
@@ -546,7 +552,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: FONT_SIZE.xxxl,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: FONT_WEIGHT.bold as any,
     color: COLORS.white,
     marginBottom: SPACING.sm,
     ...Platform.select({
@@ -687,7 +693,7 @@ const styles = StyleSheet.create({
   button: {
     marginTop: SPACING.base,
     paddingVertical: SPACING.xs,
-    borderRadius: BORDER_RADIUS.xs5,
+    borderRadius: BORDER_RADIUS.lg,
     elevation: 3,
   },
   buttonContent: {

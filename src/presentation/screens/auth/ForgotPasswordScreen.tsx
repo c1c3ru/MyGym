@@ -22,22 +22,31 @@ import { useTheme } from '@contexts/ThemeContext';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { getAuthGradient, getAuthCardColors } from '@presentation/theme/authTheme';
 import { getString } from '@utils/theme';
+import type { AuthScreenProps, ForgotPasswordFormErrors, SnackbarState } from './types';
 
-export default function ForgotPasswordScreen({ navigation }) {
+/**
+ * Tela de recuperação de senha
+ * Permite que o usuário solicite um e-mail de redefinição de senha
+ */
+export default function ForgotPasswordScreen({ navigation }: AuthScreenProps) {
+  // @ts-ignore - ThemeContext needs proper typing
   const { isDarkMode, theme, getString } = useTheme();
-  const [email, setEmail] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [emailSent, setEmailSent] = useState(false);
+  const [email, setEmail] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
+  const [emailSent, setEmailSent] = useState<boolean>(false);
 
   // Feedback states
-  const [snackbar, setSnackbar] = useState({
+  const [snackbar, setSnackbar] = useState<SnackbarState>({
     visible: false,
     message: '',
-    type: 'info' // 'success', 'error', 'info'
+    type: 'info'
   });
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<ForgotPasswordFormErrors>({});
 
-  const showSnackbar = (message, type = 'info') => {
+  /**
+   * Exibe uma mensagem de feedback ao usuário
+   */
+  const showSnackbar = (message: string, type: SnackbarState['type'] = 'info'): void => {
     setSnackbar({
       visible: true,
       message,
@@ -45,12 +54,19 @@ export default function ForgotPasswordScreen({ navigation }) {
     });
   };
 
-  const hideSnackbar = () => {
+  /**
+   * Oculta a mensagem de feedback
+   */
+  const hideSnackbar = (): void => {
     setSnackbar(prev => ({ ...prev, visible: false }));
   };
 
-  const validateEmail = () => {
-    const newErrors = {};
+  /**
+   * Valida o e-mail fornecido
+   * @returns true se o e-mail é válido, false caso contrário
+   */
+  const validateEmail = (): boolean => {
+    const newErrors: ForgotPasswordFormErrors = {};
 
     if (!email.trim()) {
       newErrors.email = getString('emailRequired');
@@ -62,7 +78,10 @@ export default function ForgotPasswordScreen({ navigation }) {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleResetPassword = async () => {
+  /**
+   * Envia o e-mail de recuperação de senha
+   */
+  const handleResetPassword = async (): Promise<void> => {
     if (!validateEmail()) {
       showSnackbar(getString('pleaseValidEmail'), 'error');
       return;
@@ -85,7 +104,7 @@ export default function ForgotPasswordScreen({ navigation }) {
       setTimeout(() => {
         navigation.goBack();
       }, 5000);
-    } catch (error) {
+    } catch (error: any) {
       console.error('❌ Erro detalhado ao enviar email:', error);
       console.error('❌ Error code:', error.code);
       console.error('❌ Error message:', error.message);
@@ -115,7 +134,7 @@ export default function ForgotPasswordScreen({ navigation }) {
 
   return (
     <LinearGradient
-      colors={getAuthGradient(isDarkMode)}
+      colors={getAuthGradient(isDarkMode) as any}
       style={styles.gradient}
     >
       <SafeAreaView style={styles.container}>
@@ -156,7 +175,7 @@ export default function ForgotPasswordScreen({ navigation }) {
                         onChangeText={(text) => {
                           setEmail(text);
                           if (errors.email) {
-                            setErrors(prev => ({ ...prev, email: null }));
+                            setErrors(prev => ({ ...prev, email: undefined }));
                           }
                         }}
                         mode="outlined"
