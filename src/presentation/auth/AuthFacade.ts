@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import useAuthStore from '@presentation/stores/AuthUIStore';
 import { AuthState, AuthSelectors } from './selectors';
 import { useNotification } from '@presentation/contexts/NotificationContext';
-import { 
+import {
   SignInWithEmailUseCase,
   SignUpWithEmailUseCase,
   SignOutUseCase,
@@ -56,13 +56,13 @@ function initializeCleanArchitecture() {
   try {
     const { auth, db } = initializeFirebaseServices();
     repository = new FirebaseAuthRepository(auth, db);
-    
+
     signInUseCase = new SignInWithEmailUseCase(repository);
     signUpUseCase = new SignUpWithEmailUseCase(repository);
     signOutUseCase = new SignOutUseCase(repository);
     getUserSessionUseCase = new GetUserSessionUseCase(repository);
     sendPasswordResetUseCase = new SendPasswordResetEmailUseCase(repository);
-    
+
     return repository;
   } catch (error) {
     console.error('Error initializing Clean Architecture:', error);
@@ -72,7 +72,7 @@ function initializeCleanArchitecture() {
 
 export function useAuthFacade() {
   const { showError } = useNotification();
-  
+
   const {
     setUser,
     setUserProfile,
@@ -108,7 +108,7 @@ export function useAuthFacade() {
   const signIn = async (email: string, password: string) => {
     try {
       const session = await signInUseCase.execute({ email, password });
-      
+
       setUser(session.user);
       setUserProfile(session.userProfile);
       setCustomClaims(session.claims);
@@ -121,20 +121,20 @@ export function useAuthFacade() {
         session.userProfile.userType,
         session.academia?.id
       );
-      
+
       return session.user;
     } catch (error) {
       const errorName = getErrorName(error);
       const errorMessage = getErrorMessage(error);
-      
+
       // Tratamento especial para UserProfileNotFoundError
       if (errorName === getString('userProfileNotFoundError')) {
         console.log('👤 Login realizado mas perfil não encontrado. Usuário precisa criar perfil.');
-        
+
         // Não manter o usuário autenticado automaticamente
         // Apenas informar sobre a necessidade de criar perfil
         showError('Suas credenciais estão corretas, mas você ainda não possui um perfil cadastrado. Deseja criar seu perfil agora?');
-        
+
         // Criar um erro customizado que a interface pode capturar
         // A interface pode capturar este erro e mostrar um modal/dialog
         // oferecendo a opção de ir para a página de cadastro
@@ -144,11 +144,11 @@ export function useAuthFacade() {
         (profileError as any).password = password; // Anexar password para uso posterior
         throw profileError;
       }
-      
+
       // Para outros erros, fazer log e tratamento normal
       crashlyticsService.logAuthError(error, { method: 'signIn' });
       console.error('🔐 Erro no login:', { errorName, errorMessage });
-      
+
       switch (errorName) {
         case 'unauthorizedError':
           showError('Acesso não autorizado. Verifique se seu email e senha estão corretos.');
@@ -175,7 +175,7 @@ export function useAuthFacade() {
           showError(`Erro no login: ${errorMessage || 'Tente novamente ou entre em contato com o suporte.'}`);
           break;
       }
-      
+
       throw error;
     }
   };
@@ -191,21 +191,21 @@ export function useAuthFacade() {
         acceptTerms: userData.acceptTerms ?? false,
         acceptPrivacyPolicy: userData.acceptPrivacyPolicy ?? false
       });
-      
+
       setUser(session.user);
       setUserProfile(session.userProfile);
       setCustomClaims(session.claims);
-      
+
       return session.user;
     } catch (error) {
       crashlyticsService.logAuthError(error, { method: 'signUp' });
-      
+
       // Mostrar feedback visual para erros de registro
       const errorName = getErrorName(error);
       const errorMessage = getErrorMessage(error);
-      
+
       console.error('📝 Erro no registro:', { errorName, errorMessage });
-      
+
       switch (errorName) {
         case 'EmailAlreadyInUseError':
           showError('Este email já está sendo usado. Tente fazer login ou use outro email.');
@@ -226,7 +226,7 @@ export function useAuthFacade() {
           showError(`Erro no registro: ${errorMessage || 'Tente novamente ou entre em contato com o suporte.'}`);
           break;
       }
-      
+
       throw error;
     }
   };
@@ -247,12 +247,12 @@ export function useAuthFacade() {
       showError('Email de recuperação enviado! Verifique sua caixa de entrada.');
     } catch (error) {
       crashlyticsService.logAuthError(error, { method: 'sendPasswordResetEmail' });
-      
+
       const errorName = getErrorName(error);
       const errorMessage = getErrorMessage(error);
-      
+
       console.error('📧 Erro ao enviar email de recuperação:', { errorName, errorMessage });
-      
+
       switch (errorName) {
         case 'UserNotFoundError':
           showError('Email não encontrado. Verifique o endereço ou crie uma conta.');
@@ -270,18 +270,23 @@ export function useAuthFacade() {
           showError(`Erro ao enviar email: ${errorMessage || getString('tryAgainPeriod')}`);
           break;
       }
-      
+
       throw error;
     }
   };
 
   const signInWithGoogle = async () => {
     try {
+      console.log('🔍 [AuthFacade] Iniciando signInWithGoogle...');
       const user = await repository!.signInWithGoogle();
-      
+
+      console.log('✅ [AuthFacade] Autenticado com sucesso via Google. UID:', user.id);
+
       try {
+        console.log('🔍 [AuthFacade] Carregando sessão para o usuário do Google...');
         const session = await getUserSessionUseCase.execute(user);
-        
+
+        console.log('✅ [AuthFacade] Sessão carregada com sucesso para usuário Google');
         setUser(session.user);
         setUserProfile(session.userProfile);
         setCustomClaims(session.claims);
@@ -289,34 +294,31 @@ export function useAuthFacade() {
           setGym(session.academia);
         }
       } catch (sessionError) {
-        console.log('👤 Usuário autenticado via Google mas sem perfil. Direcionando para criação...');
-        
-        // Mantém o usuário autenticado mas sem perfil completo
+        console.log('👤 [AuthFacade] Usuário autenticado via Google mas sem perfil. Direcionando para criação...');
+        // ... (rest of the logic remains same but with logs)
         setUser(user);
         setUserProfile(null);
         setCustomClaims({
-          role: 'student', // Papel padrão temporário
+          role: 'student',
           academiaId: undefined,
           permissions: []
         });
         setGym(null);
-        
-        // Notificação amigável para usuários do Google
+
         const errorName = getErrorName(sessionError);
         if (errorName === getString('userProfileNotFoundError')) {
           showError(getString('welcomeFirstAccess'));
         }
       }
-      
+
       return user;
     } catch (error) {
+      console.error('❌ [AuthFacade] Erro no fluxo de login com Google:', error);
       crashlyticsService.logAuthError(error, { method: 'signInWithGoogle' });
-      
+      // ... rest of the error handling
       const errorName = getErrorName(error);
       const errorMessage = getErrorMessage(error);
-      
-      console.error('🔍 Erro no login com Google:', { errorName, errorMessage });
-      
+
       switch (errorName) {
         case 'networkError':
           showError(getString('networkError'));
@@ -328,7 +330,7 @@ export function useAuthFacade() {
           showError(`Erro no login com Google: ${errorMessage || getString('tryAgainPeriod')}`);
           break;
       }
-      
+
       throw error;
     }
   };
@@ -336,10 +338,10 @@ export function useAuthFacade() {
   const signInWithFacebook = async () => {
     try {
       const user = await repository!.signInWithFacebook();
-      
+
       try {
         const session = await getUserSessionUseCase.execute(user);
-        
+
         setUser(session.user);
         setUserProfile(session.userProfile);
         setCustomClaims(session.claims);
@@ -348,7 +350,7 @@ export function useAuthFacade() {
         }
       } catch (sessionError) {
         console.log('👤 Usuário autenticado via Facebook mas sem perfil. Direcionando para criação...');
-        
+
         // Mantém o usuário autenticado mas sem perfil completo
         setUser(user);
         setUserProfile(null);
@@ -358,23 +360,23 @@ export function useAuthFacade() {
           permissions: []
         });
         setGym(null);
-        
+
         // Notificação amigável para usuários do Facebook
         const errorName = getErrorName(sessionError);
         if (errorName === getString('userProfileNotFoundError')) {
           showError(getString('welcomeFirstAccess'));
         }
       }
-      
+
       return user;
     } catch (error) {
       crashlyticsService.logAuthError(error, { method: 'signInWithFacebook' });
-      
+
       const errorName = getErrorName(error);
       const errorMessage = getErrorMessage(error);
-      
+
       console.error('📘 Erro no login com Facebook:', { errorName, errorMessage });
-      
+
       switch (errorName) {
         case 'networkError':
           showError(getString('networkError'));
@@ -386,7 +388,7 @@ export function useAuthFacade() {
           showError(`Erro no login com Facebook: ${errorMessage || getString('tryAgainPeriod')}`);
           break;
       }
-      
+
       throw error;
     }
   };
@@ -394,10 +396,10 @@ export function useAuthFacade() {
   const signInWithMicrosoft = async () => {
     try {
       const user = await repository!.signInWithMicrosoft();
-      
+
       try {
         const session = await getUserSessionUseCase.execute(user);
-        
+
         setUser(session.user);
         setUserProfile(session.userProfile);
         setCustomClaims(session.claims);
@@ -406,7 +408,7 @@ export function useAuthFacade() {
         }
       } catch (sessionError) {
         console.log('👤 Usuário autenticado via Microsoft mas sem perfil. Direcionando para criação...');
-        
+
         // Mantém o usuário autenticado mas sem perfil completo
         setUser(user);
         setUserProfile(null);
@@ -416,23 +418,23 @@ export function useAuthFacade() {
           permissions: []
         });
         setGym(null);
-        
+
         // Notificação amigável para usuários do Microsoft
         const errorName = getErrorName(sessionError);
         if (errorName === getString('userProfileNotFoundError')) {
           showError(getString('welcomeFirstAccess'));
         }
       }
-      
+
       return user;
     } catch (error) {
       crashlyticsService.logAuthError(error, { method: 'signInWithMicrosoft' });
-      
+
       const errorName = getErrorName(error);
       const errorMessage = getErrorMessage(error);
-      
+
       console.error('🔷 Erro no login com Microsoft:', { errorName, errorMessage });
-      
+
       switch (errorName) {
         case 'networkError':
           showError(getString('networkError'));
@@ -444,7 +446,7 @@ export function useAuthFacade() {
           showError(`Erro no login com Microsoft: ${errorMessage || getString('tryAgainPeriod')}`);
           break;
       }
-      
+
       throw error;
     }
   };
@@ -452,10 +454,10 @@ export function useAuthFacade() {
   const signInWithApple = async () => {
     try {
       const user = await repository!.signInWithApple();
-      
+
       try {
         const session = await getUserSessionUseCase.execute(user);
-        
+
         setUser(session.user);
         setUserProfile(session.userProfile);
         setCustomClaims(session.claims);
@@ -464,7 +466,7 @@ export function useAuthFacade() {
         }
       } catch (sessionError) {
         console.log('👤 Usuário autenticado via Apple mas sem perfil. Direcionando para criação...');
-        
+
         // Mantém o usuário autenticado mas sem perfil completo
         setUser(user);
         setUserProfile(null);
@@ -474,23 +476,23 @@ export function useAuthFacade() {
           permissions: []
         });
         setGym(null);
-        
+
         // Notificação amigável para usuários do Apple
         const errorName = getErrorName(sessionError);
         if (errorName === getString('userProfileNotFoundError')) {
           showError(getString('welcomeFirstAccess'));
         }
       }
-      
+
       return user;
     } catch (error) {
       crashlyticsService.logAuthError(error, { method: 'signInWithApple' });
-      
+
       const errorName = getErrorName(error);
       const errorMessage = getErrorMessage(error);
-      
+
       console.error('🍎 Erro no login com Apple:', { errorName, errorMessage });
-      
+
       switch (errorName) {
         case 'networkError':
           showError(getString('networkError'));
@@ -502,7 +504,7 @@ export function useAuthFacade() {
           showError(`Erro no login com Apple: ${errorMessage || getString('tryAgainPeriod')}`);
           break;
       }
-      
+
       throw error;
     }
   };
@@ -511,7 +513,7 @@ export function useAuthFacade() {
     if (authListenerInitialized) return;
 
     authListenerInitialized = true;
-    
+
     let loadingTimeout = setTimeout(() => {
       setLoading(false);
     }, 10000);
@@ -533,11 +535,11 @@ export function useAuthFacade() {
                 // Verificar o tipo de erro antes de logar
                 const errorName = getErrorName(error);
                 const errorMessage = getErrorMessage(error);
-                
+
                 if (errorName === getString('userProfileNotFoundError')) {
                   // Este é um cenário esperado, não um erro crítico
                   console.log('👤 Usuário autenticado mas sem perfil. Direcionando para criação de perfil...');
-                  
+
                   // Mantém o usuário autenticado mas sem perfil completo
                   setUser(user);
                   setUserProfile(null);
@@ -547,15 +549,15 @@ export function useAuthFacade() {
                     permissions: []
                   });
                   setGym(null);
-                  
+
                   // Notificação amigável direcionando para criação de perfil
                   showError('Bem-vindo! Precisamos configurar seu perfil para continuar. Por favor, complete suas informações.');
-                  
+
                 } else {
                   // Para outros erros críticos, logar como erro e fazer logout
                   console.error('🚨 Erro crítico ao carregar sessão do usuário:', { errorName, errorMessage, error });
                   crashlyticsService.logAuthError(error, { method: 'authStateListener' });
-                  
+
                   showError('Erro crítico na sessão. Fazendo logout por segurança.');
                   logout();
                 }
@@ -563,7 +565,7 @@ export function useAuthFacade() {
             } else {
               logout();
             }
-            
+
             clearTimeout(loadingTimeout);
             setLoading(false);
           });
@@ -594,7 +596,7 @@ export function useAuthFacade() {
     customClaims: AuthSelectors.getClaims(authState),
     loading: AuthSelectors.isLoading(authState),
     isAuthenticated: AuthSelectors.isAuthenticated(authState),
-    
+
     signIn,
     signUp,
     signOut: signOutUser,
@@ -603,7 +605,7 @@ export function useAuthFacade() {
     signInWithMicrosoft,
     signInWithApple,
     sendPasswordResetEmail,
-    
+
     getUserType: () => AuthSelectors.getUserType(authState),
     isComplete: () => AuthSelectors.isComplete(authState),
     hasValidClaims: () => AuthSelectors.hasValidClaims(authState),
@@ -613,7 +615,7 @@ export function useAuthFacade() {
     getAcademiaId: () => AuthSelectors.getAcademiaId(authState),
     getAcademiaName: () => AuthSelectors.getAcademiaName(authState),
     getAuthSession: () => AuthSelectors.getAuthSession(authState),
-    
+
     // Novos métodos para verificar estado do perfil
     needsProfileCreation: () => {
       return AuthSelectors.isAuthenticated(authState) && !AuthSelectors.getUserProfile(authState);
@@ -622,15 +624,15 @@ export function useAuthFacade() {
       const profile = AuthSelectors.getUserProfile(authState);
       return AuthSelectors.isAuthenticated(authState) && (!profile || !AuthSelectors.isComplete(authState));
     },
-    
+
     // Método para iniciar processo de criação de perfil após login
     startProfileCreation: async (email: string, password: string) => {
       try {
         console.log('🚀 Iniciando processo de criação de perfil...');
-        
+
         // Fazer login novamente para obter o usuário autenticado
         const user = await repository!.signInWithEmail({ email, password });
-        
+
         // Configurar estado temporário para criação de perfil
         setUser(user);
         setUserProfile(null);
@@ -640,10 +642,10 @@ export function useAuthFacade() {
           permissions: []
         });
         setGym(null);
-        
+
         console.log('✅ Usuário preparado para criação de perfil');
         return user;
-        
+
       } catch (error) {
         console.error('❌ Erro ao iniciar criação de perfil:', error);
         throw error;
