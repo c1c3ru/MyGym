@@ -2,7 +2,8 @@
 import { COLORS } from '@presentation/theme/designTokens';
 import { LIGHT_THEME } from '@presentation/theme/lightTheme';
 
-export const languages = {
+export type LanguageCode = 'pt' | 'en' | 'es';
+export const languages: Record<LanguageCode, any> = {
   pt: {
     code: 'pt',
     name: 'Português',
@@ -707,7 +708,7 @@ export const languages = {
 };
 
 // Helper functions
-export const getString = (key, language = 'pt') => {
+export const getString = (key: string, language: LanguageCode = 'pt'): string => {
   try {
     return languages[language]?.strings?.[key] || key;
   } catch (error) {
@@ -716,20 +717,20 @@ export const getString = (key, language = 'pt') => {
   }
 };
 
-export const getLanguages = () => {
-  return Object.keys(languages).map(code => ({
+export const getLanguages = (): { code: LanguageCode; name: string; flag: string }[] => {
+  return (Object.keys(languages) as LanguageCode[]).map((code) => ({
     code,
-    name: languages[code].name,
-    flag: languages[code].flag
+    name: languages[code].name as string,
+    flag: languages[code].flag as string,
   }));
 };
 
-export const isLanguageSupported = (language) => {
-  return Object.keys(languages).includes(language);
+export const isLanguageSupported = (language: string): language is LanguageCode => {
+  return (Object.keys(languages) as string[]).includes(language);
 };
 
 // Temas básicos usando design tokens
-export const lightTheme = {
+export const lightTheme: { colors: Record<string, string> } = {
   colors: {
     primary: COLORS.primary[500],
     primaryVariant: COLORS.primary[700],
@@ -744,7 +745,7 @@ export const lightTheme = {
   }
 };
 
-export const darkTheme = {
+export const darkTheme: { colors: Record<string, string> } = {
   colors: {
     primary: COLORS.primary[400],
     primaryVariant: COLORS.primary[300],
@@ -760,7 +761,10 @@ export const darkTheme = {
 };
 
 // Função para obter tema baseado no tipo de usuário
-export const getThemeForUserType = (userType = 'student', isDarkMode = false) => {
+export const getThemeForUserType = (
+  userType: 'student' | 'instructor' | 'admin' = 'student',
+  isDarkMode: boolean = false
+): { colors: Record<string, string>; userType: string; isDarkMode: boolean } => {
   const baseTheme = isDarkMode ? darkTheme : lightTheme;
   
   // Cores específicas por tipo de usuário usando design tokens
