@@ -1,4 +1,4 @@
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { COLORS, FONT_SIZE, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import {
   APP_COLORS,
   PROFILE_COLORS,
@@ -64,7 +64,7 @@ export const PROFESSIONAL_COLORS = {
   }
 };
 
-export const getThemeColors = (userType) => {
+export const getThemeColors = (userType: 'admin' | 'instructor' | 'student') => {
   console.warn('getThemeColors() is deprecated. Use useCustomClaims().getUserTypeColor() instead.');
   return getProfileColors(userType);
 };
