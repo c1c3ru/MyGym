@@ -1,10 +1,17 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, type StyleProp, type ViewStyle } from 'react-native';
 import { ActivityIndicator, Text } from 'react-native-paper';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { getString } from '@utils/theme';
 
-const LoadingSpinner = ({ 
+type LoadingSpinnerProps = {
+  size?: 'small' | 'large' | number;
+  color?: string;
+  message?: string;
+  style?: StyleProp<ViewStyle>;
+};
+
+const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({ 
   size = 'large', 
   color = COLORS.info[500], 
   message = getString('loadingState'), 
