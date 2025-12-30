@@ -19,8 +19,6 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { useThemeToggle } from '@contexts/ThemeToggleContext';
-import { getString } from '@utils/theme';
 
 const { width } = Dimensions.get('window');
 
