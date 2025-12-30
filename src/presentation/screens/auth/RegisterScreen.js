@@ -19,6 +19,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { getAuthGradient, getAuthCardColors } from '@presentation/theme/authTheme';
 
 const { width } = Dimensions.get('window');
 
@@ -196,7 +197,7 @@ const RegisterScreen = ({ navigation }) => {
 
   return (
     <LinearGradient
-      colors={isDarkMode ? COLORS.gradients.dark : COLORS.gradients.accent}
+      colors={getAuthGradient(isDarkMode)}
       style={styles.gradient}
     >
       <SafeAreaView style={styles.container}>
@@ -235,10 +236,7 @@ const RegisterScreen = ({ navigation }) => {
           >
             <View style={[
               styles.card,
-              {
-                backgroundColor: isDarkMode ? 'rgba(30, 30, 30, 0.4)' : 'rgba(255, 255, 255, 0.6)',
-                borderColor: isDarkMode ? 'rgba(255, 255, 255, 0.15)' : 'rgba(0, 0, 0, 0.1)',
-              }
+              getAuthCardColors(isDarkMode),
             ]}>
               <Card.Content>
                 <Text style={[styles.cardTitle, { color: isDarkMode ? COLORS.white : COLORS.black }]}>{getString('personalData')}</Text>

@@ -29,6 +29,7 @@ import { useFormValidation } from '@hooks/useFormValidation';
 import { rateLimitService } from '@services/rateLimitService';
 import LoginSkeleton from '@components/skeletons/LoginSkeleton';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { getAuthGradient, getAuthCardColors } from '@presentation/theme/authTheme';
 import { getString } from '@utils/theme';
 
 // Mapear erros de autenticação para códigos do EnhancedErrorMessage
@@ -290,7 +291,7 @@ export default function LoginScreen({ navigation }) {
 
   return (
     <LinearGradient
-      colors={isDarkMode ? [COLORS.secondary[900], COLORS.secondary[800], COLORS.black] : [COLORS.primary[50], COLORS.white]}
+      colors={getAuthGradient(isDarkMode)}
       style={styles.gradient}
     >
       <SafeAreaView style={styles.container}>
@@ -381,9 +382,8 @@ export default function LoginScreen({ navigation }) {
               <ModernCard
                 style={[
                   styles.loginCard,
+                  getAuthCardColors(isDarkMode),
                   {
-                    backgroundColor: isDarkMode ? 'rgba(30, 30, 30, 0.4)' : 'rgba(255, 255, 255, 0.6)',
-                    borderColor: isDarkMode ? 'rgba(255, 255, 255, 0.15)' : 'rgba(255, 255, 255, 0.4)',
                     backdropFilter: 'blur(10px)', // Para web se suportado
                   }
                 ]}

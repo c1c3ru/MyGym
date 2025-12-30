@@ -20,6 +20,7 @@ import AnimatedButton from '@components/AnimatedButton';
 import { ResponsiveUtils } from '@utils/animations';
 import { useTheme } from '@contexts/ThemeContext';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { getAuthGradient, getAuthCardColors } from '@presentation/theme/authTheme';
 import { getString } from '@utils/theme';
 
 export default function ForgotPasswordScreen({ navigation }) {
@@ -114,7 +115,7 @@ export default function ForgotPasswordScreen({ navigation }) {
 
   return (
     <LinearGradient
-      colors={COLORS.gradients.dark}
+      colors={getAuthGradient(isDarkMode)}
       style={styles.gradient}
     >
       <SafeAreaView style={styles.container}>
@@ -142,7 +143,10 @@ export default function ForgotPasswordScreen({ navigation }) {
             </View>
 
             <View style={styles.content}>
-              <AnimatedCard elevation="medium" animationType="fadeIn">
+              <View style={[
+                styles.cardWrapper,
+                getAuthCardColors(isDarkMode),
+              ]}>
                 <Card.Content style={styles.cardContent}>
                   {!emailSent ? (
                     <>
@@ -205,7 +209,7 @@ export default function ForgotPasswordScreen({ navigation }) {
                     </Button>
                   </View>
                 </Card.Content>
-              </AnimatedCard>
+              </View>
             </View>
           </ScrollView>
         </KeyboardAvoidingView>
@@ -278,6 +282,24 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     width: '100%',
     justifyContent: 'center',
+  },
+  cardWrapper: {
+    borderRadius: BORDER_RADIUS.lg,
+    borderWidth: 1.5,
+    overflow: 'hidden',
+    ...Platform.select({
+      web: {
+        backdropFilter: 'blur(10px)',
+        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
+      },
+      default: {
+        elevation: 8,
+        shadowColor: COLORS.black,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 4.65,
+      }
+    }),
   },
   cardContent: {
     padding: ResponsiveUtils?.spacing?.lg || 24,
