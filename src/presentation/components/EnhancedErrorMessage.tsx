@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, type StyleProp, type ViewStyle, type TextStyle } from 'react-native';
 import {
   Text,
   Button,
@@ -20,7 +20,17 @@ import { getString } from '@utils/theme';
 // ============================================
 // CATÁLOGO DE ERROS MELHORADOS
 // ============================================
-const ERROR_CATALOG = {
+type ErrorAction = { label: string; action: string };
+type ErrorCatalogEntry = {
+  title: string;
+  message: string;
+  icon: string;
+  color: 'error' | 'warning' | 'info' | string;
+  actions?: ErrorAction[];
+  helpLink?: string | null;
+};
+
+const ERROR_CATALOG: Record<string, ErrorCatalogEntry> = {
   // Erros de Rede
   'network/offline': {
     title: 'Sem conexão com a internet',
@@ -179,7 +189,17 @@ const ERROR_CATALOG = {
 // ============================================
 // COMPONENTE PRINCIPAL
 // ============================================
-const EnhancedErrorMessage = ({
+type EnhancedErrorMessageProps = {
+  errorCode: string;
+  customMessage?: string;
+  customTitle?: string;
+  onAction?: (action: string) => void;
+  onDismiss?: () => void;
+  style?: StyleProp<ViewStyle>;
+  compact?: boolean;
+};
+
+const EnhancedErrorMessage: React.FC<EnhancedErrorMessageProps> = ({
   errorCode,
   customMessage,
   customTitle,
@@ -188,7 +208,8 @@ const EnhancedErrorMessage = ({
   style,
   compact = false,
 }) => {
-  const errorInfo = ERROR_CATALOG[errorCode] || ERROR_CATALOG['unknown'];
+  const code = (errorCode && ERROR_CATALOG[errorCode]) ? errorCode : 'unknown';
+  const errorInfo = ERROR_CATALOG[code];
   
   const title = customTitle || errorInfo.title;
   const message = customMessage || errorInfo.message;
@@ -196,7 +217,7 @@ const EnhancedErrorMessage = ({
   const colorType = errorInfo.color;
   const actions = errorInfo.actions;
 
-  const getColorByType = (type) => {
+  const getColorByType = (type: 'error' | 'warning' | 'info' | string): string => {
     switch (type) {
       case 'error':
         return COLORS.error[500];
@@ -214,7 +235,7 @@ const EnhancedErrorMessage = ({
   if (compact) {
     return (
       <View style={[styles.compactContainer, style]}>
-        <MaterialCommunityIcons name={iconName} size={20} color={color} />
+        <MaterialCommunityIcons name={iconName as any} size={20} color={color} />
         <Text style={[styles.compactMessage, { color }]}>{message}</Text>
         {onDismiss && (
           <IconButton
@@ -239,10 +260,10 @@ const EnhancedErrorMessage = ({
         {/* Header com ícone e título */}
         <View style={styles.header}>
           <View style={[styles.iconContainer, { backgroundColor: `${color}15` }]}>
-            <MaterialCommunityIcons name={iconName} size={32} color={color} />
+            <MaterialCommunityIcons name={iconName as any} size={32} color={color} />
           </View>
           <View style={styles.headerText}>
-            <Text style={[styles.title, { color }]}>{title}</Text>
+            <Text style={[styles.title as any, { color }]}>{title}</Text>
             {onDismiss && (
               <IconButton
                 icon="close"
@@ -261,7 +282,7 @@ const EnhancedErrorMessage = ({
         {/* Ações */}
         {actions && actions.length > 0 && (
           <View style={styles.actionsContainer}>
-            {actions.map((action, index) => (
+            {actions.map((action: ErrorAction, index: number) => (
               <Button
                 key={index}
                 mode={index === 0 ? 'contained' : 'outlined'}
@@ -314,7 +335,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: 'bold' as TextStyle['fontWeight'],
     flex: 1,
     marginTop: SPACING.xs,
   },
@@ -362,9 +383,10 @@ const styles = StyleSheet.create({
 // HOOK PERSONALIZADO
 // ============================================
 export const useEnhancedError = () => {
-  const [error, setError] = React.useState(null);
+  type ErrorState = { errorCode: string; customMessage?: string | null; customTitle?: string | null } | null;
+  const [error, setError] = React.useState<ErrorState>(null);
 
-  const showError = (errorCode, customMessage = null, customTitle = null) => {
+  const showError = (errorCode: string, customMessage: string | null = null, customTitle: string | null = null) => {
     setError({ errorCode, customMessage, customTitle });
   };
 
@@ -372,8 +394,9 @@ export const useEnhancedError = () => {
     setError(null);
   };
 
-  const getErrorMessage = (errorCode) => {
-    const errorInfo = ERROR_CATALOG[errorCode] || ERROR_CATALOG['unknown'];
+  const getErrorMessage = (errorCode: string): string => {
+    const code = (errorCode && ERROR_CATALOG[errorCode]) ? errorCode : 'unknown';
+    const errorInfo = ERROR_CATALOG[code];
     return errorInfo.message;
   };
 

@@ -1,9 +1,16 @@
 import React, { useEffect, useRef } from 'react';
-import { View, StyleSheet, Platform, Modal, Pressable } from 'react-native';
+import { View, StyleSheet, Platform, type StyleProp, type ViewStyle } from 'react-native';
 import { Portal, Dialog } from 'react-native-paper';
 
-const AccessibleDialog = ({ visible, onDismiss, children, style, ...props }) => {
-  const dialogRef = useRef(null);
+type AccessibleDialogProps = {
+  visible: boolean;
+  onDismiss: () => void;
+  style?: StyleProp<ViewStyle>;
+  children?: React.ReactNode;
+} & Record<string, any>;
+
+const AccessibleDialog: React.FC<AccessibleDialogProps> = ({ visible, onDismiss, children, style, ...props }) => {
+  const dialogRef = useRef<any>(null);
 
   useEffect(() => {
     if (Platform.OS === 'web' && visible) {
@@ -15,7 +22,7 @@ const AccessibleDialog = ({ visible, onDismiss, children, style, ...props }) => 
             'button, input, textarea, select, [tabindex]:not([tabindex="-1"])'
           );
           
-          focusableElements.forEach(element => {
+          focusableElements.forEach((element: any) => {
             // Remove aria-hidden se existir
             if (element.hasAttribute('aria-hidden')) {
               element.removeAttribute('aria-hidden');
@@ -35,21 +42,17 @@ const AccessibleDialog = ({ visible, onDismiss, children, style, ...props }) => 
         }
       }, 100);
 
-      return () => clearTimeout(timer);
+      return () => { clearTimeout(timer); };
     }
+    return undefined;
   }, [visible]);
 
   return (
-    <Overlay
-      isVisible={visible}
-      onBackdropPress={onDismiss}
-      overlayStyle={[styles.dialog, style]}
-      {...props}
-    >
-      <View ref={dialogRef}>
-        {children}
-      </View>
-    </Overlay>
+    <Portal>
+      <Dialog visible={visible} onDismiss={onDismiss} style={[styles.dialog, style]} {...props}>
+        <View ref={dialogRef}>{children}</View>
+      </Dialog>
+    </Portal>
   );
 };
 
