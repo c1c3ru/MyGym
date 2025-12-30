@@ -7,7 +7,8 @@ import {
   Button,
   ActivityIndicator,
   Snackbar,
-  HelperText
+  HelperText,
+  Text
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -22,11 +23,11 @@ import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@present
 import { getString } from '@utils/theme';
 
 export default function ForgotPasswordScreen({ navigation }) {
-  const { getString } = useTheme();
+  const { isDarkMode, theme, getString } = useTheme();
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
-  
+
   // Feedback states
   const [snackbar, setSnackbar] = useState({
     visible: false,
@@ -70,15 +71,15 @@ export default function ForgotPasswordScreen({ navigation }) {
     console.log('🔄 Iniciando processo de recuperação de senha...');
     console.log('📧 Email:', email.trim());
     console.log('🔥 Auth object:', auth);
-    
+
     try {
       console.log('📤 Enviando email de recuperação...');
       await sendPasswordResetEmail(auth, email.trim());
       console.log('✅ Email de recuperação enviado com sucesso!');
-      
+
       setEmailSent(true);
       showSnackbar(getString('emailSentSuccess'), 'success');
-      
+
       // Auto-voltar após 5 segundos para dar tempo de ler
       setTimeout(() => {
         navigation.goBack();
@@ -88,9 +89,9 @@ export default function ForgotPasswordScreen({ navigation }) {
       console.error('❌ Error code:', error.code);
       console.error('❌ Error message:', error.message);
       console.error('❌ Error stack:', error.stack);
-      
+
       let errorMessage = getString('resetPasswordError');
-      
+
       if (error.code === 'auth/user-not-found') {
         errorMessage = getString('emailNotFound');
       } else if (error.code === 'auth/invalid-email') {
@@ -104,7 +105,7 @@ export default function ForgotPasswordScreen({ navigation }) {
       } else if (error.message) {
         errorMessage = `${getString('error')}: ${error.message}`;
       }
-      
+
       showSnackbar(errorMessage, 'error');
     } finally {
       setLoading(false);
@@ -117,25 +118,25 @@ export default function ForgotPasswordScreen({ navigation }) {
       style={styles.gradient}
     >
       <SafeAreaView style={styles.container}>
-        <KeyboardAvoidingView 
+        <KeyboardAvoidingView
           style={styles.keyboardAvoidingView}
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         >
-          <ScrollView 
+          <ScrollView
             style={styles.scrollView}
             contentContainerStyle={styles.scrollContent}
             showsVerticalScrollIndicator={false}
             keyboardShouldPersistTaps="handled"
           >
             <View style={styles.header}>
-              <MaterialCommunityIcons 
-                name="lock-reset" 
-                size={ResponsiveUtils?.isTablet?.() ? 80 : 60} 
-                color={COLORS.white} 
+              <MaterialCommunityIcons
+                name="lock-reset"
+                size={ResponsiveUtils?.isTablet?.() ? 80 : 60}
+                color={COLORS.white}
                 style={styles.headerIcon}
               />
-              <Text style={[styles.headerTitle, styles.title]}>{getString('recoverPassword')}</Text>
-              <Text style={[styles.headerSubtitle, styles.paragraph]}>
+              <Text style={styles.headerTitle}>{getString('recoverPassword')}</Text>
+              <Text style={styles.headerSubtitle}>
                 {getString('enterEmailForInstructions')}
               </Text>
             </View>
@@ -143,72 +144,72 @@ export default function ForgotPasswordScreen({ navigation }) {
             <View style={styles.content}>
               <AnimatedCard elevation="medium" animationType="fadeIn">
                 <Card.Content style={styles.cardContent}>
-              {!emailSent ? (
-                <>
-                  <TextInput
-                    label={getString('email')}
-                    value={email}
-                    onChangeText={(text) => {
-                      setEmail(text);
-                      if (errors.email) {
-                        setErrors(prev => ({ ...prev, email: null }));
-                      }
-                    }}
-                    mode="outlined"
-                    style={styles.input}
-                    keyboardType="email-address"
-                    autoCapitalize="none"
-                    disabled={loading}
-                    left={<TextInput.Icon icon="email" />}
-                    error={!!errors.email}
-                  />
-                  {errors.email && <HelperText type="error" style={styles.errorText}>{errors.email}</HelperText>}
+                  {!emailSent ? (
+                    <>
+                      <TextInput
+                        label={getString('email')}
+                        value={email}
+                        onChangeText={(text) => {
+                          setEmail(text);
+                          if (errors.email) {
+                            setErrors(prev => ({ ...prev, email: null }));
+                          }
+                        }}
+                        mode="outlined"
+                        style={styles.input}
+                        keyboardType="email-address"
+                        autoCapitalize="none"
+                        disabled={loading}
+                        left={<TextInput.Icon icon="email" />}
+                        error={!!errors.email}
+                      />
+                      {errors.email && <HelperText type="error" style={styles.errorText}>{errors.email}</HelperText>}
 
-                  <AnimatedButton
-                    mode="contained"
-                    onPress={handleResetPassword}
-                    style={styles.resetButton}
-                    loading={loading}
-                    disabled={loading}
-                    icon="email-send"
-                  >
-                    {getString('sendEmail')}
-                  </AnimatedButton>
-                </>
-              ) : (
-                <View style={styles.successContainer}>
-                  <MaterialCommunityIcons 
-                    name="email-check" 
-                    size={48} 
-                    color={COLORS.primary[500]} 
-                    style={styles.successIcon}
-                  />
-                  <Text style={[styles.successTitle, styles.title]}>{getString('emailSent')}</Text>
-                  <Text style={[styles.successText, styles.paragraph]}>
-                    {getString('checkInboxInstructions')}
-                  </Text>
-                  <Text style={[styles.spamWarning, styles.paragraph]}>
-                    {getString('spamFolderWarning')}
-                  </Text>
-                </View>
-              )}
+                      <AnimatedButton
+                        mode="contained"
+                        onPress={handleResetPassword}
+                        style={styles.resetButton}
+                        loading={loading}
+                        disabled={loading}
+                        icon="email-send"
+                      >
+                        {getString('sendEmail')}
+                      </AnimatedButton>
+                    </>
+                  ) : (
+                    <View style={styles.successContainer}>
+                      <MaterialCommunityIcons
+                        name="email-check"
+                        size={48}
+                        color={COLORS.primary[500]}
+                        style={styles.successIcon}
+                      />
+                      <Text style={[styles.successTitle, { color: COLORS.primary[500], fontWeight: 'bold', fontSize: 20 }]}>{getString('emailSent')}</Text>
+                      <Text style={styles.successText}>
+                        {getString('checkInboxInstructions')}
+                      </Text>
+                      <Text style={styles.spamWarning}>
+                        {getString('spamFolderWarning')}
+                      </Text>
+                    </View>
+                  )}
 
-              <View style={styles.backContainer}>
-                <Button
-                  mode="text"
-                  onPress={() => navigation.goBack()}
-                  disabled={loading}
-                  icon="arrow-left"
-                >
-                  {getString('backToLogin')}
-                </Button>
-              </View>
-            </Card.Content>
-          </AnimatedCard>
-        </View>
+                  <View style={styles.backContainer}>
+                    <Button
+                      mode="text"
+                      onPress={() => navigation.goBack()}
+                      disabled={loading}
+                      icon="arrow-left"
+                    >
+                      {getString('backToLogin')}
+                    </Button>
+                  </View>
+                </Card.Content>
+              </AnimatedCard>
+            </View>
           </ScrollView>
         </KeyboardAvoidingView>
-        
+
         {/* Snackbar para feedback */}
         <Snackbar
           visible={snackbar.visible}
@@ -273,9 +274,10 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     paddingHorizontal: ResponsiveUtils?.spacing?.md || 16,
-    maxWidth: ResponsiveUtils?.isTablet?.() ? 500 : 400,
+    maxWidth: ResponsiveUtils?.isTablet?.() ? 500 : 450,
     alignSelf: 'center',
     width: '100%',
+    justifyContent: 'center',
   },
   cardContent: {
     padding: ResponsiveUtils?.spacing?.lg || 24,

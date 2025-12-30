@@ -369,8 +369,8 @@ export default function LoginScreen({ navigation }) {
                   <MaterialCommunityIcons name="fitness-center" size={40} color={COLORS.white} />
                 </LinearGradient>
               </View>
-              <Text style={[styles.headerTitle, { color: isDarkMode ? COLORS.white : COLORS.black }]}>
-                My<Text style={{ color: COLORS.primary[500] }}>Gym</Text>
+              <Text style={[styles.headerTitle, { color: isDarkMode ? COLORS.white : COLORS.black, fontSize: 32 }]}>
+                My<Text style={{ color: COLORS.primary[500], fontWeight: 'bold' }}>Gym</Text>
               </Text>
               <Text style={[styles.headerSubtitle, { color: isDarkMode ? COLORS.gray[400] : COLORS.gray[600] }]}>
                 {getString('welcome')}
@@ -468,11 +468,11 @@ export default function LoginScreen({ navigation }) {
                 </View>
 
                 <View style={styles.registerRow}>
-                  <Text style={[styles.registerText, { color: isDarkMode ? COLORS.gray[400] : COLORS.gray[600] }]}>
+                  <Text style={[styles.registerText, { color: isDarkMode ? COLORS.gray[200] : COLORS.gray[800], fontWeight: '500' }]}>
                     {getString('noAccount')}
                   </Text>
                   <TouchableRipple onPress={handleGoToRegister} style={styles.registerLink}>
-                    <Text style={[styles.registerLinkText, { color: COLORS.primary[500] }]}>
+                    <Text style={[styles.registerLinkText, { color: COLORS.primary[500], textDecorationLine: 'underline' }]}>
                       {getString('register')}
                     </Text>
                   </TouchableRipple>
@@ -570,8 +570,8 @@ const styles = StyleSheet.create({
   },
   header: {
     alignItems: 'center',
-    marginTop: 40,
-    marginBottom: 30,
+    marginTop: 20,
+    marginBottom: 15,
   },
   logoContainer: {
     marginBottom: 20,
@@ -602,6 +602,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     paddingHorizontal: 20,
+    maxWidth: 500, // Aumentar um pouco para web
+    alignSelf: 'center',
+    width: '100%',
   },
   loginCard: {
     borderRadius: 32,
