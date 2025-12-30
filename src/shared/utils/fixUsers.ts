@@ -7,18 +7,20 @@ import {
   doc, 
   updateDoc, 
   setDoc, 
-  serverTimestamp 
+  serverTimestamp,
+  type DocumentData,
+  type QueryDocumentSnapshot
 } from 'firebase/firestore';
 
-const USERS_TO_FIX = [
+const USERS_TO_FIX: string[] = [
   'cti.maracanau@ifce.edu.br',
   'deppi.maracanau@ifce.edu.br', 
   'cicero.silva@ifce.edu.br'
 ];
 
-const IFCE_ACADEMIA_ID = 'ifce-maracanau';
+const IFCE_ACADEMIA_ID: string = 'ifce-maracanau';
 
-export async function fixUsersInFirestore() {
+export async function fixUsersInFirestore(): Promise<boolean> {
   console.log('🔧 Iniciando correção de usuários...');
   
   try {
@@ -28,7 +30,7 @@ export async function fixUsersInFirestore() {
     const academiasSnapshot = await getDocs(academiasRef);
     
     let ifceExists = false;
-    academiasSnapshot.forEach(docSnap => {
+    academiasSnapshot.forEach((docSnap: QueryDocumentSnapshot<DocumentData>) => {
       console.log(`Academia encontrada: ${docSnap.id} - ${docSnap.data().name || docSnap.data().nome}`);
       if (docSnap.id === IFCE_ACADEMIA_ID || 
           docSnap.data().name?.toLowerCase().includes('ifce') ||
@@ -70,8 +72,8 @@ export async function fixUsersInFirestore() {
         continue;
       }
       
-      const userDoc = userSnapshot.docs[0];
-      const userData = userDoc.data();
+      const userDoc = userSnapshot.docs[0] as QueryDocumentSnapshot<DocumentData>;
+      const userData = userDoc.data() as Record<string, any>;
       
       console.log(`📊 Dados atuais:`, {
         email: userData.email,
@@ -82,7 +84,7 @@ export async function fixUsersInFirestore() {
       });
       
       // Preparar atualizações
-      const updates = {};
+      const updates: Record<string, any> = {};
       let needsUpdate = false;
       
       if (!userData.academiaId) {
@@ -99,12 +101,13 @@ export async function fixUsersInFirestore() {
       
       // Garantir userType correto
       if (userData.tipo && !userData.userType) {
-        const typeMapping = {
+        const typeMapping: Record<string, string> = {
           'aluno': 'student',
           'instrutor': 'instructor',
           'administrador': 'admin'
         };
-        updates.userType = typeMapping[userData.tipo] || userData.tipo;
+        const key = String(userData.tipo).toLowerCase();
+        updates.userType = typeMapping[key] || String(userData.tipo);
         needsUpdate = true;
         console.log(`  ✅ Definindo userType: ${updates.userType}`);
       }
@@ -121,14 +124,15 @@ export async function fixUsersInFirestore() {
     console.log('\n🎉 Correção concluída! Os usuários agora devem conseguir fazer login normalmente.');
     return true;
     
-  } catch (error) {
-    console.error('❌ Erro durante a correção:', error);
+  } catch (error: unknown) {
+    const err = error as any;
+    console.error('❌ Erro durante a correção:', err?.message || err);
     return false;
   }
 }
 
 // Função para listar todos os usuários (debug)
-export async function listAllUsers() {
+export async function listAllUsers(): Promise<void> {
   console.log('📋 Listando todos os usuários...');
   
   try {
@@ -137,8 +141,8 @@ export async function listAllUsers() {
     
     console.log(`Total de usuários: ${usersSnapshot.size}`);
     
-    usersSnapshot.forEach(docSnap => {
-      const data = docSnap.data();
+    usersSnapshot.forEach((docSnap: QueryDocumentSnapshot<DocumentData>) => {
+      const data = docSnap.data() as Record<string, any>;
       console.log(`\n👤 Usuário: ${docSnap.id}`);
       console.log(`  📧 Email: ${data.email}`);
       console.log(`  👨‍💼 Nome: ${data.name}`);
@@ -147,7 +151,8 @@ export async function listAllUsers() {
       console.log(`  ✅ Perfil Completo: ${data.profileCompleted}`);
     });
     
-  } catch (error) {
-    console.error('❌ Erro ao listar usuários:', error);
+  } catch (error: unknown) {
+    const err = error as any;
+    console.error('❌ Erro ao listar usuários:', err?.message || err);
   }
 }
