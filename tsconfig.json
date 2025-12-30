@@ -28,10 +28,10 @@
         "./src/*"
       ],
       "@components/*": [
-        "./src/components/*"
+        "./src/presentation/components/*"
       ],
       "@screens/*": [
-        "./src/screens/*"
+        "./src/presentation/screens/*"
       ],
       "@services/*": [
         "./src/services/*"
@@ -40,16 +40,16 @@
         "./src/shared/utils/*"
       ],
       "@hooks/*": [
-        "./src/hooks/*"
+        "./src/presentation/hooks/*"
       ],
       "@contexts/*": [
-        "./src/contexts/*"
+        "./src/presentation/contexts/*"
       ],
       "@stores/*": [
-        "./src/stores/*"
+        "./src/presentation/stores/*"
       ],
       "@navigation/*": [
-        "./src/navigation/*"
+        "./src/presentation/navigation/*"
       ],
       "@types/*": [
         "./src/types/*"
