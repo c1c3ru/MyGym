@@ -30,6 +30,13 @@ import { LinearGradient } from 'expo-linear-gradient';
 import SelectionField from '@components/SelectionField';
 import graduationRepository from '@presentation/repositories/graduationRepository';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, BORDER_WIDTH, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { getAuthGradient } from '@presentation/theme/authTheme';
+import type { NavigationProp, RouteProp } from '@react-navigation/native';
+
+interface AddGraduationScreenProps {
+  navigation: NavigationProp<any>;
+  route: RouteProp<any>;
+}
 
 const { width } = Dimensions.get('window');
 
@@ -84,7 +91,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
   const loadInitialData = async () => {
     try {
       setLoading(true);
-      
+
       // Obter ID da academia
       const academiaId = userProfile?.academiaId || academia?.id;
       if (!academiaId) {
@@ -94,11 +101,11 @@ const AddGraduationScreen = ({ route, navigation }) => {
       }
 
       const { modalities, instructors, currentGraduation } = await graduationRepository.loadInitialData(academiaId, studentId);
-      
+
       setModalities(modalities);
       setInstructors(instructors);
       setGraduationLevels(defaultGraduationLevels);
-      
+
       if (currentGraduation) {
         setFormData(prev => ({
           ...prev,
@@ -135,23 +142,23 @@ const AddGraduationScreen = ({ route, navigation }) => {
       'Crua': COLORS.gray[600],
       'Cordão': COLORS.warning[300]
     };
-    
+
     // Procurar por cor baseada no nome
     for (const [color, hex] of Object.entries(colorMap)) {
       if (levelName.toLowerCase().includes(color.toLowerCase())) {
         return hex;
       }
     }
-    
+
     // Cores padrão baseadas no índice se não encontrar correspondência
     const defaultColors = [
-      COLORS.special.belt.white, 
-      COLORS.special.belt.yellow, 
-      COLORS.special.belt.orange, 
-      COLORS.special.belt.green, 
-      COLORS.special.belt.blue, 
-      COLORS.special.belt.purple, 
-      COLORS.special.belt.brown, 
+      COLORS.special.belt.white,
+      COLORS.special.belt.yellow,
+      COLORS.special.belt.orange,
+      COLORS.special.belt.green,
+      COLORS.special.belt.blue,
+      COLORS.special.belt.purple,
+      COLORS.special.belt.brown,
       COLORS.special.belt.black
     ];
     return defaultColors[index % defaultColors.length] || COLORS.gray[300];
@@ -224,7 +231,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
       return false;
     }
     console.log('✅ Instrutor válido:', formData.instructor, 'ID:', formData.instructorId);
-    
+
     // Validar data
     if (!formData.date) {
       console.log('❌ Falha na validação: data não selecionada');
@@ -232,7 +239,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
       return false;
     }
     console.log('✅ Data válida:', formData.date);
-    
+
     const today = new Date();
     today.setHours(23, 59, 59, 999); // Fim do dia atual
     if (formData.date > today) {
@@ -244,7 +251,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
       return false;
     }
     console.log('✅ Data não é futura');
-    
+
     // Validar certificado (se preenchido)
     if (formData.certificate && formData.certificate.trim()) {
       const certPattern = /^CERT-\d{4}-\d+$/;
@@ -257,7 +264,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
     } else {
       console.log('ℹ️ Certificado não preenchido (opcional)');
     }
-    
+
     console.log('🎉 Validação concluída com sucesso!');
     return true;
   };
@@ -265,7 +272,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
   const handleSubmit = async () => {
     console.log('Iniciando processo de salvamento...');
     console.log('FormData atual:', formData);
-    
+
     if (!validateForm()) {
       console.log('Validação falhou');
       return;
@@ -279,7 +286,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
       console.log('Academia ID:', academiaId);
       console.log('User profile:', userProfile);
       console.log('Academia:', academia);
-      
+
       if (!academiaId) {
         console.error(getString('academyIdNotFound'));
         showSnackbar('Academia não encontrada. Faça login novamente.', 'error');
@@ -298,7 +305,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
       console.log('Dados da graduação a serem salvos:', graduationData);
 
       await graduationRepository.addGraduation(academiaId, studentId, graduationData);
-      
+
       showSnackbar('Graduação adicionada com sucesso!', 'success');
 
       setTimeout(() => {
@@ -340,7 +347,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
         showsVerticalScrollIndicator={false}
       >
         {/* Card de graduação atual */}
-{formData.previousGraduation ? (
+        {formData.previousGraduation ? (
           <Surface style={styles.currentGraduationCard} elevation={2}>
             <View style={styles.currentGraduationContent}>
               <IconButton icon="medal" size={24} iconColor={COLORS.warning[500]} />
@@ -395,7 +402,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
         <Card style={styles.detailsCard}>
           <Card.Content>
             <Text style={styles.sectionTitle}>Detalhes Adicionais</Text>
-            
+
             {/* Data */}
             <View style={styles.inputGroup}>
               <Text style={styles.inputLabel}>Data da Graduação *</Text>
@@ -405,8 +412,8 @@ const AddGraduationScreen = ({ route, navigation }) => {
               >
                 <IconButton icon="calendar" size={20} iconColor={COLORS.info[700]} />
                 <Text style={styles.dateButtonText}>
-                  {formData.date ? 
-                    (formData.date instanceof Date ? 
+                  {formData.date ?
+                    (formData.date instanceof Date ?
                       formData.date.toLocaleDateString('pt-BR', {
                         weekday: 'long',
                         year: 'numeric',
@@ -465,7 +472,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
           >
             {loading ? 'saving' : 'Salvar Graduação'}
           </Button>
-          
+
           <Button
             mode="outlined"
             onPress={() => navigation.goBack()}
@@ -478,7 +485,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
       </ScrollView>
 
       {/* DateTimePicker */}
-{showDatePicker ? (
+      {showDatePicker ? (
         <DateTimePicker
           value={formData.date || new Date()}
           mode="date"

@@ -9,9 +9,11 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { Text, Divider } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
 
 // Importar novos componentes
 import { SPACING, FONT_SIZE, COLORS, BORDER_RADIUS, getElevation } from '@presentation/theme/designTokens';
+import { getAuthGradient } from '@presentation/theme/authTheme';
 import EnhancedErrorMessage, { useEnhancedError } from '@components/EnhancedErrorMessage';
 import {
   AccessibleButton,
@@ -22,7 +24,12 @@ import {
 import Breadcrumb, { useBreadcrumb } from '@components/Breadcrumb';
 import { useUndo, useDeleteWithUndo } from '@components/UndoManager';
 import { useOnboarding, ONBOARDING_TOURS } from '@components/OnboardingTour';
-import { getString } from '@utils/theme';
+import { useTheme } from '@contexts/ThemeContext';
+import type { NavigationProp } from '@react-navigation/native';
+
+interface UIUXExampleScreenProps {
+  navigation: NavigationProp<any>;
+}
 
 const UIUXExampleScreen = ({ navigation }) => {
   // ============================================

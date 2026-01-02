@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Alert, Dimensions } from 'react-native';
-import { 
-  Card, 
-  Text, 
-  Button, 
+import {
+  Card,
+  Text,
+  Button,
   FAB,
   Surface,
   Avatar,
@@ -11,27 +11,34 @@ import {
   ActivityIndicator
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '@contexts/AuthProvider';
+import { useTheme } from '@contexts/ThemeContext';
 import { useCustomClaims } from '@hooks/useCustomClaims';
 import { academyFirestoreService } from '@services/academyFirestoreService';
 import { getThemeColors } from '@theme/professionalTheme';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
-import { getString } from '@utils/theme';
+import { getAuthGradient } from '@presentation/theme/authTheme';
+import type { NavigationProp } from '@react-navigation/native';
+
+interface CheckInScreenProps {
+  navigation: NavigationProp<any>;
+}
 
 const { width } = Dimensions.get('window');
 
 const CheckInScreen = ({ navigation }) => {
   const { currentTheme } = useThemeToggle();
-  
+
   const { user, userProfile, academia } = useAuth();
   const { getUserTypeColor } = useCustomClaims();
   const [loading, setLoading] = useState(false);
   const [todayCheckIn, setTodayCheckIn] = useState(null);
   const [recentCheckIns, setRecentCheckIns] = useState([]);
   const [availableClasses, setAvailableClasses] = useState([]);
-  
+
   const themeColors = { primary: getUserTypeColor() };
 
   useEffect(() => {
@@ -43,22 +50,22 @@ const CheckInScreen = ({ navigation }) => {
     try {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
-      
+
       const tomorrow = new Date(today);
       tomorrow.setDate(tomorrow.getDate() + 1);
 
       // Buscar check-in de hoje nas subcoleções das turmas do aluno
       let todayCheckIns = [];
-      
+
       // Buscar turmas do aluno primeiro
       const studentClasses = await academyFirestoreService.getWhere(
-        'classes', 
-        'students', 
-        'array-contains', 
-        user.id, 
+        'classes',
+        'students',
+        'array-contains',
+        user.id,
         academia.id
       );
-      
+
       // Para cada turma, buscar check-ins do aluno
       for (const classItem of studentClasses) {
         const classCheckIns = await academyFirestoreService.getSubcollectionDocuments(
@@ -67,12 +74,12 @@ const CheckInScreen = ({ navigation }) => {
           'checkIns',
           academia.id,
           [
-              { field: 'studentId', operator: '==', value: user.id },
+            { field: 'studentId', operator: '==', value: user.id },
             { field: 'date', operator: '>=', value: today },
             { field: 'date', operator: '<', value: tomorrow }
           ]
         );
-        
+
         todayCheckIns = [...todayCheckIns, ...classCheckIns];
       }
 
@@ -85,7 +92,7 @@ const CheckInScreen = ({ navigation }) => {
       weekAgo.setDate(weekAgo.getDate() - 7);
 
       let recentCheckIns = [];
-      
+
       // Para cada turma, buscar check-ins recentes do aluno
       for (const classItem of studentClasses) {
         const classRecentCheckIns = await academyFirestoreService.getSubcollectionDocuments(
@@ -99,7 +106,7 @@ const CheckInScreen = ({ navigation }) => {
           ],
           { field: 'date', direction: 'desc' }
         );
-        
+
         recentCheckIns = [...recentCheckIns, ...classRecentCheckIns];
       }
 
@@ -119,10 +126,10 @@ const CheckInScreen = ({ navigation }) => {
         console.error(getString('academyIdNotFound'));
         return;
       }
-      
+
       // Buscar turmas do aluno na academia
       const allClasses = await academyFirestoreService.getAll('classes', academiaId);
-      const userClasses = allClasses.filter(cls => 
+      const userClasses = allClasses.filter(cls =>
         userProfile?.classIds && userProfile.classIds.includes(cls.id)
       );
       setAvailableClasses(userClasses);
@@ -145,20 +152,20 @@ const CheckInScreen = ({ navigation }) => {
 
       // Buscar a turma do aluno para fazer check-in na subcoleção
       const studentClasses = await academyFirestoreService.getWhere(
-        'classes', 
-        'students', 
-        'array-contains', 
-        user.id, 
+        'classes',
+        'students',
+        'array-contains',
+        user.id,
         academia.id
       );
-      
+
       if (studentClasses.length === 0) {
         throw new Error('Nenhuma turma encontrada para este aluno');
       }
-      
+
       // Usar a turma selecionada ou a primeira encontrada
       const targetClassId = classId || studentClasses[0].id;
-      
+
       await academyFirestoreService.addSubcollectionDocument(
         'classes',
         targetClassId,
@@ -184,9 +191,9 @@ const CheckInScreen = ({ navigation }) => {
   const formatTime = (date) => {
     if (!date) return '';
     const dateObj = date.toDate ? date.toDate() : new Date(date);
-    return dateObj.toLocaleTimeString('pt-BR', { 
-      hour: '2-digit', 
-      minute: '2-digit' 
+    return dateObj.toLocaleTimeString('pt-BR', {
+      hour: '2-digit',
+      minute: '2-digit'
     });
   };
 
@@ -207,11 +214,11 @@ const CheckInScreen = ({ navigation }) => {
         <Card style={[styles.card, styles.todayCard]}>
           <Card.Content>
             <View style={styles.todayHeader}>
-              <Avatar.Icon 
-                size={60} 
+              <Avatar.Icon
+                size={60}
                 icon={todayCheckIn ? "check-circle" : "clock-outline"}
                 style={[
-                  styles.todayAvatar, 
+                  styles.todayAvatar,
                   { backgroundColor: todayCheckIn ? themeColors.success : themeColors.warning }
                 ]}
               />
@@ -220,14 +227,14 @@ const CheckInScreen = ({ navigation }) => {
                   {todayCheckIn ? '✅ Check-in Realizado' : '⏰ Aguardando Check-in'}
                 </Text>
                 <Text style={styles.todaySubtitle}>
-                  {todayCheckIn 
+                  {todayCheckIn
                     ? `Hoje às ${formatTime(todayCheckIn.date)}`
                     : 'Faça seu check-in de hoje'
                   }
                 </Text>
                 {todayCheckIn?.className && (
-                  <Chip 
-                    mode="outlined" 
+                  <Chip
+                    mode="outlined"
                     style={styles.classChip}
                     textStyle={{ fontSize: FONT_SIZE.sm }}
                   >
@@ -247,7 +254,7 @@ const CheckInScreen = ({ navigation }) => {
                 <Ionicons name="school" size={24} color={themeColors.primary} />
                 <Text style={styles.sectionTitle}>Suas Turmas</Text>
               </View>
-              
+
               {availableClasses.map((classItem) => (
                 <Surface key={classItem.id} style={styles.classItem} elevation={1}>
                   <View style={styles.classInfo}>
@@ -278,15 +285,15 @@ const CheckInScreen = ({ navigation }) => {
               <Ionicons name="time" size={24} color={themeColors.secondary} />
               <Text style={styles.sectionTitle}>Últimos Check-ins</Text>
             </View>
-            
+
             {recentCheckIns.length > 0 ? (
               recentCheckIns.slice(0, 5).map((checkIn, index) => (
                 <View key={checkIn.id || index} style={styles.historyItem}>
                   <View style={styles.historyIcon}>
-                    <Ionicons 
-                      name={getCheckInIcon(checkIn.type)} 
-                      size={20} 
-                      color={themeColors.primary} 
+                    <Ionicons
+                      name={getCheckInIcon(checkIn.type)}
+                      size={20}
+                      color={themeColors.primary}
                     />
                   </View>
                   <View style={styles.historyInfo}>
