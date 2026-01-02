@@ -392,7 +392,7 @@ const AddGraduationScreen = ({ route, navigation }: any) => {
               icon={formData.graduation ? "trophy" : "plus"}
               onPress={() => setGraduationDialogVisible(true)}
               disabled={!formData.modalityId}
-              helperText={!formData.modalityId ? "Selecione uma modalidade primeiro" : undefined}
+              helperText={!formData.modalityId ? "Selecione uma modalidade primeiro" : ""}
               required
             />
           </Card.Content>
@@ -464,11 +464,10 @@ const AddGraduationScreen = ({ route, navigation }: any) => {
             mode="contained"
             onPress={handleSubmit}
             loading={loading}
-            disabled={loading}
+            disabled={loading || !formData.graduation || !formData.modalityId}
             style={styles.submitButton}
             contentStyle={styles.submitButtonContent}
             labelStyle={styles.submitButtonLabel}
-            value={selectedStudent || undefined}
             icon={loading ? undefined : "content-save"}
           >
             {loading ? 'saving' : 'Salvar Graduação'}

@@ -28,7 +28,7 @@ const ChangePasswordScreen = ({ navigation }: ChangePasswordScreenProps) => {
   const [loading, setLoading] = useState(false);
   const [snackbar, setSnackbar] = useState({ visible: false, message: '', type: 'info' });
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<any>({
     currentPassword: '',
     newPassword: '',
     confirmPassword: ''
@@ -104,17 +104,17 @@ const ChangePasswordScreen = ({ navigation }: ChangePasswordScreenProps) => {
       }, 2000);
 
     } catch (error) {
-      console.error('Erro ao alterar senha:', error);
+      console.error('Erro ao alterar senha:', error as Error);
 
       let errorMessage = 'Erro ao alterar senha. Tente novamente.';
 
-      if (error.code === 'auth/wrong-password') {
+      if ((error as any).code === 'auth/wrong-password') {
         errorMessage = 'Senha atual incorreta';
         setErrors({ currentPassword: errorMessage });
       } else if (error.code === 'auth/weak-password') {
         errorMessage = 'Nova senha é muito fraca';
         setErrors({ newPassword: errorMessage });
-      } else if (error.code === 'auth/requires-recent-login') {
+      } else if ((error as any).code === 'auth/requires-recent-login') {
         errorMessage = 'Por segurança, faça login novamente e tente alterar a senha';
       }
 
@@ -128,7 +128,7 @@ const ChangePasswordScreen = ({ navigation }: ChangePasswordScreenProps) => {
     }
   };
 
-  const updateFormData = (field, value) => {
+  const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
@@ -143,7 +143,7 @@ const ChangePasswordScreen = ({ navigation }: ChangePasswordScreenProps) => {
     }
   };
 
-  const toggleShowPassword = (field) => {
+  const togglePasswordVisibility = (field: string) => {
     setShowPasswords(prev => ({
       ...prev,
       [field]: !prev[field]
