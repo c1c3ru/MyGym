@@ -21,7 +21,7 @@ import { useAuth } from '@contexts/AuthProvider';
 import { useTheme } from '@contexts/ThemeContext';
 import { useCustomClaims } from '@hooks/useCustomClaims';
 import { firestoreService } from '@services/firestoreService';
-import { getThemeColors } from '@theme/professionalTheme';
+import { getThemeColors } from '@presentation/theme/professionalTheme';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
 import { getAuthGradient } from '@presentation/theme/authTheme';
@@ -31,22 +31,45 @@ interface PaymentManagementScreenProps {
   navigation: NavigationProp<any>;
 }
 
+interface Payment {
+  id: string;
+  userId: string;
+  userName?: string;
+  academiaId: string;
+  planId: string;
+  planName: string;
+  amount: number;
+  dueDate: any; // Firestore Timestamp or Date
+  status: 'pending' | 'paid' | 'overdue' | 'active' | 'cancelled';
+  createdAt: any;
+  paymentMethod?: string | null;
+  paidAt?: any;
+}
+
+interface Plan {
+  id: string;
+  name: string;
+  value: number;
+  description?: string;
+}
+
 const PaymentManagementScreen: React.FC<PaymentManagementScreenProps> = ({ navigation }) => {
   const { currentTheme } = useThemeToggle();
   const { getString } = useTheme();
   const { user, userProfile, academia } = useAuth();
-  const { getUserTypeColor } = useCustomClaims();
+  const { role } = useCustomClaims();
+
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
-  const [payments, setPayments] = useState<any[]>([]);
-  const [plans, setPlans] = useState<any[]>([]);
-  const [currentPlan, setCurrentPlan] = useState(null);
+  const [payments, setPayments] = useState<Payment[]>([]);
+  const [plans, setPlans] = useState<Plan[]>([]);
+  const [currentPlan, setCurrentPlan] = useState<Payment | null>(null);
   const [showPlanModal, setShowPlanModal] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [selectedPlan, setSelectedPlan] = useState(null);
+  const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
   const [customDueDate, setCustomDueDate] = useState(new Date());
 
-  const themeColors = { primary: getUserTypeColor() };
+  const themeColors = getThemeColors((role as 'admin' | 'instructor' | 'student') || 'student');
 
   useEffect(() => {
     loadPaymentData();
@@ -62,13 +85,13 @@ const PaymentManagementScreen: React.FC<PaymentManagementScreenProps> = ({ navig
         `gyms/${academia.id}/payments`,
         [{ field: 'userId', operator: '==', value: user.id }],
         { field: 'createdAt', direction: 'desc' }
-      );
+      ) as unknown as Payment[];
 
       setPayments(userPayments);
 
       // Buscar plano atual
       const activePlan = userPayments.find(p => p.status === 'active');
-      setCurrentPlan(activePlan);
+      setCurrentPlan(activePlan || null);
 
     } catch (error) {
       console.error('Erro ao carregar dados de pagamento:', error);
@@ -80,7 +103,7 @@ const PaymentManagementScreen: React.FC<PaymentManagementScreenProps> = ({ navig
 
   const loadPlans = async () => {
     try {
-      const availablePlans = await firestoreService.getAll('plans');
+      const availablePlans = await firestoreService.getAll('plans') as unknown as Plan[];
       setPlans(availablePlans);
     } catch (error) {
       console.error('Erro ao carregar planos:', error);
@@ -133,7 +156,7 @@ const PaymentManagementScreen: React.FC<PaymentManagementScreenProps> = ({ navig
     }
   };
 
-  const handlePayment = (payment) => {
+  const handlePayment = (payment: Payment) => {
     Alert.alert(
       'Realizar Pagamento',
       `Confirmar pagamento de ${formatCurrency(payment.amount)}?`,
@@ -160,7 +183,7 @@ const PaymentManagementScreen: React.FC<PaymentManagementScreenProps> = ({ navig
     );
   };
 
-  const formatCurrency = (value: any) => {
+  const formatCurrency = (value: number | undefined) => {
     return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
       currency: getString('currency')
@@ -174,7 +197,7 @@ const PaymentManagementScreen: React.FC<PaymentManagementScreenProps> = ({ navig
   };
 
   const getPaymentStatusColor = (status: string) => {
-    const colors = {
+    const colors: { [key: string]: string } = {
       'paid': COLORS.success[500],
       'pending': COLORS.warning[500],
       'overdue': COLORS.error[500],
@@ -184,7 +207,7 @@ const PaymentManagementScreen: React.FC<PaymentManagementScreenProps> = ({ navig
   };
 
   const getPaymentStatusText = (status: string) => {
-    const texts = {
+    const texts: { [key: string]: string } = {
       'paid': getString('paid'),
       'pending': getString('paymentPending'),
       'overdue': getString('overdue'),
@@ -193,11 +216,11 @@ const PaymentManagementScreen: React.FC<PaymentManagementScreenProps> = ({ navig
     return texts[status] || status;
   };
 
-  const getDaysUntilDue = (dueDate) => {
-    if (!dueDate) return null;
+  const getDaysUntilDue = (dueDate: any) => {
+    if (!dueDate) return 0;
     const due = dueDate.toDate ? dueDate.toDate() : new Date(dueDate);
     const today = new Date();
-    const diffTime = due - today;
+    const diffTime = due.getTime() - today.getTime();
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     return diffDays;
   };
@@ -320,7 +343,7 @@ const PaymentManagementScreen: React.FC<PaymentManagementScreenProps> = ({ navig
               ))
             ) : (
               <View style={styles.emptyState}>
-                <Ionicons name="card-outline" size={48} color="currentTheme.gray[300]" />
+                <Ionicons name="card-outline" size={48} color={COLORS.gray[300]} />
                 <Text style={styles.emptyText}>Nenhum pagamento registrado</Text>
                 <Text style={styles.emptySubtext}>Selecione um plano para começar</Text>
               </View>
@@ -348,9 +371,9 @@ const PaymentManagementScreen: React.FC<PaymentManagementScreenProps> = ({ navig
 
           <ScrollView style={styles.modalContent}>
             <RadioButton.Group
-              onValueChange={(value: any) => {
+              onValueChange={(value: string) => {
                 const plan = plans.find(p => p.id === value);
-                setSelectedPlan(plan);
+                setSelectedPlan(plan || null);
               }}
               value={selectedPlan?.id || ''}
             >
@@ -411,7 +434,7 @@ const PaymentManagementScreen: React.FC<PaymentManagementScreenProps> = ({ navig
           value={customDueDate}
           mode="date"
           display="default"
-          onChange={(event, selectedDate) => {
+          onChange={(event: any, selectedDate?: Date) => {
             setShowDatePicker(false);
             if (selectedDate) {
               setCustomDueDate(selectedDate);

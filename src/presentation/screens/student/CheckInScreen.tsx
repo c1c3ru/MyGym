@@ -11,35 +11,54 @@ import {
   ActivityIndicator
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '@contexts/AuthProvider';
 import { useTheme } from '@contexts/ThemeContext';
 import { useCustomClaims } from '@hooks/useCustomClaims';
 import { academyFirestoreService } from '@services/academyFirestoreService';
-import { getThemeColors } from '@theme/professionalTheme';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
-import { getAuthGradient } from '@presentation/theme/authTheme';
 import type { NavigationProp } from '@react-navigation/native';
+import { getString } from '@utils/theme';
 
 interface CheckInScreenProps {
   navigation: NavigationProp<any>;
 }
 
-const { width } = Dimensions.get('window');
+interface CheckIn {
+  id?: string;
+  date: any;
+  className?: string;
+  type?: string;
+  studentId?: string;
+}
 
-const CheckInScreen = ({ navigation }) => {
-  const { currentTheme } = useThemeToggle();
+interface ClassInfo {
+  id: string;
+  name: string;
+  modality: string;
+}
+
+const CheckInScreen: React.FC<CheckInScreenProps> = ({ navigation }) => {
+  const { theme: colors } = useTheme();
 
   const { user, userProfile, academia } = useAuth();
   const { getUserTypeColor } = useCustomClaims();
   const [loading, setLoading] = useState(false);
-  const [todayCheckIn, setTodayCheckIn] = useState(null);
-  const [recentCheckIns, setRecentCheckIns] = useState<any[]>([]);
-  const [availableClasses, setAvailableClasses] = useState<any[]>([]);
+  const [todayCheckIn, setTodayCheckIn] = useState<CheckIn | null>(null);
+  const [recentCheckIns, setRecentCheckIns] = useState<CheckIn[]>([]);
+  const [availableClasses, setAvailableClasses] = useState<ClassInfo[]>([]);
 
-  const themeColors = { primary: getUserTypeColor() };
+  const userPrimaryColor = getUserTypeColor();
+
+  const themeColors = {
+    ...colors,
+    primary: userPrimaryColor || colors.primary,
+    background: colors.background,
+    success: COLORS.success || '#4CAF50',
+    warning: COLORS.warning || '#FFC107',
+    secondary: COLORS.secondary || colors.secondary,
+  };
 
   useEffect(() => {
     loadCheckInData();
@@ -55,7 +74,7 @@ const CheckInScreen = ({ navigation }) => {
       tomorrow.setDate(tomorrow.getDate() + 1);
 
       // Buscar check-in de hoje nas subcoleções das turmas do aluno
-      let todayCheckIns = [];
+      let todayCheckIns: any[] = [];
 
       // Buscar turmas do aluno primeiro
       const studentClasses = await academyFirestoreService.getWhere(
@@ -91,7 +110,7 @@ const CheckInScreen = ({ navigation }) => {
       const weekAgo = new Date();
       weekAgo.setDate(weekAgo.getDate() - 7);
 
-      let recentCheckIns = [];
+      let recentCheckIns: any[] = [];
 
       // Para cada turma, buscar check-ins recentes do aluno
       for (const classItem of studentClasses) {
@@ -111,7 +130,12 @@ const CheckInScreen = ({ navigation }) => {
       }
 
       // Ordenar por data mais recente
-      recentCheckIns.sort((a, b) => new Date(b.date) - new Date(a.date));
+      recentCheckIns.sort((a, b) => {
+        const dateA = a.date?.toDate ? a.date.toDate() : new Date(a.date);
+        const dateB = b.date?.toDate ? b.date.toDate() : new Date(b.date);
+        return dateB.getTime() - dateA.getTime();
+      });
+
       setRecentCheckIns(recentCheckIns);
     } catch (error) {
       console.error('Erro ao carregar dados de check-in:', error);
@@ -128,7 +152,7 @@ const CheckInScreen = ({ navigation }) => {
       }
 
       // Buscar turmas do aluno na academia
-      const allClasses = await academyFirestoreService.getAll('classes', academiaId);
+      const allClasses: any[] = await academyFirestoreService.getAll('classes', academiaId);
       const userClasses = allClasses.filter(cls =>
         userProfile?.classIds && userProfile.classIds.includes(cls.id)
       );
@@ -138,7 +162,7 @@ const CheckInScreen = ({ navigation }) => {
     }
   };
 
-  const handleCheckIn = async (classId = null, className = null) => {
+  const handleCheckIn = async (classId: string | null = null, className: string | null = null) => {
     try {
       setLoading(true);
 
@@ -203,7 +227,7 @@ const CheckInScreen = ({ navigation }) => {
     return dateObj.toLocaleDateString('pt-BR');
   };
 
-  const getCheckInIcon = (type) => {
+  const getCheckInIcon = (type: string | undefined): keyof typeof Ionicons.glyphMap => {
     return type === 'class' ? 'school' : 'checkmark-circle';
   };
 
@@ -265,7 +289,7 @@ const CheckInScreen = ({ navigation }) => {
                     <Button
                       mode="contained"
                       onPress={() => handleCheckIn(classItem.id, classItem.name)}
-                      disabled={loading || todayCheckIn}
+                      disabled={loading || !!todayCheckIn}
                       style={[styles.checkInButton, { backgroundColor: themeColors.primary }]}
                       compact
                     >
@@ -308,7 +332,7 @@ const CheckInScreen = ({ navigation }) => {
               ))
             ) : (
               <View style={styles.emptyState}>
-                <Ionicons name="calendar-outline" size={48} color="currentTheme.gray[300]" />
+                <Ionicons name="calendar-outline" size={48} color={themeColors.gray ? themeColors.gray[300] : '#ccc'} />
                 <Text style={styles.emptyText}>Nenhum check-in registrado</Text>
                 <Text style={styles.emptySubtext}>Faça seu primeiro check-in!</Text>
               </View>
@@ -457,3 +481,4 @@ const styles = StyleSheet.create({
 });
 
 export default CheckInScreen;
+
