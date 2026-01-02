@@ -42,7 +42,7 @@ const AcademiaSelectionScreen: React.FC<AcademiaSelectionScreenProps> = ({ navig
   const forceCreate = route?.params?.forceCreate || false;
   const [loading, setLoading] = useState(false);
   const [searchLoading, setSearchLoading] = useState(false);
-  const [academias, setGyms] = useState([]);
+  const [academias, setGyms] = useState<any[]>([]);
   const [searchCode, setSearchCode] = useState('');
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [newAcademiaData, setNewAcademiaData] = useState({
@@ -853,7 +853,7 @@ const styles = {
   },
   title: {
     color: COLORS.white,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
     textAlign: 'center',
   },
   subtitle: {
@@ -875,7 +875,7 @@ const styles = {
     marginTop: SPACING.sm,
   },
   sectionTitle: {
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
     marginBottom: SPACING.sm,
   },
   sectionDescription: {
@@ -927,14 +927,14 @@ const styles = {
     marginTop: SPACING.sm,
   },
   resultsTitle: {
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
     marginBottom: SPACING.md,
   },
   academiaCard: {
     marginBottom: SPACING.md,
   },
   academiaName: {
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
     marginBottom: SPACING.sm,
   },
   academiaAddress: {
@@ -996,7 +996,7 @@ const styles = {
   modalTitle: {
     textAlign: 'center',
     marginBottom: 16,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
   },
   modalDescription: {
     textAlign: 'center',

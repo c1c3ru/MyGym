@@ -44,8 +44,8 @@ const StudentDetailsScreen: React.FC<StudentDetailsScreenProps> = ({ route, navi
   const { user, userProfile, academia } = useAuth();
   const { getString, isDarkMode } = useTheme();
   const [studentInfo, setStudentInfo] = useState(route.params.studentData || null);
-  const [studentClasses, setStudentClasses] = useState([]);
-  const [payments, setPayments] = useState([]);
+  const [studentClasses, setStudentClasses] = useState<any[]>([]);
+  const [payments, setPayments] = useState<any[]>([]);
   const [loading, setLoading] = useState(!route.params.studentData);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -144,7 +144,7 @@ const StudentDetailsScreen: React.FC<StudentDetailsScreenProps> = ({ route, navi
   }, [loadStudentDetails, userProfile?.academiaId, academia?.id, studentId]);
 
   // Memoized utility functions
-  const getPaymentStatusColor = useCallback((status) => {
+  const getPaymentStatusColor = useCallback((status: string) => {
     const colors = {
       'paid': COLORS.primary[500],
       'pending': COLORS.warning[500],
@@ -153,7 +153,7 @@ const StudentDetailsScreen: React.FC<StudentDetailsScreenProps> = ({ route, navi
     return colors[status] || COLORS.text.secondary;
   }, []);
 
-  const getPaymentStatusText = useCallback((status) => {
+  const getPaymentStatusText = useCallback((status: string) => {
     const texts = {
       'paid': getString('paid'),
       'pending': getString('paymentPending'),
@@ -162,13 +162,13 @@ const StudentDetailsScreen: React.FC<StudentDetailsScreenProps> = ({ route, navi
     return texts[status] || status;
   }, []);
 
-  const formatDate = useCallback((date) => {
+  const formatDate = useCallback((date: any) => {
     if (!date) return getString('dataNotAvailable');
     const dateObj = date.seconds ? new Date(date.seconds * 1000) : new Date(date);
     return dateObj.toLocaleDateString('pt-BR');
   }, []);
 
-  const formatCurrency = useCallback((value) => {
+  const formatCurrency = useCallback((value: any) => {
     return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
       currency: getString('currency')
@@ -335,7 +335,7 @@ const StudentDetailsScreen: React.FC<StudentDetailsScreenProps> = ({ route, navi
                     </View>
                     <Text style={{
                       color: getPaymentStatusColor(payment.status),
-                      fontWeight: FONT_WEIGHT.bold
+                      fontWeight: '700' as const
                     }}>
                       {getPaymentStatusText(payment.status)}
                     </Text>
@@ -429,7 +429,7 @@ const styles = StyleSheet.create({
   },
   avatarText: {
     color: COLORS.white,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: '600' as const,
   },
   studentInfo: {
     marginLeft: SPACING.base,
@@ -437,7 +437,7 @@ const styles = StyleSheet.create({
   },
   studentName: {
     fontSize: FONT_SIZE.xl,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: '600' as const,
     color: COLORS.text.primary,
   },
   studentEmail: {
@@ -500,7 +500,7 @@ const styles = StyleSheet.create({
   },
   listTitle: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.medium,
+    fontWeight: '500' as const,
     color: COLORS.text.primary,
   },
   listSubtitle: {

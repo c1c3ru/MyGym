@@ -30,7 +30,7 @@ const { width } = Dimensions.get('window');
 const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
   const { user, academia, userProfile } = useAuth();
 
-  const [evaluations, setEvaluations] = useState([]);
+  const [evaluations, setEvaluations] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [selectedMetric, setSelectedMetric] = useState('weight');
@@ -85,7 +85,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
     }
   };
 
-  const formatDate = (date) => {
+  const formatDate = (date: any) => {
     if (!date) return '';
     const evalDate = date.toDate ? date.toDate() : new Date(date);
     return evalDate.toLocaleDateString('pt-BR');
@@ -216,7 +216,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
                 <Chip
                   mode="flat"
                   style={[styles.imcChip, { backgroundColor: getIMCColor(latestEvaluation.imcClassification) }]}
-                  textStyle={{ color: COLORS.white, fontWeight: FONT_WEIGHT.bold }}
+                  textStyle={{ color: COLORS.white, fontWeight: '700' as const }}
                 >
                   {latestEvaluation.imcClassification}
                 </Chip>
@@ -328,8 +328,8 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
                     stroke: COLORS.info[500],
                     fill: COLORS.white
                   },
-                  formatXLabel: (value) => value,
-                  formatYLabel: (value) => `${value}${chartData.suffix}`,
+                  formatXLabel: (value: any) => value,
+                  formatYLabel: (value: any) => `${value}${chartData.suffix}`,
                 }}
                 bezier
                 style={styles.chart}
@@ -403,7 +403,7 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
     marginLeft: SPACING.sm,
     flex: 1,
   },
@@ -431,7 +431,7 @@ const styles = StyleSheet.create({
   },
   statValue: {
     fontSize: FONT_SIZE.xl,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
     color: COLORS.text.primary,
   },
   statLabel: {
@@ -462,7 +462,7 @@ const styles = StyleSheet.create({
   },
   progressValue: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
   },
   metricsContainer: {
     marginBottom: SPACING.base,
@@ -480,7 +480,7 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
     color: COLORS.text.secondary,
     marginTop: SPACING.base,
     textAlign: 'center',

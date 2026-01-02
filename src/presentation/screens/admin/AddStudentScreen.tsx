@@ -64,8 +64,8 @@ const AddStudentScreen = ({ navigation, route }) => {
   const [showValidationBanner, setShowValidationBanner] = useState(false);
 
   // Classes data
-  const [availableClasses, setAvailableClasses] = useState([]);
-  const [selectedClasses, setSelectedClasses] = useState([]);
+  const [availableClasses, setAvailableClasses] = useState<any[]>([]);
+  const [selectedClasses, setSelectedClasses] = useState<any[]>([]);
   const [loadingClasses, setLoadingClasses] = useState(true);
 
   // Enhanced form validation
@@ -352,7 +352,7 @@ const AddStudentScreen = ({ navigation, route }) => {
               <TextInput
                 label="Nome Completo *"
                 {...getFieldProps('name')}
-                onChangeText={(value) => handleFieldChange('name', value)}
+                onChangeText={(value: any) => handleFieldChange('name', value)}
                 onBlur={() => handleFieldBlur('name')}
                 mode="outlined"
                 style={styles.input}
@@ -364,7 +364,7 @@ const AddStudentScreen = ({ navigation, route }) => {
               <TextInput
                 label="Email *"
                 {...getFieldProps('email')}
-                onChangeText={(value) => handleFieldChange('email', value)}
+                onChangeText={(value: any) => handleFieldChange('email', value)}
                 onBlur={() => handleFieldBlur('email')}
                 mode="outlined"
                 keyboardType="email-address"
@@ -378,7 +378,7 @@ const AddStudentScreen = ({ navigation, route }) => {
               <TextInput
                 label="Telefone *"
                 value={formData.phone}
-                onChangeText={(value) => updateFormData('phone', value)}
+                onChangeText={(value: any) => updateFormData('phone', value)}
                 mode="outlined"
                 keyboardType="phone-pad"
                 style={styles.input}
@@ -390,7 +390,7 @@ const AddStudentScreen = ({ navigation, route }) => {
               <TextInput
                 label="Data de Nascimento (DD/MM/AAAA) *"
                 value={formData.birthDate}
-                onChangeText={(value) => updateFormData('birthDate', value)}
+                onChangeText={(value: any) => updateFormData('birthDate', value)}
                 mode="outlined"
                 placeholder="01/01/1990"
                 style={styles.input}
@@ -402,7 +402,7 @@ const AddStudentScreen = ({ navigation, route }) => {
               {/* Campo Sexo */}
               <Text style={styles.fieldLabel}>Sexo *</Text>
               <RadioButton.Group
-                onValueChange={(value) => handleFieldChange('sexo', value)}
+                onValueChange={(value: any) => handleFieldChange('sexo', value)}
                 value={formData.sexo}
               >
                 <View style={styles.radioContainer}>
@@ -425,7 +425,7 @@ const AddStudentScreen = ({ navigation, route }) => {
               <TextInput
                 label="Endereço (opcional)"
                 value={formData.address}
-                onChangeText={(value) => updateFormData('address', value)}
+                onChangeText={(value: any) => updateFormData('address', value)}
                 mode="outlined"
                 multiline
                 numberOfLines={2}
@@ -439,7 +439,7 @@ const AddStudentScreen = ({ navigation, route }) => {
               <TextInput
                 label="Nome do Contato *"
                 value={formData.emergencyContact}
-                onChangeText={(value) => updateFormData('emergencyContact', value)}
+                onChangeText={(value: any) => updateFormData('emergencyContact', value)}
                 mode="outlined"
                 style={styles.input}
                 error={!!errors.emergencyContact}
@@ -450,7 +450,7 @@ const AddStudentScreen = ({ navigation, route }) => {
               <TextInput
                 label="Telefone de Emergência *"
                 value={formData.emergencyPhone}
-                onChangeText={(value) => updateFormData('emergencyPhone', value)}
+                onChangeText={(value: any) => updateFormData('emergencyPhone', value)}
                 mode="outlined"
                 keyboardType="phone-pad"
                 style={styles.input}
@@ -465,7 +465,7 @@ const AddStudentScreen = ({ navigation, route }) => {
               <TextInput
                 label="Condições Médicas (opcional)"
                 value={formData.medicalConditions}
-                onChangeText={(value) => updateFormData('medicalConditions', value)}
+                onChangeText={(value: any) => updateFormData('medicalConditions', value)}
                 mode="outlined"
                 multiline
                 numberOfLines={3}
@@ -477,7 +477,7 @@ const AddStudentScreen = ({ navigation, route }) => {
               <TextInput
                 label="Objetivos (opcional)"
                 value={formData.goals}
-                onChangeText={(value) => updateFormData('goals', value)}
+                onChangeText={(value: any) => updateFormData('goals', value)}
                 mode="outlined"
                 multiline
                 numberOfLines={2}
@@ -565,7 +565,7 @@ const AddStudentScreen = ({ navigation, route }) => {
               <View style={styles.radioContainer}>
                 <Text style={styles.label}>Status</Text>
                 <RadioButton.Group
-                  onValueChange={(value) => updateFormData('status', value)}
+                  onValueChange={(value: any) => updateFormData('status', value)}
                   value={formData.status}
                 >
                   <View style={styles.radioItem}>
@@ -641,13 +641,13 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: FONT_SIZE.xxl,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
     marginBottom: 20,
     textAlign: 'center',
   },
   sectionTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
     marginTop: 20,
     marginBottom: SPACING.base,
     color: COLORS.text.primary,
@@ -711,7 +711,7 @@ const styles = StyleSheet.create({
   selectedClassesInfo: {
     fontSize: FONT_SIZE.base,
     color: COLORS.info[700],
-    fontWeight: FONT_WEIGHT.medium,
+    fontWeight: '500' as const,
     flex: 1,
   },
   clearButton: {
@@ -743,13 +743,13 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.medium,
+    fontWeight: '500' as const,
     marginBottom: SPACING.sm,
     color: COLORS.text.primary,
   },
   fieldLabel: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: '600' as const,
     marginBottom: SPACING.sm,
     marginTop: SPACING.sm,
     color: COLORS.text.primary,
@@ -809,7 +809,7 @@ const styles = StyleSheet.create({
     marginTop: SPACING.base,
     fontSize: FONT_SIZE.md,
     color: COLORS.white,
-    fontWeight: FONT_WEIGHT.medium,
+    fontWeight: '500' as const,
   },
   snackbar: {
     marginBottom: SPACING.base,

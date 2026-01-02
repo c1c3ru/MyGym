@@ -209,7 +209,7 @@ const InjuryScreen = ({ navigation, route }) => {
     return severityLevels.find(s => s.value === severity)?.color || COLORS.gray[500];
   };
 
-  const getStatusColor = (status) => {
+  const getStatusColor = (status: string) => {
     return statusOptions.find(s => s.value === status)?.color || COLORS.gray[500];
   };
 
@@ -304,7 +304,7 @@ const InjuryScreen = ({ navigation, route }) => {
             <TextInput
               label="Descrição Detalhada *"
               value={formData.description}
-              onChangeText={(value) => updateFormData('description', value)}
+              onChangeText={(value: any) => updateFormData('description', value)}
               mode="outlined"
               multiline
               numberOfLines={3}
@@ -345,7 +345,7 @@ const InjuryScreen = ({ navigation, route }) => {
             {/* Severidade */}
             <Text style={styles.sectionTitle}>⚠️ Severidade</Text>
             <RadioButton.Group
-              onValueChange={(value) => updateFormData('severity', value)}
+              onValueChange={(value: any) => updateFormData('severity', value)}
               value={formData.severity}
             >
               {severityLevels.map((level) => (
@@ -353,7 +353,7 @@ const InjuryScreen = ({ navigation, route }) => {
                   <RadioButton.Item
                     label={level.label}
                     value={level.value}
-                    labelStyle={{ color: level.color, fontWeight: FONT_WEIGHT.bold }}
+                    labelStyle={{ color: level.color, fontWeight: '700' as const }}
                   />
                   <Text style={styles.radioDescription}>{level.description}</Text>
                 </View>
@@ -365,7 +365,7 @@ const InjuryScreen = ({ navigation, route }) => {
             {/* Status */}
             <Text style={styles.sectionTitle}>📊 Status da Lesão</Text>
             <RadioButton.Group
-              onValueChange={(value) => updateFormData('status', value)}
+              onValueChange={(value: any) => updateFormData('status', value)}
               value={formData.status}
             >
               {statusOptions.map((option) => (
@@ -373,7 +373,7 @@ const InjuryScreen = ({ navigation, route }) => {
                   <RadioButton.Item
                     label={option.label}
                     value={option.value}
-                    labelStyle={{ color: option.color, fontWeight: FONT_WEIGHT.bold }}
+                    labelStyle={{ color: option.color, fontWeight: '700' as const }}
                   />
                   <Text style={styles.radioDescription}>{option.description}</Text>
                 </View>
@@ -388,7 +388,7 @@ const InjuryScreen = ({ navigation, route }) => {
             <TextInput
               label="Tratamento Atual (opcional)"
               value={formData.treatment}
-              onChangeText={(value) => updateFormData('treatment', value)}
+              onChangeText={(value: any) => updateFormData('treatment', value)}
               mode="outlined"
               multiline
               numberOfLines={2}
@@ -399,7 +399,7 @@ const InjuryScreen = ({ navigation, route }) => {
             <TextInput
               label="Observações Médicas (opcional)"
               value={formData.doctorNotes}
-              onChangeText={(value) => updateFormData('doctorNotes', value)}
+              onChangeText={(value: any) => updateFormData('doctorNotes', value)}
               mode="outlined"
               multiline
               numberOfLines={2}
@@ -410,7 +410,7 @@ const InjuryScreen = ({ navigation, route }) => {
             <TextInput
               label="Previsão de Recuperação (opcional)"
               value={formData.expectedRecovery}
-              onChangeText={(value) => updateFormData('expectedRecovery', value)}
+              onChangeText={(value: any) => updateFormData('expectedRecovery', value)}
               mode="outlined"
               style={styles.input}
               placeholder="Ex: 2 semanas, 1 mês..."
@@ -419,7 +419,7 @@ const InjuryScreen = ({ navigation, route }) => {
             <TextInput
               label="Restrições de Atividade (opcional)"
               value={formData.restrictions}
-              onChangeText={(value) => updateFormData('restrictions', value)}
+              onChangeText={(value: any) => updateFormData('restrictions', value)}
               mode="outlined"
               multiline
               numberOfLines={2}
@@ -437,14 +437,14 @@ const InjuryScreen = ({ navigation, route }) => {
                 <Chip
                   mode="flat"
                   style={[styles.summaryChip, { backgroundColor: getSeverityColor(formData.severity) }]}
-                  textStyle={{ color: COLORS.white, fontWeight: FONT_WEIGHT.bold }}
+                  textStyle={{ color: COLORS.white, fontWeight: '700' as const }}
                 >
                   {severityLevels.find(s => s.value === formData.severity)?.label}
                 </Chip>
                 <Chip
                   mode="flat"
                   style={[styles.summaryChip, { backgroundColor: getStatusColor(formData.status) }]}
-                  textStyle={{ color: COLORS.white, fontWeight: FONT_WEIGHT.bold }}
+                  textStyle={{ color: COLORS.white, fontWeight: '700' as const }}
                 >
                   {statusOptions.find(s => s.value === formData.status)?.label}
                 </Chip>
@@ -508,7 +508,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: FONT_SIZE.xxl,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
     marginTop: SPACING.md,
     marginBottom: SPACING.sm,
     textAlign: 'center',
@@ -521,7 +521,7 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
     marginTop: SPACING.base,
     marginBottom: SPACING.md,
     color: COLORS.text.primary,
@@ -559,7 +559,7 @@ const styles = StyleSheet.create({
   },
   summaryTitle: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
     marginLeft: SPACING.sm,
     color: COLORS.info[700],
   },

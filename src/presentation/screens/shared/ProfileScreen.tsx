@@ -20,23 +20,22 @@ import { useTheme } from '@contexts/ThemeContext';
 import { useCustomClaims } from '@hooks/useCustomClaims';
 import { firestoreService } from '@services/firestoreService';
 import PaymentDueDateEditor from '@components/PaymentDueDateEditor';
+import type { NavigationProp } from '@react-navigation/native';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, BORDER_WIDTH } from '@presentation/theme/designTokens';
 import { getAuthGradient, getAuthCardColors } from '@presentation/theme/authTheme';
+
 interface ProfileScreenProps {
   navigation: NavigationProp<any>;
 }
 
 const { width } = Dimensions.get('window');
 
-
-interface ProfileScreenProps {
-  navigation: NavigationProp<any>;
 /**
  * Tela de perfil do usuário
  * Exibe informações pessoais, dados da academia, treinos e configurações
  */
 const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
-  const { user, userProfile, signOut, updateProfile } = useAuth();
+  const { user, userProfile, signOut, updateProfile, academia } = useAuth();
   const { getString, isDarkMode } = useTheme();
   const { getUserTypeColor: getClaimsTypeColor, getUserTypeText: getClaimsTypeText, isStudent } = useCustomClaims();
   const [editing, setEditing] = useState(false);
@@ -52,8 +51,8 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
   const [trainingData, setTrainingData] = useState({});
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [showYearModal, setShowYearModal] = useState(false);
-  const [physicalEvaluations, setPhysicalEvaluations] = useState([]);
-  const [injuries, setInjuries] = useState([]);
+  const [physicalEvaluations, setPhysicalEvaluations] = useState<any[]>([]);
+  const [injuries, setInjuries] = useState<any[]>([]);
   const [checkInStats, setCheckInStats] = useState({
     thisWeek: 0,
     total: 14,
@@ -63,6 +62,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
   // Estados para pagamentos
   const [currentPayment, setCurrentPayment] = useState(null);
   const [showPaymentEditor, setShowPaymentEditor] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [paymentDueNotification, setPaymentDueNotification] = useState(null);
 
   useEffect(() => {
@@ -126,7 +126,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
     }
   };
 
-  const processTrainingData = (trainingHistory) => {
+  const processTrainingData = (trainingHistory: any) => {
     const data = {};
 
     trainingHistory.forEach(training => {
@@ -222,7 +222,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
     );
   };
 
-  const getUserTypeText = (userType) => {
+  const getUserTypeText = (userType: string) => {
     switch (userType) {
       case 'student': return getString('student');
       case 'instructor': return getString('instructor');
@@ -231,7 +231,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
     }
   };
 
-  const getUserTypeColor = (userType) => {
+  const getUserTypeColor = (userType: string) => {
     switch (userType) {
       case 'student': return COLORS.info[500];
       case 'instructor': return COLORS.primary[500];
@@ -770,7 +770,7 @@ const styles = StyleSheet.create({
     color: COLORS.text.primary,
   },
   warningDays: {
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
     color: COLORS.warning[500],
   },
   warningDetails: {
@@ -838,7 +838,7 @@ const styles = StyleSheet.create({
   },
   dayText: {
     fontSize: FONT_SIZE.sm,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
     color: COLORS.text.secondary,
   },
   noTrainingText: {
@@ -865,7 +865,7 @@ const styles = StyleSheet.create({
   },
   selectedYear: {
     fontSize: FONT_SIZE.xxl,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
     marginHorizontal: 20,
     color: COLORS.info[500],
   },
@@ -894,7 +894,7 @@ const styles = StyleSheet.create({
   },
   monthName: {
     fontSize: FONT_SIZE.base,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
     color: COLORS.text.primary,
   },
   monthChip: {

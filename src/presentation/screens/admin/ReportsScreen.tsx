@@ -46,8 +46,8 @@ const ReportsScreen = ({ navigation }) => {
     monthlyRevenue: 0,
     pendingPayments: 0
   });
-  const [recentActivities, setRecentActivities] = useState([]);
-  const [topClasses, setTopClasses] = useState([]);
+  const [recentActivities, setRecentActivities] = useState<any[]>([]);
+  const [topClasses, setTopClasses] = useState<any[]>([]);
 
   // Analytics tracking
   useScreenTracking('ReportsScreen', {
@@ -174,7 +174,7 @@ const ReportsScreen = ({ navigation }) => {
   }, [loadReportsData, userProfile?.academiaId, academia?.id]);
 
   // Memoized utility functions
-  const formatCurrency = useCallback((value) => {
+  const formatCurrency = useCallback((value: any) => {
     return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
       currency: getString('currency')
@@ -426,7 +426,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: FONT_SIZE.xxl,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
     color: COLORS.text.primary,
   },
   subtitle: {
@@ -440,7 +440,7 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
     marginBottom: 16,
     color: COLORS.text.primary,
   },
@@ -471,7 +471,7 @@ const styles = StyleSheet.create({
   },
   statNumber: {
     fontSize: FONT_SIZE.xl,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
     color: COLORS.text.primary,
   },
   statLabel: {
@@ -530,7 +530,7 @@ const styles = StyleSheet.create({
   activityAction: {
     fontSize: FONT_SIZE.base,
     color: COLORS.text.primary,
-    fontWeight: FONT_WEIGHT.medium,
+    fontWeight: '500' as const,
   },
   activityTime: {
     fontSize: FONT_SIZE.sm,

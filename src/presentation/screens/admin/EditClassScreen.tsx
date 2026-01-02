@@ -30,8 +30,8 @@ const EditClassScreen = ({ route, navigation }) => {
   const { user, userProfile, academia } = useAuth();
   const [loading, setLoading] = useState(false);
   const [loadingData, setLoadingData] = useState(true);
-  const [instructors, setInstructors] = useState([]);
-  const [modalities, setModalities] = useState([]);
+  const [instructors, setInstructors] = useState<any[]>([]);
+  const [modalities, setModalities] = useState<any[]>([]);
   const [snackbar, setSnackbar] = useState({ visible: false, message: '', type: 'info' });
 
   // Age categories for classes
@@ -285,7 +285,7 @@ const EditClassScreen = ({ route, navigation }) => {
             <TextInput
               label="Nome da Turma"
               value={formData.name}
-              onChangeText={(value) => updateFormData('name', value)}
+              onChangeText={(value: any) => updateFormData('name', value)}
               mode="outlined"
               style={styles.input}
               error={!!errors.name}
@@ -337,7 +337,7 @@ const EditClassScreen = ({ route, navigation }) => {
             <TextInput
               label="Descrição (opcional)"
               value={formData.description}
-              onChangeText={(value) => updateFormData('description', value)}
+              onChangeText={(value: any) => updateFormData('description', value)}
               mode="outlined"
               multiline
               numberOfLines={3}
@@ -348,7 +348,7 @@ const EditClassScreen = ({ route, navigation }) => {
             <TextInput
               label="Máximo de Alunos"
               value={formData.maxStudents}
-              onChangeText={(value) => updateFormData('maxStudents', value)}
+              onChangeText={(value: any) => updateFormData('maxStudents', value)}
               mode="outlined"
               keyboardType="numeric"
               style={styles.input}
@@ -382,7 +382,7 @@ const EditClassScreen = ({ route, navigation }) => {
             <TextInput
               label="Horário (ex: Segunda-feira 08:00-09:00)"
               value={formData.schedule}
-              onChangeText={(value) => updateFormData('schedule', value)}
+              onChangeText={(value: any) => updateFormData('schedule', value)}
               mode="outlined"
               style={styles.input}
               error={!!errors.schedule}
@@ -393,7 +393,7 @@ const EditClassScreen = ({ route, navigation }) => {
             <TextInput
               label="Preço Mensal (R$)"
               value={formData.price}
-              onChangeText={(value) => updateFormData('price', value)}
+              onChangeText={(value: any) => updateFormData('price', value)}
               mode="outlined"
               keyboardType="numeric"
               style={styles.input}
@@ -405,7 +405,7 @@ const EditClassScreen = ({ route, navigation }) => {
             <View style={styles.radioContainer}>
               <Text style={styles.label}>Status</Text>
               <RadioButton.Group
-                onValueChange={(value) => updateFormData('status', value)}
+                onValueChange={(value: any) => updateFormData('status', value)}
                 value={formData.status}
               >
                 <View style={styles.radioItem}>
@@ -488,7 +488,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: FONT_SIZE.xxl,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
     marginBottom: 20,
     textAlign: 'center',
   },
@@ -497,7 +497,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.medium,
+    fontWeight: '500' as const,
     marginBottom: SPACING.sm,
     color: COLORS.text.primary,
   },

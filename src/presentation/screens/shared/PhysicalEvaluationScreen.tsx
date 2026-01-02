@@ -71,7 +71,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
     calculateIMC();
   }, [formData.weight, formData.height]);
 
-  const normalizeNumber = (value) => {
+  const normalizeNumber = (value: any) => {
     // Substitui vírgula por ponto e remove espaços
     return value.replace(/,/g, '.').replace(/\s/g, '');
   };
@@ -280,7 +280,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
               <TextInput
                 label="Peso (kg)"
                 value={formData.weight}
-                onChangeText={(value) => updateFormData('weight', value)}
+                onChangeText={(value: any) => updateFormData('weight', value)}
                 mode="outlined"
                 keyboardType="decimal-pad"
                 style={[styles.input, styles.halfInput]}
@@ -289,7 +289,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
               <TextInput
                 label="Altura (cm)"
                 value={formData.height}
-                onChangeText={(value) => updateFormData('height', value)}
+                onChangeText={(value: any) => updateFormData('height', value)}
                 mode="outlined"
                 keyboardType="decimal-pad"
                 style={[styles.input, styles.halfInput]}
@@ -305,7 +305,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
             <TextInput
               label="Idade (anos)"
               value={formData.age}
-              onChangeText={(value) => updateFormData('age', value)}
+              onChangeText={(value: any) => updateFormData('age', value)}
               mode="outlined"
               keyboardType="numeric"
               style={styles.input}
@@ -325,7 +325,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
                   <Chip
                     mode="flat"
                     style={[styles.imcChip, { backgroundColor: getIMCColor(imcClassification) }]}
-                    textStyle={{ color: COLORS.white, fontWeight: FONT_WEIGHT.bold }}
+                    textStyle={{ color: COLORS.white, fontWeight: '700' as const }}
                   >
                     {imcClassification}
                   </Chip>
@@ -342,7 +342,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
               <TextInput
                 label="Gordura Corporal (%)"
                 value={formData.bodyFat}
-                onChangeText={(value) => updateFormData('bodyFat', value)}
+                onChangeText={(value: any) => updateFormData('bodyFat', value)}
                 mode="outlined"
                 keyboardType="decimal-pad"
                 style={[styles.input, styles.halfInput]}
@@ -351,7 +351,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
               <TextInput
                 label="Massa Muscular (kg)"
                 value={formData.muscleMass}
-                onChangeText={(value) => updateFormData('muscleMass', value)}
+                onChangeText={(value: any) => updateFormData('muscleMass', value)}
                 mode="outlined"
                 keyboardType="decimal-pad"
                 style={[styles.input, styles.halfInput]}
@@ -363,7 +363,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
               <TextInput
                 label="Massa Óssea (kg)"
                 value={formData.boneMass}
-                onChangeText={(value) => updateFormData('boneMass', value)}
+                onChangeText={(value: any) => updateFormData('boneMass', value)}
                 mode="outlined"
                 keyboardType="decimal-pad"
                 style={[styles.input, styles.halfInput]}
@@ -371,7 +371,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
               <TextInput
                 label="Gordura Visceral"
                 value={formData.viscFat}
-                onChangeText={(value) => updateFormData('viscFat', value)}
+                onChangeText={(value: any) => updateFormData('viscFat', value)}
                 mode="outlined"
                 keyboardType="decimal-pad"
                 style={[styles.input, styles.halfInput]}
@@ -382,7 +382,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
               <TextInput
                 label="Metabolismo Basal (kcal)"
                 value={formData.basalMetabolism}
-                onChangeText={(value) => updateFormData('basalMetabolism', value)}
+                onChangeText={(value: any) => updateFormData('basalMetabolism', value)}
                 mode="outlined"
                 keyboardType="numeric"
                 style={[styles.input, styles.halfInput]}
@@ -390,7 +390,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
               <TextInput
                 label="Água Corporal (%)"
                 value={formData.bodyWater}
-                onChangeText={(value) => updateFormData('bodyWater', value)}
+                onChangeText={(value: any) => updateFormData('bodyWater', value)}
                 mode="outlined"
                 keyboardType="decimal-pad"
                 style={[styles.input, styles.halfInput]}
@@ -409,7 +409,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
             <TextInput
               label="optionalObservations"
               value={formData.notes}
-              onChangeText={(value) => updateFormData('notes', value)}
+              onChangeText={(value: any) => updateFormData('notes', value)}
               mode="outlined"
               multiline
               numberOfLines={3}
@@ -474,7 +474,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: FONT_SIZE.xxl,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
     marginTop: SPACING.md,
     marginBottom: SPACING.sm,
     textAlign: 'center',
@@ -487,7 +487,7 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
     marginTop: SPACING.base,
     marginBottom: SPACING.md,
     color: COLORS.text.primary,
@@ -520,7 +520,7 @@ const styles = StyleSheet.create({
   },
   imcTitle: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
     marginLeft: SPACING.sm,
     color: COLORS.info[700],
   },
@@ -531,7 +531,7 @@ const styles = StyleSheet.create({
   },
   imcValue: {
     fontSize: FONT_SIZE.xxxl,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
     color: COLORS.info[700],
   },
   imcChip: {

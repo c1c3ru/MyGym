@@ -104,7 +104,7 @@ const GraduationBoardScreen = ({ navigation }) => {
     return colors[alertLevel] || COLORS.gray[300];
   };
 
-  const formatDate = (date) => {
+  const formatDate = (date: any) => {
     return new Date(date).toLocaleDateString('pt-BR');
   };
 
@@ -466,7 +466,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     color: COLORS.white,
     fontSize: FONT_SIZE.xxl,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
   },
   headerSubtitle: {
     color: COLORS.white,
@@ -509,7 +509,7 @@ const styles = StyleSheet.create({
   },
   summaryNumber: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
     marginBottom: 2,
   },
   summaryLabel: {
@@ -558,7 +558,7 @@ const styles = StyleSheet.create({
   },
   studentName: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
   },
   studentModality: {
     fontSize: FONT_SIZE.base,
@@ -596,12 +596,12 @@ const styles = StyleSheet.create({
   },
   examModality: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
   },
   examDate: {
     fontSize: FONT_SIZE.base,
     color: COLORS.info[500],
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
   },
   examDetails: {
     fontSize: FONT_SIZE.base,
@@ -629,7 +629,7 @@ const styles = StyleSheet.create({
   },
   statModality: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
   },
   statNumbers: {
     flexDirection: 'row',
@@ -637,7 +637,7 @@ const styles = StyleSheet.create({
   },
   statEligible: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
     color: COLORS.primary[500],
   },
   statTotal: {

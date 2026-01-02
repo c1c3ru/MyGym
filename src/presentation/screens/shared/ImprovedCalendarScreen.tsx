@@ -27,7 +27,7 @@ const ImprovedCalendarScreen = ({ navigation }) => {
   const { getString } = useTheme();
   const { role, isAdmin, isInstructor, isStudent } = useCustomClaims();
 
-  const [classes, setClasses] = useState([]);
+  const [classes, setClasses] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 

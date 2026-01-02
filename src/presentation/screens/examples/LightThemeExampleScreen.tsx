@@ -276,7 +276,7 @@ const styles = StyleSheet.create({
 
   // Header
   header: {
-    paddingVertical: SPACING.xs0,
+    paddingVertical: SPACING.xs,
     paddingHorizontal: 20,
   },
   headerContent: {
@@ -334,7 +334,7 @@ const styles = StyleSheet.create({
   // Explicação
   explanationSection: {
     flexDirection: width > 768 ? 'row' : 'column',
-    gap: SPACING.xxs4,
+    gap: SPACING.xxs,
   },
   explanationText: {
     flex: width > 768 ? 2 : 1,
@@ -477,7 +477,7 @@ const styles = StyleSheet.create({
   },
   contactValue: {
     ...LIGHT_TYPOGRAPHY.body1,
-    fontWeight: FONT_WEIGHT.medium,
+    fontWeight: '500' as const,
   },
   contactDivider: {
     backgroundColor: LIGHT_THEME.border.light,

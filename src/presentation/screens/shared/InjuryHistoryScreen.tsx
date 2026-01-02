@@ -31,7 +31,7 @@ const InjuryHistoryScreen = ({ navigation }) => {
 
   const { user, academia } = useAuth();
 
-  const [injuries, setInjuries] = useState([]);
+  const [injuries, setInjuries] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState('all');
@@ -64,13 +64,13 @@ const InjuryHistoryScreen = ({ navigation }) => {
     loadInjuries();
   };
 
-  const formatDate = (date) => {
+  const formatDate = (date: any) => {
     if (!date) return '';
     const injuryDate = date.toDate ? date.toDate() : new Date(date);
     return injuryDate.toLocaleDateString('pt-BR');
   };
 
-  const getStatusColor = (status) => {
+  const getStatusColor = (status: string) => {
     switch (status) {
       case 'ativo': return COLORS.error[500];
       case 'recuperando': return COLORS.warning[500];
@@ -89,7 +89,7 @@ const InjuryHistoryScreen = ({ navigation }) => {
     }
   };
 
-  const getStatusLabel = (status) => {
+  const getStatusLabel = (status: string) => {
     switch (status) {
       case 'ativo': return getString('active');
       case 'recuperando': return getString('recovering');
@@ -367,7 +367,7 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
     marginLeft: SPACING.sm,
     flex: 1,
   },
@@ -387,7 +387,7 @@ const styles = StyleSheet.create({
   },
   statNumber: {
     fontSize: FONT_SIZE.xxl,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
     color: COLORS.text.primary,
   },
   statLabel: {
@@ -446,7 +446,7 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
     color: COLORS.text.secondary,
     marginTop: SPACING.base,
     textAlign: 'center',

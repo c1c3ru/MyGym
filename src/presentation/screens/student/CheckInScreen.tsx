@@ -36,8 +36,8 @@ const CheckInScreen = ({ navigation }) => {
   const { getUserTypeColor } = useCustomClaims();
   const [loading, setLoading] = useState(false);
   const [todayCheckIn, setTodayCheckIn] = useState(null);
-  const [recentCheckIns, setRecentCheckIns] = useState([]);
-  const [availableClasses, setAvailableClasses] = useState([]);
+  const [recentCheckIns, setRecentCheckIns] = useState<any[]>([]);
+  const [availableClasses, setAvailableClasses] = useState<any[]>([]);
 
   const themeColors = { primary: getUserTypeColor() };
 
@@ -188,7 +188,7 @@ const CheckInScreen = ({ navigation }) => {
     }
   };
 
-  const formatTime = (date) => {
+  const formatTime = (date: any) => {
     if (!date) return '';
     const dateObj = date.toDate ? date.toDate() : new Date(date);
     return dateObj.toLocaleTimeString('pt-BR', {
@@ -197,7 +197,7 @@ const CheckInScreen = ({ navigation }) => {
     });
   };
 
-  const formatDate = (date) => {
+  const formatDate = (date: any) => {
     if (!date) return '';
     const dateObj = date.toDate ? date.toDate() : new Date(date);
     return dateObj.toLocaleDateString('pt-BR');
@@ -359,7 +359,7 @@ const styles = StyleSheet.create({
   },
   todayTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
     marginBottom: SPACING.xs,
   },
   todaySubtitle: {
@@ -377,7 +377,7 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
     marginLeft: 8,
   },
   classItem: {
@@ -395,7 +395,7 @@ const styles = StyleSheet.create({
   },
   className: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: '600' as const,
     marginBottom: SPACING.xs,
   },
   classModality: {
@@ -426,7 +426,7 @@ const styles = StyleSheet.create({
   },
   historyTitle: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.medium,
+    fontWeight: '500' as const,
     marginBottom: 2,
   },
   historyDate: {
@@ -439,7 +439,7 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: '600' as const,
     color: COLORS.gray[500],
     marginTop: SPACING.md,
   },

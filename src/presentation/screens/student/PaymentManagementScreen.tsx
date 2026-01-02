@@ -38,8 +38,8 @@ const PaymentManagementScreen: React.FC<PaymentManagementScreenProps> = ({ navig
   const { getUserTypeColor } = useCustomClaims();
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
-  const [payments, setPayments] = useState([]);
-  const [plans, setPlans] = useState([]);
+  const [payments, setPayments] = useState<any[]>([]);
+  const [plans, setPlans] = useState<any[]>([]);
   const [currentPlan, setCurrentPlan] = useState(null);
   const [showPlanModal, setShowPlanModal] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -160,20 +160,20 @@ const PaymentManagementScreen: React.FC<PaymentManagementScreenProps> = ({ navig
     );
   };
 
-  const formatCurrency = (value) => {
+  const formatCurrency = (value: any) => {
     return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
       currency: getString('currency')
     }).format(value || 0);
   };
 
-  const formatDate = (date) => {
+  const formatDate = (date: any) => {
     if (!date) return '';
     const dateObj = date.toDate ? date.toDate() : new Date(date);
     return dateObj.toLocaleDateString('pt-BR');
   };
 
-  const getPaymentStatusColor = (status) => {
+  const getPaymentStatusColor = (status: string) => {
     const colors = {
       'paid': COLORS.success[500],
       'pending': COLORS.warning[500],
@@ -183,7 +183,7 @@ const PaymentManagementScreen: React.FC<PaymentManagementScreenProps> = ({ navig
     return colors[status] || COLORS.text.secondary;
   };
 
-  const getPaymentStatusText = (status) => {
+  const getPaymentStatusText = (status: string) => {
     const texts = {
       'paid': getString('paid'),
       'pending': getString('paymentPending'),
@@ -220,7 +220,7 @@ const PaymentManagementScreen: React.FC<PaymentManagementScreenProps> = ({ navig
                 <Chip
                   mode="flat"
                   style={[styles.statusChip, { backgroundColor: getPaymentStatusColor(currentPlan.status) }]}
-                  textStyle={{ color: COLORS.white, fontWeight: FONT_WEIGHT.bold }}
+                  textStyle={{ color: COLORS.white, fontWeight: '700' as const }}
                 >
                   {getPaymentStatusText(currentPlan.status)}
                 </Chip>
@@ -348,7 +348,7 @@ const PaymentManagementScreen: React.FC<PaymentManagementScreenProps> = ({ navig
 
           <ScrollView style={styles.modalContent}>
             <RadioButton.Group
-              onValueChange={(value) => {
+              onValueChange={(value: any) => {
                 const plan = plans.find(p => p.id === value);
                 setSelectedPlan(plan);
               }}
@@ -447,7 +447,7 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
     marginLeft: 8,
     flex: 1,
   },
@@ -459,12 +459,12 @@ const styles = StyleSheet.create({
   },
   planName: {
     fontSize: FONT_SIZE.xl,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
     marginBottom: SPACING.xs,
   },
   planValue: {
     fontSize: FONT_SIZE.xxl,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
     color: COLORS.primary[500],
     marginBottom: SPACING.md,
   },
@@ -480,7 +480,7 @@ const styles = StyleSheet.create({
   },
   dueDateValue: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: '600' as const,
   },
   daysLeft: {
     fontSize: FONT_SIZE.base,
@@ -501,12 +501,12 @@ const styles = StyleSheet.create({
   },
   paymentPlan: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: '600' as const,
     marginBottom: SPACING.xs,
   },
   paymentAmount: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
     color: COLORS.warning[500],
     marginBottom: SPACING.xs,
   },
@@ -528,12 +528,12 @@ const styles = StyleSheet.create({
   },
   historyPlan: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.medium,
+    fontWeight: '500' as const,
     marginBottom: SPACING.xs,
   },
   historyAmount: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
     marginBottom: SPACING.xs,
   },
   historyDate: {
@@ -549,7 +549,7 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: '600' as const,
     color: COLORS.gray[500],
     marginTop: SPACING.md,
   },
@@ -572,7 +572,7 @@ const styles = StyleSheet.create({
   },
   modalTitle: {
     fontSize: FONT_SIZE.xl,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
     textAlign: 'center',
     padding: SPACING.lg,
     borderBottomWidth: 1,
@@ -597,12 +597,12 @@ const styles = StyleSheet.create({
   },
   planOptionName: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: '600' as const,
     marginBottom: SPACING.xs,
   },
   planOptionValue: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
     color: COLORS.primary[500],
     marginBottom: SPACING.xs,
   },
@@ -618,7 +618,7 @@ const styles = StyleSheet.create({
   },
   dueDateSectionTitle: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: '600' as const,
     marginBottom: SPACING.md,
   },
   dateButton: {

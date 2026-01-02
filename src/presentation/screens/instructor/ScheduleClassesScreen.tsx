@@ -146,7 +146,7 @@ const ScheduleClassesScreen = ({ navigation, route }) => {
     }
   };
 
-  const formatDate = (date) => {
+  const formatDate = (date: any) => {
     return date.toLocaleDateString('pt-BR', {
       day: '2-digit',
       month: 'long',
@@ -373,7 +373,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
     marginLeft: SPACING.sm,
     color: COLORS.text.primary,
   },
@@ -405,7 +405,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: FONT_SIZE.sm,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: '600' as const,
     color: COLORS.text.primary,
     marginTop: SPACING.md,
     marginBottom: SPACING.xs,

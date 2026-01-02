@@ -57,9 +57,9 @@ const AddGraduationScreen = ({ route, navigation }) => {
     previousGraduation: ''
   });
 
-  const [modalities, setModalities] = useState([]);
-  const [instructors, setInstructors] = useState([]);
-  const [graduationLevels, setGraduationLevels] = useState([]);
+  const [modalities, setModalities] = useState<any[]>([]);
+  const [instructors, setInstructors] = useState<any[]>([]);
+  const [graduationLevels, setGraduationLevels] = useState<any[]>([]);
   const [modalityDialogVisible, setModalityDialogVisible] = useState(false);
   const [graduationDialogVisible, setGraduationDialogVisible] = useState(false);
   const [instructorDialogVisible, setInstructorDialogVisible] = useState(false);
@@ -644,7 +644,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: FONT_SIZE.xl,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
     color: COLORS.white,
   },
   headerSubtitle: {
@@ -680,12 +680,12 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.sm,
     color: COLORS.text.secondary,
     textTransform: 'uppercase',
-    fontWeight: FONT_WEIGHT.medium,
+    fontWeight: '500' as const,
     letterSpacing: 0.5,
   },
   currentGraduationValue: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
     color: COLORS.text.primary,
     marginTop: 2,
   },
@@ -696,7 +696,7 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
     color: COLORS.text.primary,
     marginBottom: 16,
   },
@@ -705,7 +705,7 @@ const styles = StyleSheet.create({
   },
   selectionLabel: {
     fontSize: FONT_SIZE.base,
-    fontWeight: FONT_WEIGHT.medium,
+    fontWeight: '500' as const,
     color: COLORS.text.secondary,
     marginBottom: SPACING.sm,
   },
@@ -736,7 +736,7 @@ const styles = StyleSheet.create({
   },
   selectionButtonTextSelected: {
     color: COLORS.info[700],
-    fontWeight: FONT_WEIGHT.medium,
+    fontWeight: '500' as const,
   },
   selectionButtonTextDisabled: {
     color: COLORS.gray[500],
@@ -757,7 +757,7 @@ const styles = StyleSheet.create({
   },
   inputLabel: {
     fontSize: FONT_SIZE.base,
-    fontWeight: FONT_WEIGHT.medium,
+    fontWeight: '500' as const,
     color: COLORS.text.secondary,
     marginBottom: SPACING.sm,
   },
@@ -806,7 +806,7 @@ const styles = StyleSheet.create({
   },
   submitButtonLabel: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
   },
   cancelButton: {
     borderColor: COLORS.gray[500],
@@ -825,7 +825,7 @@ const styles = StyleSheet.create({
   },
   dialogTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
     color: COLORS.text.primary,
   },
   dialogContent: {

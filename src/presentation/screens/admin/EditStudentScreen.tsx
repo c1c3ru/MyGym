@@ -31,6 +31,7 @@ interface EditStudentScreenProps {
 
 const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route }) => {
   const { user, userProfile, academia } = useAuth();
+  const { studentId } = route.params as any;
   const { getString } = useTheme();
   const [loading, setLoading] = useState(false);
   const [loadingData, setLoadingData] = useState(true);
@@ -264,7 +265,7 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
             <TextInput
               label="Nome Completo"
               value={formData.name}
-              onChangeText={(value) => updateFormData('name', value)}
+              onChangeText={(value: any) => updateFormData('name', value)}
               mode="outlined"
               style={styles.input}
               error={!!errors.name}
@@ -274,7 +275,7 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
             <TextInput
               label="email"
               value={formData.email}
-              onChangeText={(value) => updateFormData('email', value)}
+              onChangeText={(value: any) => updateFormData('email', value)}
               mode="outlined"
               keyboardType="email-address"
               autoCapitalize="none"
@@ -286,7 +287,7 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
             <TextInput
               label="Telefone"
               value={formData.phone}
-              onChangeText={(value) => updateFormData('phone', value)}
+              onChangeText={(value: any) => updateFormData('phone', value)}
               mode="outlined"
               keyboardType="phone-pad"
               style={styles.input}
@@ -297,7 +298,7 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
             <TextInput
               label="Data de Nascimento (DD/MM/AAAA)"
               value={formData.birthDate}
-              onChangeText={(value) => updateFormData('birthDate', value)}
+              onChangeText={(value: any) => updateFormData('birthDate', value)}
               mode="outlined"
               placeholder="01/01/1990"
               style={styles.input}
@@ -308,7 +309,7 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
             <TextInput
               label="Endereço (opcional)"
               value={formData.address}
-              onChangeText={(value) => updateFormData('address', value)}
+              onChangeText={(value: any) => updateFormData('address', value)}
               mode="outlined"
               multiline
               numberOfLines={2}
@@ -321,7 +322,7 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
             <TextInput
               label="Nome do Contato"
               value={formData.emergencyContact}
-              onChangeText={(value) => updateFormData('emergencyContact', value)}
+              onChangeText={(value: any) => updateFormData('emergencyContact', value)}
               mode="outlined"
               style={styles.input}
               error={!!errors.emergencyContact}
@@ -331,7 +332,7 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
             <TextInput
               label="Telefone de Emergência"
               value={formData.emergencyPhone}
-              onChangeText={(value) => updateFormData('emergencyPhone', value)}
+              onChangeText={(value: any) => updateFormData('emergencyPhone', value)}
               mode="outlined"
               keyboardType="phone-pad"
               style={styles.input}
@@ -345,7 +346,7 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
             <TextInput
               label="Condições Médicas (opcional)"
               value={formData.medicalConditions}
-              onChangeText={(value) => updateFormData('medicalConditions', value)}
+              onChangeText={(value: any) => updateFormData('medicalConditions', value)}
               mode="outlined"
               multiline
               numberOfLines={3}
@@ -356,7 +357,7 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
             <TextInput
               label="Objetivos (opcional)"
               value={formData.goals}
-              onChangeText={(value) => updateFormData('goals', value)}
+              onChangeText={(value: any) => updateFormData('goals', value)}
               mode="outlined"
               multiline
               numberOfLines={2}
@@ -368,7 +369,7 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
             <View style={styles.radioContainer}>
               <Text style={styles.label}>Status</Text>
               <RadioButton.Group
-                onValueChange={(value) => updateFormData('status', value)}
+                onValueChange={(value: any) => updateFormData('status', value)}
                 value={formData.status}
               >
                 <View style={styles.radioItem}>
@@ -462,13 +463,13 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: FONT_SIZE.xxl,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
     marginBottom: 20,
     textAlign: 'center',
   },
   sectionTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700' as const,
     marginTop: 20,
     marginBottom: 16,
     color: COLORS.text.primary,
@@ -478,7 +479,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.medium,
+    fontWeight: '500' as const,
     marginBottom: SPACING.sm,
     color: COLORS.text.primary,
   },
