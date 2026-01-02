@@ -90,7 +90,7 @@ const ImprovedCalendarScreen: React.FC<ImprovedCalendarScreenProps> = ({ navigat
       const userClasses = await cacheService.getOrSet(
         CACHE_KEYS.CALENDAR_CLASSES(academiaId, role),
         async () => {
-          const allClasses: Class[] = await academyFirestoreService.getAll('classes', academiaId);
+          const allClasses: Class[] = await academyFirestoreService.getAll('classes', academiaId) as Class[];
           let filteredClasses: Class[] = [];
 
           if (isAdmin()) {
@@ -204,7 +204,7 @@ const ImprovedCalendarScreen: React.FC<ImprovedCalendarScreenProps> = ({ navigat
           classes={classes}
           onClassPress={handleClassPress}
           onDatePress={handleDatePress}
-          onCreateClass={(isAdmin() || isInstructor()) ? handleCreateClass : null}
+          onCreateClass={(isAdmin() || isInstructor()) ? handleCreateClass : undefined}
           navigation={navigation}
           refreshControl={
             <RefreshControl

@@ -22,12 +22,13 @@ const { width } = Dimensions.get('window');
 
 /**
  * Scheduler GRATUITO específico para academias
- * Funcionalidades:
- * - Eventos recorrentes (turmas semanais)
- * - Visualização mensal/semanal
- * - Detecção de conflitos
- * - Gestão de instrutores
- * - Cores por modalidade
+ * 
+ * @param {Object} props
+ * @param {Array} props.classes - Lista de turmas
+ * @param {Function} props.onClassPress - Callback ao clicar na turma
+ * @param {Function} props.onDatePress - Callback ao selecionar data
+ * @param {Function} [props.onCreateClass] - Callback para criar turma (opcional)
+ * @param {Object} props.navigation - Objeto de navegação
  */
 const FreeGymScheduler = ({
   classes = [],
@@ -37,20 +38,20 @@ const FreeGymScheduler = ({
   navigation
 }) => {
   const { colors } = useTheme();
-  
+
   // Usa useContext diretamente para verificar se está dentro do AuthProvider
   const authContext = useContext(AuthContext);
   const user = authContext?.user || null;
   const userProfile = authContext?.userProfile || null;
   const academia = authContext?.academia || null;
-  
+
   // useCustomClaims agora é seguro e retorna valores padrão se não houver contexto
   const claims = useCustomClaims();
   const role = claims?.role || null;
   const isAdmin = claims?.isAdmin || false;
   const isInstructor = claims?.isInstructor || false;
   const isStudent = claims?.isStudent || false;
-  
+
   const [selectedDate, setSelectedDate] = useState(null);
   const [viewMode, setViewMode] = useState('month'); // month, week, day
   const [filterInstructor, setFilterInstructor] = useState(null);
@@ -82,7 +83,7 @@ const FreeGymScheduler = ({
 
         // Carregar instrutores
         const instructorsData = await academyFirestoreService.getAll('users', academiaId);
-        const instructorsList = instructorsData.filter(user => 
+        const instructorsList = instructorsData.filter(user =>
           user.userType === 'instructor' || user.role === 'instructor'
         );
         setInstructors(instructorsList);
@@ -135,9 +136,9 @@ const FreeGymScheduler = ({
 
           hours.forEach(time => {
             const eventId = `${classData.id}-${dateString}-${time}`;
-            
+
             if (!events[dateString]) events[dateString] = [];
-            
+
             events[dateString].push({
               id: eventId,
               classId: classData.id,
@@ -165,10 +166,10 @@ const FreeGymScheduler = ({
   // Gerar todos os eventos de todas as turmas
   const allEvents = useMemo(() => {
     let events = {};
-    
+
     classes.forEach(classData => {
       const classEvents = generateRecurringEvents(classData);
-      
+
       Object.entries(classEvents).forEach(([date, dayEvents]) => {
         if (!events[date]) events[date] = [];
         events[date].push(...dayEvents);
@@ -183,7 +184,7 @@ const FreeGymScheduler = ({
           const matchModality = !filterModality || event.modality === filterModality;
           return matchInstructor && matchModality;
         });
-        
+
         if (events[date].length === 0) {
           delete events[date];
         }
@@ -270,7 +271,7 @@ const FreeGymScheduler = ({
     return (
       <ScrollView style={styles.eventsContainer}>
         {dayEvents.map((event, index) => {
-          const hasConflict = conflicts.some(c => 
+          const hasConflict = conflicts.some(c =>
             c.event1.id === event.id || c.event2.id === event.id
           );
 
@@ -340,7 +341,7 @@ const FreeGymScheduler = ({
           <Text style={[styles.filtersTitle, { color: colors?.onSurface }]}>
             Filtros
           </Text>
-          
+
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <View style={styles.filtersContainer}>
               {/* Filtro por instrutor */}
@@ -351,7 +352,7 @@ const FreeGymScheduler = ({
               >
                 Todos os Instrutores
               </Chip>
-              
+
               {instructors.map(instructor => (
                 <Chip
                   key={instructor.id}
@@ -371,7 +372,7 @@ const FreeGymScheduler = ({
               >
                 Todas as Modalidades
               </Chip>
-              
+
               {modalities.map(modality => (
                 <Chip
                   key={modality}
