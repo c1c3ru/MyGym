@@ -1024,3 +1024,5 @@ const styles = {
     backgroundColor: COLORS.info[500],
   },
 };
+
+export default AcademiaSelectionScreen;
