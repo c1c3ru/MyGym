@@ -37,12 +37,12 @@ interface StudentDetailsScreenProps {
   route: RouteProp<any>;
 }
 
-const StudentDetailsScreen = ({ route, navigation }) => {
+const StudentDetailsScreen: React.FC<StudentDetailsScreenProps> = ({ route, navigation }) => {
   const { currentTheme } = useThemeToggle();
 
   const { studentId } = route.params;
   const { user, userProfile, academia } = useAuth();
-  const { getString } = useTheme();
+  const { getString, isDarkMode } = useTheme();
   const [studentInfo, setStudentInfo] = useState(route.params.studentData || null);
   const [studentClasses, setStudentClasses] = useState([]);
   const [payments, setPayments] = useState([]);

@@ -29,9 +29,9 @@ interface EditStudentScreenProps {
   route: RouteProp<any>;
 }
 
-const EditStudentScreen = ({ navigation, route }) => {
+const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route }) => {
   const { user, userProfile, academia } = useAuth();
-  const { studentId } = route.params;
+  const { getString } = useTheme();
   const [loading, setLoading] = useState(false);
   const [loadingData, setLoadingData] = useState(true);
   const [snackbarVisible, setSnackbarVisible] = useState(false);

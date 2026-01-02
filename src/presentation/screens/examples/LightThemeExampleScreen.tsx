@@ -16,7 +16,8 @@ interface LightThemeExampleScreenProps {
 
 const { width } = Dimensions.get('window');
 
-const LightThemeExampleScreen = ({ navigation }) => {
+const LightThemeExampleScreen: React.FC<LightThemeExampleScreenProps> = ({ navigation }) => {
+  const { getString } = useTheme();
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>

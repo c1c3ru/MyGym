@@ -31,9 +31,9 @@ interface PaymentManagementScreenProps {
   navigation: NavigationProp<any>;
 }
 
-const PaymentManagementScreen = ({ navigation }) => {
+const PaymentManagementScreen: React.FC<PaymentManagementScreenProps> = ({ navigation }) => {
   const { currentTheme } = useThemeToggle();
-
+  const { getString } = useTheme();
   const { user, userProfile, academia } = useAuth();
   const { getUserTypeColor } = useCustomClaims();
   const [loading, setLoading] = useState(true);

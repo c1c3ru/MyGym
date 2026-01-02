@@ -31,10 +31,11 @@ interface ClassDetailsScreenProps {
 
 const { width } = Dimensions.get('window');
 
-const ClassDetailsScreen = ({ route, navigation }) => {
+const ClassDetailsScreen: React.FC<ClassDetailsScreenProps> = ({ route, navigation }) => {
   const { classId, classData = null } = route.params || {};
   const { user, userProfile } = useAuth();
-  const { isAdmin } = useCustomClaims();
+  const { getString } = useTheme();
+  const { role } = useCustomClaims();
   const [classInfo, setClassInfo] = useState(classData);
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(!classData);

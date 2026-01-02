@@ -35,9 +35,9 @@ interface AcademiaSelectionScreenProps {
   route: RouteProp<any>;
 }
 
-export default function AcademiaSelectionScreen({ navigation, route }) {
+const AcademiaSelectionScreen: React.FC<AcademiaSelectionScreenProps> = ({ navigation, route }) => {
   const { user, userProfile, setUserProfile, signOut } = useAuth();
-  const { getString } = useTheme();
+  const { getString, isDarkMode } = useTheme();
   const { role, isAdmin } = useCustomClaims();
   const forceCreate = route?.params?.forceCreate || false;
   const [loading, setLoading] = useState(false);

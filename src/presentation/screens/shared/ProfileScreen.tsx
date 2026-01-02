@@ -22,25 +22,20 @@ import { firestoreService } from '@services/firestoreService';
 import PaymentDueDateEditor from '@components/PaymentDueDateEditor';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, BORDER_WIDTH } from '@presentation/theme/designTokens';
 import { getAuthGradient, getAuthCardColors } from '@presentation/theme/authTheme';
-import type { NavigationProp } from '@react-navigation/native';
-
 interface ProfileScreenProps {
   navigation: NavigationProp<any>;
 }
-import type { NavigationProp } from '@react-navigation/native';
 
 const { width } = Dimensions.get('window');
 
 
 interface ProfileScreenProps {
   navigation: NavigationProp<any>;
-}
-
 /**
  * Tela de perfil do usuário
  * Exibe informações pessoais, dados da academia, treinos e configurações
  */
-const ProfileScreen = ({ navigation }: ProfileScreenProps) => {
+const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
   const { user, userProfile, signOut, updateProfile } = useAuth();
   const { getString, isDarkMode } = useTheme();
   const { getUserTypeColor: getClaimsTypeColor, getUserTypeText: getClaimsTypeText, isStudent } = useCustomClaims();

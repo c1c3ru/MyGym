@@ -30,12 +30,11 @@ interface StudentProfileScreenProps {
 
 const { width } = Dimensions.get('window');
 
-const StudentProfileScreen = ({ route, navigation }) => {
+const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({ route, navigation }) => {
   const { currentTheme } = useThemeToggle();
-
+  const { getString, isDarkMode } = useTheme();
   const { studentId } = route.params;
   const { user, userProfile, academia } = useAuth();
-  const { getString } = useTheme();
   const [studentInfo, setStudentInfo] = useState(null);
   const [studentClasses, setStudentClasses] = useState([]);
   const [payments, setPayments] = useState([]);
