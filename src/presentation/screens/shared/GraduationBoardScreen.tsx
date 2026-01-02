@@ -26,7 +26,7 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import { useAuth } from '@contexts/AuthProvider';
 import { useTheme } from '@contexts/ThemeContext';
-import { useNotification } from '@components/NotificationManager';
+import { useNotification } from '@contexts/NotificationContext';
 import graduationBoardService from '@services/graduationBoardService';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
@@ -39,16 +39,16 @@ interface GraduationBoardScreenProps {
 
 const { width } = Dimensions.get('window');
 
-const GraduationBoardScreen = ({ navigation }) => {
+const GraduationBoardScreen = ({ navigation }: GraduationBoardScreenProps) => {
   const { user, userProfile, academia } = useAuth();
   const { showSuccess, showError } = useNotification();
 
-  const [graduationBoard, setGraduationBoard] = useState(null);
+  const [graduationBoard, setGraduationBoard] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [selectedModality, setSelectedModality] = useState('all');
   const [examDialogVisible, setExamDialogVisible] = useState(false);
-  const [selectedExam, setSelectedExam] = useState(null);
+  const [selectedExam, setSelectedExam] = useState<any>(null);
 
   useEffect(() => {
     loadGraduationBoard();
@@ -75,12 +75,12 @@ const GraduationBoardScreen = ({ navigation }) => {
     setRefreshing(false);
   }, [loadGraduationBoard]);
 
-  const filterStudentsByModality = useCallback((students) => {
+  const filterStudentsByModality = useCallback((students: any[]) => {
     if (selectedModality === 'all') return students;
     return students.filter(student => student.modality === selectedModality);
   }, [selectedModality]);
 
-  const getBeltColor = (belt) => {
+  const getBeltColor = (belt: string) => {
     const colors = {
       'Branca': COLORS.special.belt.white,
       'Cinza': COLORS.gray[500],
@@ -95,8 +95,8 @@ const GraduationBoardScreen = ({ navigation }) => {
     return colors[belt] || COLORS.gray[300];
   };
 
-  const getAlertColor = (alertLevel) => {
-    const colors = {
+  const getAlertColor = (alertLevel: string) => {
+    const colors: { [key: string]: string } = {
       'ready': COLORS.success[500],
       'warning': COLORS.warning[500],
       'info': COLORS.info[500]
@@ -157,7 +157,7 @@ const GraduationBoardScreen = ({ navigation }) => {
   const renderModalityFilter = () => {
     if (!graduationBoard?.modalityStats) return null;
 
-    const modalities = ['all', ...graduationBoard.modalityStats.map(stat => stat.modality)];
+    const modalities = ['all', ...graduationBoard.modalityStats.map((stat: any) => stat.modality)];
 
     return (
       <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.filterContainer}>
@@ -167,7 +167,10 @@ const GraduationBoardScreen = ({ navigation }) => {
             mode={selectedModality === modality ? 'flat' : 'outlined'}
             selected={selectedModality === modality}
             onPress={() => setSelectedModality(modality)}
-            style={styles.filterChip}
+            style={[
+              styles.filterChip,
+              selectedModality === modality && styles.selectedChip
+            ]}
           >
             {modality === 'all' ? 'all' : modality}
           </Chip>
@@ -179,7 +182,7 @@ const GraduationBoardScreen = ({ navigation }) => {
   const renderEligibleStudents = () => {
     if (!graduationBoard?.eligibleStudents) return null;
 
-    const filteredStudents = filterStudentsByModality(graduationBoard.eligibleStudents);
+    const filteredStudents = filterStudentsByModality(graduationBoard?.eligibleStudents || []);
 
     if (filteredStudents.length === 0) {
       return (
@@ -249,7 +252,7 @@ const GraduationBoardScreen = ({ navigation }) => {
 
     const filteredExams = selectedModality === 'all'
       ? graduationBoard.upcomingExams
-      : graduationBoard.upcomingExams.filter(exam => exam.modality === selectedModality);
+      : graduationBoard.upcomingExams.filter((exam: any) => exam.modality === selectedModality);
 
     return (
       <Card style={styles.card}>
@@ -267,7 +270,7 @@ const GraduationBoardScreen = ({ navigation }) => {
               <Surface
                 key={exam.id}
                 style={styles.examItem}
-                onTouchEnd={() => {
+                onPress={() => {
                   setSelectedExam(exam);
                   setExamDialogVisible(true);
                 }}

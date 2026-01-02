@@ -392,7 +392,7 @@ const AddGraduationScreen = ({ route, navigation }: any) => {
               icon={formData.graduation ? "trophy" : "plus"}
               onPress={() => setGraduationDialogVisible(true)}
               disabled={!formData.modalityId}
-              helperText={!formData.modalityId ? "Selecione uma modalidade primeiro" : ""}
+              helperText={(!formData.modalityId ? "Selecione uma modalidade primeiro" : undefined) as any}
               required
             />
           </Card.Content>

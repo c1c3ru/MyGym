@@ -128,14 +128,14 @@ const ChangePasswordScreen = ({ navigation }: ChangePasswordScreenProps) => {
     }
   };
 
-  const handleInputChange = (field: string, value: string) => {
+  const updateFormData = (field: string, value: string) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
     }));
 
     // Limpar erro quando o usuário começar a digitar
-    if (errors[field]) {
+    if ((errors as any)[field]) {
       setErrors(prev => ({
         ...prev,
         [field]: null
@@ -143,8 +143,8 @@ const ChangePasswordScreen = ({ navigation }: ChangePasswordScreenProps) => {
     }
   };
 
-  const togglePasswordVisibility = (field: string) => {
-    setShowPasswords(prev => ({
+  const toggleShowPassword = (field: string) => {
+    setShowPasswords((prev: any) => ({
       ...prev,
       [field]: !prev[field]
     }));
@@ -306,7 +306,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: FONT_SIZE.xxl,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700',
     marginBottom: SPACING.sm,
     textAlign: 'center',
   },
@@ -335,7 +335,7 @@ const styles = StyleSheet.create({
   },
   tipsTitle: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700',
     marginBottom: SPACING.md,
     color: COLORS.primary[800],
   },
