@@ -48,7 +48,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
   });
 
   // Estados para as novas funcionalidades
-  const [trainingData, setTrainingData] = useState({});
+  const [trainingData, setTrainingData] = useState<any>({});
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [showYearModal, setShowYearModal] = useState(false);
   const [physicalEvaluations, setPhysicalEvaluations] = useState<any[]>([]);
@@ -60,10 +60,10 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
   });
 
   // Estados para pagamentos
-  const [currentPayment, setCurrentPayment] = useState(null);
+  const [currentPayment, setCurrentPayment] = useState<any>(null);
   const [showPaymentEditor, setShowPaymentEditor] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [paymentDueNotification, setPaymentDueNotification] = useState(null);
+  const [paymentDueNotification, setPaymentDueNotification] = useState<any>(null);
 
   useEffect(() => {
     if (userProfile) {
@@ -921,6 +921,11 @@ const styles = StyleSheet.create({
   },
   noTrainingDay: {
     backgroundColor: COLORS.gray[300],
+  },
+  title: {
+    fontSize: FONT_SIZE.lg,
+    fontWeight: '700' as const,
+    marginBottom: SPACING.sm,
   },
 });
 
