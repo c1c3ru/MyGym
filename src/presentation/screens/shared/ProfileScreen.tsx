@@ -22,7 +22,11 @@ import { firestoreService } from '@services/firestoreService';
 import PaymentDueDateEditor from '@components/PaymentDueDateEditor';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, BORDER_WIDTH } from '@presentation/theme/designTokens';
 import { getAuthGradient, getAuthCardColors } from '@presentation/theme/authTheme';
-import { getString } from '@utils/theme';
+import type { NavigationProp } from '@react-navigation/native';
+
+interface ProfileScreenProps {
+  navigation: NavigationProp<any>;
+}
 import type { NavigationProp } from '@react-navigation/native';
 
 const { width } = Dimensions.get('window');

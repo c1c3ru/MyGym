@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { View, ScrollView, Alert, Linking } from 'react-native';
-import { 
-  Text, 
-  Card, 
-  Button, 
-  TextInput, 
-  List, 
+import {
+  Text,
+  Card,
+  Button,
+  TextInput,
+  List,
   Divider,
   ActivityIndicator,
   Chip,
@@ -14,6 +14,7 @@ import {
   Portal,
   Snackbar
 } from 'react-native-paper';
+import { LinearGradient } from 'expo-linear-gradient';
 import { collection, addDoc, query, where, getDocs, updateDoc, doc } from 'firebase/firestore';
 import { db } from '@services/firebase';
 import { useAuth } from '@contexts/AuthProvider';
@@ -26,7 +27,13 @@ import CountryStatePicker from '@components/CountryStatePicker';
 import PhonePicker from '@components/PhonePicker';
 import ModalityPicker from '@components/ModalityPicker';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getString } from '@utils/theme';
+import { getAuthGradient } from '@presentation/theme/authTheme';
+import type { NavigationProp, RouteProp } from '@react-navigation/native';
+
+interface AcademiaSelectionScreenProps {
+  navigation: NavigationProp<any>;
+  route: RouteProp<any>;
+}
 
 export default function AcademiaSelectionScreen({ navigation, route }) {
   const { user, userProfile, setUserProfile, signOut } = useAuth();
@@ -66,7 +73,7 @@ export default function AcademiaSelectionScreen({ navigation, route }) {
   const [showQRScanner, setShowQRScanner] = useState(false);
   const [inviteLink, setInviteLink] = useState('');
   const [showInviteLinkModal, setShowInviteLinkModal] = useState(false);
-  
+
   // Estados para feedback visual
   const [snackbar, setSnackbar] = useState({
     visible: false,
@@ -91,7 +98,7 @@ export default function AcademiaSelectionScreen({ navigation, route }) {
     // O AppNavigator irá gerenciar o redirecionamento automaticamente
     // quando o usuário tiver academiaId
     console.log('🏢 AcademiaSelection: userProfile.academiaId:', userProfile?.academiaId);
-    
+
     // Se forceCreate é true (admin), abrir automaticamente o formulário de criação
     if (forceCreate) {
       console.log('🏢 AcademiaSelection: Admin deve criar academia, abrindo formulário');
@@ -112,9 +119,9 @@ export default function AcademiaSelectionScreen({ navigation, route }) {
         collection(db, 'gyms'),
         where('codigo', '==', searchCode.trim().toUpperCase())
       );
-      
+
       const querySnapshot = await getDocs(q);
-      
+
       if (!querySnapshot.empty) {
         const academiaDoc = querySnapshot.docs[0];
         const academiaData = academiaDoc.data();
@@ -153,7 +160,7 @@ export default function AcademiaSelectionScreen({ navigation, route }) {
   const handleQRCodeScan = async (data) => {
     try {
       const urlInfo = InviteService.parseInviteUrl(data);
-      
+
       if (!urlInfo) {
         Alert.alert(getString('error'), getString('invalidQRCode'));
         return;
@@ -179,7 +186,7 @@ export default function AcademiaSelectionScreen({ navigation, route }) {
     try {
       // Usar busca global temporariamente para compatibilidade com links antigos
       const invite = await InviteService.findInviteByTokenGlobally(token);
-      
+
       if (!invite) {
         Alert.alert(getString('error'), getString('invalidOrExpiredInvite'));
         return;
@@ -203,7 +210,7 @@ export default function AcademiaSelectionScreen({ navigation, route }) {
 
     try {
       const urlInfo = InviteService.parseInviteUrl(inviteLink.trim());
-      
+
       if (!urlInfo) {
         Alert.alert(getString('error'), getString('invalidLink'));
         return;
@@ -227,13 +234,13 @@ export default function AcademiaSelectionScreen({ navigation, route }) {
     // Debug: verificar dados do usuário
     console.log('🔍 Debug - userProfile:', userProfile);
     // Verificar se é admin usando custom claims (prioridade) ou fallback para userProfile
-    const userIsAdmin = isAdmin() || 
-                        userProfile?.tipo === 'administrador' || userProfile?.tipo === 'admin' || 
-                        userProfile?.userType === 'administrador' || userProfile?.userType === 'admin';
-    
+    const userIsAdmin = isAdmin() ||
+      userProfile?.tipo === 'administrador' || userProfile?.tipo === 'admin' ||
+      userProfile?.userType === 'administrador' || userProfile?.userType === 'admin';
+
     if (!userIsAdmin) {
       Alert.alert(
-        getString('permissionDenied'), 
+        getString('permissionDenied'),
         `${getString('onlyAdminsCanCreate')}\n\n${getString('currentProfile')}: ${role || userProfile?.tipo || userProfile?.userType || getString('notDefined')}`
       );
       return;
@@ -277,7 +284,7 @@ export default function AcademiaSelectionScreen({ navigation, route }) {
       try {
         // Gerar código único para a academia
         const codigoGerado = Math.random().toString(36).substr(2, 8).toUpperCase();
-        
+
         // Criar nova academia no Firestore com estrutura completa
         const academiaRef = await addDoc(collection(db, 'gyms'), {
           nome: newAcademiaData.nome.trim(),
@@ -305,14 +312,14 @@ export default function AcademiaSelectionScreen({ navigation, route }) {
           ativo: true,
           codigo: codigoGerado
         });
-        
+
         // Associar usuário à academia criada
         await updateAcademiaAssociation(academiaRef.id);
-        
+
         // Inicializar subcoleções básicas da academia
         console.log('🚀 Inicializando subcoleções da academia...');
         await initializeAcademySubcollections(academiaRef.id);
-        
+
         // Mostrar o código da academia criada
         Alert.alert(
           getString('academyCreatedSuccess'),
@@ -356,14 +363,14 @@ export default function AcademiaSelectionScreen({ navigation, route }) {
           {academia.nome}
         </Text>
         <Text variant="bodyMedium" style={styles.academiaAddress}>
-          📍 {typeof academia.endereco === 'object' 
+          📍 {typeof academia.endereco === 'object'
             ? `${academia.endereco.rua}${academia.endereco.numero ? ', ' + academia.endereco.numero : ''}, ${academia.endereco.cidade} - ${academia.endereco.estadoNome || academia.endereco.estado}, ${academia.endereco.paisNome || academia.endereco.pais}`
             : academia.endereco || getString('addressNotInformed')
           }
         </Text>
         {academia.telefone && (
           <Text variant="bodySmall" style={styles.academiaContact}>
-            📞 {typeof academia.telefone === 'object' 
+            📞 {typeof academia.telefone === 'object'
               ? `${academia.telefone.codigoPais === 'BR' ? '+55' : academia.telefone.codigoPais} ${academia.telefone.numero}`
               : academia.telefone
             }
@@ -375,8 +382,8 @@ export default function AcademiaSelectionScreen({ navigation, route }) {
           </Text>
         )}
         <View style={styles.planoContainer}>
-          <Chip 
-            mode="outlined" 
+          <Chip
+            mode="outlined"
             style={[styles.planoChip, { backgroundColor: getPlanoColor(academia.plano) }]}
           >
             Plano {academia.plano?.toUpperCase()}
@@ -384,8 +391,8 @@ export default function AcademiaSelectionScreen({ navigation, route }) {
         </View>
       </Card.Content>
       <Card.Actions>
-        <Button 
-          mode="contained" 
+        <Button
+          mode="contained"
           onPress={() => joinAcademia(academia.id)}
           disabled={loading}
           style={styles.joinButton}
@@ -446,8 +453,8 @@ export default function AcademiaSelectionScreen({ navigation, route }) {
               {forceCreate ? getString('createAcademy') : getString('selectAcademy')}
             </Text>
             <Text variant="bodyMedium" style={styles.subtitle}>
-              {forceCreate 
-                ? getString('adminMustCreate') 
+              {forceCreate
+                ? getString('adminMustCreate')
                 : getString('mustAssociate')
               }
             </Text>
@@ -465,62 +472,62 @@ export default function AcademiaSelectionScreen({ navigation, route }) {
             <Text variant="bodySmall" style={styles.sectionDescription}>
               Escolha uma das opções abaixo
             </Text>
-          
-          <View style={styles.optionButtons}>
-            <Button 
-              mode="contained" 
-              onPress={() => setShowQRScanner(true)}
-              icon="qrcode-scan"
-              style={styles.optionButton}
-            >
-              Escanear QR Code
-            </Button>
-            
-            <Button 
-              mode="outlined" 
-              onPress={() => setShowInviteLinkModal(true)}
-              icon="link"
-              style={styles.optionButton}
-            >
-              Link de Convite
-            </Button>
-          </View>
-        </Card.Content>
-      </Card>
+
+            <View style={styles.optionButtons}>
+              <Button
+                mode="contained"
+                onPress={() => setShowQRScanner(true)}
+                icon="qrcode-scan"
+                style={styles.optionButton}
+              >
+                Escanear QR Code
+              </Button>
+
+              <Button
+                mode="outlined"
+                onPress={() => setShowInviteLinkModal(true)}
+                icon="link"
+                style={styles.optionButton}
+              >
+                Link de Convite
+              </Button>
+            </View>
+          </Card.Content>
+        </Card>
       )}
 
       {/* Buscar Academia por Código - ocultar para todos os admins */}
       {!forceCreate && !isAdmin(userProfile) && (
-      <Card style={styles.searchCard}>
-        <Card.Content>
-          <Text variant="titleMedium" style={styles.sectionTitle}>
-            Buscar por Código
-          </Text>
-          <Text variant="bodySmall" style={styles.sectionDescription}>
-            Digite o código fornecido pela academia
-          </Text>
-          
-          <TextInput
-            label={getString('academyCode')}
-            value={searchCode}
-            onChangeText={setSearchCode}
-            mode="outlined"
-            style={styles.input}
-            placeholder={getString('academyCodePlaceholder')}
-          />
-          
-          <Button 
-            mode="contained" 
-            onPress={searchAcademiaByCode}
-            loading={searchLoading}
-            disabled={searchLoading || !searchCode.trim()}
-            style={styles.searchButton}
-            icon={searchLoading ? undefined : "magnify"}
-          >
-            {searchLoading ? 'Buscando...' : 'Buscar Academia'}
-          </Button>
-        </Card.Content>
-      </Card>
+        <Card style={styles.searchCard}>
+          <Card.Content>
+            <Text variant="titleMedium" style={styles.sectionTitle}>
+              Buscar por Código
+            </Text>
+            <Text variant="bodySmall" style={styles.sectionDescription}>
+              Digite o código fornecido pela academia
+            </Text>
+
+            <TextInput
+              label={getString('academyCode')}
+              value={searchCode}
+              onChangeText={setSearchCode}
+              mode="outlined"
+              style={styles.input}
+              placeholder={getString('academyCodePlaceholder')}
+            />
+
+            <Button
+              mode="contained"
+              onPress={searchAcademiaByCode}
+              loading={searchLoading}
+              disabled={searchLoading || !searchCode.trim()}
+              style={styles.searchButton}
+              icon={searchLoading ? undefined : "magnify"}
+            >
+              {searchLoading ? 'Buscando...' : 'Buscar Academia'}
+            </Button>
+          </Card.Content>
+        </Card>
       )}
 
       {/* Resultados da Busca - ocultar para admins */}
@@ -547,166 +554,166 @@ export default function AcademiaSelectionScreen({ navigation, route }) {
             </Text>
 
             {!showCreateForm ? (
-              <Button 
-                mode="outlined" 
+              <Button
+                mode="outlined"
                 onPress={() => setShowCreateForm(true)}
                 style={styles.showFormButton}
               >
                 Criar Minha Academia
               </Button>
             ) : (
-            <View style={styles.createForm}>
-              <TextInput
-                label="Nome da Academia *"
-                value={newAcademiaData.nome}
-                onChangeText={(text) => setNewAcademiaData(prev => ({ ...prev, nome: text }))}
-                mode="outlined"
-                style={styles.input}
-              />
-              
-              <TextInput
-                label="Email *"
-                value={newAcademiaData.email}
-                onChangeText={(text) => setNewAcademiaData(prev => ({ ...prev, email: text }))}
-                mode="outlined"
-                style={styles.input}
-                keyboardType="email-address"
-              />
-
-              {/* Seleção de País e Estado */}
-              <CountryStatePicker
-                selectedCountry={newAcademiaData.endereco.pais}
-                selectedState={newAcademiaData.endereco.estado}
-                onCountryChange={(code, name) => 
-                  setNewAcademiaData(prev => ({
-                    ...prev,
-                    endereco: { ...prev.endereco, pais: code, paisNome: name, estado: '', estadoNome: '' }
-                  }))
-                }
-                onStateChange={(code, name) => 
-                  setNewAcademiaData(prev => ({
-                    ...prev,
-                    endereco: { ...prev.endereco, estado: code, estadoNome: name }
-                  }))
-                }
-              />
-
-              {/* Campos de Endereço */}
-              <View style={styles.addressRow}>
+              <View style={styles.createForm}>
                 <TextInput
-                  label="CEP/Código Postal"
-                  value={newAcademiaData.endereco.cep}
+                  label="Nome da Academia *"
+                  value={newAcademiaData.nome}
+                  onChangeText={(text) => setNewAcademiaData(prev => ({ ...prev, nome: text }))}
+                  mode="outlined"
+                  style={styles.input}
+                />
+
+                <TextInput
+                  label="Email *"
+                  value={newAcademiaData.email}
+                  onChangeText={(text) => setNewAcademiaData(prev => ({ ...prev, email: text }))}
+                  mode="outlined"
+                  style={styles.input}
+                  keyboardType="email-address"
+                />
+
+                {/* Seleção de País e Estado */}
+                <CountryStatePicker
+                  selectedCountry={newAcademiaData.endereco.pais}
+                  selectedState={newAcademiaData.endereco.estado}
+                  onCountryChange={(code, name) =>
+                    setNewAcademiaData(prev => ({
+                      ...prev,
+                      endereco: { ...prev.endereco, pais: code, paisNome: name, estado: '', estadoNome: '' }
+                    }))
+                  }
+                  onStateChange={(code, name) =>
+                    setNewAcademiaData(prev => ({
+                      ...prev,
+                      endereco: { ...prev.endereco, estado: code, estadoNome: name }
+                    }))
+                  }
+                />
+
+                {/* Campos de Endereço */}
+                <View style={styles.addressRow}>
+                  <TextInput
+                    label="CEP/Código Postal"
+                    value={newAcademiaData.endereco.cep}
+                    onChangeText={(text) => setNewAcademiaData(prev => ({
+                      ...prev,
+                      endereco: { ...prev.endereco, cep: text }
+                    }))}
+                    mode="outlined"
+                    style={[styles.input, styles.halfInput]}
+                    keyboardType="numeric"
+                  />
+
+                  <TextInput
+                    label="Cidade *"
+                    value={newAcademiaData.endereco.cidade}
+                    onChangeText={(text) => setNewAcademiaData(prev => ({
+                      ...prev,
+                      endereco: { ...prev.endereco, cidade: text }
+                    }))}
+                    mode="outlined"
+                    style={[styles.input, styles.halfInput]}
+                  />
+                </View>
+
+                <TextInput
+                  label="Rua/Avenida *"
+                  value={newAcademiaData.endereco.rua}
                   onChangeText={(text) => setNewAcademiaData(prev => ({
                     ...prev,
-                    endereco: { ...prev.endereco, cep: text }
+                    endereco: { ...prev.endereco, rua: text }
                   }))}
                   mode="outlined"
-                  style={[styles.input, styles.halfInput]}
-                  keyboardType="numeric"
+                  style={styles.input}
                 />
-                
+
+                <View style={styles.addressRow}>
+                  <TextInput
+                    label="Número"
+                    value={newAcademiaData.endereco.numero}
+                    onChangeText={(text) => setNewAcademiaData(prev => ({
+                      ...prev,
+                      endereco: { ...prev.endereco, numero: text }
+                    }))}
+                    mode="outlined"
+                    style={[styles.input, styles.quarterInput]}
+                    keyboardType="numeric"
+                  />
+
+                  <TextInput
+                    label="Complemento"
+                    value={newAcademiaData.endereco.complemento}
+                    onChangeText={(text) => setNewAcademiaData(prev => ({
+                      ...prev,
+                      endereco: { ...prev.endereco, complemento: text }
+                    }))}
+                    mode="outlined"
+                    style={[styles.input, styles.threeQuarterInput]}
+                  />
+                </View>
+
                 <TextInput
-                  label="Cidade *"
-                  value={newAcademiaData.endereco.cidade}
+                  label="Bairro"
+                  value={newAcademiaData.endereco.bairro}
                   onChangeText={(text) => setNewAcademiaData(prev => ({
                     ...prev,
-                    endereco: { ...prev.endereco, cidade: text }
+                    endereco: { ...prev.endereco, bairro: text }
                   }))}
                   mode="outlined"
-                  style={[styles.input, styles.halfInput]}
+                  style={styles.input}
                 />
+
+                {/* Campo de Telefone */}
+                <PhonePicker
+                  selectedCountry={newAcademiaData.telefone.codigoPais}
+                  phoneNumber={newAcademiaData.telefone.numero}
+                  onPhoneChange={(countryCode, number) =>
+                    setNewAcademiaData(prev => ({
+                      ...prev,
+                      telefone: { codigoPais: countryCode, numero: number }
+                    }))
+                  }
+                  label="Telefone *"
+                  placeholder="Digite o número"
+                />
+
+                {/* Campo de Modalidades */}
+                <ModalityPicker
+                  selectedModalities={newAcademiaData.modalidades}
+                  onModalitiesChange={(modalidades) =>
+                    setNewAcademiaData(prev => ({
+                      ...prev,
+                      modalidades: modalidades
+                    }))
+                  }
+                  label="Modalidades Oferecidas"
+                />
+
+                <View style={styles.buttonRow}>
+                  <Button
+                    mode="outlined"
+                    onPress={() => setShowCreateForm(false)}
+                    style={styles.cancelButton}
+                  >
+                    Cancelar
+                  </Button>
+                  <Button
+                    mode="contained"
+                    onPress={createNewAcademia}
+                    style={styles.createButton}
+                  >
+                    Criar Academia
+                  </Button>
+                </View>
               </View>
-
-              <TextInput
-                label="Rua/Avenida *"
-                value={newAcademiaData.endereco.rua}
-                onChangeText={(text) => setNewAcademiaData(prev => ({
-                  ...prev,
-                  endereco: { ...prev.endereco, rua: text }
-                }))}
-                mode="outlined"
-                style={styles.input}
-              />
-
-              <View style={styles.addressRow}>
-                <TextInput
-                  label="Número"
-                  value={newAcademiaData.endereco.numero}
-                  onChangeText={(text) => setNewAcademiaData(prev => ({
-                    ...prev,
-                    endereco: { ...prev.endereco, numero: text }
-                  }))}
-                  mode="outlined"
-                  style={[styles.input, styles.quarterInput]}
-                  keyboardType="numeric"
-                />
-                
-                <TextInput
-                  label="Complemento"
-                  value={newAcademiaData.endereco.complemento}
-                  onChangeText={(text) => setNewAcademiaData(prev => ({
-                    ...prev,
-                    endereco: { ...prev.endereco, complemento: text }
-                  }))}
-                  mode="outlined"
-                  style={[styles.input, styles.threeQuarterInput]}
-                />
-              </View>
-
-              <TextInput
-                label="Bairro"
-                value={newAcademiaData.endereco.bairro}
-                onChangeText={(text) => setNewAcademiaData(prev => ({
-                  ...prev,
-                  endereco: { ...prev.endereco, bairro: text }
-                }))}
-                mode="outlined"
-                style={styles.input}
-              />
-
-              {/* Campo de Telefone */}
-              <PhonePicker
-                selectedCountry={newAcademiaData.telefone.codigoPais}
-                phoneNumber={newAcademiaData.telefone.numero}
-                onPhoneChange={(countryCode, number) => 
-                  setNewAcademiaData(prev => ({
-                    ...prev,
-                    telefone: { codigoPais: countryCode, numero: number }
-                  }))
-                }
-                label="Telefone *"
-                placeholder="Digite o número"
-              />
-
-              {/* Campo de Modalidades */}
-              <ModalityPicker
-                selectedModalities={newAcademiaData.modalidades}
-                onModalitiesChange={(modalidades) => 
-                  setNewAcademiaData(prev => ({
-                    ...prev,
-                    modalidades: modalidades
-                  }))
-                }
-                label="Modalidades Oferecidas"
-              />
-
-              <View style={styles.buttonRow}>
-                <Button 
-                  mode="outlined" 
-                  onPress={() => setShowCreateForm(false)}
-                  style={styles.cancelButton}
-                >
-                  Cancelar
-                </Button>
-                <Button 
-                  mode="contained" 
-                  onPress={createNewAcademia}
-                  style={styles.createButton}
-                >
-                  Criar Academia
-                </Button>
-              </View>
-            </View>
             )}
           </Card.Content>
         </Card>
@@ -731,13 +738,13 @@ export default function AcademiaSelectionScreen({ navigation, route }) {
 
       {/* Modal QR Scanner */}
       <Portal>
-        <Modal 
-          visible={showQRScanner} 
+        <Modal
+          visible={showQRScanner}
           onDismiss={() => setShowQRScanner(false)}
           contentContainerStyle={styles.qrModalWrapper}
         >
           <View style={styles.qrModal}>
-            <QRCodeScanner 
+            <QRCodeScanner
               onScan={handleQRCodeScan}
               onCancel={() => setShowQRScanner(false)}
             />
@@ -747,19 +754,19 @@ export default function AcademiaSelectionScreen({ navigation, route }) {
 
       {/* Modal Link de Convite */}
       <Portal>
-        <Modal 
-          visible={showInviteLinkModal} 
+        <Modal
+          visible={showInviteLinkModal}
           onDismiss={() => setShowInviteLinkModal(false)}
           contentContainerStyle={styles.modal}
         >
           <Text variant="titleLarge" style={styles.modalTitle}>
             Link de Convite
           </Text>
-          
+
           <Text variant="bodyMedium" style={styles.modalDescription}>
             Cole aqui o link de convite que você recebeu
           </Text>
-          
+
           <TextInput
             label="Link do Convite"
             value={inviteLink}
@@ -769,10 +776,10 @@ export default function AcademiaSelectionScreen({ navigation, route }) {
             placeholder="https://academia-app.com/invite/..."
             multiline
           />
-          
+
           <View style={styles.modalActions}>
-            <Button 
-              mode="outlined" 
+            <Button
+              mode="outlined"
               onPress={() => {
                 setShowInviteLinkModal(false);
                 setInviteLink('');
@@ -781,8 +788,8 @@ export default function AcademiaSelectionScreen({ navigation, route }) {
             >
               Cancelar
             </Button>
-            <Button 
-              mode="contained" 
+            <Button
+              mode="contained"
               onPress={handleInviteLinkSubmit}
               style={styles.modalButton}
             >

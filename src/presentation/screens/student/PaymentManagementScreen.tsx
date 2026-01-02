@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView, Alert, RefreshControl } from 'react-native';
-import { 
-  Card, 
-  Text, 
-  Button, 
+import {
+  Card,
+  Text,
+  Button,
   FAB,
   Chip,
   Divider,
@@ -14,19 +14,26 @@ import {
   RadioButton
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useAuth } from '@contexts/AuthProvider';
+import { useTheme } from '@contexts/ThemeContext';
 import { useCustomClaims } from '@hooks/useCustomClaims';
 import { firestoreService } from '@services/firestoreService';
 import { getThemeColors } from '@theme/professionalTheme';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
-import { getString } from '@utils/theme';
+import { getAuthGradient } from '@presentation/theme/authTheme';
+import type { NavigationProp } from '@react-navigation/native';
+
+interface PaymentManagementScreenProps {
+  navigation: NavigationProp<any>;
+}
 
 const PaymentManagementScreen = ({ navigation }) => {
   const { currentTheme } = useThemeToggle();
-  
+
   const { user, userProfile, academia } = useAuth();
   const { getUserTypeColor } = useCustomClaims();
   const [loading, setLoading] = useState(true);
@@ -38,7 +45,7 @@ const PaymentManagementScreen = ({ navigation }) => {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [customDueDate, setCustomDueDate] = useState(new Date());
-  
+
   const themeColors = { primary: getUserTypeColor() };
 
   useEffect(() => {
@@ -49,20 +56,20 @@ const PaymentManagementScreen = ({ navigation }) => {
   const loadPaymentData = async () => {
     try {
       setLoading(true);
-      
+
       // Buscar pagamentos do usuário
       const userPayments = await firestoreService.getDocuments(
         `gyms/${academia.id}/payments`,
         [{ field: 'userId', operator: '==', value: user.id }],
         { field: 'createdAt', direction: 'desc' }
       );
-      
+
       setPayments(userPayments);
-      
+
       // Buscar plano atual
       const activePlan = userPayments.find(p => p.status === 'active');
       setCurrentPlan(activePlan);
-      
+
     } catch (error) {
       console.error('Erro ao carregar dados de pagamento:', error);
     } finally {
@@ -108,14 +115,16 @@ const PaymentManagementScreen = ({ navigation }) => {
       };
 
       await firestoreService.create(`gyms/${academia.id}/payments`, paymentData);
-      
+
       Alert.alert(
         'Plano Selecionado!',
         `Plano ${selectedPlan.name} selecionado com sucesso. Vencimento: ${customDueDate.toLocaleDateString('pt-BR')}`,
-        [{ text: getString('ok'), onPress: () => {
-          setShowPlanModal(false);
-          loadPaymentData();
-        }}]
+        [{
+          text: getString('ok'), onPress: () => {
+            setShowPlanModal(false);
+            loadPaymentData();
+          }
+        }]
       );
 
     } catch (error) {
@@ -139,7 +148,7 @@ const PaymentManagementScreen = ({ navigation }) => {
                 paidAt: new Date(),
                 paymentMethod: 'app'
               });
-              
+
               Alert.alert(getString('success'), 'Pagamento realizado com sucesso!');
               loadPaymentData();
             } catch (error) {
@@ -195,7 +204,7 @@ const PaymentManagementScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: themeColors.background }]}>
-      <ScrollView 
+      <ScrollView
         style={styles.scrollView}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -208,7 +217,7 @@ const PaymentManagementScreen = ({ navigation }) => {
               <View style={styles.cardHeader}>
                 <Ionicons name="card" size={24} color={themeColors.primary} />
                 <Text style={styles.cardTitle}>Plano Atual</Text>
-                <Chip 
+                <Chip
                   mode="flat"
                   style={[styles.statusChip, { backgroundColor: getPaymentStatusColor(currentPlan.status) }]}
                   textStyle={{ color: COLORS.white, fontWeight: FONT_WEIGHT.bold }}
@@ -216,11 +225,11 @@ const PaymentManagementScreen = ({ navigation }) => {
                   {getPaymentStatusText(currentPlan.status)}
                 </Chip>
               </View>
-              
+
               <View style={styles.planDetails}>
                 <Text style={styles.planName}>{currentPlan.planName}</Text>
                 <Text style={styles.planValue}>{formatCurrency(currentPlan.amount)}</Text>
-                
+
                 {currentPlan.dueDate && (
                   <View style={styles.dueDateContainer}>
                     <Text style={styles.dueDateLabel}>Próximo vencimento:</Text>
@@ -231,7 +240,7 @@ const PaymentManagementScreen = ({ navigation }) => {
                       {formatDate(currentPlan.dueDate)}
                       {getDaysUntilDue(currentPlan.dueDate) !== null && (
                         <Text style={styles.daysLeft}>
-                          {getDaysUntilDue(currentPlan.dueDate) > 0 
+                          {getDaysUntilDue(currentPlan.dueDate) > 0
                             ? ` (${getDaysUntilDue(currentPlan.dueDate)} dias)`
                             : ' (Vencido)'
                           }
@@ -253,7 +262,7 @@ const PaymentManagementScreen = ({ navigation }) => {
                 <Ionicons name="warning" size={24} color={COLORS.warning[500]} />
                 <Text style={styles.cardTitle}>Pagamentos Pendentes</Text>
               </View>
-              
+
               {payments.filter(p => p.status === 'pending' || p.status === 'overdue').map((payment) => (
                 <Surface key={payment.id} style={styles.paymentItem} elevation={1}>
                   <View style={styles.paymentInfo}>
@@ -286,7 +295,7 @@ const PaymentManagementScreen = ({ navigation }) => {
               <Ionicons name="time" size={24} color={themeColors.secondary} />
               <Text style={styles.cardTitle}>Histórico de Pagamentos</Text>
             </View>
-            
+
             {payments.length > 0 ? (
               payments.map((payment, index) => (
                 <View key={payment.id || index}>
@@ -298,7 +307,7 @@ const PaymentManagementScreen = ({ navigation }) => {
                         {payment.paidAt ? `Pago em ${formatDate(payment.paidAt)}` : `Criado em ${formatDate(payment.createdAt)}`}
                       </Text>
                     </View>
-                    <Chip 
+                    <Chip
                       mode="outlined"
                       style={[styles.historyStatus, { borderColor: getPaymentStatusColor(payment.status) }]}
                       textStyle={{ color: getPaymentStatusColor(payment.status) }}
@@ -330,13 +339,13 @@ const PaymentManagementScreen = ({ navigation }) => {
 
       {/* Modal de Seleção de Plano */}
       <Portal>
-        <Modal 
-          visible={showPlanModal} 
+        <Modal
+          visible={showPlanModal}
           onDismiss={() => setShowPlanModal(false)}
           contentContainerStyle={styles.modal}
         >
           <Text style={styles.modalTitle}>Selecionar Plano</Text>
-          
+
           <ScrollView style={styles.modalContent}>
             <RadioButton.Group
               onValueChange={(value) => {
@@ -360,7 +369,7 @@ const PaymentManagementScreen = ({ navigation }) => {
                 </Surface>
               ))}
             </RadioButton.Group>
-            
+
             {selectedPlan && (
               <View style={styles.dueDateSection}>
                 <Text style={styles.dueDateSectionTitle}>Data de Vencimento</Text>
@@ -375,17 +384,17 @@ const PaymentManagementScreen = ({ navigation }) => {
               </View>
             )}
           </ScrollView>
-          
+
           <View style={styles.modalActions}>
-            <Button 
-              mode="outlined" 
+            <Button
+              mode="outlined"
               onPress={() => setShowPlanModal(false)}
               style={styles.modalButton}
             >
               Cancelar
             </Button>
-            <Button 
-              mode="contained" 
+            <Button
+              mode="contained"
               onPress={handleSelectPlan}
               style={[styles.modalButton, { backgroundColor: themeColors.primary }]}
               disabled={!selectedPlan}

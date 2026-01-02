@@ -4,9 +4,15 @@ import { Card, Button, Chip, Divider } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useTheme } from '@contexts/ThemeContext';
 import { LIGHT_THEME, ACADEMY_LIGHT_COLORS, LIGHT_TYPOGRAPHY } from '@presentation/theme/lightTheme';
 import { COLORS, SPACING, FONT_SIZE, FONT_WEIGHT, BORDER_RADIUS, ELEVATION } from '@presentation/theme/designTokens';
-import { getString } from '@utils/theme';
+import { getAuthGradient } from '@presentation/theme/authTheme';
+import type { NavigationProp } from '@react-navigation/native';
+
+interface LightThemeExampleScreenProps {
+  navigation: NavigationProp<any>;
+}
 
 const { width } = Dimensions.get('window');
 
@@ -14,7 +20,7 @@ const LightThemeExampleScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        
+
         {/* Header com gradiente azul sóbrio */}
         <LinearGradient
           colors={LIGHT_THEME.gradients.header}
@@ -31,19 +37,19 @@ const LightThemeExampleScreen = ({ navigation }) => {
         {/* Seção: Nossa Missão (inspirada na imagem 2) */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Nossa Missão</Text>
-          
+
           <View style={styles.missionGrid}>
             <Card style={[styles.missionCard, { backgroundColor: LIGHT_THEME.card.primary.background }]}>
               <Card.Content>
-                <MaterialCommunityIcons 
-                  name="lightbulb-outline" 
-                  size={32} 
-                  color={LIGHT_THEME.primary[600]} 
+                <MaterialCommunityIcons
+                  name="lightbulb-outline"
+                  size={32}
+                  color={LIGHT_THEME.primary[600]}
                   style={styles.missionIcon}
                 />
                 <Text style={styles.missionCardTitle}>Inovação Tecnológica</Text>
                 <Text style={styles.missionCardText}>
-                  Consolidar o MyGym como referência no fomento à inovação 
+                  Consolidar o MyGym como referência no fomento à inovação
                   através de tecnologia para academias.
                 </Text>
               </Card.Content>
@@ -51,15 +57,15 @@ const LightThemeExampleScreen = ({ navigation }) => {
 
             <Card style={[styles.missionCard, { backgroundColor: LIGHT_THEME.card.secondary.background }]}>
               <Card.Content>
-                <MaterialCommunityIcons 
-                  name="account-group-outline" 
-                  size={32} 
-                  color={LIGHT_THEME.secondary[600]} 
+                <MaterialCommunityIcons
+                  name="account-group-outline"
+                  size={32}
+                  color={LIGHT_THEME.secondary[600]}
                   style={styles.missionIcon}
                 />
                 <Text style={styles.missionCardTitle}>Gestão Inteligente</Text>
                 <Text style={styles.missionCardText}>
-                  Promover soluções acadêmicas e estreitar o relacionamento 
+                  Promover soluções acadêmicas e estreitar o relacionamento
                   entre instrutores e alunos.
                 </Text>
               </Card.Content>
@@ -67,15 +73,15 @@ const LightThemeExampleScreen = ({ navigation }) => {
 
             <Card style={[styles.missionCard, { backgroundColor: LIGHT_THEME.card.default.background }]}>
               <Card.Content>
-                <MaterialCommunityIcons 
-                  name="map-marker-outline" 
-                  size={32} 
-                  color={LIGHT_THEME.info[600]} 
+                <MaterialCommunityIcons
+                  name="map-marker-outline"
+                  size={32}
+                  color={LIGHT_THEME.info[600]}
                   style={styles.missionIcon}
                 />
                 <Text style={styles.missionCardTitle}>Localização Estratégica</Text>
                 <Text style={styles.missionCardText}>
-                  Aproveitar nossa posição no mercado para maior articulação 
+                  Aproveitar nossa posição no mercado para maior articulação
                   com academias parceiras.
                 </Text>
               </Card.Content>
@@ -89,17 +95,17 @@ const LightThemeExampleScreen = ({ navigation }) => {
             <View style={styles.explanationText}>
               <Text style={styles.explanationTitle}>O que é o MyGym?</Text>
               <Text style={styles.explanationBody}>
-                O MyGym é uma solução tecnológica estratégica para academias de artes marciais. 
-                Oferece suporte a instrutores e alunos de diversos estilos, estimulando o 
-                desenvolvimento de práticas inovadoras e a integração entre o meio acadêmico, 
+                O MyGym é uma solução tecnológica estratégica para academias de artes marciais.
+                Oferece suporte a instrutores e alunos de diversos estilos, estimulando o
+                desenvolvimento de práticas inovadoras e a integração entre o meio acadêmico,
                 social e produtivo.
               </Text>
               <Text style={styles.explanationBody}>
-                Proporciona experiências práticas em gestão, inovação social e capacitação 
+                Proporciona experiências práticas em gestão, inovação social e capacitação
                 contínua, fortalecendo processos internos e a própria gestão da academia.
               </Text>
             </View>
-            
+
             <Card style={[styles.infoCard, { backgroundColor: LIGHT_THEME.card.primary.background }]}>
               <Card.Content>
                 <Text style={styles.infoCardTitle}>Alinhado às normas modernas:</Text>
@@ -110,7 +116,7 @@ const LightThemeExampleScreen = ({ navigation }) => {
                 </View>
                 <Divider style={styles.infoDivider} />
                 <Text style={styles.infoFooter}>
-                  Esses recursos fortalecem o papel da academia como ambiente de inovação, 
+                  Esses recursos fortalecem o papel da academia como ambiente de inovação,
                   transferência tecnológica e empreendedorismo esportivo.
                 </Text>
               </Card.Content>
@@ -121,16 +127,16 @@ const LightThemeExampleScreen = ({ navigation }) => {
         {/* Seção: Funcionalidades (inspirada na imagem 5) */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>O que são as Funcionalidades?</Text>
-          
+
           <View style={styles.featuresSection}>
             <View style={styles.featuresText}>
               <Text style={styles.featuresDefinition}>Definição</Text>
               <Text style={styles.featuresBody}>
-                Funcionalidades com forte base tecnológica e pedagógica, nascidas 
-                em ambientes de inovação, desenvolvendo soluções completas e 
+                Funcionalidades com forte base tecnológica e pedagógica, nascidas
+                em ambientes de inovação, desenvolvendo soluções completas e
                 integradas para academias modernas.
               </Text>
-              
+
               <Text style={styles.featuresAreaTitle}>Áreas de Atuação</Text>
               <View style={styles.featuresList}>
                 <Text style={styles.featuresItem}>• Gestão de alunos e instrutores</Text>
@@ -146,7 +152,7 @@ const LightThemeExampleScreen = ({ navigation }) => {
         {/* Seção: Demonstração de Componentes */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Componentes do Sistema</Text>
-          
+
           {/* Cards de estatísticas */}
           <View style={styles.statsGrid}>
             <Card style={[styles.statCard, { backgroundColor: ACADEMY_LIGHT_COLORS.admin.background }]}>
@@ -177,15 +183,15 @@ const LightThemeExampleScreen = ({ navigation }) => {
           {/* Botões e chips */}
           <View style={styles.componentsSection}>
             <View style={styles.buttonRow}>
-              <Button 
-                mode="contained" 
+              <Button
+                mode="contained"
                 buttonColor={LIGHT_THEME.primary[500]}
                 style={styles.primaryButton}
               >
                 Ação Principal
               </Button>
-              <Button 
-                mode="outlined" 
+              <Button
+                mode="outlined"
                 textColor={LIGHT_THEME.secondary[600]}
                 style={styles.secondaryButton}
               >
@@ -194,22 +200,22 @@ const LightThemeExampleScreen = ({ navigation }) => {
             </View>
 
             <View style={styles.chipRow}>
-              <Chip 
-                mode="flat" 
+              <Chip
+                mode="flat"
                 style={[styles.chip, { backgroundColor: LIGHT_THEME.primary[100] }]}
                 textStyle={{ color: LIGHT_THEME.primary[700] }}
               >
                 Karatê
               </Chip>
-              <Chip 
-                mode="flat" 
+              <Chip
+                mode="flat"
                 style={[styles.chip, { backgroundColor: LIGHT_THEME.secondary[100] }]}
                 textStyle={{ color: LIGHT_THEME.secondary[700] }}
               >
                 Jiu-Jitsu
               </Chip>
-              <Chip 
-                mode="flat" 
+              <Chip
+                mode="flat"
                 style={[styles.chip, { backgroundColor: LIGHT_THEME.success[100] }]}
                 textStyle={{ color: LIGHT_THEME.success[700] }}
               >
@@ -222,7 +228,7 @@ const LightThemeExampleScreen = ({ navigation }) => {
         {/* Seção: Contatos (substituindo FAQ) */}
         <View style={[styles.section, { backgroundColor: LIGHT_THEME.background.section }]}>
           <Text style={styles.sectionTitle}>Entre em Contato</Text>
-          
+
           <Card style={styles.contactCard}>
             <Card.Content>
               <View style={styles.contactRow}>
@@ -232,9 +238,9 @@ const LightThemeExampleScreen = ({ navigation }) => {
                   <Text style={styles.contactValue}>contato@mygym.app</Text>
                 </View>
               </View>
-              
+
               <Divider style={styles.contactDivider} />
-              
+
               <View style={styles.contactRow}>
                 <MaterialCommunityIcons name="phone-outline" size={24} color={LIGHT_THEME.primary[600]} />
                 <View style={styles.contactInfo}>
@@ -242,9 +248,9 @@ const LightThemeExampleScreen = ({ navigation }) => {
                   <Text style={styles.contactValue}>(85) 3366-9999</Text>
                 </View>
               </View>
-              
+
               <Divider style={styles.contactDivider} />
-              
+
               <View style={styles.contactRow}>
                 <MaterialCommunityIcons name="web" size={24} color={LIGHT_THEME.primary[600]} />
                 <View style={styles.contactInfo}>
@@ -266,7 +272,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: LIGHT_THEME.background.default,
   },
-  
+
   // Header
   header: {
     paddingVertical: SPACING.xs0,
@@ -286,7 +292,7 @@ const styles = StyleSheet.create({
     color: LIGHT_THEME.primary[700],
     textAlign: 'center',
   },
-  
+
   // Seções
   section: {
     paddingVertical: 32,
@@ -297,7 +303,7 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.lg,
     textAlign: 'center',
   },
-  
+
   // Missão
   missionGrid: {
     flexDirection: 'row',
@@ -323,7 +329,7 @@ const styles = StyleSheet.create({
     ...LIGHT_TYPOGRAPHY.body2,
     lineHeight: 20,
   },
-  
+
   // Explicação
   explanationSection: {
     flexDirection: width > 768 ? 'row' : 'column',
@@ -366,7 +372,7 @@ const styles = StyleSheet.create({
     ...LIGHT_TYPOGRAPHY.caption,
     fontStyle: 'italic',
   },
-  
+
   // Funcionalidades
   featuresSection: {
     flexDirection: width > 768 ? 'row' : 'column',
@@ -396,7 +402,7 @@ const styles = StyleSheet.create({
     ...LIGHT_TYPOGRAPHY.body2,
     marginBottom: 6,
   },
-  
+
   // Estatísticas
   statsGrid: {
     flexDirection: 'row',
@@ -422,7 +428,7 @@ const styles = StyleSheet.create({
     ...LIGHT_TYPOGRAPHY.caption,
     textAlign: 'center',
   },
-  
+
   // Componentes
   componentsSection: {
     marginTop: SPACING.base,
@@ -448,7 +454,7 @@ const styles = StyleSheet.create({
   chip: {
     marginHorizontal: 4,
   },
-  
+
   // Contatos
   contactCard: {
     elevation: 2,

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  View, 
-  StyleSheet, 
-  ScrollView, 
+import {
+  View,
+  StyleSheet,
+  ScrollView,
   Alert
 } from 'react-native';
 import {
@@ -16,10 +16,18 @@ import {
   Snackbar
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useAuth } from '@contexts/AuthProvider';
+import { useTheme } from '@contexts/ThemeContext';
 import { firestoreService } from '@services/firestoreService';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getString } from '@utils/theme';
+import { getAuthGradient } from '@presentation/theme/authTheme';
+import type { NavigationProp, RouteProp } from '@react-navigation/native';
+
+interface EditStudentScreenProps {
+  navigation: NavigationProp<any>;
+  route: RouteProp<any>;
+}
 
 const EditStudentScreen = ({ navigation, route }) => {
   const { user, userProfile, academia } = useAuth();
@@ -29,7 +37,7 @@ const EditStudentScreen = ({ navigation, route }) => {
   const [snackbarVisible, setSnackbarVisible] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarType, setSnackbarType] = useState('success'); // 'success' | 'error'
-  
+
   // Form data
   const [formData, setFormData] = useState({
     name: '',
@@ -54,16 +62,16 @@ const EditStudentScreen = ({ navigation, route }) => {
   const loadStudentData = async () => {
     try {
       setLoadingData(true);
-      
+
       // Obter ID da academia
       const academiaId = userProfile?.academiaId || academia?.id;
       if (!academiaId) {
         throw new Error(getString('academyIdNotFound'));
       }
-      
+
       // Buscar aluno na subcoleção da academia
       const studentData = await firestoreService.getById(`gyms/${academiaId}/students`, studentId);
-      
+
       if (studentData) {
         setFormData({
           name: studentData.name || '',
@@ -150,14 +158,14 @@ const EditStudentScreen = ({ navigation, route }) => {
       if (!academiaId) {
         throw new Error(getString('academyIdNotFound'));
       }
-      
+
       // Atualizar aluno na subcoleção da academia
       await firestoreService.update(`gyms/${academiaId}/students`, studentId, studentData);
 
       setSnackbarMessage('Aluno atualizado com sucesso!');
       setSnackbarType('success');
       setSnackbarVisible(true);
-      
+
       // Navegar de volta após 2 segundos
       setTimeout(() => {
         navigation.goBack();
@@ -189,11 +197,11 @@ const EditStudentScreen = ({ navigation, route }) => {
             try {
               setLoading(true);
               await firestoreService.delete('users', studentId);
-              
+
               setSnackbarMessage('Aluno excluído com sucesso!');
               setSnackbarType('success');
               setSnackbarVisible(true);
-              
+
               // Navegar de volta após 2 segundos
               setTimeout(() => {
                 navigation.goBack();
@@ -240,7 +248,7 @@ const EditStudentScreen = ({ navigation, route }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView 
+      <ScrollView
         style={styles.scrollView}
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
@@ -412,7 +420,7 @@ const EditStudentScreen = ({ navigation, route }) => {
           </Card.Content>
         </Card>
       </ScrollView>
-      
+
       <Snackbar
         visible={snackbarVisible}
         onDismiss={() => setSnackbarVisible(false)}

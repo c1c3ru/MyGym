@@ -15,11 +15,19 @@ import {
 } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
 import { academyFirestoreService } from '@services/academyFirestoreService';
 import { useAuth } from '@contexts/AuthProvider';
+import { useTheme } from '@contexts/ThemeContext';
 import { useCustomClaims } from '@hooks/useCustomClaims';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getString } from '@utils/theme';
+import { getAuthGradient } from '@presentation/theme/authTheme';
+import type { NavigationProp, RouteProp } from '@react-navigation/native';
+
+interface ClassDetailsScreenProps {
+  navigation: NavigationProp<any>;
+  route: RouteProp<any>;
+}
 
 const { width } = Dimensions.get('window');
 
@@ -43,7 +51,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
   const loadClassDetails = async () => {
     try {
       setLoading(true);
-      
+
       if (!classInfo) {
         // Obter ID da academia para buscar a turma
         const academiaId = userProfile?.academiaId || academia?.id;
@@ -51,29 +59,29 @@ const ClassDetailsScreen = ({ route, navigation }) => {
           console.error(getString('academyIdNotFound'));
           return;
         }
-        
+
         console.log('🔍 Carregando detalhes da turma:', classId, 'academia:', academiaId);
         const classDetails = await academyFirestoreService.getById('classes', classId, academiaId);
         setClassInfo(classDetails);
       }
-      
+
       // Obter ID da academia
       const academiaId = userProfile?.academiaId || academia?.id;
       if (!academiaId) {
         console.error(getString('academyIdNotFound'));
         return;
       }
-      
+
       // Buscar alunos da turma na academia
       console.log('👥 Carregando alunos da turma...');
       const allStudents = await academyFirestoreService.getAll('students', academiaId);
-      const classStudents = allStudents.filter(student => 
-        student.classIds && 
+      const classStudents = allStudents.filter(student =>
+        student.classIds &&
         student.classIds.includes(classId)
       );
       console.log('✅ Alunos da turma encontrados:', classStudents.length);
       setStudents(classStudents);
-      
+
     } catch (error) {
       console.error('Erro ao carregar detalhes da turma:', error);
     } finally {
@@ -124,12 +132,12 @@ const ClassDetailsScreen = ({ route, navigation }) => {
 
   const formatSchedule = (schedule) => {
     if (!schedule) return getString('notDefined');
-    
+
     // Se for uma string, retornar diretamente
     if (typeof schedule === 'string') {
       return schedule;
     }
-    
+
     // Se for um objeto único com dayOfWeek, minute, hour
     if (schedule.dayOfWeek !== undefined && schedule.hour !== undefined && schedule.minute !== undefined) {
       const days = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
@@ -137,7 +145,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
       const time = `${schedule.hour.toString().padStart(2, '0')}:${schedule.minute.toString().padStart(2, '0')}`;
       return `${dayName} - ${time}`;
     }
-    
+
     // Se for um array
     if (Array.isArray(schedule)) {
       return schedule.map(s => {
@@ -151,7 +159,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
         return `${s.day || getString('day')} - ${s.time || 'Horário'}`;
       }).join(', ');
     }
-    
+
     return getString('scheduleNotDefined');
   };
 
@@ -177,7 +185,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView 
+      <ScrollView
         style={styles.container}
         contentContainerStyle={styles.scrollContent}
         refreshControl={
@@ -191,7 +199,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
             <View style={styles.headerTop}>
               <View style={styles.classInfo}>
                 <Text style={styles.className}>{classInfo?.name || getString('class')}</Text>
-                <Chip 
+                <Chip
                   mode="flat"
                   style={[styles.modalityChip, { backgroundColor: getModalityColor(classInfo?.modality) }]}
                   textStyle={styles.modalityText}
@@ -199,13 +207,13 @@ const ClassDetailsScreen = ({ route, navigation }) => {
                   {classInfo?.modality || getString('modality')}
                 </Chip>
               </View>
-              <Avatar.Icon 
-                size={60} 
-                icon="school" 
+              <Avatar.Icon
+                size={60}
+                icon="school"
                 style={[styles.classAvatar, { backgroundColor: getModalityColor(classInfo?.modality) }]}
               />
             </View>
-            
+
             <View style={styles.statsContainer}>
               <View style={styles.statItem}>
                 <Ionicons name="people" size={24} color={COLORS.info[500]} />
@@ -232,7 +240,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
         <Card style={styles.detailsCard}>
           <Card.Content>
             <Text style={styles.sectionTitle}>📋 Informações</Text>
-            
+
             <View style={styles.infoRow}>
               <Ionicons name="person-circle" size={24} color={COLORS.info[500]} />
               <View style={styles.infoContent}>
@@ -242,7 +250,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
                 </Text>
               </View>
             </View>
-            
+
             <View style={styles.infoRow}>
               <Ionicons name="time-outline" size={24} color={COLORS.primary[500]} />
               <View style={styles.infoContent}>
@@ -252,7 +260,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
                 </Text>
               </View>
             </View>
-            
+
             <View style={styles.infoRow}>
               <Ionicons name="people-outline" size={24} color={COLORS.warning[500]} />
               <View style={styles.infoContent}>
@@ -262,7 +270,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
                 </Text>
               </View>
             </View>
-            
+
             {classInfo?.description && (
               <View style={styles.descriptionContainer}>
                 <Text style={styles.infoLabel}>{getString('description')}</Text>
@@ -289,15 +297,15 @@ const ClassDetailsScreen = ({ route, navigation }) => {
                 {showStudents ? 'hide' : 'Ver Alunos'}
               </Button>
             </View>
-            
+
             {showStudents && (
               <View style={styles.studentsList}>
                 {students.length > 0 ? (
                   students.map((student, index) => (
                     <Surface key={student.id || index} style={styles.studentItem} elevation={1}>
                       <View style={styles.studentInfo}>
-                        <Avatar.Text 
-                          size={40} 
+                        <Avatar.Text
+                          size={40}
                           label={student.name?.charAt(0)?.toUpperCase() || 'A'}
                           style={styles.studentAvatar}
                         />
@@ -309,9 +317,9 @@ const ClassDetailsScreen = ({ route, navigation }) => {
                       <Button
                         mode="outlined"
                         compact
-                        onPress={() => navigation.navigate('StudentDetails', { 
-                          studentId: student.id, 
-                          studentData: student 
+                        onPress={() => navigation.navigate('StudentDetails', {
+                          studentId: student.id,
+                          studentData: student
                         })}
                         style={styles.studentButton}
                       >
@@ -335,14 +343,14 @@ const ClassDetailsScreen = ({ route, navigation }) => {
         <Card style={styles.actionsCard}>
           <Card.Content>
             <Text style={styles.sectionTitle}>⚡ Ações Rápidas</Text>
-            
+
             <View style={styles.actionsGrid}>
               <Surface style={styles.actionItem} elevation={2}>
                 <Button
                   mode="contained"
-                  onPress={() => navigation.navigate(getString('checkIns', { 
-                    classId: classId, 
-                    className: classInfo?.name 
+                  onPress={() => navigation.navigate(getString('checkIns', {
+                    classId: classId,
+                    className: classInfo?.name
                   }))}
                   style={[styles.actionButton, { backgroundColor: COLORS.info[500] }]}
                   contentStyle={styles.actionButtonContent}
@@ -352,7 +360,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
                   {"\n"}Check-ins
                 </Button>
               </Surface>
-              
+
               <Surface style={styles.actionItem} elevation={2}>
                 <Button
                   mode="contained"
@@ -374,9 +382,9 @@ const ClassDetailsScreen = ({ route, navigation }) => {
                 </Button>
               </Surface>
             </View>
-            
+
             <Divider style={styles.actionDivider} />
-            
+
             <Button
               mode="contained"
               onPress={handleDeleteClass}
@@ -389,7 +397,7 @@ const ClassDetailsScreen = ({ route, navigation }) => {
           </Card.Content>
         </Card>
       </ScrollView>
-      
+
       <Snackbar
         visible={snackbar.visible}
         onDismiss={() => setSnackbar({ ...snackbar, visible: false })}
@@ -417,7 +425,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  
+
   // Header Card Styles
   headerCard: {
     margin: SPACING.base,
@@ -456,7 +464,7 @@ const styles = StyleSheet.create({
   classAvatar: {
     backgroundColor: COLORS.info[500],
   },
-  
+
   // Stats Container
   statsContainer: {
     flexDirection: 'row',
@@ -485,7 +493,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.gray[300],
     marginHorizontal: 16,
   },
-  
+
   // Details Card
   detailsCard: {
     margin: SPACING.base,
@@ -526,7 +534,7 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     marginTop: SPACING.xs,
   },
-  
+
   // Students Card
   studentsCard: {
     margin: SPACING.base,
@@ -603,7 +611,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: SPACING.xs,
   },
-  
+
   // Actions Card
   actionsCard: {
     margin: SPACING.base,

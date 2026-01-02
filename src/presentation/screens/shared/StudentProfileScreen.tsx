@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView, RefreshControl, Alert, Platform, Dimensions } from 'react-native';
-import { 
-  Card, 
-  Button, 
+import {
+  Card,
+  Button,
   Avatar,
   Chip,
   Divider,
@@ -21,13 +21,18 @@ import { academyFirestoreService } from '@services/academyFirestoreService';
 import SafeCardContent from '@components/SafeCardContent';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, BORDER_WIDTH } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
-import { getString } from '@utils/theme';
+import { getAuthGradient } from '@presentation/theme/authTheme';
+import type { NavigationProp } from '@react-navigation/native';
+
+interface StudentProfileScreenProps {
+  navigation: NavigationProp<any>;
+}
 
 const { width } = Dimensions.get('window');
 
 const StudentProfileScreen = ({ route, navigation }) => {
   const { currentTheme } = useThemeToggle();
-  
+
   const { studentId } = route.params;
   const { user, userProfile, academia } = useAuth();
   const { getString } = useTheme();
@@ -47,38 +52,38 @@ const StudentProfileScreen = ({ route, navigation }) => {
   const loadStudentDetails = async () => {
     try {
       setLoading(true);
-      
+
       // Carregar dados do aluno se não foram passados
       if (!studentData) {
         const details = await academyFirestoreService.getById('users', studentId);
         setStudentInfo(details);
       }
-      
+
       // Obter ID da academia
       const academiaId = userProfile?.academiaId || academia?.id;
       if (!academiaId) {
         console.error(getString('academyIdNotFound'));
         return;
       }
-      
+
       // Buscar turmas do aluno na academia
       const allClasses = await academyFirestoreService.getAll('classes', academiaId);
-      const userClasses = allClasses.filter(cls => 
+      const userClasses = allClasses.filter(cls =>
         studentInfo?.classIds && studentInfo.classIds.includes(cls.id)
       );
       setStudentClasses(userClasses);
-      
+
       // Buscar pagamentos do aluno na academia
       const allPayments = await academyFirestoreService.getAll('payments', academiaId);
-      const userPayments = allPayments.filter(payment => 
+      const userPayments = allPayments.filter(payment =>
         payment.userId === studentId
       ).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
       setPayments(userPayments);
-      
+
       // Buscar graduações com tratamento robusto de erros
       try {
         const allGraduations = await academyFirestoreService.getAll('graduations', academiaId);
-        const userGraduations = allGraduations.filter(graduation => 
+        const userGraduations = allGraduations.filter(graduation =>
           graduation.studentId === studentId
         ).sort((a, b) => new Date(b.date) - new Date(a.date));
         setGraduations(userGraduations);
@@ -90,17 +95,17 @@ const StudentProfileScreen = ({ route, navigation }) => {
         }
         setGraduations([]);
       }
-      
+
     } catch (error) {
       console.error('Erro ao carregar detalhes do aluno:', error);
       let errorMessage = 'Não foi possível carregar os detalhes do aluno';
-      
+
       if (error.code === 'permission-denied') {
         errorMessage = 'Você não tem permissão para visualizar este perfil.';
       } else if (error.code === 'unavailable') {
         errorMessage = 'Serviço temporariamente indisponível. Tente novamente.';
       }
-      
+
       Alert.alert(getString('error'), errorMessage);
     } finally {
       setLoading(false);
@@ -134,14 +139,14 @@ const StudentProfileScreen = ({ route, navigation }) => {
   const formatDate = (date, format = 'long') => {
     if (!date) return getString('dataNotAvailable');
     const dateObj = date.seconds ? new Date(date.seconds * 1000) : new Date(date);
-    
+
     if (format === 'short') {
-      return dateObj.toLocaleDateString('pt-BR', { 
-        month: 'short', 
-        year: 'numeric' 
+      return dateObj.toLocaleDateString('pt-BR', {
+        month: 'short',
+        year: 'numeric'
       });
     }
-    
+
     return dateObj.toLocaleDateString('pt-BR');
   };
 
@@ -165,9 +170,9 @@ const StudentProfileScreen = ({ route, navigation }) => {
   };
 
   const handleAddGraduation = () => {
-    navigation.navigate('AddGraduation', { 
-      studentId: studentId, 
-      studentName: studentInfo?.name || getString('student') 
+    navigation.navigate('AddGraduation', {
+      studentId: studentId,
+      studentName: studentInfo?.name || getString('student')
     });
   };
 
@@ -183,7 +188,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView 
+      <ScrollView
         style={styles.scrollView}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -199,9 +204,9 @@ const StudentProfileScreen = ({ route, navigation }) => {
           >
             <View style={styles.profileHeaderContent}>
               <View style={styles.avatarContainer}>
-                <Avatar.Text 
-                  size={100} 
-                  label={studentInfo?.name?.charAt(0) || 'A'} 
+                <Avatar.Text
+                  size={100}
+                  label={studentInfo?.name?.charAt(0) || 'A'}
                   style={styles.avatar}
                   labelStyle={styles.avatarLabel}
                 />
@@ -211,11 +216,11 @@ const StudentProfileScreen = ({ route, navigation }) => {
                   </Badge>
                 )}
               </View>
-              
+
               <View style={styles.profileInfo}>
                 <Text style={[styles.studentName, styles.title]}>{studentInfo?.name || getString('student')}</Text>
                 <Text style={styles.studentEmail}>{studentInfo?.email}</Text>
-                
+
                 <View style={styles.statusRow}>
                   <View style={styles.statusItem}>
                     <Ionicons name="time-outline" size={16} color={COLORS.white} />
@@ -223,7 +228,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
                       {calculateAge(studentInfo?.birthDate) || '--'} anos
                     </Text>
                   </View>
-                  
+
                   <View style={styles.statusItem}>
                     <Ionicons name="calendar-outline" size={16} color={COLORS.white} />
                     <Text style={styles.statusText}>
@@ -231,7 +236,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
                     </Text>
                   </View>
                 </View>
-                
+
                 {studentInfo?.currentGraduation && (
                   <View style={styles.graduationContainer}>
                     <Ionicons name="trophy" size={16} color={COLORS.warning[300]} />
@@ -254,7 +259,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
             <Text style={styles.statNumber}>{studentClasses.length}</Text>
             <Text style={styles.statLabel}>Turmas</Text>
           </View>
-          
+
           <View style={styles.statCard}>
             <View style={styles.statIconContainer}>
               <Ionicons name="trophy-outline" size={24} color={COLORS.warning[300]} />
@@ -262,7 +267,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
             <Text style={styles.statNumber}>{graduations.length}</Text>
             <Text style={styles.statLabel}>Graduações</Text>
           </View>
-          
+
           <View style={styles.statCard}>
             <View style={styles.statIconContainer}>
               <Ionicons name="card-outline" size={24} color={COLORS.info[500]} />
@@ -281,7 +286,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
               </View>
               <Text style={[styles.modernCardTitle, styles.title]}>Informações Pessoais</Text>
             </View>
-            
+
             <View style={styles.modernInfoGrid}>
               <View style={styles.modernInfoItem}>
                 <View style={styles.infoIconContainer}>
@@ -294,7 +299,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
                   </Text>
                 </View>
               </View>
-              
+
               <View style={styles.modernInfoItem}>
                 <View style={styles.infoIconContainer}>
                   <Ionicons name="location-outline" size={20} color={COLORS.secondary[400]} />
@@ -306,7 +311,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
                   </Text>
                 </View>
               </View>
-              
+
               <View style={styles.modernInfoItem}>
                 <View style={styles.infoIconContainer}>
                   <Ionicons name="calendar-outline" size={20} color={COLORS.secondary[400]} />
@@ -318,7 +323,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
                   </Text>
                 </View>
               </View>
-              
+
               <View style={styles.modernInfoItem}>
                 <View style={styles.infoIconContainer}>
                   <Ionicons name="time-outline" size={20} color={COLORS.secondary[400]} />
@@ -344,7 +349,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
               <Text style={[styles.modernCardTitle, styles.title]}>Turmas Matriculadas</Text>
               <Badge style={styles.countBadge}>{studentClasses.length}</Badge>
             </View>
-            
+
             {studentClasses.length > 0 ? (
               <View style={styles.classesGrid}>
                 {studentClasses.map((classItem, index) => (
@@ -355,9 +360,9 @@ const StudentProfileScreen = ({ route, navigation }) => {
                       </View>
                       <Text style={styles.className}>{classItem.name}</Text>
                     </View>
-                    
+
                     <Text style={styles.classModality}>{classItem.modality}</Text>
-                    
+
                     <View style={styles.classFooter}>
                       <View style={styles.scheduleInfo}>
                         <Ionicons name="time-outline" size={14} color={COLORS.text.secondary} />
@@ -365,14 +370,14 @@ const StudentProfileScreen = ({ route, navigation }) => {
                           {classItem.schedule?.length || 0} horários
                         </Text>
                       </View>
-                      
+
                       <IconButton
                         icon="chevron-right"
                         size={20}
                         iconColor={COLORS.secondary[400]}
-                        onPress={() => navigation.navigate('ClassDetails', { 
-                          classId: classItem.id, 
-                          classData: classItem 
+                        onPress={() => navigation.navigate('ClassDetails', {
+                          classId: classItem.id,
+                          classData: classItem
                         })}
                       />
                     </View>
@@ -403,7 +408,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
               <Text style={[styles.modernCardTitle, styles.title]}>Timeline de Graduações</Text>
               <Badge style={styles.countBadge}>{graduations.length}</Badge>
             </View>
-            
+
             {graduations.length > 0 ? (
               <View style={styles.timelineContainer}>
                 {graduations.map((graduation, index) => (
@@ -411,7 +416,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
                     <View style={styles.timelineDot}>
                       <Ionicons name="trophy" size={16} color={COLORS.warning[300]} />
                     </View>
-                    
+
                     <View style={styles.timelineContent}>
                       <View style={styles.graduationCard}>
                         <Text style={styles.graduationTitle}>{graduation.graduation}</Text>
@@ -424,7 +429,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
                         </View>
                       </View>
                     </View>
-                    
+
                     {index < graduations.length - 1 && <View style={styles.timelineLine} />}
                   </View>
                 ))}
@@ -440,7 +445,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
                 </Text>
               </View>
             )}
-            
+
             <Button
               mode="contained"
               onPress={handleAddGraduation}
@@ -463,7 +468,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
               </View>
               <Text style={[styles.modernCardTitle, styles.title]}>Resumo Financeiro</Text>
             </View>
-            
+
             {/* Indicadores Financeiros */}
             <View style={styles.financialIndicators}>
               <View style={styles.financialCard}>
@@ -475,7 +480,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
                   <Ionicons name="checkmark-circle" size={20} color={COLORS.primary[500]} />
                 </View>
               </View>
-              
+
               <View style={styles.financialCard}>
                 <Text style={styles.financialValue}>
                   {formatCurrency(payments.reduce((sum, p) => p.status === 'pending' ? sum + p.amount : sum, 0))}
@@ -486,7 +491,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
                 </View>
               </View>
             </View>
-            
+
             {/* Últimos Pagamentos */}
             {payments.length > 0 ? (
               <View style={styles.paymentsSection}>
@@ -501,7 +506,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
                         {formatDate(payment.createdAt)}
                       </Text>
                     </View>
-                    
+
                     <View style={[
                       styles.paymentStatus,
                       { backgroundColor: getPaymentStatusColor(payment.status) + '20' }
@@ -515,7 +520,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
                     </View>
                   </View>
                 ))}
-                
+
                 {payments.length > 3 && (
                   <Button
                     mode="text"
@@ -546,9 +551,9 @@ const StudentProfileScreen = ({ route, navigation }) => {
           <View style={styles.actionCard}>
             <Button
               mode="contained"
-              onPress={() => navigation.navigate('EditStudent', { 
-                studentId, 
-                studentData: studentInfo 
+              onPress={() => navigation.navigate('EditStudent', {
+                studentId,
+                studentData: studentInfo
               })}
               style={styles.primaryActionButton}
               icon="pencil"
@@ -557,13 +562,13 @@ const StudentProfileScreen = ({ route, navigation }) => {
               Editar Perfil
             </Button>
           </View>
-          
+
           <View style={styles.actionCard}>
             <Button
               mode="contained"
-              onPress={() => navigation.navigate('AddGraduation', { 
-                studentId, 
-                studentName: studentInfo?.name 
+              onPress={() => navigation.navigate('AddGraduation', {
+                studentId,
+                studentName: studentInfo?.name
               })}
               style={styles.primaryActionButton}
               icon="trophy"
@@ -574,7 +579,7 @@ const StudentProfileScreen = ({ route, navigation }) => {
             </Button>
           </View>
         </View>
-        
+
         {/* Espaçamento final */}
         <View style={styles.bottomSpacing} />
       </ScrollView>
@@ -595,7 +600,7 @@ const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
   },
-  
+
   // Header com gradiente
   headerContainer: {
     marginBottom: 20,
