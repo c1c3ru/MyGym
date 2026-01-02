@@ -16,13 +16,14 @@ import {
 } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '@contexts/AuthProvider';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT , BORDER_WIDTH } from '@presentation/theme/designTokens';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, BORDER_WIDTH } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
 import { getString } from '@utils/theme';
 
-const UserTypeSelectionScreen = ({ navigation, route }) => {
+const UserTypeSelectionScreen = ({ navigation, route }: UserTypeSelectionScreenProps) => {
   const { currentTheme } = useThemeToggle();
-  
+  const { isDarkMode, getString } = useTheme();
+
   const { user, updateUserProfile, logout } = useAuth();
   const [selectedType, setSelectedType] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -81,7 +82,7 @@ const UserTypeSelectionScreen = ({ navigation, route }) => {
     setLoading(true);
     try {
       const selectedUserType = userTypes.find(type => type.id === selectedType);
-      
+
       await updateUserProfile({
         tipo: selectedUserType.tipo,
         userType: selectedUserType.id,
@@ -104,8 +105,8 @@ const UserTypeSelectionScreen = ({ navigation, route }) => {
       key={userType.id}
       style={[
         styles.typeCard,
-        selectedType === userType.id && { 
-          borderColor: userType.color, 
+        selectedType === userType.id && {
+          borderColor: userType.color,
           borderWidth: 3,
           backgroundColor: `${userType.color}10`
         }
@@ -154,12 +155,12 @@ const UserTypeSelectionScreen = ({ navigation, route }) => {
 
   const handleLogout = async () => {
     console.log('🔘 UserTypeSelection: handleLogout chamado');
-    
+
     // Para web, usar confirm nativo do browser
     if (Platform.OS === 'web') {
       const confirmed = window.confirm(getString('confirmLogout'));
       console.log('🔘 UserTypeSelection: Web confirm result:', confirmed);
-      
+
       if (confirmed) {
         try {
           setLoading(true);
@@ -175,7 +176,7 @@ const UserTypeSelectionScreen = ({ navigation, route }) => {
       }
       return;
     }
-    
+
     // Para mobile, usar Alert.alert
     Alert.alert(
       getString('logout'),
@@ -246,7 +247,7 @@ const UserTypeSelectionScreen = ({ navigation, route }) => {
         >
           Continuar
         </Button>
-        
+
         <Text style={styles.footerNote}>
           Você poderá alterar essas configurações depois nas configurações do app.
         </Text>

@@ -18,7 +18,7 @@ import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@present
 
 const PrivacySettingsScreen = ({ navigation }) => {
   const { currentTheme } = useThemeToggle();
-  
+
   const { user, userProfile, updateUserProfile } = useAuth();
   const { getString } = useTheme();
   const [loading, setLoading] = useState(false);
@@ -28,18 +28,18 @@ const PrivacySettingsScreen = ({ navigation }) => {
     marketingConsent: false,
     analyticsConsent: false,
     thirdPartyConsent: false,
-    
+
     // Configurações de privacidade
     profileVisibility: 'private', // 'public', 'academy', 'private'
     shareTrainingData: false,
     shareProgressData: false,
     allowDataExport: true,
-    
+
     // Configurações de comunicação
     allowWhatsAppContact: true,
     allowEmailContact: true,
     allowPhoneContact: false,
-    
+
     // Data de consentimento
     consentDate: null,
     lastUpdated: null
@@ -73,7 +73,7 @@ const PrivacySettingsScreen = ({ navigation }) => {
   const saveSettings = async () => {
     try {
       setLoading(true);
-      
+
       const updatedSettings = {
         ...settings,
         lastUpdated: new Date().toISOString()
@@ -83,14 +83,14 @@ const PrivacySettingsScreen = ({ navigation }) => {
       if (!settings.consentDate && settings.dataProcessingConsent) {
         updatedSettings.consentDate = new Date().toISOString();
       }
-      
+
       await updateUserProfile({
         privacySettings: updatedSettings
       });
-      
+
       Alert.alert(getString('success'), getString('settingsSavedSuccess'));
       navigation.goBack();
-      
+
     } catch (error) {
       console.error(getString('logoutError'), error);
       Alert.alert(getString('error'), getString('settingsSaveError'));
@@ -175,278 +175,285 @@ const PrivacySettingsScreen = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.scrollView}>
-        {/* Status de Conformidade LGPD */}
-        <Card style={styles.card}>
-          <Card.Content>
-            <View style={styles.cardHeader}>
-              <Ionicons name="shield-checkmark-outline" size={24} color={COLORS.primary[500]} />
-              <Text style={[styles.cardTitle, styles.title]}>{getString('lgpdStatus')}</Text>
-              <Chip 
-                mode="outlined"
-                style={styles.statusChip}
-                textStyle={{ fontSize: FONT_SIZE.sm }}
-              >
-                {getConsentStatus()} {getString('consents')}
-              </Chip>
-            </View>
+    <LinearGradient
+      colors={getAuthGradient(isDarkMode) as any}
+      style={styles.gradient}
+    >
+      <SafeAreaView style={styles.container}>
+        <ScrollView style={styles.scrollView}>
+          {/* Status de Conformidade LGPD */}
+          <Card style={styles.card}>
+            <Card.Content>
+              <View style={styles.cardHeader}>
+                <Ionicons name="shield-checkmark-outline" size={24} color={COLORS.primary[500]} />
+                <Text style={[styles.cardTitle, styles.title]}>{getString('lgpdStatus')}</Text>
+                <Chip
+                  mode="outlined"
+                  style={styles.statusChip}
+                  textStyle={{ fontSize: FONT_SIZE.sm }}
+                >
+                  {getConsentStatus()} {getString('consents')}
+                </Chip>
+              </View>
 
-            <Text style={[styles.lgpdInfo, styles.paragraph]}>
-              {getString('lgpdInfo')}
-            </Text>
-
-            {settings.consentDate && (
-              <Text style={styles.consentDate}>
-                {getString('consentGivenOn')} {new Date(settings.consentDate).toLocaleDateString('pt-BR')}
+              <Text style={[styles.lgpdInfo, styles.paragraph]}>
+                {getString('lgpdInfo')}
               </Text>
-            )}
-          </Card.Content>
-        </Card>
 
-        {/* Consentimentos LGPD */}
-        <Card style={styles.card}>
-          <Card.Content>
-            <View style={styles.cardHeader}>
-              <Ionicons name="document-text-outline" size={24} color={COLORS.info[500]} />
-              <Text style={[styles.cardTitle, styles.title]}>{getString('consents')}</Text>
-            </View>
-
-            <List.Item
-              title={getString('dataProcessingConsent')}
-              description={getString('dataProcessingDescription')}
-              left={() => <List.Icon icon="database" />}
-              right={() => (
-                <Switch
-                  value={settings.dataProcessingConsent}
-                  onValueChange={(value) => updateSetting('dataProcessingConsent', value)}
-                />
+              {settings.consentDate && (
+                <Text style={styles.consentDate}>
+                  {getString('consentGivenOn')} {new Date(settings.consentDate).toLocaleDateString('pt-BR')}
+                </Text>
               )}
-            />
-            <Divider />
+            </Card.Content>
+          </Card>
 
-            <List.Item
-              title={getString('marketingConsent')}
-              description={getString('marketingDescription')}
-              left={() => <List.Icon icon="bullhorn" />}
-              right={() => (
-                <Switch
-                  value={settings.marketingConsent}
-                  onValueChange={(value) => updateSetting('marketingConsent', value)}
-                />
-              )}
-            />
-            <Divider />
+          {/* Consentimentos LGPD */}
+          <Card style={styles.card}>
+            <Card.Content>
+              <View style={styles.cardHeader}>
+                <Ionicons name="document-text-outline" size={24} color={COLORS.info[500]} />
+                <Text style={[styles.cardTitle, styles.title]}>{getString('consents')}</Text>
+              </View>
 
-            <List.Item
-              title={getString('analyticsConsent')}
-              description={getString('analyticsDescription')}
-              left={() => <List.Icon icon="chart-line" />}
-              right={() => (
-                <Switch
-                  value={settings.analyticsConsent}
-                  onValueChange={(value) => updateSetting('analyticsConsent', value)}
-                />
-              )}
-            />
-            <Divider />
+              <List.Item
+                title={getString('dataProcessingConsent')}
+                description={getString('dataProcessingDescription')}
+                left={() => <List.Icon icon="database" />}
+                right={() => (
+                  <Switch
+                    value={settings.dataProcessingConsent}
+                    onValueChange={(value) => updateSetting('dataProcessingConsent', value)}
+                  />
+                )}
+              />
+              <Divider />
 
-            <List.Item
-              title={getString('thirdPartyConsent')}
-              description={getString('thirdPartyDescription')}
-              left={() => <List.Icon icon="share-variant" />}
-              right={() => (
-                <Switch
-                  value={settings.thirdPartyConsent}
-                  onValueChange={(value) => updateSetting('thirdPartyConsent', value)}
-                />
-              )}
-            />
-          </Card.Content>
-        </Card>
+              <List.Item
+                title={getString('marketingConsent')}
+                description={getString('marketingDescription')}
+                left={() => <List.Icon icon="bullhorn" />}
+                right={() => (
+                  <Switch
+                    value={settings.marketingConsent}
+                    onValueChange={(value) => updateSetting('marketingConsent', value)}
+                  />
+                )}
+              />
+              <Divider />
 
-        {/* Configurações de Visibilidade */}
-        <Card style={styles.card}>
-          <Card.Content>
-            <View style={styles.cardHeader}>
-              <Ionicons name="eye-outline" size={24} color={COLORS.warning[500]} />
-              <Text style={[styles.cardTitle, styles.title]}>{getString('profileVisibility')}</Text>
-            </View>
+              <List.Item
+                title={getString('analyticsConsent')}
+                description={getString('analyticsDescription')}
+                left={() => <List.Icon icon="chart-line" />}
+                right={() => (
+                  <Switch
+                    value={settings.analyticsConsent}
+                    onValueChange={(value) => updateSetting('analyticsConsent', value)}
+                  />
+                )}
+              />
+              <Divider />
 
-            <List.Item
-              title={getString('profileVisibility')}
-              description={`${getString('profileVisibilityDescription')} ${getVisibilityText(settings.profileVisibility)}`}
-              left={() => <List.Icon icon="account-circle" />}
-              right={() => <List.Icon icon="chevron-right" />}
-              onPress={() => {
-                Alert.alert(
-                  getString('profileVisibilityTitle'),
-                  getString('profileVisibilityQuestion'),
-                  [
-                    { text: getString('public'), onPress: () => updateSetting('profileVisibility', 'public') },
-                    { text: getString('onlyAcademy'), onPress: () => updateSetting('profileVisibility', 'academy') },
-                    { text: getString('private'), onPress: () => updateSetting('profileVisibility', 'private') },
-                    { text: getString('cancel'), style: 'cancel' }
-                  ]
-                );
-              }}
-            />
-            <Divider />
+              <List.Item
+                title={getString('thirdPartyConsent')}
+                description={getString('thirdPartyDescription')}
+                left={() => <List.Icon icon="share-variant" />}
+                right={() => (
+                  <Switch
+                    value={settings.thirdPartyConsent}
+                    onValueChange={(value) => updateSetting('thirdPartyConsent', value)}
+                  />
+                )}
+              />
+            </Card.Content>
+          </Card>
 
-            <List.Item
-              title={getString('shareTrainingData')}
-              description={getString('shareTrainingDescription')}
-              left={() => <List.Icon icon="dumbbell" />}
-              right={() => (
-                <Switch
-                  value={settings.shareTrainingData}
-                  onValueChange={(value) => updateSetting('shareTrainingData', value)}
-                />
-              )}
-            />
-            <Divider />
+          {/* Configurações de Visibilidade */}
+          <Card style={styles.card}>
+            <Card.Content>
+              <View style={styles.cardHeader}>
+                <Ionicons name="eye-outline" size={24} color={COLORS.warning[500]} />
+                <Text style={[styles.cardTitle, styles.title]}>{getString('profileVisibility')}</Text>
+              </View>
 
-            <List.Item
-              title={getString('shareProgressData')}
-              description={getString('shareProgressDescription')}
-              left={() => <List.Icon icon="trending-up" />}
-              right={() => (
-                <Switch
-                  value={settings.shareProgressData}
-                  onValueChange={(value) => updateSetting('shareProgressData', value)}
-                />
-              )}
-            />
-          </Card.Content>
-        </Card>
+              <List.Item
+                title={getString('profileVisibility')}
+                description={`${getString('profileVisibilityDescription')} ${getVisibilityText(settings.profileVisibility)}`}
+                left={() => <List.Icon icon="account-circle" />}
+                right={() => <List.Icon icon="chevron-right" />}
+                onPress={() => {
+                  Alert.alert(
+                    getString('profileVisibilityTitle'),
+                    getString('profileVisibilityQuestion'),
+                    [
+                      { text: getString('public'), onPress: () => updateSetting('profileVisibility', 'public') },
+                      { text: getString('onlyAcademy'), onPress: () => updateSetting('profileVisibility', 'academy') },
+                      { text: getString('private'), onPress: () => updateSetting('profileVisibility', 'private') },
+                      { text: getString('cancel'), style: 'cancel' }
+                    ]
+                  );
+                }}
+              />
+              <Divider />
 
-        {/* Configurações de Contato */}
-        <Card style={styles.card}>
-          <Card.Content>
-            <View style={styles.cardHeader}>
-              <Ionicons name="call-outline" size={24} color={COLORS.secondary[500]} />
-              <Text style={[styles.cardTitle, styles.title]}>{getString('contactMethods')}</Text>
-            </View>
+              <List.Item
+                title={getString('shareTrainingData')}
+                description={getString('shareTrainingDescription')}
+                left={() => <List.Icon icon="dumbbell" />}
+                right={() => (
+                  <Switch
+                    value={settings.shareTrainingData}
+                    onValueChange={(value) => updateSetting('shareTrainingData', value)}
+                  />
+                )}
+              />
+              <Divider />
 
-            <List.Item
-              title={getString('whatsappContact')}
-              description={getString('whatsappDescription')}
-              left={() => <List.Icon icon="whatsapp" />}
-              right={() => (
-                <Switch
-                  value={settings.allowWhatsAppContact}
-                  onValueChange={(value) => updateSetting('allowWhatsAppContact', value)}
-                />
-              )}
-            />
-            <Divider />
+              <List.Item
+                title={getString('shareProgressData')}
+                description={getString('shareProgressDescription')}
+                left={() => <List.Icon icon="trending-up" />}
+                right={() => (
+                  <Switch
+                    value={settings.shareProgressData}
+                    onValueChange={(value) => updateSetting('shareProgressData', value)}
+                  />
+                )}
+              />
+            </Card.Content>
+          </Card>
 
-            <List.Item
-              title={getString('emailContact')}
-              description={getString('emailDescription')}
-              left={() => <List.Icon icon="email" />}
-              right={() => (
-                <Switch
-                  value={settings.allowEmailContact}
-                  onValueChange={(value) => updateSetting('allowEmailContact', value)}
-                />
-              )}
-            />
-            <Divider />
+          {/* Configurações de Contato */}
+          <Card style={styles.card}>
+            <Card.Content>
+              <View style={styles.cardHeader}>
+                <Ionicons name="call-outline" size={24} color={COLORS.secondary[500]} />
+                <Text style={[styles.cardTitle, styles.title]}>{getString('contactMethods')}</Text>
+              </View>
 
-            <List.Item
-              title={getString('phoneContact')}
-              description={getString('phoneDescription')}
-              left={() => <List.Icon icon="phone" />}
-              right={() => (
-                <Switch
-                  value={settings.allowPhoneContact}
-                  onValueChange={(value) => updateSetting('allowPhoneContact', value)}
-                />
-              )}
-            />
-          </Card.Content>
-        </Card>
+              <List.Item
+                title={getString('whatsappContact')}
+                description={getString('whatsappDescription')}
+                left={() => <List.Icon icon="whatsapp" />}
+                right={() => (
+                  <Switch
+                    value={settings.allowWhatsAppContact}
+                    onValueChange={(value) => updateSetting('allowWhatsAppContact', value)}
+                  />
+                )}
+              />
+              <Divider />
 
-        {/* Direitos do Titular */}
-        <Card style={styles.card}>
-          <Card.Content>
-            <View style={styles.cardHeader}>
-              <Ionicons name="person-outline" size={24} color={COLORS.error[500]} />
-              <Text style={[styles.cardTitle, styles.title]}>{getString('yourRights')}</Text>
-            </View>
+              <List.Item
+                title={getString('emailContact')}
+                description={getString('emailDescription')}
+                left={() => <List.Icon icon="email" />}
+                right={() => (
+                  <Switch
+                    value={settings.allowEmailContact}
+                    onValueChange={(value) => updateSetting('allowEmailContact', value)}
+                  />
+                )}
+              />
+              <Divider />
 
-            <List.Item
-              title={getString('exportData')}
-              description={getString('exportDescription')}
-              left={() => <List.Icon icon="download" />}
-              right={() => <List.Icon icon="chevron-right" />}
-              onPress={requestDataExport}
-            />
-            <Divider />
+              <List.Item
+                title={getString('phoneContact')}
+                description={getString('phoneDescription')}
+                left={() => <List.Icon icon="phone" />}
+                right={() => (
+                  <Switch
+                    value={settings.allowPhoneContact}
+                    onValueChange={(value) => updateSetting('allowPhoneContact', value)}
+                  />
+                )}
+              />
+            </Card.Content>
+          </Card>
 
-            <List.Item
-              title={getString('privacyPolicy')}
-              description={getString('privacyPolicyDescription')}
-              left={() => <List.Icon icon="file-document" />}
-              right={() => <List.Icon icon="open-in-new" />}
-              onPress={openPrivacyPolicy}
-            />
-            <Divider />
+          {/* Direitos do Titular */}
+          <Card style={styles.card}>
+            <Card.Content>
+              <View style={styles.cardHeader}>
+                <Ionicons name="person-outline" size={24} color={COLORS.error[500]} />
+                <Text style={[styles.cardTitle, styles.title]}>{getString('yourRights')}</Text>
+              </View>
 
-            <List.Item
-              title={getString('deleteData')}
-              description={getString('deleteDescription')}
-              left={() => <List.Icon icon="delete-forever" color={COLORS.error[500]} />}
-              right={() => <List.Icon icon="chevron-right" />}
-              onPress={requestDataDeletion}
-              titleStyle={{ color: COLORS.error[500] }}
-            />
-          </Card.Content>
-        </Card>
+              <List.Item
+                title={getString('exportData')}
+                description={getString('exportDescription')}
+                left={() => <List.Icon icon="download" />}
+                right={() => <List.Icon icon="chevron-right" />}
+                onPress={requestDataExport}
+              />
+              <Divider />
 
-        {/* Informações Importantes */}
-        <Card style={styles.card}>
-          <Card.Content>
-            <Text style={[styles.cardTitle, styles.title]}>{getString('importantInfo')}</Text>
-import { useThemeToggle } from '@contexts/ThemeToggleContext';
-import { getString } from '@utils/theme';
-            <Text style={styles.infoText}>
-              {getString('infoChangeConsents')}
-            </Text>
-            <Text style={styles.infoText}>
-              {getString('infoRequiredConsents')}
-            </Text>
-            <Text style={styles.infoText}>
-              {getString('infoProcessingTime')}
-            </Text>
-            <Text style={styles.infoText}>
-              {getString('infoContact')}
-            </Text>
-          </Card.Content>
-        </Card>
+              <List.Item
+                title={getString('privacyPolicy')}
+                description={getString('privacyPolicyDescription')}
+                left={() => <List.Icon icon="file-document" />}
+                right={() => <List.Icon icon="open-in-new" />}
+                onPress={openPrivacyPolicy}
+              />
+              <Divider />
 
-        {/* Botões de Ação */}
-        <View style={styles.buttonContainer}>
-          <Button 
-            mode="contained" 
-            onPress={saveSettings}
-            loading={loading}
-            style={styles.saveButton}
-            icon="check"
-          >
-            {getString('saveSettings')}
-          </Button>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+              <List.Item
+                title={getString('deleteData')}
+                description={getString('deleteDescription')}
+                left={() => <List.Icon icon="delete-forever" color={COLORS.error[500]} />}
+                right={() => <List.Icon icon="chevron-right" />}
+                onPress={requestDataDeletion}
+                titleStyle={{ color: COLORS.error[500] }}
+              />
+            </Card.Content>
+          </Card>
+
+          {/* Informações Importantes */}
+          <Card style={styles.card}>
+            <Card.Content>
+              <Text style={[styles.cardTitle, styles.title]}>{getString('importantInfo')}</Text>
+              import {useThemeToggle} from '@contexts/ThemeToggleContext';
+              import {getString} from '@utils/theme';
+              <Text style={styles.infoText}>
+                {getString('infoChangeConsents')}
+              </Text>
+              <Text style={styles.infoText}>
+                {getString('infoRequiredConsents')}
+              </Text>
+              <Text style={styles.infoText}>
+                {getString('infoProcessingTime')}
+              </Text>
+              <Text style={styles.infoText}>
+                {getString('infoContact')}
+              </Text>
+            </Card.Content>
+          </Card>
+
+          {/* Botões de Ação */}
+          <View style={styles.buttonContainer}>
+            <Button
+              mode="contained"
+              onPress={saveSettings}
+              loading={loading}
+              style={styles.saveButton}
+              icon="check"
+            >
+              {getString('saveSettings')}
+            </Button>
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
+  gradient: {
+    flex: 1,
+  },
   container: {
     flex: 1,
-    backgroundColor: COLORS.gray[100],
   },
   scrollView: {
     flex: 1,
