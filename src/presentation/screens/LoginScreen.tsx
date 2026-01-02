@@ -126,7 +126,6 @@ export default function LoginScreen({ navigation }: AuthScreenProps) {
   const { trackButtonClick, trackFeatureUsage } = useUserActionTracking();
 
   const { signIn, signInWithGoogle, signInWithFacebook, signInWithMicrosoft, signInWithApple } = useAuthFacade();
-  // @ts-ignore - ThemeContext needs proper typing
   const { isDarkMode, currentLanguage, languages, theme, toggleDarkMode, changeLanguage, getString } = useTheme();
 
   const showSnackbar = useCallback((message: string, type: SnackbarState['type'] = 'info'): void => {

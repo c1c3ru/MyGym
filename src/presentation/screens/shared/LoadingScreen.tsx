@@ -2,24 +2,41 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { ActivityIndicator, Text } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { getAuthGradient } from '@presentation/theme/authTheme';
+import { useTheme } from '@contexts/ThemeContext';
 
+
+/**
+ * Tela de carregamento
+ * Exibida durante inicialização do aplicativo
+ */
 const LoadingScreen = () => {
+  const { isDarkMode, getString } = useTheme();
+
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.content}>
-        <ActivityIndicator size="large" color={COLORS.info[500]} style={styles.spinner} />
-        <Text style={styles.title}>MyGym</Text>
-        <Text style={styles.subtitle}>Carregando...</Text>
-      </View>
-    </SafeAreaView>
+    <LinearGradient
+      colors={getAuthGradient(isDarkMode) as any}
+      style={styles.gradient}
+    >
+      <SafeAreaView style={styles.container}>
+        <View style={styles.content}>
+          <ActivityIndicator size="large" color={COLORS.info[500]} style={styles.spinner} />
+          <Text style={styles.title}>MyGym</Text>
+          <Text style={styles.subtitle}>{getString('loading')}</Text>
+        </View>
+      </SafeAreaView>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
+  gradient: {
+    flex: 1,
+  },
   container: {
     flex: 1,
-    backgroundColor: COLORS.gray[100],
   },
   content: {
     flex: 1,

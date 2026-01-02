@@ -29,7 +29,6 @@ const { width } = Dimensions.get('window');
  * Permite que o usuário crie uma nova conta
  */
 const RegisterScreen = ({ navigation }: AuthScreenProps) => {
-  // @ts-ignore - ThemeContext needs proper typing
   const { isDarkMode, getString } = useTheme();
 
   const [formData, setFormData] = useState<RegisterFormData>({

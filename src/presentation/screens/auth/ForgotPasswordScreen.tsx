@@ -29,7 +29,6 @@ import type { AuthScreenProps, ForgotPasswordFormErrors, SnackbarState } from '.
  * Permite que o usuário solicite um e-mail de redefinição de senha
  */
 export default function ForgotPasswordScreen({ navigation }: AuthScreenProps) {
-  // @ts-ignore - ThemeContext needs proper typing
   const { isDarkMode, theme, getString } = useTheme();
   const [email, setEmail] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
