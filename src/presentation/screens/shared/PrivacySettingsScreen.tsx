@@ -10,19 +10,38 @@ import {
   Chip
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '@contexts/AuthProvider';
 import { useTheme } from '@contexts/ThemeContext';
 import { firestoreService } from '@services/firestoreService';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { useThemeToggle } from '@contexts/ThemeToggleContext';
+import { getAuthGradient } from '@presentation/theme/authTheme';
 
-const PrivacySettingsScreen = ({ navigation }) => {
+interface PrivacySettings {
+  dataProcessingConsent: boolean;
+  marketingConsent: boolean;
+  analyticsConsent: boolean;
+  thirdPartyConsent: boolean;
+  profileVisibility: string;
+  shareTrainingData: boolean;
+  shareProgressData: boolean;
+  allowDataExport: boolean;
+  allowWhatsAppContact: boolean;
+  allowEmailContact: boolean;
+  allowPhoneContact: boolean;
+  consentDate: string | null;
+  lastUpdated: string | null;
+}
+
+const PrivacySettingsScreen = ({ navigation }: any) => {
   const { currentTheme } = useThemeToggle();
 
   const { user, userProfile, updateUserProfile } = useAuth();
-  const { getString } = useTheme();
+  const { getString, isDarkMode } = useTheme();
   const [loading, setLoading] = useState(false);
-  const [settings, setSettings] = useState({
+  const [settings, setSettings] = useState<PrivacySettings>({
     // Consentimentos LGPD
     dataProcessingConsent: false,
     marketingConsent: false,
@@ -62,7 +81,7 @@ const PrivacySettingsScreen = ({ navigation }) => {
     }
   };
 
-  const updateSetting = (key, value) => {
+  const updateSetting = (key: string, value: any) => {
     setSettings(prev => ({
       ...prev,
       [key]: value,
@@ -155,7 +174,7 @@ const PrivacySettingsScreen = ({ navigation }) => {
     });
   };
 
-  const getVisibilityText = (visibility) => {
+  const getVisibilityText = (visibility: string) => {
     switch (visibility) {
       case 'public': return getString('public');
       case 'academy': return getString('academy');
@@ -413,8 +432,6 @@ const PrivacySettingsScreen = ({ navigation }) => {
           <Card style={styles.card}>
             <Card.Content>
               <Text style={[styles.cardTitle, styles.title]}>{getString('importantInfo')}</Text>
-              import {useThemeToggle} from '@contexts/ThemeToggleContext';
-              import {getString} from '@utils/theme';
               <Text style={styles.infoText}>
                 {getString('infoChangeConsents')}
               </Text>
@@ -472,6 +489,14 @@ const styles = StyleSheet.create({
     marginLeft: 8,
     fontSize: FONT_SIZE.lg,
     flex: 1,
+  },
+  title: {
+    fontWeight: FONT_WEIGHT.bold,
+    color: COLORS.text.primary,
+  },
+  paragraph: {
+    fontSize: FONT_SIZE.base,
+    color: COLORS.text.secondary,
   },
   statusChip: {
     borderColor: COLORS.primary[500],

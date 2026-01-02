@@ -22,17 +22,50 @@ import {
   Text
 } from 'react-native-paper';
 import { LinearGradient } from 'expo-linear-gradient';
+import { Ionicons } from '@expo/vector-icons';
 import { useGraduation } from '@hooks/useGraduation';
 import { useAuth } from '@contexts/AuthProvider';
-import GraduationAlertCard from '@components/GraduationAlertCard';
-import { Ionicons } from '@expo/vector-icons';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
+import GraduationAlertCard, { GraduationAlert } from '@components/GraduationAlertCard';
 import { getString } from '@utils/theme';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
-const GraduationManagementScreen = ({ navigation }) => {
+interface SummaryStats {
+  totalStudents: number;
+  eligibleStudents: number;
+  upcomingExams: number;
+  recentGraduations: number;
+  eligibilityRate: string | number;
+}
+
+interface ModalityStat {
+  modality: string;
+  count: number;
+}
+
+interface GraduationBoard {
+  summary: {
+    totalStudents: number;
+    totalEligible: number;
+    totalUpcomingExams: number;
+    totalRecentGraduations: number;
+  };
+  modalityStats: ModalityStat[];
+  allAlerts: GraduationAlert[];
+  upcomingExams: any[];
+}
+
+interface ExamForm {
+  modality: string;
+  date: string;
+  examiner: string;
+  location: string;
+  candidates: string[];
+}
+
+const GraduationManagementScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
   const { currentTheme } = useThemeToggle();
-  
+
   const { userProfile } = useAuth();
   const {
     graduationBoard,
@@ -44,13 +77,23 @@ const GraduationManagementScreen = ({ navigation }) => {
     getSummaryStats,
     getAlertsByModality,
     canManageGraduations
-  } = useGraduation();
+  }: {
+    graduationBoard: GraduationBoard | null;
+    loading: boolean;
+    refreshing: boolean;
+    refreshGraduationBoard: () => Promise<any>;
+    scheduleExam: (data: any) => Promise<boolean>;
+    runAutomaticCheck: () => Promise<boolean>;
+    getSummaryStats: () => SummaryStats | null;
+    getAlertsByModality: (modality: string) => GraduationAlert[];
+    canManageGraduations: () => boolean;
+  } = useGraduation() as any;
 
   const [selectedModality, setSelectedModality] = useState('all');
   const [fabOpen, setFabOpen] = useState(false);
   const [examDialogVisible, setExamDialogVisible] = useState(false);
   const [rulesDialogVisible, setRulesDialogVisible] = useState(false);
-  const [examForm, setExamForm] = useState({
+  const [examForm, setExamForm] = useState<ExamForm>({
     modality: '',
     date: '',
     examiner: '',
@@ -99,8 +142,8 @@ const GraduationManagementScreen = ({ navigation }) => {
       'Deseja executar uma verificação automática de graduações? Isso enviará notificações para instrutores sobre estudantes elegíveis.',
       [
         { text: getString('cancel'), style: 'cancel' },
-        { 
-          text: 'Executar', 
+        {
+          text: 'Executar',
           onPress: async () => {
             await runAutomaticCheck();
           }
@@ -121,8 +164,8 @@ const GraduationManagementScreen = ({ navigation }) => {
               <Ionicons name="people" size={24} color={COLORS.info[500]} />
             </View>
             <View>
-              <Text style={[styles.summaryNumber, styles.title]}>{stats.totalStudents}</Text>
-              <Text style={[styles.summaryLabel, styles.paragraph]}>Total de Estudantes</Text>
+              <Text style={styles.summaryNumber}>{stats.totalStudents}</Text>
+              <Text style={styles.summaryLabel}>Total de Estudantes</Text>
             </View>
           </Card.Content>
         </Card>
@@ -133,9 +176,9 @@ const GraduationManagementScreen = ({ navigation }) => {
               <Ionicons name="trophy" size={24} color={COLORS.primary[500]} />
             </View>
             <View>
-              <Text style={[styles.summaryNumber, styles.title]}>{stats.eligibleStudents}</Text>
-              <Text style={[styles.summaryLabel, styles.paragraph]}>Elegíveis</Text>
-              <Text style={[styles.summaryPercentage, styles.paragraph]}>
+              <Text style={styles.summaryNumber}>{stats.eligibleStudents}</Text>
+              <Text style={styles.summaryLabel}>Elegíveis</Text>
+              <Text style={styles.summaryPercentage}>
                 {stats.eligibilityRate}% do total
               </Text>
             </View>
@@ -148,8 +191,8 @@ const GraduationManagementScreen = ({ navigation }) => {
               <Ionicons name="calendar" size={24} color={COLORS.warning[500]} />
             </View>
             <View>
-              <Text style={[styles.summaryNumber, styles.title]}>{stats.upcomingExams}</Text>
-              <Text style={[styles.summaryLabel, styles.paragraph]}>Próximos Exames</Text>
+              <Text style={styles.summaryNumber}>{stats.upcomingExams}</Text>
+              <Text style={styles.summaryLabel}>Próximos Exames</Text>
             </View>
           </Card.Content>
         </Card>
@@ -160,11 +203,11 @@ const GraduationManagementScreen = ({ navigation }) => {
   const renderModalityFilter = () => {
     if (!graduationBoard?.modalityStats) return null;
 
-    const modalities = ['all', ...graduationBoard.modalityStats.map(stat => stat.modality)];
+    const modalities = ['all', ...graduationBoard.modalityStats.map((stat: ModalityStat) => stat.modality)];
 
     return (
       <View style={styles.filterSection}>
-        <Text style={[styles.sectionTitle, styles.title]}>Filtrar por Modalidade</Text>
+        <Text style={styles.sectionTitle}>Filtrar por Modalidade</Text>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           <View style={styles.filterContainer}>
             {modalities.map((modality) => (
@@ -190,24 +233,24 @@ const GraduationManagementScreen = ({ navigation }) => {
     return (
       <View style={styles.section}>
         <View style={styles.sectionHeader}>
-          <Text style={[styles.sectionTitle, styles.title]}>Estudantes Elegíveis</Text>
+          <Text style={styles.sectionTitle}>Estudantes Elegíveis</Text>
           <Chip style={styles.countChip}>{alerts.length}</Chip>
         </View>
 
         {alerts.length === 0 ? (
           <Card style={styles.emptyCard}>
             <Card.Content>
-              <Text style={[styles.paragraph, null]}>Nenhum estudante elegível para graduação no momento.</Text>
+              <Text style={styles.paragraph}>Nenhum estudante elegível para graduação no momento.</Text>
             </Card.Content>
           </Card>
         ) : (
-          alerts.map((alert) => (
+          alerts.map((alert: GraduationAlert) => (
             <GraduationAlertCard
               key={alert.id}
               alert={alert}
-              onViewDetails={(alert) => navigation.navigate('StudentDetails', { studentId: alert.studentId })}
-              onScheduleExam={(alert) => {
-                setExamForm(prev => ({
+              onViewDetails={(alert: GraduationAlert) => navigation.navigate('StudentDetails', { studentId: alert.studentId })}
+              onScheduleExam={(alert: GraduationAlert) => {
+                setExamForm((prev: ExamForm) => ({
                   ...prev,
                   modality: alert.modality,
                   candidates: [alert.studentId]
@@ -226,7 +269,7 @@ const GraduationManagementScreen = ({ navigation }) => {
     return (
       <Card style={styles.actionsCard}>
         <Card.Content>
-          <Text style={[styles.sectionTitle, styles.title]}>Ações de Gerenciamento</Text>
+          <Text style={styles.sectionTitle}>Ações de Gerenciamento</Text>
           <Divider style={styles.divider} />
 
           <List.Item
@@ -317,6 +360,7 @@ const GraduationManagementScreen = ({ navigation }) => {
     return (
       <FAB.Group
         open={fabOpen}
+        visible={true}
         icon={fabOpen ? 'close' : 'plus'}
         actions={[
           {
@@ -362,8 +406,8 @@ const GraduationManagementScreen = ({ navigation }) => {
         colors={[COLORS.info[500], COLORS.info[700]]}
         style={styles.header}
       >
-        <Text style={[styles.headerTitle, styles.title]}>Gerenciamento de Graduações</Text>
-        <Text style={[styles.headerSubtitle, styles.paragraph]}>
+        <Text style={styles.headerTitle}>Gerenciamento de Graduações</Text>
+        <Text style={styles.headerSubtitle}>
           Administração e controle de graduações
         </Text>
       </LinearGradient>
@@ -400,13 +444,21 @@ const styles = StyleSheet.create({
   headerTitle: {
     color: COLORS.white,
     fontSize: FONT_SIZE.xxl,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700',
     textAlign: 'center',
   },
   headerSubtitle: {
-    color: getString('colorWhite'),
+    color: COLORS.white,
     fontSize: FONT_SIZE.base,
     textAlign: 'center',
+  },
+  title: {
+    color: COLORS.text.primary,
+    fontWeight: '700',
+  },
+  paragraph: {
+    color: COLORS.text.secondary,
+    fontSize: FONT_SIZE.base,
   },
   content: {
     flex: 1,
@@ -441,7 +493,7 @@ const styles = StyleSheet.create({
   },
   summaryNumber: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700',
     marginBottom: 2,
   },
   summaryLabel: {
@@ -457,7 +509,7 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700',
     marginBottom: SPACING.md,
   },
   filterContainer: {

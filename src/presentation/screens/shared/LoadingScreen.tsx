@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: FONT_SIZE.xxl,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: '700',
     color: COLORS.info[500],
     marginBottom: SPACING.sm,
     textAlign: 'center',

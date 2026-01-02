@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, StyleSheet, Alert } from 'react-native';
+import { View, StyleSheet, Alert, TextStyle } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { Text, FAB, Portal, Dialog, Button } from 'react-native-paper';
 import GraduationBoard from '@components/GraduationBoard';
@@ -8,9 +8,13 @@ import { useAuth } from '@contexts/AuthProvider';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { getString } from '@utils/theme';
 
-const GraduationBoardScreen = ({ navigation }) => {
+interface Props {
+  navigation: any;
+}
+
+const GraduationBoardScreen = ({ navigation }: Props) => {
   const { user } = useAuth();
-  const [graduationBoard, setGraduationBoard] = useState(null);
+  const [graduationBoard, setGraduationBoard] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showScheduleDialog, setShowScheduleDialog] = useState(false);
@@ -151,15 +155,15 @@ const GraduationBoardScreen = ({ navigation }) => {
     try {
       setIsLoading(true);
       setError(null);
-      
+
       // Simular carregamento da API
       await new Promise(resolve => setTimeout(resolve, 1000));
-      
+
       // Em produção, isso seria uma chamada para a API
       // const board = await graduationService.getGraduationBoard();
       setGraduationBoard(mockGraduationBoard);
-      
-    } catch (err) {
+
+    } catch (err: any) {
       setError(err.message || 'Erro ao carregar mural de graduações');
       console.error('Erro ao carregar mural:', err);
     } finally {
@@ -188,23 +192,23 @@ const GraduationBoardScreen = ({ navigation }) => {
 
     if (exam) {
       // Editar exame existente
-      navigation.navigate('ScheduleExam', { examId: exam.id, exam });
+      navigation.navigate('ScheduleExam', { examId: (exam as any).id, exam });
     } else {
       // Criar novo exame
       setShowScheduleDialog(true);
     }
   }, [user?.role, navigation]);
 
-  const handleViewStudentDetails = useCallback((alertOrExam) => {
+  const handleViewStudentDetails = useCallback((alertOrExam: any) => {
     if (alertOrExam.studentId) {
       // É um alerta de graduação
-      navigation.navigate('StudentDetails', { 
+      navigation.navigate('StudentDetails', {
         studentId: alertOrExam.studentId,
         tab: 'graduation'
       });
     } else if (alertOrExam.candidateStudents) {
       // É um exame com candidatos
-      navigation.navigate('ExamCandidates', { 
+      navigation.navigate('ExamCandidates', {
         examId: alertOrExam.id,
         candidates: alertOrExam.candidateStudents
       });
@@ -233,8 +237,8 @@ const GraduationBoardScreen = ({ navigation }) => {
       <View style={styles.errorContainer}>
         <Text style={styles.errorText}>Erro ao carregar dados</Text>
         <Text style={styles.errorMessage}>{error}</Text>
-        <Button 
-          mode="contained" 
+        <Button
+          mode="contained"
           onPress={handleRefresh}
           style={styles.retryButton}
         >
@@ -265,8 +269,8 @@ const GraduationBoardScreen = ({ navigation }) => {
       )}
 
       <Portal>
-        <Dialog 
-          visible={showScheduleDialog} 
+        <Dialog
+          visible={showScheduleDialog}
           onDismiss={() => setShowScheduleDialog(false)}
         >
           <Dialog.Title>Agendar Exame de Graduação</Dialog.Title>
@@ -304,7 +308,7 @@ const styles = StyleSheet.create({
     marginTop: 16,
     fontSize: FONT_SIZE.md,
     color: COLORS.text.secondary,
-  },
+  } as TextStyle,
   errorContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -314,7 +318,7 @@ const styles = StyleSheet.create({
   },
   errorText: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: FONT_WEIGHT.bold as any,
     color: COLORS.error[700],
     marginBottom: SPACING.sm,
     textAlign: 'center',
@@ -333,7 +337,7 @@ const styles = StyleSheet.create({
     margin: SPACING.base,
     right: 0,
     bottom: 0,
-  },
+  } as const,
 });
 
 export default GraduationBoardScreen;

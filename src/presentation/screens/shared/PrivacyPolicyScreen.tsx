@@ -6,9 +6,9 @@ import ActionButton from '@components/ActionButton';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
 
-const PrivacyPolicyScreen = ({ navigation }) => {
+const PrivacyPolicyScreen = ({ navigation }: any) => {
   const { currentTheme } = useThemeToggle();
-  
+
   const lastUpdated = new Date().toLocaleDateString('pt-BR');
 
   return (
@@ -36,8 +36,8 @@ const PrivacyPolicyScreen = ({ navigation }) => {
               1. Introdução
             </Text>
             <Text variant="bodyMedium" style={styles.bodyText}>
-              O MyGym respeita a sua privacidade e está comprometido em proteger seus dados pessoais. 
-              Esta Política de Privacidade explica como coletamos, usamos, armazenamos e protegemos suas informações 
+              O MyGym respeita a sua privacidade e está comprometido em proteger seus dados pessoais.
+              Esta Política de Privacidade explica como coletamos, usamos, armazenamos e protegemos suas informações
               pessoais em conformidade com a Lei Geral de Proteção de Dados (LGPD - Lei nº 13.709/2018).
             </Text>
           </Card.Content>
@@ -52,7 +52,7 @@ const PrivacyPolicyScreen = ({ navigation }) => {
             <Text variant="bodyMedium" style={styles.bodyText}>
               Coletamos os seguintes tipos de dados pessoais:
             </Text>
-            
+
             <View style={styles.subSection}>
               <Text variant="titleSmall" style={styles.subSectionTitle}>
                 2.1 Dados de Identificação:
@@ -187,7 +187,7 @@ const PrivacyPolicyScreen = ({ navigation }) => {
             <Text variant="bodySmall" style={styles.listItem}>
               • Em situações de emergência médica, com profissionais de saúde
             </Text>
-            
+
             <View style={styles.warningBox}>
               <Text variant="bodySmall" style={styles.warningText}>
                 ⚠️ <Text style={styles.bold}>Importante:</Text> Nunca vendemos ou alugamos seus dados pessoais para terceiros.
@@ -256,7 +256,7 @@ const PrivacyPolicyScreen = ({ navigation }) => {
             <Text variant="bodyMedium" style={styles.bodyText}>
               Você tem os seguintes direitos em relação aos seus dados pessoais:
             </Text>
-            
+
             <View style={styles.rightsGrid}>
               <View style={styles.rightCard}>
                 <Text variant="titleSmall" style={styles.rightTitle}>📋 Acesso</Text>
@@ -264,35 +264,35 @@ const PrivacyPolicyScreen = ({ navigation }) => {
                   Confirmar a existência de tratamento e acessar seus dados
                 </Text>
               </View>
-              
+
               <View style={styles.rightCard}>
                 <Text variant="titleSmall" style={styles.rightTitle}>✏️ Correção</Text>
                 <Text variant="bodySmall" style={styles.rightDescription}>
                   Solicitar correção de dados incompletos ou incorretos
                 </Text>
               </View>
-              
+
               <View style={styles.rightCard}>
                 <Text variant="titleSmall" style={styles.rightTitle}>🗑️ Exclusão</Text>
                 <Text variant="bodySmall" style={styles.rightDescription}>
                   Solicitar eliminação de dados desnecessários
                 </Text>
               </View>
-              
+
               <View style={styles.rightCard}>
                 <Text variant="titleSmall" style={styles.rightTitle}>🚫 Oposição</Text>
                 <Text variant="bodySmall" style={styles.rightDescription}>
                   Opor-se ao tratamento baseado em legítimo interesse
                 </Text>
               </View>
-              
+
               <View style={styles.rightCard}>
                 <Text variant="titleSmall" style={styles.rightTitle}>📱 Portabilidade</Text>
                 <Text variant="bodySmall" style={styles.rightDescription}>
                   Solicitar portabilidade para outro fornecedor
                 </Text>
               </View>
-              
+
               <View style={styles.rightCard}>
                 <Text variant="titleSmall" style={styles.rightTitle}>❌ Revogação</Text>
                 <Text variant="bodySmall" style={styles.rightDescription}>
@@ -312,7 +312,7 @@ const PrivacyPolicyScreen = ({ navigation }) => {
             <Text variant="bodyMedium" style={styles.bodyText}>
               Para exercer seus direitos ou esclarecer dúvidas sobre esta política:
             </Text>
-            
+
             <View style={styles.contactBox}>
               <Text variant="titleSmall" style={styles.contactTitle}>
                 📧 Encarregado de Dados (DPO)
@@ -337,12 +337,12 @@ const PrivacyPolicyScreen = ({ navigation }) => {
               10. Alterações nesta Política
             </Text>
             <Text variant="bodyMedium" style={styles.bodyText}>
-              Esta Política de Privacidade pode ser atualizada periodicamente. Alterações significativas 
+              Esta Política de Privacidade pode ser atualizada periodicamente. Alterações significativas
               serão comunicadas por e-mail ou através do aplicativo com antecedência mínima de 30 dias.
             </Text>
-            
+
             <Text variant="bodyMedium" style={[styles.bodyText, { marginTop: 16 }]}>
-              Recomendamos que você revise esta política regularmente para se manter informado sobre 
+              Recomendamos que você revise esta política regularmente para se manter informado sobre
               como protegemos seus dados pessoais.
             </Text>
           </Card.Content>
@@ -359,7 +359,7 @@ const PrivacyPolicyScreen = ({ navigation }) => {
           >
             Voltar
           </ActionButton>
-          
+
           <ActionButton
             mode="contained"
             onPress={() => {
@@ -405,7 +405,7 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   title: {
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: 'bold',
     textAlign: 'center',
     color: COLORS.info[700],
   },
@@ -426,7 +426,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   sectionTitle: {
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: 'bold',
     marginBottom: SPACING.md,
     color: COLORS.info[700],
   },
@@ -440,7 +440,7 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   subSectionTitle: {
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: 'bold',
     marginBottom: SPACING.sm,
     color: COLORS.gray[800],
   },
@@ -450,7 +450,7 @@ const styles = StyleSheet.create({
     color: COLORS.gray[800],
   },
   bold: {
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: 'bold',
   },
   warningBox: {
     backgroundColor: COLORS.warning[50],
@@ -480,7 +480,7 @@ const styles = StyleSheet.create({
     borderLeftColor: COLORS.info[500],
   },
   rightTitle: {
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: 'bold',
     marginBottom: SPACING.xs,
     color: COLORS.info[700],
   },
@@ -496,7 +496,7 @@ const styles = StyleSheet.create({
     marginTop: SPACING.md,
   },
   contactTitle: {
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: 'bold',
     marginBottom: SPACING.sm,
     color: COLORS.info[700],
   },

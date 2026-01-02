@@ -6,7 +6,8 @@ import {
   StyleSheet,
   Dimensions,
   SafeAreaView,
-  Alert
+  Alert,
+  Pressable
 } from 'react-native';
 import {
   Card,
@@ -37,18 +38,57 @@ interface GraduationBoardScreenProps {
   navigation: NavigationProp<any>;
 }
 
+interface Student {
+  id: string;
+  studentName: string;
+  modality: string;
+  currentBelt: string;
+  nextBelt: string;
+  alertLevel: 'ready' | 'warning' | 'info';
+}
+
+interface Exam {
+  id: string;
+  modality: string;
+  date: string | Date;
+  examiner: string;
+  location: string;
+  candidateStudents: any[];
+}
+
+interface ModalityStat {
+  modality: string;
+  eligibleStudents: number;
+  totalStudents: number;
+  averageTrainingTime: number;
+  nextExamDate: string | Date | null;
+}
+
+interface GraduationBoard {
+  summary: {
+    totalStudents: number;
+    totalEligible: number;
+    totalUpcomingExams: number;
+  };
+  modalityStats: ModalityStat[];
+  eligibleStudents: Student[];
+  upcomingExams: Exam[];
+  lastUpdated: string | Date;
+}
+
 const { width } = Dimensions.get('window');
 
 const GraduationBoardScreen = ({ navigation }: GraduationBoardScreenProps) => {
   const { user, userProfile, academia } = useAuth();
+  const { getString } = useTheme();
   const { showSuccess, showError } = useNotification();
 
-  const [graduationBoard, setGraduationBoard] = useState<any>(null);
+  const [graduationBoard, setGraduationBoard] = useState<GraduationBoard | null>(null);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [selectedModality, setSelectedModality] = useState('all');
   const [examDialogVisible, setExamDialogVisible] = useState(false);
-  const [selectedExam, setSelectedExam] = useState<any>(null);
+  const [selectedExam, setSelectedExam] = useState<Exam | null>(null);
 
   useEffect(() => {
     loadGraduationBoard();
@@ -75,13 +115,13 @@ const GraduationBoardScreen = ({ navigation }: GraduationBoardScreenProps) => {
     setRefreshing(false);
   }, [loadGraduationBoard]);
 
-  const filterStudentsByModality = useCallback((students: any[]) => {
+  const filterStudentsByModality = useCallback((students: Student[]) => {
     if (selectedModality === 'all') return students;
     return students.filter(student => student.modality === selectedModality);
   }, [selectedModality]);
 
   const getBeltColor = (belt: string) => {
-    const colors = {
+    const colors: { [key: string]: string } = {
       'Branca': COLORS.special.belt.white,
       'Cinza': COLORS.gray[500],
       'Amarela': COLORS.special.belt.yellow,
@@ -95,7 +135,7 @@ const GraduationBoardScreen = ({ navigation }: GraduationBoardScreenProps) => {
     return colors[belt] || COLORS.gray[300];
   };
 
-  const getAlertColor = (alertLevel: string) => {
+  const getAlertColor = (alertLevel: Student['alertLevel']) => {
     const colors: { [key: string]: string } = {
       'ready': COLORS.success[500],
       'warning': COLORS.warning[500],
@@ -104,7 +144,7 @@ const GraduationBoardScreen = ({ navigation }: GraduationBoardScreenProps) => {
     return colors[alertLevel] || COLORS.gray[300];
   };
 
-  const formatDate = (date: any) => {
+  const formatDate = (date: string | Date) => {
     return new Date(date).toLocaleDateString('pt-BR');
   };
 
@@ -157,7 +197,7 @@ const GraduationBoardScreen = ({ navigation }: GraduationBoardScreenProps) => {
   const renderModalityFilter = () => {
     if (!graduationBoard?.modalityStats) return null;
 
-    const modalities = ['all', ...graduationBoard.modalityStats.map((stat: any) => stat.modality)];
+    const modalities = ['all', ...graduationBoard.modalityStats.map((stat: ModalityStat) => stat.modality)];
 
     return (
       <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.filterContainer}>
@@ -204,7 +244,7 @@ const GraduationBoardScreen = ({ navigation }: GraduationBoardScreenProps) => {
           </View>
           <Divider style={styles.divider} />
 
-          {filteredStudents.map((student, index) => (
+          {filteredStudents.map((student: Student) => (
             <Surface key={student.id} style={styles.studentItem}>
               <View style={styles.studentInfo}>
                 <Avatar.Text
@@ -217,14 +257,14 @@ const GraduationBoardScreen = ({ navigation }: GraduationBoardScreenProps) => {
                   <Text style={styles.studentModality}>{student.modality}</Text>
                   <View style={styles.beltProgression}>
                     <Chip
-                      size="small"
+                      compact
                       style={[styles.beltChip, { backgroundColor: getBeltColor(student.currentBelt) }]}
                     >
                       {student.currentBelt}
                     </Chip>
                     <Ionicons name="arrow-forward" size={16} color={COLORS.text.secondary} />
                     <Chip
-                      size="small"
+                      compact
                       style={[styles.beltChip, { backgroundColor: getBeltColor(student.nextBelt) }]}
                     >
                       {student.nextBelt}
@@ -252,7 +292,7 @@ const GraduationBoardScreen = ({ navigation }: GraduationBoardScreenProps) => {
 
     const filteredExams = selectedModality === 'all'
       ? graduationBoard.upcomingExams
-      : graduationBoard.upcomingExams.filter((exam: any) => exam.modality === selectedModality);
+      : graduationBoard.upcomingExams.filter((exam: Exam) => exam.modality === selectedModality);
 
     return (
       <Card style={styles.card}>
@@ -266,31 +306,35 @@ const GraduationBoardScreen = ({ navigation }: GraduationBoardScreenProps) => {
           {filteredExams.length === 0 ? (
             <Text style={[styles.paragraph, null]}>Nenhum exame agendado.</Text>
           ) : (
-            filteredExams.map((exam) => (
+            filteredExams.map((exam: Exam) => (
               <Surface
                 key={exam.id}
                 style={styles.examItem}
-                onPress={() => {
-                  setSelectedExam(exam);
-                  setExamDialogVisible(true);
-                }}
               >
-                <View style={styles.examInfo}>
-                  <View style={styles.examHeader}>
-                    <Text style={styles.examModality}>{exam.modality}</Text>
-                    <Text style={styles.examDate}>{formatDate(exam.date)}</Text>
+                <Pressable
+                  style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}
+                  onPress={() => {
+                    setSelectedExam(exam);
+                    setExamDialogVisible(true);
+                  }}
+                >
+                  <View style={styles.examInfo}>
+                    <View style={styles.examHeader}>
+                      <Text style={styles.examModality}>{exam.modality}</Text>
+                      <Text style={styles.examDate}>{formatDate(exam.date)}</Text>
+                    </View>
+                    <Text style={styles.examDetails}>
+                      Examinador: {exam.examiner}
+                    </Text>
+                    <Text style={styles.examDetails}>
+                      Local: {exam.location}
+                    </Text>
+                    <Text style={styles.examCandidates}>
+                      {exam.candidateStudents.length} candidatos
+                    </Text>
                   </View>
-                  <Text style={styles.examDetails}>
-                    Examinador: {exam.examiner}
-                  </Text>
-                  <Text style={styles.examDetails}>
-                    Local: {exam.location}
-                  </Text>
-                  <Text style={styles.examCandidates}>
-                    {exam.candidateStudents.length} candidatos
-                  </Text>
-                </View>
-                <IconButton icon="chevron-right" />
+                  <IconButton icon="chevron-right" />
+                </Pressable>
               </Surface>
             ))
           )}
@@ -315,7 +359,7 @@ const GraduationBoardScreen = ({ navigation }: GraduationBoardScreenProps) => {
 
     const filteredStats = selectedModality === 'all'
       ? graduationBoard.modalityStats
-      : graduationBoard.modalityStats.filter(stat => stat.modality === selectedModality);
+      : graduationBoard.modalityStats.filter((stat: ModalityStat) => stat.modality === selectedModality);
 
     return (
       <Card style={styles.card}>
@@ -323,7 +367,7 @@ const GraduationBoardScreen = ({ navigation }: GraduationBoardScreenProps) => {
           <Text style={[styles.title, null]}>Estatísticas por Modalidade</Text>
           <Divider style={styles.divider} />
 
-          {filteredStats.map((stat) => (
+          {filteredStats.map((stat: ModalityStat) => (
             <Surface key={stat.modality} style={styles.statItem}>
               <View style={styles.statHeader}>
                 <Text style={styles.statModality}>{stat.modality}</Text>
@@ -453,6 +497,31 @@ const GraduationBoardScreen = ({ navigation }: GraduationBoardScreenProps) => {
 };
 
 const styles = StyleSheet.create({
+  title: {
+    fontSize: FONT_SIZE.lg,
+    fontWeight: '700',
+    marginBottom: 4,
+  },
+  paragraph: {
+    fontSize: FONT_SIZE.sm,
+    color: COLORS.text.secondary,
+  },
+  studentsCard: {
+    borderLeftWidth: 4,
+    borderLeftColor: COLORS.info[500],
+  },
+  eligibleCard: {
+    borderLeftWidth: 4,
+    borderLeftColor: COLORS.success[500],
+  },
+  examsCard: {
+    borderLeftWidth: 4,
+    borderLeftColor: COLORS.warning[500],
+  },
+  selectedChip: {
+    backgroundColor: COLORS.info[100],
+    borderColor: COLORS.info[500],
+  },
   container: {
     flex: 1,
     backgroundColor: COLORS.gray[100],

@@ -20,16 +20,29 @@ import { getAuthGradient } from '@presentation/theme/authTheme';
 import { getString } from '@utils/theme';
 import type { NavigationProp } from '@react-navigation/native';
 
+
+interface Instructor {
+  id: string;
+  name: string;
+  email?: string | null;
+  academiaId?: string | null;
+}
+
+interface Modality {
+  id: string;
+  name: string;
+}
+
 interface AddClassScreenProps {
   navigation: NavigationProp<any>;
 }
 
-const AddClassScreen = ({ navigation }) => {
+const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
   const { user, userProfile, academia } = useAuth();
   const { role, isInstructor } = useCustomClaims();
   const [loading, setLoading] = useState(false);
-  const [instructors, setInstructors] = useState<any[]>([]);
-  const [modalities, setModalities] = useState<any[]>([]);
+  const [instructors, setInstructors] = useState<Instructor[]>([]);
+  const [modalities, setModalities] = useState<Modality[]>([]);
   const [snackbar, setSnackbar] = useState({ visible: false, message: '', type: 'info' });
 
   // Age categories for classes
@@ -55,7 +68,7 @@ const AddClassScreen = ({ navigation }) => {
     ageCategory: ''
   });
 
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<any>({});
 
 
   useEffect(() => {
@@ -73,8 +86,8 @@ const AddClassScreen = ({ navigation }) => {
   }, [user, userProfile]);
 
   const loadInstructors = async () => {
-    let userInstructors = [];
-    let subInstructors = [];
+    let userInstructors: Instructor[] = [];
+    let subInstructors: Instructor[] = [];
 
     // Obter ID da academia
     const academiaId = userProfile?.academiaId || academia?.id;
@@ -85,7 +98,7 @@ const AddClassScreen = ({ navigation }) => {
 
     // 1) Buscar instrutores na subcoleção da academia
     try {
-      const instructorsData = await academyFirestoreService.getAll('instructors', academiaId);
+      const instructorsData = await academyFirestoreService.getAll('instructors', academiaId) as any[];
       userInstructors = instructorsData
         .map(u => ({
           id: u.id,
@@ -93,7 +106,7 @@ const AddClassScreen = ({ navigation }) => {
           email: u.email || null,
           academiaId: u.academiaId || null
         }));
-    } catch (error) {
+    } catch (error: any) {
       console.warn('Aviso: falha ao buscar instrutores em users (permissões?):', error?.message || error);
     }
 
@@ -104,7 +117,7 @@ const AddClassScreen = ({ navigation }) => {
 
     // 3) Mesclar e remover duplicados por id
     const map = new Map();
-    [...userInstructors].forEach((inst) => {
+    [...userInstructors].forEach((inst: Instructor) => {
       if (!inst?.id) return;
       if (!map.has(inst.id)) {
         map.set(inst.id, inst);
@@ -125,11 +138,11 @@ const AddClassScreen = ({ navigation }) => {
       }
 
       console.log('🔍 Carregando modalidades da coleção:', `gyms/${academiaId}/modalities`);
-      const list = await academyFirestoreService.getAll('modalities', academiaId);
+      const list = await academyFirestoreService.getAll('modalities', academiaId) as any[];
       console.log('📋 Modalidades brutas encontradas:', list.length);
 
       // Normalizar e remover duplicatas
-      const normalized = (list || []).map((m) => ({
+      const normalized = (list || []).map((m: any) => ({
         id: m.id || m.name,
         name: m.name
       }));
@@ -149,7 +162,7 @@ const AddClassScreen = ({ navigation }) => {
   };
 
   const validateForm = () => {
-    const newErrors = {};
+    const newErrors: Record<string, string> = {};
 
     if (!formData.name.trim()) {
       newErrors.name = 'Nome da turma é obrigatório';
@@ -164,7 +177,7 @@ const AddClassScreen = ({ navigation }) => {
       newErrors.modality = 'Modalidade é obrigatória';
     }
 
-    if (!formData.maxStudents || isNaN(formData.maxStudents) || parseInt(formData.maxStudents) <= 0) {
+    if (!formData.maxStudents || isNaN(Number(formData.maxStudents)) || parseInt(formData.maxStudents) <= 0) {
       newErrors.maxStudents = 'Número máximo de alunos deve ser um número positivo';
     }
 
@@ -178,7 +191,7 @@ const AddClassScreen = ({ navigation }) => {
       newErrors.schedule = 'Pelo menos um horário deve ser selecionado';
     }
 
-    if (!formData.price || isNaN(formData.price) || parseFloat(formData.price) < 0) {
+    if (!formData.price || isNaN(Number(formData.price)) || parseFloat(formData.price) < 0) {
       newErrors.price = 'Preço deve ser um número válido';
     }
 
@@ -247,13 +260,15 @@ const AddClassScreen = ({ navigation }) => {
 
       // Verificar se a turma foi realmente salva
       try {
-        const savedClass = await academyFirestoreService.getById('classes', newClassId, academiaId);
-        console.log('🔍 Turma salva verificada:', {
-          id: savedClass.id,
-          name: savedClass.name,
-          instructorId: savedClass.instructorId,
-          academiaId: savedClass.academiaId
-        });
+        const savedClass = await academyFirestoreService.getById('classes', newClassId, academiaId) as any;
+        if (savedClass) {
+          console.log('🔍 Turma salva verificada:', {
+            id: savedClass.id,
+            name: savedClass.name,
+            instructorId: savedClass.instructorId,
+            academiaId: savedClass.academiaId
+          });
+        }
       } catch (verifyError) {
         console.warn('⚠️ Erro ao verificar turma criada:', verifyError);
       }
@@ -288,22 +303,22 @@ const AddClassScreen = ({ navigation }) => {
     }
   };
 
-  const updateFormData = (field, value) => {
-    setFormData(prev => ({
+  const updateFormData = (field: string, value: any) => {
+    setFormData((prev: any) => ({
       ...prev,
       [field]: value
     }));
 
     // Clear error when user starts typing
     if (errors[field]) {
-      setErrors(prev => ({
+      setErrors((prev: any) => ({
         ...prev,
         [field]: null
       }));
     }
   };
 
-  const handleInstructorChange = (instructorId) => {
+  const handleInstructorChange = (instructorId: string) => {
     const instructor = instructors.find(i => i.id === instructorId);
     updateFormData('instructorId', instructorId);
     updateFormData('instructorName', instructor ? instructor.name : '');
@@ -325,7 +340,7 @@ const AddClassScreen = ({ navigation }) => {
             <TextInput
               label="Nome da Turma"
               value={formData.name}
-              onChangeText={(value: any) => updateFormData('name', value)}
+              onChangeText={(value: string) => updateFormData('name', value)}
               mode="outlined"
               style={styles.input}
               error={!!errors.name}
@@ -377,7 +392,7 @@ const AddClassScreen = ({ navigation }) => {
             <TextInput
               label="Descrição (opcional)"
               value={formData.description}
-              onChangeText={(value: any) => updateFormData('description', value)}
+              onChangeText={(value: string) => updateFormData('description', value)}
               mode="outlined"
               multiline
               numberOfLines={3}
@@ -388,7 +403,7 @@ const AddClassScreen = ({ navigation }) => {
             <TextInput
               label="Máximo de Alunos"
               value={formData.maxStudents}
-              onChangeText={(value: any) => updateFormData('maxStudents', value)}
+              onChangeText={(value: string) => updateFormData('maxStudents', value)}
               mode="outlined"
               keyboardType="numeric"
               style={styles.input}
@@ -459,7 +474,7 @@ const AddClassScreen = ({ navigation }) => {
               <TextInput
                 label="Nome do Instrutor (manual)"
                 value={formData.instructorName}
-                onChangeText={(value: any) => updateFormData('instructorName', value)}
+                onChangeText={(value: string) => updateFormData('instructorName', value)}
                 mode="outlined"
                 placeholder={instructors.length === 0 ? 'Ex: Cícero Silva' : 'Opcional se já selecionou acima'}
                 style={styles.input}
@@ -469,7 +484,7 @@ const AddClassScreen = ({ navigation }) => {
             {/* Horário */}
             <ImprovedScheduleSelector
               value={formData.schedule}
-              onScheduleChange={(schedule) => updateFormData('schedule', schedule)}
+              onScheduleChange={(schedule: any) => updateFormData('schedule', schedule)}
               duration={60}
               timezone="timezone"
               startHour={6}
@@ -486,7 +501,7 @@ const AddClassScreen = ({ navigation }) => {
             <TextInput
               label="Preço Mensal (R$)"
               value={formData.price}
-              onChangeText={(value: any) => updateFormData('price', value)}
+              onChangeText={(value: string) => updateFormData('price', value)}
               mode="outlined"
               keyboardType="numeric"
               style={styles.input}
@@ -498,7 +513,7 @@ const AddClassScreen = ({ navigation }) => {
             <View style={styles.radioContainer}>
               <Text style={styles.label}>Status</Text>
               <RadioButton.Group
-                onValueChange={(value: any) => updateFormData('status', value)}
+                onValueChange={(value: string) => updateFormData('status', value)}
                 value={formData.status}
               >
                 <View style={styles.radioItem}>

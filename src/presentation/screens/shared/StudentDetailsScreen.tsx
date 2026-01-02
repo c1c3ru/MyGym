@@ -32,21 +32,56 @@ import { useThemeToggle } from '@contexts/ThemeToggleContext';
 import { getAuthGradient } from '@presentation/theme/authTheme';
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
 
+interface StudentData {
+  id: string;
+  name: string;
+  email: string;
+  phone?: string;
+  address?: string;
+  isActive: boolean;
+  createdAt: any; // Can be improved if we know the exact Firestore Timestamp type, but 'any' or Custom type solves the error for now if strictly handled below
+  classIds?: string[];
+  [key: string]: any;
+}
+
+interface ClassData {
+  id: string;
+  name: string;
+  modality: string;
+  [key: string]: any;
+}
+
+interface PaymentData {
+  id: string;
+  userId: string;
+  amount: number;
+  status: 'paid' | 'pending' | 'overdue';
+  createdAt: any; // Firestore Timestamp
+  [key: string]: any;
+}
+
+type StudentDetailsRouteParams = {
+  StudentDetails: {
+    studentId: string;
+    studentData?: StudentData | null;
+  };
+};
+
 interface StudentDetailsScreenProps {
   navigation: NavigationProp<any>;
-  route: RouteProp<any>;
+  route: RouteProp<StudentDetailsRouteParams, 'StudentDetails'>;
 }
 
 const StudentDetailsScreen: React.FC<StudentDetailsScreenProps> = ({ route, navigation }) => {
   const { currentTheme } = useThemeToggle();
 
-  const { studentId } = route.params;
+  const { studentId, studentData: initialStudentData } = route.params;
   const { user, userProfile, academia } = useAuth();
   const { getString, isDarkMode } = useTheme();
-  const [studentInfo, setStudentInfo] = useState(route.params.studentData || null);
-  const [studentClasses, setStudentClasses] = useState<any[]>([]);
-  const [payments, setPayments] = useState<any[]>([]);
-  const [loading, setLoading] = useState(!route.params.studentData);
+  const [studentInfo, setStudentInfo] = useState<StudentData | null>(initialStudentData || null);
+  const [studentClasses, setStudentClasses] = useState<ClassData[]>([]);
+  const [payments, setPayments] = useState<PaymentData[]>([]);
+  const [loading, setLoading] = useState(!initialStudentData);
   const [refreshing, setRefreshing] = useState(false);
 
   // Analytics tracking
@@ -98,9 +133,13 @@ const StudentDetailsScreen: React.FC<StudentDetailsScreenProps> = ({ route, navi
           );
 
           // Filtrar pagamentos do aluno
-          const userPayments = allPayments
-            .filter(payment => payment.userId === studentId)
-            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+          const userPayments = (allPayments as PaymentData[])
+            .filter((payment) => payment.userId === studentId)
+            .sort((a, b) => {
+              const dateA = a.createdAt?.seconds ? new Date(a.createdAt.seconds * 1000) : new Date(a.createdAt);
+              const dateB = b.createdAt?.seconds ? new Date(b.createdAt.seconds * 1000) : new Date(b.createdAt);
+              return dateB.getTime() - dateA.getTime();
+            });
 
           return {
             studentInfo: studentData,
@@ -145,7 +184,7 @@ const StudentDetailsScreen: React.FC<StudentDetailsScreenProps> = ({ route, navi
 
   // Memoized utility functions
   const getPaymentStatusColor = useCallback((status: string) => {
-    const colors = {
+    const colors: Record<string, string> = {
       'paid': COLORS.primary[500],
       'pending': COLORS.warning[500],
       'overdue': COLORS.error[500]
@@ -154,13 +193,13 @@ const StudentDetailsScreen: React.FC<StudentDetailsScreenProps> = ({ route, navi
   }, []);
 
   const getPaymentStatusText = useCallback((status: string) => {
-    const texts = {
+    const texts: Record<string, string> = {
       'paid': getString('paid'),
       'pending': getString('paymentPending'),
       'overdue': getString('overdue')
     };
     return texts[status] || status;
-  }, []);
+  }, [getString]);
 
   const formatDate = useCallback((date: any) => {
     if (!date) return getString('dataNotAvailable');
@@ -192,7 +231,7 @@ const StudentDetailsScreen: React.FC<StudentDetailsScreenProps> = ({ route, navi
     });
   }, [navigation, studentId, studentInfo?.name, trackButtonClick]);
 
-  const handleViewClassDetails = useCallback((classItem) => {
+  const handleViewClassDetails = useCallback((classItem: any) => {
     trackButtonClick('view_class_details', { classId: classItem.id, studentId });
     navigation.navigate('ClassDetails', {
       classId: classItem.id,
@@ -215,7 +254,7 @@ const StudentDetailsScreen: React.FC<StudentDetailsScreenProps> = ({ route, navi
 
   return (
     <EnhancedErrorBoundary
-      onError={(error, errorInfo, errorId) => {
+      onError={(error: Error, errorInfo: React.ErrorInfo, errorId: string) => {
         console.error('🚨 Erro no StudentDetailsScreen:', { error, errorInfo, errorId });
       }}
       errorContext={{ screen: 'StudentDetailsScreen', academiaId: userProfile?.academiaId, studentId }}

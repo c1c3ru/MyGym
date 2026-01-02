@@ -36,12 +36,12 @@ import { useFormValidation } from '@hooks/useFormValidation';
 import { useStudentCreationRateLimit } from '@hooks/useRateLimit';
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import cacheService, { CACHE_KEYS } from '@services/cacheService';
-import { formValidator, commonSchemas } from '@utils/formValidation';
+import formValidator, { commonSchemas } from '@utils/formValidation';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
 import { getString } from '@utils/theme';
 
-const AddStudentScreen = ({ navigation, route }) => {
+const AddStudentScreen = ({ navigation, route }: any) => {
   const { currentTheme } = useThemeToggle();
 
   const { user, userProfile, academia } = useAuth();
@@ -52,7 +52,7 @@ const AddStudentScreen = ({ navigation, route }) => {
     academiaId: userProfile?.academiaId,
     userType: userProfile?.userType
   });
-  const { trackButtonClick, trackFormSubmission, trackFeatureUsage } = useUserActionTracking();
+  const { trackButtonClick, trackFeatureUsage } = useUserActionTracking();
   const { executeWithLimit: executeStudentCreation } = useStudentCreationRateLimit();
 
   // Feedback states
@@ -111,7 +111,7 @@ const AddStudentScreen = ({ navigation, route }) => {
       validateOnBlur: true,
       debounceMs: 300
     }
-  );
+  ) as any;
 
   // Carregar turmas disponíveis
   useEffect(() => {
@@ -148,7 +148,7 @@ const AddStudentScreen = ({ navigation, route }) => {
     }
   }, [userProfile?.academiaId, trackFeatureUsage]);
 
-  const toggleClassSelection = useCallback((classId) => {
+  const toggleClassSelection = useCallback((classId: string) => {
     setSelectedClasses(prev => {
       const isSelected = prev.includes(classId);
       const newSelection = isSelected
@@ -169,7 +169,7 @@ const AddStudentScreen = ({ navigation, route }) => {
     });
   }, [availableClasses, trackButtonClick]);
 
-  const showSnackbar = (message, type = 'info') => {
+  const showSnackbar = (message: string, type: string = 'info') => {
     setSnackbar({
       visible: true,
       message,
@@ -195,7 +195,7 @@ const AddStudentScreen = ({ navigation, route }) => {
       try {
         setLoading(true);
 
-        const studentData = {
+        const studentData: any = {
           name: formData.name.trim(),
           email: formData.email.trim().toLowerCase(),
           phone: formData.phone.trim(),
@@ -231,7 +231,7 @@ const AddStudentScreen = ({ navigation, route }) => {
         await cacheService.invalidatePattern(`students:${academiaId}`);
 
         // Track analytics
-        trackFormSubmission('student_creation', {
+        trackFeatureUsage('student_creation_submit', {
           success: true,
           academiaId,
           classesSelected: selectedClasses.length,
@@ -261,7 +261,7 @@ const AddStudentScreen = ({ navigation, route }) => {
           navigation.goBack();
         }, 2000);
 
-      } catch (error) {
+      } catch (error: any) {
         console.error('❌ Erro ao cadastrar aluno:', error);
 
         let errorMessage = 'Não foi possível cadastrar o aluno. Tente novamente.';
@@ -274,7 +274,7 @@ const AddStudentScreen = ({ navigation, route }) => {
           errorMessage = 'Este email já está em uso.';
         }
 
-        trackFormSubmission('student_creation', {
+        trackFeatureUsage('student_creation_failed', {
           success: false,
           error: error.message,
           academiaId: userProfile?.academiaId
@@ -289,10 +289,10 @@ const AddStudentScreen = ({ navigation, route }) => {
     if (result.blocked) {
       Alert.alert(getString('actionBlocked'), 'Muitas criações de aluno. Aguarde alguns minutos.');
     }
-  }, [validateForm, executeStudentCreation, formData, selectedClasses, user.id, userProfile?.academiaId, academia?.id, trackFormSubmission, route.params, resetForm, navigation]);
+  }, [validateForm, executeStudentCreation, formData, selectedClasses, user.id, userProfile?.academiaId, academia?.id, trackFeatureUsage, route.params, resetForm, navigation]);
 
   // Form field handlers with enhanced validation
-  const handleFieldChange = useCallback((field, value) => {
+  const handleFieldChange = useCallback((field: string, value: string) => {
     setFieldValue(field, value);
 
     // Hide validation banner if no more errors
@@ -301,13 +301,17 @@ const AddStudentScreen = ({ navigation, route }) => {
     }
   }, [setFieldValue, hasErrors]);
 
-  const handleFieldBlur = useCallback((field) => {
+  const handleFieldBlur = useCallback((field: string) => {
     setFieldTouched(field, true);
   }, [setFieldTouched]);
 
+  const updateFormData = useCallback((field: string, value: any) => {
+    setFieldValue(field, value);
+  }, [setFieldValue]);
+
   return (
     <EnhancedErrorBoundary
-      onError={(error, errorInfo, errorId) => {
+      onError={(error: any, errorInfo: any, errorId: any) => {
         console.error('🚨 Erro no AddStudentScreen:', { error, errorInfo, errorId });
       }}
       errorContext={{ screen: 'AddStudentScreen', academiaId: userProfile?.academiaId }}
@@ -804,21 +808,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: 1000,
-  },
-  loadingText: {
-    marginTop: SPACING.base,
-    fontSize: FONT_SIZE.md,
-    color: COLORS.white,
-    fontWeight: '500' as const,
-  },
-  snackbar: {
-    marginBottom: SPACING.base,
-  },
-  snackbarSuccess: {
-    backgroundColor: COLORS.primary[500],
-  },
-  snackbarError: {
-    backgroundColor: COLORS.error[500],
   },
 });
 

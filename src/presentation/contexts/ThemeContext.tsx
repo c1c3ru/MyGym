@@ -58,8 +58,8 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
         setIsDarkMode(JSON.parse(savedDarkMode));
       }
 
-      if (savedLanguage && languages[savedLanguage]) {
-        setCurrentLanguage(savedLanguage);
+      if (savedLanguage && (languages as any)[savedLanguage]) {
+        setCurrentLanguage(savedLanguage as LanguageCode);
       }
     } catch (error) {
       console.error('Error loading preferences:', error);
@@ -88,7 +88,7 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
   };
 
   const getString = (key: string, params?: Record<string, any>): string => {
-    return languages[currentLanguage]?.strings[key] || languages.pt.strings[key] || key;
+    return (languages as any)[currentLanguage]?.strings[key] || (languages as any).pt.strings[key] || key;
   };
 
   // Function to manually update theme (called when user type changes)

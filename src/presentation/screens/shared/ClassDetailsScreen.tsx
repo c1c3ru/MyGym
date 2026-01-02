@@ -24,6 +24,34 @@ import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@present
 import { getAuthGradient } from '@presentation/theme/authTheme';
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
 
+interface Schedule {
+  dayOfWeek?: number;
+  hour?: number;
+  minute?: number;
+  day?: string;
+  time?: string;
+}
+
+interface ClassInfo {
+  id?: string;
+  name: string;
+  modality: string;
+  level?: string;
+  instructorName?: string;
+  instructor?: string;
+  schedule?: Schedule[];
+  scheduleText?: string;
+  maxStudents?: number;
+  description?: string;
+}
+
+interface Student {
+  id: string;
+  name: string;
+  email: string;
+  classIds?: string[];
+}
+
 interface ClassDetailsScreenProps {
   navigation: NavigationProp<any>;
   route: RouteProp<any>;
@@ -35,9 +63,9 @@ const ClassDetailsScreen: React.FC<ClassDetailsScreenProps> = ({ route, navigati
   const { classId, classData = null } = route.params || {};
   const { user, userProfile } = useAuth();
   const { getString } = useTheme();
-  const { role } = useCustomClaims();
-  const [classInfo, setClassInfo] = useState(classData);
-  const [students, setStudents] = useState<any[]>([]);
+  const { role, isAdmin, academiaId: currentAcademiaId } = useCustomClaims();
+  const [classInfo, setClassInfo] = useState<ClassInfo | null>(classData);
+  const [students, setStudents] = useState<Student[]>([]);
   const [loading, setLoading] = useState(!classData);
   const [refreshing, setRefreshing] = useState(false);
   const [showStudents, setShowStudents] = useState(false);
@@ -55,7 +83,7 @@ const ClassDetailsScreen: React.FC<ClassDetailsScreenProps> = ({ route, navigati
 
       if (!classInfo) {
         // Obter ID da academia para buscar a turma
-        const academiaId = userProfile?.academiaId || academia?.id;
+        const academiaId = userProfile?.academiaId || currentAcademiaId;
         if (!academiaId) {
           console.error(getString('academyIdNotFound'));
           return;
@@ -67,7 +95,7 @@ const ClassDetailsScreen: React.FC<ClassDetailsScreenProps> = ({ route, navigati
       }
 
       // Obter ID da academia
-      const academiaId = userProfile?.academiaId || academia?.id;
+      const academiaId = userProfile?.academiaId || currentAcademiaId;
       if (!academiaId) {
         console.error(getString('academyIdNotFound'));
         return;
@@ -76,7 +104,7 @@ const ClassDetailsScreen: React.FC<ClassDetailsScreenProps> = ({ route, navigati
       // Buscar alunos da turma na academia
       console.log('👥 Carregando alunos da turma...');
       const allStudents = await academyFirestoreService.getAll('students', academiaId);
-      const classStudents = allStudents.filter(student =>
+      const classStudents = allStudents.filter((student: Student) =>
         student.classIds &&
         student.classIds.includes(classId)
       );
@@ -108,7 +136,8 @@ const ClassDetailsScreen: React.FC<ClassDetailsScreenProps> = ({ route, navigati
           style: 'destructive',
           onPress: async () => {
             try {
-              await firestoreService.delete('classes', classId);
+              const academiaId = userProfile?.academiaId || currentAcademiaId;
+              await academyFirestoreService.delete('classes', classId, academiaId);
               setSnackbar({
                 visible: true,
                 message: '✅ Turma excluída com sucesso!',
@@ -131,7 +160,7 @@ const ClassDetailsScreen: React.FC<ClassDetailsScreenProps> = ({ route, navigati
     );
   };
 
-  const formatSchedule = (schedule) => {
+  const formatSchedule = (schedule: Schedule | Schedule[] | string | undefined) => {
     if (!schedule) return getString('notDefined');
 
     // Se for uma string, retornar diretamente
@@ -140,7 +169,7 @@ const ClassDetailsScreen: React.FC<ClassDetailsScreenProps> = ({ route, navigati
     }
 
     // Se for um objeto único com dayOfWeek, minute, hour
-    if (schedule.dayOfWeek !== undefined && schedule.hour !== undefined && schedule.minute !== undefined) {
+    if (!Array.isArray(schedule) && schedule.dayOfWeek !== undefined && schedule.hour !== undefined && schedule.minute !== undefined) {
       const days = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
       const dayName = days[schedule.dayOfWeek] || `Dia ${schedule.dayOfWeek}`;
       const time = `${schedule.hour.toString().padStart(2, '0')}:${schedule.minute.toString().padStart(2, '0')}`;
@@ -164,14 +193,14 @@ const ClassDetailsScreen: React.FC<ClassDetailsScreenProps> = ({ route, navigati
     return getString('scheduleNotDefined');
   };
 
-  const getModalityColor = (modality) => {
-    const colors = {
+  const getModalityColor = (modality: string | undefined): string => {
+    const colors: Record<string, string> = {
       'Jiu-Jitsu': COLORS.info[500],
       'Muay Thai': COLORS.error[500],
       'MMA': COLORS.warning[500],
       'Boxe': COLORS.primary[500]
     };
-    return colors[modality] || COLORS.text.secondary;
+    return (modality && colors[modality]) || COLORS.text.secondary;
   };
 
   if (loading && !classInfo) {

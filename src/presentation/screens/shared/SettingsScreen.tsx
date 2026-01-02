@@ -94,10 +94,10 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
           showsVerticalScrollIndicator={false}
         >
           {/* Informações da Conta */}
-          <Card containerStyle={styles.card}>
+          <Card style={styles.card}>
             <View style={styles.cardHeader}>
               <Ionicons name="person-circle" size={24} color={COLORS.info[500]} />
-              <Text h4 style={styles.cardTitle}>{getString('account')}</Text>
+              <Text variant="headlineSmall" style={styles.cardTitle}>{getString('account')}</Text>
             </View>
 
             <List.Item
@@ -131,10 +131,10 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
           <ThemeToggleSwitch />
 
           {/* Botão para Ver Demonstração */}
-          <Card containerStyle={styles.card}>
+          <Card style={styles.card}>
             <View style={styles.cardHeader}>
               <Ionicons name="color-palette" size={24} color={COLORS.secondary[500]} />
-              <Text h4 style={styles.cardTitle}>{getString('demonstration')}</Text>
+              <Text variant="headlineSmall" style={styles.cardTitle}>{getString('demonstration')}</Text>
             </View>
 
             <List.Item
@@ -147,10 +147,10 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
           </Card>
 
           {/* Preferências */}
-          <Card containerStyle={styles.card}>
+          <Card style={styles.card}>
             <View style={styles.cardHeader}>
               <Ionicons name="settings" size={24} color={COLORS.primary[500]} />
-              <Text h4 style={styles.cardTitle}>{getString('preferences')}</Text>
+              <Text variant="headlineSmall" style={styles.cardTitle}>{getString('preferences')}</Text>
             </View>
 
             <List.Item
@@ -194,10 +194,10 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
           </Card>
 
           {/* Dados e Privacidade */}
-          <Card containerStyle={styles.card}>
+          <Card style={styles.card}>
             <View style={styles.cardHeader}>
               <Ionicons name="shield-checkmark" size={24} color={COLORS.warning[500]} />
-              <Text h4 style={styles.cardTitle}>{getString('dataAndPrivacy')}</Text>
+              <Text variant="headlineSmall" style={styles.cardTitle}>{getString('dataAndPrivacy')}</Text>
             </View>
 
             <List.Item
@@ -222,10 +222,10 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
           </Card>
 
           {/* Sobre */}
-          <Card containerStyle={styles.card}>
+          <Card style={styles.card}>
             <View style={styles.cardHeader}>
               <Ionicons name="information-circle" size={24} color={COLORS.secondary[500]} />
-              <Text h4 style={styles.cardTitle}>{getString('about')}</Text>
+              <Text variant="headlineSmall" style={styles.cardTitle}>{getString('about')}</Text>
             </View>
 
             <List.Item
@@ -248,10 +248,10 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
           </Card>
 
           {/* Ações Perigosas */}
-          <Card containerStyle={[styles.card, styles.dangerCard]}>
+          <Card style={[styles.card, styles.dangerCard]}>
             <View style={styles.cardHeader}>
               <Ionicons name="warning" size={24} color={COLORS.error[500]} />
-              <Text h4 style={[styles.cardTitle, styles.dangerTitle]}>{getString('dangerZone')}</Text>
+              <Text variant="headlineSmall" style={[styles.cardTitle, styles.dangerTitle]}>{getString('dangerZone')}</Text>
             </View>
 
             <Button

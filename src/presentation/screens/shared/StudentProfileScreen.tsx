@@ -22,10 +22,57 @@ import SafeCardContent from '@components/SafeCardContent';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, BORDER_WIDTH } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
 import { getAuthGradient } from '@presentation/theme/authTheme';
-import type { NavigationProp } from '@react-navigation/native';
+import type { NavigationProp, RouteProp } from '@react-navigation/native';
+
+interface StudentData {
+  id: string;
+  name: string;
+  email: string;
+  phone?: string;
+  address?: string;
+  isActive: boolean;
+  createdAt: any;
+  birthDate?: any;
+  currentGraduation?: string;
+  classIds?: string[];
+  [key: string]: any;
+}
+
+interface ClassData {
+  id: string;
+  name: string;
+  modality: string;
+  schedule?: any[];
+  [key: string]: any;
+}
+
+interface PaymentData {
+  id: string;
+  userId: string;
+  amount: number;
+  status: 'paid' | 'pending' | 'overdue';
+  createdAt: any;
+  [key: string]: any;
+}
+
+interface GraduationData {
+  id: string;
+  studentId: string;
+  graduation: string;
+  modality: string;
+  date: any;
+  [key: string]: any;
+}
+
+type StudentProfileRouteParams = {
+  StudentProfile: {
+    studentId: string;
+  };
+};
 
 interface StudentProfileScreenProps {
   navigation: NavigationProp<any>;
+  route: RouteProp<StudentProfileRouteParams, 'StudentProfile'>;
 }
 
 const { width } = Dimensions.get('window');
@@ -35,10 +82,10 @@ const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({ route, navi
   const { getString, isDarkMode } = useTheme();
   const { studentId } = route.params;
   const { user, userProfile, academia } = useAuth();
-  const [studentInfo, setStudentInfo] = useState(null);
-  const [studentClasses, setStudentClasses] = useState<any[]>([]);
-  const [payments, setPayments] = useState<any[]>([]);
-  const [graduations, setGraduations] = useState<any[]>([]);
+  const [studentInfo, setStudentInfo] = useState<StudentData | null>(null);
+  const [studentClasses, setStudentClasses] = useState<ClassData[]>([]);
+  const [payments, setPayments] = useState<PaymentData[]>([]);
+  const [graduations, setGraduations] = useState<GraduationData[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -53,7 +100,7 @@ const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({ route, navi
       setLoading(true);
 
       // Carregar dados do aluno se não foram passados
-      if (!studentData) {
+      if (!studentInfo) {
         const details = await academyFirestoreService.getById('users', studentId);
         setStudentInfo(details);
       }
@@ -66,27 +113,35 @@ const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({ route, navi
       }
 
       // Buscar turmas do aluno na academia
-      const allClasses = await academyFirestoreService.getAll('classes', academiaId);
+      const allClasses = await academyFirestoreService.getAll('classes', academiaId) as ClassData[];
       const userClasses = allClasses.filter(cls =>
-        studentInfo?.classIds && studentInfo.classIds.includes(cls.id)
+        details?.classIds && details.classIds.includes(cls.id)
       );
       setStudentClasses(userClasses);
 
       // Buscar pagamentos do aluno na academia
-      const allPayments = await academyFirestoreService.getAll('payments', academiaId);
+      const allPayments = await academyFirestoreService.getAll('payments', academiaId) as PaymentData[];
       const userPayments = allPayments.filter(payment =>
         payment.userId === studentId
-      ).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      ).sort((a: PaymentData, b: PaymentData) => {
+        const dateA = a.createdAt?.seconds ? a.createdAt.seconds : new Date(a.createdAt).getTime() / 1000;
+        const dateB = b.createdAt?.seconds ? b.createdAt.seconds : new Date(b.createdAt).getTime() / 1000;
+        return dateB - dateA;
+      });
       setPayments(userPayments);
 
       // Buscar graduações com tratamento robusto de erros
       try {
-        const allGraduations = await academyFirestoreService.getAll('graduations', academiaId);
+        const allGraduations = await academyFirestoreService.getAll('graduations', academiaId) as GraduationData[];
         const userGraduations = allGraduations.filter(graduation =>
           graduation.studentId === studentId
-        ).sort((a, b) => new Date(b.date) - new Date(a.date));
+        ).sort((a: GraduationData, b: GraduationData) => {
+          const dateA = a.date?.seconds ? a.date.seconds : new Date(a.date).getTime() / 1000;
+          const dateB = b.date?.seconds ? b.date.seconds : new Date(b.date).getTime() / 1000;
+          return dateB - dateA;
+        });
         setGraduations(userGraduations);
-      } catch (graduationError) {
+      } catch (graduationError: any) {
         console.warn('Não foi possível carregar graduações:', graduationError.message);
         // Se for erro de permissão, não mostrar erro ao usuário, apenas log
         if (graduationError.code !== 'permission-denied') {
@@ -95,13 +150,13 @@ const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({ route, navi
         setGraduations([]);
       }
 
-    } catch (error) {
+    } catch (error: any) {
       console.error('Erro ao carregar detalhes do aluno:', error);
       let errorMessage = 'Não foi possível carregar os detalhes do aluno';
 
-      if (error.code === 'permission-denied') {
+      if (error?.code === 'permission-denied') {
         errorMessage = 'Você não tem permissão para visualizar este perfil.';
-      } else if (error.code === 'unavailable') {
+      } else if (error?.code === 'unavailable') {
         errorMessage = 'Serviço temporariamente indisponível. Tente novamente.';
       }
 
@@ -117,8 +172,8 @@ const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({ route, navi
     loadStudentDetails();
   };
 
-  const getPaymentStatusColor = (status: string) => {
-    const colors = {
+  const getPaymentStatusColor = (status: 'paid' | 'pending' | 'overdue' | string) => {
+    const colors: Record<string, string> = {
       'paid': COLORS.primary[500],
       'pending': COLORS.warning[500],
       'overdue': COLORS.error[500]
@@ -126,8 +181,8 @@ const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({ route, navi
     return colors[status] || COLORS.text.secondary;
   };
 
-  const getPaymentStatusText = (status: string) => {
-    const texts = {
+  const getPaymentStatusText = (status: 'paid' | 'pending' | 'overdue' | string) => {
+    const texts: Record<string, string> = {
       'paid': getString('paid'),
       'pending': getString('paymentPending'),
       'overdue': getString('overdue')
@@ -135,7 +190,7 @@ const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({ route, navi
     return texts[status] || status;
   };
 
-  const formatDate = (date, format = 'long') => {
+  const formatDate = (date: any, format = 'long') => {
     if (!date) return getString('dataNotAvailable');
     const dateObj = date.seconds ? new Date(date.seconds * 1000) : new Date(date);
 
@@ -156,7 +211,7 @@ const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({ route, navi
     }).format(value || 0);
   };
 
-  const calculateAge = (birthDate) => {
+  const calculateAge = (birthDate: any) => {
     if (!birthDate) return null;
     const birth = birthDate.seconds ? new Date(birthDate.seconds * 1000) : new Date(birthDate);
     const today = new Date();
@@ -211,13 +266,13 @@ const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({ route, navi
                 />
                 {studentInfo?.isActive !== false && (
                   <Badge style={styles.activeBadge} size={20}>
-                    <Ionicons name="checkmark" size={12} color={COLORS.white} />
+                    <MaterialCommunityIcons name="check" size={12} color={COLORS.white} />
                   </Badge>
                 )}
               </View>
 
               <View style={styles.profileInfo}>
-                <Text style={[styles.studentName, styles.title]}>{studentInfo?.name || getString('student')}</Text>
+                <Text style={styles.studentName}>{studentInfo?.name || getString('student')}</Text>
                 <Text style={styles.studentEmail}>{studentInfo?.email}</Text>
 
                 <View style={styles.statusRow}>
@@ -283,7 +338,7 @@ const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({ route, navi
               <View style={styles.cardIconContainer}>
                 <Ionicons name="person-outline" size={24} color={COLORS.secondary[400]} />
               </View>
-              <Text style={[styles.modernCardTitle, styles.title]}>Informações Pessoais</Text>
+              <Text style={styles.modernCardTitle}>Informações Pessoais</Text>
             </View>
 
             <View style={styles.modernInfoGrid}>
@@ -345,7 +400,7 @@ const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({ route, navi
               <View style={styles.cardIconContainer}>
                 <Ionicons name="school-outline" size={24} color={COLORS.primary[500]} />
               </View>
-              <Text style={[styles.modernCardTitle, styles.title]}>Turmas Matriculadas</Text>
+              <Text style={styles.modernCardTitle}>Turmas Matriculadas</Text>
               <Badge style={styles.countBadge}>{studentClasses.length}</Badge>
             </View>
 
@@ -404,7 +459,7 @@ const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({ route, navi
               <View style={styles.cardIconContainer}>
                 <Ionicons name="trophy-outline" size={24} color={COLORS.warning[300]} />
               </View>
-              <Text style={[styles.modernCardTitle, styles.title]}>Timeline de Graduações</Text>
+              <Text style={styles.modernCardTitle}>Timeline de Graduações</Text>
               <Badge style={styles.countBadge}>{graduations.length}</Badge>
             </View>
 
@@ -465,7 +520,7 @@ const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({ route, navi
               <View style={styles.cardIconContainer}>
                 <Ionicons name="card-outline" size={24} color={COLORS.info[500]} />
               </View>
-              <Text style={[styles.modernCardTitle, styles.title]}>Resumo Financeiro</Text>
+              <Text style={styles.modernCardTitle}>Resumo Financeiro</Text>
             </View>
 
             {/* Indicadores Financeiros */}
@@ -654,7 +709,7 @@ const styles = StyleSheet.create({
   },
   studentName: {
     fontSize: FONT_SIZE.xxl,
-    fontWeight: FONT_WEIGHT.extrabold,
+    fontWeight: '800',
     color: COLORS.white,
     marginBottom: SPACING.xs,
     letterSpacing: 0.5,
@@ -732,7 +787,7 @@ const styles = StyleSheet.create({
   },
   statNumber: {
     fontSize: FONT_SIZE.xxl,
-    fontWeight: FONT_WEIGHT.extrabold,
+    fontWeight: '800',
     color: COLORS.text.primary,
     marginBottom: SPACING.xs,
   },
@@ -960,7 +1015,7 @@ const styles = StyleSheet.create({
   },
   financialValue: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.extrabold,
+    fontWeight: '800',
     color: COLORS.text.primary,
     marginBottom: SPACING.xs,
   },

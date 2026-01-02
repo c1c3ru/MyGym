@@ -18,6 +18,7 @@ import { getString } from '@utils/theme';
  */
 interface GraduationAlert {
     id: string;
+    studentId: string;
     studentName: string;
     modality: string;
     currentBelt: string;

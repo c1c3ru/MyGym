@@ -31,6 +31,7 @@ import LoginSkeleton from '@components/skeletons/LoginSkeleton';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { getAuthGradient, getAuthCardColors } from '@presentation/theme/authTheme';
 import { getString } from '@utils/theme';
+import formValidator from '@shared/utils/formValidation';
 import type { AuthScreenProps, LoginFormErrors, SnackbarState } from './auth/types';
 
 // Mapear erros de autenticação para códigos do EnhancedErrorMessage
@@ -155,11 +156,15 @@ export default function LoginScreen({ navigation }: AuthScreenProps) {
 
   const { validateField, validateForm: validateFormHook, errors: formErrors } = useFormValidation(validationRules);
 
-  const validateForm = useCallback(() => {
-    const isValid = validateFormHook({ email: email.trim(), password });
-    setErrors(formErrors);
-    return isValid;
-  }, [email, password, validateFormHook, formErrors]);
+  const validateForm = useCallback(async () => {
+    const result = await formValidator.validateForm({ email: email.trim(), password }, validationRules as any);
+    const mappedErrors: LoginFormErrors = {};
+    Object.keys(result.errors).forEach(key => {
+      mappedErrors[key as keyof LoginFormErrors] = result.errors[key][0];
+    });
+    setErrors(mappedErrors);
+    return result.isValid;
+  }, [email, password, validationRules]);
 
   const handleLogin = useCallback(async () => {
     // Rate limiting para login
@@ -348,10 +353,10 @@ export default function LoginScreen({ navigation }: AuthScreenProps) {
                     <Menu.Item
                       key={langCode}
                       onPress={() => {
-                        changeLanguage(langCode);
+                        changeLanguage(langCode as any);
                         setLanguageMenuVisible(false);
                       }}
-                      title={`${languages[langCode].flag} ${languages[langCode].name}`}
+                      title={`${(languages as any)[langCode].flag} ${(languages as any)[langCode].name}`}
                     />
                   ))}
                 </Menu>
@@ -377,7 +382,7 @@ export default function LoginScreen({ navigation }: AuthScreenProps) {
                   colors={[COLORS.primary[500], COLORS.primary[700]]}
                   style={styles.logoGradient}
                 >
-                  <MaterialCommunityIcons name="fitness-center" size={40} color={COLORS.white} />
+                  <MaterialCommunityIcons name="dumbbell" size={40} color={COLORS.white} />
                 </LinearGradient>
               </View>
               <Text style={[styles.headerTitle, { color: isDarkMode ? COLORS.white : COLORS.black, fontSize: 32 }]}>
@@ -392,10 +397,7 @@ export default function LoginScreen({ navigation }: AuthScreenProps) {
               <ModernCard
                 style={[
                   styles.loginCard,
-                  getAuthCardColors(isDarkMode),
-                  {
-                    backdropFilter: 'blur(10px)', // Para web se suportado
-                  }
+                  getAuthCardColors(isDarkMode)
                 ]}
               >
                 <ModernTextField
@@ -706,5 +708,18 @@ const styles = StyleSheet.create({
     left: 20,
     right: 20,
     zIndex: 1000,
+  },
+  snackbarSuccess: {
+    backgroundColor: COLORS.success[500],
+  },
+  snackbarError: {
+    backgroundColor: COLORS.error[500],
+  },
+  snackbarText: {
+    color: COLORS.white,
+    fontSize: 14,
+  },
+  settingItem: {
+    marginLeft: 8,
   },
 });

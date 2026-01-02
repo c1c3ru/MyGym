@@ -27,8 +27,9 @@ interface PhysicalEvaluationHistoryScreenProps {
 
 const { width } = Dimensions.get('window');
 
-const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
+const PhysicalEvaluationHistoryScreen = ({ navigation }: PhysicalEvaluationHistoryScreenProps) => {
   const { user, academia, userProfile } = useAuth();
+  const { getString } = useTheme();
 
   const [evaluations, setEvaluations] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -73,7 +74,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
     loadEvaluations();
   };
 
-  const getIMCColor = (classification) => {
+  const getIMCColor = (classification: string) => {
     switch (classification) {
       case 'Abaixo do peso': return COLORS.warning[500];
       case 'Peso normal': return COLORS.primary[500];

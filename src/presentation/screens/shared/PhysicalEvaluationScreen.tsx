@@ -21,19 +21,57 @@ import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@present
 import { getAuthGradient } from '@presentation/theme/authTheme';
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
 
+interface PhysicalEvaluationData {
+  id?: string;
+  weight: number;
+  height: number;
+  age: number;
+  bodyFat?: number | null;
+  muscleMass?: number | null;
+  boneMass?: number | null;
+  viscFat?: number | null;
+  basalMetabolism?: number | null;
+  bodyWater?: number | null;
+  notes?: string;
+  imc?: number;
+  imcClassification?: string;
+  date?: Date;
+  createdBy?: string;
+  updatedAt?: Date;
+  createdAt?: Date; // Added missing property
+}
+
 interface PhysicalEvaluationScreenProps {
   navigation: NavigationProp<any>;
   route: RouteProp<any>;
 }
 
-const PhysicalEvaluationScreen = ({ navigation, route }) => {
+interface DadosFormulario {
+  weight: string;
+  height: string;
+  age: string;
+  bodyFat: string;
+  muscleMass: string;
+  boneMass: string;
+  viscFat: string;
+  basalMetabolism: string;
+  bodyWater: string;
+  notes: string;
+}
+
+interface ErrosFormulario {
+  [key: string]: string | null;
+}
+
+const PhysicalEvaluationScreen = ({ navigation, route }: PhysicalEvaluationScreenProps) => {
   const { user, academia, userProfile } = useAuth();
+  const { getString } = useTheme();
   const { evaluation, isEditing = false } = route.params || {};
 
   const [loading, setLoading] = useState(false);
   const [snackbar, setSnackbar] = useState({ visible: false, message: '', type: 'info' });
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<DadosFormulario>({
     weight: '',
     height: '',
     age: '',
@@ -46,8 +84,8 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
     notes: ''
   });
 
-  const [errors, setErrors] = useState({});
-  const [calculatedIMC, setCalculatedIMC] = useState(null);
+  const [errors, setErrors] = useState<ErrosFormulario>({});
+  const [calculatedIMC, setCalculatedIMC] = useState<string | null>(null);
   const [imcClassification, setImcClassification] = useState('');
 
   useEffect(() => {
@@ -71,7 +109,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
     calculateIMC();
   }, [formData.weight, formData.height]);
 
-  const normalizeNumber = (value: any) => {
+  const normalizeNumber = (value: string) => {
     // Substitui vírgula por ponto e remove espaços
     return value.replace(/,/g, '.').replace(/\s/g, '');
   };
@@ -93,7 +131,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
     }
   };
 
-  const getIMCClassification = (imc) => {
+  const getIMCClassification = (imc: number) => {
     if (imc < 18.5) return 'Abaixo do peso';
     if (imc < 25) return 'Peso normal';
     if (imc < 30) return 'Sobrepeso';
@@ -102,7 +140,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
     return 'Obesidade grau III';
   };
 
-  const getIMCColor = (classification) => {
+  const getIMCColor = (classification: string) => {
     switch (classification) {
       case 'Abaixo do peso': return COLORS.warning[500];
       case 'Peso normal': return COLORS.primary[500];
@@ -115,13 +153,13 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
   };
 
   const validateForm = () => {
-    const newErrors = {};
+    const newErrors: ErrosFormulario = {};
 
     if (!formData.weight.trim()) {
       newErrors.weight = 'Peso é obrigatório';
     } else {
       const normalizedWeight = normalizeNumber(formData.weight);
-      if (isNaN(normalizedWeight) || parseFloat(normalizedWeight) <= 0) {
+      if (isNaN(Number(normalizedWeight)) || parseFloat(normalizedWeight) <= 0) {
         newErrors.weight = 'Peso deve ser um número válido maior que 0 (ex: 70 ou 70,5)';
       }
     }
@@ -130,27 +168,27 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
       newErrors.height = 'Altura é obrigatória';
     } else {
       const normalizedHeight = normalizeNumber(formData.height);
-      if (isNaN(normalizedHeight) || parseFloat(normalizedHeight) <= 0) {
+      if (isNaN(Number(normalizedHeight)) || parseFloat(normalizedHeight) <= 0) {
         newErrors.height = 'Altura deve ser um número válido maior que 0 (ex: 1,74 ou 174)';
       }
     }
 
     if (!formData.age.trim()) {
       newErrors.age = 'Idade é obrigatória';
-    } else if (isNaN(formData.age) || parseInt(formData.age) <= 0 || parseInt(formData.age) > 120) {
+    } else if (isNaN(Number(formData.age)) || parseInt(formData.age) <= 0 || parseInt(formData.age) > 120) {
       newErrors.age = 'Idade deve ser um número válido entre 1 e 120';
     }
 
     // Validações opcionais para bioimpedância
-    if (formData.bodyFat && (isNaN(formData.bodyFat) || parseFloat(formData.bodyFat) < 0 || parseFloat(formData.bodyFat) > 100)) {
+    if (formData.bodyFat && (isNaN(Number(formData.bodyFat)) || parseFloat(formData.bodyFat) < 0 || parseFloat(formData.bodyFat) > 100)) {
       newErrors.bodyFat = 'Percentual de gordura deve estar entre 0 e 100';
     }
 
-    if (formData.muscleMass && (isNaN(formData.muscleMass) || parseFloat(formData.muscleMass) <= 0)) {
+    if (formData.muscleMass && (isNaN(Number(formData.muscleMass)) || parseFloat(formData.muscleMass) <= 0)) {
       newErrors.muscleMass = 'Massa muscular deve ser um número válido maior que 0';
     }
 
-    if (formData.bodyWater && (isNaN(formData.bodyWater) || parseFloat(formData.bodyWater) < 0 || parseFloat(formData.bodyWater) > 100)) {
+    if (formData.bodyWater && (isNaN(Number(formData.bodyWater)) || parseFloat(formData.bodyWater) < 0 || parseFloat(formData.bodyWater) > 100)) {
       newErrors.bodyWater = 'Percentual de água deve estar entre 0 e 100';
     }
 
@@ -177,7 +215,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
     try {
       setLoading(true);
 
-      const evaluationData = {
+      const evaluationData: any = {
         userId: user.id,
         weight: parseFloat(normalizeNumber(formData.weight)),
         height: parseFloat(normalizeNumber(formData.height)),
@@ -189,14 +227,14 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
         basalMetabolism: formData.basalMetabolism ? parseFloat(normalizeNumber(formData.basalMetabolism)) : null,
         bodyWater: formData.bodyWater ? parseFloat(normalizeNumber(formData.bodyWater)) : null,
         notes: formData.notes.trim(),
-        imc: parseFloat(calculatedIMC),
+        imc: calculatedIMC ? parseFloat(calculatedIMC) : 0,
         imcClassification,
         date: new Date(),
         createdBy: user.id,
         updatedAt: new Date()
       };
 
-      if (isEditing && evaluation) {
+      if (isEditing && evaluation && evaluation.id) {
         await academyFirestoreService.update(
           'physicalEvaluations',
           evaluation.id,
@@ -238,15 +276,15 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
     }
   };
 
-  const updateFormData = (field, value) => {
-    setFormData(prev => ({
+  const updateFormData = (field: string, value: string) => {
+    setFormData((prev: DadosFormulario) => ({
       ...prev,
       [field]: value
     }));
 
     // Limpar erro quando o usuário começar a digitar
     if (errors[field]) {
-      setErrors(prev => ({
+      setErrors((prev: ErrosFormulario) => ({
         ...prev,
         [field]: null
       }));

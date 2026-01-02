@@ -18,6 +18,18 @@ import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@present
 import { getAuthGradient } from '@presentation/theme/authTheme';
 import type { NavigationProp } from '@react-navigation/native';
 
+interface ChangePasswordFormData {
+  currentPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+}
+
+interface ShowPasswordsState {
+  current: boolean;
+  new: boolean;
+  confirm: boolean;
+}
+
 interface ChangePasswordScreenProps {
   navigation: NavigationProp<any>;
 }
@@ -28,21 +40,21 @@ const ChangePasswordScreen = ({ navigation }: ChangePasswordScreenProps) => {
   const [loading, setLoading] = useState(false);
   const [snackbar, setSnackbar] = useState({ visible: false, message: '', type: 'info' });
 
-  const [formData, setFormData] = useState<any>({
+  const [formData, setFormData] = useState<ChangePasswordFormData>({
     currentPassword: '',
     newPassword: '',
     confirmPassword: ''
   });
 
-  const [errors, setErrors] = useState({});
-  const [showPasswords, setShowPasswords] = useState({
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [showPasswords, setShowPasswords] = useState<ShowPasswordsState>({
     current: false,
     new: false,
     confirm: false
   });
 
   const validateForm = () => {
-    const newErrors = {};
+    const newErrors: Record<string, string> = {};
 
     if (!formData.currentPassword.trim()) {
       newErrors.currentPassword = 'Senha atual é obrigatória';
@@ -107,14 +119,15 @@ const ChangePasswordScreen = ({ navigation }: ChangePasswordScreenProps) => {
       console.error('Erro ao alterar senha:', error as Error);
 
       let errorMessage = 'Erro ao alterar senha. Tente novamente.';
+      const errorCode = (error as any).code;
 
-      if ((error as any).code === 'auth/wrong-password') {
+      if (errorCode === 'auth/wrong-password') {
         errorMessage = 'Senha atual incorreta';
         setErrors({ currentPassword: errorMessage });
-      } else if (error.code === 'auth/weak-password') {
+      } else if (errorCode === 'auth/weak-password') {
         errorMessage = 'Nova senha é muito fraca';
         setErrors({ newPassword: errorMessage });
-      } else if ((error as any).code === 'auth/requires-recent-login') {
+      } else if (errorCode === 'auth/requires-recent-login') {
         errorMessage = 'Por segurança, faça login novamente e tente alterar a senha';
       }
 
@@ -128,23 +141,24 @@ const ChangePasswordScreen = ({ navigation }: ChangePasswordScreenProps) => {
     }
   };
 
-  const updateFormData = (field: string, value: string) => {
+  const updateFormData = (field: keyof ChangePasswordFormData, value: string) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
     }));
 
     // Limpar erro quando o usuário começar a digitar
-    if ((errors as any)[field]) {
-      setErrors(prev => ({
-        ...prev,
-        [field]: null
-      }));
+    if (errors[field]) {
+      setErrors(prev => {
+        const newErrors = { ...prev };
+        delete newErrors[field];
+        return newErrors;
+      });
     }
   };
 
-  const toggleShowPassword = (field: string) => {
-    setShowPasswords((prev: any) => ({
+  const toggleShowPassword = (field: keyof ShowPasswordsState) => {
+    setShowPasswords(prev => ({
       ...prev,
       [field]: !prev[field]
     }));

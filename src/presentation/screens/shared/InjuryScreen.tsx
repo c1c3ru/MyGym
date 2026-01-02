@@ -26,19 +26,50 @@ import { getAuthGradient } from '@presentation/theme/authTheme';
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
 import { getString } from '@utils/theme';
 
+interface Injury {
+  id?: string;
+  userId: string;
+  bodyPart: string;
+  injuryType: string;
+  description: string;
+  severity: string;
+  dateOccurred: any; // Firestore Timestamp ou Date
+  status: string;
+  treatment: string;
+  doctorNotes: string;
+  expectedRecovery: string;
+  restrictions: string;
+  updatedAt: Date;
+  createdAt?: Date;
+  createdBy?: string;
+}
+
+interface InjuryFormData {
+  bodyPart: string;
+  injuryType: string;
+  description: string;
+  severity: string;
+  dateOccurred: Date;
+  status: string;
+  treatment: string;
+  doctorNotes: string;
+  expectedRecovery: string;
+  restrictions: string;
+}
+
 interface InjuryScreenProps {
   navigation: NavigationProp<any>;
   route: RouteProp<any>;
 }
 
-const InjuryScreen = ({ navigation, route }) => {
+const InjuryScreen = ({ navigation, route }: InjuryScreenProps) => {
   const { user, academia } = useAuth();
   const { injury, isEditing = false } = route.params || {};
 
   const [loading, setLoading] = useState(false);
   const [snackbar, setSnackbar] = useState({ visible: false, message: '', type: 'info' });
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<InjuryFormData>({
     bodyPart: '',
     injuryType: '',
     description: '',
@@ -51,7 +82,7 @@ const InjuryScreen = ({ navigation, route }) => {
     restrictions: ''
   });
 
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<Partial<Record<keyof InjuryFormData, string>>>({});
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [bodyPartMenuVisible, setBodyPartMenuVisible] = useState(false);
   const [injuryTypeMenuVisible, setInjuryTypeMenuVisible] = useState(false);
@@ -106,7 +137,7 @@ const InjuryScreen = ({ navigation, route }) => {
   }, [isEditing, injury]);
 
   const validateForm = () => {
-    const newErrors = {};
+    const newErrors: Partial<Record<keyof InjuryFormData, string>> = {};
 
     if (!formData.bodyPart.trim()) {
       newErrors.bodyPart = 'Parte do corpo é obrigatória';
@@ -134,7 +165,7 @@ const InjuryScreen = ({ navigation, route }) => {
     try {
       setLoading(true);
 
-      const injuryData = {
+      const injuryData: Injury = {
         userId: user.id,
         bodyPart: formData.bodyPart.trim(),
         injuryType: formData.injuryType.trim(),
@@ -190,7 +221,7 @@ const InjuryScreen = ({ navigation, route }) => {
     }
   };
 
-  const updateFormData = (field, value) => {
+  const updateFormData = (field: keyof InjuryFormData, value: any) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
@@ -200,12 +231,12 @@ const InjuryScreen = ({ navigation, route }) => {
     if (errors[field]) {
       setErrors(prev => ({
         ...prev,
-        [field]: null
+        [field]: undefined
       }));
     }
   };
 
-  const getSeverityColor = (severity) => {
+  const getSeverityColor = (severity: string) => {
     return severityLevels.find(s => s.value === severity)?.color || COLORS.gray[500];
   };
 

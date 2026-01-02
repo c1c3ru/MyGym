@@ -12,11 +12,14 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '@contexts/AuthProvider';
 import { firestoreService } from '@services/firestoreService';
+import { LinearGradient } from 'expo-linear-gradient';
+import { useTheme } from '@contexts/ThemeContext';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getString } from '@utils/theme';
+import { getAuthGradient } from '@presentation/theme/authTheme';
 
-const NotificationSettingsScreen = ({ navigation }) => {
+const NotificationSettingsScreen = ({ navigation }: any) => {
   const { user, userProfile, updateUserProfile } = useAuth();
+  const { isDarkMode, getString } = useTheme();
   const [loading, setLoading] = useState(false);
   const [settings, setSettings] = useState({
     // Notificações gerais
@@ -56,7 +59,7 @@ const NotificationSettingsScreen = ({ navigation }) => {
     }
   };
 
-  const updateSetting = (key, value) => {
+  const updateSetting = (key: string, value: boolean | number | string) => {
     setSettings(prev => ({
       ...prev,
       [key]: value
@@ -376,6 +379,9 @@ const styles = StyleSheet.create({
   cardTitle: {
     marginLeft: 8,
     fontSize: FONT_SIZE.lg,
+  },
+  title: {
+    fontWeight: '700',
   },
   infoText: {
     marginBottom: SPACING.sm,

@@ -18,6 +18,7 @@ import ImprovedScheduleSelector from '@components/ImprovedScheduleSelector';
 import { createEmptySchedule, isValidSchedule, scheduleToDisplayString } from '@utils/scheduleUtils';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, BORDER_WIDTH } from '@presentation/theme/designTokens';
 import { getAuthGradient } from '@presentation/theme/authTheme';
+import { getString } from '@utils/theme';
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
 
 interface EditClassScreenProps {
@@ -25,8 +26,8 @@ interface EditClassScreenProps {
   route: RouteProp<any>;
 }
 
-const EditClassScreen = ({ route, navigation }) => {
-  const { classId } = route.params;
+const EditClassScreen = ({ route, navigation }: EditClassScreenProps) => {
+  const { classId } = (route.params as any);
   const { user, userProfile, academia } = useAuth();
   const [loading, setLoading] = useState(false);
   const [loadingData, setLoadingData] = useState(true);
@@ -57,7 +58,18 @@ const EditClassScreen = ({ route, navigation }) => {
     ageCategory: ''
   });
 
-  const [errors, setErrors] = useState({});
+  interface FormErrors {
+    name?: string | null;
+    modality?: string | null;
+    maxStudents?: string | null;
+    instructorId?: string | null;
+    schedule?: string | null;
+    price?: string | null;
+    ageCategory?: string | null;
+    [key: string]: string | null | undefined;
+  }
+
+  const [errors, setErrors] = useState<FormErrors>({});
 
 
   // Carregar modalidades do Firestore
@@ -70,8 +82,8 @@ const EditClassScreen = ({ route, navigation }) => {
         return;
       }
 
-      const list = await academyFirestoreService.getAll('modalities', academiaId);
-      const normalized = (list || []).map((m) => ({ id: m.id || m.name, name: m.name }));
+      const list = await academyFirestoreService.getAll('modalities', academiaId) as any[];
+      const normalized = (list || []).map((m: any) => ({ id: m.id || m.name, name: m.name }));
       setModalities(normalized);
     } catch (error) {
       console.error('Erro ao carregar modalidades:', error);
@@ -93,7 +105,7 @@ const EditClassScreen = ({ route, navigation }) => {
         return;
       }
 
-      const classData = await academyFirestoreService.getById('classes', classId, academiaId);
+      const classData = await academyFirestoreService.getById('classes', classId, academiaId) as any;
 
       if (classData) {
         setFormData({
@@ -129,7 +141,7 @@ const EditClassScreen = ({ route, navigation }) => {
         return;
       }
 
-      const instructorsData = await academyFirestoreService.getAll('instructors', academiaId);
+      const instructorsData = await academyFirestoreService.getAll('instructors', academiaId) as any[];
       setInstructors(instructorsData);
     } catch (error) {
       console.error('Erro ao carregar instrutores:', error);
@@ -137,7 +149,7 @@ const EditClassScreen = ({ route, navigation }) => {
   };
 
   const validateForm = () => {
-    const newErrors = {};
+    const newErrors: any = {};
 
     if (!formData.name.trim()) {
       newErrors.name = 'Nome da turma é obrigatório';
@@ -152,7 +164,7 @@ const EditClassScreen = ({ route, navigation }) => {
       newErrors.modality = 'Modalidade é obrigatória';
     }
 
-    if (!formData.maxStudents || isNaN(formData.maxStudents) || parseInt(formData.maxStudents) <= 0) {
+    if (!formData.maxStudents || isNaN(parseInt(formData.maxStudents)) || parseInt(formData.maxStudents) <= 0) {
       newErrors.maxStudents = 'Número máximo de alunos deve ser um número positivo';
     }
 
@@ -160,11 +172,11 @@ const EditClassScreen = ({ route, navigation }) => {
       newErrors.instructorId = 'Instrutor é obrigatório';
     }
 
-    if (!formData.schedule.trim()) {
+    if (!formData.schedule?.trim()) {
       newErrors.schedule = 'Horário é obrigatório';
     }
 
-    if (!formData.price || isNaN(formData.price) || parseFloat(formData.price) < 0) {
+    if (!formData.price || isNaN(parseFloat(formData.price)) || parseFloat(formData.price) < 0) {
       newErrors.price = 'Preço deve ser um número válido';
     }
 
@@ -238,23 +250,23 @@ const EditClassScreen = ({ route, navigation }) => {
     })();
   };
 
-  const updateFormData = (field, value) => {
+  const updateFormData = (field: string, value: any) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
     }));
 
-    // Clear error when user starts typing
+    // Limpar erro quando o usuário começa a digitar
     if (errors[field]) {
-      setErrors(prev => ({
+      setErrors((prev) => ({
         ...prev,
         [field]: null
       }));
     }
   };
 
-  const handleInstructorChange = (instructorId) => {
-    const instructor = instructors.find(i => i.id === instructorId);
+  const handleInstructorChange = (instructorId: string) => {
+    const instructor = instructors.find((i: any) => i.id === instructorId);
     updateFormData('instructorId', instructorId);
     updateFormData('instructorName', instructor ? instructor.name : '');
   };

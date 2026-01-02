@@ -71,7 +71,7 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
       }
 
       // Buscar aluno na subcoleção da academia
-      const studentData = await firestoreService.getById(`gyms/${academiaId}/students`, studentId);
+      const studentData = await firestoreService.getById(`gyms/${academiaId}/students`, studentId) as any;
 
       if (studentData) {
         setFormData({
@@ -84,7 +84,8 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
           emergencyPhone: studentData.emergencyPhone || '',
           medicalConditions: studentData.medicalConditions || '',
           goals: studentData.goals || '',
-          status: studentData.status || 'active'
+          status: studentData.status || 'active',
+          sexo: studentData.sexo || ''
         });
       } else {
         Alert.alert(getString('error'), 'Aluno não encontrado');
@@ -99,7 +100,7 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
   };
 
   const validateForm = () => {
-    const newErrors = {};
+    const newErrors: any = {};
 
     if (!formData.name.trim()) {
       newErrors.name = 'Nome é obrigatório';
@@ -150,6 +151,7 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
         medicalConditions: formData.medicalConditions.trim(),
         goals: formData.goals.trim(),
         status: formData.status,
+        sexo: formData.sexo,
         updatedAt: new Date(),
         updatedBy: user.id
       };
@@ -221,15 +223,15 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
     );
   };
 
-  const updateFormData = (field, value) => {
+  const updateFormData = (field: string, value: any) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
     }));
 
     // Clear error when user starts typing
-    if (errors[field]) {
-      setErrors(prev => ({
+    if ((errors as any)[field]) {
+      setErrors((prev: any) => ({
         ...prev,
         [field]: null
       }));
@@ -268,9 +270,9 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
               onChangeText={(value: any) => updateFormData('name', value)}
               mode="outlined"
               style={styles.input}
-              error={!!errors.name}
+              error={!!(errors as any).name}
             />
-            {errors.name && <HelperText type="error">{errors.name}</HelperText>}
+            {(errors as any).name && <HelperText type="error">{(errors as any).name}</HelperText>}
 
             <TextInput
               label="email"
@@ -280,9 +282,9 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
               keyboardType="email-address"
               autoCapitalize="none"
               style={styles.input}
-              error={!!errors.email}
+              error={!!(errors as any).email}
             />
-            {errors.email && <HelperText type="error">{errors.email}</HelperText>}
+            {(errors as any).email && <HelperText type="error">{(errors as any).email}</HelperText>}
 
             <TextInput
               label="Telefone"
@@ -291,9 +293,9 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
               mode="outlined"
               keyboardType="phone-pad"
               style={styles.input}
-              error={!!errors.phone}
+              error={!!(errors as any).phone}
             />
-            {errors.phone && <HelperText type="error">{errors.phone}</HelperText>}
+            {(errors as any).phone && <HelperText type="error">{(errors as any).phone}</HelperText>}
 
             <TextInput
               label="Data de Nascimento (DD/MM/AAAA)"
@@ -302,9 +304,9 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
               mode="outlined"
               placeholder="01/01/1990"
               style={styles.input}
-              error={!!errors.birthDate}
+              error={!!(errors as any).birthDate}
             />
-            {errors.birthDate && <HelperText type="error">{errors.birthDate}</HelperText>}
+            {(errors as any).birthDate && <HelperText type="error">{(errors as any).birthDate}</HelperText>}
 
             <TextInput
               label="Endereço (opcional)"
@@ -325,9 +327,9 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
               onChangeText={(value: any) => updateFormData('emergencyContact', value)}
               mode="outlined"
               style={styles.input}
-              error={!!errors.emergencyContact}
+              error={!!(errors as any).emergencyContact}
             />
-            {errors.emergencyContact && <HelperText type="error">{errors.emergencyContact}</HelperText>}
+            {(errors as any).emergencyContact && <HelperText type="error">{(errors as any).emergencyContact}</HelperText>}
 
             <TextInput
               label="Telefone de Emergência"
@@ -336,9 +338,9 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
               mode="outlined"
               keyboardType="phone-pad"
               style={styles.input}
-              error={!!errors.emergencyPhone}
+              error={!!(errors as any).emergencyPhone}
             />
-            {errors.emergencyPhone && <HelperText type="error">{errors.emergencyPhone}</HelperText>}
+            {(errors as any).emergencyPhone && <HelperText type="error">{(errors as any).emergencyPhone}</HelperText>}
 
             {/* Informações Médicas */}
             <Text style={styles.sectionTitle}>Informações Médicas</Text>
