@@ -9,14 +9,18 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
 import { COLORS, SPACING, FONT_SIZE, FONT_WEIGHT, BORDER_RADIUS } from '@presentation/theme/designTokens';
 
-const ThemeToggleSwitch = ({ style }) => {
-  const { 
-    isDarkTheme, 
-    toggleTheme, 
-    themeInfo, 
+/**
+ * @param {object} props
+ * @param {import('react-native').StyleProp<import('react-native').ViewStyle>} [props.style]
+ */
+const ThemeToggleSwitch = ({ style = {} }) => {
+  const {
+    isDarkTheme,
+    toggleTheme,
+    themeInfo,
     currentTheme,
     setDarkTheme,
-    setLightTheme 
+    setLightTheme
   } = useThemeToggle();
 
   return (
@@ -24,17 +28,17 @@ const ThemeToggleSwitch = ({ style }) => {
       <Card.Content>
         {/* Header */}
         <View style={styles.header}>
-          <MaterialCommunityIcons 
-            name="palette-outline" 
-            size={24} 
-            color={currentTheme.primary[500]} 
+          <MaterialCommunityIcons
+            name="palette-outline"
+            size={24}
+            color={currentTheme.primary[500]}
           />
-          <Text style={[styles.title, { color: COLORS.text.primary}]}>
+          <Text style={[styles.title, { color: COLORS.text.primary }]}>
             Aparência
           </Text>
         </View>
-        
-        <Text style={[styles.description, { color: COLORS.text.primary}]}>
+
+        <Text style={[styles.description, { color: COLORS.text.primary }]}>
           Escolha entre o tema claro sóbrio ou escuro premium
         </Text>
 
@@ -43,14 +47,14 @@ const ThemeToggleSwitch = ({ style }) => {
         {/* Switch Principal */}
         <View style={styles.switchRow}>
           <View style={styles.switchInfo}>
-            <Text style={[styles.switchLabel, { color: COLORS.text.primary}]}>
+            <Text style={[styles.switchLabel, { color: COLORS.text.primary }]}>
               {themeInfo.name}
             </Text>
-            <Text style={[styles.switchDescription, { color: COLORS.text.primary}]}>
+            <Text style={[styles.switchDescription, { color: COLORS.text.primary }]}>
               {themeInfo.description}
             </Text>
           </View>
-          
+
           <Switch
             value={isDarkTheme}
             onValueChange={toggleTheme}
@@ -66,20 +70,20 @@ const ThemeToggleSwitch = ({ style }) => {
 
         {/* Opções de Tema */}
         <View style={styles.themeOptions}>
-          <Text style={[styles.optionsTitle, { color: COLORS.text.primary}]}>
+          <Text style={[styles.optionsTitle, { color: COLORS.text.primary }]}>
             Temas Disponíveis
           </Text>
-          
+
           {/* Dark Theme Premium */}
-          <TouchableOpacity 
+          <TouchableOpacity
             style={[
               styles.themeOption,
-              { 
-                backgroundColor: isDarkTheme 
-                  ? currentTheme.primary[100] 
+              {
+                backgroundColor: isDarkTheme
+                  ? currentTheme.primary[100]
                   : currentTheme.background.paper,
-                borderColor: isDarkTheme 
-                  ? currentTheme.primary[300] 
+                borderColor: isDarkTheme
+                  ? currentTheme.primary[300]
                   : currentTheme.border.default,
               }
             ]}
@@ -88,33 +92,33 @@ const ThemeToggleSwitch = ({ style }) => {
             <View style={styles.themePreview}>
               <View style={[styles.previewDark, styles.previewBox]} />
               <View style={styles.previewInfo}>
-                <Text style={[styles.themeName, { color: COLORS.text.primary}]}>
+                <Text style={[styles.themeName, { color: COLORS.text.primary }]}>
                   Dark Premium
                 </Text>
-                <Text style={[styles.themeDesc, { color: COLORS.text.primary}]}>
+                <Text style={[styles.themeDesc, { color: COLORS.text.primary }]}>
                   Tema escuro para academias de artes marciais
                 </Text>
               </View>
             </View>
             {isDarkTheme && (
-              <MaterialCommunityIcons 
-                name="check-circle" 
-                size={20} 
-                color={currentTheme.primary[500]} 
+              <MaterialCommunityIcons
+                name="check-circle"
+                size={20}
+                color={currentTheme.primary[500]}
               />
             )}
           </TouchableOpacity>
 
           {/* Light Theme Sóbrio */}
-          <TouchableOpacity 
+          <TouchableOpacity
             style={[
               styles.themeOption,
-              { 
-                backgroundColor: !isDarkTheme 
-                  ? currentTheme.primary[100] 
+              {
+                backgroundColor: !isDarkTheme
+                  ? currentTheme.primary[100]
                   : currentTheme.background.paper,
-                borderColor: !isDarkTheme 
-                  ? currentTheme.primary[300] 
+                borderColor: !isDarkTheme
+                  ? currentTheme.primary[300]
                   : currentTheme.border.default,
               }
             ]}
@@ -123,19 +127,19 @@ const ThemeToggleSwitch = ({ style }) => {
             <View style={styles.themePreview}>
               <View style={[styles.previewLight, styles.previewBox]} />
               <View style={styles.previewInfo}>
-                <Text style={[styles.themeName, { color: COLORS.text.primary}]}>
+                <Text style={[styles.themeName, { color: COLORS.text.primary }]}>
                   Light Sóbrio
                 </Text>
-                <Text style={[styles.themeDesc, { color: COLORS.text.primary}]}>
+                <Text style={[styles.themeDesc, { color: COLORS.text.primary }]}>
                   Tema claro inspirado em incubadoras tecnológicas
                 </Text>
               </View>
             </View>
             {!isDarkTheme && (
-              <MaterialCommunityIcons 
-                name="check-circle" 
-                size={20} 
-                color={currentTheme.primary[500]} 
+              <MaterialCommunityIcons
+                name="check-circle"
+                size={20}
+                color={currentTheme.primary[500]}
               />
             )}
           </TouchableOpacity>
@@ -143,12 +147,12 @@ const ThemeToggleSwitch = ({ style }) => {
 
         {/* Informações Adicionais */}
         <View style={[styles.infoBox, { backgroundColor: currentTheme.card.section.background }]}>
-          <MaterialCommunityIcons 
-            name="information-outline" 
-            size={16} 
-            color={currentTheme.info[500]} 
+          <MaterialCommunityIcons
+            name="information-outline"
+            size={16}
+            color={currentTheme.info[500]}
           />
-          <Text style={[styles.infoText, { color: COLORS.text.primary}]}>
+          <Text style={[styles.infoText, { color: COLORS.text.primary }]}>
             A preferência de tema é salva automaticamente e aplicada em todo o app
           </Text>
         </View>
@@ -162,62 +166,62 @@ const styles = StyleSheet.create({
     margin: SPACING.base,
     elevation: 2,
   },
-  
+
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: SPACING.sm,
   },
-  
+
   title: {
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
     marginLeft: SPACING.sm,
   },
-  
+
   description: {
     fontSize: FONT_SIZE.sm,
     lineHeight: 20,
     marginBottom: SPACING.base,
   },
-  
+
   divider: {
     marginVertical: SPACING.base,
   },
-  
+
   switchRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingVertical: SPACING.sm,
   },
-  
+
   switchInfo: {
     flex: 1,
     marginRight: SPACING.base,
   },
-  
+
   switchLabel: {
     fontSize: FONT_SIZE.base,
     fontWeight: FONT_WEIGHT.medium,
     marginBottom: 2,
   },
-  
+
   switchDescription: {
     fontSize: FONT_SIZE.xs,
     lineHeight: 16,
   },
-  
+
   themeOptions: {
     marginTop: SPACING.sm,
   },
-  
+
   optionsTitle: {
     fontSize: FONT_SIZE.base,
     fontWeight: FONT_WEIGHT.medium,
     marginBottom: SPACING.base,
   },
-  
+
   themeOption: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -227,13 +231,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: SPACING.sm,
   },
-  
+
   themePreview: {
     flexDirection: 'row',
     alignItems: 'center',
     flex: 1,
   },
-  
+
   previewBox: {
     width: 32,
     height: 24,
@@ -242,30 +246,30 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: COLORS.gray[300],
   },
-  
+
   previewDark: {
     backgroundColor: COLORS.background.paper,
   },
-  
+
   previewLight: {
     backgroundColor: COLORS.background.light,
   },
-  
+
   previewInfo: {
     flex: 1,
   },
-  
+
   themeName: {
     fontSize: FONT_SIZE.sm,
     fontWeight: FONT_WEIGHT.medium,
     marginBottom: 2,
   },
-  
+
   themeDesc: {
     fontSize: FONT_SIZE.xs,
     lineHeight: 16,
   },
-  
+
   infoBox: {
     flexDirection: 'row',
     alignItems: 'flex-start',
@@ -273,7 +277,7 @@ const styles = StyleSheet.create({
     borderRadius: BORDER_RADIUS.sm,
     marginTop: SPACING.base,
   },
-  
+
   infoText: {
     fontSize: FONT_SIZE.xs,
     lineHeight: 16,
