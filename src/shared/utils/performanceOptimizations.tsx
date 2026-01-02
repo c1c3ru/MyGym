@@ -113,10 +113,10 @@ export const preloadData = {
   user: async (userId: string) => {
     // Preload user data
     return Promise.all([
-      import('@services/academyFirestoreService').then(service => 
+      import('@infrastructure/services/academyFirestoreService').then(service => 
         service.academyFirestoreService.getById('users', userId)
       ),
-      import('@services/academyFirestoreService').then(service =>
+      import('@infrastructure/services/academyFirestoreService').then(service =>
         service.academyFirestoreService.getWhere('gyms', 'ownerId', '==', userId)
       )
     ]);
@@ -124,7 +124,7 @@ export const preloadData = {
   
   academy: async (academyId: string) => {
     // Preload academy data
-    const svc = await import('@services/academyFirestoreService');
+    const svc = await import('@infrastructure/services/academyFirestoreService');
     return Promise.all([
       svc.academyFirestoreService.getById('gyms', academyId),
       svc.academyFirestoreService.getAll('students', academyId)

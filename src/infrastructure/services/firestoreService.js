@@ -12,14 +12,24 @@ import {
   limit,
   onSnapshot
 } from 'firebase/firestore';
-import { db } from '@infrastructure/services/firebase';
+import { firebaseFirestore } from '@infrastructure/firebase';
+
+// Get Firestore instance
+const getDb = () => {
+  try {
+    return firebaseFirestore.getFirestore();
+  } catch (error) {
+    // If not initialized, initialize it
+    return firebaseFirestore.initialize();
+  }
+};
 
 // Serviços genéricos para CRUD
 export const firestoreService = {
   // Criar documento
   create: async (collectionName, data) => {
     try {
-      const docRef = await addDoc(collection(db, collectionName), {
+      const docRef = await addDoc(collection(getDb(), collectionName), {
         ...data,
         createdAt: new Date(),
         updatedAt: new Date()
@@ -36,7 +46,7 @@ export const firestoreService = {
     try {
       if (!Array.isArray(values) || values.length === 0) return [];
       const q = query(
-        collection(db, collectionName),
+        collection(getDb(), collectionName),
         where(field, 'array-contains-any', values)
       );
       const querySnapshot = await getDocs(q);
@@ -56,7 +66,7 @@ export const firestoreService = {
   // Buscar documento por ID
   getById: async (collectionName, id) => {
     try {
-      const docRef = doc(db, collectionName, id);
+      const docRef = doc(getDb(), collectionName, id);
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
@@ -74,7 +84,7 @@ export const firestoreService = {
   getAll: async (collectionName, orderByField = 'createdAt', orderDirection = 'desc') => {
     try {
       const q = query(
-        collection(db, collectionName),
+        collection(getDb(), collectionName),
         orderBy(orderByField, orderDirection)
       );
       const querySnapshot = await getDocs(q);
@@ -94,7 +104,7 @@ export const firestoreService = {
     try {
       // Evitar índices compostos quando não necessário: sem orderBy adicional
       const q = query(
-        collection(db, collectionName),
+        collection(getDb(), collectionName),
         where(field, operator, value)
       );
       const querySnapshot = await getDocs(q);
@@ -115,7 +125,7 @@ export const firestoreService = {
   // Atualizar documento
   update: async (collectionName, id, data) => {
     try {
-      const docRef = doc(db, collectionName, id);
+      const docRef = doc(getDb(), collectionName, id);
       await updateDoc(docRef, {
         ...data,
         updatedAt: new Date()
@@ -129,7 +139,7 @@ export const firestoreService = {
   // Deletar documento
   delete: async (collectionName, id) => {
     try {
-      const docRef = doc(db, collectionName, id);
+      const docRef = doc(getDb(), collectionName, id);
       await deleteDoc(docRef);
     } catch (error) {
       console.error(`Erro ao deletar documento ${id} em ${collectionName}:`, error);
@@ -151,7 +161,7 @@ export const firestoreService = {
         throw new Error('Invalid collection name');
       }
 
-      let q = collection(db, collectionName);
+      let q = collection(getDb(), collectionName);
 
       // Aplicar filtros com validação
       filters.forEach(filter => {
@@ -193,7 +203,7 @@ export const firestoreService = {
 
   // Listener para mudanças em tempo real
   subscribeToDocument: (collectionName, id, callback) => {
-    const docRef = doc(db, collectionName, id);
+    const docRef = doc(getDb(), collectionName, id);
     return onSnapshot(docRef, (doc) => {
       if (doc.exists()) {
         callback({ id: doc.id, ...doc.data() });
@@ -204,7 +214,7 @@ export const firestoreService = {
   },
 
   subscribeToCollection: (collectionName, callback, filters = []) => {
-    let q = collection(db, collectionName);
+    let q = collection(getDb(), collectionName);
 
     filters.forEach(filter => {
       q = query(q, where(filter.field, filter.operator, filter.value));
