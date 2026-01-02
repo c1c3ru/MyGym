@@ -43,3 +43,15 @@ yarn-error.*
 # development environment files
 .local/
 .replit
+
+# Logs e arquivos temporários
+logs/
+*.log
+errors.txt
+temp/
+tmp/
+*.tmp
+*.backup
+
+# Relatórios gerados (podem ser recriados)
+docs/reports/*.json

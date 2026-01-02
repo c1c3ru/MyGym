@@ -3,7 +3,7 @@
  */
 
 import { useState, useCallback } from 'react';
-import { academyFirestoreService } from '@services/academyFirestoreService';
+import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
 import { isValidSchedule, hasScheduleConflict } from './scheduleUtils';
 
 /**

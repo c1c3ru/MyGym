@@ -31,9 +31,9 @@ export { default as useUIStore } from './stores/uiStore';
 export { default as useAcademiaStore } from './stores/academiaStore';
 
 // Services
-export { default as firebase } from '@services/firebase';
-export { default as firestoreService } from '@services/firestoreService';
-export { default as notificationService } from '@services/notificationService';
+export { default as firebase } from '@infrastructure/services/firebase';
+export { default as firestoreService } from '@infrastructure/services/firestoreService';
+export { default as notificationService } from '@infrastructure/services/notificationService';
 
 // Utils
 export { default as performanceMonitor, usePerformanceMonitor, withPerformanceMonitoring } from '@utils/performanceMonitor';

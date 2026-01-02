@@ -13,7 +13,7 @@ import { Calendar } from 'react-native-calendars';
 import { useTheme } from '@contexts/ThemeContext';
 import { AuthContext } from '@contexts/AuthProvider';
 import { useCustomClaims } from '@hooks/useCustomClaims';
-import { academyFirestoreService } from '@services/academyFirestoreService';
+import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
 import { DAY_NAMES } from '@utils/scheduleUtils';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { getString } from '@utils/theme';

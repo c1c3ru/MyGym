@@ -1,4 +1,4 @@
-import academyCollectionsService from '@services/academyCollectionsService';
+import academyCollectionsService from '@infrastructure/services/academyCollectionsService';
 
 // Repositório simples para abstrair dados de graduação usando as subcoleções por academia
 const graduationRepository = {

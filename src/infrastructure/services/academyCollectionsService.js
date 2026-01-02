@@ -10,7 +10,7 @@ import {
   where, 
   orderBy 
 } from 'firebase/firestore';
-import { db } from '@services/firebase';
+import { db } from '@infrastructure/services/firebase';
 
 /**
  * Service para gerenciar coleções específicas de cada academia

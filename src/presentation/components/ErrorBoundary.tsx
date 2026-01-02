@@ -4,7 +4,7 @@ import { Card, Button, Text } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS } from '@presentation/theme/designTokens';
 import { Logger } from '@utils/logger';
-// import crashlyticsService from '@services/crashlyticsService'; // Serviço não implementado
+// import crashlyticsService from '@infrastructure/services/crashlyticsService'; // Serviço não implementado
 
 interface ErrorInfo {
   componentStack: string;

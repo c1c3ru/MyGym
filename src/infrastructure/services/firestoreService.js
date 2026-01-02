@@ -12,7 +12,7 @@ import {
   limit,
   onSnapshot
 } from 'firebase/firestore';
-import { db } from '@services/firebase';
+import { db } from '@infrastructure/services/firebase';
 
 // Serviços genéricos para CRUD
 export const firestoreService = {

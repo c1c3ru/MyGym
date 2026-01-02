@@ -9,7 +9,7 @@ import {
   FacebookAuthProvider, 
   OAuthProvider
 } from 'firebase/auth';
-import { auth } from '@services/firebase';
+import { auth } from '@infrastructure/services/firebase';
 import { AuthResult } from '@domain/entities/AuthCredentials';
 
 /**

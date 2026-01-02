@@ -18,7 +18,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '@contexts/AuthProvider';
 import { useAuthMigration } from '@hooks/useAuthMigration';
 import { useTheme } from '@contexts/ThemeContext';
-import academyCollectionsService from '@services/academyCollectionsService';
+import academyCollectionsService from '@infrastructure/services/academyCollectionsService';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
 import { getString } from '@utils/theme';

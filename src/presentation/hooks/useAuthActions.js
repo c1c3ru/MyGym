@@ -8,7 +8,7 @@ import {
   RefreshUserTokenUseCase
 } from '@domain/auth/usecases';
 import { FirebaseAuthRepository } from '@data/auth/FirebaseAuthRepository';
-import { auth, db } from '@services/firebase';
+import { auth, db } from '@infrastructure/services/firebase';
 import { getString } from '@utils/theme';
 
 /**

@@ -26,7 +26,7 @@ import EnhancedErrorBoundary from '@components/EnhancedErrorBoundary';
 import EnhancedErrorMessage, { useEnhancedError } from '@components/EnhancedErrorMessage';
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import { useFormValidation } from '@hooks/useFormValidation';
-import { rateLimitService } from '@services/rateLimitService';
+import { rateLimitService } from '@infrastructure/services/rateLimitService';
 import LoginSkeleton from '@components/skeletons/LoginSkeleton';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { getAuthGradient, getAuthCardColors } from '@presentation/theme/authTheme';

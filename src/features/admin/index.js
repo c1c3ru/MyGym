@@ -19,7 +19,7 @@ export { default as UserManagement } from '@components/UserManagement';
 export { default as ReportsChart } from '@components/ReportsChart';
 
 // Services
-export { default as adminService } from '@services/adminService';
+export { default as adminService } from '@infrastructure/services/adminService';
 
 // Hooks
 export { useAdminData } from '@hooks/useAdminData';

@@ -12,7 +12,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { FlashList } from '@shopify/flash-list';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '@contexts/AuthProvider';
-import { academyFirestoreService } from '@services/academyFirestoreService';
+import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
 import OptimizedStudentCard from '@components/OptimizedStudentCard';
 import LoadingSpinner from '@components/LoadingSpinner';
 import StudentDisassociationDialog from '@components/StudentDisassociationDialog';

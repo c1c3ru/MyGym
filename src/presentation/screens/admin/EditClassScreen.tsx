@@ -12,7 +12,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 // import { Picker } from '@react-native-picker/picker'; // Removido - dependência não disponível
 import { useAuth } from '@contexts/AuthProvider';
 import { useTheme } from '@contexts/ThemeContext';
-import { academyFirestoreService, academyClassService } from '@services/academyFirestoreService';
+import { academyFirestoreService, academyClassService } from '@infrastructure/services/academyFirestoreService';
 import ActionButton, { ActionButtonGroup } from '@components/ActionButton';
 import ImprovedScheduleSelector from '@components/ImprovedScheduleSelector';
 import { createEmptySchedule, isValidSchedule, scheduleToDisplayString } from '@utils/scheduleUtils';

@@ -6,7 +6,7 @@ import {
   needsOnboarding,
   debugUserClaims
 } from '../customClaimsHelper';
-import { auth } from '@services/firebase';
+import { auth } from '@infrastructure/services/firebase';
 
 // Mock Firebase Auth
 const mockGetIdToken = jest.fn();
@@ -21,7 +21,7 @@ const mockCurrentUser = {
   getIdTokenResult: mockGetIdTokenResult
 };
 
-jest.mock('@services/firebase', () => ({
+jest.mock('@infrastructure/services/firebase', () => ({
   auth: {
     currentUser: mockCurrentUser
   }

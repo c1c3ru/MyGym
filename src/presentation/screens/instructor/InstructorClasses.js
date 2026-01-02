@@ -13,9 +13,9 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '@contexts/AuthProvider';
-import { academyFirestoreService, academyClassService, academyStudentService } from '@services/academyFirestoreService';
+import { academyFirestoreService, academyClassService, academyStudentService } from '@infrastructure/services/academyFirestoreService';
 import EnhancedErrorBoundary from '@components/EnhancedErrorBoundary';
-import cacheService, { CACHE_KEYS, CACHE_TTL } from '@services/cacheService';
+import cacheService, { CACHE_KEYS, CACHE_TTL } from '@infrastructure/services/cacheService';
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import InstructorClassesSkeleton from '@components/skeletons/InstructorClassesSkeleton';
 import { EnhancedFlashList } from '@components/EnhancedFlashList';

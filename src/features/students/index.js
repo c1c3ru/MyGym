@@ -15,7 +15,7 @@ export { default as PaymentCard } from '@components/PaymentCard';
 export { default as EvolutionChart } from '@components/EvolutionChart';
 
 // Services
-export { default as studentService } from '@services/studentService';
+export { default as studentService } from '@infrastructure/services/studentService';
 
 // Hooks
 export { useStudentData } from '@hooks/useStudentData';

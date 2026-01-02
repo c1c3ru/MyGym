@@ -23,7 +23,7 @@ import {
 } from 'react-native-paper';
 import { useAuth } from '@contexts/AuthProvider';
 import { useTheme } from '@contexts/ThemeContext';
-import { academyFirestoreService } from '@services/academyFirestoreService';
+import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
 import { refreshManager } from '@utils/refreshManager';
 import { getAuthGradient } from '@presentation/theme/authTheme';
 import type { NavigationProp } from '@react-navigation/native';
@@ -35,7 +35,7 @@ import EnhancedErrorBoundary from '@components/EnhancedErrorBoundary';
 import { useFormValidation } from '@hooks/useFormValidation';
 import { useStudentCreationRateLimit } from '@hooks/useRateLimit';
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
-import cacheService, { CACHE_KEYS } from '@services/cacheService';
+import cacheService, { CACHE_KEYS } from '@infrastructure/services/cacheService';
 import formValidator, { commonSchemas } from '@utils/formValidation';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';

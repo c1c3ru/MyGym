@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, waitFor, act } from '@testing-library/react-native';
 import { AuthProvider, useAuth } from '../AuthProvider';
-import { auth } from '@services/firebase';
+import { auth } from '@infrastructure/services/firebase';
 
 // Mock Firebase Auth
 const mockSignInWithEmailAndPassword = jest.fn();
@@ -9,7 +9,7 @@ const mockCreateUserWithEmailAndPassword = jest.fn();
 const mockSignOut = jest.fn();
 const mockOnAuthStateChanged = jest.fn();
 
-jest.mock('@services/firebase', () => ({
+jest.mock('@infrastructure/services/firebase', () => ({
   auth: {
     currentUser: null,
     signInWithEmailAndPassword: mockSignInWithEmailAndPassword,

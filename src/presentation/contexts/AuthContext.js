@@ -11,7 +11,7 @@ import {
   signInWithPopup
 } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { auth, db } from '@services/firebase';
+import { auth, db } from '@infrastructure/services/firebase';
 import { getUserClaims, refreshUserToken, needsOnboarding } from '@utils/customClaimsHelper';
 import { getString } from '@utils/theme';
 

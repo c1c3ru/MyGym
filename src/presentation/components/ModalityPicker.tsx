@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, ScrollView, StyleSheet } from 'react-native';
 import { Text, Chip, Card, ActivityIndicator } from 'react-native-paper';
 import useAuthMigration from '@hooks/useAuthMigration';
-import academyCollectionsService from '@services/academyCollectionsService';
+import academyCollectionsService from '@infrastructure/services/academyCollectionsService';
 import { COLORS, SPACING, FONT_SIZE, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { getString } from '@utils/theme';
 

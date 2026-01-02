@@ -15,7 +15,7 @@ export { default as CheckInButton } from '@components/CheckInButton';
 export { default as StudentList } from '@components/StudentList';
 
 // Services
-export { default as instructorService } from '@services/instructorService';
+export { default as instructorService } from '@infrastructure/services/instructorService';
 
 // Hooks
 export { useInstructorData } from '@hooks/useInstructorData';

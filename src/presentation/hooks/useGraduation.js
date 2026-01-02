@@ -1,9 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '@contexts/AuthProvider';
 import { useNotification } from '@components/NotificationManager';
-import graduationBoardService from '@services/graduationBoardService';
-import graduationCalculationService from '@services/graduationCalculationService';
-import graduationNotificationService from '@services/graduationNotificationService';
+import graduationBoardService from '@infrastructure/services/graduationBoardService';
+import graduationCalculationService from '@infrastructure/services/graduationCalculationService';
+import graduationNotificationService from '@infrastructure/services/graduationNotificationService';
 import { getString } from '@utils/theme';
 
 /**

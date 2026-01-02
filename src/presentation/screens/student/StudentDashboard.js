@@ -11,14 +11,14 @@ import {
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '@contexts/AuthProvider';
-import { announcementService } from '@services/firestoreService';
-import { academyFirestoreService } from '@services/academyFirestoreService';
+import { announcementService } from '@infrastructure/services/firestoreService';
+import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
 import AnimatedCard from '@components/AnimatedCard';
 import AnimatedButton from '@components/AnimatedButton';
 import { ResponsiveUtils } from '@utils/animations';
 import { Ionicons } from '@expo/vector-icons';
 import EnhancedErrorBoundary from '@components/EnhancedErrorBoundary';
-import cacheService, { CACHE_KEYS, CACHE_TTL } from '@services/cacheService';
+import cacheService, { CACHE_KEYS, CACHE_TTL } from '@infrastructure/services/cacheService';
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import StudentDashboardSkeleton from '@components/skeletons/StudentDashboardSkeleton';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';

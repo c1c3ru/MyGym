@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { onAuthStateChanged, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider, OAuthProvider, signOut, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { auth, db } from '@services/firebase';
+import { auth, db } from '@infrastructure/services/firebase';
 import useAuthStore from '@presentation/stores/AuthUIStore';
 import { normalizeUserProfile } from '@utils/userTypeHelpers';
 import { getUserClaims, refreshUserToken } from '@utils/customClaimsHelper';

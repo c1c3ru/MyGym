@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import analyticsService, { ANALYTICS_EVENTS } from '@services/analyticsService';
+import analyticsService, { ANALYTICS_EVENTS } from '@infrastructure/services/analyticsService';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
 
 /**

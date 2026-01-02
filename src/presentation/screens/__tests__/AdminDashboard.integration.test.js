@@ -6,7 +6,7 @@ import AdminDashboard from '../admin/AdminDashboard';
 import { AuthProvider } from '@contexts/AuthProvider';
 import { ThemeToggleProvider } from '@contexts/ThemeToggleContext';
 import { NotificationProvider } from '@contexts/NotificationContext';
-import { firestoreService } from '@services/firestoreService';
+import { firestoreService } from '@infrastructure/services/firestoreService';
 
 const TestWrapper = ({ children }) => (
   <NavigationContainer>
@@ -42,7 +42,7 @@ jest.mock('@contexts/AuthProvider', () => ({
 }));
 
 // Mock Firestore Service
-jest.mock('@services/firestoreService', () => ({
+jest.mock('@infrastructure/services/firestoreService', () => ({
   firestoreService: {
     getAll: jest.fn(),
   },

@@ -1,4 +1,4 @@
-import { auth as firebaseAuth } from '@services/firebase';
+import { auth as firebaseAuth } from '@infrastructure/services/firebase';
 import { Claims } from '@domain/auth/entities';
 import type { Auth } from 'firebase/auth';
 

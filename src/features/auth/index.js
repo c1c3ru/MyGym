@@ -13,7 +13,7 @@ export { default as ForgotPasswordButton } from '@components/ForgotPasswordButto
 export { default as LoginDebugger } from '@components/LoginDebugger';
 
 // Services
-export { default as authService } from '@services/authService';
+export { default as authService } from '@infrastructure/services/authService';
 
 // Hooks
 export { useAuthMigration } from '@hooks/useAuthMigration';

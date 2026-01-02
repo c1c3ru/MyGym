@@ -5,7 +5,7 @@ import {
   signOut 
 } from 'firebase/auth';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
-import { auth, db } from '@services/firebase';
+import { auth, db } from '@infrastructure/services/firebase';
 import useAuthStore from '@presentation/stores/AuthUIStore';
 
 class AuthService {

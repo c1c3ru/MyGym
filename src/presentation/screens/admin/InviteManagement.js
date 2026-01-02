@@ -13,7 +13,7 @@ import {
   Divider
 } from 'react-native-paper';
 import { useAuth } from '@contexts/AuthProvider';
-import { InviteService } from '@services/inviteService';
+import { InviteService } from '@infrastructure/services/inviteService';
 import QRCodeGenerator from '@components/QRCodeGenerator';
 import ActionButton, { ActionButtonGroup } from '@components/ActionButton';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';

@@ -16,11 +16,11 @@ import {
 } from 'react-native-paper';
 import { LinearGradient } from 'expo-linear-gradient';
 import { collection, addDoc, query, where, getDocs, updateDoc, doc } from 'firebase/firestore';
-import { db } from '@services/firebase';
+import { db } from '@infrastructure/services/firebase';
 import { useAuth } from '@contexts/AuthProvider';
 import { useTheme } from '@contexts/ThemeContext';
 import { useCustomClaims } from '@hooks/useCustomClaims';
-import { initializeAcademySubcollections } from '@services/academyInitializationService';
+import { initializeAcademySubcollections } from '@infrastructure/services/academyInitializationService';
 import { isAdmin, getCanonicalUserType } from '@utils/userTypeHelpers';
 import QRCodeScanner from '@components/QRCodeScanner';
 import CountryStatePicker from '@components/CountryStatePicker';

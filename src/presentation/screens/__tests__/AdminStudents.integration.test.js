@@ -6,8 +6,8 @@ import AdminStudents from '../admin/AdminStudents';
 import { AuthProvider } from '@contexts/AuthProvider';
 import { ThemeToggleProvider } from '@contexts/ThemeToggleContext';
 import { NotificationProvider } from '@contexts/NotificationContext';
-import { firestoreService, paymentService } from '@services/firestoreService';
-import { academyFirestoreService } from '@services/academyFirestoreService';
+import { firestoreService, paymentService } from '@infrastructure/services/firestoreService';
+import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
 
 const TestWrapper = ({ children }) => (
   <NavigationContainer>

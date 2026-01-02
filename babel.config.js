@@ -1,4 +1,4 @@
-module.exports = function(api) {
+module.exports = function (api) {
   api.cache(true);
   return {
     presets: ['babel-preset-expo'],
@@ -16,7 +16,6 @@ module.exports = function(api) {
           '@hooks': './src/presentation/hooks',
           '@contexts': './src/presentation/contexts',
           '@navigation': './src/presentation/navigation',
-          '@services': './src/services',
           '@utils': './src/shared/utils',
           '@assets': './assets',
           '@domain': './src/domain',
