@@ -12,22 +12,55 @@ import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import FreeGymScheduler from '@components/FreeGymScheduler';
 import { COLORS } from '@presentation/theme/designTokens';
 import { getAuthGradient } from '@presentation/theme/authTheme';
-import type { NavigationProp } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+
+interface Class {
+  id: string;
+  name: string;
+  instructorId?: string;
+  schedule?: {
+    hours?: Record<string, string[]>;
+    duration?: number;
+  };
+  modality?: string;
+  instructorName?: string;
+  maxStudents?: number;
+  students?: string[];
+  ageCategory?: string;
+  status?: string;
+}
+
+interface CalendarEvent {
+  id: string;
+  classId: string;
+  title: string;
+  time: string;
+  duration: number;
+  instructor: string;
+  instructorId?: string;
+  modality: string;
+  maxStudents: number;
+  enrolledStudents: number;
+  color: string;
+  date: string;
+  status?: string;
+  ageCategory?: string;
+}
 
 interface ImprovedCalendarScreenProps {
-  navigation: NavigationProp<any>;
+  navigation: NativeStackNavigationProp<any>;
 }
 
 /**
  * Tela de calendário melhorada usando o FreeGymScheduler
  * Substitui o EnhancedCalendarScreen com funcionalidades aprimoradas
  */
-const ImprovedCalendarScreen = ({ navigation }) => {
+const ImprovedCalendarScreen: React.FC<ImprovedCalendarScreenProps> = ({ navigation }) => {
   const { user, userProfile, academia } = useAuth();
   const { getString } = useTheme();
   const { role, isAdmin, isInstructor, isStudent } = useCustomClaims();
 
-  const [classes, setClasses] = useState<any[]>([]);
+  const [classes, setClasses] = useState<Class[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -57,8 +90,8 @@ const ImprovedCalendarScreen = ({ navigation }) => {
       const userClasses = await cacheService.getOrSet(
         CACHE_KEYS.CALENDAR_CLASSES(academiaId, role),
         async () => {
-          const allClasses = await academyFirestoreService.getAll('classes', academiaId);
-          let filteredClasses = [];
+          const allClasses: Class[] = await academyFirestoreService.getAll('classes', academiaId);
+          let filteredClasses: Class[] = [];
 
           if (isAdmin()) {
             // Admin vê todas as turmas da academia
@@ -117,7 +150,7 @@ const ImprovedCalendarScreen = ({ navigation }) => {
   }, [loadClasses, userProfile?.academiaId, academia?.id]);
 
   // Navegar para detalhes da turma
-  const handleClassPress = useCallback((event) => {
+  const handleClassPress = useCallback((event: CalendarEvent) => {
     trackButtonClick('calendar_class_select', {
       classId: event.classId,
       modality: event.modality
@@ -155,7 +188,7 @@ const ImprovedCalendarScreen = ({ navigation }) => {
   }, [navigation, trackButtonClick, isAdmin, isInstructor, user.id, role, userProfile?.userType]);
 
   // Callback para seleção de data
-  const handleDatePress = useCallback((date, dayEvents) => {
+  const handleDatePress = useCallback((date: string, dayEvents: CalendarEvent[]) => {
     trackButtonClick('calendar_date_select', {
       date,
       eventsCount: dayEvents.length

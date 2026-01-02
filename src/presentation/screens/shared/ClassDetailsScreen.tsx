@@ -90,7 +90,7 @@ const ClassDetailsScreen: React.FC<ClassDetailsScreenProps> = ({ route, navigati
         }
 
         console.log('🔍 Carregando detalhes da turma:', classId, 'academia:', academiaId);
-        const classDetails = await academyFirestoreService.getById('classes', classId, academiaId);
+        const classDetails = await academyFirestoreService.getById('classes', classId, academiaId) as ClassInfo;
         setClassInfo(classDetails);
       }
 
@@ -103,7 +103,7 @@ const ClassDetailsScreen: React.FC<ClassDetailsScreenProps> = ({ route, navigati
 
       // Buscar alunos da turma na academia
       console.log('👥 Carregando alunos da turma...');
-      const allStudents = await academyFirestoreService.getAll('students', academiaId);
+      const allStudents = await academyFirestoreService.getAll('students', academiaId) as Student[];
       const classStudents = allStudents.filter((student: Student) =>
         student.classIds &&
         student.classIds.includes(classId)

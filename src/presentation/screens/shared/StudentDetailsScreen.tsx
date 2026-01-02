@@ -118,7 +118,7 @@ const StudentDetailsScreen: React.FC<StudentDetailsScreenProps> = ({ route, navi
 
           let studentData = studentInfo;
           if (!studentData) {
-            studentData = await academyFirestoreService.getById('users', studentId);
+            studentData = (await academyFirestoreService.getById('users', studentId)) as StudentData;
           }
 
           // Usar batch processing para carregar dados relacionados

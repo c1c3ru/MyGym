@@ -21,12 +21,13 @@ import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@present
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
 import { getAuthGradient } from '@presentation/theme/authTheme';
 import type { NavigationProp } from '@react-navigation/native';
+import { getString } from '@utils/theme';
 
 interface InjuryHistoryScreenProps {
   navigation: NavigationProp<any>;
 }
 
-const InjuryHistoryScreen = ({ navigation }) => {
+const InjuryHistoryScreen = ({ navigation }: InjuryHistoryScreenProps) => {
   const { currentTheme } = useThemeToggle();
 
   const { user, academia } = useAuth();
@@ -47,7 +48,7 @@ const InjuryHistoryScreen = ({ navigation }) => {
       const injuryData = await firestoreService.getDocuments(
         `gyms/${academia.id}/injuries`,
         [{ field: 'userId', operator: '==', value: user.id }],
-        [{ field: 'dateOccurred', direction: 'desc' }]
+        { field: 'dateOccurred', direction: 'desc' }
       );
 
       setInjuries(injuryData);
@@ -80,7 +81,7 @@ const InjuryHistoryScreen = ({ navigation }) => {
     }
   };
 
-  const getSeverityColor = (severity) => {
+  const getSeverityColor = (severity: string) => {
     switch (severity) {
       case 'leve': return COLORS.primary[500];
       case 'moderada': return COLORS.warning[500];
@@ -99,7 +100,7 @@ const InjuryHistoryScreen = ({ navigation }) => {
     }
   };
 
-  const getSeverityLabel = (severity) => {
+  const getSeverityLabel = (severity: string) => {
     switch (severity) {
       case 'leve': return 'Leve';
       case 'moderada': return 'Moderada';
@@ -113,7 +114,7 @@ const InjuryHistoryScreen = ({ navigation }) => {
     return injuries.filter(injury => injury.status === selectedFilter);
   };
 
-  const getInjuryIcon = (bodyPart) => {
+  const getInjuryIcon = (bodyPart: string) => {
     const iconMap = {
       'Cabeça': 'head-outline',
       'Pescoço': 'accessibility-outline',
@@ -291,7 +292,7 @@ const InjuryHistoryScreen = ({ navigation }) => {
                     left={() => (
                       <View style={styles.iconContainer}>
                         <Ionicons
-                          name={getInjuryIcon(injury.bodyPart)}
+                          name={getInjuryIcon(injury.bodyPart) as any}
                           size={24}
                           color={getStatusColor(injury.status)}
                         />
