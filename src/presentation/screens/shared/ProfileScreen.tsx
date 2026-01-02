@@ -703,7 +703,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
     );
   }
 
-  function renderMonthDays(monthIndex, monthData) {
+  function renderMonthDays(monthIndex: number, monthData: any) {
     const daysInMonth = new Date(selectedYear, monthIndex + 1, 0).getDate();
     const days = [];
 
