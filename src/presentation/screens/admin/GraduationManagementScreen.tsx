@@ -444,7 +444,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     color: COLORS.white,
     fontSize: FONT_SIZE.xxl,
-    fontWeight: '700',
+    fontWeight: FONT_WEIGHT.bold as any,
     textAlign: 'center',
   },
   headerSubtitle: {

@@ -28,6 +28,10 @@ import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@present
 import { getAuthGradient } from '@presentation/theme/authTheme';
 import type { NavigationProp } from '@react-navigation/native';
 
+interface ReportsScreenProps {
+  navigation: NavigationProp<any>;
+}
+
 interface Student {
   id: string;
   isActive?: boolean;
