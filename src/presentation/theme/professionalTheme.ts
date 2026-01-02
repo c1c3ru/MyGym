@@ -64,9 +64,9 @@ export const PROFESSIONAL_COLORS = {
   }
 };
 
-export const getThemeColors = (userType: 'admin' | 'instructor' | 'student') => {
+export const getThemeColors = (userType: 'admin' | 'instructor' | 'student'): typeof PROFESSIONAL_COLORS.student => {
   console.warn('getThemeColors() is deprecated. Use useCustomClaims().getUserTypeColor() instead.');
-  return getProfileColors(userType);
+  return getProfileColors(userType) as typeof PROFESSIONAL_COLORS.student;
 };
 
 export const HEADER_GRADIENTS = {

@@ -1,14 +1,14 @@
-import { 
-  collection, 
-  doc, 
-  addDoc, 
-  updateDoc, 
-  deleteDoc, 
-  getDoc, 
-  getDocs, 
-  query, 
-  where, 
-  orderBy, 
+import {
+  collection,
+  doc,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  getDoc,
+  getDocs,
+  query,
+  where,
+  orderBy,
   limit,
   onSnapshot
 } from 'firebase/firestore';
@@ -58,7 +58,7 @@ export const firestoreService = {
     try {
       const docRef = doc(db, collectionName, id);
       const docSnap = await getDoc(docRef);
-      
+
       if (docSnap.exists()) {
         return { id: docSnap.id, ...docSnap.data() };
       } else {
@@ -78,7 +78,7 @@ export const firestoreService = {
         orderBy(orderByField, orderDirection)
       );
       const querySnapshot = await getDocs(q);
-      
+
       return querySnapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data()
@@ -98,7 +98,7 @@ export const firestoreService = {
         where(field, operator, value)
       );
       const querySnapshot = await getDocs(q);
-      
+
       // Ordenar em memória por createdAt desc para manter comportamento anterior
       const docs = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       return docs.sort((a, b) => {
@@ -138,6 +138,12 @@ export const firestoreService = {
   },
 
   // Buscar documentos com múltiplos filtros e ordenação
+  /**
+   * @param {string} collectionName
+   * @param {Array} filters
+   * @param {Object} [orderByConfig]
+   * @param {number} [limitCount]
+   */
   getDocuments: async (collectionName, filters = [], orderByConfig = null, limitCount = null) => {
     try {
       // Validar collection name
@@ -146,7 +152,7 @@ export const firestoreService = {
       }
 
       let q = collection(db, collectionName);
-      
+
       // Aplicar filtros com validação
       filters.forEach(filter => {
         // Validar filter
@@ -163,17 +169,17 @@ export const firestoreService = {
 
         q = query(q, where(filter.field, filter.operator, filter.value));
       });
-      
+
       // Aplicar ordenação se especificada
       if (orderByConfig) {
         q = query(q, orderBy(orderByConfig.field, orderByConfig.direction || 'asc'));
       }
-      
+
       // Aplicar limite se especificado
       if (limitCount) {
         q = query(q, limit(limitCount));
       }
-      
+
       const querySnapshot = await getDocs(q);
       return querySnapshot.docs.map(doc => ({
         id: doc.id,
@@ -199,11 +205,11 @@ export const firestoreService = {
 
   subscribeToCollection: (collectionName, callback, filters = []) => {
     let q = collection(db, collectionName);
-    
+
     filters.forEach(filter => {
       q = query(q, where(filter.field, filter.operator, filter.value));
     });
-    
+
     return onSnapshot(q, (querySnapshot) => {
       const docs = querySnapshot.docs.map(doc => ({
         id: doc.id,
@@ -298,7 +304,7 @@ export const classService = {
       timestamp: new Date(),
       date: new Date().toISOString().split('T')[0] // YYYY-MM-DD
     };
-    
+
     // CheckIns agora são subcoleções - esta função está obsoleta
     throw new Error('CheckIns agora são subcoleções. Use academyFirestoreService.addSubcollectionDocument()');
   },
@@ -342,20 +348,20 @@ export const announcementService = {
     try {
       const today = new Date();
       const announcements = await firestoreService.getAll('announcements');
-      
+
       return announcements
         .filter(announcement => {
           // Verifica se o anúncio está ativo (não expirado)
           const isActive = !announcement.expirationDate || new Date(announcement.expirationDate) >= today;
-          
+
           // Se não houver tipo de usuário definido, retorna todos os anúncios ativos
           if (!userType) return isActive;
-          
+
           // Se o anúncio não tem restrição de tipo, está disponível para todos
           if (!announcement.targetUserTypes || announcement.targetUserTypes.length === 0) {
             return isActive;
           }
-          
+
           // Verifica se o tipo de usuário atual está na lista de alvos do anúncio
           return isActive && announcement.targetUserTypes.includes(userType);
         })
@@ -363,7 +369,7 @@ export const announcementService = {
           // Ordena por prioridade (maior primeiro) e depois por data de criação (mais recente primeiro)
           const priorityDiff = (b.priority || 0) - (a.priority || 0);
           if (priorityDiff !== 0) return priorityDiff;
-          
+
           const aDate = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(a.createdAt || 0);
           const bDate = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(b.createdAt || 0);
           return bDate - aDate;
@@ -373,7 +379,7 @@ export const announcementService = {
       return [];
     }
   },
-  
+
   /**
    * Cria um novo anúncio
    * @param {Object} announcementData - Dados do anúncio
@@ -391,7 +397,7 @@ export const announcementService = {
       throw error;
     }
   },
-  
+
   /**
    * Atualiza um anúncio existente
    * @param {string} id - ID do anúncio
@@ -409,7 +415,7 @@ export const announcementService = {
       throw error;
     }
   },
-  
+
   /**
    * Remove um anúncio
    * @param {string} id - ID do anúncio
