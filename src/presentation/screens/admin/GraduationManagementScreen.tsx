@@ -454,7 +454,7 @@ const styles = StyleSheet.create({
   },
   title: {
     color: COLORS.text.primary,
-    fontWeight: '700',
+    fontWeight: '700' as any,
   },
   paragraph: {
     color: COLORS.text.secondary,
