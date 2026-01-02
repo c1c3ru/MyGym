@@ -127,25 +127,17 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
   };
 
   const processTrainingData = (trainingHistory: any) => {
-    const data = {};
+    const data: any = {};
 
     trainingHistory.forEach((training: any) => {
       const date = training.date.toDate ? training.date.toDate() : new Date(training.date);
       const year = date.getFullYear();
-      const month = date.getMonth(); // Changed to use 'date' variable
-      const day = date.getDate(); // Changed to use 'date' variable
+      const month = date.getMonth();
+      const day = date.getDate();
 
       if (!data[year]) data[year] = {};
       if (!data[year][month]) data[year][month] = {};
-      data[year][month][day] = true; // Original logic: store boolean
-      // The user's requested change for this part was:
-      // if (!(trainingData as any)[month]) (trainingData as any)[month] = {};
-      // if (!(trainingData as any)[month][day]) (trainingData as any)[month][day] = [];
-      // (trainingData as any)[month][day].push(training);
-      // This would modify `trainingData` directly and not `data`.
-      // Reverting to original logic for `data` object as `setTrainingData(processedData)` expects `data`.
-      // If the intent was to directly modify `trainingData` state, the `setTrainingData` call would be redundant.
-      // Assuming the original intent of `processTrainingData` is to return a processed object.
+      data[year][month][day] = true;
     });
 
     return data;
