@@ -25,6 +25,7 @@ const { width } = Dimensions.get('window');
  * 
  * @param {Object} props
  * @param {Array} props.classes - Lista de turmas
+ * @param {any} [props.refreshControl] - Elemento de controle de atualização
  * @param {Function} props.onClassPress - Callback ao clicar na turma
  * @param {Function} props.onDatePress - Callback ao selecionar data
  * @param {Function} [props.onCreateClass] - Callback para criar turma (opcional)
@@ -35,7 +36,8 @@ const FreeGymScheduler = ({
   onClassPress,
   onDatePress,
   onCreateClass,
-  navigation
+  navigation,
+  refreshControl
 }) => {
   const { colors } = useTheme();
 
@@ -334,7 +336,11 @@ const FreeGymScheduler = ({
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView
+      style={styles.container}
+      refreshControl={refreshControl}
+      showsVerticalScrollIndicator={false}
+    >
       {/* Filtros */}
       <Card style={[styles.filtersCard, { backgroundColor: colors?.surface }]}>
         <Card.Content>
@@ -456,7 +462,7 @@ const FreeGymScheduler = ({
           style={[styles.fab, { backgroundColor: colors?.primary }]}
         />
       )}
-    </View>
+    </ScrollView>
   );
 };
 
