@@ -40,7 +40,7 @@ interface AddGraduationScreenProps {
 
 const { width } = Dimensions.get('window');
 
-const AddGraduationScreen = ({ route, navigation }) => {
+const AddGraduationScreen = ({ route, navigation }: any) => {
   const { studentId, studentName } = route.params;
   const { user, userProfile, academia } = useAuth();
   const { getString } = useTheme();
@@ -114,21 +114,21 @@ const AddGraduationScreen = ({ route, navigation }) => {
       }
 
     } catch (error) {
-      console.error('Erro ao carregar dados:', error);
-      showSnackbar(error.message || 'Não foi possível carregar os dados necessários', 'error');
+      console.error('Erro ao carregar dados:', error as Error);
+      showSnackbar((error as Error).message || 'Não foi possível carregar os dados necessários', 'error');
     } finally {
       setLoading(false);
     }
   };
 
-  const showSnackbar = (message, type = 'error') => {
+  const showSnackbar = (message: string, type: 'success' | 'error' = 'error') => {
     setSnackbarMessage(message);
     setSnackbarType(type);
     setSnackbarVisible(true);
   };
 
-  const getGraduationColor = (levelName, index) => {
-    const colorMap = {
+  const getGraduationColor = (levelName: string, index: number) => {
+    const colorMap: { [key: string]: string } = {
       'Branca': COLORS.special.belt.white,
       'Amarela': COLORS.special.belt.yellow,
       'Laranja': COLORS.special.belt.orange,
@@ -164,7 +164,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
     return defaultColors[index % defaultColors.length] || COLORS.gray[300];
   };
 
-  const selectModality = (modality) => {
+  const selectModality = (modality: { id: string; name: string; graduationLevels?: string[] }) => {
     setFormData(prev => ({
       ...prev,
       modality: modality.name,
@@ -188,11 +188,11 @@ const AddGraduationScreen = ({ route, navigation }) => {
     setModalityDialogVisible(false);
   };
 
-  const selectGraduation = (graduation) => {
+  const selectGraduation = (graduation: { id?: string; name: string } | string) => {
     setFormData(prev => ({
       ...prev,
-      graduation: graduation.name || graduation,
-      graduationId: graduation.id || graduation
+      graduation: typeof graduation === 'string' ? graduation : graduation.name,
+      graduationId: typeof graduation === 'string' ? graduation : graduation.id || graduation.name
     }));
     setGraduationDialogVisible(false);
   };
@@ -298,7 +298,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
         studentId,
         studentName,
         createdAt: new Date(),
-        createdBy: user.id,
+        createdBy: user?.id, // user can be null
         status: 'active'
       };
 
@@ -314,7 +314,7 @@ const AddGraduationScreen = ({ route, navigation }) => {
 
     } catch (error) {
       console.error('Erro no handleSubmit:', error);
-      showSnackbar(error.message, 'error');
+      showSnackbar((error as Error).message, 'error');
     } finally {
       setLoading(false);
     }
@@ -864,9 +864,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   loadingText: {
-    fontSize: FONT_SIZE.base,
+    marginTop: SPACING.sm,
     color: COLORS.text.secondary,
-    fontStyle: 'italic',
+  },
+  dialogScroll: {
+    maxHeight: 400,
   },
 });
 
