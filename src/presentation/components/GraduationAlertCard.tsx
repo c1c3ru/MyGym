@@ -16,7 +16,7 @@ import { getString } from '@utils/theme';
 /**
  * Interface para um alerta de graduação
  */
-interface GraduationAlert {
+export interface GraduationAlert {
     id: string;
     studentId: string;
     studentName: string;

@@ -100,8 +100,9 @@ const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({ route, navi
       setLoading(true);
 
       // Carregar dados do aluno se não foram passados
-      if (!studentInfo) {
-        const details = await academyFirestoreService.getById('users', studentId);
+      let details = studentInfo;
+      if (!details) {
+        details = await academyFirestoreService.getById('users', studentId) as StudentData;
         setStudentInfo(details);
       }
 
@@ -265,9 +266,9 @@ const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({ route, navi
                   labelStyle={styles.avatarLabel}
                 />
                 {studentInfo?.isActive !== false && (
-                  <Badge style={styles.activeBadge} size={20}>
+                  <View style={[styles.activeBadge, { width: 20, height: 20, borderRadius: 10, justifyContent: 'center', alignItems: 'center' }]}>
                     <MaterialCommunityIcons name="check" size={12} color={COLORS.white} />
-                  </Badge>
+                  </View>
                 )}
               </View>
 

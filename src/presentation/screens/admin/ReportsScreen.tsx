@@ -21,20 +21,37 @@ import { useAuth } from '@contexts/AuthProvider';
 import { useTheme } from '@contexts/ThemeContext';
 import { academyFirestoreService } from '@services/academyFirestoreService';
 import EnhancedErrorBoundary from '@components/EnhancedErrorBoundary';
-import cacheService, { CACHE_KEYS, CACHE_TTL } from '@services/batchFirestoreService';
-import batchFirestoreService from '@services/batchFirestoreService';
+import cacheService, { CACHE_KEYS, CACHE_TTL } from '@services/cacheService';
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import ReportsSkeleton from '@components/skeletons/ReportsSkeleton';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { getAuthGradient } from '@presentation/theme/authTheme';
 import type { NavigationProp } from '@react-navigation/native';
 
-interface ReportsScreenProps {
-  navigation: NavigationProp<any>;
+interface Student {
+  id: string;
+  isActive?: boolean;
+  classIds?: string[];
 }
 
-const ReportsScreen = ({ navigation }) => {
+interface ClassInfo {
+  id: string;
+  name: string;
+  modality: string;
+  status: string;
+  studentCount?: number;
+}
+
+interface Payment {
+  id: string;
+  status: 'paid' | 'pending' | 'overdue' | 'cancelled';
+  amount: number;
+  createdAt: any;
+}
+
+const ReportsScreen: React.FC<ReportsScreenProps> = ({ navigation }) => {
   const { user, userProfile, academia } = useAuth();
+  const { getString } = useTheme();
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [stats, setStats] = useState({
@@ -80,9 +97,9 @@ const ReportsScreen = ({ navigation }) => {
 
           // Usar batch processing para carregar múltiplas coleções
           const [students, classes, payments] = await Promise.all([
-            academyFirestoreService.getAll('students', academiaId),
-            academyFirestoreService.getAll('classes', academiaId),
-            academyFirestoreService.getAll('payments', academiaId)
+            academyFirestoreService.getAll('students', academiaId) as Promise<Student[]>,
+            academyFirestoreService.getAll('classes', academiaId) as Promise<ClassInfo[]>,
+            academyFirestoreService.getAll('payments', academiaId) as Promise<Payment[]>
           ]);
 
           const activeStudents = students.filter(student => student.isActive !== false);
@@ -174,14 +191,14 @@ const ReportsScreen = ({ navigation }) => {
   }, [loadReportsData, userProfile?.academiaId, academia?.id]);
 
   // Memoized utility functions
-  const formatCurrency = useCallback((value: any) => {
+  const formatCurrency = useCallback((value: number) => {
     return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
-      currency: getString('currency')
+      currency: getString ? getString('currency') : 'BRL'
     }).format(value || 0);
-  }, []);
+  }, [getString]);
 
-  const getActivityIcon = useCallback((type) => {
+  const getActivityIcon = useCallback((type: string) => {
     switch (type) {
       case 'student': return 'person-add';
       case 'payment': return 'card';
@@ -191,7 +208,7 @@ const ReportsScreen = ({ navigation }) => {
     }
   }, []);
 
-  const getActivityColor = useCallback((type) => {
+  const getActivityColor = useCallback((type: string) => {
     switch (type) {
       case 'student': return COLORS.info[500];
       case 'payment': return COLORS.primary[500];
@@ -217,7 +234,7 @@ const ReportsScreen = ({ navigation }) => {
 
   return (
     <EnhancedErrorBoundary
-      onError={(error, errorInfo, errorId) => {
+      onError={(error: Error, errorInfo: any, errorId: string) => {
         console.error('🚨 Erro no ReportsScreen:', { error, errorInfo, errorId });
       }}
       errorContext={{ screen: 'ReportsScreen', academiaId: userProfile?.academiaId }}
@@ -382,7 +399,7 @@ const ReportsScreen = ({ navigation }) => {
                   mode="contained"
                   onPress={() => navigation.navigate('AddStudent')}
                   style={[styles.actionButton, { backgroundColor: COLORS.info[500] }]}
-                  icon={<MaterialCommunityIcons name="account-plus" size={18} color={COLORS.white} />}
+                  icon={({ size, color }) => <MaterialCommunityIcons name="account-plus" size={size} color={color} />}
                 >
                   Novo Aluno
                 </Button>
@@ -391,7 +408,7 @@ const ReportsScreen = ({ navigation }) => {
                   mode="contained"
                   onPress={() => navigation.navigate('AddClass')}
                   style={[styles.actionButton, { backgroundColor: COLORS.primary[500] }]}
-                  icon={<MaterialCommunityIcons name="school-outline" size={18} color={COLORS.white} />}
+                  icon={({ size, color }) => <MaterialCommunityIcons name="school-outline" size={size} color={color} />}
                 >
                   Nova Turma
                 </Button>
