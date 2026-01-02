@@ -25,11 +25,17 @@ import {
 } from 'react-native-paper';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useAuth } from '@contexts/AuthProvider';
+import { useTheme } from '@contexts/ThemeContext';
 import { useNotification } from '@components/NotificationManager';
 import graduationBoardService from '@services/graduationBoardService';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getString } from '@utils/theme';
+import { getAuthGradient } from '@presentation/theme/authTheme';
+import type { NavigationProp } from '@react-navigation/native';
+
+interface GraduationBoardScreenProps {
+  navigation: NavigationProp<any>;
+}
 
 const { width } = Dimensions.get('window');
 
@@ -194,28 +200,28 @@ const GraduationBoardScreen = ({ navigation }) => {
             <Badge style={styles.badge}>{filteredStudents.length}</Badge>
           </View>
           <Divider style={styles.divider} />
-          
+
           {filteredStudents.map((student, index) => (
             <Surface key={student.id} style={styles.studentItem}>
               <View style={styles.studentInfo}>
-                <Avatar.Text 
-                  size={40} 
-                  label={student.studentName.charAt(0)} 
+                <Avatar.Text
+                  size={40}
+                  label={student.studentName.charAt(0)}
                   style={{ backgroundColor: getBeltColor(student.currentBelt) }}
                 />
                 <View style={styles.studentDetails}>
                   <Text style={styles.studentName}>{student.studentName}</Text>
                   <Text style={styles.studentModality}>{student.modality}</Text>
                   <View style={styles.beltProgression}>
-                    <Chip 
-                      size="small" 
+                    <Chip
+                      size="small"
                       style={[styles.beltChip, { backgroundColor: getBeltColor(student.currentBelt) }]}
                     >
                       {student.currentBelt}
                     </Chip>
                     <Ionicons name="arrow-forward" size={16} color={COLORS.text.secondary} />
-                    <Chip 
-                      size="small" 
+                    <Chip
+                      size="small"
                       style={[styles.beltChip, { backgroundColor: getBeltColor(student.nextBelt) }]}
                     >
                       {student.nextBelt}
@@ -224,7 +230,7 @@ const GraduationBoardScreen = ({ navigation }) => {
                 </View>
               </View>
               <View style={styles.studentStatus}>
-                <Chip 
+                <Chip
                   icon="check-circle"
                   style={[styles.statusChip, { backgroundColor: getAlertColor(student.alertLevel) }]}
                 >
@@ -241,7 +247,7 @@ const GraduationBoardScreen = ({ navigation }) => {
   const renderUpcomingExams = () => {
     if (!graduationBoard?.upcomingExams) return null;
 
-    const filteredExams = selectedModality === 'all' 
+    const filteredExams = selectedModality === 'all'
       ? graduationBoard.upcomingExams
       : graduationBoard.upcomingExams.filter(exam => exam.modality === selectedModality);
 
@@ -258,8 +264,8 @@ const GraduationBoardScreen = ({ navigation }) => {
             <Text style={[styles.paragraph, null]}>Nenhum exame agendado.</Text>
           ) : (
             filteredExams.map((exam) => (
-              <Surface 
-                key={exam.id} 
+              <Surface
+                key={exam.id}
                 style={styles.examItem}
                 onTouchEnd={() => {
                   setSelectedExam(exam);
@@ -323,13 +329,13 @@ const GraduationBoardScreen = ({ navigation }) => {
                   <Text style={styles.statTotal}>/{stat.totalStudents}</Text>
                 </View>
               </View>
-              
-              <ProgressBar 
+
+              <ProgressBar
                 progress={stat.totalStudents > 0 ? stat.eligibleStudents / stat.totalStudents : 0}
                 color={COLORS.success[500]}
                 style={styles.progressBar}
               />
-              
+
               <View style={styles.statDetails}>
                 <Text style={styles.statDetail}>
                   Tempo médio: {Math.round(stat.averageTrainingTime / 30)} meses
@@ -384,7 +390,7 @@ const GraduationBoardScreen = ({ navigation }) => {
           <Dialog.Actions>
             <Button onPress={() => setExamDialogVisible(false)}>{getString('close')}</Button>
             {(userProfile?.userType === 'admin' || userProfile?.userType === 'instructor') && (
-              <Button 
+              <Button
                 mode="contained"
                 onPress={() => {
                   setExamDialogVisible(false);

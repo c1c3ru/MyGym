@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView, RefreshControl } from 'react-native';
-import { 
-  Card, 
-  Text, 
-  Button, 
+import {
+  Card,
+  Text,
+  Button,
   FAB,
   Chip,
   Divider,
@@ -12,18 +12,25 @@ import {
   Badge
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '@contexts/AuthProvider';
+import { useTheme } from '@contexts/ThemeContext';
 import { firestoreService } from '@services/firestoreService';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
-import { getString } from '@utils/theme';
+import { getAuthGradient } from '@presentation/theme/authTheme';
+import type { NavigationProp } from '@react-navigation/native';
+
+interface InjuryHistoryScreenProps {
+  navigation: NavigationProp<any>;
+}
 
 const InjuryHistoryScreen = ({ navigation }) => {
   const { currentTheme } = useThemeToggle();
-  
+
   const { user, academia } = useAuth();
-  
+
   const [injuries, setInjuries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -36,13 +43,13 @@ const InjuryHistoryScreen = ({ navigation }) => {
   const loadInjuries = async () => {
     try {
       setLoading(true);
-      
+
       const injuryData = await firestoreService.getDocuments(
         `gyms/${academia.id}/injuries`,
         [{ field: 'userId', operator: '==', value: user.id }],
         [{ field: 'dateOccurred', direction: 'desc' }]
       );
-      
+
       setInjuries(injuryData);
     } catch (error) {
       console.error('Erro ao carregar lesões:', error);
@@ -130,7 +137,7 @@ const InjuryHistoryScreen = ({ navigation }) => {
         return icon;
       }
     }
-    
+
     return 'bandage-outline';
   };
 
@@ -162,7 +169,7 @@ const InjuryHistoryScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView 
+      <ScrollView
         style={styles.scrollView}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -175,23 +182,23 @@ const InjuryHistoryScreen = ({ navigation }) => {
               <Ionicons name="stats-chart-outline" size={24} color={COLORS.info[500]} />
               <Text style={styles.cardTitle}>Resumo de Lesões</Text>
             </View>
-            
+
             <View style={styles.statsGrid}>
               <Surface style={styles.statItem}>
                 <Text style={styles.statNumber}>{stats.total}</Text>
                 <Text style={styles.statLabel}>Total</Text>
               </Surface>
-              
+
               <Surface style={[styles.statItem, { backgroundColor: COLORS.error[50] }]}>
                 <Text style={[styles.statNumber, { color: COLORS.error[500] }]}>{stats.active}</Text>
                 <Text style={styles.statLabel}>Ativas</Text>
               </Surface>
-              
+
               <Surface style={[styles.statItem, { backgroundColor: COLORS.warning[50] }]}>
                 <Text style={[styles.statNumber, { color: COLORS.warning[500] }]}>{stats.recovering}</Text>
                 <Text style={styles.statLabel}>Recuperando</Text>
               </Surface>
-              
+
               <Surface style={[styles.statItem, { backgroundColor: COLORS.primary[50] }]}>
                 <Text style={[styles.statNumber, { color: COLORS.primary[500] }]}>{stats.recovered}</Text>
                 <Text style={styles.statLabel}>Recuperadas</Text>
@@ -211,9 +218,9 @@ const InjuryHistoryScreen = ({ navigation }) => {
                   selected={selectedFilter === filter.key}
                   onPress={() => setSelectedFilter(filter.key)}
                   style={styles.filterChip}
-                  icon={filter.key === 'all' ? 'format-list-bulleted' : 
-                        filter.key === 'ativo' ? 'alert-circle' :
-                        filter.key === 'recuperando' ? 'clock' :
+                  icon={filter.key === 'all' ? 'format-list-bulleted' :
+                    filter.key === 'ativo' ? 'alert-circle' :
+                      filter.key === 'recuperando' ? 'clock' :
                         filter.key === 'recuperado' ? 'check-circle' : 'refresh'}
                 >
                   {filter.label} ({filter.count})
@@ -229,20 +236,20 @@ const InjuryHistoryScreen = ({ navigation }) => {
             <View style={styles.cardHeader}>
               <Ionicons name="list-outline" size={24} color={COLORS.warning[500]} />
               <Text style={styles.cardTitle}>
-                {selectedFilter === 'all' ? 'Todas as Lesões' : 
-                 `Lesões ${filters.find(f => f.key === selectedFilter)?.label}`}
+                {selectedFilter === 'all' ? 'Todas as Lesões' :
+                  `Lesões ${filters.find(f => f.key === selectedFilter)?.label}`}
               </Text>
             </View>
-            
+
             {filteredInjuries.length === 0 ? (
               <View style={styles.emptyState}>
                 <Ionicons name="bandage-outline" size={48} color="currentTheme.gray[300]" />
                 <Text style={styles.emptyText}>
-                  {selectedFilter === 'all' ? 'Nenhuma lesão registrada' : 
-                   `Nenhuma lesão ${filters.find(f => f.key === selectedFilter)?.label.toLowerCase()}`}
+                  {selectedFilter === 'all' ? 'Nenhuma lesão registrada' :
+                    `Nenhuma lesão ${filters.find(f => f.key === selectedFilter)?.label.toLowerCase()}`}
                 </Text>
                 <Text style={styles.emptySubtext}>
-                  {selectedFilter === 'all' 
+                  {selectedFilter === 'all'
                     ? 'Registre lesões para acompanhar sua recuperação'
                     : 'Experimente outros filtros para ver mais lesões'
                   }
@@ -283,10 +290,10 @@ const InjuryHistoryScreen = ({ navigation }) => {
                     }
                     left={() => (
                       <View style={styles.iconContainer}>
-                        <Ionicons 
-                          name={getInjuryIcon(injury.bodyPart)} 
-                          size={24} 
-                          color={getStatusColor(injury.status)} 
+                        <Ionicons
+                          name={getInjuryIcon(injury.bodyPart)}
+                          size={24}
+                          color={getStatusColor(injury.status)}
                         />
                         {injury.status === 'ativo' && (
                           <Badge size={8} style={[styles.activeBadge, { backgroundColor: COLORS.error[500] }]} />
@@ -315,7 +322,7 @@ const InjuryHistoryScreen = ({ navigation }) => {
                 <Ionicons name="shield-checkmark-outline" size={24} color={COLORS.primary[500]} />
                 <Text style={styles.cardTitle}>Dicas de Prevenção</Text>
               </View>
-              
+
               <View style={styles.tipContainer}>
                 <Text style={styles.tipText}>
                   • Sempre faça aquecimento antes dos treinos{'\n'}

@@ -6,10 +6,10 @@
 
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView, Alert } from 'react-native';
-import { 
-  Card, 
-  Text, 
-  Button, 
+import {
+  Card,
+  Text,
+  Button,
   Chip,
   TextInput,
   Divider,
@@ -17,20 +17,28 @@ import {
   Checkbox
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useAuth } from '@contexts/AuthProvider';
+import { useTheme } from '@contexts/ThemeContext';
 import { academyFirestoreService } from '@services/academyFirestoreService';
 import { COLORS, SPACING, FONT_SIZE, FONT_WEIGHT, BORDER_RADIUS } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
-import { getString } from '@utils/theme';
+import { getAuthGradient } from '@presentation/theme/authTheme';
+import type { NavigationProp, RouteProp } from '@react-navigation/native';
+
+interface ScheduleClassesScreenProps {
+  navigation: NavigationProp<any>;
+  route: RouteProp<any>;
+}
 
 const ScheduleClassesScreen = ({ navigation, route }) => {
   const { currentTheme } = useThemeToggle();
-  
+
   const { user, userProfile } = useAuth();
   const { classes: initialClasses = [] } = route.params || {};
-  
+
   const [selectedClasses, setSelectedClasses] = useState(new Set());
   const [classDate, setClassDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -51,7 +59,7 @@ const ScheduleClassesScreen = ({ navigation, route }) => {
   const loadClasses = async () => {
     try {
       if (!user?.uid || !userProfile?.academiaId) return;
-      
+
       const instructorClasses = await academyFirestoreService.getWhere(
         'classes',
         'instructorId',
@@ -97,7 +105,7 @@ const ScheduleClassesScreen = ({ navigation, route }) => {
 
       const schedulePromises = Array.from(selectedClasses).map(async (classId) => {
         const classData = classes.find(c => c.id === classId);
-        
+
         const lessonData = {
           classId,
           className: classData?.name || getString('class'),

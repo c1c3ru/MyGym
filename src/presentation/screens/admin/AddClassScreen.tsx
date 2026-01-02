@@ -1,20 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  View, 
-  StyleSheet, 
+import {
+  View,
+  StyleSheet,
   ScrollView
 } from 'react-native';
 import { Card, Text, Button, TextInput, HelperText, Chip, RadioButton, Snackbar } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
 import * as FileSystem from 'expo-file-system'; // Removido - dependência não disponível
 import { useAuth } from '@contexts/AuthProvider';
+import { useTheme } from '@contexts/ThemeContext';
 import { academyFirestoreService } from '@services/academyFirestoreService';
 import { useCustomClaims } from '@hooks/useCustomClaims';
 import ImprovedScheduleSelector from '@components/ImprovedScheduleSelector';
 import { createEmptySchedule, isValidSchedule, scheduleToDisplayString } from '@utils/scheduleUtils';
 import { notifyNewClass } from '@services/scheduleNotificationService';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT , BORDER_WIDTH } from '@presentation/theme/designTokens';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, BORDER_WIDTH } from '@presentation/theme/designTokens';
+import { getAuthGradient } from '@presentation/theme/authTheme';
 import { getString } from '@utils/theme';
+import type { NavigationProp } from '@react-navigation/native';
+
+interface AddClassScreenProps {
+  navigation: NavigationProp<any>;
+}
 
 const AddClassScreen = ({ navigation }) => {
   const { user, userProfile, academia } = useAuth();
@@ -23,7 +31,7 @@ const AddClassScreen = ({ navigation }) => {
   const [instructors, setInstructors] = useState([]);
   const [modalities, setModalities] = useState([]);
   const [snackbar, setSnackbar] = useState({ visible: false, message: '', type: 'info' });
-  
+
   // Age categories for classes
   const ageCategories = [
     { id: 'kids1', label: 'Kids 1 (4-6 anos)', value: 'kids1', minAge: 4, maxAge: 6 },
@@ -53,7 +61,7 @@ const AddClassScreen = ({ navigation }) => {
   useEffect(() => {
     loadInstructors();
     loadModalities();
-    
+
     // Se for um instrutor, pré-selecionar ele mesmo como instrutor da turma
     if (isInstructor()) {
       setFormData(prev => ({
@@ -115,25 +123,25 @@ const AddClassScreen = ({ navigation }) => {
         console.error(getString('academyIdNotFound'));
         return;
       }
-      
+
       console.log('🔍 Carregando modalidades da coleção:', `gyms/${academiaId}/modalities`);
       const list = await academyFirestoreService.getAll('modalities', academiaId);
       console.log('📋 Modalidades brutas encontradas:', list.length);
-      
+
       // Normalizar e remover duplicatas
-      const normalized = (list || []).map((m) => ({ 
-        id: m.id || m.name, 
-        name: m.name 
+      const normalized = (list || []).map((m) => ({
+        id: m.id || m.name,
+        name: m.name
       }));
-      
+
       // Remover duplicatas baseado no nome da modalidade
-      const uniqueModalities = normalized.filter((modality, index, self) => 
+      const uniqueModalities = normalized.filter((modality, index, self) =>
         index === self.findIndex(m => m.name === modality.name)
       );
-      
+
       console.log('✅ Modalidades únicas após deduplicação:', uniqueModalities.length);
       console.log('📝 Lista de modalidades:', uniqueModalities.map(m => m.name));
-      
+
       setModalities(uniqueModalities);
     } catch (error) {
       console.error('Erro ao carregar modalidades:', error);
@@ -236,7 +244,7 @@ const AddClassScreen = ({ navigation }) => {
       console.log('✅ Dados da turma:', classData);
       const newClassId = await academyFirestoreService.create('classes', classData, academiaId);
       console.log('✅ Turma criada com ID:', newClassId);
-      
+
       // Verificar se a turma foi realmente salva
       try {
         const savedClass = await academyFirestoreService.getById('classes', newClassId, academiaId);
@@ -249,9 +257,9 @@ const AddClassScreen = ({ navigation }) => {
       } catch (verifyError) {
         console.warn('⚠️ Erro ao verificar turma criada:', verifyError);
       }
-      
+
       console.log('✅ Turma criada com ID:', newClassId);
-      
+
       // Enviar notificações sobre nova turma
       // try {
       //   await notifyNewClass({ ...classData, id: newClassId }, academiaId);
@@ -259,13 +267,13 @@ const AddClassScreen = ({ navigation }) => {
       // } catch (notificationError) {
       //   console.warn('⚠️ Erro ao enviar notificações:', notificationError);
       // }
-      
-      setSnackbar({ 
-        visible: true, 
-        message: `✅ Turma "${formData.name.trim()}" criada com sucesso! Redirecionando...`, 
-        type: 'success' 
+
+      setSnackbar({
+        visible: true,
+        message: `✅ Turma "${formData.name.trim()}" criada com sucesso! Redirecionando...`,
+        type: 'success'
       });
-      
+
       // Voltar após pequeno atraso para permitir ver o feedback
       setTimeout(() => {
         // Sempre voltar para a tela anterior, independente do tipo de usuário
@@ -303,7 +311,7 @@ const AddClassScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView 
+      <ScrollView
         style={styles.scrollView}
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
@@ -391,7 +399,7 @@ const AddClassScreen = ({ navigation }) => {
             {/* Instrutor */}
             <View style={styles.pickerContainer}>
               <Text style={styles.label}>Instrutor da Turma</Text>
-              
+
               {/* Opção "Eu serei o instrutor" sempre visível */}
               <View style={styles.chipContainer}>
                 <Chip
@@ -444,7 +452,7 @@ const AddClassScreen = ({ navigation }) => {
                   Nenhum outro instrutor cadastrado na academia
                 </Text>
               )}
-              
+
               {errors.instructorId && <HelperText type="error">{errors.instructorId}</HelperText>}
 
               {/* Entrada manual do nome do instrutor como fallback */}
@@ -530,8 +538,8 @@ const AddClassScreen = ({ navigation }) => {
         onDismiss={() => setSnackbar((s) => ({ ...s, visible: false }))}
         duration={3000}
         style={{
-          backgroundColor: snackbar.type === 'success' ? COLORS.primary[500] : 
-                          snackbar.type === 'error' ? COLORS.error[500] : COLORS.info[500]
+          backgroundColor: snackbar.type === 'success' ? COLORS.primary[500] :
+            snackbar.type === 'error' ? COLORS.error[500] : COLORS.info[500]
         }}
         action={{
           label: getString('ok'),

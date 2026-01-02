@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, StyleSheet, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useAuth } from '@contexts/AuthProvider';
 import { useTheme } from '@contexts/ThemeContext';
 import { academyFirestoreService } from '@services/academyFirestoreService';
@@ -10,7 +11,12 @@ import cacheService, { CACHE_KEYS, CACHE_TTL } from '@services/cacheService';
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import FreeGymScheduler from '@components/FreeGymScheduler';
 import { COLORS } from '@presentation/theme/designTokens';
-import { getString } from '@utils/theme';
+import { getAuthGradient } from '@presentation/theme/authTheme';
+import type { NavigationProp } from '@react-navigation/native';
+
+interface ImprovedCalendarScreenProps {
+  navigation: NavigationProp<any>;
+}
 
 /**
  * Tela de calendário melhorada usando o FreeGymScheduler
@@ -20,16 +26,16 @@ const ImprovedCalendarScreen = ({ navigation }) => {
   const { user, userProfile, academia } = useAuth();
   const { getString } = useTheme();
   const { role, isAdmin, isInstructor, isStudent } = useCustomClaims();
-  
+
   const [classes, setClasses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
   // Analytics tracking
-  useScreenTracking('ImprovedCalendarScreen', { 
+  useScreenTracking('ImprovedCalendarScreen', {
     academiaId: userProfile?.academiaId,
     userType: userProfile?.userType,
-    role 
+    role
   });
   const { trackButtonClick, trackFeatureUsage } = useUserActionTracking();
 
@@ -37,7 +43,7 @@ const ImprovedCalendarScreen = ({ navigation }) => {
   const loadClasses = useCallback(async () => {
     try {
       setLoading(true);
-      
+
       const academiaId = userProfile?.academiaId || academia?.id;
       if (!academiaId) {
         console.warn('⚠️ Nenhuma academia encontrada para carregar turmas');
@@ -53,7 +59,7 @@ const ImprovedCalendarScreen = ({ navigation }) => {
         async () => {
           const allClasses = await academyFirestoreService.getAll('classes', academiaId);
           let filteredClasses = [];
-          
+
           if (isAdmin()) {
             // Admin vê todas as turmas da academia
             filteredClasses = allClasses;
@@ -62,30 +68,30 @@ const ImprovedCalendarScreen = ({ navigation }) => {
             filteredClasses = allClasses.filter(cls => cls.instructorId === user.id);
           } else if (isStudent()) {
             // Aluno vê suas turmas matriculadas da academia
-            filteredClasses = allClasses.filter(cls => 
+            filteredClasses = allClasses.filter(cls =>
               userProfile?.classIds && userProfile.classIds.includes(cls.id)
             );
           }
-          
+
           return filteredClasses;
         },
         CACHE_TTL.MEDIUM // Cache por 5 minutos
       );
-      
+
       setClasses(userClasses);
-      
+
       console.log('✅ Turmas do calendário carregadas com sucesso', {
         total: userClasses.length,
         role
       });
-      
+
       // Track analytics
       trackFeatureUsage('calendar_classes_loaded', {
         academiaId,
         role,
         classesCount: userClasses.length
       });
-      
+
     } catch (error) {
       console.error('❌ Erro ao carregar turmas:', error);
     } finally {
@@ -112,31 +118,31 @@ const ImprovedCalendarScreen = ({ navigation }) => {
 
   // Navegar para detalhes da turma
   const handleClassPress = useCallback((event) => {
-    trackButtonClick('calendar_class_select', { 
+    trackButtonClick('calendar_class_select', {
       classId: event.classId,
-      modality: event.modality 
+      modality: event.modality
     });
-    
-    navigation.navigate('ClassDetails', { 
+
+    navigation.navigate('ClassDetails', {
       classId: event.classId,
-      className: event.title 
+      className: event.title
     });
   }, [navigation, trackButtonClick]);
 
   // Navegar para criar nova turma (apenas admin/instrutor)
   const handleCreateClass = useCallback(() => {
     trackButtonClick('calendar_create_class');
-    
-    console.log('🔍 Debug navegação:', { 
-      role, 
+
+    console.log('🔍 Debug navegação:', {
+      role,
       userType: userProfile?.userType,
-      isAdmin: isAdmin(), 
-      isInstructor: isInstructor() 
+      isAdmin: isAdmin(),
+      isInstructor: isInstructor()
     });
-    
+
     // Verificar por userType também para maior robustez
     const userType = userProfile?.userType;
-    
+
     if (isAdmin() || userType === 'admin') {
       console.log('📱 Navegando para AddClass (admin)');
       navigation.navigate('AddClass');
@@ -150,11 +156,11 @@ const ImprovedCalendarScreen = ({ navigation }) => {
 
   // Callback para seleção de data
   const handleDatePress = useCallback((date, dayEvents) => {
-    trackButtonClick('calendar_date_select', { 
+    trackButtonClick('calendar_date_select', {
       date,
-      eventsCount: dayEvents.length 
+      eventsCount: dayEvents.length
     });
-    
+
     console.log('📅 Data selecionada:', date, 'Eventos:', dayEvents.length);
   }, [trackButtonClick]);
 

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView, Alert } from 'react-native';
-import { 
-  Card, 
-  Text, 
-  Button, 
-  TextInput, 
+import {
+  Card,
+  Text,
+  Button,
+  TextInput,
   HelperText,
   Snackbar,
   Chip,
@@ -12,19 +12,27 @@ import {
   Surface
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '@contexts/AuthProvider';
+import { useTheme } from '@contexts/ThemeContext';
 import { academyFirestoreService } from '@services/academyFirestoreService';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getString } from '@utils/theme';
+import { getAuthGradient } from '@presentation/theme/authTheme';
+import type { NavigationProp, RouteProp } from '@react-navigation/native';
+
+interface PhysicalEvaluationScreenProps {
+  navigation: NavigationProp<any>;
+  route: RouteProp<any>;
+}
 
 const PhysicalEvaluationScreen = ({ navigation, route }) => {
   const { user, academia, userProfile } = useAuth();
   const { evaluation, isEditing = false } = route.params || {};
-  
+
   const [loading, setLoading] = useState(false);
   const [snackbar, setSnackbar] = useState({ visible: false, message: '', type: 'info' });
-  
+
   const [formData, setFormData] = useState({
     weight: '',
     height: '',
@@ -37,7 +45,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
     bodyWater: '',
     notes: ''
   });
-  
+
   const [errors, setErrors] = useState({});
   const [calculatedIMC, setCalculatedIMC] = useState(null);
   const [imcClassification, setImcClassification] = useState('');
@@ -71,12 +79,12 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
   const calculateIMC = () => {
     const weight = parseFloat(normalizeNumber(formData.weight));
     const height = parseFloat(normalizeNumber(formData.height));
-    
+
     if (weight > 0 && height > 0) {
       // Assumir altura em centímetros se > 3, converter para metros
       const heightInMeters = height > 3 ? height / 100 : height;
       const imc = weight / (heightInMeters * heightInMeters);
-      
+
       setCalculatedIMC(imc.toFixed(2));
       setImcClassification(getIMCClassification(imc));
     } else {
@@ -190,8 +198,8 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
 
       if (isEditing && evaluation) {
         await academyFirestoreService.update(
-          'physicalEvaluations', 
-          evaluation.id, 
+          'physicalEvaluations',
+          evaluation.id,
           evaluationData,
           academiaId
         );
@@ -203,7 +211,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
       } else {
         evaluationData.createdAt = new Date();
         await academyFirestoreService.create(
-          'physicalEvaluations', 
+          'physicalEvaluations',
           evaluationData,
           academiaId
         );
@@ -247,7 +255,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView 
+      <ScrollView
         style={styles.scrollView}
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
@@ -267,7 +275,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
 
             {/* Dados Básicos */}
             <Text style={styles.sectionTitle}>📏 Medidas Básicas</Text>
-            
+
             <View style={styles.inputRow}>
               <TextInput
                 label="Peso (kg)"
@@ -288,7 +296,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
                 error={!!errors.height}
               />
             </View>
-            
+
             <View style={styles.errorContainer}>
               {errors.weight && <HelperText type="error">{errors.weight}</HelperText>}
               {errors.height && <HelperText type="error">{errors.height}</HelperText>}
@@ -314,7 +322,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
                 </View>
                 <View style={styles.imcResult}>
                   <Text style={styles.imcValue}>{calculatedIMC}</Text>
-                  <Chip 
+                  <Chip
                     mode="flat"
                     style={[styles.imcChip, { backgroundColor: getIMCColor(imcClassification) }]}
                     textStyle={{ color: COLORS.white, fontWeight: FONT_WEIGHT.bold }}
@@ -329,7 +337,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }) => {
 
             {/* Bioimpedância */}
             <Text style={styles.sectionTitle}>⚡ Bioimpedância (Opcional)</Text>
-            
+
             <View style={styles.inputRow}>
               <TextInput
                 label="Gordura Corporal (%)"

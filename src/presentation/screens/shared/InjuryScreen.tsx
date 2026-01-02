@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView, Alert } from 'react-native';
-import { 
-  Card, 
-  Text, 
-  Button, 
-  TextInput, 
+import {
+  Card,
+  Text,
+  Button,
+  TextInput,
   HelperText,
   Snackbar,
   Chip,
@@ -14,20 +14,30 @@ import {
   RadioButton
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useAuth } from '@contexts/AuthProvider';
+import { useTheme } from '@contexts/ThemeContext';
+import { academyFirestoreService } from '@services/academyFirestoreService';
 import { firestoreService } from '@services/firestoreService';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { getAuthGradient } from '@presentation/theme/authTheme';
+import type { NavigationProp, RouteProp } from '@react-navigation/native';
 import { getString } from '@utils/theme';
+
+interface InjuryScreenProps {
+  navigation: NavigationProp<any>;
+  route: RouteProp<any>;
+}
 
 const InjuryScreen = ({ navigation, route }) => {
   const { user, academia } = useAuth();
   const { injury, isEditing = false } = route.params || {};
-  
+
   const [loading, setLoading] = useState(false);
   const [snackbar, setSnackbar] = useState({ visible: false, message: '', type: 'info' });
-  
+
   const [formData, setFormData] = useState({
     bodyPart: '',
     injuryType: '',
@@ -40,7 +50,7 @@ const InjuryScreen = ({ navigation, route }) => {
     expectedRecovery: '',
     restrictions: ''
   });
-  
+
   const [errors, setErrors] = useState({});
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [bodyPartMenuVisible, setBodyPartMenuVisible] = useState(false);
@@ -141,8 +151,8 @@ const InjuryScreen = ({ navigation, route }) => {
 
       if (isEditing && injury) {
         await firestoreService.update(
-          `gyms/${academia.id}/injuries`, 
-          injury.id, 
+          `gyms/${academia.id}/injuries`,
+          injury.id,
           injuryData
         );
         setSnackbar({
@@ -154,7 +164,7 @@ const InjuryScreen = ({ navigation, route }) => {
         injuryData.createdAt = new Date();
         injuryData.createdBy = user.id;
         await firestoreService.create(
-          `gyms/${academia.id}/injuries`, 
+          `gyms/${academia.id}/injuries`,
           injuryData
         );
         setSnackbar({
@@ -205,7 +215,7 @@ const InjuryScreen = ({ navigation, route }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView 
+      <ScrollView
         style={styles.scrollView}
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
@@ -225,7 +235,7 @@ const InjuryScreen = ({ navigation, route }) => {
 
             {/* Dados Básicos */}
             <Text style={styles.sectionTitle}>🩹 Informações da Lesão</Text>
-            
+
             {/* Parte do Corpo */}
             <Menu
               visible={bodyPartMenuVisible}
@@ -334,8 +344,8 @@ const InjuryScreen = ({ navigation, route }) => {
 
             {/* Severidade */}
             <Text style={styles.sectionTitle}>⚠️ Severidade</Text>
-            <RadioButton.Group 
-              onValueChange={(value) => updateFormData('severity', value)} 
+            <RadioButton.Group
+              onValueChange={(value) => updateFormData('severity', value)}
               value={formData.severity}
             >
               {severityLevels.map((level) => (
@@ -354,8 +364,8 @@ const InjuryScreen = ({ navigation, route }) => {
 
             {/* Status */}
             <Text style={styles.sectionTitle}>📊 Status da Lesão</Text>
-            <RadioButton.Group 
-              onValueChange={(value) => updateFormData('status', value)} 
+            <RadioButton.Group
+              onValueChange={(value) => updateFormData('status', value)}
               value={formData.status}
             >
               {statusOptions.map((option) => (
@@ -374,7 +384,7 @@ const InjuryScreen = ({ navigation, route }) => {
 
             {/* Informações de Tratamento */}
             <Text style={styles.sectionTitle}>🏥 Tratamento e Observações</Text>
-            
+
             <TextInput
               label="Tratamento Atual (opcional)"
               value={formData.treatment}
@@ -424,14 +434,14 @@ const InjuryScreen = ({ navigation, route }) => {
                 <Text style={styles.summaryTitle}>Resumo da Lesão</Text>
               </View>
               <View style={styles.summaryContent}>
-                <Chip 
+                <Chip
                   mode="flat"
                   style={[styles.summaryChip, { backgroundColor: getSeverityColor(formData.severity) }]}
                   textStyle={{ color: COLORS.white, fontWeight: FONT_WEIGHT.bold }}
                 >
                   {severityLevels.find(s => s.value === formData.severity)?.label}
                 </Chip>
-                <Chip 
+                <Chip
                   mode="flat"
                   style={[styles.summaryChip, { backgroundColor: getStatusColor(formData.status) }]}
                   textStyle={{ color: COLORS.white, fontWeight: FONT_WEIGHT.bold }}

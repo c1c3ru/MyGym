@@ -15,16 +15,23 @@ import {
   DataTable
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useAuth } from '@contexts/AuthProvider';
+import { useTheme } from '@contexts/ThemeContext';
 import { academyFirestoreService } from '@services/academyFirestoreService';
 import EnhancedErrorBoundary from '@components/EnhancedErrorBoundary';
-import cacheService, { CACHE_KEYS, CACHE_TTL } from '@services/cacheService';
+import cacheService, { CACHE_KEYS, CACHE_TTL } from '@services/batchFirestoreService';
 import batchFirestoreService from '@services/batchFirestoreService';
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import ReportsSkeleton from '@components/skeletons/ReportsSkeleton';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getString } from '@utils/theme';
+import { getAuthGradient } from '@presentation/theme/authTheme';
+import type { NavigationProp } from '@react-navigation/native';
+
+interface ReportsScreenProps {
+  navigation: NavigationProp<any>;
+}
 
 const ReportsScreen = ({ navigation }) => {
   const { user, userProfile, academia } = useAuth();
@@ -43,9 +50,9 @@ const ReportsScreen = ({ navigation }) => {
   const [topClasses, setTopClasses] = useState([]);
 
   // Analytics tracking
-  useScreenTracking('ReportsScreen', { 
+  useScreenTracking('ReportsScreen', {
     academiaId: userProfile?.academiaId,
-    userType: userProfile?.userType 
+    userType: userProfile?.userType
   });
   const { trackButtonClick, trackFeatureUsage } = useUserActionTracking();
 
@@ -56,7 +63,7 @@ const ReportsScreen = ({ navigation }) => {
   const loadReportsData = useCallback(async () => {
     try {
       setLoading(true);
-      
+
       const academiaId = userProfile?.academiaId || academia?.id;
       if (!academiaId) {
         console.error(getString('academyIdNotFound'));
@@ -65,12 +72,12 @@ const ReportsScreen = ({ navigation }) => {
 
       // Usar cache inteligente para dados dos relatórios
       const cacheKey = CACHE_KEYS.REPORTS(academiaId);
-      
+
       const reportsData = await cacheService.getOrSet(
         cacheKey,
         async () => {
           console.log('🔍 Buscando dados dos relatórios (cache miss):', academiaId);
-          
+
           // Usar batch processing para carregar múltiplas coleções
           const [students, classes, payments] = await Promise.all([
             academyFirestoreService.getAll('students', academiaId),
@@ -83,19 +90,19 @@ const ReportsScreen = ({ navigation }) => {
 
           const currentMonth = new Date().getMonth();
           const currentYear = new Date().getFullYear();
-          
+
           const totalRevenue = payments
             .filter(payment => payment.status === 'paid')
             .reduce((sum, payment) => sum + (payment.amount || 0), 0);
 
           const monthlyRevenue = payments
             .filter(payment => {
-              const paymentDate = payment.createdAt?.seconds 
+              const paymentDate = payment.createdAt?.seconds
                 ? new Date(payment.createdAt.seconds * 1000)
                 : new Date(payment.createdAt);
-              return payment.status === 'paid' && 
-                     paymentDate.getMonth() === currentMonth &&
-                     paymentDate.getFullYear() === currentYear;
+              return payment.status === 'paid' &&
+                paymentDate.getMonth() === currentMonth &&
+                paymentDate.getFullYear() === currentYear;
             })
             .reduce((sum, payment) => sum + (payment.amount || 0), 0);
 
@@ -104,7 +111,7 @@ const ReportsScreen = ({ navigation }) => {
           // Calcular turmas mais populares
           const classPopularity = classes.map(cls => ({
             ...cls,
-            studentCount: students.filter(student => 
+            studentCount: students.filter(student =>
               student.classIds && student.classIds.includes(cls.id)
             ).length
           })).sort((a, b) => b.studentCount - a.studentCount).slice(0, 5);
@@ -137,9 +144,9 @@ const ReportsScreen = ({ navigation }) => {
       setStats(reportsData.stats);
       setTopClasses(reportsData.topClasses);
       setRecentActivities(reportsData.recentActivities);
-      
+
       console.log('✅ Relatórios carregados com sucesso');
-      
+
       // Track analytics
       trackFeatureUsage('reports_loaded', {
         academiaId,
@@ -216,182 +223,182 @@ const ReportsScreen = ({ navigation }) => {
       errorContext={{ screen: 'ReportsScreen', academiaId: userProfile?.academiaId }}
     >
       <SafeAreaView style={styles.container}>
-      <ScrollView 
-        style={styles.scrollView}
-        showsVerticalScrollIndicator={false}
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={styles.scrollContent}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-      >
-        {/* Header */}
-        <View style={styles.header}>
-          <Text style={styles.title}>Relatórios Gerenciais</Text>
-          <Text style={styles.subtitle}>Visão geral do desempenho da academia</Text>
-        </View>
+        <ScrollView
+          style={styles.scrollView}
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+          contentContainerStyle={styles.scrollContent}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        >
+          {/* Header */}
+          <View style={styles.header}>
+            <Text style={styles.title}>Relatórios Gerenciais</Text>
+            <Text style={styles.subtitle}>Visão geral do desempenho da academia</Text>
+          </View>
 
-        {/* Estatísticas Principais */}
-        <Card style={styles.card}>
-          <Card.Content>
-            <Text style={[styles.cardTitle, styles.title]}>Estatísticas Principais</Text>
-            
-            <View style={styles.statsGrid}>
-              <View style={styles.statItem}>
-                <View style={[styles.statIcon, { backgroundColor: COLORS.info[700] }]}>
-                  <Ionicons name="people" size={24} color={COLORS.white} />
+          {/* Estatísticas Principais */}
+          <Card style={styles.card}>
+            <Card.Content>
+              <Text style={[styles.cardTitle, styles.title]}>Estatísticas Principais</Text>
+
+              <View style={styles.statsGrid}>
+                <View style={styles.statItem}>
+                  <View style={[styles.statIcon, { backgroundColor: COLORS.info[700] }]}>
+                    <Ionicons name="people" size={24} color={COLORS.white} />
+                  </View>
+                  <View style={styles.statContent}>
+                    <Text style={styles.statNumber}>{stats.totalStudents}</Text>
+                    <Text style={styles.statLabel}>Total de Alunos</Text>
+                    <Text style={styles.statSubtext}>{stats.activeStudents} ativos</Text>
+                  </View>
                 </View>
-                <View style={styles.statContent}>
-                  <Text style={styles.statNumber}>{stats.totalStudents}</Text>
-                  <Text style={styles.statLabel}>Total de Alunos</Text>
-                  <Text style={styles.statSubtext}>{stats.activeStudents} ativos</Text>
+
+                <View style={styles.statItem}>
+                  <View style={[styles.statIcon, { backgroundColor: COLORS.primary[500] }]}>
+                    <Ionicons name="school" size={24} color={COLORS.white} />
+                  </View>
+                  <View style={styles.statContent}>
+                    <Text style={styles.statNumber}>{stats.totalClasses}</Text>
+                    <Text style={styles.statLabel}>Total de Turmas</Text>
+                    <Text style={styles.statSubtext}>{stats.activeClasses} ativas</Text>
+                  </View>
+                </View>
+
+                <View style={styles.statItem}>
+                  <View style={[styles.statIcon, { backgroundColor: COLORS.secondary[700] }]}>
+                    <Ionicons name="card" size={24} color={COLORS.white} />
+                  </View>
+                  <View style={styles.statContent}>
+                    <Text style={styles.statNumber}>{formatCurrency(stats.monthlyRevenue)}</Text>
+                    <Text style={styles.statLabel}>Receita Mensal</Text>
+                    <Text style={styles.statSubtext}>Total: {formatCurrency(stats.totalRevenue)}</Text>
+                  </View>
+                </View>
+
+                <View style={styles.statItem}>
+                  <View style={[styles.statIcon, { backgroundColor: COLORS.error[700] }]}>
+                    <Ionicons name="time" size={24} color={COLORS.white} />
+                  </View>
+                  <View style={styles.statContent}>
+                    <Text style={styles.statNumber}>{stats.pendingPayments}</Text>
+                    <Text style={styles.statLabel}>Pagamentos Pendentes</Text>
+                    <Text style={styles.statSubtext}>Requer atenção</Text>
+                  </View>
                 </View>
               </View>
+            </Card.Content>
+          </Card>
 
-              <View style={styles.statItem}>
-                <View style={[styles.statIcon, { backgroundColor: COLORS.primary[500] }]}>
-                  <Ionicons name="school" size={24} color={COLORS.white} />
-                </View>
-                <View style={styles.statContent}>
-                  <Text style={styles.statNumber}>{stats.totalClasses}</Text>
-                  <Text style={styles.statLabel}>Total de Turmas</Text>
-                  <Text style={styles.statSubtext}>{stats.activeClasses} ativas</Text>
-                </View>
+          {/* Taxa de Ocupação */}
+          <Card style={styles.card}>
+            <Card.Content>
+              <Text style={[styles.cardTitle, styles.title]}>Taxa de Ocupação</Text>
+
+              <View style={styles.occupancyContainer}>
+                <Text style={styles.occupancyLabel}>
+                  Alunos Ativos: {stats.activeStudents} / {stats.totalStudents}
+                </Text>
+                <ProgressBar
+                  progress={stats.totalStudents > 0 ? stats.activeStudents / stats.totalStudents : 0}
+                  color={COLORS.primary[500]}
+                  style={[styles.progressBar, { borderRadius: 4 }]}
+                />
+                <Text style={styles.occupancyPercentage}>
+                  {stats.totalStudents > 0 ? Math.round((stats.activeStudents / stats.totalStudents) * 100) : 0}% de ocupação
+                </Text>
               </View>
 
-              <View style={styles.statItem}>
-                <View style={[styles.statIcon, { backgroundColor: COLORS.secondary[700] }]}>
-                  <Ionicons name="card" size={24} color={COLORS.white} />
-                </View>
-                <View style={styles.statContent}>
-                  <Text style={styles.statNumber}>{formatCurrency(stats.monthlyRevenue)}</Text>
-                  <Text style={styles.statLabel}>Receita Mensal</Text>
-                  <Text style={styles.statSubtext}>Total: {formatCurrency(stats.totalRevenue)}</Text>
-                </View>
+              <View style={styles.occupancyContainer}>
+                <Text style={styles.occupancyLabel}>
+                  Turmas Ativas: {stats.activeClasses} / {stats.totalClasses}
+                </Text>
+                <ProgressBar
+                  progress={stats.totalClasses > 0 ? stats.activeClasses / stats.totalClasses : 0}
+                  color={COLORS.info[500]}
+                  style={styles.progressBar}
+                />
+                <Text style={styles.occupancyPercentage}>
+                  {stats.totalClasses > 0 ? Math.round((stats.activeClasses / stats.totalClasses) * 100) : 0}% ativas
+                </Text>
               </View>
+            </Card.Content>
+          </Card>
 
-              <View style={styles.statItem}>
-                <View style={[styles.statIcon, { backgroundColor: COLORS.error[700] }]}>
-                  <Ionicons name="time" size={24} color={COLORS.white} />
+          {/* Turmas Mais Populares */}
+          <Card style={styles.card}>
+            <Card.Content>
+              <Text style={[styles.cardTitle, styles.title]}>Turmas Mais Populares</Text>
+
+              <DataTable>
+                <DataTable.Header>
+                  <DataTable.Title>Turma</DataTable.Title>
+                  <DataTable.Title>Modalidade</DataTable.Title>
+                  <DataTable.Title numeric>Alunos</DataTable.Title>
+                </DataTable.Header>
+
+                {topClasses.map((classItem, index) => (
+                  <DataTable.Row key={classItem.id || index}>
+                    <DataTable.Cell>{classItem.name}</DataTable.Cell>
+                    <DataTable.Cell>{classItem.modality}</DataTable.Cell>
+                    <DataTable.Cell numeric>{classItem.studentCount}</DataTable.Cell>
+                  </DataTable.Row>
+                ))}
+              </DataTable>
+
+              {topClasses.length === 0 && (
+                <Text style={styles.noDataText}>Nenhuma turma encontrada</Text>
+              )}
+            </Card.Content>
+          </Card>
+
+          {/* Atividades Recentes */}
+          <Card style={styles.card}>
+            <Card.Content>
+              <Text style={[styles.cardTitle, styles.title]}>Atividades Recentes</Text>
+
+              {recentActivities.map((activity, index) => (
+                <View key={index} style={styles.activityItem}>
+                  <View style={[styles.activityIcon, { backgroundColor: getActivityColor(activity.type) }]}>
+                    <Ionicons name={getActivityIcon(activity.type)} size={16} color={COLORS.white} />
+                  </View>
+                  <View style={styles.activityContent}>
+                    <Text style={styles.activityAction}>{activity.action}</Text>
+                    <Text style={styles.activityTime}>{activity.time}</Text>
+                  </View>
                 </View>
-                <View style={styles.statContent}>
-                  <Text style={styles.statNumber}>{stats.pendingPayments}</Text>
-                  <Text style={styles.statLabel}>Pagamentos Pendentes</Text>
-                  <Text style={styles.statSubtext}>Requer atenção</Text>
-                </View>
-              </View>
-            </View>
-          </Card.Content>
-        </Card>
-
-        {/* Taxa de Ocupação */}
-        <Card style={styles.card}>
-          <Card.Content>
-            <Text style={[styles.cardTitle, styles.title]}>Taxa de Ocupação</Text>
-            
-            <View style={styles.occupancyContainer}>
-              <Text style={styles.occupancyLabel}>
-                Alunos Ativos: {stats.activeStudents} / {stats.totalStudents}
-              </Text>
-              <ProgressBar 
-                progress={stats.totalStudents > 0 ? stats.activeStudents / stats.totalStudents : 0}
-                color={COLORS.primary[500]}
-                style={[styles.progressBar, { borderRadius: 4 }]}
-              />
-              <Text style={styles.occupancyPercentage}>
-                {stats.totalStudents > 0 ? Math.round((stats.activeStudents / stats.totalStudents) * 100) : 0}% de ocupação
-              </Text>
-            </View>
-
-            <View style={styles.occupancyContainer}>
-              <Text style={styles.occupancyLabel}>
-                Turmas Ativas: {stats.activeClasses} / {stats.totalClasses}
-              </Text>
-              <ProgressBar 
-                progress={stats.totalClasses > 0 ? stats.activeClasses / stats.totalClasses : 0}
-                color={COLORS.info[500]}
-                style={styles.progressBar}
-              />
-              <Text style={styles.occupancyPercentage}>
-                {stats.totalClasses > 0 ? Math.round((stats.activeClasses / stats.totalClasses) * 100) : 0}% ativas
-              </Text>
-            </View>
-          </Card.Content>
-        </Card>
-
-        {/* Turmas Mais Populares */}
-        <Card style={styles.card}>
-          <Card.Content>
-            <Text style={[styles.cardTitle, styles.title]}>Turmas Mais Populares</Text>
-            
-            <DataTable>
-              <DataTable.Header>
-                <DataTable.Title>Turma</DataTable.Title>
-                <DataTable.Title>Modalidade</DataTable.Title>
-                <DataTable.Title numeric>Alunos</DataTable.Title>
-              </DataTable.Header>
-
-              {topClasses.map((classItem, index) => (
-                <DataTable.Row key={classItem.id || index}>
-                  <DataTable.Cell>{classItem.name}</DataTable.Cell>
-                  <DataTable.Cell>{classItem.modality}</DataTable.Cell>
-                  <DataTable.Cell numeric>{classItem.studentCount}</DataTable.Cell>
-                </DataTable.Row>
               ))}
-            </DataTable>
+            </Card.Content>
+          </Card>
 
-            {topClasses.length === 0 && (
-              <Text style={styles.noDataText}>Nenhuma turma encontrada</Text>
-            )}
-          </Card.Content>
-        </Card>
+          {/* Ações Rápidas */}
+          <Card style={styles.card}>
+            <Card.Content>
+              <Text style={[styles.cardTitle, styles.title]}>Ações Rápidas</Text>
 
-        {/* Atividades Recentes */}
-        <Card style={styles.card}>
-          <Card.Content>
-            <Text style={[styles.cardTitle, styles.title]}>Atividades Recentes</Text>
-            
-            {recentActivities.map((activity, index) => (
-              <View key={index} style={styles.activityItem}>
-                <View style={[styles.activityIcon, { backgroundColor: getActivityColor(activity.type) }]}>
-                  <Ionicons name={getActivityIcon(activity.type)} size={16} color={COLORS.white} />
-                </View>
-                <View style={styles.activityContent}>
-                  <Text style={styles.activityAction}>{activity.action}</Text>
-                  <Text style={styles.activityTime}>{activity.time}</Text>
-                </View>
+              <View style={styles.actionsContainer}>
+                <Button
+                  mode="contained"
+                  onPress={() => navigation.navigate('AddStudent')}
+                  style={[styles.actionButton, { backgroundColor: COLORS.info[500] }]}
+                  icon={<MaterialCommunityIcons name="account-plus" size={18} color={COLORS.white} />}
+                >
+                  Novo Aluno
+                </Button>
+
+                <Button
+                  mode="contained"
+                  onPress={() => navigation.navigate('AddClass')}
+                  style={[styles.actionButton, { backgroundColor: COLORS.primary[500] }]}
+                  icon={<MaterialCommunityIcons name="school-outline" size={18} color={COLORS.white} />}
+                >
+                  Nova Turma
+                </Button>
               </View>
-            ))}
-          </Card.Content>
-        </Card>
-
-        {/* Ações Rápidas */}
-        <Card style={styles.card}>
-          <Card.Content>
-            <Text style={[styles.cardTitle, styles.title]}>Ações Rápidas</Text>
-            
-            <View style={styles.actionsContainer}>
-              <Button
-                mode="contained"
-                onPress={() => navigation.navigate('AddStudent')}
-                style={[styles.actionButton, { backgroundColor: COLORS.info[500] }]}
-                icon={<MaterialCommunityIcons name="account-plus" size={18} color={COLORS.white} />}
-              >
-                Novo Aluno
-              </Button>
-              
-              <Button
-                mode="contained"
-                onPress={() => navigation.navigate('AddClass')}
-                style={[styles.actionButton, { backgroundColor: COLORS.primary[500] }]}
-                icon={<MaterialCommunityIcons name="school-outline" size={18} color={COLORS.white} />}
-              >
-                Nova Turma
-              </Button>
-            </View>
-          </Card.Content>
-        </Card>
-      </ScrollView>
+            </Card.Content>
+          </Card>
+        </ScrollView>
       </SafeAreaView>
     </EnhancedErrorBoundary>
   );

@@ -1,21 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  View, 
-  StyleSheet, 
-  ScrollView, 
-  Alert, 
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  Alert,
   Platform
 } from 'react-native';
 import { Card, Text, Button, TextInput, HelperText, Chip, RadioButton, Snackbar } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
 // import { Picker } from '@react-native-picker/picker'; // Removido - dependência não disponível
 import { useAuth } from '@contexts/AuthProvider';
+import { useTheme } from '@contexts/ThemeContext';
 import { academyFirestoreService, academyClassService } from '@services/academyFirestoreService';
 import ActionButton, { ActionButtonGroup } from '@components/ActionButton';
 import ImprovedScheduleSelector from '@components/ImprovedScheduleSelector';
 import { createEmptySchedule, isValidSchedule, scheduleToDisplayString } from '@utils/scheduleUtils';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT , BORDER_WIDTH } from '@presentation/theme/designTokens';
-import { getString } from '@utils/theme';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, BORDER_WIDTH } from '@presentation/theme/designTokens';
+import { getAuthGradient } from '@presentation/theme/authTheme';
+import type { NavigationProp, RouteProp } from '@react-navigation/native';
+
+interface EditClassScreenProps {
+  navigation: NavigationProp<any>;
+  route: RouteProp<any>;
+}
 
 const EditClassScreen = ({ route, navigation }) => {
   const { classId } = route.params;
@@ -25,7 +33,7 @@ const EditClassScreen = ({ route, navigation }) => {
   const [instructors, setInstructors] = useState([]);
   const [modalities, setModalities] = useState([]);
   const [snackbar, setSnackbar] = useState({ visible: false, message: '', type: 'info' });
-  
+
   // Age categories for classes
   const ageCategories = [
     { id: 'kids1', label: 'Kids 1 (4-6 anos)', value: 'kids1', minAge: 4, maxAge: 6 },
@@ -61,7 +69,7 @@ const EditClassScreen = ({ route, navigation }) => {
         console.error(getString('academyIdNotFound'));
         return;
       }
-      
+
       const list = await academyFirestoreService.getAll('modalities', academiaId);
       const normalized = (list || []).map((m) => ({ id: m.id || m.name, name: m.name }));
       setModalities(normalized);
@@ -84,9 +92,9 @@ const EditClassScreen = ({ route, navigation }) => {
         console.error(getString('academyIdNotFound'));
         return;
       }
-      
+
       const classData = await academyFirestoreService.getById('classes', classId, academiaId);
-      
+
       if (classData) {
         setFormData({
           name: classData.name || '',
@@ -120,7 +128,7 @@ const EditClassScreen = ({ route, navigation }) => {
         console.error(getString('academyIdNotFound'));
         return;
       }
-      
+
       const instructorsData = await academyFirestoreService.getAll('instructors', academiaId);
       setInstructors(instructorsData);
     } catch (error) {
@@ -195,7 +203,7 @@ const EditClassScreen = ({ route, navigation }) => {
       if (!academiaId) {
         throw new Error(getString('academyIdNotFound'));
       }
-      
+
       await academyFirestoreService.update('classes', classId, classData, academiaId);
       setSnackbar({ visible: true, message: 'Turma atualizada com sucesso!', type: 'success' });
       setTimeout(() => navigation.goBack(), 800);
@@ -217,7 +225,7 @@ const EditClassScreen = ({ route, navigation }) => {
         if (!academiaId) {
           throw new Error(getString('academyIdNotFound'));
         }
-        
+
         await academyFirestoreService.delete('classes', classId, academiaId);
         setSnackbar({ visible: true, message: 'Turma excluída com sucesso!', type: 'success' });
         setTimeout(() => navigation.goBack(), 800);
@@ -263,7 +271,7 @@ const EditClassScreen = ({ route, navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView 
+      <ScrollView
         style={styles.scrollView}
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"

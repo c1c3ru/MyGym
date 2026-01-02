@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView, RefreshControl, Dimensions } from 'react-native';
-import { 
-  Card, 
-  Text, 
-  Button, 
+import {
+  Card,
+  Text,
+  Button,
   FAB,
   Chip,
   Divider,
@@ -11,18 +11,25 @@ import {
   List
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { LineChart } from 'react-native-chart-kit';
 import { useAuth } from '@contexts/AuthProvider';
+import { useTheme } from '@contexts/ThemeContext';
 import { academyFirestoreService } from '@services/academyFirestoreService';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getString } from '@utils/theme';
+import { getAuthGradient } from '@presentation/theme/authTheme';
+import type { NavigationProp } from '@react-navigation/native';
+
+interface PhysicalEvaluationHistoryScreenProps {
+  navigation: NavigationProp<any>;
+}
 
 const { width } = Dimensions.get('window');
 
 const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
   const { user, academia, userProfile } = useAuth();
-  
+
   const [evaluations, setEvaluations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -35,7 +42,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
   const loadEvaluations = async () => {
     try {
       setLoading(true);
-      
+
       // Verificar se academia está disponível
       const academiaId = academia?.id || userProfile?.academiaId;
       if (!academiaId) {
@@ -43,7 +50,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
         setEvaluations([]);
         return;
       }
-      
+
       const evaluationData = await academyFirestoreService.getWhere(
         'physicalEvaluations',
         'userId',
@@ -51,7 +58,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
         user.id,
         academiaId
       );
-      
+
       setEvaluations(evaluationData);
     } catch (error) {
       console.error('Erro ao carregar avaliações físicas:', error);
@@ -95,7 +102,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
 
     let data;
     let suffix = '';
-    
+
     switch (selectedMetric) {
       case 'weight':
         data = sortedEvaluations.map(evaluation => evaluation.weight);
@@ -142,10 +149,10 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
 
     const latest = evaluations[0];
     const previous = evaluations[1];
-    
+
     const weightDiff = latest.weight - previous.weight;
     const imcDiff = latest.imc - previous.imc;
-    
+
     return {
       weight: weightDiff,
       imc: imcDiff,
@@ -167,7 +174,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView 
+      <ScrollView
         style={styles.scrollView}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -182,23 +189,23 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
                 <Text style={styles.cardTitle}>Avaliação Atual</Text>
                 <Text style={styles.dateText}>{formatDate(latestEvaluation.date)}</Text>
               </View>
-              
+
               <View style={styles.statsGrid}>
                 <Surface style={styles.statItem}>
                   <Text style={styles.statValue}>{latestEvaluation.weight} kg</Text>
                   <Text style={styles.statLabel}>Peso</Text>
                 </Surface>
-                
+
                 <Surface style={styles.statItem}>
                   <Text style={styles.statValue}>{latestEvaluation.imc}</Text>
                   <Text style={styles.statLabel}>IMC</Text>
                 </Surface>
-                
+
                 <Surface style={styles.statItem}>
                   <Text style={styles.statValue}>{latestEvaluation.height} cm</Text>
                   <Text style={styles.statLabel}>Altura</Text>
                 </Surface>
-                
+
                 <Surface style={styles.statItem}>
                   <Text style={styles.statValue}>{latestEvaluation.age} anos</Text>
                   <Text style={styles.statLabel}>Idade</Text>
@@ -206,7 +213,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
               </View>
 
               <View style={styles.imcContainer}>
-                <Chip 
+                <Chip
                   mode="flat"
                   style={[styles.imcChip, { backgroundColor: getIMCColor(latestEvaluation.imcClassification) }]}
                   textStyle={{ color: COLORS.white, fontWeight: FONT_WEIGHT.bold }}
@@ -227,7 +234,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
                 <Text style={styles.cardTitle}>Progresso</Text>
                 <Text style={styles.subtitle}>vs. avaliação anterior</Text>
               </View>
-              
+
               <View style={styles.progressGrid}>
                 <View style={styles.progressItem}>
                   <Text style={styles.progressLabel}>Peso</Text>
@@ -238,7 +245,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
                     {progress.weight > 0 ? '+' : ''}{progress.weight.toFixed(1)} kg
                   </Text>
                 </View>
-                
+
                 <View style={styles.progressItem}>
                   <Text style={styles.progressLabel}>IMC</Text>
                   <Text style={[
@@ -248,7 +255,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
                     {progress.imc > 0 ? '+' : ''}{progress.imc.toFixed(2)}
                   </Text>
                 </View>
-                
+
                 {progress.bodyFat !== null && (
                   <View style={styles.progressItem}>
                     <Text style={styles.progressLabel}>Gordura</Text>
@@ -260,7 +267,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
                     </Text>
                   </View>
                 )}
-                
+
                 {progress.muscleMass !== null && (
                   <View style={styles.progressItem}>
                     <Text style={styles.progressLabel}>Músculo</Text>
@@ -285,7 +292,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
                 <Ionicons name="analytics-outline" size={24} color={COLORS.secondary[500]} />
                 <Text style={styles.cardTitle}>Evolução</Text>
               </View>
-              
+
               <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.metricsContainer}>
                 {metrics.map((metric) => (
                   <Chip
@@ -338,7 +345,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }) => {
               <Ionicons name="time-outline" size={24} color={COLORS.warning[500]} />
               <Text style={styles.cardTitle}>Histórico de Avaliações</Text>
             </View>
-            
+
             {evaluations.length === 0 ? (
               <View style={styles.emptyState}>
                 <Ionicons name="document-outline" size={48} color={COLORS.gray[400]} />
