@@ -15,10 +15,10 @@ interface LightThemeExampleScreenProps {
 }
 
 const { width } = Dimensions.get('window');
+const Typography: any = LIGHT_TYPOGRAPHY;
 
 const LightThemeExampleScreen: React.FC<LightThemeExampleScreenProps> = ({ navigation }) => {
   const { getString } = useTheme();
-  const Typography: any = LIGHT_TYPOGRAPHY; // Bypass spread types
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -284,7 +284,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headerTitle: {
-    ...(LIGHT_TYPOGRAPHY.h1 as any),
+    ...(Typography.h1 as any),
     color: LIGHT_THEME.primary[800],
     textAlign: 'center',
     marginBottom: SPACING.sm,
