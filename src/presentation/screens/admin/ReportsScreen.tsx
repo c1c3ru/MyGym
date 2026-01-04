@@ -17,7 +17,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { useAuth } from '@contexts/AuthProvider';
+import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
 import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
 import EnhancedErrorBoundary from '@components/EnhancedErrorBoundary';
@@ -54,7 +54,7 @@ interface Payment {
 }
 
 const ReportsScreen: React.FC<ReportsScreenProps> = ({ navigation }) => {
-  const { user, userProfile, academia } = useAuth();
+  const { user, userProfile, academia } = useAuthFacade();
   const { getString } = useTheme();
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);

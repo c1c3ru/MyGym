@@ -3,7 +3,7 @@ import { View, StyleSheet, ScrollView } from 'react-native';
 import { Text, Card, Chip, Button, Portal, Modal, List, Divider } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '@contexts/ThemeContext';
-import { useAuth } from '@contexts/AuthProvider';
+import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import {
   createEmptySchedule,
   DAY_NAMES,
@@ -36,14 +36,14 @@ const ScheduleSelector = ({
   onConflictDetected = null
 }) => {
   const { colors, getString } = useTheme();
-  const { userProfile } = useAuth();
-  const [schedule, setSchedule] = useState(() => 
+  const { userProfile } = useAuthFacade();
+  const [schedule, setSchedule] = useState(() =>
     value && isValidSchedule(value) ? value : createEmptySchedule()
   );
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedDay, setSelectedDay] = useState(null);
   const [availableSlots] = useState(() => generateTimeSlots(startHour, endHour, interval));
-  
+
   // Validação de conflitos
   const { validateConflicts, isValidating, conflicts, hasConflicts } = useScheduleConflictValidator();
 
@@ -73,7 +73,7 @@ const ScheduleSelector = ({
       const timeoutId = setTimeout(() => {
         validateConflicts(schedule, userProfile.academiaId, instructorId, excludeClassId);
       }, 500); // Debounce de 500ms
-      
+
       return () => clearTimeout(timeoutId);
     }
   }, [schedule, enableConflictValidation, userProfile?.academiaId, instructorId, excludeClassId, validateConflicts]);
@@ -95,7 +95,7 @@ const ScheduleSelector = ({
 
     const newSchedule = { ...schedule };
     const dayHours = [...newSchedule.hours[selectedDay]];
-    
+
     if (dayHours.includes(time)) {
       // Remover horário
       const index = dayHours.indexOf(time);
@@ -105,7 +105,7 @@ const ScheduleSelector = ({
       dayHours.push(time);
       dayHours.sort();
     }
-    
+
     newSchedule.hours[selectedDay] = dayHours;
     setSchedule(newSchedule);
   };
@@ -127,19 +127,19 @@ const ScheduleSelector = ({
   const getDayScheduleText = (dayKey) => {
     const hours = schedule.hours[dayKey];
     if (hours.length === 0) return 'Não selecionado';
-    
+
     if (hours.length === 1) {
       return `${hours[0]} (${duration}min)`;
     }
-    
+
     // Agrupar horários consecutivos
     const groups = [];
     let currentGroup = [hours[0]];
-    
+
     for (let i = 1; i < hours.length; i++) {
       const prevHour = parseInt(hours[i - 1].split(':')[0]);
       const currentHour = parseInt(hours[i].split(':')[0]);
-      
+
       if (currentHour === prevHour + 1) {
         currentGroup.push(hours[i]);
       } else {
@@ -148,7 +148,7 @@ const ScheduleSelector = ({
       }
     }
     groups.push(currentGroup);
-    
+
     return groups.map(group => {
       if (group.length === 1) {
         return `${group[0]} (${duration}min)`;
@@ -165,7 +165,7 @@ const ScheduleSelector = ({
     const dayName = DAY_NAMES[dayKey];
     const shortName = DAY_NAMES_SHORT[dayKey];
     const hasHours = schedule.hours[dayKey].length > 0;
-    
+
     return (
       <Card
         key={dayKey}
@@ -258,7 +258,7 @@ const ScheduleSelector = ({
         <ConflictWarning
           conflicts={conflicts}
           visible={hasConflicts && !isValidating}
-          onDismiss={() => {/* Conflitos são informativos, não dismissíveis */}}
+          onDismiss={() => {/* Conflitos são informativos, não dismissíveis */ }}
         />
       )}
 
@@ -285,13 +285,13 @@ const ScheduleSelector = ({
               Fechar
             </Button>
           </View>
-          
+
           <Divider />
-          
+
           <ScrollView style={styles.timeSlotsContainer}>
             {availableSlots.map((time) => {
               const isSelected = selectedDay && schedule.hours[selectedDay].includes(time);
-              
+
               return (
                 <List.Item
                   key={time}

@@ -11,7 +11,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { updatePassword, reauthenticateWithCredential, EmailAuthProvider } from 'firebase/auth';
-import { useAuth } from '@contexts/AuthProvider';
+import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
 import SafeCardContent from '@components/SafeCardContent';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
@@ -35,7 +35,7 @@ interface ChangePasswordScreenProps {
 }
 
 const ChangePasswordScreen = ({ navigation }: ChangePasswordScreenProps) => {
-  const { user } = useAuth();
+  const { user } = useAuthFacade();
   const { isDarkMode, getString } = useTheme();
   const [loading, setLoading] = useState(false);
   const [snackbar, setSnackbar] = useState({ visible: false, message: '', type: 'info' });

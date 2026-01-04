@@ -15,7 +15,7 @@ import {
   Text
 } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
-import { useAuth } from '@contexts/AuthProvider';
+import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, BORDER_WIDTH } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
 import { getString } from '@utils/theme';
@@ -24,7 +24,7 @@ const UserTypeSelectionScreen = ({ navigation, route }: UserTypeSelectionScreenP
   const { currentTheme } = useThemeToggle();
   const { isDarkMode, getString } = useTheme();
 
-  const { user, updateUserProfile, logout } = useAuth();
+  const { user, updateUserProfile, signOut: logout } = useAuthFacade();
   const [selectedType, setSelectedType] = useState(null);
   const [loading, setLoading] = useState(false);
 

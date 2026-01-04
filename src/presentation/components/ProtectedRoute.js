@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Card, Text, Button } from 'react-native-paper';
-import { useAuth } from '@contexts/AuthProvider';
+import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useCustomClaims } from '@hooks/useCustomClaims';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
@@ -12,14 +12,14 @@ import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@present
  * @param {boolean} requireAcademia - Se requer associação com academia
  * @param {object} props - Outras props
  */
-export function ProtectedRoute({ 
-  component: Component, 
-  roles = [], 
+export function ProtectedRoute({
+  component: Component,
+  roles = [],
   requireAcademia = true,
   redirectTo = null,
-  ...props 
+  ...props
 }) {
-  const { user, userProfile, academia, loading } = useAuth();
+  const { user, userProfile, academia, loading } = useAuthFacade();
 
   // Mostrar loading enquanto carrega dados de autenticação
   if (loading) {
@@ -68,7 +68,7 @@ export function ProtectedRoute({
   }
 
   const { role } = useCustomClaims();
-  
+
   // Verificar roles se especificadas
   if (roles.length > 0 && !roles.includes(role)) {
     return (
@@ -131,8 +131,8 @@ export function ProtectedRoute({
 export function withProtectedRoute(Component, options = {}) {
   return function ProtectedComponent(props) {
     return (
-      <ProtectedRoute 
-        component={Component} 
+      <ProtectedRoute
+        component={Component}
         {...options}
         {...props}
       />
@@ -147,7 +147,7 @@ export function usePermissions() {
   const { userProfile, academia } = useAuth();
 
   const { role: userRole } = useCustomClaims();
-  
+
   const hasRole = (role) => {
     return userRole === role;
   };

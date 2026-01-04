@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useAuth } from '@contexts/AuthProvider';
+import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
 import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
 import FreeGymScheduler from '@components/FreeGymScheduler';
@@ -14,7 +14,7 @@ import { getString } from '@utils/theme';
  * Mostra apenas as turmas em que o aluno está matriculado
  */
 const StudentCalendar = ({ navigation }) => {
-  const { user, userProfile } = useAuth();
+  const { user, userProfile } = useAuthFacade();
   const { getString } = useTheme();
   const { isStudent } = useCustomClaims();
   const [classes, setClasses] = useState([]);
@@ -25,7 +25,7 @@ const StudentCalendar = ({ navigation }) => {
   const loadClasses = useCallback(async () => {
     try {
       setLoading(true);
-      
+
       if (!userProfile?.academiaId) {
         console.warn('⚠️ Usuário sem academiaId definido');
         setClasses([]);
@@ -34,15 +34,15 @@ const StudentCalendar = ({ navigation }) => {
 
       // Buscar todas as turmas da academia
       const allClasses = await academyFirestoreService.getAll('classes', userProfile.academiaId);
-      
+
       // Filtrar apenas as turmas em que o aluno está matriculado
-      const studentClasses = allClasses.filter(cls => 
+      const studentClasses = allClasses.filter(cls =>
         userProfile?.classIds && userProfile.classIds.includes(cls.id)
       );
-      
+
       setClasses(studentClasses);
       console.log('✅ Turmas do aluno carregadas:', studentClasses.length);
-      
+
     } catch (error) {
       console.error('❌ Erro ao carregar turmas do aluno:', error);
     } finally {
@@ -63,9 +63,9 @@ const StudentCalendar = ({ navigation }) => {
 
   // Navegar para detalhes da turma
   const handleClassPress = useCallback((event) => {
-    navigation.navigate('ClassDetails', { 
+    navigation.navigate('ClassDetails', {
       classId: event.classId,
-      className: event.title 
+      className: event.title
     });
   }, [navigation]);
 

@@ -46,6 +46,8 @@ export interface UserProfile {
     readonly state?: string;
     readonly zipCode?: string;
     readonly country?: string;
+    readonly estadoNome?: string;
+    readonly paisNome?: string;
   };
   readonly emergencyContact?: {
     readonly name: string;
@@ -80,6 +82,19 @@ export interface UserProfile {
   readonly createdAt: Date;
   readonly updatedAt: Date;
   readonly lastLoginAt?: Date;
+  readonly notificationSettings?: {
+    readonly pushNotifications: boolean;
+    readonly emailNotifications: boolean;
+    readonly paymentReminders: boolean;
+    readonly classReminders: boolean;
+    readonly announcementNotifications: boolean;
+    readonly evaluationReminders: boolean;
+    readonly paymentReminderDays: number;
+    readonly classReminderMinutes: number;
+    readonly quietHoursEnabled: boolean;
+    readonly quietHoursStart: string;
+    readonly quietHoursEnd: string;
+  };
 }
 
 export interface Claims {
@@ -119,64 +134,66 @@ export interface Academia {
     readonly city: string;
     readonly state: string;
     readonly zipCode: string;
-    readonly country: string;
-    readonly coordinates?: {
-      readonly latitude: number;
-      readonly longitude: number;
-    };
+S    readonly country: string;
+    readonly estadoNome ?: string;
+    readonly paisNome ?: string;
+    readonly coordinates ?: {
+  readonly latitude: number;
+  readonly longitude: number;
+};
   };
-  readonly socialMedia?: {
-    readonly facebook?: string;
-    readonly instagram?: string;
-    readonly twitter?: string;
-    readonly youtube?: string;
-    readonly tiktok?: string;
-  };
-  readonly businessHours?: {
-    readonly [day: string]: {
+  readonly socialMedia ?: {
+  readonly facebook?: string;
+  readonly instagram?: string;
+  readonly twitter?: string;
+  readonly youtube?: string;
+  readonly tiktok?: string;
+};
+  readonly businessHours ?: {
+  readonly [day: string]: {
       readonly open: string;
       readonly close: string;
-      readonly closed?: boolean;
-    };
+      readonly closed ?: boolean;
+};
   };
-  readonly modalities?: string[];
-  readonly instructors?: string[];
-  readonly students?: string[];
-  readonly classes?: string[];
-  readonly subscription?: {
-    readonly plan: string;
-    readonly status: 'active' | 'inactive' | 'suspended' | 'trial';
-    readonly expiresAt?: Date;
-    readonly features: string[];
+  readonly modalities ?: string[];
+  readonly instructors ?: string[];
+  readonly students ?: string[];
+  readonly classes ?: string[];
+  readonly subscription ?: {
+  readonly plan: string;
+  readonly status: 'active' | 'inactive' | 'suspended' | 'trial';
+  readonly expiresAt?: Date;
+  readonly features: string[];
+};
+  readonly settings ?: {
+  readonly timezone: string;
+  readonly language: string;
+  readonly currency: string;
+  readonly notifications: {
+    readonly email: boolean;
+    readonly sms: boolean;
+    readonly push: boolean;
   };
-  readonly settings?: {
-    readonly timezone: string;
-    readonly language: string;
-    readonly currency: string;
-    readonly notifications: {
-      readonly email: boolean;
-      readonly sms: boolean;
-      readonly push: boolean;
-    };
-    readonly features: {
-      readonly graduations: boolean;
-      readonly payments: boolean;
-      readonly reports: boolean;
-      readonly calendar: boolean;
-      readonly checkin: boolean;
-    };
-    readonly branding?: {
-      readonly primaryColor: string;
-      readonly secondaryColor: string;
-      readonly logoURL?: string;
-    };
+  readonly features: {
+    readonly graduations: boolean;
+    readonly payments: boolean;
+    readonly reports: boolean;
+    readonly calendar: boolean;
+    readonly checkin: boolean;
   };
-  readonly stats?: {
-    readonly totalStudents: number;
-    readonly totalInstructors: number;
-    readonly totalClasses: number;
-    readonly activeClasses: number;
+  readonly branding?: {
+    readonly primaryColor: string;
+    readonly secondaryColor: string;
+    readonly logoURL?: string;
   };
+};
+  readonly stats ?: {
+  readonly totalStudents: number;
+  readonly totalInstructors: number;
+  readonly totalClasses: number;
+  readonly activeClasses: number;
+};
   readonly createdAt: Date;
   readonly updatedAt: Date;
   readonly ownerId: string;

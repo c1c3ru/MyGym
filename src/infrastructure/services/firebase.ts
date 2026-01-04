@@ -1,11 +1,10 @@
-// Firebase compatibility layer
-// This file exports Firebase instances for backward compatibility
-// All new code should import from '@infrastructure/firebase' instead
-
 import { firebaseApp, firebaseAuth, firebaseFirestore } from '@infrastructure/firebase';
+import { Auth } from 'firebase/auth';
+import { Firestore } from 'firebase/firestore';
+import { FirebaseApp } from 'firebase/app';
 
 // Initialize Firebase App first (required before Auth and Firestore)
-let app;
+let app: FirebaseApp;
 try {
     app = firebaseApp.getApp();
 } catch (error) {
@@ -13,7 +12,7 @@ try {
 }
 
 // Get or initialize Firebase Auth
-let auth;
+let auth: Auth;
 try {
     auth = firebaseAuth.getAuth();
 } catch (error) {
@@ -21,7 +20,7 @@ try {
 }
 
 // Get or initialize Firebase Firestore
-let db;
+let db: Firestore;
 try {
     db = firebaseFirestore.getFirestore();
 } catch (error) {

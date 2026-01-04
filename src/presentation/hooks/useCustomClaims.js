@@ -1,56 +1,26 @@
-import { useState, useEffect, useContext } from 'react';
-import { AuthContext } from '@contexts/AuthProvider';
-import { getUserClaims } from '@utils/customClaimsHelper';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { useAuthFacade } from '@presentation/auth/AuthFacade';
+import { COLORS } from '@presentation/theme/designTokens';
 import { getString } from '@utils/theme';
 
 /**
  * Hook para acessar Custom Claims de forma consistente
- * Substitui o uso de userProfile?.userType por claims do token
- * Funciona com ou sem AuthProvider (valores padrão seguros)
+ * Agora utiliza AuthFacade como fonte da verdade
  */
 export const useCustomClaims = () => {
-  // Usa useContext diretamente para evitar erro quando não está dentro do AuthProvider
-  const authContext = useContext(AuthContext);
-  const user = authContext?.user || null;
-  
-  const [claims, setClaims] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const { customClaims, user, loading: authLoading } = useAuthFacade();
 
-  useEffect(() => {
-    const loadClaims = async () => {
-      if (!user) {
-        setClaims(null);
-        setLoading(false);
-        return;
-      }
+  // Funções de verificação
+  const isAdmin = () => customClaims?.role === 'admin';
+  const isInstructor = () => customClaims?.role === 'instructor';
+  const isStudent = () => customClaims?.role === 'student';
+  const isAdminOrInstructor = () => ['admin', 'instructor'].includes(customClaims?.role);
 
-      try {
-        const userClaims = await getUserClaims();
-        setClaims(userClaims);
-      } catch (error) {
-        console.error('❌ useCustomClaims: Erro ao carregar claims:', error);
-        setClaims(null);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const getAcademiaId = () => customClaims?.academiaId;
+  const hasValidClaims = () => !!(customClaims?.role && customClaims?.academiaId);
 
-    loadClaims();
-  }, [user]);
-
-  // Funções de conveniência
-  const isAdmin = () => claims?.role === 'admin';
-  const isInstructor = () => claims?.role === 'instructor';
-  const isStudent = () => claims?.role === 'student';
-  const isAdminOrInstructor = () => ['admin', 'instructor'].includes(claims?.role);
-  
-  const getAcademiaId = () => claims?.academiaId;
-  const hasValidClaims = () => !!(claims?.role && claims?.academiaId);
-  
   // Função para obter cor do tema baseada no role
   const getUserTypeColor = () => {
-    switch (claims?.role) {
+    switch (customClaims?.role) {
       case 'admin':
         return '#6A1B9A';  // Purple
       case 'instructor':
@@ -64,7 +34,7 @@ export const useCustomClaims = () => {
 
   // Função para obter texto do tipo de usuário
   const getUserTypeText = () => {
-    switch (claims?.role) {
+    switch (customClaims?.role) {
       case 'admin':
         return getString('administrator');
       case 'instructor':
@@ -77,27 +47,35 @@ export const useCustomClaims = () => {
   };
 
   return {
-    claims,
-    loading,
-    
+    claims: customClaims, // Mantendo compatibilidade de nome se necessário, mas idealmente usar customClaims
+    loading: authLoading, // Reutilizando loading do AuthFacade
+
     // Funções de verificação
+    isAdmin: isAdmin(), // Chamando aqui se o retorno original era booleano direto ou função?
+    // O original retornava REFERÊNCIAS para funções: const isAdmin = () => ...
+    // O hook original retornava: { isAdmin, ... } onde isAdmin é a função.
+    // VOU MANTER COMO FUNÇÃO para compatibilidade estrita.
+    isAdminFn: isAdmin,
+    isInstructorFn: isInstructor,
+
+    // Retornando as funções como no original
     isAdmin,
     isInstructor,
     isStudent,
     isAdminOrInstructor,
-    
+
     // Dados
-    role: claims?.role,
-    academiaId: claims?.academiaId,
+    role: customClaims?.role,
+    academiaId: customClaims?.academiaId,
     getAcademiaId,
     hasValidClaims,
-    
+
     // Utilitários de UI
     getUserTypeColor,
     getUserTypeText,
-    
-    // Raw claims para casos especiais
-    rawClaims: claims?.customClaims
+
+    // Raw claims
+    rawClaims: customClaims
   };
 };
 
@@ -105,20 +83,26 @@ export const useCustomClaims = () => {
  * Hook simplificado para verificar permissões
  */
 export const usePermissions = () => {
-  const { isAdmin, isInstructor, isStudent, isAdminOrInstructor } = useCustomClaims();
-  
+  const { customClaims } = useAuthFacade();
+
+  const role = customClaims?.role;
+  const isStudent = role === 'student';
+  const isAdmin = role === 'admin';
+  const isInstructor = role === 'instructor';
+  const isAdminOrInstructor = isAdmin || isInstructor;
+
   return {
-    canManageStudents: isAdminOrInstructor(),
-    canManageClasses: isAdminOrInstructor(),
-    canManagePayments: isAdmin(),
-    canViewReports: isAdminOrInstructor(),
-    canCreateAcademy: isAdmin(),
-    canManageSettings: isAdmin(),
-    canViewAllData: isAdmin(),
-    canViewOwnData: isStudent(),
-    canCreateCheckIn: isAdminOrInstructor() || isStudent(),
-    canManageGraduations: isAdminOrInstructor(),
-    canViewLogs: isAdmin()
+    canManageStudents: isAdminOrInstructor,
+    canManageClasses: isAdminOrInstructor,
+    canManagePayments: isAdmin,
+    canViewReports: isAdminOrInstructor,
+    canCreateAcademy: isAdmin,
+    canManageSettings: isAdmin,
+    canViewAllData: isAdmin,
+    canViewOwnData: isStudent,
+    canCreateCheckIn: isAdminOrInstructor || isStudent,
+    canManageGraduations: isAdminOrInstructor,
+    canViewLogs: isAdmin
   };
 };
 
@@ -128,12 +112,12 @@ export const usePermissions = () => {
  */
 export const getClaimsSync = (customClaims) => {
   if (!customClaims) return { role: 'student', academiaId: null };
-  
+
   return {
     role: customClaims.role || 'student',
     academiaId: customClaims.academiaId || null,
     isAdmin: customClaims.role === 'admin',
-    isInstructor: customClaims.role === 'instructor', 
+    isInstructor: customClaims.role === 'instructor',
     isStudent: customClaims.role === 'student',
     isAdminOrInstructor: ['admin', 'instructor'].includes(customClaims.role)
   };

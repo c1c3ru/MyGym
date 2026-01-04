@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, ScrollView, Alert, Linking } from 'react-native';
+import { View, ScrollView, Alert, Linking, StyleSheet } from 'react-native';
 import {
   Text,
   Card,
@@ -17,10 +17,12 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import { collection, addDoc, query, where, getDocs, updateDoc, doc } from 'firebase/firestore';
 import { db } from '@infrastructure/services/firebase';
-import { useAuth } from '@contexts/AuthProvider';
+import { Firestore } from 'firebase/firestore';
+import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
 import { useCustomClaims } from '@hooks/useCustomClaims';
 import { initializeAcademySubcollections } from '@infrastructure/services/academyInitializationService';
+import { InviteService } from '@infrastructure/services/inviteService';
 import { isAdmin, getCanonicalUserType } from '@utils/userTypeHelpers';
 import QRCodeScanner from '@components/QRCodeScanner';
 import CountryStatePicker from '@components/CountryStatePicker';
@@ -36,7 +38,7 @@ interface AcademiaSelectionScreenProps {
 }
 
 const AcademiaSelectionScreen: React.FC<AcademiaSelectionScreenProps> = ({ navigation, route }) => {
-  const { user, userProfile, setUserProfile, signOut } = useAuth();
+  const { user, userProfile, updateUserProfile, updateAcademiaAssociation, logout: signOut } = useAuthFacade();
   const { getString, isDarkMode } = useTheme();
   const { role, isAdmin } = useCustomClaims();
   const forceCreate = route?.params?.forceCreate || false;
@@ -82,7 +84,7 @@ const AcademiaSelectionScreen: React.FC<AcademiaSelectionScreenProps> = ({ navig
   });
 
   // Funções para controlar o Snackbar
-  const showSnackbar = (message, type = 'success') => {
+  const showSnackbar = (message: string, type = 'success') => {
     setSnackbar({
       visible: true,
       message,
@@ -142,7 +144,7 @@ const AcademiaSelectionScreen: React.FC<AcademiaSelectionScreenProps> = ({ navig
     }
   };
 
-  const joinAcademia = async (academiaId, tipo = 'aluno') => {
+  const joinAcademia = async (academiaId: string, tipo: string = 'aluno') => {
     setLoading(true);
     try {
       await updateAcademiaAssociation(academiaId);
@@ -157,9 +159,9 @@ const AcademiaSelectionScreen: React.FC<AcademiaSelectionScreenProps> = ({ navig
     }
   };
 
-  const handleQRCodeScan = async (data) => {
+  const handleQRCodeScan = async (data: string) => {
     try {
-      const urlInfo = InviteService.parseInviteUrl(data);
+      const urlInfo: any = InviteService.parseInviteUrl(data);
 
       if (!urlInfo) {
         Alert.alert(getString('error'), getString('invalidQRCode'));
@@ -181,18 +183,19 @@ const AcademiaSelectionScreen: React.FC<AcademiaSelectionScreenProps> = ({ navig
     }
   };
 
-  const processInviteLink = async (token) => {
+  const processInviteLink = async (token: string) => {
     setLoading(true);
     try {
       // Usar busca global temporariamente para compatibilidade com links antigos
-      const invite = await InviteService.findInviteByTokenGlobally(token);
+      const invite: any = await InviteService.findInviteByTokenGlobally(token);
 
       if (!invite) {
         Alert.alert(getString('error'), getString('invalidOrExpiredInvite'));
         return;
       }
 
-      const result = await InviteService.acceptInvite(invite.academiaId, invite.id, user.id);
+      if (!user) throw new Error('User not authenticated');
+      const result: any = await InviteService.acceptInvite(invite.academiaId, invite.id, user.id);
       await joinAcademia(result.academiaId, result.tipo);
     } catch (error) {
       console.error(getString('logoutError'), error);
@@ -209,7 +212,7 @@ const AcademiaSelectionScreen: React.FC<AcademiaSelectionScreenProps> = ({ navig
     }
 
     try {
-      const urlInfo = InviteService.parseInviteUrl(inviteLink.trim());
+      const urlInfo: any = InviteService.parseInviteUrl(inviteLink.trim());
 
       if (!urlInfo) {
         Alert.alert(getString('error'), getString('invalidLink'));
@@ -233,15 +236,13 @@ const AcademiaSelectionScreen: React.FC<AcademiaSelectionScreenProps> = ({ navig
   const createNewAcademia = async () => {
     // Debug: verificar dados do usuário
     console.log('🔍 Debug - userProfile:', userProfile);
-    // Verificar se é admin usando custom claims (prioridade) ou fallback para userProfile
     const userIsAdmin = isAdmin() ||
-      userProfile?.tipo === 'administrador' || userProfile?.tipo === 'admin' ||
-      userProfile?.userType === 'administrador' || userProfile?.userType === 'admin';
+      userProfile?.userType === 'admin';
 
     if (!userIsAdmin) {
       Alert.alert(
         getString('permissionDenied'),
-        `${getString('onlyAdminsCanCreate')}\n\n${getString('currentProfile')}: ${role || userProfile?.tipo || userProfile?.userType || getString('notDefined')}`
+        `${getString('onlyAdminsCanCreate')}\n\n${getString('currentProfile')}: ${role || userProfile?.userType || getString('notDefined')}`
       );
       return;
     }
@@ -307,7 +308,7 @@ const AcademiaSelectionScreen: React.FC<AcademiaSelectionScreenProps> = ({ navig
           },
           modalidades: newAcademiaData.modalidades,
           plano: newAcademiaData.plano,
-          adminId: user.id,
+          adminId: user?.id,
           criadoEm: new Date(),
           ativo: true,
           codigo: codigoGerado
@@ -356,7 +357,7 @@ const AcademiaSelectionScreen: React.FC<AcademiaSelectionScreenProps> = ({ navig
     createAcademia();
   };
 
-  const renderAcademiaCard = (academia) => (
+  const renderAcademiaCard = (academia: any) => (
     <Card key={academia.id} style={styles.academiaCard}>
       <Card.Content>
         <Text variant="headlineSmall" style={styles.academiaName}>
@@ -384,7 +385,7 @@ const AcademiaSelectionScreen: React.FC<AcademiaSelectionScreenProps> = ({ navig
         <View style={styles.planoContainer}>
           <Chip
             mode="outlined"
-            style={[styles.planoChip, { backgroundColor: getPlanoColor(academia.plano) }]}
+            style={[styles.planoChip as any, { backgroundColor: getPlanoColor(academia.plano) }] as any}
           >
             Plano {academia.plano?.toUpperCase()}
           </Chip>
@@ -395,7 +396,7 @@ const AcademiaSelectionScreen: React.FC<AcademiaSelectionScreenProps> = ({ navig
           mode="contained"
           onPress={() => joinAcademia(academia.id)}
           disabled={loading}
-          style={styles.joinButton}
+          style={styles.joinButton as any}
         >
           Entrar nesta Academia
         </Button>
@@ -403,7 +404,7 @@ const AcademiaSelectionScreen: React.FC<AcademiaSelectionScreenProps> = ({ navig
     </Card>
   );
 
-  const getPlanoColor = (plano) => {
+  const getPlanoColor = (plano: string) => {
     switch (plano) {
       case 'free': return COLORS.success[50];
       case 'premium': return COLORS.warning[50];
@@ -412,19 +413,21 @@ const AcademiaSelectionScreen: React.FC<AcademiaSelectionScreenProps> = ({ navig
     }
   };
 
+
+
   if (loading) {
     return (
-      <View style={styles.loadingContainer}>
+      <View style={styles.loadingContainer as any}>
         <ActivityIndicator size="large" color={COLORS.primary[500]} />
-        <Text style={styles.loadingText}>Processando...</Text>
+        <Text style={styles.loadingText as any}>Processando...</Text>
       </View>
     );
   }
 
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.header}>
-        <View style={styles.headerContent}>
+      <View style={styles.header as any}>
+        <View style={styles.headerContent as any}>
           <Button
             mode="text"
             onPress={async () => {
@@ -432,8 +435,8 @@ const AcademiaSelectionScreen: React.FC<AcademiaSelectionScreenProps> = ({ navig
                 console.log('🔙 Voltando para seleção de tipo de usuário...');
                 // Resetar o tipo de usuário para voltar à tela anterior
                 await updateUserProfile({
-                  tipo: null,
-                  userType: null,
+                  // tipo: null, // Removing 'tipo' as it is not in UserProfile
+                  userType: null as any,
                   profileCompleted: false,
                   updatedAt: new Date()
                 });
@@ -448,11 +451,11 @@ const AcademiaSelectionScreen: React.FC<AcademiaSelectionScreenProps> = ({ navig
           >
             Voltar
           </Button>
-          <View style={styles.headerTextContainer}>
-            <Text variant="headlineMedium" style={styles.title}>
+          <View style={styles.headerTextContainer as any}>
+            <Text variant="headlineMedium" style={styles.title as any}>
               {forceCreate ? getString('createAcademy') : getString('selectAcademy')}
             </Text>
-            <Text variant="bodyMedium" style={styles.subtitle}>
+            <Text variant="bodyMedium" style={styles.subtitle as any}>
               {forceCreate
                 ? getString('adminMustCreate')
                 : getString('mustAssociate')
@@ -463,7 +466,7 @@ const AcademiaSelectionScreen: React.FC<AcademiaSelectionScreenProps> = ({ navig
       </View>
 
       {/* Opções de Associação - ocultar para todos os admins */}
-      {!forceCreate && !isAdmin(userProfile) && (
+      {!forceCreate && !isAdmin() && (
         <Card style={styles.optionsCard}>
           <Card.Content>
             <Text variant="titleMedium" style={styles.sectionTitle}>
@@ -473,7 +476,7 @@ const AcademiaSelectionScreen: React.FC<AcademiaSelectionScreenProps> = ({ navig
               Escolha uma das opções abaixo
             </Text>
 
-            <View style={styles.optionButtons}>
+            <View style={styles.optionButtons as any}>
               <Button
                 mode="contained"
                 onPress={() => setShowQRScanner(true)}
@@ -497,7 +500,7 @@ const AcademiaSelectionScreen: React.FC<AcademiaSelectionScreenProps> = ({ navig
       )}
 
       {/* Buscar Academia por Código - ocultar para todos os admins */}
-      {!forceCreate && !isAdmin(userProfile) && (
+      {!forceCreate && !isAdmin() && (
         <Card style={styles.searchCard}>
           <Card.Content>
             <Text variant="titleMedium" style={styles.sectionTitle}>
@@ -543,7 +546,7 @@ const AcademiaSelectionScreen: React.FC<AcademiaSelectionScreenProps> = ({ navig
       {!forceCreate && <Divider style={styles.divider} />}
 
       {/* Criar Nova Academia - Sempre visível para admins, ou quando solicitado */}
-      {(isAdmin(userProfile) || forceCreate) && (
+      {(isAdmin() || forceCreate) && (
         <Card style={styles.createCard}>
           <Card.Content>
             <Text variant="titleMedium" style={styles.sectionTitle}>
@@ -599,7 +602,7 @@ const AcademiaSelectionScreen: React.FC<AcademiaSelectionScreenProps> = ({ navig
                 />
 
                 {/* Campos de Endereço */}
-                <View style={styles.addressRow}>
+                <View style={styles.addressRow as any}>
                   <TextInput
                     label="CEP/Código Postal"
                     value={newAcademiaData.endereco.cep}
@@ -635,7 +638,7 @@ const AcademiaSelectionScreen: React.FC<AcademiaSelectionScreenProps> = ({ navig
                   style={styles.input}
                 />
 
-                <View style={styles.addressRow}>
+                <View style={styles.addressRow as any}>
                   <TextInput
                     label="Número"
                     value={newAcademiaData.endereco.numero}
@@ -691,13 +694,13 @@ const AcademiaSelectionScreen: React.FC<AcademiaSelectionScreenProps> = ({ navig
                   onModalitiesChange={(modalidades) =>
                     setNewAcademiaData(prev => ({
                       ...prev,
-                      modalidades: modalidades
+                      modalidades: modalidades as never[]
                     }))
                   }
                   label="Modalidades Oferecidas"
                 />
 
-                <View style={styles.buttonRow}>
+                <View style={styles.buttonRow as any}>
                   <Button
                     mode="outlined"
                     onPress={() => setShowCreateForm(false)}
@@ -720,7 +723,7 @@ const AcademiaSelectionScreen: React.FC<AcademiaSelectionScreenProps> = ({ navig
       )}
 
       {/* Mensagem para usuários não-admin */}
-      {!isAdmin(userProfile) && (
+      {!isAdmin() && (
         <Card style={styles.createCard}>
           <Card.Content>
             <Text variant="titleMedium" style={styles.sectionTitle}>
@@ -741,9 +744,9 @@ const AcademiaSelectionScreen: React.FC<AcademiaSelectionScreenProps> = ({ navig
         <Modal
           visible={showQRScanner}
           onDismiss={() => setShowQRScanner(false)}
-          contentContainerStyle={styles.qrModalWrapper}
+          contentContainerStyle={styles.qrModalWrapper as any}
         >
-          <View style={styles.qrModal}>
+          <View style={styles.qrModal as any}>
             <QRCodeScanner
               onScan={handleQRCodeScan}
               onCancel={() => setShowQRScanner(false)}
@@ -759,11 +762,11 @@ const AcademiaSelectionScreen: React.FC<AcademiaSelectionScreenProps> = ({ navig
           onDismiss={() => setShowInviteLinkModal(false)}
           contentContainerStyle={styles.modal}
         >
-          <Text variant="titleLarge" style={styles.modalTitle}>
+          <Text variant="titleLarge" style={styles.modalTitle as any}>
             Link de Convite
           </Text>
 
-          <Text variant="bodyMedium" style={styles.modalDescription}>
+          <Text variant="bodyMedium" style={styles.modalDescription as any}>
             Cole aqui o link de convite que você recebeu
           </Text>
 
@@ -777,7 +780,7 @@ const AcademiaSelectionScreen: React.FC<AcademiaSelectionScreenProps> = ({ navig
             multiline
           />
 
-          <View style={styles.modalActions}>
+          <View style={styles.modalActions as any}>
             <Button
               mode="outlined"
               onPress={() => {
@@ -821,7 +824,7 @@ const AcademiaSelectionScreen: React.FC<AcademiaSelectionScreenProps> = ({ navig
   );
 }
 
-const styles = {
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.gray[100],
@@ -847,10 +850,10 @@ const styles = {
     left: -16,
     top: -8,
     zIndex: 1,
-  },
+  } as any,
   headerTextContainer: {
-    alignItems: 'center',
-  },
+    alignItems: 'center', // FlexAlignType
+  } as any,
   title: {
     color: COLORS.white,
     fontWeight: '700' as const,
@@ -1023,6 +1026,6 @@ const styles = {
   snackbarInfo: {
     backgroundColor: COLORS.info[500],
   },
-};
+});
 
 export default AcademiaSelectionScreen;

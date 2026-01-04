@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { collection, query, onSnapshot, doc, getDoc, addDoc, updateDoc, deleteDoc, where } from 'firebase/firestore';
 import { db } from '@infrastructure/services/firebase';
-import { useAuth } from '@contexts/AuthProvider';
+import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { getString } from '@utils/theme';
 
 /**
@@ -11,7 +11,7 @@ import { getString } from '@utils/theme';
  * @returns {object} { data, loading, error, addItem, updateItem, deleteItem }
  */
 export function useAcademiaCollection(collectionName, options = {}) {
-  const { userProfile, academia } = useAuth();
+  const { userProfile, academia } = useAuthFacade();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -29,7 +29,7 @@ export function useAcademiaCollection(collectionName, options = {}) {
     try {
       // Referência para a subcoleção da academia
       const collectionRef = collection(db, 'gyms', userProfile.academiaId, collectionName);
-      
+
       // Aplicar filtros se fornecidos
       let queryRef = collectionRef;
       if (options.where) {
@@ -37,7 +37,7 @@ export function useAcademiaCollection(collectionName, options = {}) {
       }
 
       // Listener em tempo real
-      const unsubscribe = onSnapshot(queryRef, 
+      const unsubscribe = onSnapshot(queryRef,
         (snapshot) => {
           const items = snapshot.docs.map(doc => ({
             id: doc.id,
@@ -131,7 +131,7 @@ export function useAcademiaCollection(collectionName, options = {}) {
  * @returns {object} { data, loading, error }
  */
 export function useAcademiaDocument(collectionName, itemId) {
-  const { userProfile, academia } = useAuth();
+  const { userProfile, academia } = useAuthFacade();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -150,7 +150,7 @@ export function useAcademiaDocument(collectionName, itemId) {
       try {
         const docRef = doc(db, 'gyms', userProfile.academiaId, collectionName, itemId);
         const docSnap = await getDoc(docRef);
-        
+
         if (docSnap.exists()) {
           setData({
             id: docSnap.id,
@@ -209,8 +209,8 @@ export function useAcademiaStats() {
     activeClasses: classes?.filter(classItem => classItem.status === 'ativa')?.length || 0,
     monthlyRevenue: payments?.reduce((total, payment) => {
       const paymentDate = payment.createdAt?.toDate?.() || new Date(payment.createdAt);
-      const isCurrentMonth = paymentDate.getMonth() === new Date().getMonth() && 
-                            paymentDate.getFullYear() === new Date().getFullYear();
+      const isCurrentMonth = paymentDate.getMonth() === new Date().getMonth() &&
+        paymentDate.getFullYear() === new Date().getFullYear();
       return isCurrentMonth ? total + (payment.valor || payment.amount || 0) : total;
     }, 0) || 0
   };

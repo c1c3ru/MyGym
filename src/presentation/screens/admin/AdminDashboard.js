@@ -14,7 +14,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { SafeIonicons, SafeMaterialCommunityIcons } from '@components/SafeIcon';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useAuth } from '@contexts/AuthProvider';
+import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
 import AnimatedCard from '@components/AnimatedCard';
 import AnimatedButton from '@components/AnimatedButton';
@@ -31,17 +31,17 @@ import { useOnboarding } from '@components/OnboardingTour';
 import { getString } from '@utils/theme';
 
 const AdminDashboard = ({ navigation }) => {
-  const { user, userProfile, logout, academia } = useAuth();
+  const { user, userProfile, logout, academia } = useAuthFacade();
   const { animations, startEntryAnimation } = useAnimation();
   const scrollY = new Animated.Value(0);
 
   // Analytics tracking
-  useScreenTracking('AdminDashboard', { 
+  useScreenTracking('AdminDashboard', {
     academiaId: userProfile?.academiaId,
-    userType: userProfile?.userType 
+    userType: userProfile?.userType
   });
   const { trackButtonClick, trackFeatureUsage } = useUserActionTracking();
-  
+
   const [dashboardData, setDashboardData] = useState({
     totalStudents: 0,
     activeStudents: 0,
@@ -67,12 +67,12 @@ const AdminDashboard = ({ navigation }) => {
   useEffect(() => {
     loadDashboardData();
     startEntryAnimation();
-    
+
     // Iniciar tour após carregar dados
     const timer = setTimeout(() => {
       startTour('ADMIN_DASHBOARD');
     }, 1000);
-    
+
     return () => clearTimeout(timer);
   }, []);
 
@@ -90,7 +90,7 @@ const AdminDashboard = ({ navigation }) => {
   const loadDashboardData = useCallback(async () => {
     try {
       setLoading(true);
-      
+
       // Buscar todos os alunos da academia
       const academiaId = userProfile?.academiaId || academia?.id;
       if (!academiaId) {
@@ -100,12 +100,12 @@ const AdminDashboard = ({ navigation }) => {
 
       // Usar cache inteligente para carregar dados do dashboard
       const cacheKey = CACHE_KEYS.DASHBOARD(academiaId);
-      
+
       const dashboardStats = await cacheService.getOrSet(
         cacheKey,
         async () => {
           console.log('🔍 Buscando dados do dashboard (cache miss):', academiaId);
-          
+
           // Usar batch processing para carregar múltiplas coleções
           const [students, classes, payments, instructors] = await Promise.all([
             academyFirestoreService.getAll('students', academiaId),
@@ -118,22 +118,22 @@ const AdminDashboard = ({ navigation }) => {
           setClasses(classes);
 
           const activeStudents = students.filter(s => s.isActive !== false);
-          
+
           const currentMonth = new Date().getMonth();
           const currentYear = new Date().getFullYear();
-          
+
           const monthlyPayments = payments.filter(p => {
             const paymentDate = new Date(p.createdAt?.seconds ? p.createdAt.seconds * 1000 : p.createdAt);
             return paymentDate.getMonth() === currentMonth && paymentDate.getFullYear() === currentYear;
           });
-          
+
           const pendingPayments = payments.filter(p => p.status === 'pending').length;
           const overduePayments = payments.filter(p => p.status === 'overdue').length;
-          
+
           const monthlyRevenue = monthlyPayments
             .filter(p => p.status === 'paid')
             .reduce((sum, p) => sum + (p.amount || 0), 0);
-          
+
           // Buscar atividades recentes (simulado - em produção viria do Firestore)
           const recentActivities = [
             {
@@ -175,7 +175,7 @@ const AdminDashboard = ({ navigation }) => {
 
       setDashboardData(dashboardStats);
       console.log('✅ Dashboard carregado com sucesso');
-      
+
       // Track analytics
       trackFeatureUsage('dashboard_loaded', {
         totalStudents: dashboardStats.totalStudents,
@@ -304,29 +304,29 @@ const AdminDashboard = ({ navigation }) => {
             contentContainerStyle={styles.calendarModalContainer}
             dismissable={true}
           >
-          <View style={styles.calendarModalHeader}>
-            <Text style={styles.calendarModalTitle}>{getString('classSchedule')}</Text>
-            <Button onPress={() => setShowCalendarModal(false)}>{getString('close')}</Button>
-          </View>
-          <View style={styles.calendarContainer}>
-            <FreeGymScheduler
-              classes={classes}
-              onClassPress={(event) => {
-                setShowCalendarModal(false);
-                navigation.navigate('ClassDetails', { 
-                  classId: event.classId,
-                  className: event.title 
-                });
-              }}
-              onCreateClass={() => {
-                console.log('🚀 Botão criar turma clicado no AdminDashboard');
-                setShowCalendarModal(false);
-                console.log('📱 Navegando para AddClass...');
-                navigation.navigate('AddClass');
-              }}
-              navigation={navigation}
-            />
-          </View>
+            <View style={styles.calendarModalHeader}>
+              <Text style={styles.calendarModalTitle}>{getString('classSchedule')}</Text>
+              <Button onPress={() => setShowCalendarModal(false)}>{getString('close')}</Button>
+            </View>
+            <View style={styles.calendarContainer}>
+              <FreeGymScheduler
+                classes={classes}
+                onClassPress={(event) => {
+                  setShowCalendarModal(false);
+                  navigation.navigate('ClassDetails', {
+                    classId: event.classId,
+                    className: event.title
+                  });
+                }}
+                onCreateClass={() => {
+                  console.log('🚀 Botão criar turma clicado no AdminDashboard');
+                  setShowCalendarModal(false);
+                  console.log('📱 Navegando para AddClass...');
+                  navigation.navigate('AddClass');
+                }}
+                navigation={navigation}
+              />
+            </View>
           </Modal>
 
           {/* Modal QR Code */}
@@ -336,7 +336,7 @@ const AdminDashboard = ({ navigation }) => {
             contentContainerStyle={styles.modalContainer}
           >
             {(academia?.id || userProfile?.academiaId) ? (
-              <QRCodeGenerator 
+              <QRCodeGenerator
                 academiaId={academia?.id || userProfile?.academiaId}
                 academiaNome={academia?.nome || getString('academy')}
                 size={250}
@@ -352,292 +352,292 @@ const AdminDashboard = ({ navigation }) => {
           </Modal>
         </Portal>
 
-        <Animated.ScrollView 
-        style={styles.scrollView}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-        onScroll={Animated.event(
-          [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-          { useNativeDriver: Platform.OS !== 'web' }
-        )}
-        scrollEventThrottle={16}
-      >
-        {/* Header moderno com gradiente (similar ao do Instrutor) */}
-        <Animated.View style={[headerTransform]}>
-          <View style={styles.headerContainer}>
-            <LinearGradient
-              colors={[COLORS.primary[600], COLORS.primary[800]]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-              style={styles.headerGradient}
-            >
-              <View style={styles.headerContentModern}>
-                <Animated.View style={{ transform: [{ scale: animations.scaleAnim }] }}>
-                  <Avatar.Text 
-                    size={ResponsiveUtils.isTablet() ? 85 : 65}
-                    label={userProfile?.name?.charAt(0) || 'A'}
-                    style={styles.avatarModern}
-                  />
-                </Animated.View>
-                <View style={styles.headerTextModern}>
-                  <Text style={styles.welcomeTextModern}>
-                    {getString('hello')}, {userProfile?.name?.split(' ')[0] || getString('admin')}! 👋
-                  </Text>
-                  <Text style={styles.roleTextModern}>
-                    {getString('academyAdministrator')}
-                  </Text>
-                  <View style={styles.statusBadge}>
-                    <SafeMaterialCommunityIcons name="circle" size={8} color={COLORS.primary[500]} />
-                    <Text style={styles.statusText}>{getString('online')}</Text>
+        <Animated.ScrollView
+          style={styles.scrollView}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+          onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+            { useNativeDriver: Platform.OS !== 'web' }
+          )}
+          scrollEventThrottle={16}
+        >
+          {/* Header moderno com gradiente (similar ao do Instrutor) */}
+          <Animated.View style={[headerTransform]}>
+            <View style={styles.headerContainer}>
+              <LinearGradient
+                colors={[COLORS.primary[600], COLORS.primary[800]]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+                style={styles.headerGradient}
+              >
+                <View style={styles.headerContentModern}>
+                  <Animated.View style={{ transform: [{ scale: animations.scaleAnim }] }}>
+                    <Avatar.Text
+                      size={ResponsiveUtils.isTablet() ? 85 : 65}
+                      label={userProfile?.name?.charAt(0) || 'A'}
+                      style={styles.avatarModern}
+                    />
+                  </Animated.View>
+                  <View style={styles.headerTextModern}>
+                    <Text style={styles.welcomeTextModern}>
+                      {getString('hello')}, {userProfile?.name?.split(' ')[0] || getString('admin')}! 👋
+                    </Text>
+                    <Text style={styles.roleTextModern}>
+                      {getString('academyAdministrator')}
+                    </Text>
+                    <View style={styles.statusBadge}>
+                      <SafeMaterialCommunityIcons name="circle" size={8} color={COLORS.primary[500]} />
+                      <Text style={styles.statusText}>{getString('online')}</Text>
+                    </View>
+                    {/* Código da Academia */}
+                    {academia?.codigo && (
+                      <TouchableOpacity
+                        style={styles.academiaCodeContainer}
+                        onPress={handleShowQR}
+                      >
+                        <SafeMaterialCommunityIcons name="qrcode" size={16} color={COLORS.white + 'E6'} />
+                        <Text style={styles.academiaCodeText}>
+                          {getString('code')}: {academia.codigo}
+                        </Text>
+                      </TouchableOpacity>
+                    )}
                   </View>
-                  {/* Código da Academia */}
-                  {academia?.codigo && (
-                    <TouchableOpacity 
-                      style={styles.academiaCodeContainer}
-                      onPress={handleShowQR}
-                    >
-                      <SafeMaterialCommunityIcons name="qrcode" size={16} color={COLORS.white + 'E6'} />
-                      <Text style={styles.academiaCodeText}>
-                        {getString('code')}: {academia.codigo}
-                      </Text>
+                  <Animated.View style={{ opacity: animations.fadeAnim }}>
+                    <TouchableOpacity onPress={handleShowQR}>
+                      <SafeMaterialCommunityIcons
+                        name="qrcode-scan"
+                        size={24}
+                        color={COLORS.white + 'D9'}
+                      />
                     </TouchableOpacity>
-                  )}
+                  </Animated.View>
                 </View>
-                <Animated.View style={{ opacity: animations.fadeAnim }}>
-                  <TouchableOpacity onPress={handleShowQR}>
-                    <SafeMaterialCommunityIcons 
-                      name="qrcode-scan" 
-                      size={24} 
-                      color={COLORS.white + 'D9'} 
-                    />
-                  </TouchableOpacity>
-                </Animated.View>
-              </View>
-            </LinearGradient>
+              </LinearGradient>
+            </View>
+          </Animated.View>
+
+          {/* Estatísticas principais em cards com gradiente (estilo Instrutor) */}
+          <View style={styles.statsContainer}>
+            <Animated.View style={[styles.statCard, { opacity: animations.fadeAnim }]}>
+              <LinearGradient colors={[COLORS.info[500], COLORS.info[700]]} style={styles.statGradient}>
+                <SafeMaterialCommunityIcons name="account-group" size={32} color={COLORS.white} />
+                <Text style={styles.statNumberModern}>{dashboardData.totalStudents}</Text>
+                <Text style={styles.statLabelModern}>{getString('totalStudents')}</Text>
+              </LinearGradient>
+            </Animated.View>
+
+            <Animated.View style={[styles.statCard, { opacity: animations.fadeAnim }]}>
+              <LinearGradient colors={[COLORS.success[500], COLORS.success[700]]} style={styles.statGradient}>
+                <SafeMaterialCommunityIcons name="account-check" size={32} color={COLORS.white} />
+                <Text style={styles.statNumberModern}>{dashboardData.activeStudents}</Text>
+                <Text style={styles.statLabelModern}>{getString('activeStudents')}</Text>
+              </LinearGradient>
+            </Animated.View>
+
+            <Animated.View style={[styles.statCard, { opacity: animations.fadeAnim }]}>
+              <LinearGradient colors={[COLORS.warning[500], COLORS.warning[700]]} style={styles.statGradient}>
+                <SafeMaterialCommunityIcons name="school-outline" size={32} color={COLORS.white} />
+                <Text style={styles.statNumberModern}>{dashboardData.totalClasses}</Text>
+                <Text style={styles.statLabelModern}>{getString('classes')}</Text>
+              </LinearGradient>
+            </Animated.View>
+
+            <Animated.View style={[styles.statCard, { opacity: animations.fadeAnim }]}>
+              <LinearGradient colors={[COLORS.secondary[500], COLORS.secondary[700]]} style={styles.statGradient}>
+                <SafeMaterialCommunityIcons name="cash-multiple" size={32} color={COLORS.white} />
+                <Text style={styles.statNumberModern}>{dashboardData.pendingPayments}</Text>
+                <Text style={styles.statLabelModern}>{getString('pendingPaymentsCount')}</Text>
+              </LinearGradient>
+            </Animated.View>
           </View>
-        </Animated.View>
 
-        {/* Estatísticas principais em cards com gradiente (estilo Instrutor) */}
-        <View style={styles.statsContainer}>
-          <Animated.View style={[styles.statCard, { opacity: animations.fadeAnim }]}>
-            <LinearGradient colors={[COLORS.info[500], COLORS.info[700]]} style={styles.statGradient}>
-              <SafeMaterialCommunityIcons name="account-group" size={32} color={COLORS.white} />
-              <Text style={styles.statNumberModern}>{dashboardData.totalStudents}</Text>
-              <Text style={styles.statLabelModern}>{getString('totalStudents')}</Text>
-            </LinearGradient>
-          </Animated.View>
-
-          <Animated.View style={[styles.statCard, { opacity: animations.fadeAnim }]}>
-            <LinearGradient colors={[COLORS.success[500], COLORS.success[700]]} style={styles.statGradient}>
-              <SafeMaterialCommunityIcons name="account-check" size={32} color={COLORS.white} />
-              <Text style={styles.statNumberModern}>{dashboardData.activeStudents}</Text>
-              <Text style={styles.statLabelModern}>{getString('activeStudents')}</Text>
-            </LinearGradient>
-          </Animated.View>
-
-          <Animated.View style={[styles.statCard, { opacity: animations.fadeAnim }]}>
-            <LinearGradient colors={[COLORS.warning[500], COLORS.warning[700]]} style={styles.statGradient}>
-              <SafeMaterialCommunityIcons name="school-outline" size={32} color={COLORS.white} />
-              <Text style={styles.statNumberModern}>{dashboardData.totalClasses}</Text>
-              <Text style={styles.statLabelModern}>{getString('classes')}</Text>
-            </LinearGradient>
-          </Animated.View>
-
-          <Animated.View style={[styles.statCard, { opacity: animations.fadeAnim }]}>
-            <LinearGradient colors={[COLORS.secondary[500], COLORS.secondary[700]]} style={styles.statGradient}>
-              <SafeMaterialCommunityIcons name="cash-multiple" size={32} color={COLORS.white} />
-              <Text style={styles.statNumberModern}>{dashboardData.pendingPayments}</Text>
-              <Text style={styles.statLabelModern}>{getString('pendingPaymentsCount')}</Text>
-            </LinearGradient>
-          </Animated.View>
-        </View>
-
-        {/* Financeiro */}
-        <AnimatedCard delay={200} style={styles.card}>
-          <Card.Content>
-            <View style={styles.cardHeader}>
-              <SafeIonicons name="cash-outline" size={24} color={COLORS.primary[500]} />
-              <Text style={[styles.cardTitle, { fontSize: ResponsiveUtils.fontSize.medium }]}>
-                {getString('monthlyFinancials')}
-              </Text>
-            </View>
-            
-            <View style={styles.financialInfo}>
-              <Animated.View 
-                style={[
-                  styles.revenueItem,
-                  {
-                    opacity: animations.fadeAnim,
-                    transform: [{ translateY: animations.slideAnim }],
-                  }
-                ]}
-              >
-                <Text style={[styles.revenueLabel, { fontSize: ResponsiveUtils.fontSize.medium }]}>
-                  {getString('monthlyRevenue')}
-                </Text>
-                <Text style={[styles.revenueValue, { fontSize: ResponsiveUtils.fontSize.extraLarge }]}>
-                  {formatCurrency(dashboardData.monthlyRevenue)}
-                </Text>
-              </Animated.View>
-              
-              <Divider style={styles.divider} />
-              
-              <View style={styles.paymentsRow}>
-                <View style={styles.paymentItem}>
-                  <Text style={[styles.paymentNumber, { fontSize: ResponsiveUtils.fontSize.large }]}>
-                    {dashboardData.pendingPayments}
-                  </Text>
-                  <Text style={[styles.paymentLabel, { fontSize: ResponsiveUtils.fontSize.small }]}>
-                    {getString('pendingCount')}
-                  </Text>
-                </View>
-                
-                <View style={styles.paymentItem}>
-                  <Text style={[
-                    styles.paymentNumber, 
-                    { 
-                      color: COLORS.error[500],
-                      fontSize: ResponsiveUtils.fontSize.large 
-                    }
-                  ]}>
-                    {dashboardData.overduePayments}
-                  </Text>
-                  <Text style={[styles.paymentLabel, { fontSize: ResponsiveUtils.fontSize.small }]}>
-                    {getString('overdueCount')}
-                  </Text>
-                </View>
-              </View>
-            </View>
-            
-            <AnimatedButton 
-              mode="outlined" 
-              onPress={handleNavigateToManagement}
-              style={styles.viewReportsButton}
-              icon="chart-line"
-            >
-              {getString('accessManagementReports')}
-            </AnimatedButton>
-          </Card.Content>
-        </AnimatedCard>
-
-        {/* Ações Rápidas modernas com gradiente (responsivo 2/3 por linha) */}
-        <AnimatedCard delay={300} style={styles.modernCard}>
-          <Card.Content>
-            <View style={styles.modernCardHeader}>
-              <View style={styles.headerIconContainer}>
-                <SafeMaterialCommunityIcons name="lightning-bolt" size={24} color={COLORS.info[500]} />
-              </View>
-              <View>
-                <Text style={styles.modernCardTitle}>{getString('quickActions')}</Text>
-                <Text style={styles.modernCardSubtitle}>{getString('quickActionsSubtitle')}</Text>
-              </View>
-            </View>
-
-            <View style={styles.modernQuickActions}>
-              {
-                [
-                  { key: 'students', title: getString('students'), subtitle: getString('manageStudentsSubtitle'), icon: 'account-group', colors: [COLORS.info[500], COLORS.info[700]], onPress: handleNavigateToStudents },
-                  { key: 'classes', title: getString('classes'), subtitle: getString('manageClassesSubtitle'), icon: 'school', colors: [COLORS.success[500], COLORS.success[700]], onPress: handleNavigateToClasses },
-                  { key: 'calendar', title: getString('calendar'), subtitle: getString('viewSchedule'), icon: 'calendar-month', colors: [COLORS.secondary[400], COLORS.secondary[600]], onPress: handleShowCalendar },
-                  { key: 'settings', title: getString('settings'), subtitle: getString('settingsManagement'), icon: 'cog', colors: [COLORS.warning[500], COLORS.warning[700]], onPress: handleNavigateToManagement },
-                ].map((action, idx) => (
-                  <Animated.View key={action.key} style={[styles.actionCard, { opacity: animations.fadeAnim, width: ResponsiveUtils.isTablet() ? '31%' : '48%' }]}>
-                    <LinearGradient colors={action.colors} style={styles.actionGradient}>
-                      <SafeMaterialCommunityIcons name={action.icon} size={28} color={COLORS.white} />
-                      <Text style={styles.actionTitle}>{action.title}</Text>
-                    <Text style={styles.actionSubtitle}>{action.subtitle}</Text>
-                    <AnimatedButton
-                      mode="contained"
-                      onPress={action.onPress}
-                      style={styles.modernActionButton}
-                      buttonColor={COLORS.white + '33'}
-                      textColor={COLORS.white}
-                      compact
-                    >
-                      {getString('open')}
-                    </AnimatedButton>
-                  </LinearGradient>
-                </Animated.View>
-              ))}
-            </View>
-          </Card.Content>
-        </AnimatedCard>
-
-        {/* Atividades Recentes */}
-        <AnimatedCard delay={400} style={styles.card}>
-          <Card.Content>
-            <View style={styles.cardHeader}>
-              <SafeIonicons name="time-outline" size={24} color={COLORS.text.secondary} />
-              <Text style={[styles.cardTitle, { fontSize: ResponsiveUtils.fontSize.medium }]}>
-                {getString('recentActivities')}
-              </Text>
-            </View>
-            
-            {dashboardData.recentActivities.map((activity, index) => (
-              <Animated.View
-                key={index}
-                style={{
-                  opacity: animations.fadeAnim,
-                  transform: [{
-                    translateX: animations.slideAnim.interpolate({
-                      inputRange: [-50, 0],
-                      outputRange: [-30, 0],
-                    })
-                  }]
-                }}
-              >
-                <List.Item
-                  title={activity.message}
-                  description={activity.time}
-                  titleStyle={{ fontSize: ResponsiveUtils.fontSize.medium }}
-                  descriptionStyle={{ fontSize: ResponsiveUtils.fontSize.small }}
-                  left={() => (
-                    <List.Icon 
-                      icon={getActivityIcon(activity.type)} 
-                      color={getActivityColor(activity.type)}
-                    />
-                  )}
-                />
-              </Animated.View>
-            ))}
-            
-            <AnimatedButton 
-              mode="text" 
-              onPress={() => {/* Implementar histórico completo */}}
-              style={styles.viewAllButton}
-            >
-              {getString('viewAllActivities')}
-            </AnimatedButton>
-          </Card.Content>
-        </AnimatedCard>
-
-        {/* Alertas e Notificações */}
-        {(dashboardData.overduePayments > 0 || dashboardData.pendingPayments > 5) && (
-          <AnimatedCard delay={500} style={[styles.card, styles.alertCard]}>
+          {/* Financeiro */}
+          <AnimatedCard delay={200} style={styles.card}>
             <Card.Content>
               <View style={styles.cardHeader}>
-                <SafeIonicons name="warning-outline" size={24} color={COLORS.warning[500]} />
+                <SafeIonicons name="cash-outline" size={24} color={COLORS.primary[500]} />
                 <Text style={[styles.cardTitle, { fontSize: ResponsiveUtils.fontSize.medium }]}>
-                  {getString('alerts')}
+                  {getString('monthlyFinancials')}
                 </Text>
               </View>
-              
-              {dashboardData.overduePayments > 0 && (
-                <Text style={[styles.alertText, { fontSize: ResponsiveUtils.fontSize.small }]}>
-                  • {dashboardData.overduePayments} {getString('paymentsOverdue')}
-                </Text>
-              )}
-              
-              {dashboardData.pendingPayments > 5 && (
-                <Text style={[styles.alertText, { fontSize: ResponsiveUtils.fontSize.small }]}>
-                  • {getString('manyPendingPayments')} ({dashboardData.pendingPayments})
-                </Text>
-              )}
+
+              <View style={styles.financialInfo}>
+                <Animated.View
+                  style={[
+                    styles.revenueItem,
+                    {
+                      opacity: animations.fadeAnim,
+                      transform: [{ translateY: animations.slideAnim }],
+                    }
+                  ]}
+                >
+                  <Text style={[styles.revenueLabel, { fontSize: ResponsiveUtils.fontSize.medium }]}>
+                    {getString('monthlyRevenue')}
+                  </Text>
+                  <Text style={[styles.revenueValue, { fontSize: ResponsiveUtils.fontSize.extraLarge }]}>
+                    {formatCurrency(dashboardData.monthlyRevenue)}
+                  </Text>
+                </Animated.View>
+
+                <Divider style={styles.divider} />
+
+                <View style={styles.paymentsRow}>
+                  <View style={styles.paymentItem}>
+                    <Text style={[styles.paymentNumber, { fontSize: ResponsiveUtils.fontSize.large }]}>
+                      {dashboardData.pendingPayments}
+                    </Text>
+                    <Text style={[styles.paymentLabel, { fontSize: ResponsiveUtils.fontSize.small }]}>
+                      {getString('pendingCount')}
+                    </Text>
+                  </View>
+
+                  <View style={styles.paymentItem}>
+                    <Text style={[
+                      styles.paymentNumber,
+                      {
+                        color: COLORS.error[500],
+                        fontSize: ResponsiveUtils.fontSize.large
+                      }
+                    ]}>
+                      {dashboardData.overduePayments}
+                    </Text>
+                    <Text style={[styles.paymentLabel, { fontSize: ResponsiveUtils.fontSize.small }]}>
+                      {getString('overdueCount')}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+
+              <AnimatedButton
+                mode="outlined"
+                onPress={handleNavigateToManagement}
+                style={styles.viewReportsButton}
+                icon="chart-line"
+              >
+                {getString('accessManagementReports')}
+              </AnimatedButton>
             </Card.Content>
           </AnimatedCard>
-        )}
-      </Animated.ScrollView>
+
+          {/* Ações Rápidas modernas com gradiente (responsivo 2/3 por linha) */}
+          <AnimatedCard delay={300} style={styles.modernCard}>
+            <Card.Content>
+              <View style={styles.modernCardHeader}>
+                <View style={styles.headerIconContainer}>
+                  <SafeMaterialCommunityIcons name="lightning-bolt" size={24} color={COLORS.info[500]} />
+                </View>
+                <View>
+                  <Text style={styles.modernCardTitle}>{getString('quickActions')}</Text>
+                  <Text style={styles.modernCardSubtitle}>{getString('quickActionsSubtitle')}</Text>
+                </View>
+              </View>
+
+              <View style={styles.modernQuickActions}>
+                {
+                  [
+                    { key: 'students', title: getString('students'), subtitle: getString('manageStudentsSubtitle'), icon: 'account-group', colors: [COLORS.info[500], COLORS.info[700]], onPress: handleNavigateToStudents },
+                    { key: 'classes', title: getString('classes'), subtitle: getString('manageClassesSubtitle'), icon: 'school', colors: [COLORS.success[500], COLORS.success[700]], onPress: handleNavigateToClasses },
+                    { key: 'calendar', title: getString('calendar'), subtitle: getString('viewSchedule'), icon: 'calendar-month', colors: [COLORS.secondary[400], COLORS.secondary[600]], onPress: handleShowCalendar },
+                    { key: 'settings', title: getString('settings'), subtitle: getString('settingsManagement'), icon: 'cog', colors: [COLORS.warning[500], COLORS.warning[700]], onPress: handleNavigateToManagement },
+                  ].map((action, idx) => (
+                    <Animated.View key={action.key} style={[styles.actionCard, { opacity: animations.fadeAnim, width: ResponsiveUtils.isTablet() ? '31%' : '48%' }]}>
+                      <LinearGradient colors={action.colors} style={styles.actionGradient}>
+                        <SafeMaterialCommunityIcons name={action.icon} size={28} color={COLORS.white} />
+                        <Text style={styles.actionTitle}>{action.title}</Text>
+                        <Text style={styles.actionSubtitle}>{action.subtitle}</Text>
+                        <AnimatedButton
+                          mode="contained"
+                          onPress={action.onPress}
+                          style={styles.modernActionButton}
+                          buttonColor={COLORS.white + '33'}
+                          textColor={COLORS.white}
+                          compact
+                        >
+                          {getString('open')}
+                        </AnimatedButton>
+                      </LinearGradient>
+                    </Animated.View>
+                  ))}
+              </View>
+            </Card.Content>
+          </AnimatedCard>
+
+          {/* Atividades Recentes */}
+          <AnimatedCard delay={400} style={styles.card}>
+            <Card.Content>
+              <View style={styles.cardHeader}>
+                <SafeIonicons name="time-outline" size={24} color={COLORS.text.secondary} />
+                <Text style={[styles.cardTitle, { fontSize: ResponsiveUtils.fontSize.medium }]}>
+                  {getString('recentActivities')}
+                </Text>
+              </View>
+
+              {dashboardData.recentActivities.map((activity, index) => (
+                <Animated.View
+                  key={index}
+                  style={{
+                    opacity: animations.fadeAnim,
+                    transform: [{
+                      translateX: animations.slideAnim.interpolate({
+                        inputRange: [-50, 0],
+                        outputRange: [-30, 0],
+                      })
+                    }]
+                  }}
+                >
+                  <List.Item
+                    title={activity.message}
+                    description={activity.time}
+                    titleStyle={{ fontSize: ResponsiveUtils.fontSize.medium }}
+                    descriptionStyle={{ fontSize: ResponsiveUtils.fontSize.small }}
+                    left={() => (
+                      <List.Icon
+                        icon={getActivityIcon(activity.type)}
+                        color={getActivityColor(activity.type)}
+                      />
+                    )}
+                  />
+                </Animated.View>
+              ))}
+
+              <AnimatedButton
+                mode="text"
+                onPress={() => {/* Implementar histórico completo */ }}
+                style={styles.viewAllButton}
+              >
+                {getString('viewAllActivities')}
+              </AnimatedButton>
+            </Card.Content>
+          </AnimatedCard>
+
+          {/* Alertas e Notificações */}
+          {(dashboardData.overduePayments > 0 || dashboardData.pendingPayments > 5) && (
+            <AnimatedCard delay={500} style={[styles.card, styles.alertCard]}>
+              <Card.Content>
+                <View style={styles.cardHeader}>
+                  <SafeIonicons name="warning-outline" size={24} color={COLORS.warning[500]} />
+                  <Text style={[styles.cardTitle, { fontSize: ResponsiveUtils.fontSize.medium }]}>
+                    {getString('alerts')}
+                  </Text>
+                </View>
+
+                {dashboardData.overduePayments > 0 && (
+                  <Text style={[styles.alertText, { fontSize: ResponsiveUtils.fontSize.small }]}>
+                    • {dashboardData.overduePayments} {getString('paymentsOverdue')}
+                  </Text>
+                )}
+
+                {dashboardData.pendingPayments > 5 && (
+                  <Text style={[styles.alertText, { fontSize: ResponsiveUtils.fontSize.small }]}>
+                    • {getString('manyPendingPayments')} ({dashboardData.pendingPayments})
+                  </Text>
+                )}
+              </Card.Content>
+            </AnimatedCard>
+          )}
+        </Animated.ScrollView>
       </SafeAreaView>
     </EnhancedErrorBoundary>
   );
@@ -905,7 +905,7 @@ const styles = StyleSheet.create({
   modernActionButton: {
     borderRadius: BORDER_RADIUS.lg,
   },
-  
+
   viewAllButton: {
     marginTop: ResponsiveUtils.spacing.sm,
   },
@@ -932,7 +932,7 @@ const styles = StyleSheet.create({
     width: '48%',
     borderRadius: ResponsiveUtils.borderRadius.medium,
   },
-  
+
   // Estilos do código da academia
   academiaCodeContainer: {
     flexDirection: 'row',
@@ -949,7 +949,7 @@ const styles = StyleSheet.create({
     fontWeight: FONT_WEIGHT.semibold,
     marginLeft: SPACING.xs,
   },
-  
+
   // Estilos do modal do calendário
   calendarModalContainer: {
     backgroundColor: COLORS.white,
@@ -975,7 +975,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: SPACING.sm,
   },
-  
+
   // Modal do QR Code
   modalContainer: {
     backgroundColor: COLORS.white,

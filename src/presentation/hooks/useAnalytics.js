@@ -81,7 +81,7 @@ export const useScreenTracking = (screenName, additionalProperties = {}) => {
       // Tela ganhou foco
       screenStartTime.current = Date.now();
       startTimer(timerName);
-      
+
       trackEvent(ANALYTICS_EVENTS.SCREEN_VIEW, {
         screen: screenName,
         ...additionalProperties
@@ -94,7 +94,7 @@ export const useScreenTracking = (screenName, additionalProperties = {}) => {
             screen: screenName,
             ...additionalProperties
           });
-          
+
           trackEvent('screen_exit', {
             screen: screenName,
             duration,
@@ -118,7 +118,7 @@ export const usePerformanceTracking = (componentName) => {
     // Componente montado
     mountTime.current = Date.now();
     renderCount.current = 0;
-    
+
     trackEvent('component_mount', {
       component: componentName
     });
@@ -126,7 +126,7 @@ export const usePerformanceTracking = (componentName) => {
     return () => {
       // Componente desmontado
       const lifetime = mountTime.current ? Date.now() - mountTime.current : 0;
-      
+
       trackEvent('component_unmount', {
         component: componentName,
         lifetime,
@@ -142,7 +142,7 @@ export const usePerformanceTracking = (componentName) => {
   // Rastrear renders
   useEffect(() => {
     renderCount.current++;
-    
+
     trackMetric('component_render', 1, {
       component: componentName,
       renderNumber: renderCount.current
@@ -165,7 +165,7 @@ export const useFormTracking = (formName) => {
   const trackFormStart = useCallback(() => {
     formStartTime.current = Date.now();
     startTimer(`form_${formName}`);
-    
+
     trackEvent('form_start', {
       form: formName
     });
@@ -175,7 +175,7 @@ export const useFormTracking = (formName) => {
     if (!fieldInteractions.current[fieldName]) {
       fieldInteractions.current[fieldName] = [];
     }
-    
+
     fieldInteractions.current[fieldName].push({
       action,
       timestamp: Date.now()
@@ -213,7 +213,7 @@ export const useFormTracking = (formName) => {
 
   const trackFormAbandon = useCallback((currentField = null) => {
     const duration = formStartTime.current ? Date.now() - formStartTime.current : 0;
-    
+
     trackEvent('form_abandon', {
       form: formName,
       duration,
@@ -238,20 +238,20 @@ export const useApiTracking = () => {
 
   const trackApiCall = useCallback(async (apiFunction, endpoint, method = 'GET') => {
     const startTime = Date.now();
-    
+
     try {
       const result = await apiFunction();
       const duration = Date.now() - startTime;
-      
+
       analyticsService.trackApiCall(endpoint, method, duration, 200);
-      
+
       return result;
     } catch (error) {
       const duration = Date.now() - startTime;
       const status = error.status || error.code || 500;
-      
+
       analyticsService.trackApiCall(endpoint, method, duration, status, error);
-      
+
       throw error;
     }
   }, []);

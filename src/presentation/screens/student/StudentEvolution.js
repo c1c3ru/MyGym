@@ -12,14 +12,14 @@ import {
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { useAuth } from '@contexts/AuthProvider';
+import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
 import { firestoreService } from '@infrastructure/services/firestoreService';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { getString } from '@utils/theme';
 
 const StudentEvolution = ({ navigation }) => {
-  const { user, userProfile, academia } = useAuth();
+  const { user, userProfile, academia } = useAuthFacade();
   const { getString } = useTheme();
   const [graduations, setGraduations] = useState([]);
   const [stats, setStats] = useState({
@@ -38,41 +38,41 @@ const StudentEvolution = ({ navigation }) => {
   const loadEvolutionData = async () => {
     try {
       setLoading(true);
-      
+
       // Obter ID da academia
       const academiaId = userProfile?.academiaId || academia?.id;
       if (!academiaId) {
         console.error(getString('academyIdNotFound'));
         return;
       }
-      
+
       // Buscar graduações do aluno na academia
       const allGraduations = await firestoreService.getAll(`gyms/${academiaId}/graduations`);
-      const userGraduations = allGraduations.filter(graduation => 
+      const userGraduations = allGraduations.filter(graduation =>
         graduation.studentId === user.id
       );
-      
+
       // Ordenar graduações por data (mais recente primeiro)
-      const sortedGraduations = userGraduations.sort((a, b) => 
+      const sortedGraduations = userGraduations.sort((a, b) =>
         new Date(b.date) - new Date(a.date)
       );
-      
+
       setGraduations(sortedGraduations);
-      
+
       // Calcular estatísticas
       const currentGrad = sortedGraduations[0];
-      const timeInCurrent = currentGrad ? 
+      const timeInCurrent = currentGrad ?
         Math.floor((new Date() - new Date(currentGrad.date)) / (1000 * 60 * 60 * 24)) : 0;
-      
+
       const modalities = [...new Set(userGraduations.map(g => g.modality))];
-      
+
       setStats({
         totalGraduations: userGraduations.length,
         currentGraduation: currentGrad?.graduation || getString('beginner'),
         timeInCurrentGraduation: timeInCurrent,
         modalities
       });
-      
+
     } catch (error) {
       console.error('Erro ao carregar evolução:', error);
     } finally {
@@ -122,7 +122,7 @@ const StudentEvolution = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView 
+      <ScrollView
         style={styles.scrollView}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -135,33 +135,33 @@ const StudentEvolution = ({ navigation }) => {
               <Ionicons name="trophy-outline" size={24} color={COLORS.warning[300]} />
               <Text style={[styles.cardTitle, styles.title]}>Minha Evolução</Text>
             </View>
-            
+
             <View style={styles.statsGrid}>
               <Surface style={styles.statItem}>
                 <Text style={styles.statNumber}>{stats.totalGraduations}</Text>
                 <Text style={styles.statLabel}>Graduações</Text>
               </Surface>
-              
+
               <Surface style={styles.statItem}>
                 <Text style={styles.statNumber}>{stats.modalities.length}</Text>
                 <Text style={styles.statLabel}>Modalidades</Text>
               </Surface>
-              
+
               <Surface style={styles.statItem}>
                 <Text style={styles.statNumber}>{stats.timeInCurrentGraduation}</Text>
                 <Text style={styles.statLabel}>Dias na Atual</Text>
               </Surface>
             </View>
-            
+
             <View style={styles.currentGraduation}>
               <Text style={styles.currentLabel}>Graduação Atual:</Text>
-              <Chip 
+              <Chip
                 mode="outlined"
                 style={[
-                  styles.graduationChip, 
+                  styles.graduationChip,
                   { borderColor: getGraduationColor(stats.currentGraduation) }
                 ]}
-                textStyle={{ 
+                textStyle={{
                   color: getGraduationColor(stats.currentGraduation),
                   fontWeight: FONT_WEIGHT.bold
                 }}
@@ -179,16 +179,16 @@ const StudentEvolution = ({ navigation }) => {
               <Ionicons name="git-branch-outline" size={24} color={COLORS.info[500]} />
               <Text style={[styles.cardTitle, styles.title]}>Timeline de Graduações</Text>
             </View>
-            
+
             {graduations.length > 0 ? (
               graduations.map((graduation, index) => (
                 <View key={index} style={styles.timelineItem}>
                   <View style={styles.timelineContent}>
                     <View style={styles.timelineHeader}>
                       <View style={styles.graduationInfo}>
-                        <Ionicons 
-                          name={getGraduationIcon(graduation.modality)} 
-                          size={20} 
+                        <Ionicons
+                          name={getGraduationIcon(graduation.modality)}
+                          size={20}
                           color={getGraduationColor(graduation.graduation)}
                         />
                         <Text style={styles.graduationTitle}>
@@ -199,20 +199,20 @@ const StudentEvolution = ({ navigation }) => {
                         {formatDate(graduation.date)}
                       </Text>
                     </View>
-                    
+
                     {graduation.instructor && (
                       <Text style={styles.instructorText}>
                         Professor: {graduation.instructor}
                       </Text>
                     )}
-                    
+
                     {graduation.observations && (
                       <Text style={styles.observationsText}>
                         {graduation.observations}
                       </Text>
                     )}
                   </View>
-                  
+
                   {index < graduations.length - 1 && (
                     <View style={styles.timelineLine} />
                   )}
@@ -240,10 +240,10 @@ const StudentEvolution = ({ navigation }) => {
                 <Ionicons name="fitness-outline" size={24} color={COLORS.primary[500]} />
                 <Text style={[styles.cardTitle, styles.title]}>Modalidades Praticadas</Text>
               </View>
-              
+
               <View style={styles.modalitiesContainer}>
                 {stats.modalities.map((modality, index) => (
-                  <Chip 
+                  <Chip
                     key={index}
                     mode="outlined"
                     style={styles.modalityChip}
@@ -264,19 +264,19 @@ const StudentEvolution = ({ navigation }) => {
               <Ionicons name="flag-outline" size={24} color={COLORS.warning[500]} />
               <Text style={[styles.cardTitle, styles.title]}>Próximos Objetivos</Text>
             </View>
-            
+
             <List.Item
               title={getString('maintainFrequency')}
               description="Continue participando regularmente das aulas"
               left={() => <List.Icon icon="check-circle-outline" color={COLORS.success[500]} />}
             />
-            
+
             <List.Item
               title={getString('improveTechniques')}
               description="Foque no desenvolvimento técnico"
               left={() => <List.Icon icon="trending-up" color={COLORS.info[500]} />}
             />
-            
+
             <List.Item
               title={getString('nextGraduation')}
               description="Continue se dedicando para a próxima faixa"

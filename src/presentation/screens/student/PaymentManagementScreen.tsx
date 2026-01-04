@@ -17,7 +17,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { useAuth } from '@contexts/AuthProvider';
+import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
 import { useCustomClaims } from '@hooks/useCustomClaims';
 import { firestoreService } from '@infrastructure/services/firestoreService';
@@ -56,7 +56,7 @@ interface Plan {
 const PaymentManagementScreen: React.FC<PaymentManagementScreenProps> = ({ navigation }) => {
   const { currentTheme } = useThemeToggle();
   const { getString } = useTheme();
-  const { user, userProfile, academia } = useAuth();
+  const { user, userProfile, academia } = useAuthFacade();
   const { role } = useCustomClaims();
 
   const [loading, setLoading] = useState(true);

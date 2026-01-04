@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useAuth } from '@contexts/AuthProvider';
+import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useNotification } from '@components/NotificationManager';
 import graduationBoardService from '@infrastructure/services/graduationBoardService';
 import graduationCalculationService from '@infrastructure/services/graduationCalculationService';
@@ -10,7 +10,7 @@ import { getString } from '@utils/theme';
  * Hook para gerenciar funcionalidades de graduação
  */
 export const useGraduation = () => {
-  const { user, userProfile, academia } = useAuth();
+  const { user, userProfile, academia } = useAuthFacade();
   const { showSuccess, showError, showWarning } = useNotification();
 
   const [graduationBoard, setGraduationBoard] = useState(null);
@@ -77,10 +77,10 @@ export const useGraduation = () => {
       });
 
       showSuccess('Exame de graduação agendado com sucesso!');
-      
+
       // Atualizar painel
       await loadGraduationBoard(true);
-      
+
       return examId;
     } catch (error) {
       console.error('Erro ao agendar exame:', error);
@@ -101,10 +101,10 @@ export const useGraduation = () => {
     try {
       await graduationBoardService.processExamResults(examId, results, academia.id);
       showSuccess('Resultados do exame processados com sucesso!');
-      
+
       // Atualizar painel
       await loadGraduationBoard(true);
-      
+
       return true;
     } catch (error) {
       console.error('Erro ao processar resultados:', error);
@@ -122,10 +122,10 @@ export const useGraduation = () => {
     try {
       await graduationBoardService.runAutomaticGraduationCheck(academia.id);
       showSuccess('Verificação automática executada');
-      
+
       // Atualizar painel
       await loadGraduationBoard(true);
-      
+
       return true;
     } catch (error) {
       console.error('Erro na verificação automática:', error);
@@ -222,7 +222,7 @@ export const useGraduation = () => {
       eligibleStudents: graduationBoard.summary.totalEligible,
       upcomingExams: graduationBoard.summary.totalUpcomingExams,
       recentGraduations: graduationBoard.summary.totalRecentGraduations,
-      eligibilityRate: graduationBoard.summary.totalStudents > 0 
+      eligibilityRate: graduationBoard.summary.totalStudents > 0
         ? (graduationBoard.summary.totalEligible / graduationBoard.summary.totalStudents * 100).toFixed(1)
         : 0
     };
@@ -233,9 +233,9 @@ export const useGraduation = () => {
    */
   const getAlertsByModality = useCallback((modality) => {
     if (!graduationBoard?.allAlerts) return [];
-    
+
     if (modality === 'all') return graduationBoard.allAlerts;
-    
+
     return graduationBoard.allAlerts.filter(alert => alert.modality === modality);
   }, [graduationBoard?.allAlerts]);
 
@@ -244,13 +244,13 @@ export const useGraduation = () => {
    */
   const getUpcomingExams = useCallback((modality = 'all', limit = 10) => {
     if (!graduationBoard?.upcomingExams) return [];
-    
+
     let exams = graduationBoard.upcomingExams;
-    
+
     if (modality !== 'all') {
       exams = exams.filter(exam => exam.modality === modality);
     }
-    
+
     return exams.slice(0, limit);
   }, [graduationBoard?.upcomingExams]);
 

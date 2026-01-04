@@ -5,7 +5,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import locationService from '@infrastructure/services/locationService';
 import { firestoreService } from '@infrastructure/services/firestoreService';
 import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
-import { useAuth } from '@contexts/AuthProvider';
+import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useUserProfile } from '@hooks/useUserProfile';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { getString } from '@utils/theme';
@@ -13,7 +13,7 @@ import { getString } from '@utils/theme';
 const CheckInButton = ({ classId, className, onCheckInSuccess }) => {
   const [loading, setLoading] = useState(false);
   const [locationStatus, setLocationStatus] = useState(null);
-  const { user } = useAuth();
+  const { user } = useAuthFacade();
   const { userProfile } = useUserProfile();
 
   const handleCheckIn = async () => {
@@ -28,7 +28,7 @@ const CheckInButton = ({ classId, className, onCheckInSuccess }) => {
     try {
       // Validar localização
       const locationValidation = await locationService.validateCheckIn(classId);
-      
+
       if (!locationValidation.success) {
         setLocationStatus('Localização inválida');
         Alert.alert(
@@ -60,20 +60,20 @@ const CheckInButton = ({ classId, className, onCheckInSuccess }) => {
 
       // Buscar a turma do usuário para fazer check-in na subcoleção
       const studentClasses = await academyFirestoreService.getWhere(
-        'classes', 
-        'students', 
-        'array-contains', 
-        user.id, 
+        'classes',
+        'students',
+        'array-contains',
+        user.id,
         userProfile.academiaId
       );
-      
+
       if (studentClasses.length === 0) {
         throw new Error('Nenhuma turma encontrada para este usuário');
       }
-      
+
       // Usar a primeira turma encontrada
       const classId = studentClasses[0].id;
-      
+
       await academyFirestoreService.addSubcollectionDocument(
         'classes',
         classId,
@@ -83,7 +83,7 @@ const CheckInButton = ({ classId, className, onCheckInSuccess }) => {
       );
 
       setLocationStatus('Check-in realizado!');
-      
+
       Alert.alert(
         getString('successCheck'),
         `Check-in realizado na aula de ${className}!\n\nDistância da academia: ${locationValidation.distance}m`,
@@ -103,7 +103,7 @@ const CheckInButton = ({ classId, className, onCheckInSuccess }) => {
     } catch (error) {
       console.error('Erro no check-in:', error);
       setLocationStatus('Erro no check-in');
-      
+
       Alert.alert(
         getString('error'),
         'Não foi possível realizar o check-in. Tente novamente.',
@@ -124,20 +124,20 @@ const CheckInButton = ({ classId, className, onCheckInSuccess }) => {
     <Card style={styles.container}>
       <Card.Content>
         <View style={styles.header}>
-          <MaterialCommunityIcons 
-            name="map-marker-check" 
-            size={24} 
-            color={COLORS.primary[500]} 
+          <MaterialCommunityIcons
+            name="map-marker-check"
+            size={24}
+            color={COLORS.primary[500]}
           />
           <Text style={styles.title}>Check-in com Localização</Text>
         </View>
 
         {locationStatus && (
           <View style={[styles.statusContainer, { backgroundColor: getStatusColor() + '20' }]}>
-            <MaterialCommunityIcons 
-              name="information" 
-              size={16} 
-              color={getStatusColor()} 
+            <MaterialCommunityIcons
+              name="information"
+              size={16}
+              color={getStatusColor()}
             />
             <Text style={[styles.statusText, { color: getStatusColor() }]}>
               {locationStatus}

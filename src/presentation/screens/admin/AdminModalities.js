@@ -15,8 +15,7 @@ import {
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { useAuth } from '@contexts/AuthProvider';
-import { useAuthMigration } from '@hooks/useAuthMigration';
+import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
 import academyCollectionsService from '@infrastructure/services/academyCollectionsService';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
@@ -25,9 +24,8 @@ import { getString } from '@utils/theme';
 
 const AdminModalities = ({ navigation }) => {
   const { currentTheme } = useThemeToggle();
-  
-  const { user } = useAuth();
-  const { userProfile } = useAuthMigration();
+
+  const { user, userProfile } = useAuthFacade();
   const { getString } = useTheme();
   const [modalities, setModalities] = useState([]);
   const [plans, setPlans] = useState([]);
@@ -38,23 +36,23 @@ const AdminModalities = ({ navigation }) => {
   const [deletingIds, setDeletingIds] = useState(new Set());
   const [deletingPlanIds, setDeletingPlanIds] = useState(new Set());
   const [deletingAnnouncementIds, setDeletingAnnouncementIds] = useState(new Set());
-  
+
   // Estados para diálogos
   const [modalityDialogVisible, setModalityDialogVisible] = useState(false);
   const [planDialogVisible, setPlanDialogVisible] = useState(false);
   const [announcementDialogVisible, setAnnouncementDialogVisible] = useState(false);
-  
+
   // Estados para edição
   const [editingModality, setEditingModality] = useState(null);
   const [editingPlan, setEditingPlan] = useState(null);
   const [editingAnnouncement, setEditingAnnouncement] = useState(null);
-  
+
   // Estados para formulários
   const [newModality, setNewModality] = useState({ name: '', description: '' });
   const [newPlan, setNewPlan] = useState({ name: '', value: '', duration: '', description: '' });
-  const [newAnnouncement, setNewAnnouncement] = useState({ 
-    title: '', 
-    content: '', 
+  const [newAnnouncement, setNewAnnouncement] = useState({
+    title: '',
+    content: '',
     expirationDate: '',
     targetAudience: 'all' // 'all', 'students', 'instructors'
   });
@@ -70,7 +68,7 @@ const AdminModalities = ({ navigation }) => {
     console.log('Profile UserType:', userProfile?.userType);
     console.log('Profile Tipo:', userProfile?.tipo);
     console.log('======================');
-    
+
     loadData();
   }, []);
 
@@ -78,19 +76,19 @@ const AdminModalities = ({ navigation }) => {
     try {
       console.log('🔄 AdminModalities: Iniciando carregamento de dados...');
       setLoading(true);
-      
+
       // Verificar se o usuário tem academiaId
       if (!userProfile?.academiaId) {
         console.warn('❌ AdminModalities: Usuário não tem academiaId');
         setLoading(false);
         return;
       }
-      
+
       // Carregar dados de forma mais simples e robusta
       let modalitiesData = [];
       let plansData = [];
       let announcementsData = [];
-      
+
       try {
         console.log('📋 Buscando modalidades da academia:', userProfile.academiaId);
         modalitiesData = await academyCollectionsService.getModalities(userProfile.academiaId);
@@ -99,7 +97,7 @@ const AdminModalities = ({ navigation }) => {
         console.warn('⚠️ Erro ao carregar modalidades:', modalitiesError);
         modalitiesData = [];
       }
-      
+
       try {
         console.log('💰 Buscando planos da academia:', userProfile.academiaId);
         plansData = await academyCollectionsService.getPlans(userProfile.academiaId);
@@ -108,7 +106,7 @@ const AdminModalities = ({ navigation }) => {
         console.warn('⚠️ Erro ao carregar planos:', plansError);
         plansData = [];
       }
-      
+
       try {
         console.log('📢 Buscando avisos da academia:', userProfile.academiaId);
         announcementsData = await academyCollectionsService.getAnnouncements(userProfile.academiaId);
@@ -117,16 +115,16 @@ const AdminModalities = ({ navigation }) => {
         console.warn('⚠️ Erro ao carregar avisos:', announcementsError);
         announcementsData = [];
       }
-      
+
       // Atualizar estados
       setModalities(modalitiesData || []);
       setPlans(plansData || []);
       setAnnouncements(announcementsData || []);
-      
+
       console.log('✅ AdminModalities: Carregamento concluído com sucesso!');
     } catch (error) {
       console.error('❌ Erro geral ao carregar dados:', error);
-      
+
       // Garantir que sempre temos arrays vazios em caso de erro
       setModalities([]);
       setPlans([]);
@@ -165,7 +163,7 @@ const AdminModalities = ({ navigation }) => {
         await academyCollectionsService.createModality(userProfile.academiaId, newModality);
         Alert.alert(getString('success'), getString('modalityCreatedSuccess'));
       }
-      
+
       setNewModality({ name: '', description: '' });
       setEditingModality(null);
       setModalityDialogVisible(false);
@@ -183,12 +181,12 @@ const AdminModalities = ({ navigation }) => {
 
   const handleDeleteModality = (modality) => {
     console.log('🗑️ handleDeleteModality chamado para:', modality);
-    
+
     // Para web, usar window.confirm em vez de Alert.alert
     if (Platform.OS === 'web') {
       console.log('🌐 Usando window.confirm para web');
       const confirmed = window.confirm(`Tem certeza que deseja excluir a modalidade "${modality.name}"?`);
-      
+
       if (confirmed) {
         console.log('✅ Usuário confirmou exclusão via window.confirm');
         executeDelete(modality);
@@ -201,13 +199,13 @@ const AdminModalities = ({ navigation }) => {
         getString('confirmDelete'),
         `Tem certeza que deseja excluir a modalidade "${modality.name}"?`,
         [
-          { 
-            text: getString('cancel'), 
+          {
+            text: getString('cancel'),
             style: 'cancel',
             onPress: () => console.log('❌ Exclusão cancelada pelo usuário')
           },
-          { 
-            text: getString('delete'), 
+          {
+            text: getString('delete'),
             style: 'destructive',
             onPress: () => executeDelete(modality)
           }
@@ -264,10 +262,10 @@ const AdminModalities = ({ navigation }) => {
 
   const executeDelete = async (modality) => {
     console.log('✅ Executando exclusão da modalidade:', modality.name);
-    
+
     // Adicionar ID à lista de itens sendo excluídos
     setDeletingIds(prev => new Set([...prev, modality.id]));
-    
+
     try {
       console.log('=== DEBUG DELETE MODALITY ===');
       console.log('Modalidade ID:', modality.id);
@@ -276,11 +274,11 @@ const AdminModalities = ({ navigation }) => {
       console.log('User Tipo:', user?.tipo);
       console.log('User Profile:', userProfile);
       console.log('================================');
-      
+
       if (!modality.id) {
         throw new Error('ID da modalidade não encontrado');
       }
-      
+
       if (!userProfile?.academiaId) {
         throw new Error(getString('userNotAssociated'));
       }
@@ -288,18 +286,18 @@ const AdminModalities = ({ navigation }) => {
       console.log('🗑️ Iniciando exclusão da modalidade:', modality.id);
       await academyCollectionsService.deleteModality(userProfile.academiaId, modality.id);
       console.log('✅ Modalidade excluída do Firestore');
-      
+
       // Atualizar lista local imediatamente
       setModalities(prev => prev.filter(m => m.id !== modality.id));
       console.log('✅ Lista local atualizada');
-      
+
       showNotification('✅ Modalidade excluída com sucesso!', 'success');
     } catch (error) {
       console.error('❌ Erro detalhado ao excluir modalidade:', error);
       console.error('Error code:', error.code);
       console.error('Error message:', error.message);
       console.error('Error stack:', error.stack);
-      
+
       showNotification(`❌ Erro: ${error.message}`, 'error');
     } finally {
       // Remover ID da lista de itens sendo excluídos
@@ -329,7 +327,7 @@ const AdminModalities = ({ navigation }) => {
         value: parseFloat(newPlan.value),
         duration: parseInt(newPlan.duration) || 1
       };
-      
+
       if (editingPlan) {
         // Editar plano existente
         await academyCollectionsService.updatePlan(userProfile.academiaId, editingPlan.id, planData);
@@ -339,7 +337,7 @@ const AdminModalities = ({ navigation }) => {
         await academyCollectionsService.createPlan(userProfile.academiaId, planData);
         Alert.alert(getString('success'), getString('planCreatedSuccess'));
       }
-      
+
       setNewPlan({ name: '', value: '', duration: '', description: '' });
       setEditingPlan(null);
       setPlanDialogVisible(false);
@@ -351,23 +349,23 @@ const AdminModalities = ({ navigation }) => {
 
   const handleEditPlan = (plan) => {
     setEditingPlan(plan);
-    setNewPlan({ 
-      name: plan.name, 
-      value: plan.value.toString(), 
-      duration: plan.duration.toString(), 
-      description: plan.description || '' 
+    setNewPlan({
+      name: plan.name,
+      value: plan.value.toString(),
+      duration: plan.duration.toString(),
+      description: plan.description || ''
     });
     setPlanDialogVisible(true);
   };
 
   const handleDeletePlan = (plan) => {
     console.log('🗑️ handleDeletePlan chamado para:', plan);
-    
+
     // Para web, usar window.confirm em vez de Alert.alert
     if (Platform.OS === 'web') {
       console.log('🌐 Usando window.confirm para web');
       const confirmed = window.confirm(`Tem certeza que deseja excluir o plano "${plan.name}"?`);
-      
+
       if (confirmed) {
         console.log('✅ Usuário confirmou exclusão via window.confirm');
         executeDeletePlan(plan);
@@ -380,13 +378,13 @@ const AdminModalities = ({ navigation }) => {
         getString('confirmDelete'),
         `Tem certeza que deseja excluir o plano "${plan.name}"?`,
         [
-          { 
-            text: getString('cancel'), 
+          {
+            text: getString('cancel'),
             style: 'cancel',
             onPress: () => console.log('❌ Exclusão cancelada pelo usuário')
           },
-          { 
-            text: getString('delete'), 
+          {
+            text: getString('delete'),
             style: 'destructive',
             onPress: () => executeDeletePlan(plan)
           }
@@ -397,20 +395,20 @@ const AdminModalities = ({ navigation }) => {
 
   const executeDeletePlan = async (plan) => {
     console.log('✅ Executando exclusão do plano:', plan.name);
-    
+
     // Adicionar ID à lista de itens sendo excluídos
     setDeletingPlanIds(prev => new Set([...prev, plan.id]));
-    
+
     try {
       console.log('=== DEBUG DELETE PLAN ===');
       console.log('Plano ID:', plan.id);
       console.log(getString('userUID'), user?.uid);
       console.log('================================');
-      
+
       if (!plan.id) {
         throw new Error('ID do plano não encontrado');
       }
-      
+
       if (!userProfile?.academiaId) {
         throw new Error(getString('userNotAssociated'));
       }
@@ -418,11 +416,11 @@ const AdminModalities = ({ navigation }) => {
       console.log('🗑️ Iniciando exclusão do plano:', plan.id);
       await academyCollectionsService.deletePlan(userProfile.academiaId, plan.id);
       console.log('✅ Plano excluído do Firestore');
-      
+
       // Atualizar lista local imediatamente
       setPlans(prev => prev.filter(p => p.id !== plan.id));
       console.log('✅ Lista local atualizada');
-      
+
       showNotification('✅ Plano excluído com sucesso!', 'success');
     } catch (error) {
       console.error('❌ Erro detalhado ao excluir plano:', error);
@@ -458,7 +456,7 @@ const AdminModalities = ({ navigation }) => {
         createdAt: editingAnnouncement ? editingAnnouncement.createdAt : new Date(),
         updatedAt: editingAnnouncement ? new Date() : null
       };
-      
+
       if (editingAnnouncement) {
         // Editar aviso existente
         await academyCollectionsService.updateAnnouncement(userProfile.academiaId, editingAnnouncement.id, announcementData);
@@ -468,7 +466,7 @@ const AdminModalities = ({ navigation }) => {
         await academyCollectionsService.createAnnouncement(userProfile.academiaId, announcementData);
         Alert.alert(getString('success'), getString('announcementPublishedSuccess'));
       }
-      
+
       setNewAnnouncement({ title: '', content: '', expirationDate: '', targetAudience: 'all' });
       setEditingAnnouncement(null);
       setAnnouncementDialogVisible(false);
@@ -491,12 +489,12 @@ const AdminModalities = ({ navigation }) => {
 
   const handleDeleteAnnouncement = (announcement) => {
     console.log('🗑️ handleDeleteAnnouncement chamado para:', announcement);
-    
+
     // Para web, usar window.confirm em vez de Alert.alert
     if (Platform.OS === 'web') {
       console.log('🌐 Usando window.confirm para web');
       const confirmed = window.confirm(`Tem certeza que deseja excluir o aviso "${announcement.title}"?`);
-      
+
       if (confirmed) {
         console.log('✅ Usuário confirmou exclusão via window.confirm');
         executeDeleteAnnouncement(announcement);
@@ -509,13 +507,13 @@ const AdminModalities = ({ navigation }) => {
         getString('confirmDelete'),
         `Tem certeza que deseja excluir o aviso "${announcement.title}"?`,
         [
-          { 
-            text: getString('cancel'), 
+          {
+            text: getString('cancel'),
             style: 'cancel',
             onPress: () => console.log('❌ Exclusão cancelada pelo usuário')
           },
-          { 
-            text: getString('delete'), 
+          {
+            text: getString('delete'),
             style: 'destructive',
             onPress: () => executeDeleteAnnouncement(announcement)
           }
@@ -526,20 +524,20 @@ const AdminModalities = ({ navigation }) => {
 
   const executeDeleteAnnouncement = async (announcement) => {
     console.log('✅ Executando exclusão do aviso:', announcement.title);
-    
+
     // Adicionar ID à lista de itens sendo excluídos
     setDeletingAnnouncementIds(prev => new Set([...prev, announcement.id]));
-    
+
     try {
       console.log('=== DEBUG DELETE ANNOUNCEMENT ===');
       console.log('Aviso ID:', announcement.id);
       console.log(getString('userUID'), user?.uid);
       console.log('================================');
-      
+
       if (!announcement.id) {
         throw new Error('ID do aviso não encontrado');
       }
-      
+
       if (!userProfile?.academiaId) {
         throw new Error(getString('userNotAssociated'));
       }
@@ -547,11 +545,11 @@ const AdminModalities = ({ navigation }) => {
       console.log('🗑️ Iniciando exclusão do aviso:', announcement.id);
       await academyCollectionsService.deleteAnnouncement(userProfile.academiaId, announcement.id);
       console.log('✅ Aviso excluído do Firestore');
-      
+
       // Atualizar lista local imediatamente
       setAnnouncements(prev => prev.filter(a => a.id !== announcement.id));
       console.log('✅ Lista local atualizada');
-      
+
       showNotification('✅ Aviso excluído com sucesso!', 'success');
     } catch (error) {
       console.error('❌ Erro detalhado ao excluir aviso:', error);
@@ -590,7 +588,7 @@ const AdminModalities = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView 
+      <ScrollView
         style={styles.scrollView}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -602,8 +600,8 @@ const AdminModalities = ({ navigation }) => {
             <View style={styles.cardHeader}>
               <Ionicons name="fitness-outline" size={24} color={COLORS.primary[500]} />
               <Text style={[styles.cardTitle, styles.title]}>{getString('fightModalities')}</Text>
-              <Button 
-                mode="contained" 
+              <Button
+                mode="contained"
                 onPress={() => setModalityDialogVisible(true)}
                 icon="plus"
                 style={styles.addButton}
@@ -611,7 +609,7 @@ const AdminModalities = ({ navigation }) => {
                 {getString('add')}
               </Button>
             </View>
-            
+
             {modalities.length > 0 ? (
               modalities.map((modality, index) => (
                 <View key={modality.id || index}>
@@ -621,15 +619,15 @@ const AdminModalities = ({ navigation }) => {
                     left={() => <List.Icon icon="dumbbell" color={COLORS.primary[500]} />}
                     right={() => (
                       <View style={styles.actionButtons}>
-                        <Button 
-                          mode="text" 
+                        <Button
+                          mode="text"
                           onPress={() => handleEditModality(modality)}
                           textColor={COLORS.info[500]}
                           icon="pencil"
                           compact
                         >{getString('edit')}</Button>
-                        <Button 
-                          mode="text" 
+                        <Button
+                          mode="text"
                           onPress={() => {
                             console.log('🔴 Botão Excluir clicado para modalidade:', modality);
                             handleDeleteModality(modality);
@@ -662,8 +660,8 @@ const AdminModalities = ({ navigation }) => {
             <View style={styles.cardHeader}>
               <Ionicons name="card-outline" size={24} color={COLORS.info[500]} />
               <Text style={[styles.cardTitle, styles.title]}>{getString('paymentPlans')}</Text>
-              <Button 
-                mode="contained" 
+              <Button
+                mode="contained"
                 onPress={() => setPlanDialogVisible(true)}
                 icon="plus"
                 style={styles.addButton}
@@ -671,7 +669,7 @@ const AdminModalities = ({ navigation }) => {
                 {getString('add')}
               </Button>
             </View>
-            
+
             {plans.length > 0 ? (
               plans.map((plan, index) => (
                 <View key={plan.id || index}>
@@ -681,15 +679,15 @@ const AdminModalities = ({ navigation }) => {
                     left={() => <List.Icon icon="cash" color={COLORS.info[500]} />}
                     right={() => (
                       <View style={styles.actionButtons}>
-                        <Button 
-                          mode="text" 
+                        <Button
+                          mode="text"
                           onPress={() => handleEditPlan(plan)}
                           textColor={COLORS.info[500]}
                           icon="pencil"
                           compact
                         >{getString('edit')}</Button>
-                        <Button 
-                          mode="text" 
+                        <Button
+                          mode="text"
                           onPress={() => handleDeletePlan(plan)}
                           textColor={deletingPlanIds.has(plan.id) ? COLORS.gray[500] : COLORS.error[500]}
                           icon={deletingPlanIds.has(plan.id) ? "loading" : "delete"}
@@ -719,8 +717,8 @@ const AdminModalities = ({ navigation }) => {
             <View style={styles.cardHeader}>
               <Ionicons name="megaphone-outline" size={24} color={COLORS.warning[500]} />
               <Text style={[styles.cardTitle, styles.title]}>{getString('announcementBoard')}</Text>
-              <Button 
-                mode="contained" 
+              <Button
+                mode="contained"
                 onPress={() => setAnnouncementDialogVisible(true)}
                 icon="plus"
                 style={styles.addButton}
@@ -728,7 +726,7 @@ const AdminModalities = ({ navigation }) => {
                 {getString('publish')}
               </Button>
             </View>
-            
+
             {announcements.length > 0 ? (
               announcements.map((announcement, index) => (
                 <View key={announcement.id || index}>
@@ -738,15 +736,15 @@ const AdminModalities = ({ navigation }) => {
                     left={() => <List.Icon icon="bullhorn" color={COLORS.warning[500]} />}
                     right={() => (
                       <View style={styles.actionButtons}>
-                        <Button 
-                          mode="text" 
+                        <Button
+                          mode="text"
                           onPress={() => handleEditAnnouncement(announcement)}
                           textColor={COLORS.info[500]}
                           icon="pencil"
                           compact
                         >{getString('edit')}</Button>
-                        <Button 
-                          mode="text" 
+                        <Button
+                          mode="text"
                           onPress={() => handleDeleteAnnouncement(announcement)}
                           textColor={deletingAnnouncementIds.has(announcement.id) ? COLORS.gray[500] : COLORS.error[500]}
                           icon={deletingAnnouncementIds.has(announcement.id) ? "loading" : "delete"}
@@ -777,18 +775,18 @@ const AdminModalities = ({ navigation }) => {
         <Card style={styles.statsCard}>
           <Card.Content>
             <Text style={[styles.statsTitle, styles.title]}>{getString('summary')}</Text>
-            
+
             <View style={styles.statsRow}>
               <View style={styles.statItem}>
                 <Text style={styles.statNumber}>{modalities.length}</Text>
                 <Text style={styles.statLabel}>{getString('modalities')}</Text>
               </View>
-              
+
               <View style={styles.statItem}>
                 <Text style={styles.statNumber}>{plans.length}</Text>
                 <Text style={styles.statLabel}>{getString('plans')}</Text>
               </View>
-              
+
               <View style={styles.statItem}>
                 <Text style={styles.statNumber}>{announcements.length}</Text>
                 <Text style={styles.statLabel}>{getString('activeAnnouncements')}</Text>
@@ -811,14 +809,14 @@ const AdminModalities = ({ navigation }) => {
             <TextInput
               label={getString('modalityName')}
               value={newModality.name}
-              onChangeText={(text) => setNewModality({...newModality, name: text})}
+              onChangeText={(text) => setNewModality({ ...newModality, name: text })}
               mode="outlined"
               style={styles.dialogInput}
             />
             <TextInput
               label={getString('optionalDescription')}
               value={newModality.description}
-              onChangeText={(text) => setNewModality({...newModality, description: text})}
+              onChangeText={(text) => setNewModality({ ...newModality, description: text })}
               mode="outlined"
               multiline
               numberOfLines={3}
@@ -848,14 +846,14 @@ const AdminModalities = ({ navigation }) => {
             <TextInput
               label={getString('planName')}
               value={newPlan.name}
-              onChangeText={(text) => setNewPlan({...newPlan, name: text})}
+              onChangeText={(text) => setNewPlan({ ...newPlan, name: text })}
               mode="outlined"
               style={styles.dialogInput}
             />
             <TextInput
               label={getString('valueInReais')}
               value={newPlan.value}
-              onChangeText={(text) => setNewPlan({...newPlan, value: text})}
+              onChangeText={(text) => setNewPlan({ ...newPlan, value: text })}
               mode="outlined"
               keyboardType="numeric"
               style={styles.dialogInput}
@@ -863,7 +861,7 @@ const AdminModalities = ({ navigation }) => {
             <TextInput
               label={getString('durationMonths')}
               value={newPlan.duration}
-              onChangeText={(text) => setNewPlan({...newPlan, duration: text})}
+              onChangeText={(text) => setNewPlan({ ...newPlan, duration: text })}
               mode="outlined"
               keyboardType="numeric"
               style={styles.dialogInput}
@@ -871,7 +869,7 @@ const AdminModalities = ({ navigation }) => {
             <TextInput
               label={getString('optionalDescription')}
               value={newPlan.description}
-              onChangeText={(text) => setNewPlan({...newPlan, description: text})}
+              onChangeText={(text) => setNewPlan({ ...newPlan, description: text })}
               mode="outlined"
               multiline
               numberOfLines={2}
@@ -901,14 +899,14 @@ const AdminModalities = ({ navigation }) => {
             <TextInput
               label={getString('announcementTitle')}
               value={newAnnouncement.title}
-              onChangeText={(text) => setNewAnnouncement({...newAnnouncement, title: text})}
+              onChangeText={(text) => setNewAnnouncement({ ...newAnnouncement, title: text })}
               mode="outlined"
               style={styles.dialogInput}
             />
             <TextInput
               label={getString('content')}
               value={newAnnouncement.content}
-              onChangeText={(text) => setNewAnnouncement({...newAnnouncement, content: text})}
+              onChangeText={(text) => setNewAnnouncement({ ...newAnnouncement, content: text })}
               mode="outlined"
               multiline
               numberOfLines={4}
@@ -917,31 +915,31 @@ const AdminModalities = ({ navigation }) => {
             <TextInput
               label={getString('optionalExpirationDate')}
               value={newAnnouncement.expirationDate}
-              onChangeText={(text) => setNewAnnouncement({...newAnnouncement, expirationDate: text})}
+              onChangeText={(text) => setNewAnnouncement({ ...newAnnouncement, expirationDate: text })}
               mode="outlined"
               placeholder="dateFormat"
               style={styles.dialogInput}
             />
-            
+
             <Text style={styles.sectionLabel}>{getString('targetAudience')}</Text>
             <View style={styles.audienceContainer}>
-              <Chip 
+              <Chip
                 selected={newAnnouncement.targetAudience === 'all'}
-                onPress={() => setNewAnnouncement({...newAnnouncement, targetAudience: 'all'})}
+                onPress={() => setNewAnnouncement({ ...newAnnouncement, targetAudience: 'all' })}
                 style={styles.audienceChip}
               >
                 {getString('all')}
               </Chip>
-              <Chip 
+              <Chip
                 selected={newAnnouncement.targetAudience === 'students'}
-                onPress={() => setNewAnnouncement({...newAnnouncement, targetAudience: 'students'})}
+                onPress={() => setNewAnnouncement({ ...newAnnouncement, targetAudience: 'students' })}
                 style={styles.audienceChip}
               >
                 {getString('students')}
               </Chip>
-              <Chip 
+              <Chip
                 selected={newAnnouncement.targetAudience === 'instructors'}
-                onPress={() => setNewAnnouncement({...newAnnouncement, targetAudience: 'instructors'})}
+                onPress={() => setNewAnnouncement({ ...newAnnouncement, targetAudience: 'instructors' })}
                 style={styles.audienceChip}
               >
                 {getString('instructors')}

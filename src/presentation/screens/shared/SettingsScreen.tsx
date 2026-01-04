@@ -11,7 +11,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useAuth } from '@contexts/AuthProvider';
+import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { ResponsiveUtils } from '@utils/animations';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, BORDER_WIDTH } from '@presentation/theme/designTokens';
 import { getAuthGradient, getAuthCardColors } from '@presentation/theme/authTheme';
@@ -30,7 +30,7 @@ interface SettingsScreenProps {
  * Permite ao usuário gerenciar preferências, conta e privacidade
  */
 const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
-  const { user, userProfile, logout } = useAuth();
+  const { user, userProfile, logout } = useAuthFacade();
   const { isDarkMode } = useTheme();
   const [notifications, setNotifications] = useState<boolean>(true);
   const [darkMode, setDarkMode] = useState<boolean>(false);

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Share, Alert, Platform, StyleSheet } from 'react-native';
 import { Card, Text, Button, IconButton, TextInput, Dialog, Portal } from 'react-native-paper';
 import QRCode from 'react-native-qrcode-svg';
-import { useAuth } from '@contexts/AuthProvider';
+import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { COLORS, SPACING, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
 import { getString } from '@utils/theme';
@@ -11,10 +11,8 @@ import { getString } from '@utils/theme';
 const logoIcon = require('@assets/icon.png');
 
 function QRCodeGenerator({ size = 200, showActions = true, academiaId, academiaNome }) {
-  // Verificar se está dentro do AuthProvider antes de usar o hook
-  let authContext = null;
   try {
-    authContext = useAuth();
+    authContext = useAuthFacade();
   } catch (error) {
     console.log('QRCodeGenerator usado fora do AuthProvider, usando apenas props');
   }
@@ -28,7 +26,7 @@ function QRCodeGenerator({ size = 200, showActions = true, academiaId, academiaN
     // Fallback se não estiver dentro do ThemeProvider
     currentTheme = { black: COLORS.text.primary };
   }
-  
+
   const [qrValue, setQrValue] = useState('');
   const [emailDialogVisible, setEmailDialogVisible] = useState(false);
   const [recipientEmail, setRecipientEmail] = useState('');
@@ -51,7 +49,7 @@ function QRCodeGenerator({ size = 200, showActions = true, academiaId, academiaN
 
   // Função utilitária para mostrar notificações
   const showNotification = (message, type = 'success') => {
-  
+
     if (Platform.OS === 'web') {
       // Adicionar animações CSS se não existirem
       if (!document.getElementById('notification-styles')) {
@@ -100,12 +98,12 @@ function QRCodeGenerator({ size = 200, showActions = true, academiaId, academiaN
     setSharingQR(true);
     try {
       const message = `Junte-se à ${finalAcademiaNome}!\n\nEscaneie o QR Code ou use este link:\nhttps://academia-app.com/join/${finalAcademiaId}`;
-      
+
       await Share.share({
         message,
         title: `Convite - ${finalAcademiaNome}`,
       });
-      
+
       showNotification('✅ Convite compartilhado com sucesso!', 'success');
     } catch (error) {
       console.error('Erro ao compartilhar:', error);
@@ -199,7 +197,7 @@ MyGym`;
         <Text variant="titleMedium" style={styles.title}>
           QR Code da Academia
         </Text>
-        
+
         <Text variant="bodySmall" style={styles.subtitle}>
           {finalAcademiaNome}
         </Text>
@@ -229,8 +227,8 @@ MyGym`;
 
         {showActions && (
           <View style={styles.actions}>
-            <Button 
-              mode="outlined" 
+            <Button
+              mode="outlined"
               onPress={shareQRCode}
               icon={sharingQR ? "loading" : "share"}
               style={styles.actionButton}
@@ -239,9 +237,9 @@ MyGym`;
             >
               {sharingQR ? 'Compartilhando...' : 'Compartilhar'}
             </Button>
-            
-            <Button 
-              mode="contained" 
+
+            <Button
+              mode="contained"
               onPress={copyInviteLink}
               icon={copyingLink ? "loading" : "content-copy"}
               style={styles.actionButton}
@@ -251,8 +249,8 @@ MyGym`;
               {copyingLink ? 'Copiando...' : 'Copiar Link'}
             </Button>
 
-            <Button 
-              mode="outlined" 
+            <Button
+              mode="outlined"
               onPress={() => setEmailDialogVisible(true)}
               icon="email"
               style={styles.actionButton}
@@ -260,8 +258,8 @@ MyGym`;
               Enviar Email
             </Button>
 
-            <Button 
-              mode="outlined" 
+            <Button
+              mode="outlined"
               onPress={() => {
                 // Funcionalidade de salvar QR Code como imagem
                 showNotification('QR Code salvo com sucesso!', 'success');
@@ -296,7 +294,7 @@ MyGym`;
               <Button onPress={() => setEmailDialogVisible(false)}>
                 Cancelar
               </Button>
-              <Button 
+              <Button
                 mode="contained"
                 onPress={sendEmailInvite}
                 loading={sendingEmail}

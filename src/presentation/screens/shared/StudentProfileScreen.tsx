@@ -15,7 +15,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useAuth } from '@contexts/AuthProvider';
+import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
 import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
 import SafeCardContent from '@components/SafeCardContent';
@@ -81,7 +81,7 @@ const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({ route, navi
   const { currentTheme } = useThemeToggle();
   const { getString, isDarkMode } = useTheme();
   const { studentId } = route.params;
-  const { user, userProfile, academia } = useAuth();
+  const { user, userProfile, academia } = useAuthFacade();
   const [studentInfo, setStudentInfo] = useState<StudentData | null>(null);
   const [studentClasses, setStudentClasses] = useState<ClassData[]>([]);
   const [payments, setPayments] = useState<PaymentData[]>([]);

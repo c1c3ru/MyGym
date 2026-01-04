@@ -12,7 +12,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { ResponsiveUtils } from '@utils/animations';
-import { useAuth } from '@contexts/AuthProvider';
+import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
 import EnhancedErrorBoundary from '@components/EnhancedErrorBoundary';
 import cacheService, { CACHE_KEYS, CACHE_TTL } from '@infrastructure/services/cacheService';
@@ -22,7 +22,7 @@ import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@present
 import { getString } from '@utils/theme';
 
 const Relatorios = ({ navigation }) => {
-  const { user, userProfile } = useAuth();
+  const { user, userProfile } = useAuthFacade();
   const [selectedPeriod, setSelectedPeriod] = useState('mes');
   const [reportData, setReportData] = useState({
     totalAulas: 0,
@@ -36,10 +36,10 @@ const Relatorios = ({ navigation }) => {
   const [refreshing, setRefreshing] = useState(false);
 
   // Analytics tracking
-  useScreenTracking('InstructorReports', { 
+  useScreenTracking('InstructorReports', {
     academiaId: userProfile?.academiaId,
     userType: 'instructor',
-    instructorId: user?.uid 
+    instructorId: user?.uid
   });
   const { trackButtonClick, trackFeatureUsage } = useUserActionTracking();
 
@@ -50,7 +50,7 @@ const Relatorios = ({ navigation }) => {
   const loadReportData = useCallback(async () => {
     try {
       setLoading(true);
-      
+
       if (!userProfile?.academiaId || !user?.uid) {
         console.warn('⚠️ Usuário sem academiaId ou uid definido');
         return;
@@ -58,12 +58,12 @@ const Relatorios = ({ navigation }) => {
 
       // Usar cache inteligente para dados dos relatórios
       const cacheKey = CACHE_KEYS.INSTRUCTOR_REPORTS(userProfile.academiaId, user.id, selectedPeriod);
-      
+
       const reportsData = await cacheService.getOrSet(
         cacheKey,
         async () => {
           console.log('🔍 Buscando dados dos relatórios (cache miss):', user.id, selectedPeriod);
-          
+
           // Simular dados reais - em produção viria do Firestore
           // Aqui você implementaria as consultas reais ao Firestore
           const mockData = {
@@ -82,21 +82,21 @@ const Relatorios = ({ navigation }) => {
               { mes: 'Mar', alunos: 120, receita: 15000 }
             ]
           };
-          
+
           return mockData;
         },
         CACHE_TTL.MEDIUM // Cache por 5 minutos
       );
-      
+
       setReportData(reportsData);
-      
+
       // Track analytics
       trackFeatureUsage('instructor_reports_loaded', {
         academiaId: userProfile.academiaId,
         instructorId: user.id,
         period: selectedPeriod
       });
-      
+
     } catch (error) {
       console.error('❌ Erro ao carregar relatórios:', error);
     } finally {
@@ -153,157 +153,157 @@ const Relatorios = ({ navigation }) => {
       errorContext={{ screen: 'InstructorReports', academiaId: userProfile?.academiaId, instructorId: user?.uid }}
     >
       <SafeAreaView style={styles.container}>
-      <ScrollView 
-        style={styles.scrollView}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-      >
-        {/* Período */}
-        <Card style={styles.card}>
-          <Card.Content>
-            <View style={styles.header}>
-              <MaterialCommunityIcons name="chart-line" size={32} color={COLORS.secondary[500]} />
-              <Text style={[styles.title, styles.title]}>Relatórios e Análises</Text>
-            </View>
-            
-            <SegmentedButtons
-              value={selectedPeriod}
-              onValueChange={(value) => {
-                trackButtonClick('change_report_period', { period: value });
-                setSelectedPeriod(value);
-              }}
-              buttons={[
-                { value: 'semana', label: 'Semana' },
-                { value: 'mes', label: 'Mês' },
-                { value: 'ano', label: 'Ano' }
-              ]}
-              style={styles.periodSelector}
-            />
-          </Card.Content>
-        </Card>
-
-        {/* Estatísticas Gerais */}
-        <Card style={styles.card}>
-          <Card.Content>
-            <Text style={[styles.sectionTitle, styles.title]}>Visão Geral</Text>
-            
-            <View style={styles.statsGrid}>
-              <StatCard
-                icon="school"
-                title="Total de Aulas"
-                value={reportData.totalAulas}
-                subtitle="Este mês"
-                color={COLORS.primary[500]}
-              />
-              
-              <StatCard
-                icon="account-group"
-                title="Alunos Ativos"
-                value={reportData.totalAlunos}
-                subtitle="+15 este mês"
-                color={COLORS.info[500]}
-              />
-              
-              <StatCard
-                icon="chart-line"
-                title="Frequência Média"
-                value={`${reportData.frequenciaMedia}%`}
-                subtitle="+3% vs mês anterior"
-                color={COLORS.warning[500]}
-              />
-              
-              <StatCard
-                icon="currency-usd"
-                title="Receita Mensal"
-                value={`R$ ${reportData.receitaMensal.toLocaleString()}`}
-                subtitle="+12% crescimento"
-                color={COLORS.secondary[500]}
-              />
-            </View>
-          </Card.Content>
-        </Card>
-
-        {/* Aulas Mais Populares */}
-        <Card style={styles.card}>
-          <Card.Content>
-            <Text style={[styles.sectionTitle, styles.title]}>Aulas Mais Populares</Text>
-            
-            {reportData.aulasPopulares.map((aula, index) => (
-              <Surface key={index} style={styles.aulaItem}>
-                <View style={styles.aulaHeader}>
-                  <Text style={styles.aulaNome}>{aula.nome}</Text>
-                  <Chip mode="flat" style={styles.frequenciaChip}>
-                    {aula.frequencia}%
-                  </Chip>
-                </View>
-                <View style={styles.aulaDetails}>
-                  <MaterialCommunityIcons name="account-multiple" size={16} color={COLORS.text.secondary} />
-                  <Text style={styles.aulaAlunos}>{aula.alunos} alunos</Text>
-                </View>
-                <View style={styles.progressBar}>
-                  <View 
-                    style={[
-                      styles.progressFill, 
-                      { width: `${aula.frequencia}%` }
-                    ]} 
-                  />
-                </View>
-              </Surface>
-            ))}
-          </Card.Content>
-        </Card>
-
-        {/* Evolução Mensal */}
-        <Card style={styles.card}>
-          <Card.Content>
-            <Text style={[styles.sectionTitle, styles.title]}>Evolução dos Últimos Meses</Text>
-            
-            {reportData.evolucaoMensal.map((mes, index) => (
-              <View key={index} style={styles.evolucaoItem}>
-                <Text style={styles.evolucaoMes}>{mes.mes}</Text>
-                <View style={styles.evolucaoData}>
-                  <View style={styles.evolucaoMetric}>
-                    <MaterialCommunityIcons name="account-group" size={16} color={COLORS.info[500]} />
-                    <Text style={styles.evolucaoValue}>{mes.alunos} alunos</Text>
-                  </View>
-                  <View style={styles.evolucaoMetric}>
-                    <MaterialCommunityIcons name="currency-usd" size={16} color={COLORS.primary[500]} />
-                    <Text style={styles.evolucaoValue}>R$ {mes.receita.toLocaleString()}</Text>
-                  </View>
-                </View>
+        <ScrollView
+          style={styles.scrollView}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        >
+          {/* Período */}
+          <Card style={styles.card}>
+            <Card.Content>
+              <View style={styles.header}>
+                <MaterialCommunityIcons name="chart-line" size={32} color={COLORS.secondary[500]} />
+                <Text style={[styles.title, styles.title]}>Relatórios e Análises</Text>
               </View>
-            ))}
-          </Card.Content>
-        </Card>
 
-        {/* Ações */}
-        <Card style={styles.card}>
-          <Card.Content>
-            <Text style={[styles.sectionTitle, styles.title]}>Exportar Relatórios</Text>
-            
-            <View style={styles.exportButtons}>
-              <Button
-                mode="outlined"
-                icon="file-pdf-box"
-                onPress={handleExportPDF}
-                style={styles.exportButton}
-              >
-                Exportar PDF
-              </Button>
-              
-              <Button
-                mode="outlined"
-                icon="microsoft-excel"
-                onPress={handleExportExcel}
-                style={styles.exportButton}
-              >
-                Exportar Excel
-              </Button>
-            </View>
-          </Card.Content>
-        </Card>
-      </ScrollView>
+              <SegmentedButtons
+                value={selectedPeriod}
+                onValueChange={(value) => {
+                  trackButtonClick('change_report_period', { period: value });
+                  setSelectedPeriod(value);
+                }}
+                buttons={[
+                  { value: 'semana', label: 'Semana' },
+                  { value: 'mes', label: 'Mês' },
+                  { value: 'ano', label: 'Ano' }
+                ]}
+                style={styles.periodSelector}
+              />
+            </Card.Content>
+          </Card>
+
+          {/* Estatísticas Gerais */}
+          <Card style={styles.card}>
+            <Card.Content>
+              <Text style={[styles.sectionTitle, styles.title]}>Visão Geral</Text>
+
+              <View style={styles.statsGrid}>
+                <StatCard
+                  icon="school"
+                  title="Total de Aulas"
+                  value={reportData.totalAulas}
+                  subtitle="Este mês"
+                  color={COLORS.primary[500]}
+                />
+
+                <StatCard
+                  icon="account-group"
+                  title="Alunos Ativos"
+                  value={reportData.totalAlunos}
+                  subtitle="+15 este mês"
+                  color={COLORS.info[500]}
+                />
+
+                <StatCard
+                  icon="chart-line"
+                  title="Frequência Média"
+                  value={`${reportData.frequenciaMedia}%`}
+                  subtitle="+3% vs mês anterior"
+                  color={COLORS.warning[500]}
+                />
+
+                <StatCard
+                  icon="currency-usd"
+                  title="Receita Mensal"
+                  value={`R$ ${reportData.receitaMensal.toLocaleString()}`}
+                  subtitle="+12% crescimento"
+                  color={COLORS.secondary[500]}
+                />
+              </View>
+            </Card.Content>
+          </Card>
+
+          {/* Aulas Mais Populares */}
+          <Card style={styles.card}>
+            <Card.Content>
+              <Text style={[styles.sectionTitle, styles.title]}>Aulas Mais Populares</Text>
+
+              {reportData.aulasPopulares.map((aula, index) => (
+                <Surface key={index} style={styles.aulaItem}>
+                  <View style={styles.aulaHeader}>
+                    <Text style={styles.aulaNome}>{aula.nome}</Text>
+                    <Chip mode="flat" style={styles.frequenciaChip}>
+                      {aula.frequencia}%
+                    </Chip>
+                  </View>
+                  <View style={styles.aulaDetails}>
+                    <MaterialCommunityIcons name="account-multiple" size={16} color={COLORS.text.secondary} />
+                    <Text style={styles.aulaAlunos}>{aula.alunos} alunos</Text>
+                  </View>
+                  <View style={styles.progressBar}>
+                    <View
+                      style={[
+                        styles.progressFill,
+                        { width: `${aula.frequencia}%` }
+                      ]}
+                    />
+                  </View>
+                </Surface>
+              ))}
+            </Card.Content>
+          </Card>
+
+          {/* Evolução Mensal */}
+          <Card style={styles.card}>
+            <Card.Content>
+              <Text style={[styles.sectionTitle, styles.title]}>Evolução dos Últimos Meses</Text>
+
+              {reportData.evolucaoMensal.map((mes, index) => (
+                <View key={index} style={styles.evolucaoItem}>
+                  <Text style={styles.evolucaoMes}>{mes.mes}</Text>
+                  <View style={styles.evolucaoData}>
+                    <View style={styles.evolucaoMetric}>
+                      <MaterialCommunityIcons name="account-group" size={16} color={COLORS.info[500]} />
+                      <Text style={styles.evolucaoValue}>{mes.alunos} alunos</Text>
+                    </View>
+                    <View style={styles.evolucaoMetric}>
+                      <MaterialCommunityIcons name="currency-usd" size={16} color={COLORS.primary[500]} />
+                      <Text style={styles.evolucaoValue}>R$ {mes.receita.toLocaleString()}</Text>
+                    </View>
+                  </View>
+                </View>
+              ))}
+            </Card.Content>
+          </Card>
+
+          {/* Ações */}
+          <Card style={styles.card}>
+            <Card.Content>
+              <Text style={[styles.sectionTitle, styles.title]}>Exportar Relatórios</Text>
+
+              <View style={styles.exportButtons}>
+                <Button
+                  mode="outlined"
+                  icon="file-pdf-box"
+                  onPress={handleExportPDF}
+                  style={styles.exportButton}
+                >
+                  Exportar PDF
+                </Button>
+
+                <Button
+                  mode="outlined"
+                  icon="microsoft-excel"
+                  onPress={handleExportExcel}
+                  style={styles.exportButton}
+                >
+                  Exportar Excel
+                </Button>
+              </View>
+            </Card.Content>
+          </Card>
+        </ScrollView>
       </SafeAreaView>
     </EnhancedErrorBoundary>
   );

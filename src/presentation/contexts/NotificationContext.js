@@ -2,7 +2,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Platform } from 'react-native';
 import notificationService from '@infrastructure/services/notificationService';
-import { useAuth } from './AuthProvider';
+import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { firestoreService } from '@infrastructure/services/firestoreService';
 
 const NotificationContext = createContext();
@@ -12,12 +12,12 @@ export const NotificationProvider = ({ children }) => {
   const [pushToken, setPushToken] = useState(null);
   const [pushNotificationsEnabled, setPushNotificationsEnabled] = useState(false);
   const [unreadNotifications, setUnreadNotifications] = useState([]);
-  const { user, userProfile } = useAuth();
+  const { user, userProfile } = useAuthFacade();
 
   // Inicializar serviço de notificações
   useEffect(() => {
     initializeNotificationService();
-    
+
     return () => {
       notificationService.cleanup();
     };
@@ -77,16 +77,16 @@ export const NotificationProvider = ({ children }) => {
 
     try {
       console.log('📬 Carregando notificações para usuário:', user.id);
-      
+
       // Validar valores antes da query
       const userId = user.id;
       const academiaId = userProfile.academiaId;
-      
+
       if (!userId || !academiaId) {
         console.warn('📬 Valores inválidos para query de notificações');
         return;
       }
-      
+
       // Usar consulta simples com índice existente
       const userNotifications = await firestoreService.getDocuments(
         `gyms/${academiaId}/notifications`,
@@ -100,7 +100,7 @@ export const NotificationProvider = ({ children }) => {
       // Filtrar últimos 30 dias em memória
       const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
       const recentNotifications = userNotifications.filter(notification => {
-        const createdAt = notification.createdAt?.seconds 
+        const createdAt = notification.createdAt?.seconds
           ? new Date(notification.createdAt.seconds * 1000)
           : new Date(notification.createdAt);
         return createdAt >= thirtyDaysAgo;
@@ -155,7 +155,7 @@ export const NotificationProvider = ({ children }) => {
     const id = Date.now().toString();
     const newNotification = { ...notification, id };
     setNotifications(prev => [...prev, newNotification]);
-    
+
     // Auto remove após 5 segundos
     setTimeout(() => {
       removeNotification(id);
@@ -184,7 +184,7 @@ export const NotificationProvider = ({ children }) => {
 
   const sendPaymentReminder = async (amount, dueDate) => {
     if (!user || !pushNotificationsEnabled) return;
-    
+
     try {
       await notificationService.notifyPaymentDue(user.id, amount, dueDate);
       showSuccess('Lembrete de pagamento enviado');
@@ -196,7 +196,7 @@ export const NotificationProvider = ({ children }) => {
 
   const sendClassReminder = async (className, classTime) => {
     if (!user || !pushNotificationsEnabled) return;
-    
+
     try {
       await notificationService.notifyClassReminder(user.id, className, classTime);
       showSuccess('Lembrete de aula enviado');
@@ -208,7 +208,7 @@ export const NotificationProvider = ({ children }) => {
 
   const sendGraduationNotification = async (fromLevel, toLevel, modalityName) => {
     if (!user || !pushNotificationsEnabled) return;
-    
+
     try {
       await notificationService.notifyGraduation(user.id, fromLevel, toLevel, modalityName);
       showSuccess('Notificação de graduação enviada');
@@ -220,7 +220,7 @@ export const NotificationProvider = ({ children }) => {
 
   const sendAnnouncementNotification = async (title, content) => {
     if (!user || !pushNotificationsEnabled) return;
-    
+
     try {
       await notificationService.notifyAnnouncement(user.id, title, content);
       showSuccess('Anúncio enviado');
@@ -232,7 +232,7 @@ export const NotificationProvider = ({ children }) => {
 
   const scheduleNotification = async (title, body, triggerDate, data = {}) => {
     if (!pushNotificationsEnabled) return;
-    
+
     try {
       await notificationService.scheduleNotification(title, body, triggerDate, data);
       showSuccess('Notificação agendada');
@@ -271,7 +271,7 @@ export const NotificationProvider = ({ children }) => {
     showError,
     showWarning,
     showInfo,
-    
+
     // Push notifications
     pushToken,
     pushNotificationsEnabled,
@@ -279,7 +279,7 @@ export const NotificationProvider = ({ children }) => {
     unreadCount: unreadNotifications.length,
     markNotificationAsRead,
     loadUserNotifications,
-    
+
     // Notification actions
     sendPaymentReminder,
     sendClassReminder,

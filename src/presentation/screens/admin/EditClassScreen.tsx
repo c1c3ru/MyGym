@@ -10,7 +10,7 @@ import { Card, Text, Button, TextInput, HelperText, Chip, RadioButton, Snackbar 
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 // import { Picker } from '@react-native-picker/picker'; // Removido - dependência não disponível
-import { useAuth } from '@contexts/AuthProvider';
+import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
 import { academyFirestoreService, academyClassService } from '@infrastructure/services/academyFirestoreService';
 import ActionButton, { ActionButtonGroup } from '@components/ActionButton';
@@ -28,7 +28,7 @@ interface EditClassScreenProps {
 
 const EditClassScreen = ({ route, navigation }: EditClassScreenProps) => {
   const { classId } = (route.params as any);
-  const { user, userProfile, academia } = useAuth();
+  const { user, userProfile, academia } = useAuthFacade();
   const [loading, setLoading] = useState(false);
   const [loadingData, setLoadingData] = useState(true);
   const [instructors, setInstructors] = useState<any[]>([]);
@@ -208,7 +208,7 @@ const EditClassScreen = ({ route, navigation }: EditClassScreenProps) => {
         status: formData.status,
         ageCategory: formData.ageCategory,
         updatedAt: new Date(),
-        updatedBy: user.id
+        updatedBy: user?.id
       };
 
       const academiaId = userProfile?.academiaId || academia?.id;

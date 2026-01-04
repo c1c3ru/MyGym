@@ -10,7 +10,7 @@ import {
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { useAuth } from '@contexts/AuthProvider';
+import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { firestoreService } from '@infrastructure/services/firestoreService';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useTheme } from '@contexts/ThemeContext';
@@ -18,7 +18,7 @@ import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@present
 import { getAuthGradient } from '@presentation/theme/authTheme';
 
 const NotificationSettingsScreen = ({ navigation }: any) => {
-  const { user, userProfile, updateUserProfile } = useAuth();
+  const { user, userProfile, updateUserProfile } = useAuthFacade();
   const { isDarkMode, getString } = useTheme();
   const [loading, setLoading] = useState(false);
   const [settings, setSettings] = useState({

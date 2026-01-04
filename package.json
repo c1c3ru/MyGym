@@ -2,6 +2,9 @@
   "name": "mygym-app",
   "version": "1.0.0",
   "main": "index.js",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "scripts": {
     "start": "node scripts/dev/start-replit.js",
     "start:expo": "npx expo start --web --port 5000",

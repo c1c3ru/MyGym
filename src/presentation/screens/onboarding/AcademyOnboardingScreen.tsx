@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, ScrollView, Alert } from 'react-native';
-import { 
-  Card, 
-  Button, 
+import {
+  Card,
+  Button,
   TextInput,
   Dialog,
   Portal,
@@ -12,7 +12,7 @@ import {
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { useAuth } from '@contexts/AuthProvider';
+import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { httpsCallable } from 'firebase/functions';
 import { functions } from '@infrastructure/services/firebase';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
@@ -21,9 +21,9 @@ import { getString } from '@utils/theme';
 
 const AcademyOnboardingScreen = () => {
   const { currentTheme } = useThemeToggle();
-  
-  const { refreshClaimsAndProfile } = useAuth();
-  
+
+  const { refreshClaimsAndProfile } = useAuthFacade();
+
   // Estados para criação de academia
   const [createAcademyVisible, setCreateAcademyVisible] = useState(false);
   const [academyData, setAcademyData] = useState({
@@ -33,11 +33,11 @@ const AcademyOnboardingScreen = () => {
     phone: '',
     email: ''
   });
-  
+
   // Estados para usar convite
   const [useInviteVisible, setUseInviteVisible] = useState(false);
   const [inviteCode, setInviteCode] = useState('');
-  
+
   // Estados de carregamento
   const [creatingAcademy, setCreatingAcademy] = useState(false);
   const [usingInvite, setUsingInvite] = useState(false);
@@ -50,17 +50,17 @@ const AcademyOnboardingScreen = () => {
 
     try {
       setCreatingAcademy(true);
-      
+
       // Chamar Cloud Function para criar academia
       const createAcademyFunction = httpsCallable(functions, 'createAcademy');
       const result = await createAcademyFunction(academyData);
-      
+
       if (result.data.success) {
         // Atualizar claims e perfil após criação da academia
         await refreshClaimsAndProfile();
-        
+
         Alert.alert(
-          'Sucesso!', 
+          'Sucesso!',
           'Academia criada com sucesso! Você agora é o administrador.',
           [
             {
@@ -89,19 +89,19 @@ const AcademyOnboardingScreen = () => {
 
     try {
       setUsingInvite(true);
-      
+
       // Chamar Cloud Function para usar convite
       const useInviteFunction = httpsCallable(functions, 'useInvite');
       const result = await useInviteFunction({ inviteCode: inviteCode.trim() });
-      
+
       if (result.data.success) {
         // Atualizar claims e perfil após usar convite
         await refreshClaimsAndProfile();
-        
+
         const roleText = result.data.role === 'instructor' ? 'instrutor' : 'aluno';
-        
+
         Alert.alert(
-          'Sucesso!', 
+          'Sucesso!',
           `Você foi associado à academia como ${roleText}!`,
           [
             {
@@ -143,7 +143,7 @@ const AcademyOnboardingScreen = () => {
           <Ionicons name="school-outline" size={64} color={COLORS.primary[500]} />
           <Text style={styles.title}>Bem-vindo ao MyGym!</Text>
           <Text style={styles.subtitle}>
-            Para começar, você precisa estar associado a uma academia. 
+            Para começar, você precisa estar associado a uma academia.
             Escolha uma das opções abaixo:
           </Text>
         </View>
@@ -157,11 +157,11 @@ const AcademyOnboardingScreen = () => {
                 <Text style={styles.optionTitle}>Criar Minha Academia</Text>
               </View>
               <Text style={styles.optionDescription}>
-                Crie uma nova academia e torne-se o administrador. 
+                Crie uma nova academia e torne-se o administrador.
                 Você poderá gerenciar alunos, instrutores e todas as configurações.
               </Text>
-              <Button 
-                mode="contained" 
+              <Button
+                mode="contained"
                 onPress={() => setCreateAcademyVisible(true)}
                 style={styles.optionButton}
                 icon="plus"
@@ -181,11 +181,11 @@ const AcademyOnboardingScreen = () => {
                 <Text style={styles.optionTitle}>Tenho um Código de Convite</Text>
               </View>
               <Text style={styles.optionDescription}>
-                Se você recebeu um código de convite de uma academia, 
+                Se você recebeu um código de convite de uma academia,
                 use-o para se associar como aluno ou instrutor.
               </Text>
-              <Button 
-                mode="outlined" 
+              <Button
+                mode="outlined"
                 onPress={() => setUseInviteVisible(true)}
                 style={styles.optionButton}
                 icon="ticket"
@@ -224,8 +224,8 @@ const AcademyOnboardingScreen = () => {
 
       {/* Dialog para criar academia */}
       <Portal>
-        <Dialog 
-          visible={createAcademyVisible} 
+        <Dialog
+          visible={createAcademyVisible}
           onDismiss={() => {
             setCreateAcademyVisible(false);
             resetCreateAcademyForm();
@@ -280,7 +280,7 @@ const AcademyOnboardingScreen = () => {
             />
           </Dialog.Content>
           <Dialog.Actions>
-            <Button 
+            <Button
               onPress={() => {
                 setCreateAcademyVisible(false);
                 resetCreateAcademyForm();
@@ -289,8 +289,8 @@ const AcademyOnboardingScreen = () => {
             >
               Cancelar
             </Button>
-            <Button 
-              mode="contained" 
+            <Button
+              mode="contained"
               onPress={handleCreateAcademy}
               disabled={creatingAcademy || !academyData.name.trim()}
               loading={creatingAcademy}
@@ -303,8 +303,8 @@ const AcademyOnboardingScreen = () => {
 
       {/* Dialog para usar convite */}
       <Portal>
-        <Dialog 
-          visible={useInviteVisible} 
+        <Dialog
+          visible={useInviteVisible}
           onDismiss={() => {
             setUseInviteVisible(false);
             resetInviteForm();
@@ -328,7 +328,7 @@ const AcademyOnboardingScreen = () => {
             />
           </Dialog.Content>
           <Dialog.Actions>
-            <Button 
+            <Button
               onPress={() => {
                 setUseInviteVisible(false);
                 resetInviteForm();
@@ -337,8 +337,8 @@ const AcademyOnboardingScreen = () => {
             >
               Cancelar
             </Button>
-            <Button 
-              mode="contained" 
+            <Button
+              mode="contained"
               onPress={handleUseInvite}
               disabled={usingInvite || !inviteCode.trim()}
               loading={usingInvite}

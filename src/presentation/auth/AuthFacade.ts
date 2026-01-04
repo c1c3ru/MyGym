@@ -9,7 +9,7 @@ import {
   GetUserSessionUseCase,
   SendPasswordResetEmailUseCase
 } from '@domain/auth/usecases';
-import { SignUpData, AuthSession } from '@domain/auth/entities';
+import { SignUpData, AuthSession, UserProfile } from '@domain/auth/entities';
 import { FirebaseAuthRepository } from '@data/auth';
 import { initializeFirebaseServices } from '@infrastructure/firebase';
 import crashlyticsService from '@infrastructure/services/crashlyticsService';
@@ -650,6 +650,195 @@ export function useAuthFacade() {
         console.error('❌ Erro ao iniciar criação de perfil:', error);
         throw error;
       }
-    }
+    },
+
+    // Métodos de compatibilidade com AuthContext legado
+    updateUserProfile: async (updates: Partial<UserProfile>) => {
+      try {
+        console.log('📝 updateUserProfile: Iniciando atualização do perfil');
+
+        if (!user) {
+          console.error('❌ updateUserProfile: Usuário não está logado');
+          throw new Error('Usuário não está logado');
+        }
+
+        const updatedProfile = await repository!.updateUserProfile(user.id, updates);
+        setUserProfile(updatedProfile);
+
+        // Se atualizou academiaId, buscar dados da academia
+        if (updates.academiaId) {
+          const academiaData = await repository!.getAcademia(updates.academiaId);
+          if (academiaData) {
+            setGym(academiaData);
+          }
+        }
+
+        console.log('✅ updateUserProfile: Perfil atualizado com sucesso');
+        return updatedProfile;
+      } catch (error) {
+        console.error('❌ updateUserProfile: Erro na atualização:', error);
+        throw error;
+      }
+    },
+
+    updateAcademiaAssociation: async (academiaId: string) => {
+      try {
+        console.log('🔗 updateAcademiaAssociation: Iniciando associação com academia:', academiaId);
+
+        if (!user) {
+          console.error('❌ updateAcademiaAssociation: Usuário não está logado');
+          throw new Error('Usuário não está logado');
+        }
+
+        // Atualizar perfil com academiaId
+        await repository!.updateUserProfile(user.id, { academiaId });
+
+        // Buscar dados da academia
+        const academiaData = await repository!.getAcademia(academiaId);
+        if (academiaData) {
+          setGym(academiaData);
+        }
+
+        // Recarregar perfil completo
+        const updatedProfile = await repository!.getUserProfile(user.id);
+        if (updatedProfile) {
+          setUserProfile(updatedProfile);
+        }
+
+        console.log('✅ updateAcademiaAssociation: Associação completa!');
+      } catch (error) {
+        console.error('❌ updateAcademiaAssociation: Erro na associação:', error);
+        throw error;
+      }
+    },
+
+    fetchUserProfile: async (userId?: string) => {
+      try {
+        const targetUserId = userId || user?.id;
+        if (!targetUserId) {
+          console.error('❌ fetchUserProfile: Nenhum userId fornecido');
+          return null;
+        }
+
+        console.log('🔍 fetchUserProfile: Buscando perfil para userId:', targetUserId);
+
+        const profile = await repository!.getUserProfile(targetUserId);
+        if (profile) {
+          setUserProfile(profile);
+
+          // Se o usuário tem academiaId, buscar dados da academia
+          if (profile.academiaId) {
+            console.log('🏢 fetchUserProfile: Usuário tem academiaId, buscando dados da academia...');
+            const academiaData = await repository!.getAcademia(profile.academiaId);
+            if (academiaData) {
+              setGym(academiaData);
+            }
+          } else {
+            console.log('⚠️ fetchUserProfile: Usuário SEM academiaId');
+            setGym(null);
+          }
+
+          console.log('✅ fetchUserProfile: Perfil carregado com sucesso');
+          return profile;
+        } else {
+          console.log('❌ fetchUserProfile: Perfil não encontrado');
+          setUserProfile(null);
+          setGym(null);
+          return null;
+        }
+      } catch (error) {
+        console.error('❌ fetchUserProfile: Erro ao buscar perfil:', error);
+        return null;
+      }
+    },
+
+    fetchAcademiaData: async (academiaId: string) => {
+      try {
+        console.log('🏢 fetchAcademiaData: Buscando dados da academia:', academiaId);
+
+        const academiaData = await repository!.getAcademia(academiaId);
+        if (academiaData) {
+          console.log('✅ fetchAcademiaData: Academia encontrada');
+          setGym(academiaData);
+          return academiaData;
+        } else {
+          console.log('❌ fetchAcademiaData: Academia não encontrada');
+          setGym(null);
+          return null;
+        }
+      } catch (error) {
+        console.error('❌ fetchAcademiaData: Erro ao buscar dados da academia:', error);
+        return null;
+      }
+    },
+
+    refreshClaimsAndProfile: async () => {
+      try {
+        console.log('🔄 refreshClaimsAndProfile: Atualizando claims e perfil...');
+
+        if (!user) {
+          console.log('⚠️ refreshClaimsAndProfile: Nenhum usuário logado');
+          return;
+        }
+
+        // Forçar refresh do token para obter claims atualizados
+        await repository!.refreshUserToken(user);
+
+        // Recarregar claims
+        const claims = await repository!.getUserClaims(user);
+        if (claims) {
+          setCustomClaims(claims);
+        }
+
+        // Recarregar perfil do usuário
+        const profile = await repository!.getUserProfile(user.id);
+        if (profile) {
+          setUserProfile(profile);
+
+          // Se tem academiaId, recarregar academia também
+          if (profile.academiaId) {
+            const academiaData = await repository!.getAcademia(profile.academiaId);
+            if (academiaData) {
+              setGym(academiaData);
+            }
+          }
+        }
+
+        console.log('✅ refreshClaimsAndProfile: Claims e perfil atualizados');
+      } catch (error) {
+        console.error('❌ refreshClaimsAndProfile: Erro na atualização:', error);
+        throw error;
+      }
+    },
+
+    loadCustomClaims: async () => {
+      try {
+        console.log('🔍 loadCustomClaims: Carregando claims...');
+
+        if (!user) {
+          console.log('⚠️ loadCustomClaims: Nenhum usuário logado');
+          return null;
+        }
+
+        const claims = await repository!.getUserClaims(user);
+        if (claims) {
+          setCustomClaims(claims);
+          console.log('📋 loadCustomClaims: Claims carregados:', {
+            role: claims.role,
+            academiaId: claims.academiaId
+          });
+          return claims;
+        }
+
+        return null;
+      } catch (error) {
+        console.error('❌ loadCustomClaims: Erro ao carregar claims:', error);
+        setCustomClaims(null);
+        return null;
+      }
+    },
+
+    // Alias para logout (compatibilidade)
+    logout: signOutUser
   };
 }

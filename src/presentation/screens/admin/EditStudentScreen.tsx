@@ -17,7 +17,7 @@ import {
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useAuth } from '@contexts/AuthProvider';
+import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
 import { firestoreService } from '@infrastructure/services/firestoreService';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
@@ -30,7 +30,7 @@ interface EditStudentScreenProps {
 }
 
 const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route }) => {
-  const { user, userProfile, academia } = useAuth();
+  const { user, userProfile, academia } = useAuthFacade();
   const { studentId } = route.params as any;
   const { getString } = useTheme();
   const [loading, setLoading] = useState(false);

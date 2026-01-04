@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { View, ScrollView, Alert, Share } from 'react-native';
-import { 
-  Text, 
-  Card, 
-  Button, 
-  TextInput, 
-  List, 
+import {
+  Text,
+  Card,
+  Button,
+  TextInput,
+  List,
   Chip,
   FAB,
   Modal,
   Portal,
   Divider
 } from 'react-native-paper';
-import { useAuth } from '@contexts/AuthProvider';
+import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { InviteService } from '@infrastructure/services/inviteService';
 import QRCodeGenerator from '@components/QRCodeGenerator';
 import ActionButton, { ActionButtonGroup } from '@components/ActionButton';
@@ -20,7 +20,7 @@ import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@present
 import { getString } from '@utils/theme';
 
 export default function InviteManagement({ navigation }) {
-  const { user, userProfile, academia } = useAuth();
+  const { user, userProfile, academia } = useAuthFacade();
   const [invites, setInvites] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showInviteModal, setShowInviteModal] = useState(false);
@@ -63,7 +63,7 @@ export default function InviteManagement({ navigation }) {
 
     try {
       setLoading(true);
-      
+
       // Criar convite
       const inviteResult = await InviteService.createInvite(
         academia.id,
@@ -83,7 +83,7 @@ export default function InviteManagement({ navigation }) {
         userProfile.name || getString('administrator'),
         newInvite.tipo
       );
-      
+
       if (!emailSent) {
         Alert.alert(getString('warning'), 'Convite criado, mas houve problema no envio do email. O convite ainda é válido.');
       }
@@ -91,11 +91,13 @@ export default function InviteManagement({ navigation }) {
       Alert.alert(
         'Convite Enviado!',
         `Convite enviado para ${newInvite.email}`,
-        [{ text: getString('ok'), onPress: () => {
-          setShowInviteModal(false);
-          setNewInvite({ email: '', tipo: 'aluno' });
-          loadInvites();
-        }}]
+        [{
+          text: getString('ok'), onPress: () => {
+            setShowInviteModal(false);
+            setNewInvite({ email: '', tipo: 'aluno' });
+            loadInvites();
+          }
+        }]
       );
     } catch (error) {
       console.error('Erro ao enviar convite:', error);
@@ -109,7 +111,7 @@ export default function InviteManagement({ navigation }) {
     try {
       const joinLink = InviteService.generateJoinLink(academia.id);
       const message = `Junte-se à ${academia.nome}!\n\nEscaneie o QR Code ou use este link:\n${joinLink}`;
-      
+
       await Share.share({
         message,
         title: `Convite - ${academia.nome}`,
@@ -123,7 +125,7 @@ export default function InviteManagement({ navigation }) {
     try {
       setLoading(true);
       const cleanedCount = await InviteService.cleanupAcceptedInvites(academia.id);
-      
+
       if (cleanedCount > 0) {
         Alert.alert(
           'Limpeza Concluída',
@@ -171,18 +173,18 @@ export default function InviteManagement({ navigation }) {
               {invite.tipo === 'aluno' ? getString('student') : getString('instructor')}
             </Text>
           </View>
-          <Chip 
+          <Chip
             style={[styles.statusChip, { backgroundColor: getStatusColor(invite.status) }]}
             textStyle={{ color: COLORS.white }}
           >
             {getStatusText(invite.status)}
           </Chip>
         </View>
-        
+
         <Text variant="bodySmall" style={styles.inviteDate}>
           Enviado em: {invite.createdAt?.toDate?.()?.toLocaleDateString() || getString('dataNotAvailable')}
         </Text>
-        
+
         {invite.status === 'pending' && (
           <Text variant="bodySmall" style={styles.expiryDate}>
             Expira em: {invite.expiresAt?.toDate?.()?.toLocaleDateString() || getString('dataNotAvailable')}
@@ -213,10 +215,10 @@ export default function InviteManagement({ navigation }) {
             <Text variant="titleMedium" style={styles.sectionTitle}>
               Formas de Convite
             </Text>
-            
+
             <ActionButtonGroup style={styles.optionButtons}>
-              <ActionButton 
-                mode="contained" 
+              <ActionButton
+                mode="contained"
                 onPress={() => setShowInviteModal(true)}
                 icon="email"
                 style={styles.optionButton}
@@ -225,9 +227,9 @@ export default function InviteManagement({ navigation }) {
               >
                 Convite por Email
               </ActionButton>
-              
-              <ActionButton 
-                mode="outlined" 
+
+              <ActionButton
+                mode="outlined"
                 onPress={() => setShowQRModal(true)}
                 icon="qrcode"
                 style={styles.optionButton}
@@ -259,7 +261,7 @@ export default function InviteManagement({ navigation }) {
                 Limpar Aceitos
               </ActionButton>
             </View>
-            
+
             {invites.length === 0 ? (
               <Text variant="bodyMedium" style={styles.emptyText}>
                 Nenhum convite enviado ainda
@@ -273,15 +275,15 @@ export default function InviteManagement({ navigation }) {
 
       {/* Modal de Convite por Email */}
       <Portal>
-        <Modal 
-          visible={showInviteModal} 
+        <Modal
+          visible={showInviteModal}
           onDismiss={() => setShowInviteModal(false)}
           contentContainerStyle={styles.modal}
         >
           <Text variant="titleLarge" style={styles.modalTitle}>
             Enviar Convite por Email
           </Text>
-          
+
           <TextInput
             label="Email do convidado"
             value={newInvite.email}
@@ -290,13 +292,13 @@ export default function InviteManagement({ navigation }) {
             keyboardType="email-address"
             style={styles.input}
           />
-          
+
           <Text variant="bodyMedium" style={styles.typeLabel}>
             Tipo de usuário:
           </Text>
-          
+
           <ActionButtonGroup style={styles.typeButtons}>
-            <ActionButton 
+            <ActionButton
               mode={newInvite.tipo === 'aluno' ? 'contained' : 'outlined'}
               onPress={() => setNewInvite(prev => ({ ...prev, tipo: 'aluno' }))}
               style={styles.typeButton}
@@ -305,7 +307,7 @@ export default function InviteManagement({ navigation }) {
             >
               Aluno
             </ActionButton>
-            <ActionButton 
+            <ActionButton
               mode={newInvite.tipo === 'instrutor' ? 'contained' : 'outlined'}
               onPress={() => setNewInvite(prev => ({ ...prev, tipo: 'instrutor' }))}
               style={styles.typeButton}
@@ -315,18 +317,18 @@ export default function InviteManagement({ navigation }) {
               Instrutor
             </ActionButton>
           </ActionButtonGroup>
-          
+
           <ActionButtonGroup style={styles.modalActions}>
-            <ActionButton 
-              mode="outlined" 
+            <ActionButton
+              mode="outlined"
               onPress={() => setShowInviteModal(false)}
               style={styles.modalButton}
               variant="secondary"
             >
               Cancelar
             </ActionButton>
-            <ActionButton 
-              mode="contained" 
+            <ActionButton
+              mode="contained"
               onPress={sendInvite}
               loading={loading}
               disabled={loading}
@@ -341,36 +343,36 @@ export default function InviteManagement({ navigation }) {
 
       {/* Modal de QR Code */}
       <Portal>
-        <Modal 
-          visible={showQRModal} 
+        <Modal
+          visible={showQRModal}
           onDismiss={() => setShowQRModal(false)}
           contentContainerStyle={styles.qrModal}
         >
           <Text variant="titleLarge" style={styles.modalTitle}>
             QR Code da Academia
           </Text>
-          
-          <QRCodeGenerator 
-            size={250} 
-            showActions={false} 
+
+          <QRCodeGenerator
+            size={250}
+            showActions={false}
             academiaId={academia?.id}
             academiaNome={academia?.nome}
           />
-          
+
           <Text variant="bodySmall" style={styles.qrInstructions}>
             Compartilhe este QR Code para que alunos e instrutores possam se juntar à academia instantaneamente
           </Text>
-          
+
           <View style={styles.modalActions}>
-            <Button 
-              mode="outlined" 
+            <Button
+              mode="outlined"
               onPress={() => setShowQRModal(false)}
               style={styles.modalButton}
             >
               Fechar
             </Button>
-            <Button 
-              mode="contained" 
+            <Button
+              mode="contained"
               onPress={shareQRCode}
               icon="share"
               style={styles.modalButton}

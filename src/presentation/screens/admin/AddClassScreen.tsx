@@ -8,13 +8,13 @@ import { Card, Text, Button, TextInput, HelperText, Chip, RadioButton, Snackbar 
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as FileSystem from 'expo-file-system'; // Removido - dependência não disponível
-import { useAuth } from '@contexts/AuthProvider';
+import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
 import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
 import { useCustomClaims } from '@hooks/useCustomClaims';
 import ImprovedScheduleSelector from '@components/ImprovedScheduleSelector';
 import { createEmptySchedule, isValidSchedule, scheduleToDisplayString } from '@utils/scheduleUtils';
-import { notifyNewClass } from '@infrastructure/services/scheduleNotificationService';
+// import { notifyNewClass } from '@infrastructure/services/scheduleNotificationService';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, BORDER_WIDTH } from '@presentation/theme/designTokens';
 import { getAuthGradient } from '@presentation/theme/authTheme';
 import { getString } from '@utils/theme';
@@ -38,7 +38,7 @@ interface AddClassScreenProps {
 }
 
 const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
-  const { user, userProfile, academia } = useAuth();
+  const { user, userProfile, academia } = useAuthFacade();
   const { role, isInstructor } = useCustomClaims();
   const [loading, setLoading] = useState(false);
   const [instructors, setInstructors] = useState<Instructor[]>([]);
@@ -76,11 +76,11 @@ const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
     loadModalities();
 
     // Se for um instrutor, pré-selecionar ele mesmo como instrutor da turma
-    if (isInstructor()) {
+    if (isInstructor() && user) {
       setFormData(prev => ({
         ...prev,
         instructorId: user.id,
-        instructorName: userProfile.name || user.displayName || user.email
+        instructorName: userProfile?.name || user.displayName || user.email || ''
       }));
     }
   }, [user, userProfile]);
@@ -217,8 +217,8 @@ const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
         description: formData.description.trim(),
         maxStudents: parseInt(formData.maxStudents),
         currentStudents: 0,
-        instructorId: formData.instructorId || user.id, // Usar instrutor selecionado ou usuário atual como fallback
-        instructorName: formData.instructorName || userProfile?.name || user.displayName || user.email,
+        instructorId: formData.instructorId || user?.id, // Usar instrutor selecionado ou usuário atual como fallback
+        instructorName: formData.instructorName || userProfile?.name || user?.displayName || user?.email || '',
         // Armazenar formato estruturado
         schedule: formData.schedule,
         scheduleText: scheduleToDisplayString(formData.schedule),
@@ -226,7 +226,7 @@ const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
         status: formData.status,
         ageCategory: formData.ageCategory,
         academiaId: userProfile?.academiaId, // Associar à academia do instrutor
-        createdBy: user.id,
+        createdBy: user?.id,
         createdAt: new Date(),
         updatedAt: new Date()
       };
@@ -237,14 +237,14 @@ const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
         instructorName: classData.instructorName,
         academiaId: classData.academiaId,
         formDataInstructorId: formData.instructorId,
-        userUid: user.id,
+        userUid: user?.id,
         userType: role,
-        userEmail: user.email
+        userEmail: user?.email
       });
 
       // Verificação específica para instrutor criando própria turma
       if (isInstructor() && !formData.instructorId) {
-        console.log('🎯 INSTRUTOR CRIANDO PRÓPRIA TURMA - instructorId será:', user.id);
+        console.log('🎯 INSTRUTOR CRIANDO PRÓPRIA TURMA - instructorId será:', user?.id);
       }
 
       // Obter ID da academia para criar na subcoleção correta
@@ -435,7 +435,7 @@ const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
               {!formData.instructorId && (
                 <View style={{ backgroundColor: COLORS.success[50], padding: SPACING.sm, borderRadius: BORDER_RADIUS.sm, marginBottom: SPACING.sm }}>
                   <Text style={{ color: COLORS.success[800], fontSize: FONT_SIZE.sm }}>
-                    ✅ Instrutor: {userProfile?.name || user.displayName || user.email}
+                    ✅ Instrutor: {userProfile?.name || user?.displayName || user?.email}
                   </Text>
                 </View>
               )}
@@ -492,7 +492,7 @@ const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
               required={true}
               label="classSchedules"
               style={styles.input}
-              instructorId={formData.instructorId || user.id}
+              instructorId={formData.instructorId || user?.id}
               enableConflictValidation={true}
             />
             {errors.schedule && <HelperText type="error">{errors.schedule}</HelperText>}

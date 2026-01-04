@@ -13,7 +13,7 @@ import {
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { useAuth } from '@contexts/AuthProvider';
+import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
 import { academyFirestoreService, academyClassService, academyStudentService } from '@infrastructure/services/academyFirestoreService';
 import EnhancedFlashList from '@components/EnhancedFlashList';
@@ -25,14 +25,14 @@ import batchFirestoreService from '@infrastructure/services/batchFirestoreServic
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import { useClassCreationRateLimit } from '@hooks/useRateLimit';
 import FreeGymScheduler from '@components/FreeGymScheduler';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT , BORDER_WIDTH } from '@presentation/theme/designTokens';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, BORDER_WIDTH } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
 import { getString } from '@utils/theme';
 
 const AdminClasses = ({ navigation }) => {
   const { currentTheme } = useThemeToggle();
-  
-  const { user, userProfile, academia } = useAuth();
+
+  const { user, userProfile, academia } = useAuthFacade();
   const { getString } = useTheme();
   const [classes, setClasses] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -43,9 +43,9 @@ const AdminClasses = ({ navigation }) => {
   const [showCalendarModal, setShowCalendarModal] = useState(false);
 
   // Analytics tracking
-  useScreenTracking('AdminClasses', { 
+  useScreenTracking('AdminClasses', {
     academiaId: userProfile?.academiaId,
-    userType: userProfile?.userType 
+    userType: userProfile?.userType
   });
   const { trackButtonClick, trackSearch, trackFeatureUsage } = useUserActionTracking();
   const { executeWithLimit: executeClassAction } = useClassCreationRateLimit();
@@ -107,7 +107,7 @@ const AdminClasses = ({ navigation }) => {
   const loadClasses = useCallback(async () => {
     try {
       setLoading(true);
-      
+
       // Obter ID da academia
       const academiaId = userProfile?.academiaId || academia?.id;
       if (!academiaId) {
@@ -117,15 +117,15 @@ const AdminClasses = ({ navigation }) => {
 
       // Usar cache inteligente para carregar turmas
       const cacheKey = CACHE_KEYS.CLASSES(academiaId);
-      
+
       const classesWithDetails = await cacheService.getOrSet(
         cacheKey,
         async () => {
           console.log('🔍 Buscando turmas na academia (cache miss):', academiaId);
-          
+
           // Buscar turmas da academia usando subcoleção
           const allClasses = await academyFirestoreService.getAll('classes', academiaId);
-          
+
           // Usar batch processing para enriquecer dados das turmas
           const enrichedClasses = await batchFirestoreService.batchProcessQuery(
             'classes',
@@ -135,11 +135,11 @@ const AdminClasses = ({ navigation }) => {
                   try {
                     // Buscar alunos da turma
                     const students = await academyStudentService.getStudentsByClass(classItem.id, academiaId);
-                    
+
                     // Buscar dados do instrutor na subcoleção de instrutores
-                    const instructor = classItem.instructorId ? 
+                    const instructor = classItem.instructorId ?
                       await academyFirestoreService.getById('instructors', classItem.instructorId, academiaId) : null;
-                    
+
                     return {
                       ...classItem,
                       currentStudents: students.length,
@@ -165,10 +165,10 @@ const AdminClasses = ({ navigation }) => {
         },
         CACHE_TTL.MEDIUM // Cache por 5 minutos
       );
-      
+
       setClasses(classesWithDetails || []);
       console.log('✅ Turmas carregadas com sucesso');
-      
+
       // Track analytics
       trackFeatureUsage('classes_list_loaded', {
         classesCount: classesWithDetails?.length || 0,
@@ -191,7 +191,7 @@ const AdminClasses = ({ navigation }) => {
 
   const handleClassPress = useCallback((classItem) => {
     trackButtonClick('class_details', { classId: classItem.id });
-    
+
     // Navegar para o AdminStack pai para acessar ClassDetails
     const adminStackNav = navigation.getParent && navigation.getParent(getString('adminStack'));
     if (adminStackNav && typeof adminStackNav.navigate === 'function') {
@@ -210,21 +210,21 @@ const AdminClasses = ({ navigation }) => {
 
   const handleAddClass = useCallback(async () => {
     trackButtonClick('add_class');
-    
+
     const result = await executeClassAction(async () => {
       // Invalidar cache de turmas
       const academiaId = userProfile?.academiaId || academia?.id;
       if (academiaId) {
         await cacheService.invalidatePattern(`classes:${academiaId}`);
       }
-      
+
       // Navegação simplificada - busca o AdminStack navigator
       const adminStackNav = navigation.getParent('AdminStack');
       if (adminStackNav) {
         adminStackNav.navigate('AddClass');
         return;
       }
-      
+
       // Fallback: tenta através do parent
       const parentNav = navigation.getParent();
       if (parentNav) {
@@ -234,11 +234,11 @@ const AdminClasses = ({ navigation }) => {
           return;
         }
       }
-      
+
       // Último fallback: navegação direta
       navigation.navigate('AddClass');
     });
-    
+
     if (!result.success) {
       console.error('❌ Erro ao navegar para AddClass:', result.error);
     }
@@ -246,7 +246,7 @@ const AdminClasses = ({ navigation }) => {
 
   const handleEditClass = useCallback((classItem) => {
     trackButtonClick('edit_class', { classId: classItem.id });
-    
+
     // Navegar para o AdminStack pai para acessar EditClass
     const adminStackNav = navigation.getParent('AdminStack');
     if (adminStackNav) {
@@ -284,8 +284,8 @@ const AdminClasses = ({ navigation }) => {
         <Ionicons name="school-outline" size={48} color="currentTheme.gray[300]" />
         <Text style={[styles.emptyTitle, styles.title]}>{getString('noClassesFound')}</Text>
         <Text style={[styles.emptyText, styles.paragraph]}>
-          {searchQuery ? 
-            'noMatchingClasses' : 
+          {searchQuery ?
+            'noMatchingClasses' :
             getString('noClassesRegistered')
           }
         </Text>
@@ -295,32 +295,32 @@ const AdminClasses = ({ navigation }) => {
 
   const renderStatsCard = useCallback(() => {
     if (classes.length === 0) return null;
-    
+
     return (
       <Card style={styles.statsCard}>
         <Card.Content>
           <Text style={[styles.statsTitle, styles.title]}>{getString('classStatistics')}</Text>
-          
+
           <View style={styles.statsGrid}>
             <View style={styles.statItem}>
               <Text style={styles.statNumber}>{classes.length}</Text>
               <Text style={styles.statLabel}>{getString('total')}</Text>
             </View>
-            
+
             <View style={styles.statItem}>
               <Text style={styles.statNumber}>
                 {classes.filter(c => c.isActive !== false).length}
               </Text>
               <Text style={styles.statLabel}>{getString('activeClasses')}</Text>
             </View>
-            
+
             <View style={styles.statItem}>
               <Text style={styles.statNumber}>
                 {classes.reduce((sum, c) => sum + (c.currentStudents || 0), 0)}
               </Text>
               <Text style={styles.statLabel}>{getString('totalStudents')}</Text>
             </View>
-            
+
             <View style={styles.statItem}>
               <Text style={styles.statNumber}>
                 {[...new Set(classes.map(c => c.modality))].length}
@@ -339,8 +339,8 @@ const AdminClasses = ({ navigation }) => {
       getString('confirmDeleteClass').replace('{className}', classItem.name),
       [
         { text: getString('cancel'), style: 'cancel' },
-        { 
-          text: getString('delete'), 
+        {
+          text: getString('delete'),
           style: 'destructive',
           onPress: async () => {
             try {
@@ -422,14 +422,14 @@ const AdminClasses = ({ navigation }) => {
             value={searchQuery}
             style={styles.searchbar}
           />
-          
+
           <View style={styles.filterRow}>
             <Menu
               visible={filterVisible}
               onDismiss={() => setFilterVisible(false)}
               anchor={
-                <Button 
-                  mode="outlined" 
+                <Button
+                  mode="outlined"
                   onPress={() => setFilterVisible(true)}
                   icon="filter"
                   style={styles.filterButton}
@@ -473,7 +473,7 @@ const AdminClasses = ({ navigation }) => {
           label={getString('newClass')}
           onPress={handleAddClass}
         />
-        
+
         <FAB
           style={styles.calendarFab}
           icon="calendar-month"
@@ -488,29 +488,29 @@ const AdminClasses = ({ navigation }) => {
             contentContainerStyle={styles.calendarModalContainer}
             dismissable={true}
           >
-          <View style={styles.calendarModalHeader}>
-            <Text style={styles.calendarModalTitle}>Cronograma das Turmas</Text>
-            <Button onPress={() => setShowCalendarModal(false)}>Fechar</Button>
-          </View>
-          <View style={styles.calendarContainer}>
-            <FreeGymScheduler
-              classes={classes}
-              onClassPress={(event) => {
-                setShowCalendarModal(false);
-                navigation.navigate('ClassDetails', { 
-                  classId: event.classId,
-                  className: event.title 
-                });
-              }}
-              onCreateClass={() => {
-                console.log('🚀 Botão criar turma clicado no AdminClasses');
-                setShowCalendarModal(false);
-                console.log('📱 Navegando para AddClass...');
-                navigation.navigate('AddClass');
-              }}
-              navigation={navigation}
-            />
-          </View>
+            <View style={styles.calendarModalHeader}>
+              <Text style={styles.calendarModalTitle}>Cronograma das Turmas</Text>
+              <Button onPress={() => setShowCalendarModal(false)}>Fechar</Button>
+            </View>
+            <View style={styles.calendarContainer}>
+              <FreeGymScheduler
+                classes={classes}
+                onClassPress={(event) => {
+                  setShowCalendarModal(false);
+                  navigation.navigate('ClassDetails', {
+                    classId: event.classId,
+                    className: event.title
+                  });
+                }}
+                onCreateClass={() => {
+                  console.log('🚀 Botão criar turma clicado no AdminClasses');
+                  setShowCalendarModal(false);
+                  console.log('📱 Navegando para AddClass...');
+                  navigation.navigate('AddClass');
+                }}
+                navigation={navigation}
+              />
+            </View>
           </Modal>
         </Portal>
       </SafeAreaView>

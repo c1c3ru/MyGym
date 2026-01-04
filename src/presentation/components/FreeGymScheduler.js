@@ -11,7 +11,7 @@ import {
 } from 'react-native-paper';
 import { Calendar } from 'react-native-calendars';
 import { useTheme } from '@contexts/ThemeContext';
-import { AuthContext } from '@contexts/AuthProvider';
+import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useCustomClaims } from '@hooks/useCustomClaims';
 import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
 import { DAY_NAMES } from '@utils/scheduleUtils';
@@ -41,11 +41,8 @@ const FreeGymScheduler = ({
 }) => {
   const { colors } = useTheme();
 
-  // Usa useContext diretamente para verificar se está dentro do AuthProvider
-  const authContext = useContext(AuthContext);
-  const user = authContext?.user || null;
-  const userProfile = authContext?.userProfile || null;
-  const academia = authContext?.academia || null;
+  // Usa useAuthFacade para autenticação
+  const { user, userProfile, academia } = useAuthFacade();
 
   // useCustomClaims agora é seguro e retorna valores padrão se não houver contexto
   const claims = useCustomClaims();

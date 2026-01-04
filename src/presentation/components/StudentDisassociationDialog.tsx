@@ -10,7 +10,7 @@ import {
     Chip
 } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
-import { useAuth } from '@contexts/AuthProvider';
+import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useCustomClaims } from '@hooks/useCustomClaims';
 import { useNotification } from '@contexts/NotificationContext';
 import { firestoreService } from '@infrastructure/services/firestoreService';
@@ -41,7 +41,7 @@ const StudentDisassociationDialog: React.FC<StudentDisassociationDialogProps> = 
     student,
     onSuccess
 }) => {
-    const { user, userProfile, academia } = useAuth() as any;
+    const { user, userProfile, academia } = useAuthFacade();
     const { isAdminOrInstructor } = useCustomClaims() as any;
     const { showSuccess, showError } = useNotification() as any;
     const { getString: themeGetString } = useThemeContext() as any;
@@ -77,7 +77,7 @@ const StudentDisassociationDialog: React.FC<StudentDisassociationDialogProps> = 
     };
 
     const performDisassociation = async () => {
-        if (!student || !academia) return;
+        if (!student || !academia || !user) return;
 
         try {
             setLoading(true);
@@ -144,7 +144,7 @@ const StudentDisassociationDialog: React.FC<StudentDisassociationDialogProps> = 
     };
 
     const notifyAdminsAboutDisassociation = async (student: Student, reason: string) => {
-        if (!academia) return;
+        if (!academia || !user) return;
 
         try {
             // Buscar todos os administradores

@@ -11,15 +11,15 @@ import {
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { useAuth } from '@contexts/AuthProvider';
+import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
 import { paymentService } from '@infrastructure/services/firestoreService';
 import { Linking } from 'react-native';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT , BORDER_WIDTH } from '@presentation/theme/designTokens';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, BORDER_WIDTH } from '@presentation/theme/designTokens';
 import { getString } from '@utils/theme';
 
 const StudentPayments = ({ navigation }) => {
-  const { user, userProfile, academia } = useAuth();
+  const { user, userProfile, academia } = useAuthFacade();
   const { getString } = useTheme();
   const [payments, setPayments] = useState([]);
   const [currentPayment, setCurrentPayment] = useState(null);
@@ -35,7 +35,7 @@ const StudentPayments = ({ navigation }) => {
       setLoading(true);
       const userPayments = await paymentService.getPaymentsByStudent(user.id);
       setPayments(userPayments);
-      
+
       // Encontrar pagamento atual (mais recente)
       const current = userPayments.find(p => p.status === 'pending') || userPayments[0];
       setCurrentPayment(current);
@@ -70,7 +70,7 @@ const StudentPayments = ({ navigation }) => {
     const phoneNumber = academia.telefone.numero.replace(/\D/g, ''); // Remove caracteres não numéricos
     const countryCode = academia.telefone.codigoPais === 'BR' ? '55' : '1'; // Default para Brasil
     const message = encodeURIComponent(`Olá! Sou ${userProfile?.name || 'um aluno'} e gostaria de tirar dúvidas sobre pagamentos.`);
-    
+
     const whatsappUrl = `whatsapp://send?phone=${countryCode}${phoneNumber}&text=${message}`;
     const whatsappWebUrl = `https://wa.me/${countryCode}${phoneNumber}?text=${message}`;
 
@@ -120,7 +120,7 @@ const StudentPayments = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView 
+      <ScrollView
         style={styles.scrollView}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -134,26 +134,26 @@ const StudentPayments = ({ navigation }) => {
                 <Ionicons name="card-outline" size={24} color={COLORS.info[500]} />
                 <Text style={[styles.cardTitle, styles.title]}>Mensalidade Atual</Text>
               </View>
-              
+
               <View style={styles.currentPaymentInfo}>
                 <View style={styles.paymentRow}>
                   <Text style={styles.label}>Plano:</Text>
                   <Text style={styles.value}>{currentPayment.planName || 'Mensal'}</Text>
                 </View>
-                
+
                 <View style={styles.paymentRow}>
                   <Text style={styles.label}>Valor:</Text>
                   <Text style={styles.value}>{formatCurrency(currentPayment.amount)}</Text>
                 </View>
-                
+
                 <View style={styles.paymentRow}>
                   <Text style={styles.label}>Vencimento:</Text>
                   <Text style={styles.value}>{formatDate(currentPayment.dueDate)}</Text>
                 </View>
-                
+
                 <View style={styles.paymentRow}>
                   <Text style={styles.label}>Status:</Text>
-                  <Chip 
+                  <Chip
                     mode="outlined"
                     style={[styles.statusChip, { borderColor: getStatusColor(currentPayment.status) }]}
                     textStyle={{ color: getStatusColor(currentPayment.status) }}
@@ -164,8 +164,8 @@ const StudentPayments = ({ navigation }) => {
               </View>
 
               {currentPayment.status === 'pending' && (
-                <Button 
-                  mode="contained" 
+                <Button
+                  mode="contained"
                   onPress={handlePayWithPix}
                   style={styles.payButton}
                   icon="qrcode"
@@ -184,7 +184,7 @@ const StudentPayments = ({ navigation }) => {
               <Ionicons name="time-outline" size={24} color={COLORS.info[500]} />
               <Text style={[styles.cardTitle, styles.title]}>Histórico de Pagamentos</Text>
             </View>
-            
+
             {payments.length > 0 ? (
               payments.map((payment, index) => (
                 <View key={payment.id || index}>
@@ -192,13 +192,13 @@ const StudentPayments = ({ navigation }) => {
                     title={`${payment.planName || getString('monthlyFee')} - ${formatCurrency(payment.amount)}`}
                     description={`Vencimento: ${formatDate(payment.dueDate)}`}
                     left={() => (
-                      <List.Icon 
-                        icon="receipt" 
+                      <List.Icon
+                        icon="receipt"
                         color={getStatusColor(payment.status)}
                       />
                     )}
                     right={() => (
-                      <Chip 
+                      <Chip
                         mode="outlined"
                         style={[styles.listStatusChip, { borderColor: getStatusColor(payment.status) }]}
                         textStyle={{ color: getStatusColor(payment.status), fontSize: FONT_SIZE.sm }}

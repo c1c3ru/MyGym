@@ -12,7 +12,7 @@ import {
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { useAuth } from '@contexts/AuthProvider';
+import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
 import { useCustomClaims } from '@hooks/useCustomClaims';
 import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
@@ -42,7 +42,7 @@ interface ClassInfo {
 const CheckInScreen: React.FC<CheckInScreenProps> = ({ navigation }) => {
   const { theme: colors } = useTheme();
 
-  const { user, userProfile, academia } = useAuth();
+  const { user, userProfile, academia } = useAuthFacade();
   const { getUserTypeColor } = useCustomClaims();
   const [loading, setLoading] = useState(false);
   const [todayCheckIn, setTodayCheckIn] = useState<CheckIn | null>(null);

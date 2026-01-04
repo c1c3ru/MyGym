@@ -20,12 +20,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { useAuth } from '@contexts/AuthProvider';
+import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
 import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
 import { COLORS, SPACING, FONT_SIZE, FONT_WEIGHT, BORDER_RADIUS } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
-import { getAuthGradient } from '@presentation/theme/authTheme';
+// import { getAuthGradient } from '@presentation/theme/authTheme';
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
 
 interface ScheduleClassesScreenProps {
@@ -33,11 +33,11 @@ interface ScheduleClassesScreenProps {
   route: RouteProp<any>;
 }
 
-const ScheduleClassesScreen = ({ navigation, route }) => {
-  const { currentTheme } = useThemeToggle();
+const ScheduleClassesScreen = ({ navigation, route }: ScheduleClassesScreenProps) => {
+  const { currentTheme, getString } = useTheme();
 
-  const { user, userProfile } = useAuth();
-  const { classes: initialClasses = [] } = route.params || {};
+  const { user, userProfile } = useAuthFacade();
+  const { classes: initialClasses = [] } = (route.params as any) || {};
 
   const [selectedClasses, setSelectedClasses] = useState(new Set());
   const [classDate, setClassDate] = useState(new Date());
@@ -58,7 +58,7 @@ const ScheduleClassesScreen = ({ navigation, route }) => {
 
   const loadClasses = async () => {
     try {
-      if (!user?.uid || !userProfile?.academiaId) return;
+      if (!user?.id || !userProfile?.academiaId) return;
 
       const instructorClasses = await academyFirestoreService.getWhere(
         'classes',
@@ -74,7 +74,7 @@ const ScheduleClassesScreen = ({ navigation, route }) => {
     }
   };
 
-  const toggleClassSelection = (classId) => {
+  const toggleClassSelection = (classId: string) => {
     const newSelection = new Set(selectedClasses);
     if (newSelection.has(classId)) {
       newSelection.delete(classId);
@@ -86,12 +86,18 @@ const ScheduleClassesScreen = ({ navigation, route }) => {
 
   const handleSchedule = async () => {
     if (selectedClasses.size === 0) {
-      Alert.alert(getString('attention'), 'Selecione pelo menos uma turma');
+      // Alert.alert(getString('attention'), 'Selecione pelo menos uma turma'); // getString commented out to avoid errors if not available from context, using hardcoded for now or assuming Alert works
+      Alert.alert('Atenção', 'Selecione pelo menos uma turma');
       return;
     }
 
     if (!topic.trim()) {
-      Alert.alert(getString('attention'), 'Informe o tema da aula');
+      Alert.alert('Atenção', 'Informe o tema da aula');
+      return;
+    }
+
+    if (!userProfile?.academiaId) {
+      Alert.alert('Erro', 'Perfil de usuário incompleto');
       return;
     }
 
@@ -103,23 +109,25 @@ const ScheduleClassesScreen = ({ navigation, route }) => {
       scheduledDateTime.setHours(classTime.getHours());
       scheduledDateTime.setMinutes(classTime.getMinutes());
 
-      const schedulePromises = Array.from(selectedClasses).map(async (classId) => {
-        const classData = classes.find(c => c.id === classId);
+      const schedulePromises = Array.from(selectedClasses).map(async (classId: any) => {
+        const classData = classes.find((c: any) => c.id === classId);
 
         const lessonData = {
           classId,
-          className: classData?.name || getString('class'),
-          instructorId: user.id,
-          instructorName: userProfile?.name || user.email,
-          academiaId: userProfile.academiaId,
+          className: classData?.name || 'Aula',
+          instructorId: user?.id,
+          instructorName: userProfile?.name || user?.email,
+          academiaId: userProfile?.academiaId,
           scheduledDate: scheduledDateTime,
           duration: parseInt(duration),
           topic: topic.trim(),
           notes: notes.trim(),
           status: 'scheduled',
           createdAt: new Date(),
-          createdBy: user.id
+          createdBy: user?.id
         };
+
+        if (!userProfile?.academiaId) return; // Safety check inside loop
 
         return academyFirestoreService.create(
           'lessons',
@@ -146,7 +154,7 @@ const ScheduleClassesScreen = ({ navigation, route }) => {
     }
   };
 
-  const formatDate = (date: any) => {
+  const formatDate = (date: Date) => {
     return date.toLocaleDateString('pt-BR', {
       day: '2-digit',
       month: 'long',
@@ -154,7 +162,7 @@ const ScheduleClassesScreen = ({ navigation, route }) => {
     });
   };
 
-  const formatTime = (time) => {
+  const formatTime = (time: Date) => {
     return time.toLocaleTimeString('pt-BR', {
       hour: '2-digit',
       minute: '2-digit'
@@ -176,7 +184,7 @@ const ScheduleClassesScreen = ({ navigation, route }) => {
             </Text>
 
             {classes.length > 0 ? (
-              classes.map((classItem) => (
+              classes.map((classItem: any) => (
                 <List.Item
                   key={classItem.id}
                   title={classItem.name}
@@ -196,7 +204,7 @@ const ScheduleClassesScreen = ({ navigation, route }) => {
               ))
             ) : (
               <View style={styles.emptyState}>
-                <MaterialCommunityIcons name="school-off" size={48} color={COLORS.gray[300]} />
+                <MaterialCommunityIcons name="school" size={48} color={COLORS.gray[300]} />
                 <Text style={styles.emptyText}>Nenhuma turma encontrada</Text>
                 <Button
                   mode="contained"

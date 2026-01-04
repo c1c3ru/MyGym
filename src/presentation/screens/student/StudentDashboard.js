@@ -1,16 +1,16 @@
 
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { View, StyleSheet, ScrollView, Alert, Dimensions, ActivityIndicator, Text, RefreshControl } from 'react-native';
-import { 
-  Card, 
-  Chip, 
+import {
+  Card,
+  Chip,
   Divider,
   List,
   Avatar,
   Text as PaperText,
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useAuth } from '@contexts/AuthProvider';
+import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { announcementService } from '@infrastructure/services/firestoreService';
 import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
 import AnimatedCard from '@components/AnimatedCard';
@@ -26,7 +26,7 @@ import { useOnboarding } from '@components/OnboardingTour';
 import { getString } from '@utils/theme';
 
 const StudentDashboard = ({ navigation }) => {
-  const { user, userProfile } = useAuth();
+  const { user, userProfile } = useAuthFacade();
   const [nextClasses, setNextClasses] = useState([]);
   const [announcements, setAnnouncements] = useState([]);
   const [dashboardData, setDashboardData] = useState({
@@ -40,10 +40,10 @@ const StudentDashboard = ({ navigation }) => {
   const [refreshing, setRefreshing] = useState(false);
 
   // Analytics tracking
-  useScreenTracking('StudentDashboard', { 
+  useScreenTracking('StudentDashboard', {
     academiaId: userProfile?.academiaId,
     userType: 'student',
-    studentId: user?.uid 
+    studentId: user?.uid
   });
   const { trackButtonClick, trackFeatureUsage } = useUserActionTracking();
 
@@ -57,14 +57,14 @@ const StudentDashboard = ({ navigation }) => {
         startTour('STUDENT_DASHBOARD');
       }
     }, 1000);
-    
+
     return () => clearTimeout(timer);
   }, [loading]);
 
   const loadDashboardData = useCallback(async () => {
     try {
       setLoading(true);
-      
+
       if (!userProfile?.academiaId || !user?.uid) {
         console.warn('⚠️ Usuário sem academiaId ou uid definido');
         return;
@@ -72,19 +72,19 @@ const StudentDashboard = ({ navigation }) => {
 
       // Usar cache inteligente para dados do dashboard do estudante
       const cacheKey = CACHE_KEYS.STUDENT_DASHBOARD(userProfile.academiaId, user.id);
-      
+
       const studentData = await cacheService.getOrSet(
         cacheKey,
         async () => {
           console.log('🔍 Buscando dados do dashboard do estudante (cache miss):', user.id);
-          
+
           // Usar Promise.all para carregar dados em paralelo
           const [userClasses, userAnnouncements, studentProfile] = await Promise.all([
             academyFirestoreService.getWhere('classes', 'studentIds', 'array-contains', user.id, userProfile.academiaId).catch(() => []),
             announcementService.getActiveAnnouncements('student').catch(() => []),
             academyFirestoreService.getById('students', user.id, userProfile.academiaId).catch(() => null)
           ]);
-          
+
           // Processar próximas aulas
           const today = new Date();
           const nextClasses = userClasses
@@ -97,7 +97,7 @@ const StudentDashboard = ({ navigation }) => {
               instructor: cls.instructorName || getString('instructor')
             }))
             .slice(0, 3);
-          
+
           // Formatar anúncios
           const formattedAnnouncements = userAnnouncements.map(announcement => ({
             id: announcement.id,
@@ -106,7 +106,7 @@ const StudentDashboard = ({ navigation }) => {
             date: formatDate(announcement.createdAt),
             priority: announcement.priority || 0
           }));
-          
+
           // Dados do dashboard
           const dashboardInfo = {
             graduationStatus: studentProfile?.currentBelt || studentProfile?.currentGraduation || getString('whiteBelt'),
@@ -114,7 +114,7 @@ const StudentDashboard = ({ navigation }) => {
             totalClasses: userClasses.length,
             attendanceRate: studentProfile?.attendanceRate || 0 // Usar dados reais do backend
           };
-          
+
           return {
             nextClasses,
             announcements: formattedAnnouncements,
@@ -123,11 +123,11 @@ const StudentDashboard = ({ navigation }) => {
         },
         CACHE_TTL.SHORT // Cache por 2 minutos (dados dinâmicos)
       );
-      
+
       setNextClasses(studentData.nextClasses);
       setAnnouncements(studentData.announcements);
       setDashboardData(studentData.dashboardData);
-      
+
       // Track analytics
       trackFeatureUsage('student_dashboard_loaded', {
         academiaId: userProfile.academiaId,
@@ -135,7 +135,7 @@ const StudentDashboard = ({ navigation }) => {
         classesCount: studentData.nextClasses.length,
         announcementsCount: studentData.announcements.length
       });
-      
+
     } catch (error) {
       console.error('❌ Erro ao carregar dashboard do estudante:', error);
       // Em caso de erro, exibe dados padrão
@@ -157,12 +157,12 @@ const StudentDashboard = ({ navigation }) => {
   const loadAnnouncements = useCallback(async () => {
     try {
       setLoadingAnnouncements(true);
-      
+
       // Invalidar cache de anúncios
       if (userProfile?.academiaId) {
         cacheService.invalidatePattern(`student_dashboard:${userProfile.academiaId}:${user.id}`);
       }
-      
+
       await loadDashboardData();
     } catch (error) {
       console.error('Erro ao recarregar anúncios:', error);
@@ -181,17 +181,17 @@ const StudentDashboard = ({ navigation }) => {
   // Função para formatar a data do anúncio
   const formatDate = useCallback((date) => {
     if (!date) return 'Data desconhecida';
-    
+
     try {
       const now = new Date();
       const announcementDate = date.toDate ? date.toDate() : new Date(date);
       const diffTime = Math.abs(now - announcementDate);
       const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-      
+
       if (diffDays === 0) return getString('today');
       if (diffDays === 1) return 'Ontem';
       if (diffDays < 7) return `Há ${diffDays} dias`;
-      
+
       return announcementDate.toLocaleDateString('pt-BR');
     } catch (error) {
       console.error('Erro ao formatar data:', error);
@@ -247,175 +247,175 @@ const StudentDashboard = ({ navigation }) => {
       errorContext={{ screen: 'StudentDashboard', academiaId: userProfile?.academiaId, studentId: user?.uid }}
     >
       <SafeAreaView style={styles.container}>
-      <ScrollView 
-        style={styles.scrollView}
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-      >
-        
-        {/* Header de Boas-vindas */}
-        <AnimatedCard style={styles.welcomeCard} animationType="fadeIn" delay={0}>
-          <Card.Content style={styles.welcomeContent}>
-            <Avatar.Icon 
-              size={ResponsiveUtils?.isTablet?.() ? 80 : 60} 
-              icon="account" 
-              style={styles.avatar}
-            />
-            <View style={styles.welcomeText}>
-              <Text style={styles.welcomeTitle}>
-                Olá, {userProfile?.name || getString('student')}!
-              </Text>
-              <Text style={styles.welcomeSubtitle}>
-                Bem-vindo de volta à academia
-              </Text>
-            </View>
-          </Card.Content>
-        </AnimatedCard>
+        <ScrollView
+          style={styles.scrollView}
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        >
 
-        {/* Status da Graduação */}
-        <AnimatedCard style={styles.card} animationType="slideInRight" delay={100}>
-          <Card.Content>
-            <Text style={styles.cardTitle}>Status da Graduação</Text>
-            <View style={styles.graduationStatus}>
-              <Chip 
-                icon="trophy" 
-                mode="outlined"
-                style={styles.graduationChip}
-              >
-                {dashboardData.graduationStatus}
-              </Chip>
-              <Text style={styles.graduationText}>
-                Próxima avaliação em {dashboardData.nextEvaluation}
-              </Text>
-            </View>
-          </Card.Content>
-        </AnimatedCard>
-
-        {/* Próximas Aulas */}
-        <AnimatedCard style={styles.card} animationType="fadeIn" delay={200}>
-          <Card.Content>
-            <Text style={styles.cardTitle}>Próximas Aulas</Text>
-            {nextClasses.length > 0 ? (
-              nextClasses.map((classItem, index) => (
-                <List.Item
-                  key={classItem.id}
-                  title={classItem.name}
-                  description={`${classItem.date} às ${classItem.time} - ${classItem.instructor}`}
-                  left={props => <List.Icon {...props} icon="calendar" />}
-                  style={styles.listItem}
-                />
-              ))
-            ) : (
-              <Text style={styles.emptyText}>
-                Nenhuma aula agendada
-              </Text>
-            )}
-            
-            <AnimatedButton 
-              mode="text" 
-              onPress={handleViewCalendar}
-              style={styles.viewAllButton}
-            >
-              Ver Calendário Completo
-            </AnimatedButton>
-          </Card.Content>
-        </AnimatedCard>
-
-        {/* Avisos e Comunicados */}
-        <AnimatedCard style={styles.card} animationType="scaleIn" delay={300}>
-          <Card.Content>
-            <View style={styles.sectionHeader}>
-              <Text style={styles.cardTitle}>Avisos</Text>
-              <AnimatedButton
-                icon="refresh"
-                mode="text"
-                onPress={loadAnnouncements}
-                loading={loadingAnnouncements}
-                compact
-                style={styles.refreshButton}
-              >
-                {loadingAnnouncements ? '' : getString('update')}
-              </AnimatedButton>
-            </View>
-            
-            {loadingAnnouncements ? (
-              <View style={styles.loadingContainer}>
-                <ActivityIndicator size="small" color={COLORS.info[500]} />
-                <Text style={styles.loadingText}>Carregando avisos...</Text>
-              </View>
-            ) : announcements.length > 0 ? (
-              <View style={styles.announcementsContainer}>
-                {announcements.map((announcement, index) => (
-                  <View 
-                    key={announcement.id} 
-                    style={[
-                      styles.announcementItem,
-                      announcement.priority > 0 && styles.highPriorityAnnouncement
-                    ]}
-                  >
-                    {announcement.priority > 0 && (
-                      <View style={styles.priorityBadge}>
-                        <Ionicons name="alert-circle" size={16} color={COLORS.warning[400]} />
-                        <Text style={styles.priorityText}>Importante</Text>
-                      </View>
-                    )}
-                    <Text style={styles.announcementTitle}>
-                      {announcement.title}
-                    </Text>
-                    <Text style={styles.announcementMessage}>
-                      {announcement.message}
-                    </Text>
-                    <View style={styles.announcementFooter}>
-                      <Text style={styles.announcementDate}>
-                        {announcement.date}
-                      </Text>
-                      {announcement.isRead && (
-                        <Ionicons name="checkmark-done" size={16} color={COLORS.primary[500]} />
-                      )}
-                    </View>
-                    {index < announcements.length - 1 && <Divider style={styles.announcementDivider} />}
-                  </View>
-                ))}
-              </View>
-            ) : (
-              <View style={styles.emptyState}>
-                <Ionicons name="notifications-off-outline" size={48} color={COLORS.gray[400]} />
-                <Text style={styles.emptyText}>
-                  Nenhum aviso no momento
+          {/* Header de Boas-vindas */}
+          <AnimatedCard style={styles.welcomeCard} animationType="fadeIn" delay={0}>
+            <Card.Content style={styles.welcomeContent}>
+              <Avatar.Icon
+                size={ResponsiveUtils?.isTablet?.() ? 80 : 60}
+                icon="account"
+                style={styles.avatar}
+              />
+              <View style={styles.welcomeText}>
+                <Text style={styles.welcomeTitle}>
+                  Olá, {userProfile?.name || getString('student')}!
+                </Text>
+                <Text style={styles.welcomeSubtitle}>
+                  Bem-vindo de volta à academia
                 </Text>
               </View>
-            )}
-          </Card.Content>
-        </AnimatedCard>
+            </Card.Content>
+          </AnimatedCard>
 
-        {/* Ações Rápidas */}
-        <AnimatedCard style={styles.card} animationType="bounceIn" delay={400}>
-          <Card.Content>
-            <Text style={styles.cardTitle}>Ações Rápidas</Text>
-            <View style={styles.quickActions}>
+          {/* Status da Graduação */}
+          <AnimatedCard style={styles.card} animationType="slideInRight" delay={100}>
+            <Card.Content>
+              <Text style={styles.cardTitle}>Status da Graduação</Text>
+              <View style={styles.graduationStatus}>
+                <Chip
+                  icon="trophy"
+                  mode="outlined"
+                  style={styles.graduationChip}
+                >
+                  {dashboardData.graduationStatus}
+                </Chip>
+                <Text style={styles.graduationText}>
+                  Próxima avaliação em {dashboardData.nextEvaluation}
+                </Text>
+              </View>
+            </Card.Content>
+          </AnimatedCard>
+
+          {/* Próximas Aulas */}
+          <AnimatedCard style={styles.card} animationType="fadeIn" delay={200}>
+            <Card.Content>
+              <Text style={styles.cardTitle}>Próximas Aulas</Text>
+              {nextClasses.length > 0 ? (
+                nextClasses.map((classItem, index) => (
+                  <List.Item
+                    key={classItem.id}
+                    title={classItem.name}
+                    description={`${classItem.date} às ${classItem.time} - ${classItem.instructor}`}
+                    left={props => <List.Icon {...props} icon="calendar" />}
+                    style={styles.listItem}
+                  />
+                ))
+              ) : (
+                <Text style={styles.emptyText}>
+                  Nenhuma aula agendada
+                </Text>
+              )}
+
               <AnimatedButton
-                mode="outlined"
-                icon="calendar-check"
-                onPress={handleCheckIn}
-                style={styles.quickActionButton}
+                mode="text"
+                onPress={handleViewCalendar}
+                style={styles.viewAllButton}
               >
-                Check-in
+                Ver Calendário Completo
               </AnimatedButton>
-              
-              <AnimatedButton
-                mode="outlined"
-                icon="credit-card"
-                onPress={handlePayments}
-                style={styles.quickActionButton}
-              >{getString('payments')}</AnimatedButton>
-            </View>
-          </Card.Content>
-        </AnimatedCard>
+            </Card.Content>
+          </AnimatedCard>
 
-      </ScrollView>
+          {/* Avisos e Comunicados */}
+          <AnimatedCard style={styles.card} animationType="scaleIn" delay={300}>
+            <Card.Content>
+              <View style={styles.sectionHeader}>
+                <Text style={styles.cardTitle}>Avisos</Text>
+                <AnimatedButton
+                  icon="refresh"
+                  mode="text"
+                  onPress={loadAnnouncements}
+                  loading={loadingAnnouncements}
+                  compact
+                  style={styles.refreshButton}
+                >
+                  {loadingAnnouncements ? '' : getString('update')}
+                </AnimatedButton>
+              </View>
+
+              {loadingAnnouncements ? (
+                <View style={styles.loadingContainer}>
+                  <ActivityIndicator size="small" color={COLORS.info[500]} />
+                  <Text style={styles.loadingText}>Carregando avisos...</Text>
+                </View>
+              ) : announcements.length > 0 ? (
+                <View style={styles.announcementsContainer}>
+                  {announcements.map((announcement, index) => (
+                    <View
+                      key={announcement.id}
+                      style={[
+                        styles.announcementItem,
+                        announcement.priority > 0 && styles.highPriorityAnnouncement
+                      ]}
+                    >
+                      {announcement.priority > 0 && (
+                        <View style={styles.priorityBadge}>
+                          <Ionicons name="alert-circle" size={16} color={COLORS.warning[400]} />
+                          <Text style={styles.priorityText}>Importante</Text>
+                        </View>
+                      )}
+                      <Text style={styles.announcementTitle}>
+                        {announcement.title}
+                      </Text>
+                      <Text style={styles.announcementMessage}>
+                        {announcement.message}
+                      </Text>
+                      <View style={styles.announcementFooter}>
+                        <Text style={styles.announcementDate}>
+                          {announcement.date}
+                        </Text>
+                        {announcement.isRead && (
+                          <Ionicons name="checkmark-done" size={16} color={COLORS.primary[500]} />
+                        )}
+                      </View>
+                      {index < announcements.length - 1 && <Divider style={styles.announcementDivider} />}
+                    </View>
+                  ))}
+                </View>
+              ) : (
+                <View style={styles.emptyState}>
+                  <Ionicons name="notifications-off-outline" size={48} color={COLORS.gray[400]} />
+                  <Text style={styles.emptyText}>
+                    Nenhum aviso no momento
+                  </Text>
+                </View>
+              )}
+            </Card.Content>
+          </AnimatedCard>
+
+          {/* Ações Rápidas */}
+          <AnimatedCard style={styles.card} animationType="bounceIn" delay={400}>
+            <Card.Content>
+              <Text style={styles.cardTitle}>Ações Rápidas</Text>
+              <View style={styles.quickActions}>
+                <AnimatedButton
+                  mode="outlined"
+                  icon="calendar-check"
+                  onPress={handleCheckIn}
+                  style={styles.quickActionButton}
+                >
+                  Check-in
+                </AnimatedButton>
+
+                <AnimatedButton
+                  mode="outlined"
+                  icon="credit-card"
+                  onPress={handlePayments}
+                  style={styles.quickActionButton}
+                >{getString('payments')}</AnimatedButton>
+              </View>
+            </Card.Content>
+          </AnimatedCard>
+
+        </ScrollView>
       </SafeAreaView>
     </EnhancedErrorBoundary>
   );

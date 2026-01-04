@@ -15,7 +15,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useAuth } from '@contexts/AuthProvider';
+import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
 import { useCustomClaims } from '@hooks/useCustomClaims';
 import { firestoreService } from '@infrastructure/services/firestoreService';
@@ -35,7 +35,7 @@ const { width } = Dimensions.get('window');
  * Exibe informações pessoais, dados da academia, treinos e configurações
  */
 const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
-  const { user, userProfile, signOut, updateProfile, academia } = useAuth();
+  const { user, userProfile, logout: signOut, updateUserProfile: updateProfile, academia } = useAuthFacade();
   const { getString, isDarkMode } = useTheme();
   const { getUserTypeColor: getClaimsTypeColor, getUserTypeText: getClaimsTypeText, isStudent } = useCustomClaims();
   const [editing, setEditing] = useState(false);
