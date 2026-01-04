@@ -100,7 +100,7 @@ const GraduationBoardScreen = ({ navigation }: GraduationBoardScreenProps) => {
 
       setLoading(true);
       const board = await graduationBoardService.getGraduationBoard(academia.id, forceRefresh);
-      setGraduationBoard(board);
+      setGraduationBoard(board as GraduationBoard);
     } catch (error) {
       console.error('Erro ao carregar painel de graduações:', error);
       showError('Erro ao carregar dados de graduação');

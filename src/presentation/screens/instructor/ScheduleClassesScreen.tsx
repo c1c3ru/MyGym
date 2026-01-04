@@ -34,7 +34,7 @@ interface ScheduleClassesScreenProps {
 }
 
 const ScheduleClassesScreen = ({ navigation, route }: ScheduleClassesScreenProps) => {
-  const { currentTheme, getString } = useTheme();
+  const { getString } = useTheme();
 
   const { user, userProfile } = useAuthFacade();
   const { classes: initialClasses = [] } = (route.params as any) || {};

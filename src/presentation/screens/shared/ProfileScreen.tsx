@@ -70,13 +70,13 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
       setFormData({
         name: userProfile.name || '',
         phone: userProfile.phone || '',
-        address: userProfile.address || '',
-        emergencyContact: userProfile.emergencyContact || '',
-        medicalInfo: userProfile.medicalInfo || ''
+        address: userProfile.address ? `${userProfile.address.street || ''}, ${userProfile.address.city || ''}` : '',
+        emergencyContact: userProfile.emergencyContact ? `${userProfile.emergencyContact.name} (${userProfile.emergencyContact.phone})` : '',
+        medicalInfo: userProfile.medicalInfo?.notes || ''
       });
 
       // Carregar dados do aluno se for estudante
-      if (userProfile.role === 'student') {
+      if (userProfile.userType === 'student') {
         loadStudentData();
         loadCurrentPayment();
         checkPaymentDueNotification();
@@ -85,7 +85,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
   }, [userProfile]);
 
   const loadStudentData = async () => {
-    if (!user?.uid || !academia?.id) return;
+    if (!user?.id || !academia?.id) return;
 
     try {
       // Validar valores antes das queries
@@ -148,7 +148,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
   };
 
   const loadCurrentPayment = async () => {
-    if (!user?.uid || !academia?.id) return;
+    if (!user?.id || !academia?.id) return;
 
     try {
       // Validar valores antes da query
@@ -207,7 +207,20 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
   const handleSave = async () => {
     try {
       setLoading(true);
-      await updateProfile(formData);
+      await updateProfile({
+        name: formData.name,
+        phone: formData.phone,
+        address: { street: formData.address },
+        emergencyContact: {
+          name: formData.emergencyContact,
+          phone: userProfile?.emergencyContact?.phone || '',
+          relationship: userProfile?.emergencyContact?.relationship || ''
+        },
+        medicalInfo: {
+          ...userProfile?.medicalInfo,
+          notes: formData.medicalInfo
+        }
+      });
       setEditing(false);
       Alert.alert(getString('success'), getString('profileUpdatedSuccess'));
     } catch (error) {
@@ -414,21 +427,27 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
 
                   <List.Item
                     title={getString('address')}
-                    description={userProfile?.address || getString('notInformed')}
+                    description={userProfile?.address ?
+                      `${userProfile.address.street || ''}, ${userProfile.address.city || ''}` :
+                      getString('notInformed')
+                    }
                     left={() => <List.Icon icon="map-marker" />}
                   />
                   <Divider />
 
                   <List.Item
                     title={getString('emergencyContact')}
-                    description={userProfile?.emergencyContact || getString('notInformed')}
+                    description={userProfile?.emergencyContact ?
+                      `${userProfile.emergencyContact.name} (${userProfile.emergencyContact.phone})` :
+                      getString('notInformed')
+                    }
                     left={() => <List.Icon icon="phone-alert" />}
                   />
                   <Divider />
 
                   <List.Item
                     title={getString('medicalInformation')}
-                    description={userProfile?.medicalInfo || getString('notInformed')}
+                    description={userProfile?.medicalInfo?.notes || getString('notInformed')}
                     left={() => <List.Icon icon="medical-bag" />}
                   />
                 </View>

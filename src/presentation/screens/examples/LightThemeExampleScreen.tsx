@@ -18,13 +18,14 @@ const { width } = Dimensions.get('window');
 
 const LightThemeExampleScreen: React.FC<LightThemeExampleScreenProps> = ({ navigation }) => {
   const { getString } = useTheme();
+  const Typography: any = LIGHT_TYPOGRAPHY; // Bypass spread types
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
 
         {/* Header com gradiente azul sóbrio */}
         <LinearGradient
-          colors={LIGHT_THEME.gradients.header}
+          colors={LIGHT_THEME.gradients.header as any}
           style={styles.header}
         >
           <View style={styles.headerContent}>
@@ -283,13 +284,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headerTitle: {
-    ...LIGHT_TYPOGRAPHY.h1,
+    ...(LIGHT_TYPOGRAPHY.h1 as any),
     color: LIGHT_THEME.primary[800],
     textAlign: 'center',
     marginBottom: SPACING.sm,
   },
   headerSubtitle: {
-    ...LIGHT_TYPOGRAPHY.body1,
+    ...Typography.body1,
     color: LIGHT_THEME.primary[700],
     textAlign: 'center',
   },
@@ -300,7 +301,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   sectionTitle: {
-    ...LIGHT_TYPOGRAPHY.h2,
+    ...Typography.h2,
     marginBottom: SPACING.lg,
     textAlign: 'center',
   },
@@ -322,12 +323,12 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.md,
   },
   missionCardTitle: {
-    ...LIGHT_TYPOGRAPHY.h3,
+    ...Typography.h3,
     fontSize: FONT_SIZE.md,
     marginBottom: SPACING.sm,
   },
   missionCardText: {
-    ...LIGHT_TYPOGRAPHY.body2,
+    ...Typography.body2,
     lineHeight: 20,
   },
 
@@ -340,11 +341,11 @@ const styles = StyleSheet.create({
     flex: width > 768 ? 2 : 1,
   },
   explanationTitle: {
-    ...LIGHT_TYPOGRAPHY.h2,
+    ...Typography.h2,
     marginBottom: SPACING.base,
   },
   explanationBody: {
-    ...LIGHT_TYPOGRAPHY.body1,
+    ...Typography.body1,
     marginBottom: SPACING.base,
     lineHeight: 24,
   },
@@ -353,7 +354,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   infoCardTitle: {
-    ...LIGHT_TYPOGRAPHY.h3,
+    ...Typography.h3,
     fontSize: FONT_SIZE.base,
     color: LIGHT_THEME.primary[700],
     marginBottom: SPACING.md,
@@ -362,7 +363,7 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.base,
   },
   infoItem: {
-    ...LIGHT_TYPOGRAPHY.body2,
+    ...Typography.body2,
     marginBottom: SPACING.xs,
   },
   infoDivider: {
@@ -370,7 +371,7 @@ const styles = StyleSheet.create({
     backgroundColor: LIGHT_THEME.border.light,
   },
   infoFooter: {
-    ...LIGHT_TYPOGRAPHY.caption,
+    ...Typography.caption,
     fontStyle: 'italic',
   },
 
@@ -382,17 +383,17 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   featuresDefinition: {
-    ...LIGHT_TYPOGRAPHY.h3,
+    ...Typography.h3,
     color: LIGHT_THEME.primary[600],
     marginBottom: SPACING.md,
   },
   featuresBody: {
-    ...LIGHT_TYPOGRAPHY.body1,
+    ...Typography.body1,
     marginBottom: SPACING.lg,
     lineHeight: 24,
   },
   featuresAreaTitle: {
-    ...LIGHT_TYPOGRAPHY.h3,
+    ...Typography.h3,
     fontSize: FONT_SIZE.md,
     marginBottom: SPACING.md,
   },
@@ -400,7 +401,7 @@ const styles = StyleSheet.create({
     marginLeft: SPACING.sm,
   },
   featuresItem: {
-    ...LIGHT_TYPOGRAPHY.body2,
+    ...Typography.body2,
     marginBottom: 6,
   },
 
@@ -421,12 +422,12 @@ const styles = StyleSheet.create({
     paddingVertical: SPACING.sm,
   },
   statNumber: {
-    ...LIGHT_TYPOGRAPHY.h1,
+    ...Typography.h1,
     fontSize: FONT_SIZE.xl,
     marginVertical: 8,
   },
   statLabel: {
-    ...LIGHT_TYPOGRAPHY.caption,
+    ...Typography.caption,
     textAlign: 'center',
   },
 
@@ -471,12 +472,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   contactLabel: {
-    ...LIGHT_TYPOGRAPHY.caption,
+    ...Typography.caption,
     color: LIGHT_THEME.text.tertiary,
     marginBottom: 2,
   },
   contactValue: {
-    ...LIGHT_TYPOGRAPHY.body1,
+    ...Typography.body1,
     fontWeight: '500' as const,
   },
   contactDivider: {

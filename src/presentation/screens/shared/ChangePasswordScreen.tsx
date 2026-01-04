@@ -84,6 +84,10 @@ const ChangePasswordScreen = ({ navigation }: ChangePasswordScreenProps) => {
     }
 
     try {
+      if (!user?.email) {
+        Alert.alert('Erro', 'Usuário não autenticado');
+        return;
+      }
       setLoading(true);
 
       // Primeiro, reautenticar o usuário com a senha atual
