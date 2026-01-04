@@ -134,66 +134,66 @@ export interface Academia {
     readonly city: string;
     readonly state: string;
     readonly zipCode: string;
-S    readonly country: string;
-    readonly estadoNome ?: string;
-    readonly paisNome ?: string;
-    readonly coordinates ?: {
-  readonly latitude: number;
-  readonly longitude: number;
-};
+    readonly country: string;
+    readonly estadoNome?: string;
+    readonly paisNome?: string;
+    readonly coordinates?: {
+      readonly latitude: number;
+      readonly longitude: number;
+    };
   };
-  readonly socialMedia ?: {
-  readonly facebook?: string;
-  readonly instagram?: string;
-  readonly twitter?: string;
-  readonly youtube?: string;
-  readonly tiktok?: string;
-};
-  readonly businessHours ?: {
-  readonly [day: string]: {
+  readonly socialMedia?: {
+    readonly facebook?: string;
+    readonly instagram?: string;
+    readonly twitter?: string;
+    readonly youtube?: string;
+    readonly tiktok?: string;
+  };
+  readonly businessHours?: {
+    readonly [day: string]: {
       readonly open: string;
       readonly close: string;
-      readonly closed ?: boolean;
-};
+      readonly closed?: boolean;
+    };
   };
-  readonly modalities ?: string[];
-  readonly instructors ?: string[];
-  readonly students ?: string[];
-  readonly classes ?: string[];
-  readonly subscription ?: {
-  readonly plan: string;
-  readonly status: 'active' | 'inactive' | 'suspended' | 'trial';
-  readonly expiresAt?: Date;
-  readonly features: string[];
-};
-  readonly settings ?: {
-  readonly timezone: string;
-  readonly language: string;
-  readonly currency: string;
-  readonly notifications: {
-    readonly email: boolean;
-    readonly sms: boolean;
-    readonly push: boolean;
+  readonly modalities?: string[];
+  readonly instructors?: string[];
+  readonly students?: string[];
+  readonly classes?: string[];
+  readonly subscription?: {
+    readonly plan: string;
+    readonly status: 'active' | 'inactive' | 'suspended' | 'trial';
+    readonly expiresAt?: Date;
+    readonly features: string[];
   };
-  readonly features: {
-    readonly graduations: boolean;
-    readonly payments: boolean;
-    readonly reports: boolean;
-    readonly calendar: boolean;
-    readonly checkin: boolean;
+  readonly settings?: {
+    readonly timezone: string;
+    readonly language: string;
+    readonly currency: string;
+    readonly notifications: {
+      readonly email: boolean;
+      readonly sms: boolean;
+      readonly push: boolean;
+    };
+    readonly features: {
+      readonly graduations: boolean;
+      readonly payments: boolean;
+      readonly reports: boolean;
+      readonly calendar: boolean;
+      readonly checkin: boolean;
+    };
+    readonly branding?: {
+      readonly primaryColor: string;
+      readonly secondaryColor: string;
+      readonly logoURL?: string;
+    };
   };
-  readonly branding?: {
-    readonly primaryColor: string;
-    readonly secondaryColor: string;
-    readonly logoURL?: string;
+  readonly stats?: {
+    readonly totalStudents: number;
+    readonly totalInstructors: number;
+    readonly totalClasses: number;
+    readonly activeClasses: number;
   };
-};
-  readonly stats ?: {
-  readonly totalStudents: number;
-  readonly totalInstructors: number;
-  readonly totalClasses: number;
-  readonly activeClasses: number;
-};
   readonly createdAt: Date;
   readonly updatedAt: Date;
   readonly ownerId: string;
