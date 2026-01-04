@@ -1,8 +1,8 @@
 import React, { Component, ReactNode } from 'react';
-import { BORDER_RADIUS, Button, FONT_SIZE, Platform } from 'react-native';
-import { Card, SPACING, StyleSheet, Text } from 'react-native-paper';
+import { View, StyleSheet, Platform } from 'react-native';
+import { Card, Button, Text } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
-import { COLORS, View } from '@presentation/theme/designTokens';
+import { COLORS, BORDER_RADIUS, FONT_SIZE, SPACING } from '@presentation/theme/designTokens';
 import { Logger } from '@utils/logger';
 // import crashlyticsService from '@infrastructure/services/crashlyticsService'; // Serviço não implementado
 
@@ -105,33 +105,33 @@ class EnhancedErrorBoundary extends Component<Props, State> {
         <View style={styles.container}>
           <Card style={styles.card}>
             <Card.Content style={styles.content}>
-              <Ionicons 
-                name="alert-circle-outline" 
-                size={64} 
-                color={COLORS.error[500]} 
+              <Ionicons
+                name="alert-circle-outline"
+                size={64}
+                color={COLORS.error[500]}
               />
               <Text style={styles.title}>
                 Ops! Algo deu errado
               </Text>
               <Text style={styles.message}>
-                {(globalThis as any).__DEV__ 
+                {(globalThis as any).__DEV__
                   ? `Erro: ${this.state.error?.message || 'Erro desconhecido'}`
                   : 'Ocorreu um erro inesperado. Tente novamente ou reinicie o aplicativo.'
                 }
               </Text>
-              
+
               <View style={styles.buttonContainer}>
-                <Button 
-                  mode="contained" 
+                <Button
+                  mode="contained"
                   onPress={this.handleRetry}
                   style={[styles.button, styles.retryButton]}
                   icon="refresh"
                 >
                   Tentar Novamente
                 </Button>
-                
-                <Button 
-                  mode="outlined" 
+
+                <Button
+                  mode="outlined"
                   onPress={this.handleReload}
                   style={[styles.button, styles.reloadButton]}
                   icon="reload"

@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { ActivityIndicator
-} from 'react-native-paper';
+import { View, StyleSheet, Text, Alert, Dimensions, ScrollView } from 'react-native';
+import { ActivityIndicator, Card, FAB, Surface, Avatar, Button, Chip } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
 import { useCustomClaims } from '@hooks/useCustomClaims';
 import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
-import { COLORS, Alert, Avatar, BORDER_RADIUS, Button, Chip, Dimensions } from 'react-native';
-import {
-  Card, FAB, FONT_SIZE, FONT_WEIGHT, SPACING, StyleSheet, Surface, Text, View } from '@presentation/theme/designTokens';
+import { COLORS, BORDER_RADIUS, FONT_SIZE, FONT_WEIGHT, SPACING } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
 import type { NavigationProp } from '@react-navigation/native';
 import { getString } from "@utils/theme";
@@ -38,322 +36,163 @@ const CheckInScreen: React.FC<CheckInScreenProps> = ({ navigation }) => {
   const { user, userProfile, academia } = useAuthFacade();
   const { getUserTypeColor } = useCustomClaims();
   const [loading, setLoading] = useState(false);
-  const [todayCheckIn, setTodayCheckIn] = useState<CheckIn | null>(null);
-  const [recentCheckIns, setRecentCheckIns] = useState<CheckIn[]>([]);
+  const [checkIns, setCheckIns] = useState<CheckIn[]>([]);
   const [availableClasses, setAvailableClasses] = useState<ClassInfo[]>([]);
 
-  const userPrimaryColor = getUserTypeColor();
-
-  const themeColors = {
-    ...colors,
-    primary: userPrimaryColor || colors.primary,
-    background: colors.background,
-    success: COLORS.success || '#4CAF50',
-    warning: COLORS.warning || '#FFC107',
-    secondary: COLORS.secondary || colors.secondary,
-  };
-
   useEffect(() => {
-    if (user?.id && academia?.id) {
-      loadCheckInData();
-    }
-    if (userProfile?.academiaId || academia?.id) {
-      loadAvailableClasses();
-    }
-  }, []);
+    const loadData = async () => {
+      if (!user?.uid) return;
+      setLoading(true);
+      try {
+        const history = await academyFirestoreService.getCheckInHistory(user.uid);
+        setCheckIns(history);
 
-  const loadCheckInData = async () => {
-    if (!user?.id || !academia?.id) return;
+        // Se academiaId for fornecida, buscar aulas
+        if (academia?.id) {
+          const classes = await academyFirestoreService.getClasses(academia.id);
+          setAvailableClasses(classes);
+        }
+      } catch (error) {
+        console.error('Erro ao carregar dados de check-in:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
+    loadData();
+  }, [user, academia]);
+
+  const handleCheckIn = async (classInfo?: ClassInfo) => {
+    if (!user?.uid) return;
+    setLoading(true);
     try {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-
-      const tomorrow = new Date(today);
-      tomorrow.setDate(tomorrow.getDate() + 1);
-
-      // Buscar check-in de hoje nas subcoleções das turmas do aluno
-      let todayCheckIns: any[] = [];
-
-      // Buscar turmas do aluno primeiro
-      const studentClasses = await academyFirestoreService.getWhere(
-        'classes',
-        'students',
-        'array-contains',
-        user.id,
-        academia.id
-      );
-
-      // Para cada turma, buscar check-ins do aluno
-      for (const classItem of studentClasses) {
-        const classCheckIns = await academyFirestoreService.getSubcollectionDocuments(
-          'classes',
-          classItem.id,
-          'checkIns',
-          academia.id,
-          [
-            { field: 'studentId', operator: '==', value: user.id },
-            { field: 'date', operator: '>=', value: today },
-            { field: 'date', operator: '<', value: tomorrow }
-          ]
-        );
-
-        todayCheckIns = [...todayCheckIns, ...classCheckIns];
-      }
-
-      if (todayCheckIns.length > 0) {
-        setTodayCheckIn(todayCheckIns[0]);
-      }
-
-      // Buscar check-ins recentes (últimos 7 dias)
-      const weekAgo = new Date();
-      weekAgo.setDate(weekAgo.getDate() - 7);
-
-      let recentCheckIns: any[] = [];
-
-      // Para cada turma, buscar check-ins recentes do aluno
-      for (const classItem of studentClasses) {
-        const classRecentCheckIns = await academyFirestoreService.getSubcollectionDocuments(
-          'classes',
-          classItem.id,
-          'checkIns',
-          academia.id,
-          [
-            { field: 'studentId', operator: '==', value: user.id },
-            { field: 'date', operator: '>=', value: weekAgo }
-          ],
-          { field: 'date', direction: 'desc' }
-        );
-
-        recentCheckIns = [...recentCheckIns, ...classRecentCheckIns];
-      }
-
-      // Ordenar por data mais recente
-      recentCheckIns.sort((a, b) => {
-        const dateA = a.date && typeof a.date.toDate === 'function' ? a.date.toDate() : new Date(a.date);
-        const dateB = b.date && typeof b.date.toDate === 'function' ? b.date.toDate() : new Date(b.date);
-        return dateB.getTime() - dateA.getTime();
+      await academyFirestoreService.createCheckIn({
+        studentId: user.uid,
+        academyId: academia?.id || '',
+        classId: classInfo?.id || '',
+        className: classInfo?.name || 'Aula Avulsa',
+        date: new Date(),
+        status: 'completed'
       });
 
-      setRecentCheckIns(recentCheckIns);
+      Alert.alert(getString('success'), getString('checkInSuccess'));
+
+      // Atualizar histórico
+      const history = await academyFirestoreService.getCheckInHistory(user.uid);
+      setCheckIns(history);
     } catch (error) {
-      console.error('Erro ao carregar dados de check-in:', error);
-    }
-  };
-
-  const loadAvailableClasses = async () => {
-    try {
-      // Obter ID da academia
-      const academiaId = userProfile?.academiaId || academia?.id;
-      if (!academiaId) {
-        console.error(getString('academyIdNotFound'));
-        return;
-      }
-
-      // Buscar turmas do aluno na academia
-      const allClasses: any[] = await academyFirestoreService.getAll('classes', academiaId);
-      const userClasses = allClasses.filter(cls =>
-        userProfile?.classIds && userProfile.classIds.includes(cls.id)
-      );
-      setAvailableClasses(userClasses);
-    } catch (error) {
-      console.error(getString('loadClassesError'), error);
-    }
-  };
-
-  const handleCheckIn = async (classId: string | null = null, className: string | null = null) => {
-    try {
-      setLoading(true);
-
-      if (!user?.id || !academia?.id) {
-        throw new Error(getString('error'));
-      }
-
-      const checkInData = {
-        studentId: user.id,
-        studentName: userProfile?.name || user.email,
-        date: new Date().toISOString().split('T')[0],
-        timestamp: new Date(),
-        createdAt: new Date()
-      };
-
-      // Buscar a turma do aluno para fazer check-in na subcoleção
-      const studentClasses = await academyFirestoreService.getWhere(
-        'classes',
-        'students',
-        'array-contains',
-        user.id,
-        academia.id
-      );
-
-      if (studentClasses.length === 0) {
-        throw new Error('Nenhuma turma encontrada para este aluno');
-      }
-
-      // Usar a turma selecionada ou a primeira encontrada
-      const targetClassId = classId || studentClasses[0].id;
-
-      await academyFirestoreService.addSubcollectionDocument(
-        'classes',
-        targetClassId,
-        'checkIns',
-        checkInData,
-        academia.id
-      );
-
-      Alert.alert(
-        '✅ Check-in realizado!',
-        classId ? `Check-in na aula de ${className} realizado com sucesso!` : 'Check-in geral realizado com sucesso!',
-        [{ text: getString('ok'), onPress: () => loadCheckInData() }]
-      );
-
-    } catch (error) {
-      console.error('Erro ao fazer check-in:', error);
-      Alert.alert(getString('error'), 'Não foi possível realizar o check-in. Tente novamente.');
+      console.error('Erro ao realizar check-in:', error);
+      Alert.alert(getString('error'), getString('checkInError'));
     } finally {
       setLoading(false);
     }
   };
 
-  const formatTime = (date: any) => {
-    if (!date) return '';
-    const dateObj = date && typeof date.toDate === 'function' ? date.toDate() : new Date(date);
-    return dateObj.toLocaleTimeString('pt-BR', {
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-  };
-
-  const formatDate = (date: any) => {
-    if (!date) return '';
-    const dateObj = date && typeof date.toDate === 'function' ? date.toDate() : new Date(date);
-    return dateObj.toLocaleDateString('pt-BR');
-  };
-
-  const getCheckInIcon = (type: string | undefined): keyof typeof Ionicons.glyphMap => {
-    return type === 'class' ? 'school' : 'checkmark-circle';
-  };
-
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: themeColors.background }]}>
-      <View style={styles.content}>
-        {/* Status de Hoje */}
-        <Card style={[styles.card, styles.todayCard]}>
-          <Card.Content>
-            <View style={styles.todayHeader}>
-              <Avatar.Icon
-                size={60}
-                icon={todayCheckIn ? "check-circle" : "clock-outline"}
-                style={[
-                  styles.todayAvatar,
-                  { backgroundColor: todayCheckIn ? themeColors.success : themeColors.warning }
-                ]}
-              />
-              <View style={styles.todayInfo}>
-                <Text style={styles.todayTitle}>
-                  {todayCheckIn ? '✅ Check-in Realizado' : '⏰ Aguardando Check-in'}
-                </Text>
-                <Text style={styles.todaySubtitle}>
-                  {todayCheckIn
-                    ? `Hoje às ${formatTime(todayCheckIn.date)}`
-                    : 'Faça seu check-in de hoje'
-                  }
-                </Text>
-                {todayCheckIn?.className && (
-                  <Chip
-                    mode="outlined"
-                    style={styles.classChip}
-                    textStyle={{ fontSize: FONT_SIZE.sm }}
-                  >
-                    {todayCheckIn.className}
-                  </Chip>
-                )}
-              </View>
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        <View style={styles.header}>
+          <Text style={[styles.title, { color: colors.text }]}>
+            {getString('checkIn')}
+          </Text>
+          <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
+            {getString('manageCheckIns')}
+          </Text>
+        </View>
+
+        <Card style={styles.todayCard}>
+          <Card.Content style={styles.todayContent}>
+            <Avatar.Icon
+              size={48}
+              icon="calendar-check"
+              style={[styles.todayAvatar, { backgroundColor: COLORS.primary[500] }]}
+            />
+            <View style={styles.todayInfo}>
+              <Text style={[styles.todayTitle, { color: colors.text }]}>
+                {getString('today')}
+              </Text>
+              <Text style={[styles.todaySubtitle, { color: colors.textSecondary }]}>
+                {new Date().toLocaleDateString(getString('localeCode') || 'pt-BR')}
+              </Text>
             </View>
+            <Button
+              mode="contained"
+              onPress={() => handleCheckIn()}
+              loading={loading}
+              disabled={loading}
+              buttonColor={COLORS.primary[500]}
+            >
+              Check-In
+            </Button>
           </Card.Content>
         </Card>
 
-        {/* Turmas Disponíveis */}
         {availableClasses.length > 0 && (
-          <Card style={styles.card}>
-            <Card.Content>
-              <View style={styles.sectionHeader}>
-                <Ionicons name="school" size={24} color={themeColors.primary} />
-                <Text style={styles.sectionTitle}>Suas Turmas</Text>
-              </View>
-
-              {availableClasses.map((classItem) => (
-                <Surface key={classItem.id} style={styles.classItem} elevation={1}>
-                  <View style={styles.classInfo}>
-                    <View style={styles.classDetails}>
-                      <Text style={styles.className}>{classItem.name}</Text>
-                      <Text style={styles.classModality}>{classItem.modality}</Text>
-                    </View>
-                    <Button
-                      mode="contained"
-                      onPress={() => handleCheckIn(classItem.id, classItem.name)}
-                      disabled={loading || !!todayCheckIn}
-                      style={[styles.checkInButton, { backgroundColor: themeColors.primary }]}
-                      compact
-                    >
-                      Check-in
-                    </Button>
+          <View style={styles.section}>
+            <View style={styles.sectionHeader}>
+              <Ionicons name={"time-outline" as any} size={24} color={COLORS.primary[500]} />
+              <Text style={[styles.sectionTitle, { color: colors.text }]}>
+                {getString('availableClasses')}
+              </Text>
+            </View>
+            {availableClasses.map((item) => (
+              <Card key={item.id} style={styles.classItem}>
+                <View style={styles.classInfo}>
+                  <View style={styles.classDetails}>
+                    <Text style={[styles.className, { color: colors.text }]}>{item.name}</Text>
+                    <Text style={[styles.classModality, { color: colors.textSecondary }]}>{item.modality}</Text>
                   </View>
-                </Surface>
-              ))}
-            </Card.Content>
-          </Card>
+                  <Button
+                    mode="outlined"
+                    onPress={() => handleCheckIn(item)}
+                    textColor={COLORS.primary[500]}
+                    style={{ borderColor: COLORS.primary[500] }}
+                  >
+                    Check-In
+                  </Button>
+                </View>
+              </Card>
+            ))}
+          </View>
         )}
 
-        {/* Histórico Recente */}
-        <Card style={styles.card}>
-          <Card.Content>
-            <View style={styles.sectionHeader}>
-              <Ionicons name="time" size={24} color={themeColors.secondary} />
-              <Text style={styles.sectionTitle}>Últimos Check-ins</Text>
-            </View>
-
-            {recentCheckIns.length > 0 ? (
-              recentCheckIns.slice(0, 5).map((checkIn, index) => (
-                <View key={checkIn.id || index} style={styles.historyItem}>
-                  <View style={styles.historyIcon}>
-                    <Ionicons
-                      name={getCheckInIcon(checkIn.type)}
-                      size={20}
-                      color={themeColors.primary}
-                    />
-                  </View>
-                  <View style={styles.historyInfo}>
-                    <Text style={styles.historyTitle}>
-                      {checkIn.className || 'Check-in Geral'}
-                    </Text>
-                    <Text style={styles.historyDate}>
-                      {formatDate(checkIn.date)} às {formatTime(checkIn.date)}
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <Ionicons name={"history-outline" as any} size={24} color={COLORS.primary[500]} />
+            <Text style={[styles.sectionTitle, { color: colors.text }]}>
+              {getString('history')}
+            </Text>
+          </View>
+          {checkIns.length > 0 ? (
+            checkIns.map((item) => (
+              <Card key={item.id} style={styles.historyItem}>
+                <Card.Content style={styles.historyContent}>
+                  <View>
+                    <Text style={[styles.historyClass, { color: colors.text }]}>{item.className}</Text>
+                    <Text style={[styles.historyDate, { color: colors.textSecondary }]}>
+                      {item.date?.toDate ? item.date.toDate().toLocaleString() : new Date(item.date).toLocaleString()}
                     </Text>
                   </View>
-                </View>
-              ))
-            ) : (
-              <View style={styles.emptyState}>
-                <Ionicons name="calendar-outline" size={48} color={themeColors.gray ? themeColors.gray[300] : '#ccc'} />
-                <Text style={styles.emptyText}>Nenhum check-in registrado</Text>
-                <Text style={styles.emptySubtext}>Faça seu primeiro check-in!</Text>
-              </View>
-            )}
-          </Card.Content>
-        </Card>
-      </View>
+                  <Chip style={{ backgroundColor: COLORS.success[100] }} textStyle={{ color: COLORS.success[700] }}>
+                    {getString('completed')}
+                  </Chip>
+                </Card.Content>
+              </Card>
+            ))
+          ) : (
+            <Text style={[styles.emptyText, { color: colors.textSecondary }]}>
+              {getString('noCheckIns')}
+            </Text>
+          )}
+        </View>
+      </ScrollView>
 
-      {/* FAB para Check-in Geral */}
-      {!todayCheckIn && (
-        <FAB
-          style={[styles.fab, { backgroundColor: themeColors.primary }]}
-          icon={loading ? () => <ActivityIndicator color={COLORS.white} /> : "plus"}
-          label="Check-in Geral"
-          onPress={() => handleCheckIn()}
-          disabled={loading}
-        />
-      )}
+      <FAB
+        style={[styles.fab, { backgroundColor: COLORS.primary[500] }]}
+        icon="plus"
+        onPress={() => handleCheckIn()}
+        color={COLORS.white}
+      />
     </SafeAreaView>
   );
 };
@@ -362,21 +201,29 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  content: {
-    flex: 1,
-    padding: SPACING.md,
+  scrollContent: {
+    padding: SPACING.lg,
   },
-  card: {
-    marginBottom: SPACING.md,
-    elevation: 4,
+  header: {
+    marginBottom: SPACING.xl,
+  },
+  title: {
+    fontSize: FONT_SIZE.xxl,
+    fontWeight: FONT_WEIGHT.bold,
+  },
+  subtitle: {
+    fontSize: FONT_SIZE.md,
+    marginTop: SPACING.xs,
   },
   todayCard: {
-    borderLeftWidth: 4,
-    borderLeftColor: COLORS.primary[500],
+    marginBottom: SPACING.xl,
+    elevation: 4,
+    borderRadius: BORDER_RADIUS.lg,
   },
-  todayHeader: {
+  todayContent: {
     flexDirection: 'row',
     alignItems: 'center',
+    padding: SPACING.md,
   },
   todayAvatar: {
     marginRight: SPACING.md,
@@ -391,11 +238,10 @@ const styles = StyleSheet.create({
   },
   todaySubtitle: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.gray[500],
     marginBottom: SPACING.sm,
   },
-  classChip: {
-    alignSelf: 'flex-start',
+  section: {
+    marginBottom: SPACING.xl,
   },
   sectionHeader: {
     flexDirection: 'row',
@@ -411,6 +257,7 @@ const styles = StyleSheet.create({
     padding: SPACING.md,
     marginBottom: SPACING.sm,
     borderRadius: BORDER_RADIUS.md,
+    elevation: 2,
   },
   classInfo: {
     flexDirection: 'row',
@@ -427,61 +274,37 @@ const styles = StyleSheet.create({
   },
   classModality: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.gray[500],
-  },
-  checkInButton: {
-    borderRadius: BORDER_RADIUS.lg,
   },
   historyItem: {
+    marginBottom: SPACING.sm,
+    borderRadius: BORDER_RADIUS.md,
+    elevation: 1,
+  },
+  historyContent: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: SPACING.md,
-    borderBottomWidth: 1,
-    borderBottomColor: COLORS.gray[100],
   },
-  historyIcon: {
-    width: 40,
-    height: 40,
-    borderRadius: BORDER_RADIUS.lg,
-    backgroundColor: COLORS.gray[100],
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: SPACING.md,
-  },
-  historyInfo: {
-    flex: 1,
-  },
-  historyTitle: {
+  historyClass: {
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.medium,
-    marginBottom: 2,
   },
   historyDate: {
-    fontSize: FONT_SIZE.base,
-    color: COLORS.gray[500],
-  },
-  emptyState: {
-    alignItems: 'center',
-    padding: 32,
+    fontSize: FONT_SIZE.sm,
+    marginTop: 2,
   },
   emptyText: {
-    fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semibold,
-    color: COLORS.gray[500],
-    marginTop: SPACING.md,
-  },
-  emptySubtext: {
+    textAlign: 'center',
+    marginTop: SPACING.lg,
     fontSize: FONT_SIZE.base,
-    color: COLORS.gray[300],
-    marginTop: SPACING.xs,
+    fontStyle: 'italic',
   },
   fab: {
     position: 'absolute',
-    margin: SPACING.md,
+    margin: 16,
     right: 0,
     bottom: 0,
   },
 });
 
 export default CheckInScreen;
-

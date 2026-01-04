@@ -1,7 +1,17 @@
 import React, { useState, useCallback, useMemo } from 'react';
-import { ActivityIndicator, Alert, BORDER_RADIUS, Divider, FONT_SIZE, FONT_WEIGHT, HelperText, KeyboardAvoidingView } from 'react-native';
+import { View, StyleSheet, Alert, Platform, ScrollView, Linking, KeyboardAvoidingView } from 'react-native';
 import {
-  Card, Linking, Menu, Platform, Portal
+  Card,
+  Divider,
+  ActivityIndicator,
+  Text,
+  Switch,
+  Menu,
+  TouchableRipple,
+  Snackbar,
+  HelperText,
+  TextInput,
+  Portal
 } from 'react-native-paper';
 import ModernCard from '@presentation/components/modern/ModernCard';
 import ModernButton from '@presentation/components/modern/ModernButton';
@@ -11,14 +21,13 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
-// AnimatedCard/AnimatedButton substituídos por versões Modern sem quebrar lógica
 import EnhancedErrorBoundary from '@components/EnhancedErrorBoundary';
-import EnhancedErrorMessage, SPACING, ScrollView, Snackbar, StyleSheet, Switch, Text, TextInput, TouchableRipple, View, useUserActionTracking } from '@hooks/useAnalytics';
+import EnhancedErrorMessage, { useEnhancedError } from '@components/EnhancedErrorMessage';
+import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import { useFormValidation } from '@hooks/useFormValidation';
 import { rateLimitService } from '@infrastructure/services/rateLimitService';
 import LoginSkeleton from '@components/skeletons/LoginSkeleton';
-import { COLORS, { useEnhancedError } from '@components/EnhancedErrorMessage';
-import { useScreenTracking } from '@presentation/theme/designTokens';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { getAuthGradient, getAuthCardColors } from '@presentation/theme/authTheme';
 import formValidator from '@shared/utils/formValidation';
 import type { AuthScreenProps, LoginFormErrors, SnackbarState } from './auth/types';
@@ -117,7 +126,7 @@ export default function LoginScreen({ navigation }: AuthScreenProps) {
   const { trackButtonClick, trackFeatureUsage } = useUserActionTracking();
 
   const { signIn, signInWithGoogle, signInWithFacebook, signInWithMicrosoft, signInWithApple } = useAuthFacade();
-  const { isDarkMode, currentLanguage, languages, theme, toggleDarkMode, changeLanguage, getString } = useTheme();
+  const { isDarkMode, currentLanguage, languages, theme, toggleDarkMode, changeLanguage } = useTheme();
 
   const showSnackbar = useCallback((message: string, type: SnackbarState['type'] = 'info'): void => {
     setSnackbar({

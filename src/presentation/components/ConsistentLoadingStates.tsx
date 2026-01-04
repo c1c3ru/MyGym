@@ -1,8 +1,8 @@
 import React, { memo } from 'react';
-import { BORDER_RADIUS, Button, ButtonProps } from 'react-native-paper';
+import { View, StyleSheet, Text, Dimensions, StyleProp, ViewStyle } from 'react-native';
+import { Card, Button, ActivityIndicator, ButtonProps } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
-import { COLORS, Card, Dimensions, FONT_SIZE, FONT_WEIGHT, SPACING, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
-import { ActivityIndicator } from '@presentation/theme/designTokens';
+import { COLORS, SPACING, FONT_SIZE, FONT_WEIGHT, BORDER_RADIUS } from '@presentation/theme/designTokens';
 import { getString } from "@utils/theme";
 
 /**
@@ -131,6 +131,7 @@ export const ErrorState = memo<ErrorStateProps>(({
                 onPress={onRetry}
                 style={styles.retryButton}
                 icon="refresh"
+                textColor={COLORS.info[500]}
             >
                 Tentar Novamente
             </Button>
@@ -256,7 +257,7 @@ const styles = StyleSheet.create({
     skeletonAvatar: {
         width: 50,
         height: 50,
-        borderRadius: BORDER_RADIUS.xs5,
+        borderRadius: BORDER_RADIUS.xs,
         backgroundColor: COLORS.gray[300],
         marginRight: SPACING.md,
     },
