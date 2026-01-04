@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
     marginLeft: SPACING.sm,
     color: COLORS.black,
   },

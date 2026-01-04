@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: FONT_SIZE.md,
-        fontWeight: FONT_WEIGHT.semiBold as any,
+        fontWeight: FONT_WEIGHT.semibold as any,
         flex: 1,
     },
     description: {
@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
     },
     conflictTitle: {
         fontSize: FONT_SIZE.md,
-        fontWeight: FONT_WEIGHT.semiBold as any,
+        fontWeight: FONT_WEIGHT.semibold as any,
         marginBottom: 2,
     },
     conflictSubtitle: {

@@ -294,7 +294,7 @@ const styles = StyleSheet.create({
         }),
     },
     buttonText: {
-        fontWeight: FONT_WEIGHT.semiBold,
+        fontWeight: FONT_WEIGHT.semibold,
     },
     buttonContent: {
         height: '100%',
@@ -326,7 +326,7 @@ const styles = StyleSheet.create({
     },
     gradientButtonText: {
         color: COLORS.white,
-        fontWeight: FONT_WEIGHT.semiBold,
+        fontWeight: FONT_WEIGHT.semibold,
     },
     gradientButtonContent: {
         height: '100%',

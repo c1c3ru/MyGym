@@ -469,7 +469,7 @@ const styles = StyleSheet.create({
   },
   avatarText: {
     color: COLORS.white,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
   },
   studentInfo: {
     marginLeft: SPACING.md,
@@ -477,7 +477,7 @@ const styles = StyleSheet.create({
   },
   studentName: {
     fontSize: FONT_SIZE.xl,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
     color: COLORS.black,
   },
   studentEmail: {

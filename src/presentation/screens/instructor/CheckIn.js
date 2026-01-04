@@ -1022,7 +1022,7 @@ const styles = StyleSheet.create({
   },
   modalSubtitle: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
     marginBottom: SPACING.sm,
     color: COLORS.black,
   },
@@ -1048,7 +1048,7 @@ const styles = StyleSheet.create({
   },
   selectionCount: {
     fontSize: FONT_SIZE.base,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
     color: COLORS.info[500],
   },
   batchButtons: {
@@ -1102,7 +1102,7 @@ const styles = StyleSheet.create({
   checkInChipText: {
     color: COLORS.primary[500],
     fontSize: FONT_SIZE.sm,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
   },
   studentLeftSection: {
     flexDirection: 'row',
@@ -1168,7 +1168,7 @@ const styles = StyleSheet.create({
   },
   classButtonLabel: {
     fontSize: FONT_SIZE.base,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
   },
   searchbar: {
     marginBottom: SPACING.md,

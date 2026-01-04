@@ -757,7 +757,7 @@ const styles = StyleSheet.create({
   },
   fieldLabel: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
     marginBottom: SPACING.sm,
     marginTop: SPACING.sm,
     color: COLORS.black,

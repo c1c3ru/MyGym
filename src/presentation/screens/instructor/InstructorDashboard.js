@@ -1069,7 +1069,7 @@ const styles = StyleSheet.create({
     fontWeight: FONT_WEIGHT.medium,
   },
   announcementTitle: {
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
     color: COLORS.black,
     marginBottom: ResponsiveUtils.spacing.xs,
     fontSize: ResponsiveUtils.fontSize.medium,

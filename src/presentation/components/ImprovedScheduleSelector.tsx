@@ -12,8 +12,8 @@ import {
 import { Calendar } from 'react-native-calendars';
 import { useTheme } from '@contexts/ThemeContext';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import {
 import { getString } from "@utils/theme";
+import {
     createEmptySchedule,
     DAY_NAMES,
     generateTimeSlots,
@@ -404,7 +404,7 @@ const styles = StyleSheet.create({
     },
     dayName: {
         fontSize: FONT_SIZE.md,
-        fontWeight: FONT_WEIGHT.semiBold as any,
+        fontWeight: FONT_WEIGHT.semibold as any,
         marginBottom: SPACING.sm
     },
     hoursContainer: {
@@ -434,7 +434,7 @@ const styles = StyleSheet.create({
     },
     modalTitle: {
         fontSize: FONT_SIZE.lg,
-        fontWeight: FONT_WEIGHT.semiBold as any,
+        fontWeight: FONT_WEIGHT.semibold as any,
         textAlign: 'center',
         marginBottom: SPACING.sm
     },

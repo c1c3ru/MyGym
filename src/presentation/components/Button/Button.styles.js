@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
 
   // Text styles
   text: {
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
     textAlign: 'center',
   },
   textPrimary: {

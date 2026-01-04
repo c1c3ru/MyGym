@@ -507,7 +507,7 @@ const styles = StyleSheet.create({
   },
   dueDateValue: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
   },
   daysLeft: {
     fontSize: FONT_SIZE.base,
@@ -528,7 +528,7 @@ const styles = StyleSheet.create({
   },
   paymentPlan: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
     marginBottom: SPACING.xs,
   },
   paymentAmount: {
@@ -576,7 +576,7 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
     color: COLORS.gray[500],
     marginTop: SPACING.md,
   },
@@ -624,7 +624,7 @@ const styles = StyleSheet.create({
   },
   planOptionName: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
     marginBottom: SPACING.xs,
   },
   planOptionValue: {
@@ -645,7 +645,7 @@ const styles = StyleSheet.create({
   },
   dueDateSectionTitle: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
     marginBottom: SPACING.md,
   },
   dateButton: {

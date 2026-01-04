@@ -676,7 +676,7 @@ const styles = StyleSheet.create({
   },
   calendarModalTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
     color: COLORS.black,
   },
   calendarContainer: {

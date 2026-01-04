@@ -462,7 +462,7 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     fontSize: ResponsiveUtils?.fontSize?.large || 18,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
     marginBottom: ResponsiveUtils?.spacing?.md || 12,
     color: COLORS.primary[500],
   },
@@ -542,7 +542,7 @@ const styles = StyleSheet.create({
     marginTop: SPACING.sm,
   },
   announcementTitle: {
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
     color: COLORS.black,
     marginBottom: ResponsiveUtils?.spacing?.xs || 4,
   },

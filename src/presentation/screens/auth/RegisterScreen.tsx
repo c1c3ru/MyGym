@@ -604,13 +604,13 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.lg,
     color: COLORS.black,
     fontSize: FONT_SIZE.xl,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
   },
   sectionTitle: {
     fontSize: FONT_SIZE.lg,
     marginBottom: SPACING.md,
     color: COLORS.black,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
   },
   input: {
     marginBottom: SPACING.sm,
@@ -646,7 +646,7 @@ const styles = StyleSheet.create({
   },
   userTypeLabel: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
     color: COLORS.black,
   },
   userTypeDescription: {
@@ -679,7 +679,7 @@ const styles = StyleSheet.create({
   },
   link: {
     color: COLORS.primary[500],
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
     textDecorationLine: 'underline',
   },
   checkboxLabel: {

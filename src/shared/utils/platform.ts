@@ -66,7 +66,7 @@ export const PlatformConfig = {
 
 // Obter configuração da plataforma atual
 export const getCurrentPlatformConfig = (): { enableGestures: boolean; headerHeight: number; tabBarHeight: number; statusBarHeight: number } => {
-  const supported = ['web', 'ios', 'android'];
+  const supported = ['web', 'ios', 'android'] as const;
   const os = (supported as readonly string[]).includes(Platform.OS)
     ? (Platform.OS as (typeof supported)[number])
     : 'web';

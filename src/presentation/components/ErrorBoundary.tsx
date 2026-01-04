@@ -1,8 +1,8 @@
 import React, { Component, ReactNode } from 'react';
-import { View, StyleSheet, Platform } from 'react-native';
-import { Card, Button, Text } from 'react-native-paper';
+import { BORDER_RADIUS, Button, FONT_SIZE, Platform } from 'react-native';
+import { Card, SPACING, StyleSheet, Text } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
-import { COLORS } from '@presentation/theme/designTokens';
+import { COLORS, View } from '@presentation/theme/designTokens';
 import { Logger } from '@utils/logger';
 // import crashlyticsService from '@infrastructure/services/crashlyticsService'; // Serviço não implementado
 

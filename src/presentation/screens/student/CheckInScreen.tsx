@@ -1,14 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Alert, Dimensions } from 'react-native';
-import {
-  Card,
-  Text,
-  Button,
-  FAB,
-  Surface,
-  Avatar,
-  Chip,
-  ActivityIndicator
+import { ActivityIndicator
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -16,7 +7,9 @@ import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
 import { useCustomClaims } from '@hooks/useCustomClaims';
 import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS } from '@presentation/theme/designTokens';
+import { COLORS, Alert, Avatar, BORDER_RADIUS, Button, Chip, Dimensions } from 'react-native';
+import {
+  Card, FAB, FONT_SIZE, FONT_WEIGHT, SPACING, StyleSheet, Surface, Text, View } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
 import type { NavigationProp } from '@react-navigation/native';
 import { getString } from "@utils/theme";
@@ -429,7 +422,7 @@ const styles = StyleSheet.create({
   },
   className: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
     marginBottom: SPACING.xs,
   },
   classModality: {
@@ -473,7 +466,7 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
     color: COLORS.gray[500],
     marginTop: SPACING.md,
   },

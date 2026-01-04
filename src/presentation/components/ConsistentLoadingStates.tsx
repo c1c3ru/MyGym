@@ -1,8 +1,8 @@
 import React, { memo } from 'react';
-import { View, StyleSheet, Dimensions, StyleProp, ViewStyle } from 'react-native';
-import { ActivityIndicator, Text, Button, Card, ButtonProps } from 'react-native-paper';
+import { BORDER_RADIUS, Button, ButtonProps } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { COLORS, Card, Dimensions, FONT_SIZE, FONT_WEIGHT, SPACING, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
+import { ActivityIndicator } from '@presentation/theme/designTokens';
 import { getString } from "@utils/theme";
 
 /**

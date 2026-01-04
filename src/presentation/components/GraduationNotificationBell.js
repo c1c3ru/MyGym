@@ -310,7 +310,7 @@ const styles = StyleSheet.create({
   },
   notificationTitle: {
     fontSize: FONT_SIZE.base,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
     marginBottom: 2,
   },
   unreadTitle: {

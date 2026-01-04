@@ -474,7 +474,7 @@ const styles = StyleSheet.create({
   },
   filtersTitle: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
     marginBottom: SPACING.md
   },
   filtersContainer: {
@@ -495,7 +495,7 @@ const styles = StyleSheet.create({
   },
   dayEventsTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
     marginBottom: SPACING.md,
     textTransform: 'capitalize'
   },
@@ -526,7 +526,7 @@ const styles = StyleSheet.create({
   },
   eventTitle: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
     flex: 1
   },
   eventDetails: {

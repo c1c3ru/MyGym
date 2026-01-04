@@ -276,7 +276,7 @@ const styles = StyleSheet.create({
     },
     labelLast: {
         color: COLORS.primary[600],
-        fontWeight: FONT_WEIGHT.semiBold as any,
+        fontWeight: FONT_WEIGHT.semibold as any,
     },
     labelDisabled: {
         color: COLORS.gray[300],
@@ -305,7 +305,7 @@ const styles = StyleSheet.create({
     compactCurrentPage: {
         fontSize: FONT_SIZE.sm,
         color: COLORS.black,
-        fontWeight: FONT_WEIGHT.semiBold as any,
+        fontWeight: FONT_WEIGHT.semibold as any,
     },
 });
 

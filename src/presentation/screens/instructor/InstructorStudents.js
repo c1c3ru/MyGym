@@ -724,7 +724,7 @@ const styles = StyleSheet.create({
   },
   filterButtonLabel: {
     fontSize: FONT_SIZE.sm,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
   },
   filterButtonContent: {
     paddingHorizontal: SPACING.sm,
@@ -764,7 +764,7 @@ const styles = StyleSheet.create({
   },
   actionButtonLabel: {
     fontSize: 13,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
   },
   menuContent: {
     maxHeight: 300,
@@ -827,7 +827,7 @@ const styles = StyleSheet.create({
   },
   dropdownItemTextSelected: {
     color: COLORS.info[700],
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
   },
   advancedFilterInput: {
     flexGrow: 1,

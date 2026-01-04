@@ -343,7 +343,7 @@ const styles = StyleSheet.create({
   examDate: {
     fontSize: FONT_SIZE.md,
     color: COLORS.info[500],
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
     marginBottom: 2,
   },
   examLocation: {
@@ -404,7 +404,7 @@ const styles = StyleSheet.create({
   },
   graduationScore: {
     fontSize: FONT_SIZE.base,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
     color: COLORS.black,
     marginBottom: SPACING.xs,
   },
@@ -441,7 +441,7 @@ const styles = StyleSheet.create({
   },
   statValue: {
     fontSize: FONT_SIZE.base,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
     color: COLORS.black,
   },
   emptyState: {

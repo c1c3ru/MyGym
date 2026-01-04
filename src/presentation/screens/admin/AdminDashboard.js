@@ -946,7 +946,7 @@ const styles = StyleSheet.create({
   academiaCodeText: {
     color: COLORS.white + 'E6',
     fontSize: FONT_SIZE.sm,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
     marginLeft: SPACING.xs,
   },
 
@@ -968,7 +968,7 @@ const styles = StyleSheet.create({
   },
   calendarModalTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
     color: COLORS.black,
   },
   calendarContainer: {

@@ -379,12 +379,12 @@ const styles = StyleSheet.create({
   },
   h2: {
     fontSize: FONT_SIZE.xxl,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
     marginBottom: SPACING.sm,
   },
   h3: {
     fontSize: FONT_SIZE.xl,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
     marginBottom: SPACING.sm,
   },
   body: {
@@ -413,7 +413,7 @@ const styles = StyleSheet.create({
   },
   listItemTitle: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
     marginBottom: SPACING.xs,
   },
   listItemDescription: {

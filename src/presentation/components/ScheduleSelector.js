@@ -330,14 +330,14 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
   },
   summaryCard: {
     marginBottom: SPACING.md,
   },
   summaryTitle: {
     fontSize: FONT_SIZE.base,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
     marginBottom: SPACING.sm,
   },
   summaryText: {
@@ -367,7 +367,7 @@ const styles = StyleSheet.create({
   },
   dayName: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
   },
   hourChip: {
     height: 24,
@@ -393,7 +393,7 @@ const styles = StyleSheet.create({
   },
   modalTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
   },
   timeSlotsContainer: {
     maxHeight: 400,

@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
         fontSize: FONT_SIZE.md,
         marginBottom: 2,
         color: COLORS.card.premium.text,
-        fontWeight: FONT_WEIGHT.semiBold as any,
+        fontWeight: FONT_WEIGHT.semibold as any,
     },
     studentEmail: {
         fontSize: FONT_SIZE.sm,

@@ -711,7 +711,7 @@ const styles = StyleSheet.create({
   },
   studentName: {
     fontSize: FONT_SIZE.xxl,
-    fontWeight: FONT_WEIGHT.extraBold,
+    fontWeight: FONT_WEIGHT.extrabold,
     color: COLORS.white,
     marginBottom: SPACING.xs,
     letterSpacing: 0.5,
@@ -745,7 +745,7 @@ const styles = StyleSheet.create({
   graduationText: {
     fontSize: FONT_SIZE.base,
     color: COLORS.warning[300],
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
   },
 
   // Cards de estatísticas
@@ -789,7 +789,7 @@ const styles = StyleSheet.create({
   },
   statNumber: {
     fontSize: FONT_SIZE.xxl,
-    fontWeight: FONT_WEIGHT.extraBold,
+    fontWeight: FONT_WEIGHT.extrabold,
     color: COLORS.black,
     marginBottom: SPACING.xs,
   },
@@ -884,7 +884,7 @@ const styles = StyleSheet.create({
   modernInfoValue: {
     fontSize: FONT_SIZE.md,
     color: COLORS.black,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
   },
 
   // Turmas
@@ -1017,7 +1017,7 @@ const styles = StyleSheet.create({
   },
   financialValue: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.extraBold,
+    fontWeight: FONT_WEIGHT.extrabold,
     color: COLORS.black,
     marginBottom: SPACING.xs,
   },
@@ -1073,7 +1073,7 @@ const styles = StyleSheet.create({
   },
   paymentStatusText: {
     fontSize: FONT_SIZE.sm,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
   },
   viewAllPaymentsButton: {
     marginTop: SPACING.md,
@@ -1086,7 +1086,7 @@ const styles = StyleSheet.create({
   },
   emptyStateText: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
     color: COLORS.gray[500],
     marginTop: SPACING.md,
     marginBottom: SPACING.xs,

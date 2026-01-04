@@ -371,7 +371,7 @@ const styles = StyleSheet.create({
   },
   selectButtonText: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
   },
   footer: {
     padding: SPACING.xl,

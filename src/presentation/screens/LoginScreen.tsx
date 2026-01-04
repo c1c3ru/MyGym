@@ -1,17 +1,7 @@
 import React, { useState, useCallback, useMemo } from 'react';
-import { View, StyleSheet, Alert, Platform, ScrollView, Linking, KeyboardAvoidingView } from 'react-native';
+import { ActivityIndicator, Alert, BORDER_RADIUS, Divider, FONT_SIZE, FONT_WEIGHT, HelperText, KeyboardAvoidingView } from 'react-native';
 import {
-  Card,
-  Divider,
-  ActivityIndicator,
-  Text,
-  Switch,
-  Menu,
-  TouchableRipple,
-  Snackbar,
-  HelperText,
-  TextInput,
-  Portal
+  Card, Linking, Menu, Platform, Portal
 } from 'react-native-paper';
 import ModernCard from '@presentation/components/modern/ModernCard';
 import ModernButton from '@presentation/components/modern/ModernButton';
@@ -23,12 +13,12 @@ import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
 // AnimatedCard/AnimatedButton substituídos por versões Modern sem quebrar lógica
 import EnhancedErrorBoundary from '@components/EnhancedErrorBoundary';
-import EnhancedErrorMessage, { useEnhancedError } from '@components/EnhancedErrorMessage';
-import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
+import EnhancedErrorMessage, SPACING, ScrollView, Snackbar, StyleSheet, Switch, Text, TextInput, TouchableRipple, View, useUserActionTracking } from '@hooks/useAnalytics';
 import { useFormValidation } from '@hooks/useFormValidation';
 import { rateLimitService } from '@infrastructure/services/rateLimitService';
 import LoginSkeleton from '@components/skeletons/LoginSkeleton';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { COLORS, { useEnhancedError } from '@components/EnhancedErrorMessage';
+import { useScreenTracking } from '@presentation/theme/designTokens';
 import { getAuthGradient, getAuthCardColors } from '@presentation/theme/authTheme';
 import formValidator from '@shared/utils/formValidation';
 import type { AuthScreenProps, LoginFormErrors, SnackbarState } from './auth/types';
@@ -567,7 +557,7 @@ const styles = StyleSheet.create({
   glassButton: {
     width: 44,
     height: 44,
-    borderRadius: BORDER_RADIUS.xs2,
+    borderRadius: BORDER_RADIUS.sm,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
@@ -596,13 +586,13 @@ const styles = StyleSheet.create({
   logoGradient: {
     width: 80,
     height: 80,
-    borderRadius: BORDER_RADIUS.xs4,
+    borderRadius: BORDER_RADIUS.sm,
     justifyContent: 'center',
     alignItems: 'center',
   },
   headerTitle: {
     fontSize: 34,
-    fontWeight: FONT_WEIGHT.extraBold,
+    fontWeight: FONT_WEIGHT.extrabold,
     marginBottom: SPACING.sm,
     letterSpacing: -0.5,
   },
@@ -644,7 +634,7 @@ const styles = StyleSheet.create({
   },
   forgotPasswordText: {
     fontSize: FONT_SIZE.sm,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
   },
   dividerRow: {
     flexDirection: 'row',
@@ -668,7 +658,7 @@ const styles = StyleSheet.create({
   socialIconBtn: {
     width: 64,
     height: 64,
-    borderRadius: BORDER_RADIUS.xs0,
+    borderRadius: BORDER_RADIUS.xs,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
@@ -697,7 +687,7 @@ const styles = StyleSheet.create({
   loadingText: {
     marginTop: SPACING.md,
     fontSize: FONT_SIZE.base,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
   },
   snackbar: {
     borderRadius: BORDER_RADIUS.md,

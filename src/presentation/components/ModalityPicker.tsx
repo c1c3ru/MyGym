@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
     },
     label: {
         marginBottom: SPACING.sm,
-        fontWeight: FONT_WEIGHT.semiBold as any,
+        fontWeight: FONT_WEIGHT.semibold as any,
     },
     card: {
         backgroundColor: COLORS.white,
@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
     },
     selectedChipText: {
         color: COLORS.white,
-        fontWeight: FONT_WEIGHT.semiBold as any,
+        fontWeight: FONT_WEIGHT.semibold as any,
     },
     selectedContainer: {
         marginTop: SPACING.md,
@@ -254,7 +254,7 @@ const styles = StyleSheet.create({
     selectedLabel: {
         marginBottom: SPACING.sm,
         color: COLORS.gray[500],
-        fontWeight: FONT_WEIGHT.semiBold as any,
+        fontWeight: FONT_WEIGHT.semibold as any,
     },
     selectedChips: {
         flexDirection: 'row',

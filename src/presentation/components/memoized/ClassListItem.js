@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.lg,
     flex: 1,
     color: COLORS.card.premium.text,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
   },
   modalityChip: {
     marginLeft: SPACING.sm,

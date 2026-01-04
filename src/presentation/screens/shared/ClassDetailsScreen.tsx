@@ -488,7 +488,7 @@ const styles = StyleSheet.create({
   },
   modalityText: {
     color: COLORS.white,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
     fontSize: FONT_SIZE.sm,
   },
   classAvatar: {
@@ -547,7 +547,7 @@ const styles = StyleSheet.create({
   },
   infoLabel: {
     fontSize: FONT_SIZE.base,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
     color: COLORS.gray[500],
     marginBottom: SPACING.xs,
   },
@@ -614,7 +614,7 @@ const styles = StyleSheet.create({
   },
   studentName: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
     color: COLORS.gray[900],
   },
   studentEmail: {
@@ -631,7 +631,7 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semiBold,
+    fontWeight: FONT_WEIGHT.semibold,
     color: COLORS.gray[500],
     marginTop: SPACING.md,
   },
