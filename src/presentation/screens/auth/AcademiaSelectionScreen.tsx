@@ -17,7 +17,6 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import { collection, addDoc, query, where, getDocs, updateDoc, doc } from 'firebase/firestore';
 import { db } from '@infrastructure/services/firebase';
-import { Firestore } from 'firebase/firestore';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
 import { useCustomClaims } from '@hooks/useCustomClaims';
