@@ -39,7 +39,7 @@ describe('SignInWithEmailUseCase', () => {
     };
     const mockUserProfile = { 
       id: '123', 
-      userType: 'admin' as const,
+      userType: 'admin',
       academiaId: 'academia123',
       name: 'Test User',
       email: 'test@test.com',

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import {
-import { getString } from '@utils/theme';
   View,
   ScrollView,
   RefreshControl,
@@ -539,7 +538,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     color: COLORS.white,
     fontSize: FONT_SIZE.xxl,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
   },
   headerSubtitle: {
     color: COLORS.white,
@@ -582,7 +581,7 @@ const styles = StyleSheet.create({
   },
   summaryNumber: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
     marginBottom: 2,
   },
   summaryLabel: {
@@ -631,7 +630,7 @@ const styles = StyleSheet.create({
   },
   studentName: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
   },
   studentModality: {
     fontSize: FONT_SIZE.base,
@@ -669,12 +668,12 @@ const styles = StyleSheet.create({
   },
   examModality: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
   },
   examDate: {
     fontSize: FONT_SIZE.base,
     color: COLORS.info[500],
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
   },
   examDetails: {
     fontSize: FONT_SIZE.base,
@@ -702,7 +701,7 @@ const styles = StyleSheet.create({
   },
   statModality: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
   },
   statNumbers: {
     flexDirection: 'row',
@@ -710,7 +709,7 @@ const styles = StyleSheet.create({
   },
   statEligible: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
     color: COLORS.primary[500],
   },
   statTotal: {

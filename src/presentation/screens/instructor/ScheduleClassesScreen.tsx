@@ -1,4 +1,3 @@
-import { getString } from '@utils/theme';
 /**
  * ScheduleClassesScreen - Tela para agendar aulas em turmas existentes
  * 
@@ -380,7 +379,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
     marginLeft: SPACING.sm,
     color: COLORS.text.primary,
   },
@@ -412,7 +411,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: FONT_SIZE.sm,
-    fontWeight: FONT_WEIGHT.semibold as const,
+    fontWeight: FONT_WEIGHT.semibold,
     color: COLORS.text.primary,
     marginTop: SPACING.md,
     marginBottom: SPACING.xs,

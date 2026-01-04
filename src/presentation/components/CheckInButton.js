@@ -8,7 +8,6 @@ import { academyFirestoreService } from '@infrastructure/services/academyFiresto
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useUserProfile } from '@hooks/useUserProfile';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getString } from '@utils/theme';
 
 const CheckInButton = ({ classId, className, onCheckInSuccess }) => {
   const [loading, setLoading] = useState(false);

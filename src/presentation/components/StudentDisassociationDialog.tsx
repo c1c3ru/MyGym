@@ -15,7 +15,6 @@ import { useCustomClaims } from '@hooks/useCustomClaims';
 import { useNotification } from '@contexts/NotificationContext';
 import { firestoreService } from '@infrastructure/services/firestoreService';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getString } from '@utils/theme';
 import { Student } from '@presentation/types/student';
 
 /**

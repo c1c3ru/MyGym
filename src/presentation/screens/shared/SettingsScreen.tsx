@@ -16,7 +16,6 @@ import { ResponsiveUtils } from '@utils/animations';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, BORDER_WIDTH } from '@presentation/theme/designTokens';
 import { getAuthGradient, getAuthCardColors } from '@presentation/theme/authTheme';
 import ThemeToggleSwitch from '@components/ThemeToggleSwitch';
-import { getString } from '@utils/theme';
 import { useTheme } from '@contexts/ThemeContext';
 import type { NavigationProp } from '@react-navigation/native';
 

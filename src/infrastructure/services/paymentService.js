@@ -1,6 +1,5 @@
 import { firestoreService } from './firestoreService';
 import notificationService from './notificationService';
-import { getString } from '@utils/theme';
 
 class PaymentService {
   constructor() {

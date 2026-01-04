@@ -4,7 +4,6 @@ import { Card, Text, Button } from 'react-native-paper';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useCustomClaims } from '@hooks/useCustomClaims';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getString } from '@utils/theme';
 
 /**
  * Componente para proteger rotas que exigem autenticação e associação com academia

@@ -21,7 +21,7 @@ describe('SignUpWithEmailUseCase', () => {
         password: 'password123',
         name: 'Test User',
         phone: '123456789',
-        userType: 'student' as const,
+        userType: 'student',
         acceptTerms: true,
         acceptPrivacyPolicy: true
       };
@@ -73,7 +73,7 @@ describe('SignUpWithEmailUseCase', () => {
         email: 'instructor@example.com',
         password: 'password123',
         name: 'Instructor User',
-        userType: 'instructor' as const,
+        userType: 'instructor',
         acceptTerms: true,
         acceptPrivacyPolicy: true
       };
@@ -107,7 +107,7 @@ describe('SignUpWithEmailUseCase', () => {
         email: 'invalid-email',
         password: 'password123',
         name: 'Test User',
-        userType: 'student' as const,
+        userType: 'student',
         acceptTerms: true,
         acceptPrivacyPolicy: true
       };
@@ -123,7 +123,7 @@ describe('SignUpWithEmailUseCase', () => {
         email: 'test@example.com',
         password: '123',
         name: 'Test User',
-        userType: 'student' as const,
+        userType: 'student',
         acceptTerms: true,
         acceptPrivacyPolicy: true
       };
@@ -139,7 +139,7 @@ describe('SignUpWithEmailUseCase', () => {
         email: 'test@example.com',
         password: 'password123',
         name: '',
-        userType: 'student' as const,
+        userType: 'student',
         acceptTerms: true,
         acceptPrivacyPolicy: true
       };
@@ -171,7 +171,7 @@ describe('SignUpWithEmailUseCase', () => {
         email: 'test@example.com',
         password: 'password123',
         name: 'Test User',
-        userType: 'student' as const,
+        userType: 'student',
         acceptTerms: true,
         acceptPrivacyPolicy: true
       };

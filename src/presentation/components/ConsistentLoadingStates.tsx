@@ -3,7 +3,6 @@ import { View, StyleSheet, Dimensions, StyleProp, ViewStyle } from 'react-native
 import { ActivityIndicator, Text, Button, Card, ButtonProps } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getString } from '@utils/theme';
 
 /**
  * Propriedades para FullScreenLoading

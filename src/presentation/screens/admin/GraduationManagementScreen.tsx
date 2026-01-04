@@ -27,7 +27,6 @@ import { useGraduation } from '@hooks/useGraduation';
 import { useAuth } from '@contexts/AuthProvider';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
 import GraduationAlertCard, { GraduationAlert } from '@components/GraduationAlertCard';
-import { getString } from '@utils/theme';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 interface SummaryStats {

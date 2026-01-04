@@ -19,7 +19,6 @@ import cacheService, { CACHE_KEYS, CACHE_TTL } from '@infrastructure/services/ca
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import ReportsSkeleton from '@components/skeletons/ReportsSkeleton';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getString } from '@utils/theme';
 
 const Relatorios = ({ navigation }) => {
   const { user, userProfile } = useAuthFacade();

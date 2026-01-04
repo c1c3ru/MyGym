@@ -1,7 +1,6 @@
 import React, { useEffect, memo, useState } from 'react';
 import { View, StyleSheet, Alert, TouchableOpacity, Platform } from 'react-native';
 import {
-import { getString } from '@utils/theme';
     Appbar,
     Avatar,
     Menu,

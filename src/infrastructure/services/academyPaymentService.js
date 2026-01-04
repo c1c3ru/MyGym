@@ -1,7 +1,6 @@
 import { academyFirestoreService } from './academyFirestoreService';
 import { academyUtils, validators } from '@utils/academyValidation';
 import notificationService from './notificationService';
-import { getString } from '@utils/theme';
 
 class AcademyPaymentService {
   constructor() {

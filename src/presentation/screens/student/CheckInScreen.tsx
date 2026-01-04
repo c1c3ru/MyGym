@@ -19,7 +19,6 @@ import { academyFirestoreService } from '@infrastructure/services/academyFiresto
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
 import type { NavigationProp } from '@react-navigation/native';
-import { getString } from '@utils/theme';
 
 interface CheckInScreenProps {
   navigation: NavigationProp<any>;
@@ -393,7 +392,7 @@ const styles = StyleSheet.create({
   },
   todayTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
     marginBottom: SPACING.xs,
   },
   todaySubtitle: {
@@ -411,7 +410,7 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
     marginLeft: SPACING.sm,
   },
   classItem: {
@@ -429,7 +428,7 @@ const styles = StyleSheet.create({
   },
   className: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semibold as const,
+    fontWeight: FONT_WEIGHT.semibold,
     marginBottom: SPACING.xs,
   },
   classModality: {
@@ -460,7 +459,7 @@ const styles = StyleSheet.create({
   },
   historyTitle: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.medium as const,
+    fontWeight: FONT_WEIGHT.medium,
     marginBottom: 2,
   },
   historyDate: {
@@ -473,7 +472,7 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semibold as const,
+    fontWeight: FONT_WEIGHT.semibold,
     color: COLORS.gray[500],
     marginTop: SPACING.md,
   },

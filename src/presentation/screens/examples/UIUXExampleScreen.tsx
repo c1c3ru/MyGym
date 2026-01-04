@@ -1,4 +1,3 @@
-import { getString } from '@utils/theme';
 /**
  * UIUXExampleScreen - Tela de exemplo demonstrando as melhorias de UI/UX
  * 
@@ -320,7 +319,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: FONT_SIZE.xxl,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
     color: COLORS.text.primary,
     marginBottom: SPACING.xs,
   },
@@ -337,7 +336,7 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.semibold as const,
+    fontWeight: FONT_WEIGHT.semibold,
     color: COLORS.text.primary,
     marginBottom: SPACING.xs,
   },
@@ -362,7 +361,7 @@ const styles = StyleSheet.create({
   tokenLabel: {
     color: COLORS.white,
     fontSize: FONT_SIZE.xs,
-    fontWeight: FONT_WEIGHT.semibold as const,
+    fontWeight: FONT_WEIGHT.semibold,
   },
   errorMessage: {
     marginBottom: SPACING.md,
@@ -380,7 +379,7 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semibold as const,
+    fontWeight: FONT_WEIGHT.semibold,
     color: COLORS.text.primary,
     marginBottom: SPACING.xs,
   },

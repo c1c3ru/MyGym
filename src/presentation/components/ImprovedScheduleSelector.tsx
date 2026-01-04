@@ -12,7 +12,6 @@ import {
 import { Calendar } from 'react-native-calendars';
 import { useTheme } from '@contexts/ThemeContext';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getString } from '@utils/theme';
 import {
     createEmptySchedule,
     DAY_NAMES,

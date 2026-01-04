@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import {
-import { getString } from '@utils/theme';
   View,
   StyleSheet,
   ScrollView,
@@ -462,13 +461,13 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: FONT_SIZE.xxl,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
     marginBottom: 20,
     textAlign: 'center',
   },
   sectionTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
     marginTop: 20,
     marginBottom: SPACING.base,
     color: COLORS.text.primary,
@@ -478,7 +477,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.medium as const,
+    fontWeight: FONT_WEIGHT.medium,
     marginBottom: SPACING.sm,
     color: COLORS.text.primary,
   },

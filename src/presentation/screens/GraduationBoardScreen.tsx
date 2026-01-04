@@ -6,7 +6,6 @@ import GraduationBoard from '@components/GraduationBoard';
 import LoadingSpinner from '@components/LoadingSpinner';
 import { useAuth } from '@contexts/AuthProvider';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getString } from '@utils/theme';
 
 interface Props {
   navigation: any;
@@ -335,7 +334,7 @@ const styles = StyleSheet.create({
     margin: SPACING.base,
     right: 0,
     bottom: 0,
-  } as const,
+  },
 });
 
 export default GraduationBoardScreen;

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { getString } from '@utils/theme';
 import {
   View,
   Text,
@@ -644,7 +643,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: FONT_SIZE.xl,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
     color: COLORS.white,
   },
   headerSubtitle: {
@@ -680,12 +679,12 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.sm,
     color: COLORS.text.secondary,
     textTransform: 'uppercase',
-    fontWeight: FONT_WEIGHT.medium as const,
+    fontWeight: FONT_WEIGHT.medium,
     letterSpacing: 0.5,
   },
   currentGraduationValue: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
     color: COLORS.text.primary,
     marginTop: 2,
   },
@@ -696,7 +695,7 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
     color: COLORS.text.primary,
     marginBottom: SPACING.base,
   },
@@ -705,7 +704,7 @@ const styles = StyleSheet.create({
   },
   selectionLabel: {
     fontSize: FONT_SIZE.base,
-    fontWeight: FONT_WEIGHT.medium as const,
+    fontWeight: FONT_WEIGHT.medium,
     color: COLORS.text.secondary,
     marginBottom: SPACING.sm,
   },
@@ -736,7 +735,7 @@ const styles = StyleSheet.create({
   },
   selectionButtonTextSelected: {
     color: COLORS.info[700],
-    fontWeight: FONT_WEIGHT.medium as const,
+    fontWeight: FONT_WEIGHT.medium,
   },
   selectionButtonTextDisabled: {
     color: COLORS.gray[500],
@@ -757,7 +756,7 @@ const styles = StyleSheet.create({
   },
   inputLabel: {
     fontSize: FONT_SIZE.base,
-    fontWeight: FONT_WEIGHT.medium as const,
+    fontWeight: FONT_WEIGHT.medium,
     color: COLORS.text.secondary,
     marginBottom: SPACING.sm,
   },
@@ -806,7 +805,7 @@ const styles = StyleSheet.create({
   },
   submitButtonLabel: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
   },
   cancelButton: {
     borderColor: COLORS.gray[500],
@@ -825,7 +824,7 @@ const styles = StyleSheet.create({
   },
   dialogTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
     color: COLORS.text.primary,
   },
   dialogContent: {

@@ -4,7 +4,6 @@ import { useNotification } from '@components/NotificationManager';
 import graduationBoardService from '@infrastructure/services/graduationBoardService';
 import graduationCalculationService from '@infrastructure/services/graduationCalculationService';
 import graduationNotificationService from '@infrastructure/services/graduationNotificationService';
-import { getString } from '@utils/theme';
 
 /**
  * Hook para gerenciar funcionalidades de graduação

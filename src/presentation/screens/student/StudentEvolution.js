@@ -16,7 +16,6 @@ import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
 import { firestoreService } from '@infrastructure/services/firestoreService';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getString } from '@utils/theme';
 
 const StudentEvolution = ({ navigation }) => {
   const { user, userProfile, academia } = useAuthFacade();

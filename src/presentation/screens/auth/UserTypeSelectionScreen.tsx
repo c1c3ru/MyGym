@@ -18,7 +18,6 @@ import { Ionicons } from '@expo/vector-icons';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, BORDER_WIDTH } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
-import { getString } from '@utils/theme';
 import { useTheme } from '@contexts/ThemeContext';
 import { NavigationProp, RouteProp } from '@react-navigation/native';
 import { UserType, UserProfile } from '@domain/auth/entities';

@@ -2,7 +2,6 @@ import React from 'react';
 import { View, StyleSheet, type StyleProp, type ViewStyle } from 'react-native';
 import { ActivityIndicator, Text } from 'react-native-paper';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getString } from '@utils/theme';
 
 type LoadingSpinnerProps = {
   size?: 'small' | 'large' | number;

@@ -5,7 +5,6 @@ import QRCode from 'react-native-qrcode-svg';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { COLORS, SPACING, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
-import { getString } from '@utils/theme';
 
 // Import do logo usando alias
 const logoIcon = require('@assets/icon.png');

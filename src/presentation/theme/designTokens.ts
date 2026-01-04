@@ -21,7 +21,7 @@ export const SPACING = {
     xxl: 40,
     xxxl: 48,
     huge: 64,
-} as const;
+};
 
 // ============================================
 // FONT SIZE - Tamanhos de fonte
@@ -38,7 +38,7 @@ export const FONT_SIZE = {
     xxxl: 32,
     huge: 40,
     display: 48,
-} as const;
+};
 
 // ============================================
 // FONT WEIGHT - Pesos de fonte
@@ -50,7 +50,7 @@ export const FONT_WEIGHT = {
     semibold: '600',
     bold: '700',
     extrabold: '800',
-} as const;
+};
 
 // ============================================
 // LINE HEIGHT - Altura de linha
@@ -60,7 +60,7 @@ export const LINE_HEIGHT = {
     normal: 1.5,
     relaxed: 1.75,
     loose: 2,
-} as const;
+};
 
 // ============================================
 // BORDER RADIUS - Raios de borda
@@ -75,7 +75,7 @@ export const BORDER_RADIUS = {
     xl: 20,
     xxl: 24,
     full: 9999,
-} as const;
+};
 
 // ============================================
 // BORDER WIDTH - Larguras de borda (WCAG AA compliant)
@@ -87,7 +87,7 @@ export const BORDER_WIDTH = {
     thick: 3,       // Para elementos que precisam destaque
     heavy: 4,       // Para elementos críticos
     accessible: 2,  // Mínimo recomendado para acessibilidade
-} as const;
+};
 
 // ============================================
 // ELEVATION - Elevações (sombras)
@@ -142,7 +142,7 @@ export const ELEVATION = {
         shadowRadius: 24,
         elevation: 15,
     },
-} as const;
+};
 
 // ============================================
 // COLORS - Paleta de cores
@@ -481,7 +481,7 @@ export const COLORS = {
             red: '#F44336',         // Faixa vermelha (coral)
         },
     },
-} as const;
+};
 
 // ============================================
 // OPACITY - Níveis de opacidade
@@ -495,7 +495,7 @@ export const OPACITY = {
     strong: 0.7,
     heavy: 0.9,
     opaque: 1,
-} as const;
+};
 
 // ============================================
 // ANIMATION - Durações e easings
@@ -516,7 +516,7 @@ export const ANIMATION = {
         easeInOut: 'ease-in-out',
         spring: 'cubic-bezier(0.68, -0.55, 0.265, 1.55)',
     },
-} as const;
+};
 
 // ============================================
 // Z-INDEX - Camadas de profundidade
@@ -532,7 +532,7 @@ export const Z_INDEX = {
     tooltip: 1070,
     notification: 1080,
     max: 9999,
-} as const;
+};
 
 // ============================================
 // ICON SIZE - Tamanhos de ícones
@@ -546,7 +546,7 @@ export const ICON_SIZE = {
     xl: 40,
     xxl: 48,
     huge: 64,
-} as const;
+};
 
 // ============================================
 // BREAKPOINTS - Pontos de quebra responsivos
@@ -558,7 +558,7 @@ export const BREAKPOINTS = {
     lg: 992,
     xl: 1200,
     xxl: 1400,
-} as const;
+};
 
 // ============================================
 // CONTAINER - Larguras máximas de container
@@ -570,7 +570,7 @@ export const CONTAINER = {
     lg: 1140,
     xl: 1320,
     fluid: '100%',
-} as const;
+};
 
 // ============================================
 // TRANSITIONS - Transições pré-definidas
@@ -581,7 +581,7 @@ export const TRANSITIONS = {
     transform: `transform ${ANIMATION.duration.normal}ms ${ANIMATION.easing.spring}`,
     color: `color ${ANIMATION.duration.fast}ms ${ANIMATION.easing.easeInOut}`,
     background: `background-color ${ANIMATION.duration.fast}ms ${ANIMATION.easing.easeInOut}`,
-} as const;
+};
 
 // ============================================
 // UTILITIES - Funções utilitárias
@@ -690,7 +690,7 @@ export const DARK_THEME = {
     border: COLORS.border,
     overlay: COLORS.overlay,
     gradients: COLORS.gradients,
-} as const;
+};
 
 // Importação dinâmica compatível com TS
 let _lightTheme: any = null;

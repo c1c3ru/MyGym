@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, ScrollView, Alert } from 'react-native';
 import {
-import { getString } from '@utils/theme';
   Card,
   Text,
   Button,

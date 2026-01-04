@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import {
-import { getString } from '@utils/theme';
   View,
   StyleSheet,
   ScrollView,
@@ -448,7 +447,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: FONT_SIZE.xxl,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
     color: COLORS.text.primary,
   },
   subtitle: {
@@ -462,7 +461,7 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
     marginBottom: SPACING.base,
     color: COLORS.text.primary,
   },
@@ -493,7 +492,7 @@ const styles = StyleSheet.create({
   },
   statNumber: {
     fontSize: FONT_SIZE.xl,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
     color: COLORS.text.primary,
   },
   statLabel: {
@@ -552,7 +551,7 @@ const styles = StyleSheet.create({
   activityAction: {
     fontSize: FONT_SIZE.base,
     color: COLORS.text.primary,
-    fontWeight: FONT_WEIGHT.medium as const,
+    fontWeight: FONT_WEIGHT.medium,
   },
   activityTime: {
     fontSize: FONT_SIZE.sm,

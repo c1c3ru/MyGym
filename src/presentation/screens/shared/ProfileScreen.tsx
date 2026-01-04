@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView, Alert, TouchableOpacity, Dimensions } from 'react-native';
 import {
-import { getString } from '@utils/theme';
   Card,
   Button,
   Avatar,
@@ -807,7 +806,7 @@ const styles = StyleSheet.create({
     color: COLORS.text.primary,
   },
   warningDays: {
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
     color: COLORS.warning[500],
   },
   warningDetails: {
@@ -875,7 +874,7 @@ const styles = StyleSheet.create({
   },
   dayText: {
     fontSize: FONT_SIZE.sm,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
     color: COLORS.text.secondary,
   },
   noTrainingText: {
@@ -902,7 +901,7 @@ const styles = StyleSheet.create({
   },
   selectedYear: {
     fontSize: FONT_SIZE.xxl,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
     marginHorizontal: 20,
     color: COLORS.info[500],
   },
@@ -931,7 +930,7 @@ const styles = StyleSheet.create({
   },
   monthName: {
     fontSize: FONT_SIZE.base,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
     color: COLORS.text.primary,
   },
   monthChip: {
@@ -961,7 +960,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
     marginBottom: SPACING.sm,
   },
 });

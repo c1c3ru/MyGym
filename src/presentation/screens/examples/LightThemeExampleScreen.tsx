@@ -9,7 +9,6 @@ import { LIGHT_THEME, ACADEMY_LIGHT_COLORS, LIGHT_TYPOGRAPHY } from '@presentati
 import { COLORS, SPACING, FONT_SIZE, FONT_WEIGHT, BORDER_RADIUS, ELEVATION } from '@presentation/theme/designTokens';
 import { getAuthGradient } from '@presentation/theme/authTheme';
 import type { NavigationProp } from '@react-navigation/native';
-import { getString } from '@utils/theme';
 
 interface LightThemeExampleScreenProps {
   navigation: NavigationProp<any>;
@@ -479,7 +478,7 @@ const styles = StyleSheet.create({
   },
   contactValue: {
     ...Typography.body1,
-    fontWeight: FONT_WEIGHT.medium as const,
+    fontWeight: FONT_WEIGHT.medium,
   },
   contactDivider: {
     backgroundColor: LIGHT_THEME.border.light,

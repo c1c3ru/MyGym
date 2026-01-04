@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import { getString } from '@utils/theme';
 import {
     IconButton,
     Badge,

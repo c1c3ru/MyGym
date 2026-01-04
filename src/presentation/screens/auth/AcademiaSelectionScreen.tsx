@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, ScrollView, Alert, Linking, StyleSheet } from 'react-native';
 import {
-import { getString } from '@utils/theme';
   Text,
   Card,
   Button,
@@ -848,7 +847,7 @@ const styles = StyleSheet.create({
   } as any,
   title: {
     color: COLORS.white,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
     textAlign: 'center',
   },
   subtitle: {
@@ -870,7 +869,7 @@ const styles = StyleSheet.create({
     marginTop: SPACING.sm,
   },
   sectionTitle: {
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
     marginBottom: SPACING.sm,
   },
   sectionDescription: {
@@ -922,14 +921,14 @@ const styles = StyleSheet.create({
     marginTop: SPACING.sm,
   },
   resultsTitle: {
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
     marginBottom: SPACING.md,
   },
   academiaCard: {
     marginBottom: SPACING.md,
   },
   academiaName: {
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
     marginBottom: SPACING.sm,
   },
   academiaAddress: {
@@ -991,7 +990,7 @@ const styles = StyleSheet.create({
   modalTitle: {
     textAlign: 'center',
     marginBottom: SPACING.base,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
   },
   modalDescription: {
     textAlign: 'center',

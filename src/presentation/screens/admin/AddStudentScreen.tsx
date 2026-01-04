@@ -39,7 +39,6 @@ import cacheService, { CACHE_KEYS } from '@infrastructure/services/cacheService'
 import formValidator, { commonSchemas } from '@utils/formValidation';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
-import { getString } from '@utils/theme';
 
 const AddStudentScreen = ({ navigation, route }: any) => {
   const { currentTheme } = useThemeToggle();
@@ -649,13 +648,13 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: FONT_SIZE.xxl,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
     marginBottom: 20,
     textAlign: 'center',
   },
   sectionTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
     marginTop: 20,
     marginBottom: SPACING.base,
     color: COLORS.text.primary,
@@ -719,7 +718,7 @@ const styles = StyleSheet.create({
   selectedClassesInfo: {
     fontSize: FONT_SIZE.base,
     color: COLORS.info[700],
-    fontWeight: FONT_WEIGHT.medium as const,
+    fontWeight: FONT_WEIGHT.medium,
     flex: 1,
   },
   clearButton: {
@@ -751,13 +750,13 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.medium as const,
+    fontWeight: FONT_WEIGHT.medium,
     marginBottom: SPACING.sm,
     color: COLORS.text.primary,
   },
   fieldLabel: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semibold as const,
+    fontWeight: FONT_WEIGHT.semibold,
     marginBottom: SPACING.sm,
     marginTop: SPACING.sm,
     color: COLORS.text.primary,

@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT , BORDER_WIDTH } from '@presentation/theme/designTokens';
-import { getString } from '@utils/theme';
 
 const styles = StyleSheet.create({
   // Base button styles

@@ -24,7 +24,6 @@ import { firestoreService } from '@infrastructure/services/firestoreService';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { getAuthGradient } from '@presentation/theme/authTheme';
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
-import { getString } from '@utils/theme';
 
 interface Injury {
   id?: string;
@@ -384,7 +383,7 @@ const InjuryScreen = ({ navigation, route }: InjuryScreenProps) => {
                   <RadioButton.Item
                     label={level.label}
                     value={level.value}
-                    labelStyle={{ color: level.color, fontWeight: FONT_WEIGHT.bold as const }}
+                    labelStyle={{ color: level.color, fontWeight: FONT_WEIGHT.bold }}
                   />
                   <Text style={styles.radioDescription}>{level.description}</Text>
                 </View>
@@ -404,7 +403,7 @@ const InjuryScreen = ({ navigation, route }: InjuryScreenProps) => {
                   <RadioButton.Item
                     label={option.label}
                     value={option.value}
-                    labelStyle={{ color: option.color, fontWeight: FONT_WEIGHT.bold as const }}
+                    labelStyle={{ color: option.color, fontWeight: FONT_WEIGHT.bold }}
                   />
                   <Text style={styles.radioDescription}>{option.description}</Text>
                 </View>
@@ -468,14 +467,14 @@ const InjuryScreen = ({ navigation, route }: InjuryScreenProps) => {
                 <Chip
                   mode="flat"
                   style={[styles.summaryChip, { backgroundColor: getSeverityColor(formData.severity) }]}
-                  textStyle={{ color: COLORS.white, fontWeight: FONT_WEIGHT.bold as const }}
+                  textStyle={{ color: COLORS.white, fontWeight: FONT_WEIGHT.bold }}
                 >
                   {severityLevels.find(s => s.value === formData.severity)?.label}
                 </Chip>
                 <Chip
                   mode="flat"
                   style={[styles.summaryChip, { backgroundColor: getStatusColor(formData.status) }]}
-                  textStyle={{ color: COLORS.white, fontWeight: FONT_WEIGHT.bold as const }}
+                  textStyle={{ color: COLORS.white, fontWeight: FONT_WEIGHT.bold }}
                 >
                   {statusOptions.find(s => s.value === formData.status)?.label}
                 </Chip>
@@ -539,7 +538,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: FONT_SIZE.xxl,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
     marginTop: SPACING.md,
     marginBottom: SPACING.sm,
     textAlign: 'center',
@@ -552,7 +551,7 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
     marginTop: SPACING.base,
     marginBottom: SPACING.md,
     color: COLORS.text.primary,
@@ -590,7 +589,7 @@ const styles = StyleSheet.create({
   },
   summaryTitle: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
     marginLeft: SPACING.sm,
     color: COLORS.info[700],
   },

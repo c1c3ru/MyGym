@@ -17,7 +17,6 @@ import { createEmptySchedule, isValidSchedule, scheduleToDisplayString } from '@
 // import { notifyNewClass } from '@infrastructure/services/scheduleNotificationService';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, BORDER_WIDTH } from '@presentation/theme/designTokens';
 import { getAuthGradient } from '@presentation/theme/authTheme';
-import { getString } from '@utils/theme';
 import type { NavigationProp } from '@react-navigation/native';
 
 
@@ -585,7 +584,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: FONT_SIZE.xxl,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
     marginBottom: 20,
     textAlign: 'center',
   },
@@ -594,7 +593,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.medium as const,
+    fontWeight: FONT_WEIGHT.medium,
     marginBottom: SPACING.sm,
     color: COLORS.text.primary,
   },

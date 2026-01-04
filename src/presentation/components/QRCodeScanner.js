@@ -3,7 +3,6 @@ import { View, Alert, TextInput } from 'react-native';
 import { Text, Button, Card } from 'react-native-paper';
 import { useTheme } from '@contexts/ThemeContext';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT , BORDER_WIDTH } from '@presentation/theme/designTokens';
-import { getString } from '@utils/theme';
 
 export default function QRCodeScanner({ onScan, onCancel }) {
   const [manualCode, setManualCode] = useState('');

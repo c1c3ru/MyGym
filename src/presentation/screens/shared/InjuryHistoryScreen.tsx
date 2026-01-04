@@ -21,7 +21,6 @@ import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@present
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
 import { getAuthGradient } from '@presentation/theme/authTheme';
 import type { NavigationProp } from '@react-navigation/native';
-import { getString } from '@utils/theme';
 
 interface InjuryHistoryScreenProps {
   navigation: NavigationProp<any>;
@@ -368,7 +367,7 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
     marginLeft: SPACING.sm,
     flex: 1,
   },
@@ -388,7 +387,7 @@ const styles = StyleSheet.create({
   },
   statNumber: {
     fontSize: FONT_SIZE.xxl,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
     color: COLORS.text.primary,
   },
   statLabel: {
@@ -447,7 +446,7 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
     color: COLORS.text.secondary,
     marginTop: SPACING.base,
     textAlign: 'center',

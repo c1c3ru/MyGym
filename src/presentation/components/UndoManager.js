@@ -8,7 +8,6 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
 import { Snackbar, Button } from 'react-native-paper';
 import { COLORS, SPACING } from '@presentation/theme/designTokens';
-import { getString } from '@utils/theme';
 
 // ============================================
 // CONTEXT

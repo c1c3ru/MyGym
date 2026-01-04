@@ -1,4 +1,3 @@
-import { getString } from '@utils/theme';
 // Import design tokens
 import { COLORS } from '@presentation/theme/designTokens';
 import { LIGHT_THEME } from '@presentation/theme/lightTheme';

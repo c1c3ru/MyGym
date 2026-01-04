@@ -3,7 +3,6 @@ import { View, StyleSheet, TextInputProps as RNTextInputProps } from 'react-nati
 import { TextInput, HelperText } from 'react-native-paper';
 import { formatters } from '@utils/validation';
 import { COLORS, SPACING, FONT_SIZE } from '@presentation/theme/designTokens';
-import { getString } from '@utils/theme';
 
 /**
  * Propriedades para o componente FormInput

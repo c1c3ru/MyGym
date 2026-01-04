@@ -26,7 +26,6 @@ import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import CheckInSkeleton from '@components/skeletons/CheckInSkeleton';
 import { EnhancedFlashList } from '@components/EnhancedFlashList';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getString } from '@utils/theme';
 
 const CheckIn = ({ navigation }) => {
   const { user, userProfile } = useAuthFacade();

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView, Alert, RefreshControl } from 'react-native';
 import {
-import { getString } from '@utils/theme';
   Card,
   Text,
   Button,
@@ -252,7 +251,7 @@ const PaymentManagementScreen: React.FC<PaymentManagementScreenProps> = ({ navig
                 <Chip
                   mode="flat"
                   style={[styles.statusChip, { backgroundColor: getPaymentStatusColor(currentPlan.status) }]}
-                  textStyle={{ color: COLORS.white, fontWeight: FONT_WEIGHT.bold as const }}
+                  textStyle={{ color: COLORS.white, fontWeight: FONT_WEIGHT.bold }}
                 >
                   {getPaymentStatusText(currentPlan.status)}
                 </Chip>
@@ -475,7 +474,7 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
     marginLeft: SPACING.sm,
     flex: 1,
   },
@@ -487,12 +486,12 @@ const styles = StyleSheet.create({
   },
   planName: {
     fontSize: FONT_SIZE.xl,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
     marginBottom: SPACING.xs,
   },
   planValue: {
     fontSize: FONT_SIZE.xxl,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
     color: COLORS.primary[500],
     marginBottom: SPACING.md,
   },
@@ -508,7 +507,7 @@ const styles = StyleSheet.create({
   },
   dueDateValue: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semibold as const,
+    fontWeight: FONT_WEIGHT.semibold,
   },
   daysLeft: {
     fontSize: FONT_SIZE.base,
@@ -529,12 +528,12 @@ const styles = StyleSheet.create({
   },
   paymentPlan: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semibold as const,
+    fontWeight: FONT_WEIGHT.semibold,
     marginBottom: SPACING.xs,
   },
   paymentAmount: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
     color: COLORS.warning[500],
     marginBottom: SPACING.xs,
   },
@@ -556,12 +555,12 @@ const styles = StyleSheet.create({
   },
   historyPlan: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.medium as const,
+    fontWeight: FONT_WEIGHT.medium,
     marginBottom: SPACING.xs,
   },
   historyAmount: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
     marginBottom: SPACING.xs,
   },
   historyDate: {
@@ -577,7 +576,7 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semibold as const,
+    fontWeight: FONT_WEIGHT.semibold,
     color: COLORS.gray[500],
     marginTop: SPACING.md,
   },
@@ -600,7 +599,7 @@ const styles = StyleSheet.create({
   },
   modalTitle: {
     fontSize: FONT_SIZE.xl,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
     textAlign: 'center',
     padding: SPACING.lg,
     borderBottomWidth: 1,
@@ -625,12 +624,12 @@ const styles = StyleSheet.create({
   },
   planOptionName: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semibold as const,
+    fontWeight: FONT_WEIGHT.semibold,
     marginBottom: SPACING.xs,
   },
   planOptionValue: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
     color: COLORS.primary[500],
     marginBottom: SPACING.xs,
   },
@@ -646,7 +645,7 @@ const styles = StyleSheet.create({
   },
   dueDateSectionTitle: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semibold as const,
+    fontWeight: FONT_WEIGHT.semibold,
     marginBottom: SPACING.md,
   },
   dateButton: {

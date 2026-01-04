@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView, Alert } from 'react-native';
 import {
-import { getString } from '@utils/theme';
   Card,
   Text,
   Button,
@@ -364,7 +363,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }: PhysicalEvaluationScree
                   <Chip
                     mode="flat"
                     style={[styles.imcChip, { backgroundColor: getIMCColor(imcClassification) }]}
-                    textStyle={{ color: COLORS.white, fontWeight: FONT_WEIGHT.bold as const }}
+                    textStyle={{ color: COLORS.white, fontWeight: FONT_WEIGHT.bold }}
                   >
                     {imcClassification}
                   </Chip>
@@ -513,7 +512,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: FONT_SIZE.xxl,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
     marginTop: SPACING.md,
     marginBottom: SPACING.sm,
     textAlign: 'center',
@@ -526,7 +525,7 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
     marginTop: SPACING.base,
     marginBottom: SPACING.md,
     color: COLORS.text.primary,
@@ -559,7 +558,7 @@ const styles = StyleSheet.create({
   },
   imcTitle: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
     marginLeft: SPACING.sm,
     color: COLORS.info[700],
   },
@@ -570,7 +569,7 @@ const styles = StyleSheet.create({
   },
   imcValue: {
     fontSize: FONT_SIZE.xxxl,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
     color: COLORS.info[700],
   },
   imcChip: {

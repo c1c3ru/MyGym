@@ -21,7 +21,6 @@ import { ResponsiveUtils } from '@utils/animations';
 import { useTheme } from '@contexts/ThemeContext';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { getAuthGradient, getAuthCardColors } from '@presentation/theme/authTheme';
-import { getString } from '@utils/theme';
 import type { AuthScreenProps, ForgotPasswordFormErrors, SnackbarState } from './types';
 
 /**

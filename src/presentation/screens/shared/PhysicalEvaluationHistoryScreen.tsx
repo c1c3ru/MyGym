@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView, RefreshControl, Dimensions } from 'react-native';
 import {
-import { getString } from '@utils/theme';
   Card,
   Text,
   Button,
@@ -218,7 +217,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }: PhysicalEvaluationHisto
                 <Chip
                   mode="flat"
                   style={[styles.imcChip, { backgroundColor: getIMCColor(latestEvaluation.imcClassification) }]}
-                  textStyle={{ color: COLORS.white, fontWeight: FONT_WEIGHT.bold as const }}
+                  textStyle={{ color: COLORS.white, fontWeight: FONT_WEIGHT.bold }}
                 >
                   {latestEvaluation.imcClassification}
                 </Chip>
@@ -405,7 +404,7 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
     marginLeft: SPACING.sm,
     flex: 1,
   },
@@ -433,7 +432,7 @@ const styles = StyleSheet.create({
   },
   statValue: {
     fontSize: FONT_SIZE.xl,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
     color: COLORS.text.primary,
   },
   statLabel: {
@@ -464,7 +463,7 @@ const styles = StyleSheet.create({
   },
   progressValue: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
   },
   metricsContainer: {
     marginBottom: SPACING.base,
@@ -482,7 +481,7 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.bold as const,
+    fontWeight: FONT_WEIGHT.bold,
     color: COLORS.text.secondary,
     marginTop: SPACING.base,
     textAlign: 'center',

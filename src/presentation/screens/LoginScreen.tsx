@@ -30,7 +30,6 @@ import { rateLimitService } from '@infrastructure/services/rateLimitService';
 import LoginSkeleton from '@components/skeletons/LoginSkeleton';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { getAuthGradient, getAuthCardColors } from '@presentation/theme/authTheme';
-import { getString } from '@utils/theme';
 import formValidator from '@shared/utils/formValidation';
 import type { AuthScreenProps, LoginFormErrors, SnackbarState } from './auth/types';
 

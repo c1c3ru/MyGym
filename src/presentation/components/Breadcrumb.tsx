@@ -10,7 +10,6 @@ import { View, StyleSheet, ScrollView, TouchableOpacity, StyleProp, ViewStyle } 
 import { Text } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getString } from '@utils/theme';
 
 // ============================================
 // BREADCRUMB ITEM
