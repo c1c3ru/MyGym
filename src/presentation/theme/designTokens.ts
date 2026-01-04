@@ -1,4 +1,3 @@
-import { COLORS, SPACING, FONT_SIZE, FONT_WEIGHT, BORDER_RADIUS, ELEVATION } from '@presentation/theme/designTokens';
 /**
  * Design Tokens - MyGym
  * Sistema centralizado de tokens de design para consistência visual
@@ -21,7 +20,7 @@ export const SPACING = {
     xxl: 40,
     xxxl: 48,
     huge: 64,
-};
+} as const;
 
 // ============================================
 // FONT SIZE - Tamanhos de fonte
@@ -38,7 +37,7 @@ export const FONT_SIZE = {
     xxxl: 32,
     huge: 40,
     display: 48,
-};
+} as const;
 
 // ============================================
 // FONT WEIGHT - Pesos de fonte
@@ -50,7 +49,7 @@ export const FONT_WEIGHT = {
     semibold: '600',
     bold: '700',
     extrabold: '800',
-};
+} as const;
 
 // ============================================
 // LINE HEIGHT - Altura de linha
@@ -75,7 +74,7 @@ export const BORDER_RADIUS = {
     xl: 20,
     xxl: 24,
     full: 9999,
-};
+} as const;
 
 // ============================================
 // BORDER WIDTH - Larguras de borda (WCAG AA compliant)
@@ -87,7 +86,7 @@ export const BORDER_WIDTH = {
     thick: 3,       // Para elementos que precisam destaque
     heavy: 4,       // Para elementos críticos
     accessible: 2,  // Mínimo recomendado para acessibilidade
-};
+} as const;
 
 // ============================================
 // ELEVATION - Elevações (sombras)
@@ -142,7 +141,7 @@ export const ELEVATION = {
         shadowRadius: 24,
         elevation: 15,
     },
-};
+} as const;
 
 // ============================================
 // COLORS - Paleta de cores
