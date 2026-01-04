@@ -43,13 +43,13 @@ const CheckInScreen: React.FC<CheckInScreenProps> = ({ navigation }) => {
     const loadData = async () => {
       try {
         if (user?.id) {
-          const history = await academyFirestoreService.getCheckInHistory(user.id, academia?.id);
+          const history = await academyFirestoreService.getCheckInHistory(user.id, academia?.id) as CheckIn[];
           setCheckIns(history);
         }
 
         // Se academiaId for fornecida, buscar aulas
         if (academia?.id) {
-          const classes = await academyFirestoreService.getClasses(academia.id);
+          const classes = await academyFirestoreService.getClasses(academia.id) as ClassInfo[];
           setAvailableClasses(classes);
         }
       } catch (error) {
@@ -79,7 +79,7 @@ const CheckInScreen: React.FC<CheckInScreenProps> = ({ navigation }) => {
 
       // Atualizar histórico
       if (user?.id) {
-        const history = await academyFirestoreService.getCheckInHistory(user.id, academia?.id);
+        const history = await academyFirestoreService.getCheckInHistory(user.id, academia?.id) as CheckIn[];
         setCheckIns(history);
       }
     } catch (error) {
