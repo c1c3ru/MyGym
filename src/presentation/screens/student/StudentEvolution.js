@@ -139,12 +139,12 @@ const StudentEvolution = ({ navigation }) => {
             <View style={styles.statsGrid}>
               <Surface style={styles.statItem}>
                 <Text style={styles.statNumber}>{stats.totalGraduations}</Text>
-                <Text style={styles.statLabel}>Graduações</Text>
+                <Text style={styles.statLabel}>{getString('graduations')}</Text>
               </Surface>
 
               <Surface style={styles.statItem}>
                 <Text style={styles.statNumber}>{stats.modalities.length}</Text>
-                <Text style={styles.statLabel}>Modalidades</Text>
+                <Text style={styles.statLabel}>{getString('modalities')}</Text>
               </Surface>
 
               <Surface style={styles.statItem}>
@@ -311,16 +311,16 @@ const styles = StyleSheet.create({
   cardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   cardTitle: {
-    marginLeft: 8,
+    marginLeft: SPACING.sm,
     fontSize: FONT_SIZE.lg,
   },
   statsGrid: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   statItem: {
     alignItems: 'center',
@@ -352,7 +352,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   timelineItem: {
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   timelineContent: {
     backgroundColor: COLORS.white,
@@ -374,7 +374,7 @@ const styles = StyleSheet.create({
   graduationTitle: {
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.bold,
-    marginLeft: 8,
+    marginLeft: SPACING.sm,
   },
   graduationDate: {
     fontSize: FONT_SIZE.base,
@@ -404,7 +404,7 @@ const styles = StyleSheet.create({
   emptyText: {
     fontSize: FONT_SIZE.md,
     color: COLORS.text.secondary,
-    marginTop: 16,
+    marginTop: SPACING.base,
     textAlign: 'center',
   },
   emptySubtext: {
@@ -416,7 +416,7 @@ const styles = StyleSheet.create({
   modalitiesContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 8,
+    gap: SPACING.sm,
   },
   modalityChip: {
     marginBottom: SPACING.sm,

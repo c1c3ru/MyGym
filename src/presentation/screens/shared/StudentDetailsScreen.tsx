@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import {
+import { getString } from '@utils/theme';
   View,
   StyleSheet,
   ScrollView,
@@ -374,7 +375,7 @@ const StudentDetailsScreen: React.FC<StudentDetailsScreenProps> = ({ route, navi
                     </View>
                     <Text style={{
                       color: getPaymentStatusColor(payment.status),
-                      fontWeight: '700' as const
+                      fontWeight: FONT_WEIGHT.bold as const
                     }}>
                       {getPaymentStatusText(payment.status)}
                     </Text>
@@ -468,7 +469,7 @@ const styles = StyleSheet.create({
   },
   avatarText: {
     color: COLORS.white,
-    fontWeight: '600' as const,
+    fontWeight: FONT_WEIGHT.semibold as const,
   },
   studentInfo: {
     marginLeft: SPACING.base,
@@ -476,7 +477,7 @@ const styles = StyleSheet.create({
   },
   studentName: {
     fontSize: FONT_SIZE.xl,
-    fontWeight: '600' as const,
+    fontWeight: FONT_WEIGHT.semibold as const,
     color: COLORS.text.primary,
   },
   studentEmail: {
@@ -539,7 +540,7 @@ const styles = StyleSheet.create({
   },
   listTitle: {
     fontSize: FONT_SIZE.md,
-    fontWeight: '500' as const,
+    fontWeight: FONT_WEIGHT.medium as const,
     color: COLORS.text.primary,
   },
   listSubtitle: {

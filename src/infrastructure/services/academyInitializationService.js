@@ -1,5 +1,6 @@
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from '@infrastructure/services/firebase';
+import { getString } from '@utils/theme';
 
 // Dados padrão para inicialização de academias
 const defaultModalities = [
@@ -20,7 +21,7 @@ const defaultModalities = [
     {
         name: "Muay Thai",
         description: "Arte marcial tailandesa conhecida como 'a arte dos oito membros'",
-        graduationLevels: ["Iniciante", "Básico", "Intermediário", "Avançado", "Instrutor", "Professor"],
+        graduationLevels: ["Iniciante", "Básico", "Intermediário", "Avançado", getString('instructor'), "Professor"],
         monthlyPrice: 130.00,
         isActive: true
     }

@@ -112,7 +112,7 @@ const OptimizedStudentCard = memo<OptimizedStudentCardProps>(({
                     </View>
 
                     <View style={styles.statColumn}>
-                        <Text style={styles.statLabel}>Pagamento</Text>
+                        <Text style={styles.statLabel}>{getString('payment')}</Text>
                         <Chip
                             mode="outlined"
                             style={[
@@ -131,7 +131,7 @@ const OptimizedStudentCard = memo<OptimizedStudentCardProps>(({
                     </View>
 
                     <View style={styles.statColumn}>
-                        <Text style={styles.statLabel}>Graduação</Text>
+                        <Text style={styles.statLabel}>{getString('graduation')}</Text>
                         <Text style={styles.graduationText} accessible={true}>
                             {student.currentGraduation || getString('beginner')}
                         </Text>
@@ -177,9 +177,7 @@ const OptimizedStudentCard = memo<OptimizedStudentCardProps>(({
                         size="small"
                         accessible={true}
                         accessibilityLabel="Editar dados do aluno"
-                    >
-                        Editar
-                    </ActionButton>
+                    >{getString('edit')}</ActionButton>
 
                     <ActionButton
                         mode="outlined"
@@ -190,9 +188,7 @@ const OptimizedStudentCard = memo<OptimizedStudentCardProps>(({
                         size="small"
                         accessible={true}
                         accessibilityLabel="Ver pagamentos do aluno"
-                    >
-                        Pagamentos
-                    </ActionButton>
+                    >{getString('payments')}</ActionButton>
                 </ActionButtonGroup>
 
                 <View style={styles.adminActions}>
@@ -228,7 +224,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'flex-start',
-        marginBottom: 16,
+        marginBottom: SPACING.base,
     },
     studentInfo: {
         flexDirection: 'row',
@@ -236,7 +232,7 @@ const styles = StyleSheet.create({
     },
     avatar: {
         backgroundColor: COLORS.info[500],
-        marginRight: 12,
+        marginRight: SPACING.md,
     },
     studentDetails: {
         flex: 1,

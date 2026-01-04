@@ -30,16 +30,16 @@ const styles = StyleSheet.create({
   // Sizes
   small: {
     paddingVertical: SPACING.sm,
-    paddingHorizontal: 16,
+    paddingHorizontal: SPACING.base,
     minHeight: 36,
   },
   medium: {
     paddingVertical: SPACING.md,
-    paddingHorizontal: 24,
+    paddingHorizontal: SPACING.lg,
     minHeight: 44,
   },
   large: {
-    paddingVertical: 16,
+    paddingVertical: SPACING.base,
     paddingHorizontal: 32,
     minHeight: 52,
   },

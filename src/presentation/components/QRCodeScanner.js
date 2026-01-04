@@ -52,18 +52,14 @@ export default function QRCodeScanner({ onScan, onCancel }) {
             mode="outlined" 
             onPress={onCancel}
             style={styles.actionButton}
-          >
-            Cancelar
-          </Button>
+          >{getString('cancel')}</Button>
           
           <Button 
             mode="contained" 
             onPress={handleManualSubmit}
             style={styles.actionButton}
             disabled={!manualCode.trim()}
-          >
-            Confirmar
-          </Button>
+          >{getString('confirm')}</Button>
         </View>
       </Card.Content>
     </Card>
@@ -80,7 +76,7 @@ const styles = {
   },
   title: {
     textAlign: 'center',
-    marginBottom: 16,
+    marginBottom: SPACING.base,
     color: COLORS.error[700],
   },
   description: {
@@ -100,7 +96,7 @@ const styles = {
   },
   actions: {
     flexDirection: 'row',
-    gap: 12,
+    gap: SPACING.md,
     width: '100%',
   },
   actionButton: {

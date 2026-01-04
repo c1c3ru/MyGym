@@ -8,7 +8,7 @@ import { COLORS, SPACING, BORDER_RADIUS } from '@presentation/theme/designTokens
  */
 const StudentDashboardSkeleton: React.FC = () => {
     return (
-        <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 24 }}>
+        <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: SPACING.lg }}>
             {/* Welcome Card Skeleton */}
             <View style={styles.welcomeCard}>
                 <View style={styles.welcomeContent}>
@@ -22,7 +22,7 @@ const StudentDashboardSkeleton: React.FC = () => {
 
             {/* Graduation Status Skeleton */}
             <View style={styles.cardContainer}>
-                <SkeletonLoader width="50%" height={20} style={{ marginBottom: 16 }} />
+                <SkeletonLoader width="50%" height={20} style={{ marginBottom: SPACING.base }} />
                 <View style={styles.graduationStatus}>
                     <SkeletonLoader width={100} height={32} borderRadius={16} style={{ marginBottom: SPACING.sm }} />
                     <SkeletonLoader width="70%" height={16} />
@@ -31,7 +31,7 @@ const StudentDashboardSkeleton: React.FC = () => {
 
             {/* Next Classes Skeleton */}
             <View style={styles.cardContainer}>
-                <SkeletonLoader width="40%" height={20} style={{ marginBottom: 16 }} />
+                <SkeletonLoader width="40%" height={20} style={{ marginBottom: SPACING.base }} />
 
                 {[1, 2].map((index) => (
                     <View key={index} style={styles.classItem}>
@@ -65,7 +65,7 @@ const StudentDashboardSkeleton: React.FC = () => {
 
             {/* Quick Actions Skeleton */}
             <View style={styles.cardContainer}>
-                <SkeletonLoader width="40%" height={20} style={{ marginBottom: 16 }} />
+                <SkeletonLoader width="40%" height={20} style={{ marginBottom: SPACING.base }} />
 
                 <View style={styles.quickActions}>
                     <SkeletonLoader width="45%" height={40} borderRadius={20} />
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     welcomeText: {
-        marginLeft: 16,
+        marginLeft: SPACING.base,
         flex: 1,
     },
     cardContainer: {
@@ -121,17 +121,17 @@ const styles = StyleSheet.create({
         paddingVertical: SPACING.sm,
     },
     classContent: {
-        marginLeft: 12,
+        marginLeft: SPACING.md,
         flex: 1,
     },
     sectionHeader: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: 16,
+        marginBottom: SPACING.base,
     },
     announcementItem: {
-        marginBottom: 16,
+        marginBottom: SPACING.base,
         paddingVertical: SPACING.md,
     },
     quickActions: {

@@ -109,7 +109,7 @@ export const ELEVATION = {
 };
 
 export const TYPOGRAPHY = {
-  h1: { fontSize: 32, fontWeight: FONT_WEIGHT.bold, lineHeight: 40 },
+  h1: { fontSize: FONT_SIZE.xxxl, fontWeight: FONT_WEIGHT.bold, lineHeight: 40 },
   h2: { fontSize: FONT_SIZE.xxl, fontWeight: FONT_WEIGHT.bold, lineHeight: 36 },
   h3: { fontSize: FONT_SIZE.xxl, fontWeight: FONT_WEIGHT.bold, lineHeight: 32 },
   h4: { fontSize: FONT_SIZE.xl, fontWeight: FONT_WEIGHT.semibold, lineHeight: 28 },

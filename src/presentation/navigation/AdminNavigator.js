@@ -80,7 +80,7 @@ const AdminTabNavigator = () => {
       })}
     >
       <Tab.Screen 
-        name="Dashboard" 
+        name=getString('dashboard') 
         component={AdminDashboard}
         options={{ title: getString('dashboard') }}
       />

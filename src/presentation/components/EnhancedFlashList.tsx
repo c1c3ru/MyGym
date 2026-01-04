@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
         padding: SPACING.base,
     },
     loadingText: {
-        marginLeft: 8,
+        marginLeft: SPACING.sm,
         color: COLORS.text.secondary,
         fontSize: FONT_SIZE.base,
     },

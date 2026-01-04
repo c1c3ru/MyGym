@@ -194,7 +194,7 @@ const ModalityPicker: React.FC<ModalityPickerProps> = ({
 
 const styles = StyleSheet.create({
     container: {
-        marginBottom: 16,
+        marginBottom: SPACING.base,
     },
     label: {
         marginBottom: SPACING.sm,
@@ -209,7 +209,7 @@ const styles = StyleSheet.create({
         padding: SPACING.base,
     },
     loadingText: {
-        marginLeft: 8,
+        marginLeft: SPACING.sm,
         color: COLORS.text.secondary,
     },
     scrollView: {
@@ -218,7 +218,7 @@ const styles = StyleSheet.create({
     },
     scrollContent: {
         paddingRight: 20,
-        paddingLeft: 4,
+        paddingLeft: SPACING.xs,
     },
     chipsContainer: {
         flexDirection: 'row',
@@ -247,7 +247,7 @@ const styles = StyleSheet.create({
     },
     selectedContainer: {
         marginTop: SPACING.md,
-        paddingTop: 12,
+        paddingTop: SPACING.md,
         borderTopWidth: 1,
         borderTopColor: COLORS.gray[300],
     },

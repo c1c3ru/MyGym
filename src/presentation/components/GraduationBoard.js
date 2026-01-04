@@ -306,7 +306,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 16,
+    paddingHorizontal: SPACING.base,
     paddingVertical: SPACING.md,
     backgroundColor: COLORS.card.default.background,
     elevation: 2,
@@ -320,7 +320,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    paddingHorizontal: 16,
+    paddingHorizontal: SPACING.base,
   },
   examCard: {
     marginBottom: SPACING.md,
@@ -365,7 +365,7 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   examDetailText: {
-    marginLeft: 8,
+    marginLeft: SPACING.sm,
     fontSize: FONT_SIZE.base,
     color: COLORS.text.primary,
   },
@@ -464,7 +464,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   emptyAction: {
-    marginTop: 16,
+    marginTop: SPACING.base,
   },
 });
 

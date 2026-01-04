@@ -269,7 +269,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: SPACING.base,
-    paddingBottom: 8,
+    paddingBottom: SPACING.sm,
   },
   modalTitle: {
     fontSize: FONT_SIZE.lg,
@@ -303,7 +303,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.gray[100],
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 12,
+    marginRight: SPACING.md,
   },
   notificationInfo: {
     flex: 1,
@@ -325,7 +325,7 @@ const styles = StyleSheet.create({
     height: 8,
     borderRadius: BORDER_RADIUS.sm,
     backgroundColor: COLORS.info[500],
-    marginLeft: 8,
+    marginLeft: SPACING.sm,
     marginTop: SPACING.xs,
   },
   notificationMessage: {
@@ -340,7 +340,7 @@ const styles = StyleSheet.create({
   },
   modalFooter: {
     padding: SPACING.base,
-    paddingTop: 8,
+    paddingTop: SPACING.sm,
   },
   refreshButton: {
     alignSelf: 'center',

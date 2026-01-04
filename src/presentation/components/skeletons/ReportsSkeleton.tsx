@@ -8,7 +8,7 @@ import { COLORS, SPACING, BORDER_RADIUS } from '@presentation/theme/designTokens
  */
 const ReportsSkeleton: React.FC = () => {
     return (
-        <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 24 }}>
+        <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: SPACING.lg }}>
             {/* Header Skeleton */}
             <View style={styles.headerContainer}>
                 <SkeletonLoader width="60%" height={28} style={{ marginBottom: SPACING.sm }} />
@@ -17,7 +17,7 @@ const ReportsSkeleton: React.FC = () => {
 
             {/* Stats Card Skeleton */}
             <View style={styles.cardContainer}>
-                <SkeletonLoader width="50%" height={20} style={{ marginBottom: 16 }} />
+                <SkeletonLoader width="50%" height={20} style={{ marginBottom: SPACING.base }} />
 
                 <View style={styles.statsGrid}>
                     {[1, 2, 3, 4].map((index) => (
@@ -35,13 +35,13 @@ const ReportsSkeleton: React.FC = () => {
 
             {/* Revenue Chart Skeleton */}
             <View style={styles.cardContainer}>
-                <SkeletonLoader width="40%" height={20} style={{ marginBottom: 16 }} />
+                <SkeletonLoader width="40%" height={20} style={{ marginBottom: SPACING.base }} />
                 <SkeletonLoader width="100%" height={200} borderRadius={8} />
             </View>
 
             {/* Top Classes Skeleton */}
             <View style={styles.cardContainer}>
-                <SkeletonLoader width="45%" height={20} style={{ marginBottom: 16 }} />
+                <SkeletonLoader width="45%" height={20} style={{ marginBottom: SPACING.base }} />
 
                 {[1, 2, 3].map((index) => (
                     <View key={index} style={styles.listItem}>
@@ -57,7 +57,7 @@ const ReportsSkeleton: React.FC = () => {
 
             {/* Recent Activities Skeleton */}
             <View style={styles.cardContainer}>
-                <SkeletonLoader width="50%" height={20} style={{ marginBottom: 16 }} />
+                <SkeletonLoader width="50%" height={20} style={{ marginBottom: SPACING.base }} />
 
                 {[1, 2, 3, 4].map((index) => (
                     <View key={index} style={styles.activityItem}>
@@ -72,7 +72,7 @@ const ReportsSkeleton: React.FC = () => {
 
             {/* Action Buttons Skeleton */}
             <View style={styles.cardContainer}>
-                <SkeletonLoader width="30%" height={20} style={{ marginBottom: 16 }} />
+                <SkeletonLoader width="30%" height={20} style={{ marginBottom: SPACING.base }} />
 
                 <View style={styles.actionsContainer}>
                     <SkeletonLoader width="48%" height={40} borderRadius={20} />
@@ -113,13 +113,13 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         width: '48%',
-        marginBottom: 16,
+        marginBottom: SPACING.base,
         padding: SPACING.md,
         backgroundColor: COLORS.background.light,
         borderRadius: BORDER_RADIUS.md,
     },
     statContent: {
-        marginLeft: 12,
+        marginLeft: SPACING.md,
         flex: 1,
     },
     listItem: {
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
         paddingVertical: SPACING.sm,
     },
     listItemContent: {
-        marginLeft: 12,
+        marginLeft: SPACING.md,
         flex: 1,
     },
     activityItem: {
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
         marginBottom: SPACING.md,
     },
     activityContent: {
-        marginLeft: 12,
+        marginLeft: SPACING.md,
         flex: 1,
     },
     actionsContainer: {

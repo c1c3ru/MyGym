@@ -234,16 +234,16 @@ const styles = StyleSheet.create({
     cardHeader: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: 16,
+        marginBottom: SPACING.base,
     },
     cardInfo: {
         flex: 1,
-        marginLeft: 12,
+        marginLeft: SPACING.md,
     },
     cardStats: {
         flexDirection: 'row',
         justifyContent: 'space-around',
-        marginBottom: 16,
+        marginBottom: SPACING.base,
     },
     statItem: {
         alignItems: 'center',
@@ -251,7 +251,7 @@ const styles = StyleSheet.create({
     cardActions: {
         flexDirection: 'row',
         justifyContent: 'space-around',
-        paddingTop: 12,
+        paddingTop: SPACING.md,
         borderTopWidth: 1,
         borderTopColor: COLORS.gray[100],
     },
@@ -290,7 +290,7 @@ const styles = StyleSheet.create({
     },
     scheduleInfo: {
         flex: 1,
-        marginLeft: 12,
+        marginLeft: SPACING.md,
     },
     contentContainer: {
         padding: SPACING.base,

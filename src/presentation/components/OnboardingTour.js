@@ -422,9 +422,7 @@ const OnboardingTooltip = ({
                 mode="text"
                 onPress={onPrevious}
                 accessibilityLabel="Passo anterior"
-              >
-                Anterior
-              </Button>
+              >{getString('previous')}</Button>
             )}
             <View style={styles.spacer} />
             <Button

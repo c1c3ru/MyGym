@@ -251,7 +251,7 @@ const AcademyOnboardingScreen = () => {
               disabled={creatingAcademy}
             />
             <TextInput
-              label="Descrição"
+              label={getString('description')}
               value={academyData.description}
               onChangeText={(text) => setAcademyData(prev => ({ ...prev, description: text }))}
               mode="outlined"
@@ -261,7 +261,7 @@ const AcademyOnboardingScreen = () => {
               disabled={creatingAcademy}
             />
             <TextInput
-              label="Endereço"
+              label={getString('address')}
               value={academyData.address}
               onChangeText={(text) => setAcademyData(prev => ({ ...prev, address: text }))}
               mode="outlined"
@@ -269,7 +269,7 @@ const AcademyOnboardingScreen = () => {
               disabled={creatingAcademy}
             />
             <TextInput
-              label="Telefone"
+              label={getString('phone')}
               value={academyData.phone}
               onChangeText={(text) => setAcademyData(prev => ({ ...prev, phone: text }))}
               mode="outlined"
@@ -294,9 +294,7 @@ const AcademyOnboardingScreen = () => {
                 resetCreateAcademyForm();
               }}
               disabled={creatingAcademy}
-            >
-              Cancelar
-            </Button>
+            >{getString('cancel')}</Button>
             <Button
               mode="contained"
               onPress={handleCreateAcademy}
@@ -342,9 +340,7 @@ const AcademyOnboardingScreen = () => {
                 resetInviteForm();
               }}
               disabled={usingInvite}
-            >
-              Cancelar
-            </Button>
+            >{getString('cancel')}</Button>
             <Button
               mode="contained"
               onPress={handleUseInvite}
@@ -376,7 +372,7 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.xxl,
     fontWeight: FONT_WEIGHT.bold,
     textAlign: 'center',
-    marginTop: 16,
+    marginTop: SPACING.base,
     color: COLORS.text.primary,
   },
   subtitle: {
@@ -390,7 +386,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   optionCard: {
-    marginBottom: 16,
+    marginBottom: SPACING.base,
     elevation: 4,
   },
   optionHeader: {
@@ -399,7 +395,7 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.md,
   },
   optionTitle: {
-    marginLeft: 12,
+    marginLeft: SPACING.md,
     fontSize: FONT_SIZE.xl,
     color: COLORS.text.primary,
   },
@@ -407,7 +403,7 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.base,
     color: COLORS.text.secondary,
     lineHeight: 20,
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   optionButton: {
     marginTop: SPACING.sm,
@@ -423,7 +419,7 @@ const styles = StyleSheet.create({
   infoTitle: {
     fontSize: FONT_SIZE.lg,
     color: COLORS.primary[800],
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   infoItem: {
     flexDirection: 'row',
@@ -431,7 +427,7 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.md,
   },
   infoChip: {
-    marginRight: 12,
+    marginRight: SPACING.md,
     backgroundColor: COLORS.primary[500],
   },
   infoText: {
@@ -447,7 +443,7 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.md,
   },
   inviteDescription: {
-    marginBottom: 16,
+    marginBottom: SPACING.base,
     color: COLORS.text.secondary,
   },
 });

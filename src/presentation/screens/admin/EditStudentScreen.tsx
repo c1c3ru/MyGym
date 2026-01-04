@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
+import { getString } from '@utils/theme';
   View,
   StyleSheet,
   ScrollView,
@@ -287,7 +288,7 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
             {(errors as any).email && <HelperText type="error">{(errors as any).email}</HelperText>}
 
             <TextInput
-              label="Telefone"
+              label={getString('phone')}
               value={formData.phone}
               onChangeText={(value: any) => updateFormData('phone', value)}
               mode="outlined"
@@ -376,11 +377,11 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
               >
                 <View style={styles.radioItem}>
                   <RadioButton value="active" />
-                  <Text style={styles.radioLabel}>Ativo</Text>
+                  <Text style={styles.radioLabel}>{getString('active')}</Text>
                 </View>
                 <View style={styles.radioItem}>
                   <RadioButton value="inactive" />
-                  <Text style={styles.radioLabel}>Inativo</Text>
+                  <Text style={styles.radioLabel}>{getString('inactive')}</Text>
                 </View>
                 <View style={styles.radioItem}>
                   <RadioButton value="suspended" />
@@ -396,18 +397,14 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
                 onPress={() => navigation.goBack()}
                 style={[styles.button, styles.cancelButton]}
                 disabled={loading}
-              >
-                Cancelar
-              </Button>
+              >{getString('cancel')}</Button>
               <Button
                 mode="contained"
                 onPress={handleSubmit}
                 style={[styles.button, styles.saveButton]}
                 loading={loading}
                 disabled={loading}
-              >
-                Salvar
-              </Button>
+              >{getString('save')}</Button>
             </View>
 
             {/* Botão Excluir */}
@@ -456,7 +453,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   loadingText: {
-    marginTop: 16,
+    marginTop: SPACING.base,
     fontSize: FONT_SIZE.md,
     color: COLORS.text.secondary,
   },
@@ -465,15 +462,15 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: FONT_SIZE.xxl,
-    fontWeight: '700' as const,
+    fontWeight: FONT_WEIGHT.bold as const,
     marginBottom: 20,
     textAlign: 'center',
   },
   sectionTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: '700' as const,
+    fontWeight: FONT_WEIGHT.bold as const,
     marginTop: 20,
-    marginBottom: 16,
+    marginBottom: SPACING.base,
     color: COLORS.text.primary,
   },
   input: {
@@ -481,13 +478,13 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: FONT_SIZE.md,
-    fontWeight: '500' as const,
+    fontWeight: FONT_WEIGHT.medium as const,
     marginBottom: SPACING.sm,
     color: COLORS.text.primary,
   },
   radioContainer: {
     marginBottom: 20,
-    marginTop: 16,
+    marginTop: SPACING.base,
   },
   radioItem: {
     flexDirection: 'row',
@@ -495,14 +492,14 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.sm,
   },
   radioLabel: {
-    marginLeft: 8,
+    marginLeft: SPACING.sm,
     fontSize: FONT_SIZE.md,
   },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 30,
-    gap: 16,
+    gap: SPACING.base,
   },
   button: {
     flex: 1,

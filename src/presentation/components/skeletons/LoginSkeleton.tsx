@@ -8,7 +8,7 @@ import { COLORS, SPACING, BORDER_RADIUS } from '@presentation/theme/designTokens
  */
 const LoginSkeleton: React.FC = () => {
     return (
-        <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 24 }}>
+        <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: SPACING.lg }}>
             {/* Header Skeleton */}
             <View style={styles.headerContainer}>
                 <SkeletonLoader width="80%" height={32} style={{ marginBottom: SPACING.sm }} />
@@ -30,10 +30,10 @@ const LoginSkeleton: React.FC = () => {
                 </View>
 
                 {/* Login Button */}
-                <SkeletonLoader width="100%" height={48} borderRadius={24} style={{ marginTop: 16 }} />
+                <SkeletonLoader width="100%" height={48} borderRadius={24} style={{ marginTop: SPACING.base }} />
 
                 {/* Forgot Password */}
-                <SkeletonLoader width="50%" height={16} style={{ marginTop: 16, alignSelf: 'center' }} />
+                <SkeletonLoader width="50%" height={16} style={{ marginTop: SPACING.base, alignSelf: 'center' }} />
             </View>
 
             {/* Divider */}
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
     },
     fieldContainer: {
-        marginBottom: 16,
+        marginBottom: SPACING.base,
     },
     dividerContainer: {
         marginHorizontal: 24,
@@ -92,15 +92,15 @@ const styles = StyleSheet.create({
     },
     socialContainer: {
         marginHorizontal: 24,
-        marginTop: 16,
+        marginTop: SPACING.base,
     },
     registerContainer: {
-        marginTop: 24,
+        marginTop: SPACING.lg,
         marginHorizontal: 24,
     },
     languageContainer: {
-        marginTop: 16,
-        marginBottom: 24,
+        marginTop: SPACING.base,
+        marginBottom: SPACING.lg,
     },
 });
 

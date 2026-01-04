@@ -1,6 +1,7 @@
 import React from 'react';
 import { Platform, StyleSheet, ViewStyle } from 'react-native';
 import { TextInput, TextInputProps } from 'react-native-paper';
+import { COLORS, SPACING, FONT_SIZE, FONT_WEIGHT, BORDER_RADIUS, ELEVATION } from '@presentation/theme/designTokens';
 
 export interface ModernTextFieldProps extends TextInputProps {
   containerStyle?: ViewStyle | ViewStyle[];
@@ -20,11 +21,11 @@ const ModernTextField: React.FC<ModernTextFieldProps> = ({ containerStyle, style
 
 const styles = StyleSheet.create<{ base: ViewStyle; outline: ViewStyle; glassNative: ViewStyle }>({
   base: {
-    borderRadius: 12,
+    borderRadius: BORDER_RADIUS.md,
     overflow: 'hidden',
   },
   outline: {
-    borderRadius: 12,
+    borderRadius: BORDER_RADIUS.md,
   },
   glassNative: {
     shadowColor: '#000',

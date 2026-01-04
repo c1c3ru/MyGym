@@ -87,7 +87,7 @@
     "audit:tokens": "node scripts/audits/audit-design-tokens.js",
     "audit:i18n": "node scripts/audits/audit-i18n.js",
     "audit:all": "npm run audit:tokens && npm run audit:i18n",
-    "migrate:tokens": "node scripts/fixes/auto-migrate-tokens.js",
+    "migrate:tokens": "node scripts/migrations/auto-migrate-tokens.js",
     "migrate:i18n": "node scripts/migrations/auto-migrate-i18n.js",
     "migrate:all": "npm run migrate:tokens && npm run migrate:i18n",
     "migrate:plan": "node scripts/audits/migration-plan.js",

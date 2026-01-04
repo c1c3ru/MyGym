@@ -266,9 +266,7 @@ MyGym`;
               }}
               icon="download"
               style={styles.actionButton}
-            >
-              Salvar
-            </Button>
+            >{getString('save')}</Button>
           </View>
         )}
 
@@ -276,7 +274,7 @@ MyGym`;
           <Dialog visible={emailDialogVisible} onDismiss={() => setEmailDialogVisible(false)}>
             <Dialog.Title>Enviar Convite por Email</Dialog.Title>
             <Dialog.Content>
-              <Text variant="bodyMedium" style={{ marginBottom: 16 }}>
+              <Text variant="bodyMedium" style={{ marginBottom: SPACING.base }}>
                 Digite o email da pessoa que você deseja convidar para a academia:
               </Text>
               <TextInput
@@ -291,9 +289,7 @@ MyGym`;
               />
             </Dialog.Content>
             <Dialog.Actions>
-              <Button onPress={() => setEmailDialogVisible(false)}>
-                Cancelar
-              </Button>
+              <Button onPress={() => setEmailDialogVisible(false)}>{getString('cancel')}</Button>
               <Button
                 mode="contained"
                 onPress={sendEmailInvite}

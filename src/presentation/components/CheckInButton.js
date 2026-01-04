@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.semibold,
-    marginLeft: 8,
+    marginLeft: SPACING.sm,
     color: COLORS.text.primary,
   },
   statusContainer: {
@@ -200,19 +200,19 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.md,
   },
   statusText: {
-    marginLeft: 8,
+    marginLeft: SPACING.sm,
     fontSize: FONT_SIZE.base,
     fontWeight: FONT_WEIGHT.medium,
   },
   description: {
     fontSize: FONT_SIZE.base,
     color: COLORS.text.secondary,
-    marginBottom: 16,
+    marginBottom: SPACING.base,
     textAlign: 'center',
   },
   button: {
     marginVertical: 8,
-    borderRadius: 25,
+    borderRadius: BORDER_RADIUS.xs5,
     elevation: 2,
   },
   buttonContent: {
@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
   },
   loadingText: {
     color: COLORS.white,
-    marginLeft: 8,
+    marginLeft: SPACING.sm,
     fontSize: FONT_SIZE.md,
   },
   hint: {

@@ -1,3 +1,4 @@
+import { COLORS, SPACING, FONT_SIZE, FONT_WEIGHT, BORDER_RADIUS, ELEVATION } from '@presentation/theme/designTokens';
 /**
  * Design Tokens - MyGym
  * Sistema centralizado de tokens de design para consistência visual

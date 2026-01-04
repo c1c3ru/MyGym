@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView, Alert, RefreshControl } from 'react-native';
 import {
+import { getString } from '@utils/theme';
   Card,
   Text,
   Button,
@@ -251,7 +252,7 @@ const PaymentManagementScreen: React.FC<PaymentManagementScreenProps> = ({ navig
                 <Chip
                   mode="flat"
                   style={[styles.statusChip, { backgroundColor: getPaymentStatusColor(currentPlan.status) }]}
-                  textStyle={{ color: COLORS.white, fontWeight: '700' as const }}
+                  textStyle={{ color: COLORS.white, fontWeight: FONT_WEIGHT.bold as const }}
                 >
                   {getPaymentStatusText(currentPlan.status)}
                 </Chip>
@@ -421,17 +422,13 @@ const PaymentManagementScreen: React.FC<PaymentManagementScreenProps> = ({ navig
               mode="outlined"
               onPress={() => setShowPlanModal(false)}
               style={styles.modalButton}
-            >
-              Cancelar
-            </Button>
+            >{getString('cancel')}</Button>
             <Button
               mode="contained"
               onPress={handleSelectPlan}
               style={[styles.modalButton, { backgroundColor: themeColors.primary }]}
               disabled={!selectedPlan}
-            >
-              Confirmar
-            </Button>
+            >{getString('confirm')}</Button>
           </View>
         </Modal>
       </Portal>
@@ -464,7 +461,7 @@ const styles = StyleSheet.create({
     padding: SPACING.base,
   },
   card: {
-    marginBottom: 16,
+    marginBottom: SPACING.base,
     elevation: 4,
   },
   currentPlanCard: {
@@ -474,12 +471,12 @@ const styles = StyleSheet.create({
   cardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   cardTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: '700' as const,
-    marginLeft: 8,
+    fontWeight: FONT_WEIGHT.bold as const,
+    marginLeft: SPACING.sm,
     flex: 1,
   },
   statusChip: {
@@ -490,12 +487,12 @@ const styles = StyleSheet.create({
   },
   planName: {
     fontSize: FONT_SIZE.xl,
-    fontWeight: '700' as const,
+    fontWeight: FONT_WEIGHT.bold as const,
     marginBottom: SPACING.xs,
   },
   planValue: {
     fontSize: FONT_SIZE.xxl,
-    fontWeight: '700' as const,
+    fontWeight: FONT_WEIGHT.bold as const,
     color: COLORS.primary[500],
     marginBottom: SPACING.md,
   },
@@ -511,7 +508,7 @@ const styles = StyleSheet.create({
   },
   dueDateValue: {
     fontSize: FONT_SIZE.md,
-    fontWeight: '600' as const,
+    fontWeight: FONT_WEIGHT.semibold as const,
   },
   daysLeft: {
     fontSize: FONT_SIZE.base,
@@ -532,12 +529,12 @@ const styles = StyleSheet.create({
   },
   paymentPlan: {
     fontSize: FONT_SIZE.md,
-    fontWeight: '600' as const,
+    fontWeight: FONT_WEIGHT.semibold as const,
     marginBottom: SPACING.xs,
   },
   paymentAmount: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: '700' as const,
+    fontWeight: FONT_WEIGHT.bold as const,
     color: COLORS.warning[500],
     marginBottom: SPACING.xs,
   },
@@ -559,12 +556,12 @@ const styles = StyleSheet.create({
   },
   historyPlan: {
     fontSize: FONT_SIZE.md,
-    fontWeight: '500' as const,
+    fontWeight: FONT_WEIGHT.medium as const,
     marginBottom: SPACING.xs,
   },
   historyAmount: {
     fontSize: FONT_SIZE.md,
-    fontWeight: '700' as const,
+    fontWeight: FONT_WEIGHT.bold as const,
     marginBottom: SPACING.xs,
   },
   historyDate: {
@@ -572,7 +569,7 @@ const styles = StyleSheet.create({
     color: COLORS.text.secondary,
   },
   historyStatus: {
-    marginLeft: 12,
+    marginLeft: SPACING.md,
   },
   emptyState: {
     alignItems: 'center',
@@ -580,7 +577,7 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: FONT_SIZE.md,
-    fontWeight: '600' as const,
+    fontWeight: FONT_WEIGHT.semibold as const,
     color: COLORS.gray[500],
     marginTop: SPACING.md,
   },
@@ -603,7 +600,7 @@ const styles = StyleSheet.create({
   },
   modalTitle: {
     fontSize: FONT_SIZE.xl,
-    fontWeight: '700' as const,
+    fontWeight: FONT_WEIGHT.bold as const,
     textAlign: 'center',
     padding: SPACING.lg,
     borderBottomWidth: 1,
@@ -623,17 +620,17 @@ const styles = StyleSheet.create({
     padding: SPACING.md,
   },
   planOptionInfo: {
-    marginLeft: 12,
+    marginLeft: SPACING.md,
     flex: 1,
   },
   planOptionName: {
     fontSize: FONT_SIZE.md,
-    fontWeight: '600' as const,
+    fontWeight: FONT_WEIGHT.semibold as const,
     marginBottom: SPACING.xs,
   },
   planOptionValue: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: '700' as const,
+    fontWeight: FONT_WEIGHT.bold as const,
     color: COLORS.primary[500],
     marginBottom: SPACING.xs,
   },
@@ -649,7 +646,7 @@ const styles = StyleSheet.create({
   },
   dueDateSectionTitle: {
     fontSize: FONT_SIZE.md,
-    fontWeight: '600' as const,
+    fontWeight: FONT_WEIGHT.semibold as const,
     marginBottom: SPACING.md,
   },
   dateButton: {

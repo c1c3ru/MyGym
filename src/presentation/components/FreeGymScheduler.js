@@ -294,7 +294,7 @@ const FreeGymScheduler = ({
                     <Chip
                       compact
                       style={{ backgroundColor: colors?.errorContainer }}
-                      textStyle={{ color: colors?.onErrorContainer, fontSize: 10 }}
+                      textStyle={{ color: colors?.onErrorContainer, fontSize: FONT_SIZE.xxs }}
                     >
                       ⚠️ Conflito
                     </Chip>
@@ -479,10 +479,10 @@ const styles = StyleSheet.create({
   },
   filtersContainer: {
     flexDirection: 'row',
-    gap: 8
+    gap: SPACING.sm
   },
   filterChip: {
-    marginRight: 8
+    marginRight: SPACING.sm
   },
   calendarCard: {
     margin: SPACING.base,
@@ -521,8 +521,8 @@ const styles = StyleSheet.create({
   colorIndicator: {
     width: 4,
     height: 20,
-    borderRadius: 2,
-    marginRight: 12
+    borderRadius: BORDER_RADIUS.xs,
+    marginRight: SPACING.md
   },
   eventTitle: {
     fontSize: FONT_SIZE.md,
@@ -530,7 +530,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   eventDetails: {
-    marginLeft: 16
+    marginLeft: SPACING.base
   },
   eventTime: {
     fontSize: FONT_SIZE.base,

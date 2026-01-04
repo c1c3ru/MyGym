@@ -235,7 +235,7 @@ const GraduationBoardScreen = ({ navigation }: Props) => {
   if (error) {
     return (
       <View style={styles.errorContainer}>
-        <Text style={styles.errorText}>Erro ao carregar dados</Text>
+        <Text style={styles.errorText}>{getString('errorLoadingData')}</Text>
         <Text style={styles.errorMessage}>{error}</Text>
         <Button
           mode="contained"
@@ -280,9 +280,7 @@ const GraduationBoardScreen = ({ navigation }: Props) => {
             </Text>
           </Dialog.Content>
           <Dialog.Actions>
-            <Button onPress={() => setShowScheduleDialog(false)}>
-              Cancelar
-            </Button>
+            <Button onPress={() => setShowScheduleDialog(false)}>{getString('cancel')}</Button>
             <Button onPress={handleCreateNewExam}>
               Agendar
             </Button>
@@ -305,7 +303,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.gray[100],
   },
   loadingText: {
-    marginTop: 16,
+    marginTop: SPACING.base,
     fontSize: FONT_SIZE.md,
     color: COLORS.text.secondary,
   } as TextStyle,
@@ -327,10 +325,10 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.base,
     color: COLORS.text.secondary,
     textAlign: 'center',
-    marginBottom: 24,
+    marginBottom: SPACING.lg,
   },
   retryButton: {
-    paddingHorizontal: 24,
+    paddingHorizontal: SPACING.lg,
   },
   fab: {
     position: 'absolute',

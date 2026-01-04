@@ -274,7 +274,7 @@ const AdminStudentsOptimized = ({ navigation }) => {
     <Card style={styles.emptyCard}>
       <Card.Content style={styles.emptyContent}>
         <Ionicons name="people-outline" size={48} color="currentTheme.gray[300]" />
-        <Text style={[styles.emptyTitle, styles.title]}>Nenhum aluno encontrado</Text>
+        <Text style={[styles.emptyTitle, styles.title]}>{getString('noStudentsFound')}</Text>
         <Text style={[styles.emptyText, styles.paragraph]}>
           {searchQuery ? 
             'Nenhum aluno corresponde à sua busca' : 
@@ -341,7 +341,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.gray[100],
   },
   listContainer: {
-    paddingBottom: 80,
+    paddingBottom: SPACING.sm0,
     minHeight: 2, // Garantir altura mínima para FlashList
   },
   flashList: {
@@ -374,7 +374,7 @@ const styles = StyleSheet.create({
   },
   statsTitle: {
     textAlign: 'center',
-    marginBottom: 16,
+    marginBottom: SPACING.base,
     color: COLORS.text.primary,
   },
   statsGrid: {
@@ -406,7 +406,7 @@ const styles = StyleSheet.create({
     paddingVertical: 32,
   },
   emptyTitle: {
-    marginTop: 16,
+    marginTop: SPACING.base,
     marginBottom: SPACING.sm,
     textAlign: 'center',
     color: COLORS.text.primary,

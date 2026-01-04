@@ -8,13 +8,13 @@ import { COLORS, SPACING, BORDER_RADIUS } from '@presentation/theme/designTokens
  */
 const CalendarSkeleton: React.FC = () => {
     return (
-        <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 24 }}>
+        <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: SPACING.lg }}>
             {/* Header Skeleton */}
             <View style={styles.headerContainer}>
                 <SkeletonLoader width="60%" height={24} style={{ marginBottom: SPACING.sm }} />
                 <View style={styles.viewModeButtons}>
                     {[1, 2, 3].map((index) => (
-                        <SkeletonLoader key={index} width={60} height={32} borderRadius={16} style={{ marginRight: 8 }} />
+                        <SkeletonLoader key={index} width={60} height={32} borderRadius={16} style={{ marginRight: SPACING.sm }} />
                     ))}
                 </View>
             </View>
@@ -90,12 +90,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: 16,
+        marginBottom: SPACING.base,
     },
     classItem: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: 16,
+        marginBottom: SPACING.base,
         padding: SPACING.md,
         backgroundColor: COLORS.background.light,
         borderRadius: BORDER_RADIUS.md,
@@ -103,14 +103,14 @@ const styles = StyleSheet.create({
     classTime: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginRight: 12,
+        marginRight: SPACING.md,
     },
     timeInfo: {
-        marginLeft: 8,
+        marginLeft: SPACING.sm,
     },
     classContent: {
         flex: 1,
-        marginRight: 12,
+        marginRight: SPACING.md,
     },
     fabContainer: {
         position: 'absolute',

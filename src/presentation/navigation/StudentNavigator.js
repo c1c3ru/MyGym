@@ -43,7 +43,7 @@ const StudentNavigator = () => {
 
           if (route.name === getString('dashboard')) {
             iconName = focused ? 'home' : 'home-outline';
-          } else if (route.name === 'Pagamentos') {
+          } else if (route.name === getString('payments')) {
             iconName = focused ? 'card' : 'card-outline';
           } else if (route.name === 'Evolução') {
             iconName = focused ? 'trending-up' : 'trending-up-outline';
@@ -60,12 +60,12 @@ const StudentNavigator = () => {
       })}
     >
       <Tab.Screen 
-        name="Dashboard" 
+        name=getString('dashboard') 
         component={StudentDashboard}
         options={{ title: getString('studentDashboard') }}
       />
       <Tab.Screen 
-        name="Pagamentos" 
+        name=getString('payments') 
         component={StudentPayments}
         options={{ title: getString('payments') }}
       />

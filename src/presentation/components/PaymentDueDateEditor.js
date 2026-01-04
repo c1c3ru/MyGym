@@ -182,18 +182,14 @@ const PaymentDueDateEditor = ({ visible, onDismiss, currentPayment, onUpdate }) 
               onPress={onDismiss}
               style={styles.cancelButton}
               disabled={loading}
-            >
-              Cancelar
-            </Button>
+            >{getString('cancel')}</Button>
             <Button
               mode="contained"
               onPress={handleSave}
               loading={loading}
               disabled={loading}
               style={styles.saveButton}
-            >
-              Salvar
-            </Button>
+            >{getString('save')}</Button>
           </View>
         </Card.Content>
       </Card>
@@ -211,14 +207,14 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   title: {
-    marginLeft: 8,
+    marginLeft: SPACING.sm,
     fontSize: FONT_SIZE.lg,
   },
   divider: {
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   currentInfo: {
     flexDirection: 'row',
@@ -230,7 +226,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   label: {
     fontSize: FONT_SIZE.md,
@@ -252,7 +248,7 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.sm,
     color: COLORS.text.secondary,
     fontStyle: 'italic',
-    marginBottom: 24,
+    marginBottom: SPACING.lg,
   },
   buttons: {
     flexDirection: 'row',
@@ -260,11 +256,11 @@ const styles = StyleSheet.create({
   },
   cancelButton: {
     flex: 1,
-    marginRight: 8,
+    marginRight: SPACING.sm,
   },
   saveButton: {
     flex: 1,
-    marginLeft: 8,
+    marginLeft: SPACING.sm,
     backgroundColor: COLORS.info[500],
   },
 });

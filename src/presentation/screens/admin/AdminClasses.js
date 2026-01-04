@@ -490,7 +490,7 @@ const AdminClasses = ({ navigation }) => {
           >
             <View style={styles.calendarModalHeader}>
               <Text style={styles.calendarModalTitle}>Cronograma das Turmas</Text>
-              <Button onPress={() => setShowCalendarModal(false)}>Fechar</Button>
+              <Button onPress={() => setShowCalendarModal(false)}>{getString('close')}</Button>
             </View>
             <View style={styles.calendarContainer}>
               <FreeGymScheduler
@@ -564,7 +564,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   modalityChip: {
-    marginLeft: 8,
+    marginLeft: SPACING.sm,
   },
   classDetails: {
     marginBottom: SPACING.md,
@@ -575,7 +575,7 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.xs,
   },
   detailText: {
-    marginLeft: 8,
+    marginLeft: SPACING.sm,
     color: COLORS.text.secondary,
     flex: 1,
   },
@@ -586,7 +586,7 @@ const styles = StyleSheet.create({
   },
   statusChip: {
     borderWidth: BORDER_WIDTH.base,
-    marginRight: 8,
+    marginRight: SPACING.sm,
     marginBottom: SPACING.xs,
   },
   divider: {
@@ -607,7 +607,7 @@ const styles = StyleSheet.create({
     padding: 32,
   },
   emptyTitle: {
-    marginTop: 16,
+    marginTop: SPACING.base,
     textAlign: 'center',
   },
   emptyText: {
@@ -622,7 +622,7 @@ const styles = StyleSheet.create({
   },
   statsTitle: {
     textAlign: 'center',
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   statsGrid: {
     flexDirection: 'row',

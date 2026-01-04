@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView, Alert } from 'react-native';
 import {
+import { getString } from '@utils/theme';
   Card,
   Text,
   Switch,
@@ -374,14 +375,14 @@ const styles = StyleSheet.create({
   cardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   cardTitle: {
-    marginLeft: 8,
+    marginLeft: SPACING.sm,
     fontSize: FONT_SIZE.lg,
   },
   title: {
-    fontWeight: '700',
+    fontWeight: FONT_WEIGHT.bold,
   },
   infoText: {
     marginBottom: SPACING.sm,
@@ -390,7 +391,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     margin: SPACING.base,
-    gap: 12,
+    gap: SPACING.md,
   },
   resetButton: {
     borderColor: COLORS.warning[500],

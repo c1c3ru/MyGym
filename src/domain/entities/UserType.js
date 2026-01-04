@@ -1,3 +1,4 @@
+import { getString } from '@utils/theme';
 /**
  * UserType Enum
  */
@@ -31,8 +32,8 @@ export class UserTypeUtils {
   static getDisplayName(userType) {
     const displayNames = {
       [UserType.ADMIN]: 'Administrador',
-      [UserType.INSTRUCTOR]: 'Instrutor',
-      [UserType.STUDENT]: 'Aluno'
+      [UserType.INSTRUCTOR]: getString('instructor'),
+      [UserType.STUDENT]: getString('student')
     };
     return displayNames[userType] || userType;
   }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Platform, StyleSheet, ViewStyle } from 'react-native';
 import { Button, ButtonProps } from 'react-native-paper';
+import { COLORS, SPACING, FONT_SIZE, FONT_WEIGHT, BORDER_RADIUS, ELEVATION } from '@presentation/theme/designTokens';
 
 export interface ModernButtonProps extends ButtonProps {
   containerStyle?: ViewStyle | ViewStyle[];
@@ -26,7 +27,7 @@ const ModernButton: React.FC<ModernButtonProps> = ({ containerStyle, style, chil
 
 const styles = StyleSheet.create<{ base: ViewStyle; glassNative: ViewStyle }>({
   base: {
-    borderRadius: 12,
+    borderRadius: BORDER_RADIUS.md,
     overflow: 'hidden',
   },
   glassNative: {

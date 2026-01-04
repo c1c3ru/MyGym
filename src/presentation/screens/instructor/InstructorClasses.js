@@ -355,7 +355,7 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     padding: SPACING.base,
-    paddingTop: 8,
+    paddingTop: SPACING.sm,
     paddingBottom: 100,
   },
   loadingContainer: {
@@ -364,7 +364,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   card: {
-    marginBottom: 16,
+    marginBottom: SPACING.base,
     elevation: 4,
   },
   cardHeader: {
@@ -405,7 +405,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   actionButton: {
-    marginLeft: 8,
+    marginLeft: SPACING.sm,
   },
   emptyContainer: {
     flex: 1,
@@ -417,7 +417,7 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.lg,
     color: COLORS.text.secondary,
     textAlign: 'center',
-    marginTop: 16,
+    marginTop: SPACING.base,
     marginBottom: SPACING.sm,
   },
   emptySubtext: {

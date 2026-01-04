@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.gray[100],
   },
   text: {
-    marginTop: 16,
+    marginTop: SPACING.base,
     fontSize: FONT_SIZE.md,
     color: COLORS.text.secondary,
   },

@@ -186,7 +186,7 @@ const ScheduleSelector = ({
                 mode="flat"
                 compact
                 style={[styles.hourChip, { backgroundColor: colors?.primary || '#6200ea' }]}
-                textStyle={{ color: colors?.onPrimary || getString('colorWhite'), fontSize: 10 }}
+                textStyle={{ color: colors?.onPrimary || getString('colorWhite'), fontSize: FONT_SIZE.xxs }}
               >
                 {schedule.hours[dayKey].length}h
               </Chip>
@@ -281,9 +281,7 @@ const ScheduleSelector = ({
             <Button
               mode="text"
               onPress={() => setModalVisible(false)}
-            >
-              Fechar
-            </Button>
+            >{getString('close')}</Button>
           </View>
 
           <Divider />
@@ -335,7 +333,7 @@ const styles = StyleSheet.create({
     fontWeight: FONT_WEIGHT.semibold,
   },
   summaryCard: {
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   summaryTitle: {
     fontSize: FONT_SIZE.base,
@@ -401,7 +399,7 @@ const styles = StyleSheet.create({
     maxHeight: 400,
   },
   timeSlot: {
-    paddingHorizontal: 16,
+    paddingHorizontal: SPACING.base,
   },
 });
 

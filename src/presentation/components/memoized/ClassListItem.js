@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
     fontWeight: FONT_WEIGHT.semibold,
   },
   modalityChip: {
-    marginLeft: 8,
+    marginLeft: SPACING.sm,
   },
   classDetails: {
     marginBottom: SPACING.md,
@@ -238,7 +238,7 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.xs,
   },
   detailText: {
-    marginLeft: 8,
+    marginLeft: SPACING.sm,
     color: COLORS.neutral.light,
     flex: 1,
   },

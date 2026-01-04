@@ -1,3 +1,4 @@
+import { getString } from '@utils/theme';
 /**
  * ScheduleClassesScreen - Tela para agendar aulas em turmas existentes
  * 
@@ -97,7 +98,7 @@ const ScheduleClassesScreen = ({ navigation, route }: ScheduleClassesScreenProps
     }
 
     if (!userProfile?.academiaId) {
-      Alert.alert('Erro', 'Perfil de usuário incompleto');
+      Alert.alert(getString('error'), 'Perfil de usuário incompleto');
       return;
     }
 
@@ -205,7 +206,7 @@ const ScheduleClassesScreen = ({ navigation, route }: ScheduleClassesScreenProps
             ) : (
               <View style={styles.emptyState}>
                 <MaterialCommunityIcons name="school" size={48} color={COLORS.gray[300]} />
-                <Text style={styles.emptyText}>Nenhuma turma encontrada</Text>
+                <Text style={styles.emptyText}>{getString('noClassesFound')}</Text>
                 <Button
                   mode="contained"
                   onPress={() => navigation.navigate('AddClass')}
@@ -345,9 +346,7 @@ const ScheduleClassesScreen = ({ navigation, route }: ScheduleClassesScreenProps
           mode="outlined"
           onPress={() => navigation.goBack()}
           style={styles.button}
-        >
-          Cancelar
-        </Button>
+        >{getString('cancel')}</Button>
         <Button
           mode="contained"
           onPress={handleSchedule}
@@ -381,7 +380,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: '700' as const,
+    fontWeight: FONT_WEIGHT.bold as const,
     marginLeft: SPACING.sm,
     color: COLORS.text.primary,
   },
@@ -413,7 +412,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: FONT_SIZE.sm,
-    fontWeight: '600' as const,
+    fontWeight: FONT_WEIGHT.semibold as const,
     color: COLORS.text.primary,
     marginTop: SPACING.md,
     marginBottom: SPACING.xs,

@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
     padding: SPACING.xl,
   },
   title: {
-    marginTop: 16,
+    marginTop: SPACING.base,
     marginBottom: SPACING.sm,
     textAlign: 'center',
     color: COLORS.text.primary,
@@ -232,15 +232,15 @@ const styles = StyleSheet.create({
   message: {
     textAlign: 'center',
     color: COLORS.text.secondary,
-    marginBottom: 16,
+    marginBottom: SPACING.base,
     lineHeight: 20,
   },
   errorMeta: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    marginBottom: 24,
-    gap: 8,
+    marginBottom: SPACING.lg,
+    gap: SPACING.sm,
   },
   errorIdChip: {
     marginHorizontal: 4,
@@ -250,7 +250,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     width: '100%',
-    gap: 12,
+    gap: SPACING.md,
   },
   retryButton: {
     backgroundColor: COLORS.info[500],
@@ -283,7 +283,7 @@ const styles = StyleSheet.create({
     color: COLORS.text.primary,
   },
   stackTrace: {
-    fontSize: 10,
+    fontSize: FONT_SIZE.xxs,
     color: COLORS.text.secondary,
     fontFamily: 'monospace',
     backgroundColor: COLORS.white,

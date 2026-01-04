@@ -164,7 +164,7 @@ const ERROR_CATALOG: Record<string, ErrorCatalogEntry> = {
     ],
   },
   'data/save-failed': {
-    title: 'Erro ao salvar',
+    title: getString('errorSaving'),
     message: 'Não foi possível salvar as alterações. Verifique sua conexão e tente novamente.',
     icon: 'content-save-alert-outline',
     color: 'error',
@@ -340,7 +340,7 @@ const styles = StyleSheet.create({
     marginTop: SPACING.xs,
   },
   closeButton: {
-    margin: 0,
+    margin: SPACING.none,
     marginTop: -SPACING.xs,
   },
   message: {

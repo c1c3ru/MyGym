@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView, RefreshControl, Platform, Alert, Dimensions } from 'react-native';
 import {
+import { getString } from '@utils/theme';
   Card,
   Text,
   Button,
@@ -478,7 +479,7 @@ const styles = StyleSheet.create({
   },
   className: {
     fontSize: FONT_SIZE.xxl,
-    fontWeight: '700' as const,
+    fontWeight: FONT_WEIGHT.bold as const,
     color: COLORS.gray[900],
     marginBottom: SPACING.sm,
   },
@@ -488,7 +489,7 @@ const styles = StyleSheet.create({
   },
   modalityText: {
     color: COLORS.white,
-    fontWeight: '600' as const,
+    fontWeight: FONT_WEIGHT.semibold as const,
     fontSize: FONT_SIZE.sm,
   },
   classAvatar: {
@@ -509,7 +510,7 @@ const styles = StyleSheet.create({
   },
   statNumber: {
     fontSize: FONT_SIZE.xl,
-    fontWeight: '700' as const,
+    fontWeight: FONT_WEIGHT.bold as const,
     color: COLORS.gray[900],
     marginTop: SPACING.xs,
   },
@@ -532,7 +533,7 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: '700' as const,
+    fontWeight: FONT_WEIGHT.bold as const,
     color: COLORS.gray[900],
     marginBottom: SPACING.base,
   },
@@ -547,7 +548,7 @@ const styles = StyleSheet.create({
   },
   infoLabel: {
     fontSize: FONT_SIZE.base,
-    fontWeight: '600' as const,
+    fontWeight: FONT_WEIGHT.semibold as const,
     color: COLORS.text.secondary,
     marginBottom: SPACING.xs,
   },
@@ -614,7 +615,7 @@ const styles = StyleSheet.create({
   },
   studentName: {
     fontSize: FONT_SIZE.md,
-    fontWeight: '600' as const,
+    fontWeight: FONT_WEIGHT.semibold as const,
     color: COLORS.gray[900],
   },
   studentEmail: {
@@ -631,7 +632,7 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: FONT_SIZE.md,
-    fontWeight: '600' as const,
+    fontWeight: FONT_WEIGHT.semibold as const,
     color: COLORS.gray[500],
     marginTop: SPACING.md,
   },

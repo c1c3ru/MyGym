@@ -294,7 +294,7 @@ const styles = StyleSheet.create({
         }),
     },
     buttonText: {
-        fontWeight: '600',
+        fontWeight: FONT_WEIGHT.semibold,
     },
     buttonContent: {
         height: '100%',
@@ -322,11 +322,11 @@ const styles = StyleSheet.create({
     gradientButton: {
         borderRadius: BORDER_RADIUS.md,
         backgroundColor: 'transparent',
-        margin: 0,
+        margin: SPACING.none,
     },
     gradientButtonText: {
         color: COLORS.white,
-        fontWeight: '600',
+        fontWeight: FONT_WEIGHT.semibold,
     },
     gradientButtonContent: {
         height: '100%',
@@ -365,11 +365,11 @@ const styles = StyleSheet.create({
     fab: {
         borderRadius: BORDER_RADIUS.md,
         backgroundColor: 'transparent',
-        margin: 0,
+        margin: SPACING.none,
     },
     fabText: {
         color: COLORS.white,
-        fontWeight: '700',
+        fontWeight: FONT_WEIGHT.bold,
         fontSize: FONT_SIZE.md,
     },
     fabContent: {

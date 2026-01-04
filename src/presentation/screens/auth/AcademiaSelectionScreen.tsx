@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, ScrollView, Alert, Linking, StyleSheet } from 'react-native';
 import {
+import { getString } from '@utils/theme';
   Text,
   Card,
   Button,
@@ -418,7 +419,7 @@ const AcademiaSelectionScreen: React.FC<AcademiaSelectionScreenProps> = ({ navig
     return (
       <View style={styles.loadingContainer as any}>
         <ActivityIndicator size="large" color={COLORS.primary[500]} />
-        <Text style={styles.loadingText as any}>Processando...</Text>
+        <Text style={styles.loadingText as any}>{getString('processing')}</Text>
       </View>
     );
   }
@@ -447,9 +448,7 @@ const AcademiaSelectionScreen: React.FC<AcademiaSelectionScreenProps> = ({ navig
             icon="arrow-left"
             textColor={COLORS.white}
             style={styles.backButton}
-          >
-            Voltar
-          </Button>
+          >{getString('back')}</Button>
           <View style={styles.headerTextContainer as any}>
             <Text variant="headlineMedium" style={styles.title as any}>
               {forceCreate ? getString('createAcademy') : getString('selectAcademy')}
@@ -704,9 +703,7 @@ const AcademiaSelectionScreen: React.FC<AcademiaSelectionScreenProps> = ({ navig
                     mode="outlined"
                     onPress={() => setShowCreateForm(false)}
                     style={styles.cancelButton}
-                  >
-                    Cancelar
-                  </Button>
+                  >{getString('cancel')}</Button>
                   <Button
                     mode="contained"
                     onPress={createNewAcademia}
@@ -787,16 +784,12 @@ const AcademiaSelectionScreen: React.FC<AcademiaSelectionScreenProps> = ({ navig
                 setInviteLink('');
               }}
               style={styles.modalButton}
-            >
-              Cancelar
-            </Button>
+            >{getString('cancel')}</Button>
             <Button
               mode="contained"
               onPress={handleInviteLinkSubmit}
               style={styles.modalButton}
-            >
-              Confirmar
-            </Button>
+            >{getString('confirm')}</Button>
           </View>
         </Modal>
       </Portal>
@@ -834,7 +827,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   loadingText: {
-    marginTop: 16,
+    marginTop: SPACING.base,
     textAlign: 'center',
   },
   header: {
@@ -855,7 +848,7 @@ const styles = StyleSheet.create({
   } as any,
   title: {
     color: COLORS.white,
-    fontWeight: '700' as const,
+    fontWeight: FONT_WEIGHT.bold as const,
     textAlign: 'center',
   },
   subtitle: {
@@ -877,19 +870,19 @@ const styles = StyleSheet.create({
     marginTop: SPACING.sm,
   },
   sectionTitle: {
-    fontWeight: '700' as const,
+    fontWeight: FONT_WEIGHT.bold as const,
     marginBottom: SPACING.sm,
   },
   sectionDescription: {
     opacity: 0.7,
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   input: {
     marginBottom: SPACING.md,
   },
   addressRow: {
     flexDirection: 'row',
-    gap: 8,
+    gap: SPACING.sm,
     marginBottom: SPACING.md,
   },
   halfInput: {
@@ -911,12 +904,12 @@ const styles = StyleSheet.create({
     marginTop: SPACING.sm,
   },
   createForm: {
-    marginTop: 16,
+    marginTop: SPACING.base,
   },
   buttonRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 16,
+    marginTop: SPACING.base,
   },
   cancelButton: {
     flex: 0.45,
@@ -929,14 +922,14 @@ const styles = StyleSheet.create({
     marginTop: SPACING.sm,
   },
   resultsTitle: {
-    fontWeight: '700' as const,
+    fontWeight: FONT_WEIGHT.bold as const,
     marginBottom: SPACING.md,
   },
   academiaCard: {
     marginBottom: SPACING.md,
   },
   academiaName: {
-    fontWeight: '700' as const,
+    fontWeight: FONT_WEIGHT.bold as const,
     marginBottom: SPACING.sm,
   },
   academiaAddress: {
@@ -960,7 +953,7 @@ const styles = StyleSheet.create({
   },
   optionButtons: {
     flexDirection: 'row',
-    gap: 12,
+    gap: SPACING.md,
     marginTop: SPACING.sm,
   },
   optionButton: {
@@ -997,8 +990,8 @@ const styles = StyleSheet.create({
   },
   modalTitle: {
     textAlign: 'center',
-    marginBottom: 16,
-    fontWeight: '700' as const,
+    marginBottom: SPACING.base,
+    fontWeight: FONT_WEIGHT.bold as const,
   },
   modalDescription: {
     textAlign: 'center',
@@ -1007,14 +1000,14 @@ const styles = StyleSheet.create({
   },
   modalActions: {
     flexDirection: 'row',
-    gap: 12,
+    gap: SPACING.md,
     marginTop: 20,
   },
   modalButton: {
     flex: 1,
   },
   snackbar: {
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   snackbarSuccess: {
     backgroundColor: COLORS.primary[500],

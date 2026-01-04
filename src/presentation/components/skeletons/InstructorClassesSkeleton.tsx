@@ -8,7 +8,7 @@ import { COLORS, SPACING, BORDER_RADIUS } from '@presentation/theme/designTokens
  */
 const InstructorClassesSkeleton: React.FC = () => {
     return (
-        <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 24 }}>
+        <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: SPACING.lg }}>
             {/* Search Bar Skeleton */}
             <View style={styles.searchContainer}>
                 <SkeletonLoader width="100%" height={48} borderRadius={24} />
@@ -26,7 +26,7 @@ const InstructorClassesSkeleton: React.FC = () => {
                     {/* Modality */}
                     <View style={styles.modalityContainer}>
                         <SkeletonLoader width={16} height={16} borderRadius={8} />
-                        <SkeletonLoader width="40%" height={16} style={{ marginLeft: 8 }} />
+                        <SkeletonLoader width="40%" height={16} style={{ marginLeft: SPACING.sm }} />
                     </View>
 
                     {/* Class Info */}
@@ -34,7 +34,7 @@ const InstructorClassesSkeleton: React.FC = () => {
                         {[1, 2, 3].map((infoIndex) => (
                             <View key={infoIndex} style={styles.infoRow}>
                                 <SkeletonLoader width={16} height={16} borderRadius={8} />
-                                <SkeletonLoader width="60%" height={14} style={{ marginLeft: 8 }} />
+                                <SkeletonLoader width="60%" height={14} style={{ marginLeft: SPACING.sm }} />
                             </View>
                         ))}
                     </View>
@@ -102,8 +102,8 @@ const styles = StyleSheet.create({
     actionsContainer: {
         flexDirection: 'row',
         justifyContent: 'flex-end',
-        marginTop: 16,
-        gap: 8,
+        marginTop: SPACING.base,
+        gap: SPACING.sm,
     },
     fabContainer: {
         position: 'absolute',

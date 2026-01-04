@@ -8,7 +8,7 @@ import { COLORS, SPACING, BORDER_RADIUS } from '@presentation/theme/designTokens
  */
 const InstructorDashboardSkeleton: React.FC = () => {
     return (
-        <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 24 }}>
+        <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: SPACING.lg }}>
             {/* Header Gradient Skeleton */}
             <View style={styles.headerContainer}>
                 <SkeletonLoader width="100%" height={120} borderRadius={12} />
@@ -30,7 +30,7 @@ const InstructorDashboardSkeleton: React.FC = () => {
 
             {/* Today's Classes Skeleton */}
             <View style={styles.cardContainer}>
-                <SkeletonLoader width="50%" height={20} style={{ marginBottom: 16 }} />
+                <SkeletonLoader width="50%" height={20} style={{ marginBottom: SPACING.base }} />
 
                 {[1, 2, 3].map((index) => (
                     <View key={index} style={styles.classItem}>
@@ -49,7 +49,7 @@ const InstructorDashboardSkeleton: React.FC = () => {
 
             {/* My Classes Skeleton */}
             <View style={styles.cardContainer}>
-                <SkeletonLoader width="40%" height={20} style={{ marginBottom: 16 }} />
+                <SkeletonLoader width="40%" height={20} style={{ marginBottom: SPACING.base }} />
 
                 <View style={styles.classesGrid}>
                     {[1, 2, 3, 4].map((index) => (
@@ -62,7 +62,7 @@ const InstructorDashboardSkeleton: React.FC = () => {
 
             {/* Announcements Skeleton */}
             <View style={styles.cardContainer}>
-                <SkeletonLoader width="35%" height={20} style={{ marginBottom: 16 }} />
+                <SkeletonLoader width="35%" height={20} style={{ marginBottom: SPACING.base }} />
 
                 {[1, 2].map((index) => (
                     <View key={index} style={styles.announcementItem}>
@@ -78,7 +78,7 @@ const InstructorDashboardSkeleton: React.FC = () => {
 
             {/* Quick Actions Skeleton */}
             <View style={styles.cardContainer}>
-                <SkeletonLoader width="40%" height={20} style={{ marginBottom: 16 }} />
+                <SkeletonLoader width="40%" height={20} style={{ marginBottom: SPACING.base }} />
 
                 <View style={styles.actionsContainer}>
                     {[1, 2, 3].map((index) => (
@@ -103,14 +103,14 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'space-between',
-        paddingHorizontal: 16,
+        paddingHorizontal: SPACING.base,
         marginBottom: SPACING.sm,
     },
     statCard: {
         width: '48%',
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: 16,
+        marginBottom: SPACING.base,
         padding: SPACING.md,
         backgroundColor: COLORS.white,
         borderRadius: BORDER_RADIUS.md,
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
     },
     statContent: {
-        marginLeft: 12,
+        marginLeft: SPACING.md,
         flex: 1,
     },
     cardContainer: {
@@ -145,11 +145,11 @@ const styles = StyleSheet.create({
         borderRadius: BORDER_RADIUS.md,
     },
     classTime: {
-        marginRight: 12,
+        marginRight: SPACING.md,
     },
     classContent: {
         flex: 1,
-        marginRight: 12,
+        marginRight: SPACING.md,
     },
     classesGrid: {
         flexDirection: 'row',
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
         padding: SPACING.sm,
     },
     announcementContent: {
-        marginLeft: 12,
+        marginLeft: SPACING.md,
         flex: 1,
     },
     actionsContainer: {

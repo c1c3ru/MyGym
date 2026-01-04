@@ -66,7 +66,7 @@ const ClassCardSkeleton: React.FC = () => {
 
 const styles = StyleSheet.create({
     container: {
-        paddingHorizontal: 16,
+        paddingHorizontal: SPACING.base,
     },
     card: {
         backgroundColor: COLORS.white,
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
         marginBottom: SPACING.sm,
     },
     detailText: {
-        marginLeft: 8,
+        marginLeft: SPACING.sm,
     },
     footer: {
         flexDirection: 'row',

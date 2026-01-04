@@ -374,7 +374,7 @@ const styles = StyleSheet.create({
     padding: SPACING.base,
   },
   card: {
-    marginBottom: 16,
+    marginBottom: SPACING.base,
     elevation: 4,
   },
   todayCard: {
@@ -386,14 +386,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   todayAvatar: {
-    marginRight: 16,
+    marginRight: SPACING.base,
   },
   todayInfo: {
     flex: 1,
   },
   todayTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: '700' as const,
+    fontWeight: FONT_WEIGHT.bold as const,
     marginBottom: SPACING.xs,
   },
   todaySubtitle: {
@@ -407,12 +407,12 @@ const styles = StyleSheet.create({
   sectionHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   sectionTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: '700' as const,
-    marginLeft: 8,
+    fontWeight: FONT_WEIGHT.bold as const,
+    marginLeft: SPACING.sm,
   },
   classItem: {
     padding: SPACING.md,
@@ -429,7 +429,7 @@ const styles = StyleSheet.create({
   },
   className: {
     fontSize: FONT_SIZE.md,
-    fontWeight: '600' as const,
+    fontWeight: FONT_WEIGHT.semibold as const,
     marginBottom: SPACING.xs,
   },
   classModality: {
@@ -453,14 +453,14 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.gray[100],
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 12,
+    marginRight: SPACING.md,
   },
   historyInfo: {
     flex: 1,
   },
   historyTitle: {
     fontSize: FONT_SIZE.md,
-    fontWeight: '500' as const,
+    fontWeight: FONT_WEIGHT.medium as const,
     marginBottom: 2,
   },
   historyDate: {
@@ -473,7 +473,7 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: FONT_SIZE.md,
-    fontWeight: '600' as const,
+    fontWeight: FONT_WEIGHT.semibold as const,
     color: COLORS.gray[500],
     marginTop: SPACING.md,
   },

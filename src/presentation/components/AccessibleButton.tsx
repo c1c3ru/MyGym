@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
   },
   largeButton: {
     paddingVertical: SPACING.md,
-    paddingHorizontal: 24,
+    paddingHorizontal: SPACING.lg,
   },
   disabled: {
     opacity: 0.6,

@@ -1,6 +1,7 @@
 import React, { useEffect, memo, useState } from 'react';
 import { View, StyleSheet, Alert, TouchableOpacity, Platform } from 'react-native';
 import {
+import { getString } from '@utils/theme';
     Appbar,
     Avatar,
     Menu,
@@ -204,7 +205,7 @@ const UniversalHeader: React.FC<UniversalHeaderProps> = ({
                                     closeMenu();
                                     navigation?.navigate('Settings');
                                 }}
-                                title="Configurações"
+                                title={getString('settings')}
                                 leadingIcon={() => (
                                     <MaterialCommunityIcons name="cog" size={20} color={COLORS.text.secondary} />
                                 )}
@@ -218,7 +219,7 @@ const UniversalHeader: React.FC<UniversalHeaderProps> = ({
                                     closeMenu();
                                     handleLogout();
                                 }}
-                                title="Sair"
+                                title={getString('logout')}
                                 leadingIcon={() => (
                                     <MaterialCommunityIcons name="logout" size={20} color={COLORS.error[500]} />
                                 )}

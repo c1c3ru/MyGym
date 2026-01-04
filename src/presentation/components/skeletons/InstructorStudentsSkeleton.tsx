@@ -8,7 +8,7 @@ import { COLORS, SPACING, BORDER_RADIUS } from '@presentation/theme/designTokens
  */
 const InstructorStudentsSkeleton: React.FC = () => {
     return (
-        <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 24 }}>
+        <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: SPACING.lg }}>
             {/* Search Bar Skeleton */}
             <View style={styles.searchContainer}>
                 <SkeletonLoader width="100%" height={48} borderRadius={24} />
@@ -40,7 +40,7 @@ const InstructorStudentsSkeleton: React.FC = () => {
                         {[1, 2, 3].map((detailIndex) => (
                             <View key={detailIndex} style={styles.detailRow}>
                                 <SkeletonLoader width={16} height={16} borderRadius={8} />
-                                <SkeletonLoader width="70%" height={14} style={{ marginLeft: 8 }} />
+                                <SkeletonLoader width="70%" height={14} style={{ marginLeft: SPACING.sm }} />
                             </View>
                         ))}
                     </View>
@@ -68,9 +68,9 @@ const styles = StyleSheet.create({
     },
     filterContainer: {
         flexDirection: 'row',
-        paddingHorizontal: 16,
-        marginBottom: 16,
-        gap: 8,
+        paddingHorizontal: SPACING.base,
+        marginBottom: SPACING.base,
+        gap: SPACING.sm,
     },
     cardContainer: {
         margin: SPACING.base,
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     },
     studentInfo: {
         flex: 1,
-        marginLeft: 12,
+        marginLeft: SPACING.md,
     },
     detailsContainer: {
         marginBottom: SPACING.md,
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     actionsContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        gap: 8,
+        gap: SPACING.sm,
     },
 });
 

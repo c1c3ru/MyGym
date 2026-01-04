@@ -2,6 +2,7 @@
 import React, { useEffect } from 'react';
 import { Platform } from 'react-native';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
+import { COLORS, SPACING, FONT_SIZE, FONT_WEIGHT, BORDER_RADIUS, ELEVATION } from '@presentation/theme/designTokens';
 
 const WebCompatibility = ({ children }) => {
   const { currentTheme } = useThemeToggle();
@@ -27,8 +28,8 @@ const WebCompatibility = ({ children }) => {
         }
         body {
           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-          margin: 0;
-          padding: 0;
+          margin: SPACING.none;
+          padding: SPACING.none;
           overflow-x: hidden;
           overflow-y: auto;
         }

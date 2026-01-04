@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     warningIcon: {
-        marginRight: 8,
+        marginRight: SPACING.sm,
     },
     title: {
         fontSize: FONT_SIZE.md,
@@ -186,11 +186,11 @@ const styles = StyleSheet.create({
     },
     description: {
         fontSize: FONT_SIZE.base,
-        marginBottom: 16,
+        marginBottom: SPACING.base,
         lineHeight: 20,
     },
     conflictsList: {
-        marginBottom: 16,
+        marginBottom: SPACING.base,
     },
     conflictItem: {
         marginBottom: SPACING.sm,

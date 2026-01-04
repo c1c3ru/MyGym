@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, ScrollView, Alert } from 'react-native';
 import {
+import { getString } from '@utils/theme';
   Card,
   Text,
   Button,
@@ -86,7 +87,7 @@ const ChangePasswordScreen = ({ navigation }: ChangePasswordScreenProps) => {
 
     try {
       if (!user?.email) {
-        Alert.alert('Erro', 'Usuário não autenticado');
+        Alert.alert(getString('error'), 'Usuário não autenticado');
         return;
       }
       setLoading(true);
@@ -99,7 +100,7 @@ const ChangePasswordScreen = ({ navigation }: ChangePasswordScreenProps) => {
 
       const firebaseUser = firebaseAuth.getCurrentUser();
       if (!firebaseUser) {
-        Alert.alert('Erro', 'Sessão inválida');
+        Alert.alert(getString('error'), 'Sessão inválida');
         return;
       }
 
@@ -266,9 +267,7 @@ const ChangePasswordScreen = ({ navigation }: ChangePasswordScreenProps) => {
                   onPress={() => navigation.goBack()}
                   style={styles.button}
                   disabled={loading}
-                >
-                  Cancelar
-                </Button>
+                >{getString('cancel')}</Button>
                 <Button
                   mode="contained"
                   onPress={handleChangePassword}
@@ -326,19 +325,19 @@ const styles = StyleSheet.create({
     padding: SPACING.base,
   },
   card: {
-    marginBottom: 16,
+    marginBottom: SPACING.base,
     elevation: 4,
   },
   title: {
     fontSize: FONT_SIZE.xxl,
-    fontWeight: '700',
+    fontWeight: FONT_WEIGHT.bold,
     marginBottom: SPACING.sm,
     textAlign: 'center',
   },
   subtitle: {
     fontSize: FONT_SIZE.md,
     color: COLORS.text.secondary,
-    marginBottom: 24,
+    marginBottom: SPACING.lg,
     textAlign: 'center',
     lineHeight: 22,
   },
@@ -348,19 +347,19 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 24,
-    gap: 12,
+    marginTop: SPACING.lg,
+    gap: SPACING.md,
   },
   button: {
     flex: 1,
   },
   tipsCard: {
-    marginTop: 24,
+    marginTop: SPACING.lg,
     backgroundColor: COLORS.primary[50],
   },
   tipsTitle: {
     fontSize: FONT_SIZE.md,
-    fontWeight: '700',
+    fontWeight: FONT_WEIGHT.bold,
     marginBottom: SPACING.md,
     color: COLORS.primary[800],
   },

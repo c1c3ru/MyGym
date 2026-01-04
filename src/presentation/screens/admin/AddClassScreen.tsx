@@ -585,7 +585,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: FONT_SIZE.xxl,
-    fontWeight: '700' as const,
+    fontWeight: FONT_WEIGHT.bold as const,
     marginBottom: 20,
     textAlign: 'center',
   },
@@ -594,7 +594,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: FONT_SIZE.md,
-    fontWeight: '500' as const,
+    fontWeight: FONT_WEIGHT.medium as const,
     marginBottom: SPACING.sm,
     color: COLORS.text.primary,
   },

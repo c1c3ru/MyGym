@@ -323,9 +323,7 @@ const ImprovedScheduleSelector: React.FC<ImprovedScheduleSelectorProps> = ({
                         mode="contained"
                         onPress={() => setPreviewVisible(false)}
                         style={styles.closeButton}
-                    >
-                        Fechar
-                    </Button>
+                    >{getString('close')}</Button>
                 </Modal>
             </Portal>
 
@@ -370,9 +368,7 @@ const ImprovedScheduleSelector: React.FC<ImprovedScheduleSelectorProps> = ({
                         mode="contained"
                         onPress={() => setModalVisible(false)}
                         style={styles.closeButton}
-                    >
-                        Confirmar
-                    </Button>
+                    >{getString('confirm')}</Button>
                 </Modal>
             </Portal>
         </View>

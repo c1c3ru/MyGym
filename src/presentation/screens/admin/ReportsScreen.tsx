@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import {
+import { getString } from '@utils/theme';
   View,
   StyleSheet,
   ScrollView,
@@ -324,7 +325,7 @@ const ReportsScreen: React.FC<ReportsScreenProps> = ({ navigation }) => {
                 <ProgressBar
                   progress={stats.totalStudents > 0 ? stats.activeStudents / stats.totalStudents : 0}
                   color={COLORS.primary[500]}
-                  style={[styles.progressBar, { borderRadius: 4 }]}
+                  style={[styles.progressBar, { borderRadius: BORDER_RADIUS.sm }]}
                 />
                 <Text style={styles.occupancyPercentage}>
                   {stats.totalStudents > 0 ? Math.round((stats.activeStudents / stats.totalStudents) * 100) : 0}% de ocupação
@@ -354,9 +355,9 @@ const ReportsScreen: React.FC<ReportsScreenProps> = ({ navigation }) => {
 
               <DataTable>
                 <DataTable.Header>
-                  <DataTable.Title>Turma</DataTable.Title>
-                  <DataTable.Title>Modalidade</DataTable.Title>
-                  <DataTable.Title numeric>Alunos</DataTable.Title>
+                  <DataTable.Title>{getString('class')}</DataTable.Title>
+                  <DataTable.Title>{getString('modality')}</DataTable.Title>
+                  <DataTable.Title numeric>{getString('students')}</DataTable.Title>
                 </DataTable.Header>
 
                 {topClasses.map((classItem, index) => (
@@ -369,7 +370,7 @@ const ReportsScreen: React.FC<ReportsScreenProps> = ({ navigation }) => {
               </DataTable>
 
               {topClasses.length === 0 && (
-                <Text style={styles.noDataText}>Nenhuma turma encontrada</Text>
+                <Text style={styles.noDataText}>{getString('noClassesFound')}</Text>
               )}
             </Card.Content>
           </Card>
@@ -447,7 +448,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: FONT_SIZE.xxl,
-    fontWeight: '700' as const,
+    fontWeight: FONT_WEIGHT.bold as const,
     color: COLORS.text.primary,
   },
   subtitle: {
@@ -456,13 +457,13 @@ const styles = StyleSheet.create({
     marginTop: SPACING.xs,
   },
   card: {
-    marginBottom: 16,
+    marginBottom: SPACING.base,
     elevation: 4,
   },
   cardTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: '700' as const,
-    marginBottom: 16,
+    fontWeight: FONT_WEIGHT.bold as const,
+    marginBottom: SPACING.base,
     color: COLORS.text.primary,
   },
   statsGrid: {
@@ -474,7 +475,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     width: '48%',
-    marginBottom: 16,
+    marginBottom: SPACING.base,
     padding: SPACING.md,
     backgroundColor: COLORS.background.light,
     borderRadius: BORDER_RADIUS.md,
@@ -485,14 +486,14 @@ const styles = StyleSheet.create({
     borderRadius: BORDER_RADIUS.full,
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 12,
+    marginRight: SPACING.md,
   },
   statContent: {
     flex: 1,
   },
   statNumber: {
     fontSize: FONT_SIZE.xl,
-    fontWeight: '700' as const,
+    fontWeight: FONT_WEIGHT.bold as const,
     color: COLORS.text.primary,
   },
   statLabel: {
@@ -501,7 +502,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   statSubtext: {
-    fontSize: 10,
+    fontSize: FONT_SIZE.xxs,
     color: COLORS.gray[500],
     marginTop: 2,
   },
@@ -527,13 +528,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: COLORS.gray[500],
     fontStyle: 'italic',
-    marginTop: 16,
+    marginTop: SPACING.base,
   },
   activityItem: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: SPACING.md,
-    paddingBottom: 12,
+    paddingBottom: SPACING.md,
     borderBottomWidth: 1,
     borderBottomColor: '#eee',
   },
@@ -543,7 +544,7 @@ const styles = StyleSheet.create({
     borderRadius: BORDER_RADIUS.lg,
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 12,
+    marginRight: SPACING.md,
   },
   activityContent: {
     flex: 1,
@@ -551,7 +552,7 @@ const styles = StyleSheet.create({
   activityAction: {
     fontSize: FONT_SIZE.base,
     color: COLORS.text.primary,
-    fontWeight: '500' as const,
+    fontWeight: FONT_WEIGHT.medium as const,
   },
   activityTime: {
     fontSize: FONT_SIZE.sm,

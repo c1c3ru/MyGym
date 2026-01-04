@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     },
     phoneContainer: {
         flexDirection: 'row',
-        gap: 8,
+        gap: SPACING.sm,
         alignItems: 'flex-end',
     },
     countryButton: {

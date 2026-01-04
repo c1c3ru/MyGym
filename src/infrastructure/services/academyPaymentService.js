@@ -1,6 +1,7 @@
 import { academyFirestoreService } from './academyFirestoreService';
 import { academyUtils, validators } from '@utils/academyValidation';
 import notificationService from './notificationService';
+import { getString } from '@utils/theme';
 
 class AcademyPaymentService {
   constructor() {
@@ -165,7 +166,7 @@ class AcademyPaymentService {
         {
           type: 'payment',
           paymentId,
-          screen: 'Pagamentos'
+          screen: getString('payments')
         }
       );
 
@@ -269,7 +270,7 @@ class AcademyPaymentService {
           {
             type: 'payment',
             paymentId: payment.id,
-            screen: 'Pagamentos'
+            screen: getString('payments')
           }
         );
       }

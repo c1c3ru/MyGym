@@ -164,7 +164,7 @@ export const EmptyState = memo<EmptyStateProps>(({
     message = 'Não há dados para exibir no momento.',
     icon = 'folder-open-outline',
     action,
-    actionLabel = 'Adicionar',
+    actionLabel = getString('add'),
     onAction
 }) => (
     <View style={styles.emptyContainer}>
@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     loadingText: {
-        marginTop: 16,
+        marginTop: SPACING.base,
         fontSize: FONT_SIZE.md,
         color: COLORS.text.secondary,
         textAlign: 'center',
@@ -236,7 +236,7 @@ const styles = StyleSheet.create({
         paddingVertical: 20,
     },
     sectionText: {
-        marginLeft: 12,
+        marginLeft: SPACING.md,
         fontSize: FONT_SIZE.base,
         color: COLORS.text.secondary,
     },
@@ -251,14 +251,14 @@ const styles = StyleSheet.create({
     },
     skeletonRow: {
         flexDirection: 'row',
-        marginBottom: 16,
+        marginBottom: SPACING.base,
     },
     skeletonAvatar: {
         width: 50,
         height: 50,
-        borderRadius: 25,
+        borderRadius: BORDER_RADIUS.xs5,
         backgroundColor: COLORS.gray[300],
-        marginRight: 12,
+        marginRight: SPACING.md,
     },
     skeletonTextContainer: {
         flex: 1,
@@ -290,10 +290,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        paddingVertical: 16,
+        paddingVertical: SPACING.base,
     },
     formLoadingText: {
-        marginLeft: 8,
+        marginLeft: SPACING.sm,
         fontSize: FONT_SIZE.base,
         color: COLORS.text.secondary,
     },
@@ -305,7 +305,7 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.gray[100],
     },
     errorIcon: {
-        marginBottom: 16,
+        marginBottom: SPACING.base,
     },
     errorTitle: {
         fontSize: FONT_SIZE.lg,
@@ -332,7 +332,7 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.gray[100],
     },
     emptyIcon: {
-        marginBottom: 16,
+        marginBottom: SPACING.base,
     },
     emptyTitle: {
         fontSize: FONT_SIZE.lg,

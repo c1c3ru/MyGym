@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
     },
     pickerContent: {
         justifyContent: 'flex-start',
-        paddingHorizontal: 16,
+        paddingHorizontal: SPACING.base,
         height: 48,
     },
     menuContent: {

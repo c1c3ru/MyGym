@@ -304,18 +304,14 @@ export default function InviteManagement({ navigation }) {
               style={styles.typeButton}
               variant="primary"
               size="small"
-            >
-              Aluno
-            </ActionButton>
+            >{getString('student')}</ActionButton>
             <ActionButton
               mode={newInvite.tipo === 'instrutor' ? 'contained' : 'outlined'}
               onPress={() => setNewInvite(prev => ({ ...prev, tipo: 'instrutor' }))}
               style={styles.typeButton}
               variant="success"
               size="small"
-            >
-              Instrutor
-            </ActionButton>
+            >{getString('instructor')}</ActionButton>
           </ActionButtonGroup>
 
           <ActionButtonGroup style={styles.modalActions}>
@@ -324,9 +320,7 @@ export default function InviteManagement({ navigation }) {
               onPress={() => setShowInviteModal(false)}
               style={styles.modalButton}
               variant="secondary"
-            >
-              Cancelar
-            </ActionButton>
+            >{getString('cancel')}</ActionButton>
             <ActionButton
               mode="contained"
               onPress={sendInvite}
@@ -368,9 +362,7 @@ export default function InviteManagement({ navigation }) {
               mode="outlined"
               onPress={() => setShowQRModal(false)}
               style={styles.modalButton}
-            >
-              Fechar
-            </Button>
+            >{getString('close')}</Button>
             <Button
               mode="contained"
               onPress={shareQRCode}
@@ -417,20 +409,20 @@ const styles = {
   },
   sectionTitle: {
     fontWeight: FONT_WEIGHT.bold,
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   listHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   cleanupButton: {
-    marginLeft: 8,
+    marginLeft: SPACING.sm,
   },
   optionButtons: {
     flexDirection: 'row',
-    gap: 12,
+    gap: SPACING.md,
   },
   optionButton: {
     flex: 1,
@@ -455,7 +447,7 @@ const styles = {
     marginTop: SPACING.xs,
   },
   statusChip: {
-    marginLeft: 12,
+    marginLeft: SPACING.md,
   },
   inviteDate: {
     opacity: 0.6,
@@ -490,7 +482,7 @@ const styles = {
     fontWeight: FONT_WEIGHT.bold,
   },
   input: {
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   typeLabel: {
     marginBottom: SPACING.md,
@@ -498,15 +490,15 @@ const styles = {
   },
   typeButtons: {
     flexDirection: 'row',
-    gap: 12,
-    marginBottom: 24,
+    gap: SPACING.md,
+    marginBottom: SPACING.lg,
   },
   typeButton: {
     flex: 1,
   },
   modalActions: {
     flexDirection: 'row',
-    gap: 12,
+    gap: SPACING.md,
     marginTop: 20,
   },
   modalButton: {
@@ -515,7 +507,7 @@ const styles = {
   qrInstructions: {
     textAlign: 'center',
     opacity: 0.7,
-    marginTop: 16,
+    marginTop: SPACING.base,
     paddingHorizontal: 20,
   },
 };

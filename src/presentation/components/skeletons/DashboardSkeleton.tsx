@@ -9,7 +9,7 @@ import { COLORS, SPACING } from '@presentation/theme/designTokens';
  */
 const DashboardSkeleton: React.FC = () => {
     return (
-        <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 24 }}>
+        <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: SPACING.lg }}>
             {/* Header Skeleton */}
             <View style={styles.headerContainer}>
                 <SkeletonLoader
@@ -65,7 +65,7 @@ const DashboardSkeleton: React.FC = () => {
 
             {/* Recent Activities Skeleton */}
             <View style={styles.cardContainer}>
-                <SkeletonLoader width="50%" height={24} style={{ marginBottom: 16 }} />
+                <SkeletonLoader width="50%" height={24} style={{ marginBottom: SPACING.base }} />
 
                 {[1, 2, 3].map((index) => (
                     <View key={index} style={styles.activityItem}>
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
     },
     cardSkeleton: {
-        margin: 0,
+        margin: SPACING.none,
     },
     quickActionsHeader: {
         marginBottom: ResponsiveUtils.spacing?.md || 16,

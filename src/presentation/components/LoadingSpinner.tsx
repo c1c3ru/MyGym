@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     padding: SPACING.lg,
   },
   message: {
-    marginTop: 16,
+    marginTop: SPACING.base,
     fontSize: FONT_SIZE.md,
     color: COLORS.text.secondary,
     textAlign: 'center',

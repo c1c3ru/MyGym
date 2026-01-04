@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView, RefreshControl, Alert, Platform, Dimensions } from 'react-native';
 import {
+import { getString } from '@utils/theme';
   Card,
   Button,
   Avatar,
@@ -312,7 +313,7 @@ const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({ route, navi
               <Ionicons name="school-outline" size={24} color={COLORS.primary[500]} />
             </View>
             <Text style={styles.statNumber}>{studentClasses.length}</Text>
-            <Text style={styles.statLabel}>Turmas</Text>
+            <Text style={styles.statLabel}>{getString('classes')}</Text>
           </View>
 
           <View style={styles.statCard}>
@@ -320,7 +321,7 @@ const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({ route, navi
               <Ionicons name="trophy-outline" size={24} color={COLORS.warning[300]} />
             </View>
             <Text style={styles.statNumber}>{graduations.length}</Text>
-            <Text style={styles.statLabel}>Graduações</Text>
+            <Text style={styles.statLabel}>{getString('graduations')}</Text>
           </View>
 
           <View style={styles.statCard}>
@@ -348,7 +349,7 @@ const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({ route, navi
                   <Ionicons name="call-outline" size={20} color={COLORS.secondary[400]} />
                 </View>
                 <View style={styles.infoContent}>
-                  <Text style={styles.modernInfoLabel}>Telefone</Text>
+                  <Text style={styles.modernInfoLabel}>{getString('phone')}</Text>
                   <Text style={styles.modernInfoValue}>
                     {studentInfo?.phone || getString('notInformed')}
                   </Text>
@@ -360,7 +361,7 @@ const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({ route, navi
                   <Ionicons name="location-outline" size={20} color={COLORS.secondary[400]} />
                 </View>
                 <View style={styles.infoContent}>
-                  <Text style={styles.modernInfoLabel}>Endereço</Text>
+                  <Text style={styles.modernInfoLabel}>{getString('address')}</Text>
                   <Text style={styles.modernInfoValue}>
                     {studentInfo?.address || getString('notInformed')}
                   </Text>
@@ -540,7 +541,7 @@ const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({ route, navi
                 <Text style={styles.financialValue}>
                   {formatCurrency(payments.reduce((sum, p) => p.status === 'pending' ? sum + p.amount : sum, 0))}
                 </Text>
-                <Text style={styles.financialLabel}>Pendente</Text>
+                <Text style={styles.financialLabel}>{getString('pending')}</Text>
                 <View style={styles.financialIcon}>
                   <Ionicons name="time-outline" size={20} color={COLORS.warning[500]} />
                 </View>
@@ -695,7 +696,7 @@ const styles = StyleSheet.create({
   },
   avatarLabel: {
     fontSize: 36,
-    fontWeight: '700' as const,
+    fontWeight: FONT_WEIGHT.bold as const,
     color: COLORS.white,
   },
   activeBadge: {
@@ -710,7 +711,7 @@ const styles = StyleSheet.create({
   },
   studentName: {
     fontSize: FONT_SIZE.xxl,
-    fontWeight: '800',
+    fontWeight: FONT_WEIGHT.extrabold,
     color: COLORS.white,
     marginBottom: SPACING.xs,
     letterSpacing: 0.5,
@@ -733,7 +734,7 @@ const styles = StyleSheet.create({
   statusText: {
     fontSize: FONT_SIZE.base,
     color: COLORS.white,
-    fontWeight: '500' as const,
+    fontWeight: FONT_WEIGHT.medium as const,
   },
   graduationContainer: {
     flexDirection: 'row',
@@ -744,7 +745,7 @@ const styles = StyleSheet.create({
   graduationText: {
     fontSize: FONT_SIZE.base,
     color: COLORS.warning[300],
-    fontWeight: '600' as const,
+    fontWeight: FONT_WEIGHT.semibold as const,
   },
 
   // Cards de estatísticas
@@ -788,14 +789,14 @@ const styles = StyleSheet.create({
   },
   statNumber: {
     fontSize: FONT_SIZE.xxl,
-    fontWeight: '800',
+    fontWeight: FONT_WEIGHT.extrabold,
     color: COLORS.text.primary,
     marginBottom: SPACING.xs,
   },
   statLabel: {
     fontSize: FONT_SIZE.sm,
     color: COLORS.text.secondary,
-    fontWeight: '500' as const,
+    fontWeight: FONT_WEIGHT.medium as const,
     textAlign: 'center',
   },
 
@@ -841,7 +842,7 @@ const styles = StyleSheet.create({
   },
   modernCardTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: '700' as const,
+    fontWeight: FONT_WEIGHT.bold as const,
     color: COLORS.text.primary,
     flex: 1,
   },
@@ -875,7 +876,7 @@ const styles = StyleSheet.create({
   modernInfoLabel: {
     fontSize: FONT_SIZE.sm,
     color: COLORS.text.secondary,
-    fontWeight: '500' as const,
+    fontWeight: FONT_WEIGHT.medium as const,
     marginBottom: 2,
     textTransform: 'uppercase',
     letterSpacing: 0.5,
@@ -883,7 +884,7 @@ const styles = StyleSheet.create({
   modernInfoValue: {
     fontSize: FONT_SIZE.md,
     color: COLORS.text.primary,
-    fontWeight: '600' as const,
+    fontWeight: FONT_WEIGHT.semibold as const,
   },
 
   // Turmas
@@ -913,7 +914,7 @@ const styles = StyleSheet.create({
   },
   className: {
     fontSize: FONT_SIZE.md,
-    fontWeight: '700' as const,
+    fontWeight: FONT_WEIGHT.bold as const,
     color: COLORS.text.primary,
     flex: 1,
   },
@@ -921,7 +922,7 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.base,
     color: COLORS.text.secondary,
     marginBottom: SPACING.md,
-    fontWeight: '500' as const,
+    fontWeight: FONT_WEIGHT.medium as const,
   },
   classFooter: {
     flexDirection: 'row',
@@ -936,7 +937,7 @@ const styles = StyleSheet.create({
   scheduleText: {
     fontSize: FONT_SIZE.sm,
     color: COLORS.text.secondary,
-    fontWeight: '500' as const,
+    fontWeight: FONT_WEIGHT.medium as const,
   },
 
   // Timeline de graduações
@@ -980,7 +981,7 @@ const styles = StyleSheet.create({
   },
   graduationTitle: {
     fontSize: FONT_SIZE.md,
-    fontWeight: '700' as const,
+    fontWeight: FONT_WEIGHT.bold as const,
     color: COLORS.text.primary,
     marginBottom: SPACING.xs,
   },
@@ -988,7 +989,7 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.base,
     color: COLORS.text.secondary,
     marginBottom: SPACING.sm,
-    fontWeight: '500' as const,
+    fontWeight: FONT_WEIGHT.medium as const,
   },
   graduationDate: {
     flexDirection: 'row',
@@ -998,7 +999,7 @@ const styles = StyleSheet.create({
   graduationDateText: {
     fontSize: FONT_SIZE.sm,
     color: COLORS.text.secondary,
-    fontWeight: '500' as const,
+    fontWeight: FONT_WEIGHT.medium as const,
   },
 
   // Resumo financeiro
@@ -1016,14 +1017,14 @@ const styles = StyleSheet.create({
   },
   financialValue: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: '800',
+    fontWeight: FONT_WEIGHT.extrabold,
     color: COLORS.text.primary,
     marginBottom: SPACING.xs,
   },
   financialLabel: {
     fontSize: FONT_SIZE.sm,
     color: COLORS.text.secondary,
-    fontWeight: '500' as const,
+    fontWeight: FONT_WEIGHT.medium as const,
     textTransform: 'uppercase',
     letterSpacing: 0.5,
   },
@@ -1039,7 +1040,7 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: FONT_SIZE.md,
-    fontWeight: '700' as const,
+    fontWeight: FONT_WEIGHT.bold as const,
     color: COLORS.text.primary,
     marginBottom: SPACING.base,
   },
@@ -1056,14 +1057,14 @@ const styles = StyleSheet.create({
   },
   paymentAmount: {
     fontSize: FONT_SIZE.md,
-    fontWeight: '700' as const,
+    fontWeight: FONT_WEIGHT.bold as const,
     color: COLORS.text.primary,
     marginBottom: 2,
   },
   paymentDate: {
     fontSize: FONT_SIZE.sm,
     color: COLORS.text.secondary,
-    fontWeight: '500' as const,
+    fontWeight: FONT_WEIGHT.medium as const,
   },
   paymentStatus: {
     paddingHorizontal: SPACING.md,
@@ -1072,7 +1073,7 @@ const styles = StyleSheet.create({
   },
   paymentStatusText: {
     fontSize: FONT_SIZE.sm,
-    fontWeight: '600' as const,
+    fontWeight: FONT_WEIGHT.semibold as const,
   },
   viewAllPaymentsButton: {
     marginTop: SPACING.md,
@@ -1085,7 +1086,7 @@ const styles = StyleSheet.create({
   },
   emptyStateText: {
     fontSize: FONT_SIZE.md,
-    fontWeight: '600' as const,
+    fontWeight: FONT_WEIGHT.semibold as const,
     color: COLORS.gray[500],
     marginTop: SPACING.base,
     marginBottom: SPACING.xs,

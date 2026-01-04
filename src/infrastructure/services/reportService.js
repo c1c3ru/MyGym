@@ -1,6 +1,7 @@
 import { firestoreService } from './firestoreService';
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
+import { getString } from '@utils/theme';
 
 class ReportService {
   constructor() {
@@ -318,7 +319,7 @@ class ReportService {
     let csv = 'Nome,Email,Telefone,Graduação,Status,Número de Turmas\n';
     
     reportData.studentsData.forEach(student => {
-      csv += `${student.name},${student.email},${student.phone || ''},${student.currentGraduation || ''},${student.isActive ? 'Ativo' : 'Inativo'},${student.classesCount}\n`;
+      csv += `${student.name},${student.email},${student.phone || ''},${student.currentGraduation || ''},${student.isActive ? getString('active') : getString('inactive')},${student.classesCount}\n`;
     });
 
     return csv;

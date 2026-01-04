@@ -206,7 +206,7 @@ export default function ForgotPasswordScreen({ navigation }: AuthScreenProps) {
                         color={COLORS.primary[500]}
                         style={styles.successIcon}
                       />
-                      <Text style={[styles.successTitle, { color: COLORS.primary[500], fontWeight: 'bold', fontSize: 20 }]}>{getString('emailSent')}</Text>
+                      <Text style={[styles.successTitle, { color: COLORS.primary[500], fontWeight: 'bold', fontSize: FONT_SIZE.lg }]}>{getString('emailSent')}</Text>
                       <Text style={styles.successText}>
                         {getString('checkInboxInstructions')}
                       </Text>
@@ -279,7 +279,7 @@ const styles = StyleSheet.create({
     paddingBottom: ResponsiveUtils?.spacing?.md || 16,
   },
   headerIcon: {
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   headerTitle: {
     fontSize: ResponsiveUtils?.fontSize?.large || 28,

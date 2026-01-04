@@ -8,7 +8,7 @@ import { COLORS, SPACING, BORDER_RADIUS } from '@presentation/theme/designTokens
  */
 const CheckInSkeleton: React.FC = () => {
     return (
-        <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 24 }}>
+        <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: SPACING.lg }}>
             {/* Header Stats Skeleton */}
             <View style={styles.statsContainer}>
                 {[1, 2, 3].map((index) => (
@@ -24,7 +24,7 @@ const CheckInSkeleton: React.FC = () => {
 
             {/* Active Check-ins Skeleton */}
             <View style={styles.cardContainer}>
-                <SkeletonLoader width="50%" height={20} style={{ marginBottom: 16 }} />
+                <SkeletonLoader width="50%" height={20} style={{ marginBottom: SPACING.base }} />
 
                 {[1, 2].map((index) => (
                     <View key={index} style={styles.checkInItem}>
@@ -43,7 +43,7 @@ const CheckInSkeleton: React.FC = () => {
 
             {/* Quick Actions Skeleton */}
             <View style={styles.cardContainer}>
-                <SkeletonLoader width="40%" height={20} style={{ marginBottom: 16 }} />
+                <SkeletonLoader width="40%" height={20} style={{ marginBottom: SPACING.base }} />
 
                 <View style={styles.actionsGrid}>
                     {[1, 2, 3, 4].map((index) => (
@@ -57,7 +57,7 @@ const CheckInSkeleton: React.FC = () => {
 
             {/* Recent Check-ins Skeleton */}
             <View style={styles.cardContainer}>
-                <SkeletonLoader width="45%" height={20} style={{ marginBottom: 16 }} />
+                <SkeletonLoader width="45%" height={20} style={{ marginBottom: SPACING.base }} />
 
                 {[1, 2, 3, 4].map((index) => (
                     <View key={index} style={styles.recentItem}>
@@ -88,8 +88,8 @@ const styles = StyleSheet.create({
     statsContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        paddingHorizontal: 16,
-        marginTop: 16,
+        paddingHorizontal: SPACING.base,
+        marginTop: SPACING.base,
         marginBottom: SPACING.sm,
     },
     statCard: {
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
     },
     statContent: {
-        marginLeft: 12,
+        marginLeft: SPACING.md,
         flex: 1,
     },
     cardContainer: {
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
     },
     checkInItem: {
-        marginBottom: 16,
+        marginBottom: SPACING.base,
         padding: SPACING.md,
         backgroundColor: COLORS.background.light,
         borderRadius: BORDER_RADIUS.md,
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     },
     checkInActions: {
         flexDirection: 'row',
-        gap: 8,
+        gap: SPACING.sm,
     },
     actionsGrid: {
         flexDirection: 'row',
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
     },
     recentContent: {
         flex: 1,
-        marginLeft: 12,
+        marginLeft: SPACING.md,
     },
     fabContainer: {
         position: 'absolute',

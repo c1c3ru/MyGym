@@ -8,7 +8,7 @@ import { COLORS, SPACING, BORDER_RADIUS } from '@presentation/theme/designTokens
  */
 const StudentDetailsSkeleton: React.FC = () => {
     return (
-        <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 24 }}>
+        <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: SPACING.lg }}>
             {/* Student Header Card Skeleton */}
             <View style={styles.cardContainer}>
                 <View style={styles.headerContainer}>
@@ -26,7 +26,7 @@ const StudentDetailsSkeleton: React.FC = () => {
                 {[1, 2, 3].map((index) => (
                     <View key={index} style={styles.infoRow}>
                         <SkeletonLoader width={20} height={20} borderRadius={10} />
-                        <SkeletonLoader width="70%" height={16} style={{ marginLeft: 12 }} />
+                        <SkeletonLoader width="70%" height={16} style={{ marginLeft: SPACING.md }} />
                     </View>
                 ))}
             </View>
@@ -35,7 +35,7 @@ const StudentDetailsSkeleton: React.FC = () => {
             <View style={styles.cardContainer}>
                 <View style={styles.cardHeader}>
                     <SkeletonLoader width={24} height={24} borderRadius={12} />
-                    <SkeletonLoader width="40%" height={20} style={{ marginLeft: 8 }} />
+                    <SkeletonLoader width="40%" height={20} style={{ marginLeft: SPACING.sm }} />
                 </View>
 
                 {[1, 2].map((index) => (
@@ -56,7 +56,7 @@ const StudentDetailsSkeleton: React.FC = () => {
             <View style={styles.cardContainer}>
                 <View style={styles.cardHeader}>
                     <SkeletonLoader width={24} height={24} borderRadius={12} />
-                    <SkeletonLoader width="50%" height={20} style={{ marginLeft: 8 }} />
+                    <SkeletonLoader width="50%" height={20} style={{ marginLeft: SPACING.sm }} />
                 </View>
 
                 {[1, 2, 3].map((index) => (
@@ -75,7 +75,7 @@ const StudentDetailsSkeleton: React.FC = () => {
 
             {/* Actions Card Skeleton */}
             <View style={styles.cardContainer}>
-                <SkeletonLoader width="30%" height={20} style={{ marginBottom: 16 }} />
+                <SkeletonLoader width="30%" height={20} style={{ marginBottom: SPACING.base }} />
 
                 <View style={styles.actionsContainer}>
                     <SkeletonLoader width="48%" height={40} borderRadius={20} />
@@ -106,10 +106,10 @@ const styles = StyleSheet.create({
     headerContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: 16,
+        marginBottom: SPACING.base,
     },
     headerInfo: {
-        marginLeft: 16,
+        marginLeft: SPACING.base,
         flex: 1,
     },
     divider: {
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     cardHeader: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: 16,
+        marginBottom: SPACING.base,
     },
     listItem: {
         flexDirection: 'row',
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     listItemContent: {
-        marginLeft: 12,
+        marginLeft: SPACING.md,
         flex: 1,
     },
     actionsContainer: {

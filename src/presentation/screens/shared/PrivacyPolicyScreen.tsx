@@ -5,6 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import ActionButton from '@components/ActionButton';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
+import { getString } from '@utils/theme';
 
 const PrivacyPolicyScreen = ({ navigation }: any) => {
   const { currentTheme } = useThemeToggle();
@@ -341,7 +342,7 @@ const PrivacyPolicyScreen = ({ navigation }: any) => {
               serão comunicadas por e-mail ou através do aplicativo com antecedência mínima de 30 dias.
             </Text>
 
-            <Text variant="bodyMedium" style={[styles.bodyText, { marginTop: 16 }]}>
+            <Text variant="bodyMedium" style={[styles.bodyText, { marginTop: SPACING.base }]}>
               Recomendamos que você revise esta política regularmente para se manter informado sobre
               como protegemos seus dados pessoais.
             </Text>
@@ -356,9 +357,7 @@ const PrivacyPolicyScreen = ({ navigation }: any) => {
             style={styles.actionButton}
             variant="secondary"
             icon="arrow-left"
-          >
-            Voltar
-          </ActionButton>
+          >{getString('back')}</ActionButton>
 
           <ActionButton
             mode="contained"
@@ -397,7 +396,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    paddingBottom: 32,
+    paddingBottom: SPACING.xl,
   },
   headerCard: {
     margin: SPACING.base,
@@ -436,8 +435,8 @@ const styles = StyleSheet.create({
     textAlign: 'justify',
   },
   subSection: {
-    marginTop: 16,
-    marginLeft: 8,
+    marginTop: SPACING.base,
+    marginLeft: SPACING.sm,
   },
   subSectionTitle: {
     fontWeight: 'bold',
@@ -458,7 +457,7 @@ const styles = StyleSheet.create({
     borderRadius: BORDER_RADIUS.md,
     borderLeftWidth: 4,
     borderLeftColor: COLORS.warning[500],
-    marginTop: 16,
+    marginTop: SPACING.base,
   },
   warningText: {
     color: COLORS.warning[800],
@@ -507,17 +506,17 @@ const styles = StyleSheet.create({
   actionButtons: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    marginTop: 16,
-    gap: 12,
+    paddingHorizontal: SPACING.base,
+    marginTop: SPACING.base,
+    gap: SPACING.md,
   },
   actionButton: {
     flex: 1,
   },
   footer: {
     alignItems: 'center',
-    marginTop: 32,
-    paddingHorizontal: 16,
+    marginTop: SPACING.xl,
+    paddingHorizontal: SPACING.base,
   },
   footerText: {
     textAlign: 'center',

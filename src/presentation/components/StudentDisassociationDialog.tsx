@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     titleText: {
-        marginLeft: 8,
+        marginLeft: SPACING.sm,
         fontSize: FONT_SIZE.lg,
         fontWeight: FONT_WEIGHT.bold as any,
         color: COLORS.error[500],
@@ -277,7 +277,7 @@ const styles = StyleSheet.create({
     label: {
         fontSize: FONT_SIZE.md,
         fontWeight: FONT_WEIGHT.bold as any,
-        marginRight: 8,
+        marginRight: SPACING.sm,
         minWidth: 60,
     },
     studentChip: {
@@ -291,7 +291,7 @@ const styles = StyleSheet.create({
         marginVertical: 16,
     },
     reasonInput: {
-        marginBottom: 16,
+        marginBottom: SPACING.base,
     },
     warningText: {
         fontSize: FONT_SIZE.base,
@@ -302,7 +302,7 @@ const styles = StyleSheet.create({
     warningItem: {
         fontSize: FONT_SIZE.base,
         color: COLORS.text.secondary,
-        marginLeft: 16,
+        marginLeft: SPACING.base,
         marginBottom: SPACING.xs,
     },
 });

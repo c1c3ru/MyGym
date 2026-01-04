@@ -3,6 +3,7 @@ import { COLORS } from '@presentation/theme/designTokens';
 import * as Device from 'expo-device';
 import { Platform } from 'react-native';
 import { firestoreService } from './firestoreService';
+import { getString } from '@utils/theme';
 
 // Configurar comportamento das notificações
 Notifications.setNotificationHandler({
@@ -210,7 +211,7 @@ class NotificationService {
     await this.sendLocalNotification(title, body, {
       type: 'payment',
       userId,
-      screen: 'Pagamentos'
+      screen: getString('payments')
     });
   }
 
@@ -319,7 +320,7 @@ class NotificationService {
     await this.sendLocalNotification(title, body, {
       type: 'general',
       userId,
-      screen: 'Dashboard'
+      screen: getString('dashboard')
     });
   }
 }

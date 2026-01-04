@@ -53,7 +53,7 @@ const SelectionField = ({
 
 const styles = StyleSheet.create({
   selectionItem: {
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   selectionLabel: {
     fontSize: FONT_SIZE.base,
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: SPACING.sm,
-    paddingHorizontal: 4,
+    paddingHorizontal: SPACING.xs,
   },
   selectionButtonText: {
     flex: 1,

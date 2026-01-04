@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Platform, StyleSheet, ViewStyle } from 'react-native';
 import { Card } from 'react-native-paper';
+import { COLORS, SPACING, FONT_SIZE, FONT_WEIGHT, BORDER_RADIUS, ELEVATION } from '@presentation/theme/designTokens';
 
 export interface ModernCardProps {
   children: React.ReactNode;
@@ -31,7 +32,7 @@ const ModernCard: React.FC<ModernCardProps> = ({ children, style, contentStyle, 
 
 const styles = StyleSheet.create<{ base: ViewStyle; content: ViewStyle; glassNative: ViewStyle }>({
   base: {
-    borderRadius: 16,
+    borderRadius: BORDER_RADIUS.lg,
     overflow: 'hidden',
     backgroundColor: 'rgba(255,255,255,0.08)',
     borderWidth: 1,

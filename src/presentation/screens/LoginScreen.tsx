@@ -385,7 +385,7 @@ export default function LoginScreen({ navigation }: AuthScreenProps) {
                   <MaterialCommunityIcons name="dumbbell" size={40} color={COLORS.white} />
                 </LinearGradient>
               </View>
-              <Text style={[styles.headerTitle, { color: isDarkMode ? COLORS.white : COLORS.black, fontSize: 32 }]}>
+              <Text style={[styles.headerTitle, { color: isDarkMode ? COLORS.white : COLORS.black, fontSize: FONT_SIZE.xxxl }]}>
                 My<Text style={{ color: COLORS.primary[500], fontWeight: 'bold' }}>Gym</Text>
               </Text>
               <Text style={[styles.headerSubtitle, { color: isDarkMode ? COLORS.gray[400] : COLORS.gray[600] }]}>
@@ -480,7 +480,7 @@ export default function LoginScreen({ navigation }: AuthScreenProps) {
                 </View>
 
                 <View style={styles.registerRow}>
-                  <Text style={[styles.registerText, { color: isDarkMode ? COLORS.gray[200] : COLORS.gray[800], fontWeight: '500' }]}>
+                  <Text style={[styles.registerText, { color: isDarkMode ? COLORS.gray[200] : COLORS.gray[800], fontWeight: FONT_WEIGHT.medium }]}>
                     {getString('noAccount')}
                   </Text>
                   <TouchableRipple onPress={handleGoToRegister} style={styles.registerLink}>
@@ -542,7 +542,7 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     flexGrow: 1,
-    paddingBottom: 80,
+    paddingBottom: SPACING.sm0,
   },
   topDecoration: {
     position: 'absolute',
@@ -560,14 +560,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 24,
+    paddingHorizontal: SPACING.lg,
     paddingTop: Platform.OS === 'ios' ? 20 : 40,
     zIndex: 10,
   },
   glassButton: {
     width: 44,
     height: 44,
-    borderRadius: 22,
+    borderRadius: BORDER_RADIUS.xs2,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
@@ -578,7 +578,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   flagEmoji: {
-    fontSize: 18,
+    fontSize: FONT_SIZE.md,
   },
   header: {
     alignItems: 'center',
@@ -596,18 +596,18 @@ const styles = StyleSheet.create({
   logoGradient: {
     width: 80,
     height: 80,
-    borderRadius: 24,
+    borderRadius: BORDER_RADIUS.xs4,
     justifyContent: 'center',
     alignItems: 'center',
   },
   headerTitle: {
     fontSize: 34,
-    fontWeight: '800',
-    marginBottom: 8,
+    fontWeight: FONT_WEIGHT.extrabold,
+    marginBottom: SPACING.sm,
     letterSpacing: -0.5,
   },
   headerSubtitle: {
-    fontSize: 16,
+    fontSize: FONT_SIZE.base,
     opacity: 0.8,
   },
   content: {
@@ -624,27 +624,27 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
   },
   input: {
-    marginBottom: 16,
+    marginBottom: SPACING.base,
     backgroundColor: 'transparent',
   },
   errorText: {
     marginTop: -12,
-    marginBottom: 12,
-    marginLeft: 4,
+    marginBottom: SPACING.md,
+    marginLeft: SPACING.xs,
   },
   loginButton: {
     height: 56,
-    borderRadius: 16,
-    marginTop: 8,
+    borderRadius: BORDER_RADIUS.lg,
+    marginTop: SPACING.sm,
     justifyContent: 'center',
   },
   forgotPasswordRow: {
     alignItems: 'center',
-    marginTop: 16,
+    marginTop: SPACING.base,
   },
   forgotPasswordText: {
-    fontSize: 14,
-    fontWeight: '600',
+    fontSize: FONT_SIZE.sm,
+    fontWeight: FONT_WEIGHT.semibold,
   },
   dividerRow: {
     flexDirection: 'row',
@@ -657,18 +657,18 @@ const styles = StyleSheet.create({
   },
   dividerText: {
     marginHorizontal: 16,
-    fontSize: 14,
-    fontWeight: '500',
+    fontSize: FONT_SIZE.sm,
+    fontWeight: FONT_WEIGHT.medium,
   },
   socialRow: {
     flexDirection: 'row',
     justifyContent: 'center',
-    gap: 16,
+    gap: SPACING.base,
   },
   socialIconBtn: {
     width: 64,
     height: 64,
-    borderRadius: 20,
+    borderRadius: BORDER_RADIUS.xs0,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
@@ -677,17 +677,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 32,
+    marginTop: SPACING.xl,
   },
   registerText: {
-    fontSize: 14,
+    fontSize: FONT_SIZE.sm,
   },
   registerLink: {
     padding: 4,
   },
   registerLinkText: {
-    fontSize: 14,
-    fontWeight: '700',
+    fontSize: FONT_SIZE.sm,
+    fontWeight: FONT_WEIGHT.bold,
   },
   loadingContainer: {
     flex: 1,
@@ -695,12 +695,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   loadingText: {
-    marginTop: 16,
-    fontSize: 16,
-    fontWeight: '600',
+    marginTop: SPACING.base,
+    fontSize: FONT_SIZE.base,
+    fontWeight: FONT_WEIGHT.semibold,
   },
   snackbar: {
-    borderRadius: 12,
+    borderRadius: BORDER_RADIUS.md,
   },
   errorContainer: {
     position: 'absolute',
@@ -717,9 +717,9 @@ const styles = StyleSheet.create({
   },
   snackbarText: {
     color: COLORS.white,
-    fontSize: 14,
+    fontSize: FONT_SIZE.sm,
   },
   settingItem: {
-    marginLeft: 8,
+    marginLeft: SPACING.sm,
   },
 });

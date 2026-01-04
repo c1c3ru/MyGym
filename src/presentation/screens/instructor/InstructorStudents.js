@@ -514,7 +514,7 @@ const InstructorStudents = ({ navigation }) => {
                   </View>
 
                   <View style={styles.statItem}>
-                    <Text style={styles.statLabel}>Pagamento</Text>
+                    <Text style={styles.statLabel}>{getString('payment')}</Text>
                     <Chip 
                       mode="outlined"
                       style={[

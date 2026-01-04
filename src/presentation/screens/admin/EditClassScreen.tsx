@@ -306,7 +306,7 @@ const EditClassScreen = ({ route, navigation }: EditClassScreenProps) => {
 
             {/* Modalidade */}
             <View style={styles.pickerContainer}>
-              <Text style={styles.label}>Modalidade</Text>
+              <Text style={styles.label}>{getString('modality')}</Text>
               <View style={styles.chipContainer}>
                 {modalities.length === 0 && (
                   <Text style={{ color: COLORS.text.secondary }}>Nenhuma modalidade cadastrada</Text>
@@ -370,7 +370,7 @@ const EditClassScreen = ({ route, navigation }: EditClassScreenProps) => {
 
             {/* Instrutor */}
             <View style={styles.pickerContainer}>
-              <Text style={styles.label}>Instrutor</Text>
+              <Text style={styles.label}>{getString('instructor')}</Text>
               <View style={styles.chipContainer}>
                 {instructors.length === 0 && (
                   <Text style={{ color: COLORS.text.secondary }}>Nenhum instrutor encontrado</Text>
@@ -439,9 +439,7 @@ const EditClassScreen = ({ route, navigation }: EditClassScreenProps) => {
                 style={styles.button}
                 disabled={loading}
                 variant="secondary"
-              >
-                Cancelar
-              </ActionButton>
+              >{getString('cancel')}</ActionButton>
               <ActionButton
                 mode="contained"
                 onPress={handleSubmit}
@@ -449,9 +447,7 @@ const EditClassScreen = ({ route, navigation }: EditClassScreenProps) => {
                 loading={loading}
                 disabled={loading || modalities.length === 0}
                 variant="success"
-              >
-                Salvar
-              </ActionButton>
+              >{getString('save')}</ActionButton>
             </ActionButtonGroup>
 
             {/* Botão Excluir */}
@@ -500,7 +496,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: FONT_SIZE.xxl,
-    fontWeight: '700' as const,
+    fontWeight: FONT_WEIGHT.bold as const,
     marginBottom: 20,
     textAlign: 'center',
   },
@@ -509,17 +505,17 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: FONT_SIZE.md,
-    fontWeight: '500' as const,
+    fontWeight: FONT_WEIGHT.medium as const,
     marginBottom: SPACING.sm,
     color: COLORS.text.primary,
   },
   pickerContainer: {
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   chipContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 8,
+    gap: SPACING.sm,
   },
   chip: {
     marginBottom: SPACING.sm,
@@ -542,7 +538,7 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.sm,
   },
   radioLabel: {
-    marginLeft: 8,
+    marginLeft: SPACING.sm,
     fontSize: FONT_SIZE.md,
   },
   buttonContainer: {

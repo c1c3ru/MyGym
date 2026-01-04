@@ -163,7 +163,7 @@ const AdminStudents = ({ navigation }) => {
   const renderEmptyList = useCallback(() => (
     <View style={styles.emptyContainer}>
       <Ionicons name="people-outline" size={64} color="currentTheme.gray[300]" />
-      <Text style={styles.emptyText}>Nenhum aluno encontrado</Text>
+      <Text style={styles.emptyText}>{getString('noStudentsFound')}</Text>
       <Text style={styles.emptySubtext}>
         {searchQuery ? 'Tente ajustar os filtros de busca' : 'Adicione o primeiro aluno da academia'}
       </Text>
@@ -409,7 +409,7 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: COLORS.background.paper,
-    paddingHorizontal: 16,
+    paddingHorizontal: SPACING.base,
     paddingVertical: SPACING.md,
     elevation: 2,
   },
@@ -444,7 +444,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primary[500],
   },
   studentDetails: {
-    marginLeft: 12,
+    marginLeft: SPACING.md,
     flex: 1,
   },
   studentName: {
@@ -494,7 +494,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primary[500],
   },
   listContainer: {
-    paddingHorizontal: 16,
+    paddingHorizontal: SPACING.base,
   },
   emptyContainer: {
     flex: 1,
@@ -505,7 +505,7 @@ const styles = StyleSheet.create({
   emptyText: {
     fontSize: FONT_SIZE.lg,
     color: COLORS.text.secondary,
-    marginTop: 16,
+    marginTop: SPACING.base,
     textAlign: 'center',
   },
   emptySubtext: {

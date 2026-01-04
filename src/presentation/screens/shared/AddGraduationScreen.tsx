@@ -632,7 +632,7 @@ const styles = StyleSheet.create({
   header: {
     paddingTop: Platform.OS === 'ios' ? 50 : 30,
     paddingBottom: 20,
-    paddingHorizontal: 16,
+    paddingHorizontal: SPACING.base,
   },
   headerContent: {
     flexDirection: 'row',
@@ -640,11 +640,11 @@ const styles = StyleSheet.create({
   },
   headerTextContainer: {
     flex: 1,
-    marginLeft: 8,
+    marginLeft: SPACING.sm,
   },
   headerTitle: {
     fontSize: FONT_SIZE.xl,
-    fontWeight: '700' as const,
+    fontWeight: FONT_WEIGHT.bold as const,
     color: COLORS.white,
   },
   headerSubtitle: {
@@ -657,14 +657,14 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     padding: SPACING.base,
-    paddingBottom: 32,
+    paddingBottom: SPACING.xl,
     maxWidth: width < 768 ? width : 768, // Limita largura em tablets
     alignSelf: 'center',
     width: '100%',
   },
   currentGraduationCard: {
     borderRadius: BORDER_RADIUS.md,
-    marginBottom: 16,
+    marginBottom: SPACING.base,
     backgroundColor: COLORS.white,
   },
   currentGraduationContent: {
@@ -674,38 +674,38 @@ const styles = StyleSheet.create({
   },
   currentGraduationText: {
     flex: 1,
-    marginLeft: 8,
+    marginLeft: SPACING.sm,
   },
   currentGraduationLabel: {
     fontSize: FONT_SIZE.sm,
     color: COLORS.text.secondary,
     textTransform: 'uppercase',
-    fontWeight: '500' as const,
+    fontWeight: FONT_WEIGHT.medium as const,
     letterSpacing: 0.5,
   },
   currentGraduationValue: {
     fontSize: FONT_SIZE.md,
-    fontWeight: '700' as const,
+    fontWeight: FONT_WEIGHT.bold as const,
     color: COLORS.text.primary,
     marginTop: 2,
   },
   selectionCard: {
     borderRadius: BORDER_RADIUS.md,
-    marginBottom: 16,
+    marginBottom: SPACING.base,
     elevation: 2,
   },
   sectionTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: '700' as const,
+    fontWeight: FONT_WEIGHT.bold as const,
     color: COLORS.text.primary,
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   selectionItem: {
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   selectionLabel: {
     fontSize: FONT_SIZE.base,
-    fontWeight: '500' as const,
+    fontWeight: FONT_WEIGHT.medium as const,
     color: COLORS.text.secondary,
     marginBottom: SPACING.sm,
   },
@@ -727,7 +727,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: SPACING.sm,
-    paddingHorizontal: 4,
+    paddingHorizontal: SPACING.xs,
   },
   selectionButtonText: {
     flex: 1,
@@ -736,7 +736,7 @@ const styles = StyleSheet.create({
   },
   selectionButtonTextSelected: {
     color: COLORS.info[700],
-    fontWeight: '500' as const,
+    fontWeight: FONT_WEIGHT.medium as const,
   },
   selectionButtonTextDisabled: {
     color: COLORS.gray[500],
@@ -749,15 +749,15 @@ const styles = StyleSheet.create({
   },
   detailsCard: {
     borderRadius: BORDER_RADIUS.md,
-    marginBottom: 16,
+    marginBottom: SPACING.base,
     elevation: 2,
   },
   inputGroup: {
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   inputLabel: {
     fontSize: FONT_SIZE.base,
-    fontWeight: '500' as const,
+    fontWeight: FONT_WEIGHT.medium as const,
     color: COLORS.text.secondary,
     marginBottom: SPACING.sm,
   },
@@ -769,7 +769,7 @@ const styles = StyleSheet.create({
     borderRadius: BORDER_RADIUS.md,
     backgroundColor: COLORS.white,
     paddingVertical: SPACING.sm,
-    paddingHorizontal: 4,
+    paddingHorizontal: SPACING.xs,
   },
   dateButtonText: {
     flex: 1,
@@ -782,7 +782,7 @@ const styles = StyleSheet.create({
   },
   certificateCard: {
     borderRadius: BORDER_RADIUS.md,
-    marginBottom: 16,
+    marginBottom: SPACING.base,
     elevation: 2,
   },
   certificateHeader: {
@@ -795,7 +795,7 @@ const styles = StyleSheet.create({
   },
   actionContainer: {
     marginTop: SPACING.sm,
-    gap: 12,
+    gap: SPACING.md,
   },
   submitButton: {
     backgroundColor: COLORS.info[700],
@@ -806,7 +806,7 @@ const styles = StyleSheet.create({
   },
   submitButtonLabel: {
     fontSize: FONT_SIZE.md,
-    fontWeight: '700' as const,
+    fontWeight: FONT_WEIGHT.bold as const,
   },
   cancelButton: {
     borderColor: COLORS.gray[500],
@@ -821,11 +821,11 @@ const styles = StyleSheet.create({
   },
   dialogTitleContainer: {
     padding: SPACING.lg,
-    paddingBottom: 16,
+    paddingBottom: SPACING.base,
   },
   dialogTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: '700' as const,
+    fontWeight: FONT_WEIGHT.bold as const,
     color: COLORS.text.primary,
   },
   dialogContent: {
@@ -843,7 +843,7 @@ const styles = StyleSheet.create({
   graduationItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
+    gap: SPACING.md,
   },
   colorIndicator: {
     width: 20,

@@ -373,7 +373,7 @@ export const AccessibleBadge = ({
 const styles = StyleSheet.create({
   // Text variants
   h1: {
-    fontSize: 32,
+    fontSize: FONT_SIZE.xxxl,
     fontWeight: FONT_WEIGHT.bold,
     marginBottom: SPACING.md,
   },

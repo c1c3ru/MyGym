@@ -92,14 +92,14 @@ const StudentListItem = memo<StudentListItemProps>(({
                     </View>
 
                     <View style={styles.statColumn}>
-                        <Text style={styles.statLabel}>Graduação</Text>
+                        <Text style={styles.statLabel}>{getString('graduation')}</Text>
                         <Text style={styles.statValue}>
                             {student.currentGraduation || getString('beginner')}
                         </Text>
                     </View>
 
                     <View style={styles.statColumn}>
-                        <Text style={styles.statLabel}>Modalidades</Text>
+                        <Text style={styles.statLabel}>{getString('modalities')}</Text>
                         <Text style={styles.statValue}>
                             {student.modalities?.length || 0}
                         </Text>
@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.primary[500],
     },
     studentDetails: {
-        marginLeft: 12,
+        marginLeft: SPACING.md,
         flex: 1,
     },
     studentName: {

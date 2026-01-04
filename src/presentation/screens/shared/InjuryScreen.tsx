@@ -384,7 +384,7 @@ const InjuryScreen = ({ navigation, route }: InjuryScreenProps) => {
                   <RadioButton.Item
                     label={level.label}
                     value={level.value}
-                    labelStyle={{ color: level.color, fontWeight: '700' as const }}
+                    labelStyle={{ color: level.color, fontWeight: FONT_WEIGHT.bold as const }}
                   />
                   <Text style={styles.radioDescription}>{level.description}</Text>
                 </View>
@@ -404,7 +404,7 @@ const InjuryScreen = ({ navigation, route }: InjuryScreenProps) => {
                   <RadioButton.Item
                     label={option.label}
                     value={option.value}
-                    labelStyle={{ color: option.color, fontWeight: '700' as const }}
+                    labelStyle={{ color: option.color, fontWeight: FONT_WEIGHT.bold as const }}
                   />
                   <Text style={styles.radioDescription}>{option.description}</Text>
                 </View>
@@ -468,14 +468,14 @@ const InjuryScreen = ({ navigation, route }: InjuryScreenProps) => {
                 <Chip
                   mode="flat"
                   style={[styles.summaryChip, { backgroundColor: getSeverityColor(formData.severity) }]}
-                  textStyle={{ color: COLORS.white, fontWeight: '700' as const }}
+                  textStyle={{ color: COLORS.white, fontWeight: FONT_WEIGHT.bold as const }}
                 >
                   {severityLevels.find(s => s.value === formData.severity)?.label}
                 </Chip>
                 <Chip
                   mode="flat"
                   style={[styles.summaryChip, { backgroundColor: getStatusColor(formData.status) }]}
-                  textStyle={{ color: COLORS.white, fontWeight: '700' as const }}
+                  textStyle={{ color: COLORS.white, fontWeight: FONT_WEIGHT.bold as const }}
                 >
                   {statusOptions.find(s => s.value === formData.status)?.label}
                 </Chip>
@@ -539,7 +539,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: FONT_SIZE.xxl,
-    fontWeight: '700' as const,
+    fontWeight: FONT_WEIGHT.bold as const,
     marginTop: SPACING.md,
     marginBottom: SPACING.sm,
     textAlign: 'center',
@@ -552,7 +552,7 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: '700' as const,
+    fontWeight: FONT_WEIGHT.bold as const,
     marginTop: SPACING.base,
     marginBottom: SPACING.md,
     color: COLORS.text.primary,
@@ -590,7 +590,7 @@ const styles = StyleSheet.create({
   },
   summaryTitle: {
     fontSize: FONT_SIZE.md,
-    fontWeight: '700' as const,
+    fontWeight: FONT_WEIGHT.bold as const,
     marginLeft: SPACING.sm,
     color: COLORS.info[700],
   },

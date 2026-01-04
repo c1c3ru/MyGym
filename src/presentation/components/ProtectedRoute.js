@@ -4,6 +4,7 @@ import { Card, Text, Button } from 'react-native-paper';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useCustomClaims } from '@hooks/useCustomClaims';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { getString } from '@utils/theme';
 
 /**
  * Componente para proteger rotas que exigem autenticação e associação com academia
@@ -26,7 +27,7 @@ export function ProtectedRoute({
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color="#6200ee" />
-        <Text style={styles.loadingText}>Carregando...</Text>
+        <Text style={styles.loadingText}>{getString('loading')}</Text>
       </View>
     );
   }
@@ -195,7 +196,7 @@ const styles = {
     padding: SPACING.lg,
   },
   loadingText: {
-    marginTop: 16,
+    marginTop: SPACING.base,
     textAlign: 'center',
   },
   errorContainer: {
@@ -210,7 +211,7 @@ const styles = {
   },
   errorTitle: {
     textAlign: 'center',
-    marginBottom: 16,
+    marginBottom: SPACING.base,
     color: COLORS.error[700],
   },
   errorMessage: {

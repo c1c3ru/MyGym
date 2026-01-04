@@ -1,5 +1,6 @@
 import { firestoreService } from './firestoreService';
 import notificationService from './notificationService';
+import { getString } from '@utils/theme';
 
 class PaymentService {
   constructor() {
@@ -153,7 +154,7 @@ class PaymentService {
         {
           type: 'payment',
           paymentId,
-          screen: 'Pagamentos'
+          screen: getString('payments')
         }
       );
 
@@ -252,7 +253,7 @@ class PaymentService {
           {
             type: 'payment',
             paymentId: payment.id,
-            screen: 'Pagamentos'
+            screen: getString('payments')
           }
         );
       }

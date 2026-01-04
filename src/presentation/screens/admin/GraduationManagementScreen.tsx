@@ -346,7 +346,7 @@ const GraduationManagementScreen: React.FC<{ navigation: any }> = ({ navigation 
             />
           </Dialog.Content>
           <Dialog.Actions>
-            <Button onPress={() => setExamDialogVisible(false)}>Cancelar</Button>
+            <Button onPress={() => setExamDialogVisible(false)}>{getString('cancel')}</Button>
             <Button mode="contained" onPress={handleScheduleExam}>
               Agendar
             </Button>
@@ -454,7 +454,7 @@ const styles = StyleSheet.create({
   },
   title: {
     color: COLORS.text.primary,
-    fontWeight: '700' as any,
+    fontWeight: FONT_WEIGHT.bold as any,
   },
   paragraph: {
     color: COLORS.text.secondary,
@@ -471,12 +471,12 @@ const styles = StyleSheet.create({
     padding: SPACING.lg,
   },
   loadingText: {
-    marginTop: 16,
+    marginTop: SPACING.base,
     textAlign: 'center',
   },
   summaryContainer: {
     flexDirection: 'row',
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   summaryCard: {
     flex: 1,
@@ -489,11 +489,11 @@ const styles = StyleSheet.create({
     padding: SPACING.md,
   },
   summaryIcon: {
-    marginRight: 12,
+    marginRight: SPACING.md,
   },
   summaryNumber: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: '700',
+    fontWeight: FONT_WEIGHT.bold,
     marginBottom: 2,
   },
   summaryLabel: {
@@ -501,26 +501,26 @@ const styles = StyleSheet.create({
     color: COLORS.text.secondary,
   },
   summaryPercentage: {
-    fontSize: 10,
+    fontSize: FONT_SIZE.xxs,
     color: COLORS.gray[500],
   },
   filterSection: {
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   sectionTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: '700',
+    fontWeight: FONT_WEIGHT.bold,
     marginBottom: SPACING.md,
   },
   filterContainer: {
     flexDirection: 'row',
-    paddingHorizontal: 4,
+    paddingHorizontal: SPACING.xs,
   },
   filterChip: {
-    marginRight: 8,
+    marginRight: SPACING.sm,
   },
   section: {
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   sectionHeader: {
     flexDirection: 'row',
@@ -535,14 +535,14 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   actionsCard: {
-    marginBottom: 16,
+    marginBottom: SPACING.base,
     elevation: 2,
   },
   divider: {
     marginVertical: 8,
   },
   input: {
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
 });
 

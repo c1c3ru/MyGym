@@ -649,13 +649,13 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: FONT_SIZE.xxl,
-    fontWeight: '700' as const,
+    fontWeight: FONT_WEIGHT.bold as const,
     marginBottom: 20,
     textAlign: 'center',
   },
   sectionTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: '700' as const,
+    fontWeight: FONT_WEIGHT.bold as const,
     marginTop: 20,
     marginBottom: SPACING.base,
     color: COLORS.text.primary,
@@ -719,7 +719,7 @@ const styles = StyleSheet.create({
   selectedClassesInfo: {
     fontSize: FONT_SIZE.base,
     color: COLORS.info[700],
-    fontWeight: '500' as const,
+    fontWeight: FONT_WEIGHT.medium as const,
     flex: 1,
   },
   clearButton: {
@@ -751,13 +751,13 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: FONT_SIZE.md,
-    fontWeight: '500' as const,
+    fontWeight: FONT_WEIGHT.medium as const,
     marginBottom: SPACING.sm,
     color: COLORS.text.primary,
   },
   fieldLabel: {
     fontSize: FONT_SIZE.md,
-    fontWeight: '600' as const,
+    fontWeight: FONT_WEIGHT.semibold as const,
     marginBottom: SPACING.sm,
     marginTop: SPACING.sm,
     color: COLORS.text.primary,

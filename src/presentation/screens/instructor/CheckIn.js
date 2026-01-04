@@ -597,7 +597,7 @@ const CheckIn = ({ navigation }) => {
             ) : (
               <View style={styles.emptyState}>
                 <MaterialCommunityIcons name="school-outline" size={48} color={COLORS.gray[400]} />
-                <Text style={styles.emptyText}>Nenhuma turma encontrada</Text>
+                <Text style={styles.emptyText}>{getString('noClassesFound')}</Text>
               </View>
             )}
           </Card.Content>
@@ -623,9 +623,7 @@ const CheckIn = ({ navigation }) => {
                         { backgroundColor: COLORS.primary[500] }
                       ]}
                       textStyle={{ color: COLORS.white }}
-                    >
-                      Ativo
-                    </Chip>
+                    >{getString('active')}</Chip>
                   </View>
 
                   <View style={styles.checkInDetails}>
@@ -870,9 +868,7 @@ const CheckIn = ({ navigation }) => {
               }}
               style={styles.modalButton}
               icon="close"
-            >
-              Cancelar
-            </Button>
+            >{getString('cancel')}</Button>
             <Button
               mode="contained"
               onPress={async () => {
@@ -1021,7 +1017,7 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontSize: FONT_SIZE.xl,
     fontWeight: FONT_WEIGHT.bold,
-    marginBottom: 16,
+    marginBottom: SPACING.base,
     textAlign: 'center',
   },
   modalSubtitle: {
@@ -1032,23 +1028,23 @@ const styles = StyleSheet.create({
   },
   classSelection: {
     maxHeight: 60,
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   classChip: {
-    marginRight: 8,
+    marginRight: SPACING.sm,
   },
   searchbar: {
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   batchControls: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingVertical: SPACING.md,
-    paddingHorizontal: 16,
+    paddingHorizontal: SPACING.base,
     backgroundColor: COLORS.gray[100],
     borderRadius: BORDER_RADIUS.md,
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   selectionCount: {
     fontSize: FONT_SIZE.base,
@@ -1057,20 +1053,20 @@ const styles = StyleSheet.create({
   },
   batchButtons: {
     flexDirection: 'row',
-    gap: 8,
+    gap: SPACING.sm,
   },
   batchButton: {
     minWidth: 80,
   },
   studentsList: {
     maxHeight: 300,
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   selectButton: {
     width: 40,
     height: 40,
     borderRadius: BORDER_RADIUS.lg,
-    marginRight: 8,
+    marginRight: SPACING.sm,
   },
   individualCheckInButton: {
     minWidth: 80,
@@ -1079,7 +1075,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    gap: 12,
+    gap: SPACING.md,
   },
   modalButton: {
     flex: 1,
@@ -1101,7 +1097,7 @@ const styles = StyleSheet.create({
   },
   checkInChip: {
     backgroundColor: COLORS.primary[50],
-    marginLeft: 8,
+    marginLeft: SPACING.sm,
   },
   checkInChipText: {
     color: COLORS.primary[500],
@@ -1113,7 +1109,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   checkInIcon: {
-    marginLeft: 8,
+    marginLeft: SPACING.sm,
   },
   studentItem: {
     borderRadius: BORDER_RADIUS.md,
@@ -1135,7 +1131,7 @@ const styles = StyleSheet.create({
   modalSubtitle: {
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
-    marginBottom: 16,
+    marginBottom: SPACING.base,
     color: COLORS.text.primary,
     textAlign: 'center',
   },
@@ -1146,7 +1142,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
-    gap: 12,
+    gap: SPACING.md,
   },
   classButton: {
     flex: 1,
@@ -1175,18 +1171,18 @@ const styles = StyleSheet.create({
     fontWeight: FONT_WEIGHT.semibold,
   },
   searchbar: {
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   studentsList: {
     maxHeight: 300,
-    marginBottom: 16,
+    marginBottom: SPACING.base,
   },
   modalActions: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    gap: 12,
-    paddingTop: 16,
+    gap: SPACING.md,
+    paddingTop: SPACING.base,
     borderTopWidth: 1,
     borderTopColor: COLORS.gray[300],
   },
