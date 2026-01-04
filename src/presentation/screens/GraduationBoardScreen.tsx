@@ -1,3 +1,4 @@
+import { getString } from "@utils/theme";
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, StyleSheet, Alert, TextStyle } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';

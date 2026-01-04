@@ -1,3 +1,4 @@
+import { getString } from "@utils/theme";
 import React, { memo, useCallback } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Card, Text, Avatar, Chip, Divider, IconButton } from 'react-native-paper';

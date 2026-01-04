@@ -1,3 +1,4 @@
+import { getString } from "@utils/theme";
 import React, { memo } from 'react';
 import { View, StyleSheet } from 'react-native';
 import {

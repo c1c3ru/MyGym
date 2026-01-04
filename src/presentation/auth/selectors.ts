@@ -1,3 +1,4 @@
+import { getString } from "@utils/theme";
 // Selectors for auth presentation layer
 
 import { AuthSession, User, UserProfile, Claims, Academia, UserType } from '@domain/auth/entities';
