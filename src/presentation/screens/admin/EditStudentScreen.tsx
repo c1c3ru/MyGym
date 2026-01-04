@@ -153,7 +153,7 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
         status: formData.status,
         sexo: formData.sexo,
         updatedAt: new Date(),
-        updatedBy: user.id
+        updatedBy: user?.id
       };
 
       // Obter ID da academia

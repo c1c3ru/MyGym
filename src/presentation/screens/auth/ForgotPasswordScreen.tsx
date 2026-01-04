@@ -282,7 +282,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   headerTitle: {
-    fontSize: ResponsiveUtils?.fontSize?.xlarge || 28,
+    fontSize: ResponsiveUtils?.fontSize?.large || 28,
     fontWeight: FONT_WEIGHT.bold,
     color: COLORS.white,
     marginBottom: ResponsiveUtils?.spacing?.sm || 8,

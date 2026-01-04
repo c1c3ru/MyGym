@@ -80,6 +80,8 @@ const PaymentManagementScreen: React.FC<PaymentManagementScreenProps> = ({ navig
     try {
       setLoading(true);
 
+      if (!user?.id || !academia?.id) return;
+
       // Buscar pagamentos do usuário
       const userPayments = await firestoreService.getDocuments(
         `gyms/${academia.id}/payments`,
@@ -123,6 +125,10 @@ const PaymentManagementScreen: React.FC<PaymentManagementScreenProps> = ({ navig
     }
 
     try {
+      if (!user?.id || !academia?.id) {
+        throw new Error('Usuário ou academia não identificados');
+      }
+
       const paymentData = {
         userId: user.id,
         userName: userProfile?.name || user.email,
@@ -166,6 +172,8 @@ const PaymentManagementScreen: React.FC<PaymentManagementScreenProps> = ({ navig
           text: getString('confirm'),
           onPress: async () => {
             try {
+              if (!academia?.id) throw new Error('Academia não identificada');
+
               await firestoreService.update(`gyms/${academia.id}/payments`, payment.id, {
                 status: 'paid',
                 paidAt: new Date(),

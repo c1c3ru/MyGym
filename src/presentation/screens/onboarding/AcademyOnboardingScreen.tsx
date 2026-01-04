@@ -52,10 +52,14 @@ const AcademyOnboardingScreen = () => {
       setCreatingAcademy(true);
 
       // Chamar Cloud Function para criar academia
+      if (!functions) throw new Error('Serviço de funções indisponível');
+
       const createAcademyFunction = httpsCallable(functions, 'createAcademy');
       const result = await createAcademyFunction(academyData);
 
-      if (result.data.success) {
+      const data = result.data as { success: boolean, role: string };
+
+      if (data.success) {
         // Atualizar claims e perfil após criação da academia
         await refreshClaimsAndProfile();
 
@@ -73,7 +77,7 @@ const AcademyOnboardingScreen = () => {
           ]
         );
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Erro ao criar academia:', error);
       Alert.alert(getString('error'), error.message || 'Erro ao criar academia');
     } finally {
@@ -91,14 +95,18 @@ const AcademyOnboardingScreen = () => {
       setUsingInvite(true);
 
       // Chamar Cloud Function para usar convite
+      if (!functions) throw new Error('Serviço de funções indisponível');
+
       const useInviteFunction = httpsCallable(functions, 'useInvite');
       const result = await useInviteFunction({ inviteCode: inviteCode.trim() });
 
-      if (result.data.success) {
+      const data = result.data as { success: boolean, role: string };
+
+      if (data.success) {
         // Atualizar claims e perfil após usar convite
         await refreshClaimsAndProfile();
 
-        const roleText = result.data.role === 'instructor' ? 'instrutor' : 'aluno';
+        const roleText = data.role === 'instructor' ? 'instrutor' : 'aluno';
 
         Alert.alert(
           'Sucesso!',
@@ -114,7 +122,7 @@ const AcademyOnboardingScreen = () => {
           ]
         );
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Erro ao usar convite:', error);
       Alert.alert(getString('error'), error.message || 'Código de convite inválido ou expirado');
     } finally {

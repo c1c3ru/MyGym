@@ -61,11 +61,17 @@ const CheckInScreen: React.FC<CheckInScreenProps> = ({ navigation }) => {
   };
 
   useEffect(() => {
-    loadCheckInData();
-    loadAvailableClasses();
+    if (user?.id && academia?.id) {
+      loadCheckInData();
+    }
+    if (userProfile?.academiaId || academia?.id) {
+      loadAvailableClasses();
+    }
   }, []);
 
   const loadCheckInData = async () => {
+    if (!user?.id || !academia?.id) return;
+
     try {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
@@ -131,8 +137,8 @@ const CheckInScreen: React.FC<CheckInScreenProps> = ({ navigation }) => {
 
       // Ordenar por data mais recente
       recentCheckIns.sort((a, b) => {
-        const dateA = a.date?.toDate ? a.date.toDate() : new Date(a.date);
-        const dateB = b.date?.toDate ? b.date.toDate() : new Date(b.date);
+        const dateA = a.date && typeof a.date.toDate === 'function' ? a.date.toDate() : new Date(a.date);
+        const dateB = b.date && typeof b.date.toDate === 'function' ? b.date.toDate() : new Date(b.date);
         return dateB.getTime() - dateA.getTime();
       });
 
@@ -165,6 +171,10 @@ const CheckInScreen: React.FC<CheckInScreenProps> = ({ navigation }) => {
   const handleCheckIn = async (classId: string | null = null, className: string | null = null) => {
     try {
       setLoading(true);
+
+      if (!user?.id || !academia?.id) {
+        throw new Error(getString('error'));
+      }
 
       const checkInData = {
         studentId: user.id,
@@ -214,7 +224,7 @@ const CheckInScreen: React.FC<CheckInScreenProps> = ({ navigation }) => {
 
   const formatTime = (date: any) => {
     if (!date) return '';
-    const dateObj = date.toDate ? date.toDate() : new Date(date);
+    const dateObj = date && typeof date.toDate === 'function' ? date.toDate() : new Date(date);
     return dateObj.toLocaleTimeString('pt-BR', {
       hour: '2-digit',
       minute: '2-digit'
@@ -223,7 +233,7 @@ const CheckInScreen: React.FC<CheckInScreenProps> = ({ navigation }) => {
 
   const formatDate = (date: any) => {
     if (!date) return '';
-    const dateObj = date.toDate ? date.toDate() : new Date(date);
+    const dateObj = date && typeof date.toDate === 'function' ? date.toDate() : new Date(date);
     return dateObj.toLocaleDateString('pt-BR');
   };
 

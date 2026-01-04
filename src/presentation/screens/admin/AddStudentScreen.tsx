@@ -195,6 +195,10 @@ const AddStudentScreen = ({ navigation, route }: any) => {
       try {
         setLoading(true);
 
+        if (!user?.id) {
+          throw new Error('Usuário não autenticado');
+        }
+
         const studentData: any = {
           name: formData.name.trim(),
           email: formData.email.trim().toLowerCase(),
@@ -208,7 +212,7 @@ const AddStudentScreen = ({ navigation, route }: any) => {
           status: formData.status,
           sexo: formData.sexo,
           isActive: true,
-          createdBy: user.id,
+          createdBy: user!.id,
           createdAt: new Date(),
           updatedAt: new Date(),
           graduations: [],
@@ -289,7 +293,7 @@ const AddStudentScreen = ({ navigation, route }: any) => {
     if (result.blocked) {
       Alert.alert(getString('actionBlocked'), 'Muitas criações de aluno. Aguarde alguns minutos.');
     }
-  }, [validateForm, executeStudentCreation, formData, selectedClasses, user.id, userProfile?.academiaId, academia?.id, trackFeatureUsage, route.params, resetForm, navigation]);
+  }, [validateForm, executeStudentCreation, formData, selectedClasses, user?.id, userProfile?.academiaId, academia?.id, trackFeatureUsage, route.params, resetForm, navigation]);
 
   // Form field handlers with enhanced validation
   const handleFieldChange = useCallback((field: string, value: string) => {

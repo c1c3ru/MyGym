@@ -19,18 +19,26 @@ import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, BORDER_WIDTH } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
 import { getString } from '@utils/theme';
+import { useTheme } from '@contexts/ThemeContext';
+import { NavigationProp, RouteProp } from '@react-navigation/native';
+import { UserType, UserProfile } from '@domain/auth/entities';
 
-const UserTypeSelectionScreen = ({ navigation, route }: UserTypeSelectionScreenProps) => {
+interface UserTypeSelectionScreenProps {
+  navigation: NavigationProp<any>;
+  route: RouteProp<any>;
+}
+
+const UserTypeSelectionScreen: React.FC<UserTypeSelectionScreenProps> = ({ navigation, route }) => {
   const { currentTheme } = useThemeToggle();
   const { isDarkMode, getString } = useTheme();
 
   const { user, updateUserProfile, signOut: logout } = useAuthFacade();
-  const [selectedType, setSelectedType] = useState(null);
+  const [selectedType, setSelectedType] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
   const userTypes = [
     {
-      id: 'student',
+      id: 'student' as UserType,
       tipo: 'aluno',
       title: getString('student'),
       description: 'Sou um praticante que quer treinar e acompanhar meu progresso',
@@ -44,7 +52,7 @@ const UserTypeSelectionScreen = ({ navigation, route }: UserTypeSelectionScreenP
       ]
     },
     {
-      id: 'instructor',
+      id: 'instructor' as UserType,
       tipo: 'instrutor',
       title: getString('instructor'),
       description: 'Sou um instrutor que ministra aulas e acompanha alunos',
@@ -58,7 +66,7 @@ const UserTypeSelectionScreen = ({ navigation, route }: UserTypeSelectionScreenP
       ]
     },
     {
-      id: 'admin',
+      id: 'admin' as UserType,
       tipo: 'administrador',
       title: getString('administrator'),
       description: 'Sou responsável pela gestão completa da academia',
@@ -82,9 +90,9 @@ const UserTypeSelectionScreen = ({ navigation, route }: UserTypeSelectionScreenP
     setLoading(true);
     try {
       const selectedUserType = userTypes.find(type => type.id === selectedType);
+      if (!selectedUserType) return;
 
       await updateUserProfile({
-        tipo: selectedUserType.tipo,
         userType: selectedUserType.id,
         profileCompleted: true,
         updatedAt: new Date()
@@ -100,7 +108,7 @@ const UserTypeSelectionScreen = ({ navigation, route }: UserTypeSelectionScreenP
     }
   };
 
-  const renderUserTypeCard = (userType) => (
+  const renderUserTypeCard = (userType: typeof userTypes[0]) => (
     <Card
       key={userType.id}
       style={[
@@ -128,7 +136,7 @@ const UserTypeSelectionScreen = ({ navigation, route }: UserTypeSelectionScreenP
         </View>
 
         <View style={styles.featuresContainer}>
-          {userType.features.map((feature, index) => (
+          {userType.features.map((feature: string, index: number) => (
             <View key={index} style={styles.featureRow}>
               <Ionicons
                 name="checkmark-circle"
@@ -169,7 +177,7 @@ const UserTypeSelectionScreen = ({ navigation, route }: UserTypeSelectionScreenP
           console.log('✅ UserTypeSelection: Logout concluído');
         } catch (error) {
           console.error('❌ UserTypeSelection: Erro ao fazer logout:', error);
-          window.alert(`Erro: ${error.message}`);
+          window.alert(`Erro: ${(error as Error).message}`);
         } finally {
           setLoading(false);
         }
@@ -197,7 +205,7 @@ const UserTypeSelectionScreen = ({ navigation, route }: UserTypeSelectionScreenP
               console.log('✅ UserTypeSelection: Logout concluído');
             } catch (error) {
               console.error('❌ UserTypeSelection: Erro ao fazer logout:', error);
-              Alert.alert(getString('error'), `Não foi possível sair da conta: ${error.message}`);
+              Alert.alert(getString('error'), `Não foi possível sair da conta: ${(error as Error).message}`);
             } finally {
               setLoading(false);
             }
@@ -367,7 +375,7 @@ const styles = StyleSheet.create({
   },
   footer: {
     padding: SPACING.xl,
-    paddingBottom: SPACING.xs0,
+    paddingBottom: SPACING.xs,
   },
   continueButton: {
     backgroundColor: COLORS.info[500],

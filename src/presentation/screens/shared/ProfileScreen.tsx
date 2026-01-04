@@ -130,7 +130,11 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
     const data: any = {};
 
     trainingHistory.forEach((training: any) => {
-      const date = training.date.toDate ? training.date.toDate() : new Date(training.date);
+      // Ensure date is handled correctly regardless of type
+      const date = training.date && typeof training.date.toDate === 'function'
+        ? training.date.toDate()
+        : new Date(training.date);
+
       const year = date.getFullYear();
       const month = date.getMonth();
       const day = date.getDate();
@@ -161,9 +165,11 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
         [{ field: 'userId', operator: '==', value: userId }]
       );
 
+      if (!payments || payments.length === 0) return;
+
       // Encontrar pagamento atual (pendente ou mais recente)
-      const payment = payments.find((p: any) => p.status === 'pending') || payments[0]; // Fixed syntax error and variable name
-      setCurrentPayment(payment); // Changed to use 'payment' variable
+      const payment = payments.find((p: any) => p.status === 'pending') || payments[0];
+      setCurrentPayment(payment);
 
     } catch (error) {
       console.error(getString('loadingPaymentData'), error);
@@ -184,11 +190,12 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
 
       // Mostrar notificação se vencer em 3 dias ou menos
       if (daysUntilDue <= 3 && daysUntilDue >= 0 && currentPayment.status === 'pending') {
+        const planName = currentPayment.planName || getString('monthlyPayment');
         setPaymentDueNotification({
           daysUntilDue,
           dueDate: dueDate.toLocaleDateString('pt-BR'),
           amount: currentPayment.amount,
-          planName: currentPayment.planName || getString('monthlyPayment')
+          planName: planName
         });
       }
 
@@ -284,10 +291,10 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
 
                 <View style={styles.paymentWarning}>
                   <Text style={styles.warningText}>
-                    {getString('paymentDueText').replace('{planName}', paymentDueNotification.planName).replace('{days}',
-                      paymentDueNotification.daysUntilDue === 0 ? getString('paymentDueToday') :
-                        paymentDueNotification.daysUntilDue === 1 ? getString('paymentDueTomorrow') :
-                          `${paymentDueNotification.daysUntilDue} ${getString('paymentDueInDays')}`
+                    {getString('paymentDueText').replace('{planName}', paymentDueNotification?.planName || '').replace('{days}',
+                      paymentDueNotification?.daysUntilDue === 0 ? getString('paymentDueToday') :
+                        paymentDueNotification?.daysUntilDue === 1 ? getString('paymentDueTomorrow') :
+                          `${paymentDueNotification?.daysUntilDue} ${getString('paymentDueInDays')}`
                     )}
                   </Text>
                   <Text style={styles.warningDetails}>
@@ -448,15 +455,15 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
 
                   <List.Item
                     title={getString('currentPlan')}
-                    description={userProfile?.currentPlan || getString('notDefined')}
+                    description={(userProfile as any)?.currentPlan || getString('notDefined')}
                     left={() => <List.Icon icon="card" />}
                   />
                   <Divider />
 
                   <List.Item
                     title={getString('startDate')}
-                    description={userProfile?.startDate ?
-                      new Date(userProfile.startDate).toLocaleDateString('pt-BR') :
+                    description={(userProfile as any)?.startDate ?
+                      new Date((userProfile as any).startDate).toLocaleDateString('pt-BR') :
                       getString('notInformed')
                     }
                     left={() => <List.Icon icon="calendar-start" />}

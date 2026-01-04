@@ -182,7 +182,7 @@ const RegisterScreen = ({ navigation }: AuthScreenProps) => {
     }
   };
 
-  const getUserTypeIcon = (type: string): string => {
+  const getUserTypeIcon = (type: string): keyof typeof MaterialCommunityIcons.glyphMap => {
     switch (type) {
       case 'student': return 'school';
       case 'instructor': return 'account-tie';
@@ -511,16 +511,16 @@ const RegisterScreen = ({ navigation }: AuthScreenProps) => {
 const styles = StyleSheet.create({
   gradient: {
     flex: 1,
-    ...(Platform.OS === 'web' ? { minHeight: '100vh' } : {}),
+    ...(Platform.OS === 'web' ? { minHeight: '100vh' } as any : {}),
   },
   container: {
     flex: 1,
     backgroundColor: 'transparent',
-    ...(Platform.OS === 'web' ? { minHeight: '100vh' } : {}),
+    ...(Platform.OS === 'web' ? { minHeight: '100vh' } as any : {}),
   },
   scroll: {
     flex: 1,
-    ...(Platform.OS === 'web' ? { maxHeight: '100vh', overflowY: 'auto' } : {}),
+    ...(Platform.OS === 'web' ? { maxHeight: '100vh', overflowY: 'auto' } as any : {}),
   },
   scrollContainer: {
     flexGrow: 1,
