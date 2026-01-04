@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { View, StyleSheet, ScrollView, Alert } from 'react-native';
 import {
   Card,
   Text,
@@ -11,6 +11,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { updatePassword, reauthenticateWithCredential, EmailAuthProvider } from 'firebase/auth';
+import { firebaseAuth } from '@infrastructure/firebase';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
 import SafeCardContent from '@components/SafeCardContent';
@@ -96,10 +97,16 @@ const ChangePasswordScreen = ({ navigation }: ChangePasswordScreenProps) => {
         formData.currentPassword
       );
 
-      await reauthenticateWithCredential(user, credential);
+      const firebaseUser = firebaseAuth.getCurrentUser();
+      if (!firebaseUser) {
+        Alert.alert('Erro', 'Sessão inválida');
+        return;
+      }
+
+      await reauthenticateWithCredential(firebaseUser, credential);
 
       // Se a reautenticação foi bem-sucedida, atualizar a senha
-      await updatePassword(user, formData.newPassword);
+      await updatePassword(firebaseUser, formData.newPassword);
 
       setSnackbar({
         visible: true,
