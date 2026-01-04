@@ -141,22 +141,22 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        padding: SPACING.base,
+        padding: SPACING.md,
     },
     loadingText: {
         marginLeft: SPACING.sm,
-        color: COLORS.text.secondary,
+        color: COLORS.gray[500],
         fontSize: FONT_SIZE.base,
     },
     emptyContainer: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        paddingVertical: SPACING.base,
+        paddingVertical: SPACING.md,
     },
     emptyText: {
         fontSize: FONT_SIZE.md,
-        color: COLORS.text.secondary,
+        color: COLORS.gray[500],
         textAlign: 'center',
     },
 });

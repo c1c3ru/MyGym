@@ -4,6 +4,7 @@ import { Text, Chip, Card, ActivityIndicator } from 'react-native-paper';
 import useAuthMigration from '@hooks/useAuthMigration';
 import academyCollectionsService from '@infrastructure/services/academyCollectionsService';
 import { COLORS, SPACING, FONT_SIZE, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { getString } from "@utils/theme";
 
 /**
  * Interface para representar uma modalidade (ex: Jiu-Jitsu, Muay Thai)
@@ -193,23 +194,23 @@ const ModalityPicker: React.FC<ModalityPickerProps> = ({
 
 const styles = StyleSheet.create({
     container: {
-        marginBottom: SPACING.base,
+        marginBottom: SPACING.md,
     },
     label: {
         marginBottom: SPACING.sm,
-        fontWeight: FONT_WEIGHT.semibold as any,
+        fontWeight: FONT_WEIGHT.semiBold as any,
     },
     card: {
-        backgroundColor: COLORS.background.light,
+        backgroundColor: COLORS.white,
     },
     loadingContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        padding: SPACING.base,
+        padding: SPACING.md,
     },
     loadingText: {
         marginLeft: SPACING.sm,
-        color: COLORS.text.secondary,
+        color: COLORS.gray[500],
     },
     scrollView: {
         marginBottom: SPACING.md,
@@ -242,7 +243,7 @@ const styles = StyleSheet.create({
     },
     selectedChipText: {
         color: COLORS.white,
-        fontWeight: FONT_WEIGHT.semibold as any,
+        fontWeight: FONT_WEIGHT.semiBold as any,
     },
     selectedContainer: {
         marginTop: SPACING.md,
@@ -252,8 +253,8 @@ const styles = StyleSheet.create({
     },
     selectedLabel: {
         marginBottom: SPACING.sm,
-        color: COLORS.text.secondary,
-        fontWeight: FONT_WEIGHT.semibold as any,
+        color: COLORS.gray[500],
+        fontWeight: FONT_WEIGHT.semiBold as any,
     },
     selectedChips: {
         flexDirection: 'row',

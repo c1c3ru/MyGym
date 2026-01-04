@@ -15,6 +15,7 @@ import {
 } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { getString } from "@utils/theme";
 
 // ============================================
 // CATÁLOGO DE ERROS MELHORADOS
@@ -344,7 +345,7 @@ const styles = StyleSheet.create({
   },
   message: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     lineHeight: FONT_SIZE.base * 1.5,
     marginBottom: SPACING.md,
   },

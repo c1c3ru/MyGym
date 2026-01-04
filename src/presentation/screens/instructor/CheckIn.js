@@ -26,6 +26,7 @@ import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import CheckInSkeleton from '@components/skeletons/CheckInSkeleton';
 import { EnhancedFlashList } from '@components/EnhancedFlashList';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { getString } from "@utils/theme";
 
 const CheckIn = ({ navigation }) => {
   const { user, userProfile } = useAuthFacade();
@@ -560,7 +561,7 @@ const CheckIn = ({ navigation }) => {
 
                   <View style={styles.checkInDetails}>
                     <View style={styles.detailItem}>
-                      <MaterialCommunityIcons name="clock" size={16} color={COLORS.text.secondary} />
+                      <MaterialCommunityIcons name="clock" size={16} color={COLORS.gray[500]} />
                       <Text style={styles.detailText}>
                         {(() => {
                           if (typeof classItem.schedule === 'object' && classItem.schedule) {
@@ -574,7 +575,7 @@ const CheckIn = ({ navigation }) => {
                       </Text>
                     </View>
                     <View style={styles.detailItem}>
-                      <MaterialCommunityIcons name="account-group" size={16} color={COLORS.text.secondary} />
+                      <MaterialCommunityIcons name="account-group" size={16} color={COLORS.gray[500]} />
                       <Text style={styles.detailText}>
                         {String(classItem.currentStudents || 0)}/{String(classItem.maxStudents || 0)} alunos
                       </Text>
@@ -627,13 +628,13 @@ const CheckIn = ({ navigation }) => {
 
                   <View style={styles.checkInDetails}>
                     <View style={styles.detailItem}>
-                      <MaterialCommunityIcons name="clock" size={16} color={COLORS.text.secondary} />
+                      <MaterialCommunityIcons name="clock" size={16} color={COLORS.gray[500]} />
                       <Text style={styles.detailText}>
                         Iniciado: {session.startTime?.toDate?.()?.toLocaleTimeString() || getString('now')}
                       </Text>
                     </View>
                     <View style={styles.detailItem}>
-                      <MaterialCommunityIcons name="check-circle" size={16} color={COLORS.text.secondary} />
+                      <MaterialCommunityIcons name="check-circle" size={16} color={COLORS.gray[500]} />
                       <Text style={styles.detailText}>
                         {session.checkInCount || 0} check-ins
                       </Text>
@@ -925,7 +926,7 @@ const CheckIn = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background.light,
+    backgroundColor: COLORS.white,
   },
   scrollView: {
     flex: 1,
@@ -944,13 +945,13 @@ const styles = StyleSheet.create({
     marginLeft: ResponsiveUtils.spacing.md,
     fontSize: ResponsiveUtils.fontSize.large,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.text.primary,
+    color: COLORS.black,
   },
   checkInItem: {
     padding: ResponsiveUtils.spacing.md,
     marginBottom: ResponsiveUtils.spacing.sm,
     borderRadius: ResponsiveUtils.borderRadius.medium,
-    backgroundColor: COLORS.background.light,
+    backgroundColor: COLORS.white,
   },
   checkInHeader: {
     flexDirection: 'row',
@@ -961,7 +962,7 @@ const styles = StyleSheet.create({
   aulaName: {
     fontSize: ResponsiveUtils.fontSize.medium,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.text.primary,
+    color: COLORS.black,
     flex: 1,
   },
   statusChip: {
@@ -979,7 +980,7 @@ const styles = StyleSheet.create({
   detailText: {
     marginLeft: SPACING.xs,
     fontSize: ResponsiveUtils.fontSize.small,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
   actionButtons: {
     alignItems: 'flex-end',
@@ -990,7 +991,7 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: ResponsiveUtils.fontSize.medium,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginTop: ResponsiveUtils.spacing.sm,
   },
   emptySubtext: {
@@ -1000,7 +1001,7 @@ const styles = StyleSheet.create({
   },
   fab: {
     position: 'absolute',
-    margin: SPACING.base,
+    margin: SPACING.md,
     right: 0,
     bottom: 0,
     backgroundColor: COLORS.info[500],
@@ -1016,38 +1017,38 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontSize: FONT_SIZE.xl,
     fontWeight: FONT_WEIGHT.bold,
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
     textAlign: 'center',
   },
   modalSubtitle: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: FONT_WEIGHT.semiBold,
     marginBottom: SPACING.sm,
-    color: COLORS.text.primary,
+    color: COLORS.black,
   },
   classSelection: {
     maxHeight: 60,
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   classChip: {
     marginRight: SPACING.sm,
   },
   searchbar: {
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   batchControls: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingVertical: SPACING.md,
-    paddingHorizontal: SPACING.base,
+    paddingHorizontal: SPACING.md,
     backgroundColor: COLORS.gray[100],
     borderRadius: BORDER_RADIUS.md,
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   selectionCount: {
     fontSize: FONT_SIZE.base,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: FONT_WEIGHT.semiBold,
     color: COLORS.info[500],
   },
   batchButtons: {
@@ -1059,7 +1060,7 @@ const styles = StyleSheet.create({
   },
   studentsList: {
     maxHeight: 300,
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   selectButton: {
     width: 40,
@@ -1091,7 +1092,7 @@ const styles = StyleSheet.create({
   },
   studentEmail: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     flex: 1,
   },
   checkInChip: {
@@ -1101,7 +1102,7 @@ const styles = StyleSheet.create({
   checkInChipText: {
     color: COLORS.primary[500],
     fontSize: FONT_SIZE.sm,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: FONT_WEIGHT.semiBold,
   },
   studentLeftSection: {
     flexDirection: 'row',
@@ -1116,7 +1117,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
   },
   studentItemCheckedIn: {
-    backgroundColor: COLORS.background.light,
+    backgroundColor: COLORS.white,
     borderLeftWidth: 4,
     borderLeftColor: COLORS.primary[500],
   },
@@ -1130,8 +1131,8 @@ const styles = StyleSheet.create({
   modalSubtitle: {
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
-    marginBottom: SPACING.base,
-    color: COLORS.text.primary,
+    marginBottom: SPACING.md,
+    color: COLORS.black,
     textAlign: 'center',
   },
   classSelectionContainer: {
@@ -1167,21 +1168,21 @@ const styles = StyleSheet.create({
   },
   classButtonLabel: {
     fontSize: FONT_SIZE.base,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: FONT_WEIGHT.semiBold,
   },
   searchbar: {
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   studentsList: {
     maxHeight: 300,
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   modalActions: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     gap: SPACING.md,
-    paddingTop: SPACING.base,
+    paddingTop: SPACING.md,
     borderTopWidth: 1,
     borderTopColor: COLORS.gray[300],
   },

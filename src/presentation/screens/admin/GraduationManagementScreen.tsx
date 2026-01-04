@@ -28,6 +28,7 @@ import { useAuth } from '@contexts/AuthProvider';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
 import GraduationAlertCard, { GraduationAlert } from '@components/GraduationAlertCard';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { getString } from "@utils/theme";
 
 interface SummaryStats {
   totalStudents: number;
@@ -452,16 +453,16 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   title: {
-    color: COLORS.text.primary,
+    color: COLORS.black,
     fontWeight: FONT_WEIGHT.bold as any,
   },
   paragraph: {
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     fontSize: FONT_SIZE.base,
   },
   content: {
     flex: 1,
-    padding: SPACING.base,
+    padding: SPACING.md,
   },
   loadingContainer: {
     flex: 1,
@@ -470,12 +471,12 @@ const styles = StyleSheet.create({
     padding: SPACING.lg,
   },
   loadingText: {
-    marginTop: SPACING.base,
+    marginTop: SPACING.md,
     textAlign: 'center',
   },
   summaryContainer: {
     flexDirection: 'row',
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   summaryCard: {
     flex: 1,
@@ -497,14 +498,14 @@ const styles = StyleSheet.create({
   },
   summaryLabel: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
   summaryPercentage: {
     fontSize: FONT_SIZE.xxs,
     color: COLORS.gray[500],
   },
   filterSection: {
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   sectionTitle: {
     fontSize: FONT_SIZE.lg,
@@ -519,7 +520,7 @@ const styles = StyleSheet.create({
     marginRight: SPACING.sm,
   },
   section: {
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   sectionHeader: {
     flexDirection: 'row',
@@ -534,14 +535,14 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   actionsCard: {
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
     elevation: 2,
   },
   divider: {
     marginVertical: 8,
   },
   input: {
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
 });
 

@@ -36,12 +36,12 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: FONT_SIZE.lg,
-    color: COLORS.text.primary,
+    color: COLORS.black,
     marginBottom: 10,
   },
   info: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
 });
 

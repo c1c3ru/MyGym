@@ -91,9 +91,9 @@ export class EmailService {
             body {
                 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
                 line-height: 1.6;
-                color: COLORS.text.primary}
+                color: COLORS.black}
             .email-container {
-                background-color: COLORS.text.primary}
+                background-color: COLORS.black}
             .header {
                 text-align: center;
                 margin-bottom: 32px;
@@ -103,16 +103,16 @@ export class EmailService {
             .logo {
                 font-size: 28px;
                 font-weight: bold;
-                color: COLORS.text.primary}
+                color: COLORS.black}
             .subtitle {
-                color: COLORS.text.primary}
+                color: COLORS.black}
             .content {
                 margin-bottom: 32px;
             }
             .academy-name {
-                color: COLORS.text.primary}
+                color: COLORS.black}
             .user-type {
-                background-color: COLORS.text.primary}
+                background-color: COLORS.black}
             .cta-button {
                 display: inline-block;
                 background: linear-gradient(135deg, currentTheme.info[500], currentTheme.info[700]);
@@ -127,17 +127,17 @@ export class EmailService {
                 transition: all 0.3s ease;
             }
             .link-backup {
-                background-color: COLORS.text.primary}
+                background-color: COLORS.black}
             .expiration {
-                background-color: COLORS.text.primary}
+                background-color: COLORS.black}
             .footer {
                 text-align: center;
                 margin-top: 32px;
                 padding-top: 24px;
                 border-top: 1px solid currentTheme.gray[300];
-                color: COLORS.text.primary}
+                color: COLORS.black}
             .security-notice {
-                background-color: COLORS.text.primary}
+                background-color: COLORS.black}
         </style>
     </head>
     <body>

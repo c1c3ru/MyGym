@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet, type StyleProp, type ViewStyle } from 'react-native';
 import { ActivityIndicator, Text } from 'react-native-paper';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { getString } from "@utils/theme";
 
 type LoadingSpinnerProps = {
   size?: 'small' | 'large' | number;
@@ -40,9 +41,9 @@ const styles = StyleSheet.create({
     padding: SPACING.lg,
   },
   message: {
-    marginTop: SPACING.base,
+    marginTop: SPACING.md,
     fontSize: FONT_SIZE.md,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     textAlign: 'center',
   },
 });

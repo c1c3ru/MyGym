@@ -13,6 +13,7 @@ import { SignUpData, AuthSession, UserProfile } from '@domain/auth/entities';
 import { FirebaseAuthRepository } from '@data/auth';
 import { initializeFirebaseServices } from '@infrastructure/firebase';
 import crashlyticsService from '@infrastructure/services/crashlyticsService';
+import { getString } from "@utils/theme";
 
 // Helper function para verificar se um erro é uma instância de Error
 function isError(error: unknown): error is Error {

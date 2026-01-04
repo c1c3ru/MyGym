@@ -303,9 +303,9 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.gray[100],
   },
   loadingText: {
-    marginTop: SPACING.base,
+    marginTop: SPACING.md,
     fontSize: FONT_SIZE.md,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   } as TextStyle,
   errorContainer: {
     flex: 1,
@@ -323,7 +323,7 @@ const styles = StyleSheet.create({
   },
   errorMessage: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     textAlign: 'center',
     marginBottom: SPACING.lg,
   },
@@ -332,7 +332,7 @@ const styles = StyleSheet.create({
   },
   fab: {
     position: 'absolute',
-    margin: SPACING.base,
+    margin: SPACING.md,
     right: 0,
     bottom: 0,
   },

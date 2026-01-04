@@ -21,6 +21,7 @@ import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@present
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
 import { getAuthGradient } from '@presentation/theme/authTheme';
 import type { NavigationProp } from '@react-navigation/native';
+import { getString } from "@utils/theme";
 
 interface InjuryHistoryScreenProps {
   navigation: NavigationProp<any>;
@@ -354,16 +355,16 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
-    padding: SPACING.base,
+    padding: SPACING.md,
   },
   card: {
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
     elevation: 4,
   },
   cardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   cardTitle: {
     fontSize: FONT_SIZE.lg,
@@ -388,11 +389,11 @@ const styles = StyleSheet.create({
   statNumber: {
     fontSize: FONT_SIZE.xxl,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.text.primary,
+    color: COLORS.black,
   },
   statLabel: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginTop: SPACING.xs,
   },
   filtersContainer: {
@@ -406,7 +407,7 @@ const styles = StyleSheet.create({
   },
   descriptionText: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginBottom: SPACING.sm,
   },
   injuryMeta: {
@@ -447,8 +448,8 @@ const styles = StyleSheet.create({
   emptyText: {
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.text.secondary,
-    marginTop: SPACING.base,
+    color: COLORS.gray[500],
+    marginTop: SPACING.md,
     textAlign: 'center',
   },
   emptySubtext: {
@@ -460,7 +461,7 @@ const styles = StyleSheet.create({
   },
   tipContainer: {
     backgroundColor: COLORS.primary[50],
-    padding: SPACING.base,
+    padding: SPACING.md,
     borderRadius: BORDER_RADIUS.md,
     borderLeftWidth: 4,
     borderStyle: 'solid',
@@ -473,7 +474,7 @@ const styles = StyleSheet.create({
   },
   fab: {
     position: 'absolute',
-    margin: SPACING.base,
+    margin: SPACING.md,
     right: 0,
     bottom: 0,
     backgroundColor: COLORS.error[500],

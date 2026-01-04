@@ -26,6 +26,7 @@ import { useUndo, useDeleteWithUndo } from '@components/UndoManager';
 import { useOnboarding, ONBOARDING_TOURS } from '@components/OnboardingTour';
 import { useTheme } from '@contexts/ThemeContext';
 import type { NavigationProp } from '@react-navigation/native';
+import { getString } from "@utils/theme";
 
 interface UIUXExampleScreenProps {
   navigation: NavigationProp<any>;
@@ -309,23 +310,23 @@ const UIUXExampleScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background.light,
+    backgroundColor: COLORS.white,
   },
   scrollView: {
     flex: 1,
   },
   content: {
-    padding: SPACING.base,
+    padding: SPACING.md,
   },
   title: {
     fontSize: FONT_SIZE.xxl,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.text.primary,
+    color: COLORS.black,
     marginBottom: SPACING.xs,
   },
   subtitle: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginBottom: SPACING.md,
   },
   divider: {
@@ -336,13 +337,13 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.semibold,
-    color: COLORS.text.primary,
+    fontWeight: FONT_WEIGHT.semiBold,
+    color: COLORS.black,
     marginBottom: SPACING.xs,
   },
   sectionDescription: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginBottom: SPACING.md,
   },
   tokenExamples: {
@@ -361,7 +362,7 @@ const styles = StyleSheet.create({
   tokenLabel: {
     color: COLORS.white,
     fontSize: FONT_SIZE.xs,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: FONT_WEIGHT.semiBold,
   },
   errorMessage: {
     marginBottom: SPACING.md,
@@ -374,18 +375,18 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   exampleCard: {
-    padding: SPACING.base,
+    padding: SPACING.md,
     marginBottom: SPACING.md,
   },
   cardTitle: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semibold,
-    color: COLORS.text.primary,
+    fontWeight: FONT_WEIGHT.semiBold,
+    color: COLORS.black,
     marginBottom: SPACING.xs,
   },
   cardDescription: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
   chipRow: {
     flexDirection: 'row',
@@ -407,7 +408,7 @@ const styles = StyleSheet.create({
   },
   itemName: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.primary,
+    color: COLORS.black,
   },
   tourButton: {
     marginBottom: SPACING.sm,

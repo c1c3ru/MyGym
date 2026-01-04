@@ -15,6 +15,7 @@ import { ResponsiveUtils } from '@utils/animations';
 import ImprovedScheduleSelector from '@components/ImprovedScheduleSelector';
 import { createEmptySchedule } from '@utils/scheduleUtils';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { getString } from "@utils/theme";
 
 const NovaAula = ({ navigation }) => {
   const [formData, setFormData] = useState({
@@ -121,7 +122,7 @@ const NovaAula = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background.default,
+    backgroundColor: COLORS.white,
   },
   scrollView: {
     flex: 1,
@@ -143,7 +144,7 @@ const styles = StyleSheet.create({
     marginLeft: ResponsiveUtils.spacing.md,
     fontSize: ResponsiveUtils.fontSize.large,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.text.primary,
+    color: COLORS.black,
   },
   input: {
     marginBottom: ResponsiveUtils.spacing.md,
@@ -151,7 +152,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: ResponsiveUtils.fontSize.medium,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.text.primary,
+    color: COLORS.black,
     marginBottom: ResponsiveUtils.spacing.sm,
     marginTop: ResponsiveUtils.spacing.sm,
   },

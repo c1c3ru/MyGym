@@ -75,12 +75,12 @@ const StudentCardSkeleton: React.FC = () => {
 
 const styles = StyleSheet.create({
     container: {
-        paddingHorizontal: SPACING.base,
+        paddingHorizontal: SPACING.md,
     },
     card: {
         backgroundColor: COLORS.white,
         borderRadius: BORDER_RADIUS.md,
-        padding: SPACING.base,
+        padding: SPACING.md,
         marginVertical: 8,
         elevation: 2,
         shadowColor: COLORS.black,
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: SPACING.base,
+        marginBottom: SPACING.md,
     },
     avatarSection: {
         flexDirection: 'row',

@@ -678,16 +678,16 @@ const InstructorStudents = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background.default,
+    backgroundColor: COLORS.white,
   },
   header: {
-    padding: SPACING.base,
+    padding: SPACING.md,
     backgroundColor: COLORS.background.paper,
     elevation: 2,
   },
   searchbar: {
     elevation: 0,
-    backgroundColor: COLORS.background.light,
+    backgroundColor: COLORS.white,
     marginBottom: SPACING.sm,
   },
   // Novos estilos para filtros melhorados
@@ -724,7 +724,7 @@ const styles = StyleSheet.create({
   },
   filterButtonLabel: {
     fontSize: FONT_SIZE.sm,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: FONT_WEIGHT.semiBold,
   },
   filterButtonContent: {
     paddingHorizontal: SPACING.sm,
@@ -764,7 +764,7 @@ const styles = StyleSheet.create({
   },
   actionButtonLabel: {
     fontSize: 13,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: FONT_WEIGHT.semiBold,
   },
   menuContent: {
     maxHeight: 300,
@@ -814,7 +814,7 @@ const styles = StyleSheet.create({
   },
   dropdownItem: {
     paddingVertical: SPACING.md,
-    paddingHorizontal: SPACING.base,
+    paddingHorizontal: SPACING.md,
     borderBottomWidth: 1,
     borderBottomColor: COLORS.gray[100],
   },
@@ -823,11 +823,11 @@ const styles = StyleSheet.create({
   },
   dropdownItemText: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.primary,
+    color: COLORS.black,
   },
   dropdownItemTextSelected: {
     color: COLORS.info[700],
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: FONT_WEIGHT.semiBold,
   },
   advancedFilterInput: {
     flexGrow: 1,
@@ -845,7 +845,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   studentCard: {
-    margin: SPACING.base,
+    margin: SPACING.md,
     marginBottom: SPACING.sm,
     elevation: 2,
   },
@@ -873,7 +873,7 @@ const styles = StyleSheet.create({
   },
   studentEmail: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginBottom: SPACING.xs,
   },
   graduationChip: {
@@ -892,7 +892,7 @@ const styles = StyleSheet.create({
   },
   statLabel: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginBottom: SPACING.xs,
   },
   statusChip: {
@@ -917,7 +917,7 @@ const styles = StyleSheet.create({
   },
   graduationDate: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
   divider: {
     marginVertical: 12,
@@ -931,7 +931,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 4,
   },
   emptyCard: {
-    margin: SPACING.base,
+    margin: SPACING.md,
     elevation: 2,
   },
   emptyContent: {
@@ -939,22 +939,22 @@ const styles = StyleSheet.create({
     padding: 32,
   },
   emptyTitle: {
-    marginTop: SPACING.base,
+    marginTop: SPACING.md,
     textAlign: 'center',
   },
   emptyText: {
     textAlign: 'center',
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
   statsCard: {
-    margin: SPACING.base,
+    margin: SPACING.md,
     marginTop: SPACING.sm,
     elevation: 2,
     backgroundColor: COLORS.primary[50],
   },
   statsTitle: {
     textAlign: 'center',
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   statsRow: {
     flexDirection: 'row',
@@ -967,7 +967,7 @@ const styles = StyleSheet.create({
   },
   fab: {
     position: 'absolute',
-    margin: SPACING.base,
+    margin: SPACING.md,
     right: 0,
     bottom: 0,
     backgroundColor: COLORS.primary[500],

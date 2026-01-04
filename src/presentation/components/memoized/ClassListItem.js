@@ -4,6 +4,7 @@ import { Card, Text, Chip, Divider, IconButton } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 import ActionButton, { ActionButtonGroup } from '@components/ActionButton';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { getString } from "@utils/theme";
 
 const ClassListItem = memo(({ 
   classItem, 
@@ -50,7 +51,7 @@ const ClassListItem = memo(({
   }, [getString]);
 
   const getCapacityColor = useCallback((current, max) => {
-    if (!max) return COLORS.text.secondary;
+    if (!max) return COLORS.gray[500];
     const percentage = (current / max) * 100;
     if (percentage >= 90) return COLORS.error[500];
     if (percentage >= 70) return COLORS.warning[500];
@@ -76,21 +77,21 @@ const ClassListItem = memo(({
 
         <View style={styles.classDetails}>
           <View style={styles.detailRow}>
-            <Ionicons name="person-outline" size={18} color={COLORS.text.secondary} />
+            <Ionicons name="person-outline" size={18} color={COLORS.gray[500]} />
             <Text style={styles.detailText}>
               {getString('professor')}: {classItem.instructorName}
             </Text>
           </View>
 
           <View style={styles.detailRow}>
-            <Ionicons name="time-outline" size={18} color={COLORS.text.secondary} />
+            <Ionicons name="time-outline" size={18} color={COLORS.gray[500]} />
             <Text style={styles.detailText}>
               {formatSchedule(classItem)}
             </Text>
           </View>
 
           <View style={styles.detailRow}>
-            <Ionicons name="people-outline" size={18} color={COLORS.text.secondary} />
+            <Ionicons name="people-outline" size={18} color={COLORS.gray[500]} />
             <Text style={[
               styles.detailText,
               { color: getCapacityColor(classItem.currentStudents, classItem.maxCapacity) }
@@ -101,7 +102,7 @@ const ClassListItem = memo(({
 
           {classItem.location && (
             <View style={styles.detailRow}>
-              <Ionicons name="location-outline" size={18} color={COLORS.text.secondary} />
+              <Ionicons name="location-outline" size={18} color={COLORS.gray[500]} />
               <Text style={styles.detailText}>{classItem.location}</Text>
             </View>
           )}
@@ -201,7 +202,7 @@ ClassListItem.displayName = 'ClassListItem';
 
 const styles = StyleSheet.create({
   classCard: {
-    margin: SPACING.base,
+    margin: SPACING.md,
     marginBottom: SPACING.sm,
     elevation: 2,
     backgroundColor: COLORS.card.premium.background,
@@ -223,7 +224,7 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.lg,
     flex: 1,
     color: COLORS.card.premium.text,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: FONT_WEIGHT.semiBold,
   },
   modalityChip: {
     marginLeft: SPACING.sm,

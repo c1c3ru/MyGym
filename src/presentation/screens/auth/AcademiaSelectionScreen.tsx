@@ -30,6 +30,7 @@ import ModalityPicker from '@components/ModalityPicker';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { getAuthGradient } from '@presentation/theme/authTheme';
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
+import { getString } from "@utils/theme";
 
 interface AcademiaSelectionScreenProps {
   navigation: NavigationProp<any>;
@@ -826,7 +827,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   loadingText: {
-    marginTop: SPACING.base,
+    marginTop: SPACING.md,
     textAlign: 'center',
   },
   header: {
@@ -857,15 +858,15 @@ const styles = StyleSheet.create({
     opacity: 0.9,
   },
   optionsCard: {
-    margin: SPACING.base,
+    margin: SPACING.md,
     marginBottom: SPACING.sm,
   },
   searchCard: {
-    margin: SPACING.base,
+    margin: SPACING.md,
     marginBottom: SPACING.sm,
   },
   createCard: {
-    margin: SPACING.base,
+    margin: SPACING.md,
     marginTop: SPACING.sm,
   },
   sectionTitle: {
@@ -874,7 +875,7 @@ const styles = StyleSheet.create({
   },
   sectionDescription: {
     opacity: 0.7,
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   input: {
     marginBottom: SPACING.md,
@@ -903,12 +904,12 @@ const styles = StyleSheet.create({
     marginTop: SPACING.sm,
   },
   createForm: {
-    marginTop: SPACING.base,
+    marginTop: SPACING.md,
   },
   buttonRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: SPACING.base,
+    marginTop: SPACING.md,
   },
   cancelButton: {
     flex: 0.45,
@@ -917,7 +918,7 @@ const styles = StyleSheet.create({
     flex: 0.45,
   },
   resultsContainer: {
-    margin: SPACING.base,
+    margin: SPACING.md,
     marginTop: SPACING.sm,
   },
   resultsTitle: {
@@ -989,7 +990,7 @@ const styles = StyleSheet.create({
   },
   modalTitle: {
     textAlign: 'center',
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
     fontWeight: FONT_WEIGHT.bold,
   },
   modalDescription: {
@@ -1006,7 +1007,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   snackbar: {
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   snackbarSuccess: {
     backgroundColor: COLORS.primary[500],

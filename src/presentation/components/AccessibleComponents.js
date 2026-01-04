@@ -379,12 +379,12 @@ const styles = StyleSheet.create({
   },
   h2: {
     fontSize: FONT_SIZE.xxl,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: FONT_WEIGHT.semiBold,
     marginBottom: SPACING.sm,
   },
   h3: {
     fontSize: FONT_SIZE.xl,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: FONT_WEIGHT.semiBold,
     marginBottom: SPACING.sm,
   },
   body: {
@@ -393,14 +393,14 @@ const styles = StyleSheet.create({
   },
   caption: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
 
   // List Item
   listItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: SPACING.base,
+    padding: SPACING.md,
     borderRadius: BORDER_RADIUS.base,
     backgroundColor: COLORS.white,
     marginVertical: SPACING.xs,
@@ -413,12 +413,12 @@ const styles = StyleSheet.create({
   },
   listItemTitle: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: FONT_WEIGHT.semiBold,
     marginBottom: SPACING.xs,
   },
   listItemDescription: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
   listItemRight: {
     marginLeft: SPACING.md,
@@ -428,7 +428,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: SPACING.base,
+    padding: SPACING.md,
     backgroundColor: COLORS.white,
   },
   headerLeft: {
@@ -443,7 +443,7 @@ const styles = StyleSheet.create({
   },
   headerSubtitle: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginTop: SPACING.xs,
   },
   headerRight: {

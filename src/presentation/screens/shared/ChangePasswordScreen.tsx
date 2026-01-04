@@ -18,6 +18,7 @@ import SafeCardContent from '@components/SafeCardContent';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { getAuthGradient } from '@presentation/theme/authTheme';
 import type { NavigationProp } from '@react-navigation/native';
+import { getString } from "@utils/theme";
 
 interface ChangePasswordFormData {
   currentPassword: string;
@@ -321,10 +322,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    padding: SPACING.base,
+    padding: SPACING.md,
   },
   card: {
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
     elevation: 4,
   },
   title: {
@@ -335,7 +336,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: FONT_SIZE.md,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginBottom: SPACING.lg,
     textAlign: 'center',
     lineHeight: 22,

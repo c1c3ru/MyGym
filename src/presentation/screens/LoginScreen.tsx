@@ -32,6 +32,7 @@ import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@present
 import { getAuthGradient, getAuthCardColors } from '@presentation/theme/authTheme';
 import formValidator from '@shared/utils/formValidation';
 import type { AuthScreenProps, LoginFormErrors, SnackbarState } from './auth/types';
+import { getString } from "@utils/theme";
 
 // Mapear erros de autenticação para códigos do EnhancedErrorMessage
 const mapAuthErrorToCode = (error: any): string => {
@@ -541,7 +542,7 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     flexGrow: 1,
-    paddingBottom: SPACING.sm0,
+    paddingBottom: 0,
   },
   topDecoration: {
     position: 'absolute',
@@ -601,7 +602,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: 34,
-    fontWeight: FONT_WEIGHT.extrabold,
+    fontWeight: FONT_WEIGHT.extraBold,
     marginBottom: SPACING.sm,
     letterSpacing: -0.5,
   },
@@ -623,7 +624,7 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
   },
   input: {
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
     backgroundColor: 'transparent',
   },
   errorText: {
@@ -639,11 +640,11 @@ const styles = StyleSheet.create({
   },
   forgotPasswordRow: {
     alignItems: 'center',
-    marginTop: SPACING.base,
+    marginTop: SPACING.md,
   },
   forgotPasswordText: {
     fontSize: FONT_SIZE.sm,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: FONT_WEIGHT.semiBold,
   },
   dividerRow: {
     flexDirection: 'row',
@@ -662,7 +663,7 @@ const styles = StyleSheet.create({
   socialRow: {
     flexDirection: 'row',
     justifyContent: 'center',
-    gap: SPACING.base,
+    gap: SPACING.md,
   },
   socialIconBtn: {
     width: 64,
@@ -694,9 +695,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   loadingText: {
-    marginTop: SPACING.base,
+    marginTop: SPACING.md,
     fontSize: FONT_SIZE.base,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: FONT_WEIGHT.semiBold,
   },
   snackbar: {
     borderRadius: BORDER_RADIUS.md,

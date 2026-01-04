@@ -626,12 +626,12 @@ const AddGraduationScreen = ({ route, navigation }: any) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background.light,
+    backgroundColor: COLORS.white,
   },
   header: {
     paddingTop: Platform.OS === 'ios' ? 50 : 30,
     paddingBottom: 20,
-    paddingHorizontal: SPACING.base,
+    paddingHorizontal: SPACING.md,
   },
   headerContent: {
     flexDirection: 'row',
@@ -655,7 +655,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   contentContainer: {
-    padding: SPACING.base,
+    padding: SPACING.md,
     paddingBottom: SPACING.xl,
     maxWidth: width < 768 ? width : 768, // Limita largura em tablets
     alignSelf: 'center',
@@ -663,13 +663,13 @@ const styles = StyleSheet.create({
   },
   currentGraduationCard: {
     borderRadius: BORDER_RADIUS.md,
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
     backgroundColor: COLORS.white,
   },
   currentGraduationContent: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: SPACING.base,
+    padding: SPACING.md,
   },
   currentGraduationText: {
     flex: 1,
@@ -677,7 +677,7 @@ const styles = StyleSheet.create({
   },
   currentGraduationLabel: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     textTransform: 'uppercase',
     fontWeight: FONT_WEIGHT.medium,
     letterSpacing: 0.5,
@@ -685,27 +685,27 @@ const styles = StyleSheet.create({
   currentGraduationValue: {
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.text.primary,
+    color: COLORS.black,
     marginTop: 2,
   },
   selectionCard: {
     borderRadius: BORDER_RADIUS.md,
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
     elevation: 2,
   },
   sectionTitle: {
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.text.primary,
-    marginBottom: SPACING.base,
+    color: COLORS.black,
+    marginBottom: SPACING.md,
   },
   selectionItem: {
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   selectionLabel: {
     fontSize: FONT_SIZE.base,
     fontWeight: FONT_WEIGHT.medium,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginBottom: SPACING.sm,
   },
   selectionButton: {
@@ -731,7 +731,7 @@ const styles = StyleSheet.create({
   selectionButtonText: {
     flex: 1,
     fontSize: FONT_SIZE.md,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
   selectionButtonTextSelected: {
     color: COLORS.info[700],
@@ -748,16 +748,16 @@ const styles = StyleSheet.create({
   },
   detailsCard: {
     borderRadius: BORDER_RADIUS.md,
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
     elevation: 2,
   },
   inputGroup: {
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   inputLabel: {
     fontSize: FONT_SIZE.base,
     fontWeight: FONT_WEIGHT.medium,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginBottom: SPACING.sm,
   },
   dateButton: {
@@ -773,7 +773,7 @@ const styles = StyleSheet.create({
   dateButtonText: {
     flex: 1,
     fontSize: FONT_SIZE.md,
-    color: COLORS.text.primary,
+    color: COLORS.black,
     textTransform: 'capitalize',
   },
   notesInput: {
@@ -781,7 +781,7 @@ const styles = StyleSheet.create({
   },
   certificateCard: {
     borderRadius: BORDER_RADIUS.md,
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
     elevation: 2,
   },
   certificateHeader: {
@@ -816,28 +816,28 @@ const styles = StyleSheet.create({
   },
   cancelButtonLabel: {
     fontSize: FONT_SIZE.md,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
   dialogTitleContainer: {
     padding: SPACING.lg,
-    paddingBottom: SPACING.base,
+    paddingBottom: SPACING.md,
   },
   dialogTitle: {
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.text.primary,
+    color: COLORS.black,
   },
   dialogContent: {
     maxHeight: 300,
   },
   dialogItem: {
-    padding: SPACING.base,
+    padding: SPACING.md,
     borderBottomWidth: 1,
     borderBottomColor: COLORS.gray[100],
   },
   dialogItemText: {
     fontSize: FONT_SIZE.md,
-    color: COLORS.text.primary,
+    color: COLORS.black,
   },
   graduationItem: {
     flexDirection: 'row',
@@ -864,7 +864,7 @@ const styles = StyleSheet.create({
   },
   loadingText: {
     marginTop: SPACING.sm,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
   dialogScroll: {
     maxHeight: 400,

@@ -591,7 +591,7 @@ export const TRANSITIONS = {
  * @param token - Token de spacing (ex: 'md', 'lg')
  * @returns Valor numérico do spacing
  */
-export const getSpacing = (token: keyof typeof SPACING) => SPACING[token] || SPACING.base;
+export const getSpacing = (token: keyof typeof SPACING) => SPACING[token] || SPACING.md;
 
 /**
  * Converte tokens de fontSize para valores numéricos

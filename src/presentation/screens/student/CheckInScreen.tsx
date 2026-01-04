@@ -19,6 +19,7 @@ import { academyFirestoreService } from '@infrastructure/services/academyFiresto
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
 import type { NavigationProp } from '@react-navigation/native';
+import { getString } from "@utils/theme";
 
 interface CheckInScreenProps {
   navigation: NavigationProp<any>;
@@ -370,10 +371,10 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    padding: SPACING.base,
+    padding: SPACING.md,
   },
   card: {
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
     elevation: 4,
   },
   todayCard: {
@@ -385,7 +386,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   todayAvatar: {
-    marginRight: SPACING.base,
+    marginRight: SPACING.md,
   },
   todayInfo: {
     flex: 1,
@@ -397,7 +398,7 @@ const styles = StyleSheet.create({
   },
   todaySubtitle: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginBottom: SPACING.sm,
   },
   classChip: {
@@ -406,7 +407,7 @@ const styles = StyleSheet.create({
   sectionHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   sectionTitle: {
     fontSize: FONT_SIZE.lg,
@@ -428,12 +429,12 @@ const styles = StyleSheet.create({
   },
   className: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: FONT_WEIGHT.semiBold,
     marginBottom: SPACING.xs,
   },
   classModality: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
   checkInButton: {
     borderRadius: BORDER_RADIUS.lg,
@@ -464,7 +465,7 @@ const styles = StyleSheet.create({
   },
   historyDate: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
   emptyState: {
     alignItems: 'center',
@@ -472,7 +473,7 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: FONT_WEIGHT.semiBold,
     color: COLORS.gray[500],
     marginTop: SPACING.md,
   },
@@ -483,7 +484,7 @@ const styles = StyleSheet.create({
   },
   fab: {
     position: 'absolute',
-    margin: SPACING.base,
+    margin: SPACING.md,
     right: 0,
     bottom: 0,
   },

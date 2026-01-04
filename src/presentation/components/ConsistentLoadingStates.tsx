@@ -3,6 +3,7 @@ import { View, StyleSheet, Dimensions, StyleProp, ViewStyle } from 'react-native
 import { ActivityIndicator, Text, Button, Card, ButtonProps } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { getString } from "@utils/theme";
 
 /**
  * Propriedades para FullScreenLoading
@@ -223,9 +224,9 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     loadingText: {
-        marginTop: SPACING.base,
+        marginTop: SPACING.md,
         fontSize: FONT_SIZE.md,
-        color: COLORS.text.secondary,
+        color: COLORS.gray[500],
         textAlign: 'center',
     },
     sectionContainer: {
@@ -237,7 +238,7 @@ const styles = StyleSheet.create({
     sectionText: {
         marginLeft: SPACING.md,
         fontSize: FONT_SIZE.base,
-        color: COLORS.text.secondary,
+        color: COLORS.gray[500],
     },
     skeletonCard: {
         marginHorizontal: 16,
@@ -246,11 +247,11 @@ const styles = StyleSheet.create({
         borderRadius: BORDER_RADIUS.md,
     },
     skeletonContent: {
-        padding: SPACING.base,
+        padding: SPACING.md,
     },
     skeletonRow: {
         flexDirection: 'row',
-        marginBottom: SPACING.base,
+        marginBottom: SPACING.md,
     },
     skeletonAvatar: {
         width: 50,
@@ -289,12 +290,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        paddingVertical: SPACING.base,
+        paddingVertical: SPACING.md,
     },
     formLoadingText: {
         marginLeft: SPACING.sm,
         fontSize: FONT_SIZE.base,
-        color: COLORS.text.secondary,
+        color: COLORS.gray[500],
     },
     errorContainer: {
         flex: 1,
@@ -304,18 +305,18 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.gray[100],
     },
     errorIcon: {
-        marginBottom: SPACING.base,
+        marginBottom: SPACING.md,
     },
     errorTitle: {
         fontSize: FONT_SIZE.lg,
         fontWeight: FONT_WEIGHT.bold as any,
-        color: COLORS.text.primary,
+        color: COLORS.black,
         textAlign: 'center',
         marginBottom: SPACING.sm,
     },
     errorMessage: {
         fontSize: FONT_SIZE.base,
-        color: COLORS.text.secondary,
+        color: COLORS.gray[500],
         textAlign: 'center',
         marginBottom: 20,
         lineHeight: 20,
@@ -331,18 +332,18 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.gray[100],
     },
     emptyIcon: {
-        marginBottom: SPACING.base,
+        marginBottom: SPACING.md,
     },
     emptyTitle: {
         fontSize: FONT_SIZE.lg,
         fontWeight: FONT_WEIGHT.bold as any,
-        color: COLORS.text.primary,
+        color: COLORS.black,
         textAlign: 'center',
         marginBottom: SPACING.sm,
     },
     emptyMessage: {
         fontSize: FONT_SIZE.base,
-        color: COLORS.text.secondary,
+        color: COLORS.gray[500],
         textAlign: 'center',
         marginBottom: 20,
         lineHeight: 20,

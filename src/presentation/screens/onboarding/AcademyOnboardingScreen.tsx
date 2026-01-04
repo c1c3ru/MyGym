@@ -17,6 +17,7 @@ import { httpsCallable } from 'firebase/functions';
 import { functions } from '@infrastructure/services/firebase';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
+import { getString } from "@utils/theme";
 
 const AcademyOnboardingScreen = () => {
   const { currentTheme } = useThemeToggle();
@@ -371,21 +372,21 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.xxl,
     fontWeight: FONT_WEIGHT.bold,
     textAlign: 'center',
-    marginTop: SPACING.base,
-    color: COLORS.text.primary,
+    marginTop: SPACING.md,
+    color: COLORS.black,
   },
   subtitle: {
     fontSize: FONT_SIZE.md,
     textAlign: 'center',
     marginTop: SPACING.sm,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     lineHeight: 24,
   },
   optionsContainer: {
     marginBottom: 30,
   },
   optionCard: {
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
     elevation: 4,
   },
   optionHeader: {
@@ -396,13 +397,13 @@ const styles = StyleSheet.create({
   optionTitle: {
     marginLeft: SPACING.md,
     fontSize: FONT_SIZE.xl,
-    color: COLORS.text.primary,
+    color: COLORS.black,
   },
   optionDescription: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     lineHeight: 20,
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   optionButton: {
     marginTop: SPACING.sm,
@@ -418,7 +419,7 @@ const styles = StyleSheet.create({
   infoTitle: {
     fontSize: FONT_SIZE.lg,
     color: COLORS.primary[800],
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   infoItem: {
     flexDirection: 'row',
@@ -442,8 +443,8 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.md,
   },
   inviteDescription: {
-    marginBottom: SPACING.base,
-    color: COLORS.text.secondary,
+    marginBottom: SPACING.md,
+    color: COLORS.gray[500],
   },
 });
 

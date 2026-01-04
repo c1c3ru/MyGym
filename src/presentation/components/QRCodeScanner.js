@@ -75,7 +75,7 @@ const styles = {
   },
   title: {
     textAlign: 'center',
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
     color: COLORS.error[700],
   },
   description: {

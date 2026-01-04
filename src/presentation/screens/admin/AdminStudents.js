@@ -24,6 +24,7 @@ import StudentListSkeleton from '@components/skeletons/StudentListSkeleton';
 import { useFocusEffect } from '@react-navigation/native';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
+import { getString } from "@utils/theme";
 
 const AdminStudents = ({ navigation }) => {
   const { currentTheme } = useThemeToggle();
@@ -404,17 +405,17 @@ const AdminStudents = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background.default,
+    backgroundColor: COLORS.white,
   },
   header: {
     backgroundColor: COLORS.background.paper,
-    paddingHorizontal: SPACING.base,
+    paddingHorizontal: SPACING.md,
     paddingVertical: SPACING.md,
     elevation: 2,
   },
   searchbar: {
     elevation: 0,
-    backgroundColor: COLORS.background.light,
+    backgroundColor: COLORS.white,
     marginBottom: SPACING.sm,
   },
   filterRow: {
@@ -471,13 +472,13 @@ const styles = StyleSheet.create({
   },
   statLabel: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginBottom: SPACING.xs,
   },
   statValue: {
     fontSize: FONT_SIZE.base,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.text.primary,
+    color: COLORS.black,
   },
   statusChip: {
     height: 24,
@@ -487,13 +488,13 @@ const styles = StyleSheet.create({
   },
   fab: {
     position: 'absolute',
-    margin: SPACING.base,
+    margin: SPACING.md,
     right: 0,
     bottom: 0,
     backgroundColor: COLORS.primary[500],
   },
   listContainer: {
-    paddingHorizontal: SPACING.base,
+    paddingHorizontal: SPACING.md,
   },
   emptyContainer: {
     flex: 1,
@@ -503,8 +504,8 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: FONT_SIZE.lg,
-    color: COLORS.text.secondary,
-    marginTop: SPACING.base,
+    color: COLORS.gray[500],
+    marginTop: SPACING.md,
     textAlign: 'center',
   },
   emptySubtext: {

@@ -18,6 +18,7 @@ import { getAuthGradient, getAuthCardColors } from '@presentation/theme/authThem
 import ThemeToggleSwitch from '@components/ThemeToggleSwitch';
 import { useTheme } from '@contexts/ThemeContext';
 import type { NavigationProp } from '@react-navigation/native';
+import { getString } from "@utils/theme";
 
 
 interface SettingsScreenProps {
@@ -102,25 +103,25 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
             <List.Item
               title={getString('name')}
               description={userProfile?.name || getString('notInformed')}
-              left={(props) => <Ionicons name="person" size={20} color={COLORS.text.secondary} />}
+              left={(props) => <Ionicons name="person" size={20} color={COLORS.gray[500]} />}
             />
 
             <List.Item
               title="email"
               description={user?.email}
-              left={(props) => <Ionicons name="mail" size={20} color={COLORS.text.secondary} />}
+              left={(props) => <Ionicons name="mail" size={20} color={COLORS.gray[500]} />}
             />
 
             <List.Item
               title={getString('editProfile')}
-              left={(props) => <Ionicons name="create" size={20} color={COLORS.text.secondary} />}
+              left={(props) => <Ionicons name="create" size={20} color={COLORS.gray[500]} />}
               right={(props) => <List.Icon icon="chevron-right" />}
               onPress={() => navigation.navigate('Profile')}
             />
 
             <List.Item
               title={getString('changePassword')}
-              left={(props) => <Ionicons name="lock-closed" size={20} color={COLORS.text.secondary} />}
+              left={(props) => <Ionicons name="lock-closed" size={20} color={COLORS.gray[500]} />}
               right={(props) => <List.Icon icon="chevron-right" />}
               onPress={handleChangePassword}
             />
@@ -139,7 +140,7 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
             <List.Item
               title={getString('viewThemeDemo')}
               description={getString('viewAvailableThemes')}
-              left={(props) => <Ionicons name="eye" size={20} color={COLORS.text.secondary} />}
+              left={(props) => <Ionicons name="eye" size={20} color={COLORS.gray[500]} />}
               right={(props) => <List.Icon icon="chevron-right" />}
               onPress={() => navigation.navigate('ThemeDemo')}
             />
@@ -155,7 +156,7 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
             <List.Item
               title={getString('notifications')}
               description={getString('receivePushNotifications')}
-              left={(props) => <Ionicons name="notifications" size={20} color={COLORS.text.secondary} />}
+              left={(props) => <Ionicons name="notifications" size={20} color={COLORS.gray[500]} />}
               right={(props) => (
                 <Switch
                   value={notifications}
@@ -168,7 +169,7 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
             <List.Item
               title={getString('darkMode')}
               description={getString('darkModeDescription')}
-              left={(props) => <Ionicons name="moon" size={20} color={COLORS.text.secondary} />}
+              left={(props) => <Ionicons name="moon" size={20} color={COLORS.gray[500]} />}
               right={(props) => (
                 <Switch
                   value={darkMode}
@@ -181,7 +182,7 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
             <List.Item
               title={getString('autoBackup')}
               description={getString('autoBackupDescription')}
-              left={(props) => <Ionicons name="cloud-upload" size={20} color={COLORS.text.secondary} />}
+              left={(props) => <Ionicons name="cloud-upload" size={20} color={COLORS.gray[500]} />}
               right={(props) => (
                 <Switch
                   value={autoBackup}
@@ -202,20 +203,20 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
             <List.Item
               title={getString('exportData')}
               description={getString('downloadDataCopy')}
-              left={(props) => <Ionicons name="download" size={20} color={COLORS.text.secondary} />}
+              left={(props) => <Ionicons name="download" size={20} color={COLORS.gray[500]} />}
               right={(props) => <List.Icon icon="chevron-right" />}
               onPress={handleDataExport}
             />
 
             <List.Item
               title={getString('privacyPolicy')}
-              left={(props) => <Ionicons name="document-text" size={20} color={COLORS.text.secondary} />}
+              left={(props) => <Ionicons name="document-text" size={20} color={COLORS.gray[500]} />}
               right={(props) => <List.Icon icon="chevron-right" />}
             />
 
             <List.Item
               title={getString('termsOfUse')}
-              left={(props) => <Ionicons name="library" size={20} color={COLORS.text.secondary} />}
+              left={(props) => <Ionicons name="library" size={20} color={COLORS.gray[500]} />}
               right={(props) => <List.Icon icon="chevron-right" />}
             />
           </Card>
@@ -230,18 +231,18 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
             <List.Item
               title="Versão do App"
               description="1.0.0"
-              left={(props) => <Ionicons name="apps" size={20} color={COLORS.text.secondary} />}
+              left={(props) => <Ionicons name="apps" size={20} color={COLORS.gray[500]} />}
             />
 
             <List.Item
               title="Central de Ajuda"
-              left={(props) => <Ionicons name="help-circle" size={20} color={COLORS.text.secondary} />}
+              left={(props) => <Ionicons name="help-circle" size={20} color={COLORS.gray[500]} />}
               right={(props) => <List.Icon icon="chevron-right" />}
             />
 
             <List.Item
               title="Enviar Feedback"
-              left={(props) => <Ionicons name="chatbubble-ellipses" size={20} color={COLORS.text.secondary} />}
+              left={(props) => <Ionicons name="chatbubble-ellipses" size={20} color={COLORS.gray[500]} />}
               right={(props) => <List.Icon icon="chevron-right" />}
             />
           </Card>

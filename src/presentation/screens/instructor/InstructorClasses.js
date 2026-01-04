@@ -20,6 +20,7 @@ import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import InstructorClassesSkeleton from '@components/skeletons/InstructorClassesSkeleton';
 import { EnhancedFlashList } from '@components/EnhancedFlashList';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { getString } from "@utils/theme";
 
 const InstructorClasses = ({ navigation }) => {
   const { user, userProfile } = useAuthFacade();
@@ -228,24 +229,24 @@ const InstructorClasses = ({ navigation }) => {
           </View>
 
           <Paragraph style={styles.modalityText}>
-            <Ionicons name="fitness-outline" size={16} color={COLORS.text.secondary} />
+            <Ionicons name="fitness-outline" size={16} color={COLORS.gray[500]} />
             {' '}{classItem.modality}
           </Paragraph>
 
           <View style={styles.classInfo}>
             <Text style={styles.infoItem}>
-              <Ionicons name="time-outline" size={16} color={COLORS.text.secondary} />
+              <Ionicons name="time-outline" size={16} color={COLORS.gray[500]} />
               {' '}{formatSchedule(classItem)}
             </Text>
 
             <Text style={styles.infoItem}>
-              <Ionicons name="people-outline" size={16} color={COLORS.text.secondary} />
+              <Ionicons name="people-outline" size={16} color={COLORS.gray[500]} />
               {' '}{studentCount}/{classItem.maxStudents || 0} alunos
             </Text>
 
             {classItem.price && (
               <Text style={styles.infoItem}>
-                <Ionicons name="card-outline" size={16} color={COLORS.text.secondary} />
+                <Ionicons name="card-outline" size={16} color={COLORS.gray[500]} />
                 {' '}R$ {classItem.price.toFixed(2)}
               </Text>
             )}
@@ -324,7 +325,7 @@ const InstructorClasses = ({ navigation }) => {
               renderItem={({ item }) => renderClassCard(item)}
               keyExtractor={(item) => item.id}
               estimatedItemSize={200}
-              contentContainerStyle={{ padding: SPACING.base }}
+              contentContainerStyle={{ padding: SPACING.md }}
             />
           )}
         </ScrollView>
@@ -346,14 +347,14 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.gray[100],
   },
   searchbar: {
-    margin: SPACING.base,
+    margin: SPACING.md,
     marginBottom: SPACING.sm,
   },
   scrollView: {
     flex: 1,
   },
   scrollContent: {
-    padding: SPACING.base,
+    padding: SPACING.md,
     paddingTop: SPACING.sm,
     paddingBottom: 100,
   },
@@ -363,7 +364,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   card: {
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
     elevation: 4,
   },
   cardHeader: {
@@ -382,7 +383,7 @@ const styles = StyleSheet.create({
   },
   modalityText: {
     fontSize: FONT_SIZE.md,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginBottom: SPACING.md,
   },
   classInfo: {
@@ -414,9 +415,9 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: FONT_SIZE.lg,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     textAlign: 'center',
-    marginTop: SPACING.base,
+    marginTop: SPACING.md,
     marginBottom: SPACING.sm,
   },
   emptySubtext: {
@@ -426,7 +427,7 @@ const styles = StyleSheet.create({
   },
   fab: {
     position: 'absolute',
-    margin: SPACING.base,
+    margin: SPACING.md,
     right: 0,
     bottom: 0,
     backgroundColor: COLORS.primary[500],

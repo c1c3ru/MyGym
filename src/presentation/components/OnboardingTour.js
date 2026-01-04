@@ -25,6 +25,7 @@ import {
   OPACITY 
 } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
+import { getString } from "@utils/theme";
 
 const { width, height } = Dimensions.get('window');
 
@@ -321,15 +322,15 @@ const OnboardingTooltip = ({
     },
     tooltipTitle: {
       ...styles.tooltipTitle,
-      color: COLORS.text.primary,
+      color: COLORS.black,
     },
     tooltipProgress: {
       ...styles.tooltipProgress,
-      color: COLORS.text.primary,
+      color: COLORS.black,
     },
     tooltipMessage: {
       ...styles.tooltipMessage,
-      color: COLORS.text.primary,
+      color: COLORS.black,
     },
     backdrop: {
       ...styles.backdrop,
@@ -514,7 +515,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.card.default.background,  // Será sobrescrito pelos estilos dinâmicos
     borderRadius: BORDER_RADIUS.lg,
     padding: width < 360 ? SPACING.lg : SPACING.xl,
-    maxWidth: width - SPACING.base * 2,
+    maxWidth: width - SPACING.md * 2,
     // Sombra será definida nos estilos dinâmicos
   },
   tooltipTop: {
@@ -555,16 +556,16 @@ const styles = StyleSheet.create({
   tooltipTitle: {
     fontSize: width < 360 ? FONT_SIZE.base : FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.text.primary,  // Será sobrescrito pelos estilos dinâmicos
+    color: COLORS.black,  // Será sobrescrito pelos estilos dinâmicos
     marginBottom: SPACING.xxs,
   },
   tooltipProgress: {
     fontSize: width < 360 ? FONT_SIZE.xxs : FONT_SIZE.xs,
-    color: COLORS.text.secondary,  // Será sobrescrito pelos estilos dinâmicos
+    color: COLORS.gray[500],  // Será sobrescrito pelos estilos dinâmicos
   },
   tooltipMessage: {
     fontSize: width < 360 ? FONT_SIZE.sm : FONT_SIZE.base,
-    color: COLORS.text.primary,  // Será sobrescrito pelos estilos dinâmicos
+    color: COLORS.black,  // Será sobrescrito pelos estilos dinâmicos
     lineHeight: (width < 360 ? FONT_SIZE.sm : FONT_SIZE.base) * 1.5,
     marginBottom: width < 360 ? SPACING.md : SPACING.lg,
   },

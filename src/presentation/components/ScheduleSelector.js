@@ -15,6 +15,7 @@ import {
 import { useScheduleConflictValidator } from '@utils/scheduleConflictValidator';
 import ConflictWarning from './ConflictWarning';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { getString } from "@utils/theme";
 
 const ScheduleSelector = ({
   value = null,
@@ -329,14 +330,14 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: FONT_WEIGHT.semiBold,
   },
   summaryCard: {
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   summaryTitle: {
     fontSize: FONT_SIZE.base,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: FONT_WEIGHT.semiBold,
     marginBottom: SPACING.sm,
   },
   summaryText: {
@@ -366,7 +367,7 @@ const styles = StyleSheet.create({
   },
   dayName: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: FONT_WEIGHT.semiBold,
   },
   hourChip: {
     height: 24,
@@ -388,17 +389,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: SPACING.base,
+    padding: SPACING.md,
   },
   modalTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: FONT_WEIGHT.semiBold,
   },
   timeSlotsContainer: {
     maxHeight: 400,
   },
   timeSlot: {
-    paddingHorizontal: SPACING.base,
+    paddingHorizontal: SPACING.md,
   },
 });
 

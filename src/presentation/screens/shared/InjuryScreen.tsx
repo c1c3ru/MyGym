@@ -24,6 +24,7 @@ import { firestoreService } from '@infrastructure/services/firestoreService';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { getAuthGradient } from '@presentation/theme/authTheme';
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
+import { getString } from "@utils/theme";
 
 interface Injury {
   id?: string;
@@ -526,10 +527,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    padding: SPACING.base,
+    padding: SPACING.md,
   },
   card: {
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
     elevation: 4,
   },
   headerSection: {
@@ -545,16 +546,16 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: FONT_SIZE.md,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     textAlign: 'center',
     lineHeight: 22,
   },
   sectionTitle: {
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
-    marginTop: SPACING.base,
+    marginTop: SPACING.md,
     marginBottom: SPACING.md,
-    color: COLORS.text.primary,
+    color: COLORS.black,
   },
   input: {
     marginBottom: SPACING.sm,
@@ -570,13 +571,13 @@ const styles = StyleSheet.create({
   },
   radioDescription: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginLeft: 32,
     marginTop: -8,
     marginBottom: SPACING.sm,
   },
   summaryContainer: {
-    padding: SPACING.base,
+    padding: SPACING.md,
     marginVertical: 16,
     borderRadius: BORDER_RADIUS.md,
     elevation: 2,

@@ -75,7 +75,7 @@ const StudentDetailsSkeleton: React.FC = () => {
 
             {/* Actions Card Skeleton */}
             <View style={styles.cardContainer}>
-                <SkeletonLoader width="30%" height={20} style={{ marginBottom: SPACING.base }} />
+                <SkeletonLoader width="30%" height={20} style={{ marginBottom: SPACING.md }} />
 
                 <View style={styles.actionsContainer}>
                     <SkeletonLoader width="48%" height={40} borderRadius={20} />
@@ -92,9 +92,9 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.gray[100],
     },
     cardContainer: {
-        margin: SPACING.base,
+        margin: SPACING.md,
         marginTop: SPACING.sm,
-        padding: SPACING.base,
+        padding: SPACING.md,
         backgroundColor: COLORS.white,
         borderRadius: BORDER_RADIUS.md,
         elevation: 2,
@@ -106,10 +106,10 @@ const styles = StyleSheet.create({
     headerContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: SPACING.base,
+        marginBottom: SPACING.md,
     },
     headerInfo: {
-        marginLeft: SPACING.base,
+        marginLeft: SPACING.md,
         flex: 1,
     },
     divider: {
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     cardHeader: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: SPACING.base,
+        marginBottom: SPACING.md,
     },
     listItem: {
         flexDirection: 'row',

@@ -1,3 +1,4 @@
+import { getString } from "@utils/theme";
 // Sistema de formatação internacionalizada para datas, números e moedas
 // Centraliza formatação por idioma escolhido pelo usuário
 

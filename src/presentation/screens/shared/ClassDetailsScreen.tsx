@@ -200,7 +200,7 @@ const ClassDetailsScreen: React.FC<ClassDetailsScreenProps> = ({ route, navigati
       'MMA': COLORS.warning[500],
       'Boxe': COLORS.primary[500]
     };
-    return (modality && colors[modality]) || COLORS.text.secondary;
+    return (modality && colors[modality]) || COLORS.gray[500];
   };
 
   if (loading && !classInfo) {
@@ -445,7 +445,7 @@ const ClassDetailsScreen: React.FC<ClassDetailsScreenProps> = ({ route, navigati
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background.light,
+    backgroundColor: COLORS.white,
   },
   scrollContent: {
     paddingBottom: 20,
@@ -458,7 +458,7 @@ const styles = StyleSheet.create({
 
   // Header Card Styles
   headerCard: {
-    margin: SPACING.base,
+    margin: SPACING.md,
     marginBottom: SPACING.md,
     borderRadius: BORDER_RADIUS.lg,
     backgroundColor: COLORS.white,
@@ -474,7 +474,7 @@ const styles = StyleSheet.create({
   },
   classInfo: {
     flex: 1,
-    marginRight: SPACING.base,
+    marginRight: SPACING.md,
   },
   className: {
     fontSize: FONT_SIZE.xxl,
@@ -488,7 +488,7 @@ const styles = StyleSheet.create({
   },
   modalityText: {
     color: COLORS.white,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: FONT_WEIGHT.semiBold,
     fontSize: FONT_SIZE.sm,
   },
   classAvatar: {
@@ -499,9 +499,9 @@ const styles = StyleSheet.create({
   statsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    backgroundColor: COLORS.background.light,
+    backgroundColor: COLORS.white,
     borderRadius: BORDER_RADIUS.md,
-    padding: SPACING.base,
+    padding: SPACING.md,
   },
   statItem: {
     alignItems: 'center',
@@ -515,7 +515,7 @@ const styles = StyleSheet.create({
   },
   statLabel: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginTop: 2,
   },
   statDivider: {
@@ -526,7 +526,7 @@ const styles = StyleSheet.create({
 
   // Details Card
   detailsCard: {
-    margin: SPACING.base,
+    margin: SPACING.md,
     marginTop: SPACING.sm,
     borderRadius: BORDER_RADIUS.md,
   },
@@ -534,12 +534,12 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
     color: COLORS.gray[900],
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   infoRow: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   infoContent: {
     flex: 1,
@@ -547,8 +547,8 @@ const styles = StyleSheet.create({
   },
   infoLabel: {
     fontSize: FONT_SIZE.base,
-    fontWeight: FONT_WEIGHT.semibold,
-    color: COLORS.text.secondary,
+    fontWeight: FONT_WEIGHT.semiBold,
+    color: COLORS.gray[500],
     marginBottom: SPACING.xs,
   },
   infoValue: {
@@ -560,14 +560,14 @@ const styles = StyleSheet.create({
   },
   descriptionText: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     lineHeight: 20,
     marginTop: SPACING.xs,
   },
 
   // Students Card
   studentsCard: {
-    margin: SPACING.base,
+    margin: SPACING.md,
     marginTop: SPACING.sm,
     borderRadius: BORDER_RADIUS.md,
   },
@@ -575,21 +575,21 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   studentsInfo: {
     flex: 1,
   },
   studentsCount: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginTop: SPACING.xs,
   },
   toggleButton: {
     borderRadius: BORDER_RADIUS.md,
   },
   studentsList: {
-    marginTop: SPACING.base,
+    marginTop: SPACING.md,
   },
   studentItem: {
     flexDirection: 'row',
@@ -614,12 +614,12 @@ const styles = StyleSheet.create({
   },
   studentName: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: FONT_WEIGHT.semiBold,
     color: COLORS.gray[900],
   },
   studentEmail: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginTop: 2,
   },
   studentButton: {
@@ -631,7 +631,7 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: FONT_WEIGHT.semiBold,
     color: COLORS.gray[500],
     marginTop: SPACING.md,
   },
@@ -644,14 +644,14 @@ const styles = StyleSheet.create({
 
   // Actions Card
   actionsCard: {
-    margin: SPACING.base,
+    margin: SPACING.md,
     marginTop: SPACING.sm,
     borderRadius: BORDER_RADIUS.md,
   },
   actionsGrid: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   actionItem: {
     flex: 1,
@@ -682,7 +682,7 @@ const styles = StyleSheet.create({
   },
   deleteButtonContent: {
     height: 48,
-    paddingHorizontal: SPACING.base,
+    paddingHorizontal: SPACING.md,
   },
 });
 

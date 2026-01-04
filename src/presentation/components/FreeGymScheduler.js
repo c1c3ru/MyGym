@@ -16,6 +16,7 @@ import { useCustomClaims } from '@hooks/useCustomClaims';
 import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
 import { DAY_NAMES } from '@utils/scheduleUtils';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { getString } from "@utils/theme";
 
 const { width } = Dimensions.get('window');
 
@@ -468,12 +469,12 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.gray[100]
   },
   filtersCard: {
-    margin: SPACING.base,
+    margin: SPACING.md,
     marginBottom: SPACING.sm
   },
   filtersTitle: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: FONT_WEIGHT.semiBold,
     marginBottom: SPACING.md
   },
   filtersContainer: {
@@ -484,17 +485,17 @@ const styles = StyleSheet.create({
     marginRight: SPACING.sm
   },
   calendarCard: {
-    margin: SPACING.base,
+    margin: SPACING.md,
     marginVertical: 8
   },
   dayEventsCard: {
-    margin: SPACING.base,
+    margin: SPACING.md,
     marginTop: SPACING.sm,
     maxHeight: 300
   },
   dayEventsTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: FONT_WEIGHT.semiBold,
     marginBottom: SPACING.md,
     textTransform: 'capitalize'
   },
@@ -525,11 +526,11 @@ const styles = StyleSheet.create({
   },
   eventTitle: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: FONT_WEIGHT.semiBold,
     flex: 1
   },
   eventDetails: {
-    marginLeft: SPACING.base
+    marginLeft: SPACING.md
   },
   eventTime: {
     fontSize: FONT_SIZE.base,

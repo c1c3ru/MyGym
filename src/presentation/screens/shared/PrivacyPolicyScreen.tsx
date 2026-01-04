@@ -5,6 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import ActionButton from '@components/ActionButton';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
+import { getString } from "@utils/theme";
 
 const PrivacyPolicyScreen = ({ navigation }: any) => {
   const { currentTheme } = useThemeToggle();
@@ -341,7 +342,7 @@ const PrivacyPolicyScreen = ({ navigation }: any) => {
               serão comunicadas por e-mail ou através do aplicativo com antecedência mínima de 30 dias.
             </Text>
 
-            <Text variant="bodyMedium" style={[styles.bodyText, { marginTop: SPACING.base }]}>
+            <Text variant="bodyMedium" style={[styles.bodyText, { marginTop: SPACING.md }]}>
               Recomendamos que você revise esta política regularmente para se manter informado sobre
               como protegemos seus dados pessoais.
             </Text>
@@ -398,7 +399,7 @@ const styles = StyleSheet.create({
     paddingBottom: SPACING.xl,
   },
   headerCard: {
-    margin: SPACING.base,
+    margin: SPACING.md,
     marginBottom: SPACING.sm,
     elevation: 4,
   },
@@ -416,10 +417,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: SPACING.sm,
     fontStyle: 'italic',
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
   sectionCard: {
-    margin: SPACING.base,
+    margin: SPACING.md,
     marginVertical: 8,
     elevation: 2,
   },
@@ -434,7 +435,7 @@ const styles = StyleSheet.create({
     textAlign: 'justify',
   },
   subSection: {
-    marginTop: SPACING.base,
+    marginTop: SPACING.md,
     marginLeft: SPACING.sm,
   },
   subSectionTitle: {
@@ -456,7 +457,7 @@ const styles = StyleSheet.create({
     borderRadius: BORDER_RADIUS.md,
     borderLeftWidth: 4,
     borderLeftColor: COLORS.warning[500],
-    marginTop: SPACING.base,
+    marginTop: SPACING.md,
   },
   warningText: {
     color: COLORS.warning[800],
@@ -470,7 +471,7 @@ const styles = StyleSheet.create({
   },
   rightCard: {
     width: '48%',
-    backgroundColor: COLORS.background.light,
+    backgroundColor: COLORS.white,
     padding: SPACING.md,
     borderRadius: BORDER_RADIUS.md,
     marginBottom: SPACING.sm,
@@ -489,7 +490,7 @@ const styles = StyleSheet.create({
   },
   contactBox: {
     backgroundColor: COLORS.info[50],
-    padding: SPACING.base,
+    padding: SPACING.md,
     borderRadius: BORDER_RADIUS.md,
     marginTop: SPACING.md,
   },
@@ -505,8 +506,8 @@ const styles = StyleSheet.create({
   actionButtons: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingHorizontal: SPACING.base,
-    marginTop: SPACING.base,
+    paddingHorizontal: SPACING.md,
+    marginTop: SPACING.md,
     gap: SPACING.md,
   },
   actionButton: {
@@ -515,7 +516,7 @@ const styles = StyleSheet.create({
   footer: {
     alignItems: 'center',
     marginTop: SPACING.xl,
-    paddingHorizontal: SPACING.base,
+    paddingHorizontal: SPACING.md,
   },
   footerText: {
     textAlign: 'center',

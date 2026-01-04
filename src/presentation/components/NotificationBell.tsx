@@ -12,6 +12,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { useNotification } from '@contexts/NotificationContext';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { getString } from "@utils/theme";
 
 /**
  * Propriedades para o componente NotificationBell
@@ -255,12 +256,12 @@ const styles = StyleSheet.create({
     },
     permissionCard: {
         backgroundColor: COLORS.warning[50],
-        margin: SPACING.base,
+        margin: SPACING.md,
         borderRadius: BORDER_RADIUS.md,
     },
     permissionContent: {
         alignItems: 'center',
-        padding: SPACING.base,
+        padding: SPACING.md,
     },
     permissionTitle: {
         fontSize: FONT_SIZE.md,
@@ -272,8 +273,8 @@ const styles = StyleSheet.create({
     permissionText: {
         fontSize: FONT_SIZE.base,
         textAlign: 'center',
-        color: COLORS.text.secondary,
-        marginBottom: SPACING.base,
+        color: COLORS.gray[500],
+        marginBottom: SPACING.md,
     },
     permissionButton: {
         backgroundColor: COLORS.warning[500],
@@ -283,10 +284,10 @@ const styles = StyleSheet.create({
     },
     notificationItem: {
         flexDirection: 'row',
-        padding: SPACING.base,
+        padding: SPACING.md,
         borderBottomWidth: 1,
         borderBottomColor: COLORS.gray[100],
-        backgroundColor: COLORS.background.light,
+        backgroundColor: COLORS.white,
     },
     notificationContent: {
         flex: 1,
@@ -298,18 +299,18 @@ const styles = StyleSheet.create({
     },
     notificationTime: {
         fontSize: FONT_SIZE.sm,
-        color: COLORS.text.secondary,
+        color: COLORS.gray[500],
         marginLeft: SPACING.sm,
     },
     notificationTitle: {
         fontSize: FONT_SIZE.base,
         fontWeight: 'bold',
-        color: COLORS.text.primary,
+        color: COLORS.black,
         marginBottom: SPACING.xs,
     },
     notificationMessage: {
         fontSize: 13,
-        color: COLORS.text.secondary,
+        color: COLORS.gray[500],
         lineHeight: 18,
     },
     unreadIndicator: {
@@ -326,8 +327,8 @@ const styles = StyleSheet.create({
     },
     emptyText: {
         fontSize: FONT_SIZE.md,
-        color: COLORS.text.secondary,
-        marginTop: SPACING.base,
+        color: COLORS.gray[500],
+        marginTop: SPACING.md,
         textAlign: 'center',
     },
 });

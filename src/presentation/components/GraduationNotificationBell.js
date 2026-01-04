@@ -15,6 +15,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { useGraduation } from '@hooks/useGraduation';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { getString } from "@utils/theme";
 
 const GraduationNotificationBell = ({ onNotificationPress }) => {
   const {
@@ -95,7 +96,7 @@ const GraduationNotificationBell = ({ onNotificationPress }) => {
       'graduation_completed': COLORS.info[500],
       'bulk_eligible': COLORS.secondary[500]
     };
-    return colors[type] || COLORS.text.secondary;
+    return colors[type] || COLORS.gray[500];
   };
 
   const formatNotificationTime = (date) => {
@@ -267,7 +268,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: SPACING.base,
+    padding: SPACING.md,
     paddingBottom: SPACING.sm,
   },
   modalTitle: {
@@ -309,7 +310,7 @@ const styles = StyleSheet.create({
   },
   notificationTitle: {
     fontSize: FONT_SIZE.base,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: FONT_WEIGHT.semiBold,
     marginBottom: 2,
   },
   unreadTitle: {
@@ -317,7 +318,7 @@ const styles = StyleSheet.create({
   },
   notificationTime: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
   unreadIndicator: {
     width: 8,
@@ -329,7 +330,7 @@ const styles = StyleSheet.create({
   },
   notificationMessage: {
     fontSize: 13,
-    color: COLORS.text.primary,
+    color: COLORS.black,
     lineHeight: 18,
     marginBottom: SPACING.sm,
   },
@@ -338,7 +339,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.info[50],
   },
   modalFooter: {
-    padding: SPACING.base,
+    padding: SPACING.md,
     paddingTop: SPACING.sm,
   },
   refreshButton: {
@@ -348,12 +349,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 32,
-    margin: SPACING.base,
+    margin: SPACING.md,
     borderRadius: BORDER_RADIUS.md,
   },
   emptyText: {
     fontSize: FONT_SIZE.md,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginTop: SPACING.md,
     textAlign: 'center',
   },

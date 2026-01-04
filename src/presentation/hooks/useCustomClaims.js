@@ -1,5 +1,6 @@
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { COLORS } from '@presentation/theme/designTokens';
+import { getString } from "@utils/theme";
 
 /**
  * Hook para acessar Custom Claims de forma consistente

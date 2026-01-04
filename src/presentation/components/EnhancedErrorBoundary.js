@@ -3,6 +3,7 @@ import { View, StyleSheet, ScrollView } from 'react-native';
 import { Card, Button, Chip, Divider, Text } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { getString } from "@utils/theme";
 
 class EnhancedErrorBoundary extends React.Component {
   constructor(props) {
@@ -223,15 +224,15 @@ const styles = StyleSheet.create({
     padding: SPACING.xl,
   },
   title: {
-    marginTop: SPACING.base,
+    marginTop: SPACING.md,
     marginBottom: SPACING.sm,
     textAlign: 'center',
-    color: COLORS.text.primary,
+    color: COLORS.black,
   },
   message: {
     textAlign: 'center',
-    color: COLORS.text.secondary,
-    marginBottom: SPACING.base,
+    color: COLORS.gray[500],
+    marginBottom: SPACING.md,
     lineHeight: 20,
   },
   errorMeta: {
@@ -255,7 +256,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.info[500],
   },
   detailsButton: {
-    borderColor: COLORS.text.secondary,
+    borderColor: COLORS.gray[500],
   },
   divider: {
     width: '100%',
@@ -264,26 +265,26 @@ const styles = StyleSheet.create({
   errorDetails: {
     width: '100%',
     backgroundColor: COLORS.gray[50],
-    padding: SPACING.base,
+    padding: SPACING.md,
     borderRadius: BORDER_RADIUS.md,
   },
   detailsTitle: {
     fontSize: FONT_SIZE.md,
     marginBottom: SPACING.md,
-    color: COLORS.text.primary,
+    color: COLORS.black,
   },
   errorText: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginBottom: SPACING.sm,
   },
   errorLabel: {
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.text.primary,
+    color: COLORS.black,
   },
   stackTrace: {
     fontSize: FONT_SIZE.xxs,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     fontFamily: 'monospace',
     backgroundColor: COLORS.white,
     padding: SPACING.sm,

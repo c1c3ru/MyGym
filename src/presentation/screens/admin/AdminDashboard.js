@@ -28,6 +28,7 @@ import DashboardSkeleton from '@components/skeletons/DashboardSkeleton';
 import FreeGymScheduler from '@components/FreeGymScheduler';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { useOnboarding } from '@components/OnboardingTour';
+import { getString } from "@utils/theme";
 
 const AdminDashboard = ({ navigation }) => {
   const { user, userProfile, logout, academia } = useAuthFacade();
@@ -235,7 +236,7 @@ const AdminDashboard = ({ navigation }) => {
       'class': COLORS.warning[500],
       'announcement': COLORS.secondary[500]
     };
-    return colors[type] || COLORS.text.secondary;
+    return colors[type] || COLORS.gray[500];
   };
 
   const headerTransform = {
@@ -343,7 +344,7 @@ const AdminDashboard = ({ navigation }) => {
               />
             ) : (
               <View style={{ padding: SPACING.xl, alignItems: 'center' }}>
-                <Text style={{ color: COLORS.text.secondary, textAlign: 'center' }}>
+                <Text style={{ color: COLORS.gray[500], textAlign: 'center' }}>
                   {getString('loadingAcademyInfo')}
                 </Text>
               </View>
@@ -567,7 +568,7 @@ const AdminDashboard = ({ navigation }) => {
           <AnimatedCard delay={400} style={styles.card}>
             <Card.Content>
               <View style={styles.cardHeader}>
-                <SafeIonicons name="time-outline" size={24} color={COLORS.text.secondary} />
+                <SafeIonicons name="time-outline" size={24} color={COLORS.gray[500]} />
                 <Text style={[styles.cardTitle, { fontSize: ResponsiveUtils.fontSize.medium }]}>
                   {getString('recentActivities')}
                 </Text>
@@ -645,7 +646,7 @@ const AdminDashboard = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background.default,
+    backgroundColor: COLORS.white,
   },
   scrollView: {
     flex: 1,
@@ -673,12 +674,12 @@ const styles = StyleSheet.create({
   modernCardTitle: {
     fontSize: ResponsiveUtils.fontSize.large,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.text.primary,
+    color: COLORS.black,
     marginBottom: 2,
   },
   modernCardSubtitle: {
     fontSize: ResponsiveUtils.fontSize.small,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
   // Header moderno
   headerContainer: {
@@ -752,7 +753,7 @@ const styles = StyleSheet.create({
     marginBottom: ResponsiveUtils.spacing.xs,
   },
   roleText: {
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
   // Estatísticas modernas (cards com gradiente)
   statsContainer: {
@@ -823,7 +824,7 @@ const styles = StyleSheet.create({
     color: COLORS.info[500],
   },
   statLabel: {
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginTop: ResponsiveUtils.spacing.xs,
     textAlign: 'center',
   },
@@ -838,7 +839,7 @@ const styles = StyleSheet.create({
     borderRadius: ResponsiveUtils.borderRadius.medium,
   },
   revenueLabel: {
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
   revenueValue: {
     fontWeight: FONT_WEIGHT.bold,
@@ -863,7 +864,7 @@ const styles = StyleSheet.create({
     color: COLORS.warning[500],
   },
   paymentLabel: {
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginTop: ResponsiveUtils.spacing.xs,
   },
   divider: {
@@ -945,7 +946,7 @@ const styles = StyleSheet.create({
   academiaCodeText: {
     color: COLORS.white + 'E6',
     fontSize: FONT_SIZE.sm,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: FONT_WEIGHT.semiBold,
     marginLeft: SPACING.xs,
   },
 
@@ -961,14 +962,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: SPACING.base,
+    padding: SPACING.md,
     borderBottomWidth: 1,
     borderBottomColor: COLORS.gray[300],
   },
   calendarModalTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.semibold,
-    color: COLORS.text.primary,
+    fontWeight: FONT_WEIGHT.semiBold,
+    color: COLORS.black,
   },
   calendarContainer: {
     flex: 1,

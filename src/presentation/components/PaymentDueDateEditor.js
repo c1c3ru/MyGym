@@ -13,6 +13,7 @@ import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useNotification } from '@contexts/NotificationContext';
 import { firestoreService } from '@infrastructure/services/firestoreService';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { getString } from "@utils/theme";
 
 const PaymentDueDateEditor = ({ visible, onDismiss, currentPayment, onUpdate }) => {
   const { user, userProfile, academia } = useAuthFacade();
@@ -206,14 +207,14 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   title: {
     marginLeft: SPACING.sm,
     fontSize: FONT_SIZE.lg,
   },
   divider: {
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   currentInfo: {
     flexDirection: 'row',
@@ -225,11 +226,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   label: {
     fontSize: FONT_SIZE.md,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
   currentDate: {
     fontSize: FONT_SIZE.md,
@@ -245,7 +246,7 @@ const styles = StyleSheet.create({
   },
   helpText: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     fontStyle: 'italic',
     marginBottom: SPACING.lg,
   },

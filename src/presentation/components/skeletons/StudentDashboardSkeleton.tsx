@@ -22,7 +22,7 @@ const StudentDashboardSkeleton: React.FC = () => {
 
             {/* Graduation Status Skeleton */}
             <View style={styles.cardContainer}>
-                <SkeletonLoader width="50%" height={20} style={{ marginBottom: SPACING.base }} />
+                <SkeletonLoader width="50%" height={20} style={{ marginBottom: SPACING.md }} />
                 <View style={styles.graduationStatus}>
                     <SkeletonLoader width={100} height={32} borderRadius={16} style={{ marginBottom: SPACING.sm }} />
                     <SkeletonLoader width="70%" height={16} />
@@ -31,7 +31,7 @@ const StudentDashboardSkeleton: React.FC = () => {
 
             {/* Next Classes Skeleton */}
             <View style={styles.cardContainer}>
-                <SkeletonLoader width="40%" height={20} style={{ marginBottom: SPACING.base }} />
+                <SkeletonLoader width="40%" height={20} style={{ marginBottom: SPACING.md }} />
 
                 {[1, 2].map((index) => (
                     <View key={index} style={styles.classItem}>
@@ -65,7 +65,7 @@ const StudentDashboardSkeleton: React.FC = () => {
 
             {/* Quick Actions Skeleton */}
             <View style={styles.cardContainer}>
-                <SkeletonLoader width="40%" height={20} style={{ marginBottom: SPACING.base }} />
+                <SkeletonLoader width="40%" height={20} style={{ marginBottom: SPACING.md }} />
 
                 <View style={styles.quickActions}>
                     <SkeletonLoader width="45%" height={40} borderRadius={20} />
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     },
     welcomeCard: {
         margin: SPACING.sm,
-        padding: SPACING.base,
+        padding: SPACING.md,
         backgroundColor: COLORS.info[500],
         borderRadius: BORDER_RADIUS.md,
         elevation: 2,
@@ -97,12 +97,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     welcomeText: {
-        marginLeft: SPACING.base,
+        marginLeft: SPACING.md,
         flex: 1,
     },
     cardContainer: {
         margin: SPACING.sm,
-        padding: SPACING.base,
+        padding: SPACING.md,
         backgroundColor: COLORS.white,
         borderRadius: BORDER_RADIUS.md,
         elevation: 2,
@@ -128,10 +128,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: SPACING.base,
+        marginBottom: SPACING.md,
     },
     announcementItem: {
-        marginBottom: SPACING.base,
+        marginBottom: SPACING.md,
         paddingVertical: SPACING.md,
     },
     quickActions: {

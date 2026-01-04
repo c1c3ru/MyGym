@@ -65,7 +65,7 @@ const DashboardSkeleton: React.FC = () => {
 
             {/* Recent Activities Skeleton */}
             <View style={styles.cardContainer}>
-                <SkeletonLoader width="50%" height={24} style={{ marginBottom: SPACING.base }} />
+                <SkeletonLoader width="50%" height={24} style={{ marginBottom: SPACING.md }} />
 
                 {[1, 2, 3].map((index) => (
                     <View key={index} style={styles.activityItem}>

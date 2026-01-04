@@ -16,6 +16,7 @@ import { useNotification } from '@contexts/NotificationContext';
 import { firestoreService } from '@infrastructure/services/firestoreService';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { Student } from '@presentation/types/student';
+import { getString } from "@utils/theme";
 
 /**
  * Propriedades para o componente StudentDisassociationDialog
@@ -284,13 +285,13 @@ const styles = StyleSheet.create({
     },
     studentEmail: {
         fontSize: FONT_SIZE.md,
-        color: COLORS.text.secondary,
+        color: COLORS.gray[500],
     },
     divider: {
         marginVertical: 16,
     },
     reasonInput: {
-        marginBottom: SPACING.base,
+        marginBottom: SPACING.md,
     },
     warningText: {
         fontSize: FONT_SIZE.base,
@@ -300,8 +301,8 @@ const styles = StyleSheet.create({
     },
     warningItem: {
         fontSize: FONT_SIZE.base,
-        color: COLORS.text.secondary,
-        marginLeft: SPACING.base,
+        color: COLORS.gray[500],
+        marginLeft: SPACING.md,
         marginBottom: SPACING.xs,
     },
 });

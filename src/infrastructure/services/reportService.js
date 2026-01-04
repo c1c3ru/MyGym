@@ -1,6 +1,7 @@
 import { firestoreService } from './firestoreService';
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
+import { getString } from "@utils/theme";
 
 class ReportService {
   constructor() {

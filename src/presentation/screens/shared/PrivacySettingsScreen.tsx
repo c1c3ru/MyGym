@@ -18,6 +18,7 @@ import { firestoreService } from '@infrastructure/services/firestoreService';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
 import { getAuthGradient } from '@presentation/theme/authTheme';
+import { getString } from "@utils/theme";
 
 interface PrivacySettings {
   dataProcessingConsent: boolean;
@@ -476,14 +477,14 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   card: {
-    margin: SPACING.base,
+    margin: SPACING.md,
     marginTop: SPACING.sm,
     elevation: 2,
   },
   cardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   cardTitle: {
     marginLeft: SPACING.sm,
@@ -492,18 +493,18 @@ const styles = StyleSheet.create({
   },
   title: {
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.text.primary,
+    color: COLORS.black,
   },
   paragraph: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
   statusChip: {
     borderColor: COLORS.primary[500],
   },
   lgpdInfo: {
     marginBottom: SPACING.md,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     lineHeight: 20,
   },
   consentDate: {
@@ -513,11 +514,11 @@ const styles = StyleSheet.create({
   },
   infoText: {
     marginBottom: SPACING.sm,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     fontSize: FONT_SIZE.base,
   },
   buttonContainer: {
-    margin: SPACING.base,
+    margin: SPACING.md,
   },
   saveButton: {
     backgroundColor: COLORS.primary[500],

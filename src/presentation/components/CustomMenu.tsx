@@ -120,13 +120,13 @@ const styles = StyleSheet.create({
     },
     menuItem: {
         paddingVertical: SPACING.md,
-        paddingHorizontal: SPACING.base,
+        paddingHorizontal: SPACING.md,
         borderBottomWidth: 1,
         borderBottomColor: COLORS.gray[100],
     },
     menuItemText: {
         fontSize: FONT_SIZE.md,
-        color: COLORS.text.primary,
+        color: COLORS.black,
     },
 });
 

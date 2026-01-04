@@ -13,6 +13,7 @@ import { Calendar } from 'react-native-calendars';
 import { useTheme } from '@contexts/ThemeContext';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import {
+import { getString } from "@utils/theme";
     createEmptySchedule,
     DAY_NAMES,
     generateTimeSlots,
@@ -231,7 +232,7 @@ const ImprovedScheduleSelector: React.FC<ImprovedScheduleSelectorProps> = ({
                     ) : (
                         <Text style={[
                             styles.noHours,
-                            { color: colors?.onSurfaceVariant || COLORS.text.secondary }
+                            { color: colors?.onSurfaceVariant || COLORS.gray[500] }
                         ]}>
                             Toque para definir
                         </Text>
@@ -243,7 +244,7 @@ const ImprovedScheduleSelector: React.FC<ImprovedScheduleSelectorProps> = ({
 
     return (
         <View style={[styles.container, style]}>
-            <Text style={[styles.label, { color: colors?.onSurface || COLORS.text.primary }]}>
+            <Text style={[styles.label, { color: colors?.onSurface || COLORS.black }]}>
                 {label}
                 {required && <Text style={{ color: colors?.error || COLORS.error[500] }}> *</Text>}
             </Text>
@@ -293,7 +294,7 @@ const ImprovedScheduleSelector: React.FC<ImprovedScheduleSelectorProps> = ({
                     onDismiss={() => setPreviewVisible(false)}
                     contentContainerStyle={[styles.previewModal, { backgroundColor: colors?.surface || COLORS.white }]}
                 >
-                    <Text style={[styles.modalTitle, { color: colors?.onSurface || COLORS.text.primary }]}>
+                    <Text style={[styles.modalTitle, { color: colors?.onSurface || COLORS.black }]}>
                         Preview do Cronograma
                     </Text>
 
@@ -302,19 +303,19 @@ const ImprovedScheduleSelector: React.FC<ImprovedScheduleSelectorProps> = ({
                         theme={{
                             backgroundColor: colors?.surface || COLORS.white,
                             calendarBackground: colors?.surface || COLORS.white,
-                            textSectionTitleColor: colors?.onSurface || COLORS.text.primary,
+                            textSectionTitleColor: colors?.onSurface || COLORS.black,
                             selectedDayBackgroundColor: colors?.primary || COLORS.primary[500],
                             selectedDayTextColor: colors?.onPrimary || COLORS.white,
                             todayTextColor: colors?.primary || COLORS.primary[500],
-                            dayTextColor: colors?.onSurface || COLORS.text.primary,
-                            textDisabledColor: colors?.onSurfaceVariant || COLORS.text.disabled,
+                            dayTextColor: colors?.onSurface || COLORS.black,
+                            textDisabledColor: colors?.onSurfaceVariant || COLORS.gray[300],
                             arrowColor: colors?.primary || COLORS.primary[500],
-                            monthTextColor: colors?.onSurface || COLORS.text.primary
+                            monthTextColor: colors?.onSurface || COLORS.black
                         }}
                         style={styles.calendar}
                     />
 
-                    <Text style={[styles.previewDescription, { color: colors?.onSurfaceVariant || COLORS.text.secondary }]}>
+                    <Text style={[styles.previewDescription, { color: colors?.onSurfaceVariant || COLORS.gray[500] }]}>
                         As datas marcadas mostram quando as aulas acontecerão nas próximas 4 semanas
                     </Text>
 
@@ -333,11 +334,11 @@ const ImprovedScheduleSelector: React.FC<ImprovedScheduleSelectorProps> = ({
                     onDismiss={() => setModalVisible(false)}
                     contentContainerStyle={[styles.timeModal, { backgroundColor: colors?.surface || COLORS.white }]}
                 >
-                    <Text style={[styles.modalTitle, { color: colors?.onSurface || COLORS.text.primary }]}>
+                    <Text style={[styles.modalTitle, { color: colors?.onSurface || COLORS.black }]}>
                         {selectedDay ? (DAY_NAMES as any)[selectedDay] : 'Selecionar Horários'}
                     </Text>
 
-                    <Divider style={{ marginVertical: SPACING.base }} />
+                    <Divider style={{ marginVertical: SPACING.md }} />
 
                     <ScrollView style={styles.timeSlotsContainer}>
                         <View style={styles.timeSlotsGrid}>
@@ -353,7 +354,7 @@ const ImprovedScheduleSelector: React.FC<ImprovedScheduleSelectorProps> = ({
                                             isSelected && { backgroundColor: (colors?.primary || COLORS.primary[500]) }
                                         ]}
                                         textStyle={{
-                                            color: isSelected ? (colors?.onPrimary || COLORS.white) : (colors?.onSurface || COLORS.text.primary)
+                                            color: isSelected ? (colors?.onPrimary || COLORS.white) : (colors?.onSurface || COLORS.black)
                                         }}
                                     >
                                         {time}
@@ -386,7 +387,7 @@ const styles = StyleSheet.create({
     actionButtons: {
         flexDirection: 'row',
         gap: SPACING.sm,
-        marginBottom: SPACING.base
+        marginBottom: SPACING.md
     },
     actionButton: {
         flex: 1
@@ -403,7 +404,7 @@ const styles = StyleSheet.create({
     },
     dayName: {
         fontSize: FONT_SIZE.md,
-        fontWeight: FONT_WEIGHT.semibold as any,
+        fontWeight: FONT_WEIGHT.semiBold as any,
         marginBottom: SPACING.sm
     },
     hoursContainer: {
@@ -433,22 +434,22 @@ const styles = StyleSheet.create({
     },
     modalTitle: {
         fontSize: FONT_SIZE.lg,
-        fontWeight: FONT_WEIGHT.semibold as any,
+        fontWeight: FONT_WEIGHT.semiBold as any,
         textAlign: 'center',
         marginBottom: SPACING.sm
     },
     calendar: {
-        marginVertical: SPACING.base
+        marginVertical: SPACING.md
     },
     previewDescription: {
         fontSize: FONT_SIZE.sm,
         textAlign: 'center',
-        marginBottom: SPACING.base,
+        marginBottom: SPACING.md,
         fontStyle: 'italic'
     },
     timeSlotsContainer: {
         maxHeight: 300,
-        marginBottom: SPACING.base
+        marginBottom: SPACING.md
     },
     timeSlotsGrid: {
         flexDirection: 'row',

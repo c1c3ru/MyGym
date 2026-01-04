@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
     padding: 24,
   },
   title: {
-    marginTop: SPACING.base,
+    marginTop: SPACING.md,
     marginBottom: SPACING.sm,
     textAlign: 'center',
     color: COLORS.gray[700],
@@ -204,9 +204,9 @@ const styles = StyleSheet.create({
     borderColor: COLORS.info[500],
   },
   debugContainer: {
-    marginTop: SPACING.base,
+    marginTop: SPACING.md,
     padding: 12,
-    backgroundColor: COLORS.background.light,
+    backgroundColor: COLORS.white,
     borderRadius: BORDER_RADIUS.base,
     width: '100%',
   },

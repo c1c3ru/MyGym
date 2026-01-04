@@ -1,3 +1,4 @@
+import { getString } from "@utils/theme";
 /**
  * UserType Enum
  */

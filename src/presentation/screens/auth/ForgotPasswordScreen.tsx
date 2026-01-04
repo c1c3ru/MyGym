@@ -22,6 +22,7 @@ import { useTheme } from '@contexts/ThemeContext';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { getAuthGradient, getAuthCardColors } from '@presentation/theme/authTheme';
 import type { AuthScreenProps, ForgotPasswordFormErrors, SnackbarState } from './types';
+import { getString } from "@utils/theme";
 
 /**
  * Tela de recuperação de senha
@@ -278,7 +279,7 @@ const styles = StyleSheet.create({
     paddingBottom: ResponsiveUtils?.spacing?.md || 16,
   },
   headerIcon: {
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   headerTitle: {
     fontSize: ResponsiveUtils?.fontSize?.large || 28,
@@ -344,7 +345,7 @@ const styles = StyleSheet.create({
   },
   successText: {
     textAlign: 'center',
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
   backContainer: {
     alignItems: 'center',
@@ -359,7 +360,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    margin: SPACING.base,
+    margin: SPACING.md,
   },
   snackbarSuccess: {
     backgroundColor: COLORS.primary[500],

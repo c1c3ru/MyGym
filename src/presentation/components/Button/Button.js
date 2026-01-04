@@ -3,6 +3,7 @@ import { TouchableOpacity } from 'react-native';
 import { Button as PaperButton, Text } from 'react-native-paper';
 import { Logger } from '@utils/logger';
 import styles from './Button.styles';
+import { getString } from "@utils/theme";
 
 /**
  * Componente Button reutilizável seguindo melhores práticas

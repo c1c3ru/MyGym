@@ -311,11 +311,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
-    gap: SPACING.base,
+    gap: SPACING.md,
   },
   missionCard: {
     width: width > 768 ? '31%' : '100%',
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
     elevation: 2,
     shadowColor: LIGHT_THEME.shadows.default,
   },
@@ -342,11 +342,11 @@ const styles = StyleSheet.create({
   },
   explanationTitle: {
     ...Typography.h2,
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   explanationBody: {
     ...Typography.body1,
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
     lineHeight: 24,
   },
   infoCard: {
@@ -360,7 +360,7 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.md,
   },
   infoList: {
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   infoItem: {
     ...Typography.body2,
@@ -414,7 +414,7 @@ const styles = StyleSheet.create({
   },
   statCard: {
     width: width > 768 ? '31%' : '48%',
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
     elevation: 2,
   },
   statContent: {
@@ -433,7 +433,7 @@ const styles = StyleSheet.create({
 
   // Componentes
   componentsSection: {
-    marginTop: SPACING.base,
+    marginTop: SPACING.md,
   },
   buttonRow: {
     flexDirection: 'row',
@@ -468,7 +468,7 @@ const styles = StyleSheet.create({
     paddingVertical: SPACING.md,
   },
   contactInfo: {
-    marginLeft: SPACING.base,
+    marginLeft: SPACING.md,
     flex: 1,
   },
   contactLabel: {

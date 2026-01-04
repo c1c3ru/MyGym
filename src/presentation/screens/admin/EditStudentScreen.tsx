@@ -443,7 +443,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    padding: SPACING.base,
+    padding: SPACING.md,
     paddingBottom: 100,
   },
   loadingContainer: {
@@ -452,9 +452,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   loadingText: {
-    marginTop: SPACING.base,
+    marginTop: SPACING.md,
     fontSize: FONT_SIZE.md,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
   card: {
     marginBottom: 20,
@@ -469,8 +469,8 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
     marginTop: 20,
-    marginBottom: SPACING.base,
-    color: COLORS.text.primary,
+    marginBottom: SPACING.md,
+    color: COLORS.black,
   },
   input: {
     marginBottom: SPACING.md,
@@ -479,11 +479,11 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.medium,
     marginBottom: SPACING.sm,
-    color: COLORS.text.primary,
+    color: COLORS.black,
   },
   radioContainer: {
     marginBottom: 20,
-    marginTop: SPACING.base,
+    marginTop: SPACING.md,
   },
   radioItem: {
     flexDirection: 'row',
@@ -498,13 +498,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 30,
-    gap: SPACING.base,
+    gap: SPACING.md,
   },
   button: {
     flex: 1,
   },
   cancelButton: {
-    borderColor: COLORS.text.secondary,
+    borderColor: COLORS.gray[500],
   },
   saveButton: {
     backgroundColor: COLORS.primary[500],

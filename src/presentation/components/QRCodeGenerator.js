@@ -5,6 +5,7 @@ import QRCode from 'react-native-qrcode-svg';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { COLORS, SPACING, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
+import { getString } from "@utils/theme";
 
 // Import do logo usando alias
 const logoIcon = require('@assets/icon.png');
@@ -23,7 +24,7 @@ function QRCodeGenerator({ size = 200, showActions = true, academiaId, academiaN
     currentTheme = themeContext.currentTheme;
   } catch (error) {
     // Fallback se não estiver dentro do ThemeProvider
-    currentTheme = { black: COLORS.text.primary };
+    currentTheme = { black: COLORS.black };
   }
 
   const [qrValue, setQrValue] = useState('');
@@ -77,7 +78,7 @@ function QRCodeGenerator({ size = 200, showActions = true, academiaId, academiaN
         color: ${COLORS.white};
         padding: ${SPACING.md}px 20px;
         border-radius: ${BORDER_RADIUS.md}px;
-        box-shadow: 0 4px 12px ${currentTheme?.black || COLORS.text.primary}26;
+        box-shadow: 0 4px 12px ${currentTheme?.black || COLORS.black}26;
         z-index: 9999;
         font-family: -apple-system, BlinkMacSystemFont, getString('systemFont'), Roboto, sans-serif;
         font-size: 14px;
@@ -273,7 +274,7 @@ MyGym`;
           <Dialog visible={emailDialogVisible} onDismiss={() => setEmailDialogVisible(false)}>
             <Dialog.Title>Enviar Convite por Email</Dialog.Title>
             <Dialog.Content>
-              <Text variant="bodyMedium" style={{ marginBottom: SPACING.base }}>
+              <Text variant="bodyMedium" style={{ marginBottom: SPACING.md }}>
                 Digite o email da pessoa que você deseja convidar para a academia:
               </Text>
               <TextInput
@@ -358,7 +359,7 @@ const styles = StyleSheet.create({
   },
   academyCode: {
     textAlign: 'center',
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
     fontWeight: FONT_WEIGHT.bold,
     backgroundColor: COLORS.primary[100] || '#dbeafe',
     color: COLORS.primary[800] || '#1e40af',

@@ -21,6 +21,7 @@ import { useThemeToggle } from '@contexts/ThemeToggleContext';
 import { useTheme } from '@contexts/ThemeContext';
 import { NavigationProp, RouteProp } from '@react-navigation/native';
 import { UserType, UserProfile } from '@domain/auth/entities';
+import { getString } from "@utils/theme";
 
 interface UserTypeSelectionScreenProps {
   navigation: NavigationProp<any>;
@@ -150,7 +151,7 @@ const UserTypeSelectionScreen: React.FC<UserTypeSelectionScreenProps> = ({ navig
         <Button
           mode={selectedType === userType.id ? "contained" : "outlined"}
           buttonColor={selectedType === userType.id ? userType.color : COLORS.gray[300]}
-          textColor={selectedType === userType.id ? COLORS.white : COLORS.text.secondary}
+          textColor={selectedType === userType.id ? COLORS.white : COLORS.gray[500]}
           style={styles.selectButton}
           onPress={() => setSelectedType(userType.id)}
         >
@@ -222,7 +223,7 @@ const UserTypeSelectionScreen: React.FC<UserTypeSelectionScreenProps> = ({ navig
             mode="text"
             onPress={handleLogout}
             icon="logout"
-            textColor={COLORS.text.secondary}
+            textColor={COLORS.gray[500]}
             style={styles.logoutButton}
           >{getString('logout')}</Button>
         </View>
@@ -271,8 +272,8 @@ const styles = StyleSheet.create({
   headerTop: {
     width: '100%',
     alignItems: 'flex-end',
-    paddingHorizontal: SPACING.base,
-    paddingTop: SPACING.base,
+    paddingHorizontal: SPACING.md,
+    paddingTop: SPACING.md,
   },
   logoutButton: {
     marginBottom: 10,
@@ -281,7 +282,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: SPACING.xl,
     backgroundColor: COLORS.white,
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
     ...Platform.select({
       ios: {
         shadowColor: COLORS.black,
@@ -298,27 +299,27 @@ const styles = StyleSheet.create({
     }),
   },
   avatar: {
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   welcomeText: {
     fontSize: FONT_SIZE.xxl,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.text.primary,
+    color: COLORS.black,
     marginBottom: SPACING.sm,
     textAlign: 'center',
   },
   subtitle: {
     fontSize: FONT_SIZE.md,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     textAlign: 'center',
     lineHeight: 22,
   },
   typesContainer: {
-    paddingHorizontal: SPACING.base,
+    paddingHorizontal: SPACING.md,
   },
   typeCard: {
     borderRadius: BORDER_RADIUS.md,
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
     padding: SPACING.lg,
     borderWidth: BORDER_WIDTH.base,
     borderColor: COLORS.gray[300],
@@ -326,7 +327,7 @@ const styles = StyleSheet.create({
   cardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   iconContainer: {
     width: 60,
@@ -334,7 +335,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: SPACING.base,
+    marginRight: SPACING.md,
   },
   titleContainer: {
     flex: 1,
@@ -342,12 +343,12 @@ const styles = StyleSheet.create({
   typeTitle: {
     fontSize: FONT_SIZE.xl,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.text.primary,
+    color: COLORS.black,
     marginBottom: SPACING.xs,
   },
   typeDescription: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     lineHeight: 20,
   },
   featuresContainer: {
@@ -370,7 +371,7 @@ const styles = StyleSheet.create({
   },
   selectButtonText: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: FONT_WEIGHT.semiBold,
   },
   footer: {
     padding: SPACING.xl,
@@ -379,8 +380,8 @@ const styles = StyleSheet.create({
   continueButton: {
     backgroundColor: COLORS.info[500],
     borderRadius: BORDER_RADIUS.md,
-    paddingVertical: SPACING.base,
-    marginBottom: SPACING.base,
+    paddingVertical: SPACING.md,
+    marginBottom: SPACING.md,
   },
   continueButtonDisabled: {
     backgroundColor: COLORS.gray[300],

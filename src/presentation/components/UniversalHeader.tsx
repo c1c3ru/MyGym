@@ -16,6 +16,7 @@ import { useTheme } from '@contexts/ThemeContext';
 import { useCustomClaims } from '@hooks/useCustomClaims';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
+import { getString } from "@utils/theme";
 
 /**
  * Propriedades para o componente UniversalHeader
@@ -194,7 +195,7 @@ const UniversalHeader: React.FC<UniversalHeaderProps> = ({
                                 onPress={handleProfile}
                                 title="Meu Perfil"
                                 leadingIcon={() => (
-                                    <MaterialCommunityIcons name="account" size={20} color={COLORS.text.secondary} />
+                                    <MaterialCommunityIcons name="account" size={20} color={COLORS.gray[500]} />
                                 )}
                                 titleStyle={styles.menuItemTitle}
                             />
@@ -206,7 +207,7 @@ const UniversalHeader: React.FC<UniversalHeaderProps> = ({
                                 }}
                                 title={getString('settings')}
                                 leadingIcon={() => (
-                                    <MaterialCommunityIcons name="cog" size={20} color={COLORS.text.secondary} />
+                                    <MaterialCommunityIcons name="cog" size={20} color={COLORS.gray[500]} />
                                 )}
                                 titleStyle={styles.menuItemTitle}
                             />
@@ -316,7 +317,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         padding: ResponsiveUtils?.spacing?.md || 16,
-        backgroundColor: COLORS.background.light,
+        backgroundColor: COLORS.white,
     },
     menuAvatar: {
         marginRight: ResponsiveUtils?.spacing?.md || 16,
@@ -332,18 +333,18 @@ const styles = StyleSheet.create({
     menuUserName: {
         fontSize: ResponsiveUtils?.fontSize?.medium || 16,
         fontWeight: FONT_WEIGHT.bold as any,
-        color: COLORS.text.primary,
+        color: COLORS.black,
     },
     menuUserType: {
         fontSize: ResponsiveUtils?.fontSize?.small || 12,
-        color: COLORS.text.secondary,
+        color: COLORS.gray[500],
     },
     menuDivider: {
         marginVertical: 4,
     },
     menuItemTitle: {
         fontSize: ResponsiveUtils?.fontSize?.medium || 16,
-        color: COLORS.text.primary,
+        color: COLORS.black,
     },
     modalContainer: {
         backgroundColor: COLORS.white,
@@ -368,14 +369,14 @@ const styles = StyleSheet.create({
     modalTitle: {
         fontSize: FONT_SIZE.xl,
         fontWeight: FONT_WEIGHT.bold as any,
-        marginBottom: SPACING.base,
-        color: COLORS.text.primary,
+        marginBottom: SPACING.md,
+        color: COLORS.black,
     },
     modalMessage: {
         fontSize: FONT_SIZE.md,
         textAlign: 'center',
         marginBottom: SPACING.lg,
-        color: COLORS.text.secondary,
+        color: COLORS.gray[500],
     },
     modalButtons: {
         flexDirection: 'row',

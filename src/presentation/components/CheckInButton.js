@@ -8,6 +8,7 @@ import { academyFirestoreService } from '@infrastructure/services/academyFiresto
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useUserProfile } from '@hooks/useUserProfile';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { getString } from "@utils/theme";
 
 const CheckInButton = ({ classId, className, onCheckInSuccess }) => {
   const [loading, setLoading] = useState(false);
@@ -176,7 +177,7 @@ const CheckInButton = ({ classId, className, onCheckInSuccess }) => {
 
 const styles = StyleSheet.create({
   container: {
-    margin: SPACING.base,
+    margin: SPACING.md,
     elevation: 4,
     borderRadius: BORDER_RADIUS.md,
   },
@@ -187,9 +188,9 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: FONT_WEIGHT.semiBold,
     marginLeft: SPACING.sm,
-    color: COLORS.text.primary,
+    color: COLORS.black,
   },
   statusContainer: {
     flexDirection: 'row',
@@ -205,8 +206,8 @@ const styles = StyleSheet.create({
   },
   description: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.secondary,
-    marginBottom: SPACING.base,
+    color: COLORS.gray[500],
+    marginBottom: SPACING.md,
     textAlign: 'center',
   },
   button: {

@@ -181,16 +181,16 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: FONT_SIZE.md,
-        fontWeight: FONT_WEIGHT.semibold as any,
+        fontWeight: FONT_WEIGHT.semiBold as any,
         flex: 1,
     },
     description: {
         fontSize: FONT_SIZE.base,
-        marginBottom: SPACING.base,
+        marginBottom: SPACING.md,
         lineHeight: 20,
     },
     conflictsList: {
-        marginBottom: SPACING.base,
+        marginBottom: SPACING.md,
     },
     conflictItem: {
         marginBottom: SPACING.sm,
@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
     },
     conflictTitle: {
         fontSize: FONT_SIZE.md,
-        fontWeight: FONT_WEIGHT.semibold as any,
+        fontWeight: FONT_WEIGHT.semiBold as any,
         marginBottom: 2,
     },
     conflictSubtitle: {

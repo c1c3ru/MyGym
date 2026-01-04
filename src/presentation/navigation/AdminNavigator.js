@@ -72,7 +72,7 @@ const AdminTabNavigator = () => {
           return <Ionicons name={iconName} size={size} color={color} />;
         },
         tabBarActiveTintColor: COLORS.primary[500],
-        tabBarInactiveTintColor: COLORS.text.disabled,
+        tabBarInactiveTintColor: COLORS.gray[300],
         tabBarStyle: {
           backgroundColor: COLORS.card.default.background,
         },

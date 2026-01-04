@@ -19,6 +19,7 @@ import StudentDisassociationDialog from '@components/StudentDisassociationDialog
 import { useFocusEffect } from '@react-navigation/native';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
+import { getString } from "@utils/theme";
 
 const AdminStudentsOptimized = ({ navigation }) => {
   const { currentTheme } = useThemeToggle();
@@ -340,7 +341,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.gray[100],
   },
   listContainer: {
-    paddingBottom: SPACING.sm0,
+    paddingBottom: 0,
     minHeight: 2, // Garantir altura mínima para FlashList
   },
   flashList: {
@@ -348,7 +349,7 @@ const styles = StyleSheet.create({
     minHeight: 200, // Altura mínima para evitar erro do FlashList
   },
   header: {
-    padding: SPACING.base,
+    padding: SPACING.md,
     backgroundColor: COLORS.white,
     borderBottomWidth: 1,
     borderBottomColor: COLORS.gray[300],
@@ -356,7 +357,7 @@ const styles = StyleSheet.create({
   searchbar: {
     marginBottom: SPACING.md,
     elevation: 0,
-    backgroundColor: COLORS.background.light,
+    backgroundColor: COLORS.white,
   },
   filterRow: {
     flexDirection: 'row',
@@ -373,8 +374,8 @@ const styles = StyleSheet.create({
   },
   statsTitle: {
     textAlign: 'center',
-    marginBottom: SPACING.base,
-    color: COLORS.text.primary,
+    marginBottom: SPACING.md,
+    color: COLORS.black,
   },
   statsGrid: {
     flexDirection: 'row',
@@ -391,7 +392,7 @@ const styles = StyleSheet.create({
   },
   statLabel: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginTop: SPACING.xs,
   },
   emptyCard: {
@@ -405,18 +406,18 @@ const styles = StyleSheet.create({
     paddingVertical: 32,
   },
   emptyTitle: {
-    marginTop: SPACING.base,
+    marginTop: SPACING.md,
     marginBottom: SPACING.sm,
     textAlign: 'center',
-    color: COLORS.text.primary,
+    color: COLORS.black,
   },
   emptyText: {
     textAlign: 'center',
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
   fab: {
     position: 'absolute',
-    margin: SPACING.base,
+    margin: SPACING.md,
     right: 0,
     bottom: 0,
     backgroundColor: COLORS.primary[500],

@@ -10,6 +10,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '@contexts/AuthProvider';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { getString } from "@utils/theme";
 
 const LoginScreenDebug = ({ navigation }) => {
   const [email, setEmail] = useState('cicero.silva@ifce.edu.br');
@@ -195,11 +196,11 @@ const styles = StyleSheet.create({
   title: {
     fontSize: FONT_SIZE.xxl,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.text.primary,
+    color: COLORS.black,
   },
   subtitle: {
     fontSize: FONT_SIZE.md,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     textAlign: 'center',
   },
   card: {
@@ -218,12 +219,12 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
   debugCard: {
-    backgroundColor: COLORS.background.light,
+    backgroundColor: COLORS.white,
   },
   debugText: {
     fontFamily: 'monospace',
     fontSize: FONT_SIZE.sm,
-    color: COLORS.text.primary,
+    color: COLORS.black,
     lineHeight: 18,
   },
 });

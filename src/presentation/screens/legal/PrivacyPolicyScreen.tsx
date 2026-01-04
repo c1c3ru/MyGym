@@ -7,6 +7,7 @@ import { COLORS, SPACING, FONT_SIZE, FONT_WEIGHT, BORDER_RADIUS } from '@present
 import { getAuthGradient } from '@presentation/theme/authTheme';
 import { useTheme } from '@contexts/ThemeContext';
 import type { NavigationProp } from '@react-navigation/native';
+import { getString } from "@utils/theme";
 
 
 interface PrivacyPolicyScreenProps {
@@ -195,7 +196,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    padding: SPACING.base,
+    padding: SPACING.md,
     paddingBottom: SPACING.xxxl,
   },
   card: {
@@ -211,42 +212,42 @@ const styles = StyleSheet.create({
   },
   lastUpdate: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     textAlign: 'center',
     marginBottom: SPACING.xl,
     fontStyle: 'italic',
   },
   sectionTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.semibold,
-    color: COLORS.text.primary,
+    fontWeight: FONT_WEIGHT.semiBold,
+    color: COLORS.black,
     marginTop: SPACING.lg,
     marginBottom: SPACING.sm,
   },
   subsectionTitle: {
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.medium,
-    color: COLORS.text.primary,
+    color: COLORS.black,
     marginTop: SPACING.md,
     marginBottom: SPACING.xs,
   },
   paragraph: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.primary,
+    color: COLORS.black,
     lineHeight: 24,
     marginBottom: SPACING.md,
     textAlign: 'justify',
   },
   listItem: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.primary,
+    color: COLORS.black,
     lineHeight: 24,
     marginBottom: SPACING.xs,
     marginLeft: SPACING.md,
   },
   footer: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginTop: SPACING.xl,
     padding: SPACING.md,
     backgroundColor: COLORS.gray[100],

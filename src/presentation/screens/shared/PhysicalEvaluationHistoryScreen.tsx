@@ -241,7 +241,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }: PhysicalEvaluationHisto
                   <Text style={styles.progressLabel}>Peso</Text>
                   <Text style={[
                     styles.progressValue,
-                    { color: progress.weight > 0 ? COLORS.error[500] : progress.weight < 0 ? COLORS.primary[500] : COLORS.text.secondary }
+                    { color: progress.weight > 0 ? COLORS.error[500] : progress.weight < 0 ? COLORS.primary[500] : COLORS.gray[500] }
                   ]}>
                     {progress.weight > 0 ? '+' : ''}{progress.weight.toFixed(1)} kg
                   </Text>
@@ -251,7 +251,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }: PhysicalEvaluationHisto
                   <Text style={styles.progressLabel}>IMC</Text>
                   <Text style={[
                     styles.progressValue,
-                    { color: progress.imc > 0 ? COLORS.error[500] : progress.imc < 0 ? COLORS.primary[500] : COLORS.text.secondary }
+                    { color: progress.imc > 0 ? COLORS.error[500] : progress.imc < 0 ? COLORS.primary[500] : COLORS.gray[500] }
                   ]}>
                     {progress.imc > 0 ? '+' : ''}{progress.imc.toFixed(2)}
                   </Text>
@@ -262,7 +262,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }: PhysicalEvaluationHisto
                     <Text style={styles.progressLabel}>Gordura</Text>
                     <Text style={[
                       styles.progressValue,
-                      { color: progress.bodyFat > 0 ? COLORS.error[500] : progress.bodyFat < 0 ? COLORS.primary[500] : COLORS.text.secondary }
+                      { color: progress.bodyFat > 0 ? COLORS.error[500] : progress.bodyFat < 0 ? COLORS.primary[500] : COLORS.gray[500] }
                     ]}>
                       {progress.bodyFat > 0 ? '+' : ''}{progress.bodyFat.toFixed(1)}%
                     </Text>
@@ -274,7 +274,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }: PhysicalEvaluationHisto
                     <Text style={styles.progressLabel}>Músculo</Text>
                     <Text style={[
                       styles.progressValue,
-                      { color: progress.muscleMass > 0 ? COLORS.primary[500] : progress.muscleMass < 0 ? COLORS.error[500] : COLORS.text.secondary }
+                      { color: progress.muscleMass > 0 ? COLORS.primary[500] : progress.muscleMass < 0 ? COLORS.error[500] : COLORS.gray[500] }
                     ]}>
                       {progress.muscleMass > 0 ? '+' : ''}{progress.muscleMass.toFixed(1)} kg
                     </Text>
@@ -391,16 +391,16 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
-    padding: SPACING.base,
+    padding: SPACING.md,
   },
   card: {
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
     elevation: 4,
   },
   cardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   cardTitle: {
     fontSize: FONT_SIZE.lg,
@@ -410,17 +410,17 @@ const styles = StyleSheet.create({
   },
   dateText: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
   subtitle: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
   statsGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   statItem: {
     width: '48%',
@@ -433,11 +433,11 @@ const styles = StyleSheet.create({
   statValue: {
     fontSize: FONT_SIZE.xl,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.text.primary,
+    color: COLORS.black,
   },
   statLabel: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginTop: SPACING.xs,
   },
   imcContainer: {
@@ -458,7 +458,7 @@ const styles = StyleSheet.create({
   },
   progressLabel: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginBottom: SPACING.xs,
   },
   progressValue: {
@@ -466,7 +466,7 @@ const styles = StyleSheet.create({
     fontWeight: FONT_WEIGHT.bold,
   },
   metricsContainer: {
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   metricChip: {
     marginRight: SPACING.sm,
@@ -482,20 +482,20 @@ const styles = StyleSheet.create({
   emptyText: {
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.text.secondary,
-    marginTop: SPACING.base,
+    color: COLORS.gray[500],
+    marginTop: SPACING.md,
     textAlign: 'center',
   },
   emptySubtext: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginTop: SPACING.sm,
     textAlign: 'center',
     lineHeight: 20,
   },
   fab: {
     position: 'absolute',
-    margin: SPACING.base,
+    margin: SPACING.md,
     right: 0,
     bottom: 0,
     backgroundColor: COLORS.primary[500],

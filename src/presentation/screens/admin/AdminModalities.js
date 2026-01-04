@@ -973,20 +973,20 @@ const styles = StyleSheet.create({
   },
   loadingText: {
     fontSize: FONT_SIZE.md,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
   scrollView: {
     flex: 1,
   },
   card: {
-    margin: SPACING.base,
+    margin: SPACING.md,
     marginBottom: SPACING.sm,
     elevation: 2,
   },
   cardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   cardTitle: {
     marginLeft: SPACING.sm,
@@ -998,7 +998,7 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     textAlign: 'center',
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     fontStyle: 'italic',
     marginVertical: 20,
   },
@@ -1008,20 +1008,20 @@ const styles = StyleSheet.create({
   },
   announcementDate: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginLeft: 56,
     marginTop: -8,
     marginBottom: SPACING.sm,
   },
   statsCard: {
-    margin: SPACING.base,
+    margin: SPACING.md,
     marginTop: SPACING.sm,
     elevation: 2,
     backgroundColor: COLORS.card.default.background,
   },
   statsTitle: {
     textAlign: 'center',
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   statsRow: {
     flexDirection: 'row',
@@ -1037,23 +1037,23 @@ const styles = StyleSheet.create({
   },
   statLabel: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     textAlign: 'center',
   },
   dialogInput: {
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   sectionLabel: {
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.bold,
-    marginTop: SPACING.base,
+    marginTop: SPACING.md,
     marginBottom: SPACING.sm,
-    color: COLORS.text.primary,
+    color: COLORS.black,
   },
   audienceContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   audienceChip: {
     marginRight: SPACING.sm,

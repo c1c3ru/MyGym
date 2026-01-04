@@ -11,6 +11,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { getBeltColor } from '@shared/constants/colors';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { getString } from "@utils/theme";
 
 /**
  * Interface para um alerta de graduação
@@ -274,7 +275,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'flex-start',
-        marginBottom: SPACING.base,
+        marginBottom: SPACING.md,
     },
     studentInfo: {
         flexDirection: 'row',
@@ -298,14 +299,14 @@ const styles = StyleSheet.create({
         paddingHorizontal: SPACING.sm,
     },
     progression: {
-        marginBottom: SPACING.base,
+        marginBottom: SPACING.md,
     },
     beltProgression: {
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
         backgroundColor: COLORS.gray[50],
-        padding: SPACING.base,
+        padding: SPACING.md,
         borderRadius: BORDER_RADIUS.md,
     },
     currentBelt: {
@@ -320,13 +321,13 @@ const styles = StyleSheet.create({
         marginBottom: SPACING.sm,
     },
     beltChip: {
-        paddingHorizontal: SPACING.base,
+        paddingHorizontal: SPACING.md,
     },
     arrow: {
-        marginHorizontal: SPACING.base,
+        marginHorizontal: SPACING.md,
     },
     details: {
-        marginBottom: SPACING.base,
+        marginBottom: SPACING.md,
     },
     detailRow: {
         flexDirection: 'row',
@@ -336,7 +337,7 @@ const styles = StyleSheet.create({
     detailText: {
         marginLeft: SPACING.sm,
         fontSize: FONT_SIZE.base,
-        color: COLORS.text.primary,
+        color: COLORS.black,
     },
     actions: {
         flexDirection: 'row',

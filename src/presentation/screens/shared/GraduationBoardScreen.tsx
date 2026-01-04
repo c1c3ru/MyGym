@@ -262,7 +262,7 @@ const GraduationBoardScreen = ({ navigation }: GraduationBoardScreenProps) => {
                     >
                       {student.currentBelt}
                     </Chip>
-                    <Ionicons name="arrow-forward" size={16} color={COLORS.text.secondary} />
+                    <Ionicons name="arrow-forward" size={16} color={COLORS.gray[500]} />
                     <Chip
                       compact
                       style={[styles.beltChip, { backgroundColor: getBeltColor(student.nextBelt) }]}
@@ -504,7 +504,7 @@ const styles = StyleSheet.create({
   },
   paragraph: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
   studentsCard: {
     borderLeftWidth: 4,
@@ -546,7 +546,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    padding: SPACING.base,
+    padding: SPACING.md,
   },
   loadingContainer: {
     flex: 1,
@@ -555,13 +555,13 @@ const styles = StyleSheet.create({
     padding: SPACING.lg,
   },
   loadingText: {
-    marginTop: SPACING.base,
+    marginTop: SPACING.md,
     textAlign: 'center',
   },
   summaryContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   summaryCard: {
     flex: 1,
@@ -586,16 +586,16 @@ const styles = StyleSheet.create({
   },
   summaryLabel: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
   filterContainer: {
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   filterChip: {
     marginRight: SPACING.sm,
   },
   card: {
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
     elevation: 2,
   },
   cardHeader: {
@@ -608,7 +608,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.info[500],
   },
   divider: {
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   studentItem: {
     flexDirection: 'row',
@@ -634,7 +634,7 @@ const styles = StyleSheet.create({
   },
   studentModality: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginBottom: SPACING.xs,
   },
   beltProgression: {
@@ -677,7 +677,7 @@ const styles = StyleSheet.create({
   },
   examDetails: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginBottom: 2,
   },
   examCandidates: {
@@ -685,7 +685,7 @@ const styles = StyleSheet.create({
     color: COLORS.gray[500],
   },
   addButton: {
-    marginTop: SPACING.base,
+    marginTop: SPACING.md,
   },
   statItem: {
     padding: SPACING.md,
@@ -714,7 +714,7 @@ const styles = StyleSheet.create({
   },
   statTotal: {
     fontSize: FONT_SIZE.md,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
   progressBar: {
     height: 6,
@@ -727,7 +727,7 @@ const styles = StyleSheet.create({
   },
   statDetail: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
 });
 

@@ -30,7 +30,7 @@ const InstructorDashboardSkeleton: React.FC = () => {
 
             {/* Today's Classes Skeleton */}
             <View style={styles.cardContainer}>
-                <SkeletonLoader width="50%" height={20} style={{ marginBottom: SPACING.base }} />
+                <SkeletonLoader width="50%" height={20} style={{ marginBottom: SPACING.md }} />
 
                 {[1, 2, 3].map((index) => (
                     <View key={index} style={styles.classItem}>
@@ -49,7 +49,7 @@ const InstructorDashboardSkeleton: React.FC = () => {
 
             {/* My Classes Skeleton */}
             <View style={styles.cardContainer}>
-                <SkeletonLoader width="40%" height={20} style={{ marginBottom: SPACING.base }} />
+                <SkeletonLoader width="40%" height={20} style={{ marginBottom: SPACING.md }} />
 
                 <View style={styles.classesGrid}>
                     {[1, 2, 3, 4].map((index) => (
@@ -62,7 +62,7 @@ const InstructorDashboardSkeleton: React.FC = () => {
 
             {/* Announcements Skeleton */}
             <View style={styles.cardContainer}>
-                <SkeletonLoader width="35%" height={20} style={{ marginBottom: SPACING.base }} />
+                <SkeletonLoader width="35%" height={20} style={{ marginBottom: SPACING.md }} />
 
                 {[1, 2].map((index) => (
                     <View key={index} style={styles.announcementItem}>
@@ -78,7 +78,7 @@ const InstructorDashboardSkeleton: React.FC = () => {
 
             {/* Quick Actions Skeleton */}
             <View style={styles.cardContainer}>
-                <SkeletonLoader width="40%" height={20} style={{ marginBottom: SPACING.base }} />
+                <SkeletonLoader width="40%" height={20} style={{ marginBottom: SPACING.md }} />
 
                 <View style={styles.actionsContainer}>
                     {[1, 2, 3].map((index) => (
@@ -96,21 +96,21 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.gray[100],
     },
     headerContainer: {
-        margin: SPACING.base,
+        margin: SPACING.md,
         marginBottom: SPACING.sm,
     },
     statsContainer: {
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'space-between',
-        paddingHorizontal: SPACING.base,
+        paddingHorizontal: SPACING.md,
         marginBottom: SPACING.sm,
     },
     statCard: {
         width: '48%',
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: SPACING.base,
+        marginBottom: SPACING.md,
         padding: SPACING.md,
         backgroundColor: COLORS.white,
         borderRadius: BORDER_RADIUS.md,
@@ -125,9 +125,9 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     cardContainer: {
-        margin: SPACING.base,
+        margin: SPACING.md,
         marginTop: SPACING.sm,
-        padding: SPACING.base,
+        padding: SPACING.md,
         backgroundColor: COLORS.white,
         borderRadius: BORDER_RADIUS.md,
         elevation: 2,
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: SPACING.md,
         padding: SPACING.md,
-        backgroundColor: COLORS.background.light,
+        backgroundColor: COLORS.white,
         borderRadius: BORDER_RADIUS.md,
     },
     classTime: {

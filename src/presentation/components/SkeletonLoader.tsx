@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.white,
         marginVertical: 8,
         marginHorizontal: 16,
-        padding: SPACING.base,
+        padding: SPACING.md,
         borderRadius: BORDER_RADIUS.md,
         elevation: 2,
         shadowColor: COLORS.black,
@@ -234,7 +234,7 @@ const styles = StyleSheet.create({
     cardHeader: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: SPACING.base,
+        marginBottom: SPACING.md,
     },
     cardInfo: {
         flex: 1,
@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
     cardStats: {
         flexDirection: 'row',
         justifyContent: 'space-around',
-        marginBottom: SPACING.base,
+        marginBottom: SPACING.md,
     },
     statItem: {
         alignItems: 'center',
@@ -260,24 +260,24 @@ const styles = StyleSheet.create({
     },
     headerContainer: {
         backgroundColor: COLORS.white,
-        padding: SPACING.base,
+        padding: SPACING.md,
         elevation: 2,
     },
     statsContainer: {
         flexDirection: 'row',
         justifyContent: 'space-around',
-        padding: SPACING.base,
+        padding: SPACING.md,
     },
     statCard: {
         alignItems: 'center',
         backgroundColor: COLORS.white,
-        padding: SPACING.base,
+        padding: SPACING.md,
         borderRadius: BORDER_RADIUS.md,
         elevation: 2,
         minWidth: 100,
     },
     scheduleContainer: {
-        padding: SPACING.base,
+        padding: SPACING.md,
     },
     scheduleItem: {
         flexDirection: 'row',
@@ -293,7 +293,7 @@ const styles = StyleSheet.create({
         marginLeft: SPACING.md,
     },
     contentContainer: {
-        padding: SPACING.base,
+        padding: SPACING.md,
     },
     marginBottom: {
         marginBottom: SPACING.sm,

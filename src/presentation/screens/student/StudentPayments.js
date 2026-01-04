@@ -254,27 +254,27 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   currentCard: {
-    margin: SPACING.base,
+    margin: SPACING.md,
     marginBottom: SPACING.sm,
     elevation: 4,
     backgroundColor: COLORS.info[50],
   },
   card: {
-    margin: SPACING.base,
+    margin: SPACING.md,
     marginTop: SPACING.sm,
     elevation: 2,
   },
   cardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   cardTitle: {
     marginLeft: SPACING.sm,
     fontSize: FONT_SIZE.lg,
   },
   currentPaymentInfo: {
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   paymentRow: {
     flexDirection: 'row',
@@ -284,7 +284,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: FONT_SIZE.md,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
   value: {
     fontSize: FONT_SIZE.md,
@@ -303,16 +303,16 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     textAlign: 'center',
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     fontStyle: 'italic',
   },
   infoText: {
     marginBottom: SPACING.sm,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
   fab: {
     position: 'absolute',
-    margin: SPACING.base,
+    margin: SPACING.md,
     right: 0,
     bottom: 0,
     backgroundColor: COLORS.info[500],

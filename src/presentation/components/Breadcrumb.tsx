@@ -10,6 +10,7 @@ import { View, StyleSheet, ScrollView, TouchableOpacity, StyleProp, ViewStyle } 
 import { Text } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { getString } from "@utils/theme";
 
 // ============================================
 // BREADCRUMB ITEM
@@ -52,7 +53,7 @@ const BreadcrumbItem: React.FC<BreadcrumbItemProps> = ({
                     <MaterialCommunityIcons
                         name={icon as any}
                         size={16}
-                        color={isLast ? COLORS.primary[600] : COLORS.text.secondary}
+                        color={isLast ? COLORS.primary[600] : COLORS.gray[500]}
                         style={styles.icon}
                     />
                 )}
@@ -72,7 +73,7 @@ const BreadcrumbItem: React.FC<BreadcrumbItemProps> = ({
                 <MaterialCommunityIcons
                     name="chevron-right"
                     size={16}
-                    color={COLORS.text.disabled}
+                    color={COLORS.gray[300]}
                     style={styles.separator}
                 />
             )}
@@ -192,7 +193,7 @@ export const CompactBreadcrumb: React.FC<CompactBreadcrumbProps> = ({
                     <MaterialCommunityIcons
                         name="chevron-right"
                         size={16}
-                        color={COLORS.text.disabled}
+                        color={COLORS.gray[300]}
                         style={styles.separator}
                     />
                 </>
@@ -238,14 +239,14 @@ export const useBreadcrumb = () => {
 // ============================================
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: COLORS.background.light,
+        backgroundColor: COLORS.white,
         borderBottomWidth: 1,
         borderBottomColor: COLORS.border.light,
     },
     scrollContent: {
         flexDirection: 'row',
         alignItems: 'center',
-        paddingHorizontal: SPACING.base,
+        paddingHorizontal: SPACING.md,
         paddingVertical: SPACING.sm,
     },
     itemContainer: {
@@ -270,15 +271,15 @@ const styles = StyleSheet.create({
     },
     label: {
         fontSize: FONT_SIZE.sm,
-        color: COLORS.text.secondary,
+        color: COLORS.gray[500],
         maxWidth: 150,
     },
     labelLast: {
         color: COLORS.primary[600],
-        fontWeight: FONT_WEIGHT.semibold as any,
+        fontWeight: FONT_WEIGHT.semiBold as any,
     },
     labelDisabled: {
-        color: COLORS.text.disabled,
+        color: COLORS.gray[300],
     },
     separator: {
         marginHorizontal: SPACING.xs,
@@ -288,9 +289,9 @@ const styles = StyleSheet.create({
     compactContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        paddingHorizontal: SPACING.base,
+        paddingHorizontal: SPACING.md,
         paddingVertical: SPACING.sm,
-        backgroundColor: COLORS.background.light,
+        backgroundColor: COLORS.white,
     },
     compactItem: {
         flexDirection: 'row',
@@ -303,8 +304,8 @@ const styles = StyleSheet.create({
     },
     compactCurrentPage: {
         fontSize: FONT_SIZE.sm,
-        color: COLORS.text.primary,
-        fontWeight: FONT_WEIGHT.semibold as any,
+        color: COLORS.black,
+        fontWeight: FONT_WEIGHT.semiBold as any,
     },
 });
 

@@ -363,13 +363,13 @@ const ScheduleClassesScreen = ({ navigation, route }: ScheduleClassesScreenProps
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background.light,
+    backgroundColor: COLORS.white,
   },
   scrollView: {
     flex: 1,
   },
   card: {
-    margin: SPACING.base,
+    margin: SPACING.md,
     borderRadius: BORDER_RADIUS.lg,
   },
   header: {
@@ -381,17 +381,17 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
     marginLeft: SPACING.sm,
-    color: COLORS.text.primary,
+    color: COLORS.black,
   },
   subtitle: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginBottom: SPACING.md,
   },
   classItem: {
     borderRadius: BORDER_RADIUS.sm,
     marginVertical: SPACING.xs,
-    backgroundColor: COLORS.background.light,
+    backgroundColor: COLORS.white,
   },
   classItemSelected: {
     backgroundColor: COLORS.primary[50],
@@ -402,7 +402,7 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginTop: SPACING.md,
     marginBottom: SPACING.md,
   },
@@ -411,8 +411,8 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: FONT_SIZE.sm,
-    fontWeight: FONT_WEIGHT.semibold,
-    color: COLORS.text.primary,
+    fontWeight: FONT_WEIGHT.semiBold,
+    color: COLORS.black,
     marginTop: SPACING.md,
     marginBottom: SPACING.xs,
   },
@@ -434,12 +434,12 @@ const styles = StyleSheet.create({
   },
   summaryText: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.primary,
+    color: COLORS.black,
     marginVertical: SPACING.xs,
   },
   actions: {
     flexDirection: 'row',
-    padding: SPACING.base,
+    padding: SPACING.md,
     gap: SPACING.sm,
     backgroundColor: COLORS.white,
     borderTopWidth: 1,

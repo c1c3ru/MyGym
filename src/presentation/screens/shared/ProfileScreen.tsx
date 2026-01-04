@@ -23,6 +23,7 @@ import PaymentDueDateEditor from '@components/PaymentDueDateEditor';
 import type { NavigationProp } from '@react-navigation/native';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, BORDER_WIDTH } from '@presentation/theme/designTokens';
 import { getAuthGradient, getAuthCardColors } from '@presentation/theme/authTheme';
+import { getString } from "@utils/theme";
 
 interface ProfileScreenProps {
   navigation: NavigationProp<any>;
@@ -579,7 +580,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
           <Card style={styles.card}>
             <Card.Content>
               <View style={styles.cardHeader}>
-                <Ionicons name="settings-outline" size={24} color={COLORS.text.secondary} />
+                <Ionicons name="settings-outline" size={24} color={COLORS.gray[500]} />
                 <Text style={[styles.cardTitle, styles.title]}>{getString('accountSettings')}</Text>
               </View>
 
@@ -761,7 +762,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   headerCard: {
-    margin: SPACING.base,
+    margin: SPACING.md,
     marginBottom: SPACING.sm,
     backgroundColor: COLORS.card.default.background,
     borderColor: COLORS.card.default.border,
@@ -774,7 +775,7 @@ const styles = StyleSheet.create({
     padding: SPACING.sm,
   },
   avatar: {
-    marginRight: SPACING.base,
+    marginRight: SPACING.md,
   },
   headerText: {
     flex: 1,
@@ -785,7 +786,7 @@ const styles = StyleSheet.create({
   },
   userEmail: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginBottom: SPACING.sm,
   },
   userTypeChip: {
@@ -803,7 +804,7 @@ const styles = StyleSheet.create({
   warningText: {
     fontSize: FONT_SIZE.md,
     marginBottom: SPACING.sm,
-    color: COLORS.text.primary,
+    color: COLORS.black,
   },
   warningDays: {
     fontWeight: FONT_WEIGHT.bold,
@@ -811,8 +812,8 @@ const styles = StyleSheet.create({
   },
   warningDetails: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.secondary,
-    marginBottom: SPACING.base,
+    color: COLORS.gray[500],
+    marginBottom: SPACING.md,
   },
   warningButtons: {
     flexDirection: 'row',
@@ -829,7 +830,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primary[500],
   },
   card: {
-    margin: SPACING.base,
+    margin: SPACING.md,
     marginTop: SPACING.sm,
     backgroundColor: COLORS.card.default.background,
     borderColor: COLORS.card.default.border,
@@ -839,7 +840,7 @@ const styles = StyleSheet.create({
   cardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   cardTitle: {
     marginLeft: SPACING.sm,
@@ -875,11 +876,11 @@ const styles = StyleSheet.create({
   dayText: {
     fontSize: FONT_SIZE.sm,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
   noTrainingText: {
     textAlign: 'center',
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     fontStyle: 'italic',
   },
   modalContainer: {
@@ -931,7 +932,7 @@ const styles = StyleSheet.create({
   monthName: {
     fontSize: FONT_SIZE.base,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.text.primary,
+    color: COLORS.black,
   },
   monthChip: {
     backgroundColor: COLORS.info[500],

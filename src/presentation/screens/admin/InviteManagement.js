@@ -17,6 +17,7 @@ import { InviteService } from '@infrastructure/services/inviteService';
 import QRCodeGenerator from '@components/QRCodeGenerator';
 import ActionButton, { ActionButtonGroup } from '@components/ActionButton';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { getString } from "@utils/theme";
 
 export default function InviteManagement({ navigation }) {
   const { user, userProfile, academia } = useAuthFacade();
@@ -386,7 +387,7 @@ const styles = {
     flex: 1,
   },
   headerCard: {
-    margin: SPACING.base,
+    margin: SPACING.md,
     marginBottom: SPACING.sm,
   },
   title: {
@@ -399,22 +400,22 @@ const styles = {
     marginTop: SPACING.sm,
   },
   optionsCard: {
-    margin: SPACING.base,
+    margin: SPACING.md,
     marginVertical: 8,
   },
   listCard: {
-    margin: SPACING.base,
+    margin: SPACING.md,
     marginTop: SPACING.sm,
   },
   sectionTitle: {
     fontWeight: FONT_WEIGHT.bold,
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   listHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   cleanupButton: {
     marginLeft: SPACING.sm,
@@ -481,7 +482,7 @@ const styles = {
     fontWeight: FONT_WEIGHT.bold,
   },
   input: {
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   typeLabel: {
     marginBottom: SPACING.md,
@@ -506,7 +507,7 @@ const styles = {
   qrInstructions: {
     textAlign: 'center',
     opacity: 0.7,
-    marginTop: SPACING.base,
+    marginTop: SPACING.md,
     paddingHorizontal: 20,
   },
 };

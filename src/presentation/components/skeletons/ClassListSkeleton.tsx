@@ -66,12 +66,12 @@ const ClassCardSkeleton: React.FC = () => {
 
 const styles = StyleSheet.create({
     container: {
-        paddingHorizontal: SPACING.base,
+        paddingHorizontal: SPACING.md,
     },
     card: {
         backgroundColor: COLORS.white,
         borderRadius: BORDER_RADIUS.md,
-        padding: SPACING.base,
+        padding: SPACING.md,
         marginVertical: 8,
         elevation: 2,
         shadowColor: COLORS.black,

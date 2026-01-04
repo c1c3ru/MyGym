@@ -1,5 +1,6 @@
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from '@infrastructure/services/firebase';
+import { getString } from "@utils/theme";
 
 // Dados padrão para inicialização de academias
 const defaultModalities = [

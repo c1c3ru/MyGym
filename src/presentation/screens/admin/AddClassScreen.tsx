@@ -18,6 +18,7 @@ import { createEmptySchedule, isValidSchedule, scheduleToDisplayString } from '@
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, BORDER_WIDTH } from '@presentation/theme/designTokens';
 import { getAuthGradient } from '@presentation/theme/authTheme';
 import type { NavigationProp } from '@react-navigation/native';
+import { getString } from "@utils/theme";
 
 
 interface Instructor {
@@ -351,7 +352,7 @@ const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
               <Text style={styles.label}>{getString('modality')}</Text>
               <View style={styles.chipContainer}>
                 {modalities.length === 0 && (
-                  <Text style={{ color: COLORS.text.secondary }}>Nenhuma modalidade cadastrada</Text>
+                  <Text style={{ color: COLORS.gray[500] }}>Nenhuma modalidade cadastrada</Text>
                 )}
                 {modalities.map((m) => (
                   <Chip
@@ -462,7 +463,7 @@ const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
               )}
 
               {instructors.length === 0 && (
-                <Text style={{ color: COLORS.text.secondary, fontSize: FONT_SIZE.sm, marginTop: SPACING.sm }}>
+                <Text style={{ color: COLORS.gray[500], fontSize: FONT_SIZE.sm, marginTop: SPACING.sm }}>
                   Nenhum outro instrutor cadastrado na academia
                 </Text>
               )}
@@ -576,7 +577,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    padding: SPACING.base,
+    padding: SPACING.md,
     paddingBottom: 100,
   },
   card: {
@@ -595,10 +596,10 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.medium,
     marginBottom: SPACING.sm,
-    color: COLORS.text.primary,
+    color: COLORS.black,
   },
   pickerContainer: {
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   chipContainer: {
     flexDirection: 'row',
@@ -641,7 +642,7 @@ const styles = StyleSheet.create({
   helperTip: {
     marginTop: -4,
     marginBottom: SPACING.md,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     fontSize: FONT_SIZE.sm,
   },
 });

@@ -211,7 +211,7 @@ const PaymentManagementScreen: React.FC<PaymentManagementScreenProps> = ({ navig
       'overdue': COLORS.error[500],
       'active': themeColors.primary
     };
-    return colors[status] || COLORS.text.secondary;
+    return colors[status] || COLORS.gray[500];
   };
 
   const getPaymentStatusText = (status: string) => {
@@ -266,7 +266,7 @@ const PaymentManagementScreen: React.FC<PaymentManagementScreenProps> = ({ navig
                     <Text style={styles.dueDateLabel}>Próximo vencimento:</Text>
                     <Text style={[
                       styles.dueDateValue,
-                      { color: getDaysUntilDue(currentPlan.dueDate) <= 3 ? COLORS.error[500] : COLORS.text.secondary }
+                      { color: getDaysUntilDue(currentPlan.dueDate) <= 3 ? COLORS.error[500] : COLORS.gray[500] }
                     ]}>
                       {formatDate(currentPlan.dueDate)}
                       {getDaysUntilDue(currentPlan.dueDate) !== null && (
@@ -457,10 +457,10 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
-    padding: SPACING.base,
+    padding: SPACING.md,
   },
   card: {
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
     elevation: 4,
   },
   currentPlanCard: {
@@ -470,7 +470,7 @@ const styles = StyleSheet.create({
   cardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   cardTitle: {
     fontSize: FONT_SIZE.lg,
@@ -496,18 +496,18 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.md,
   },
   dueDateContainer: {
-    backgroundColor: COLORS.background.light,
+    backgroundColor: COLORS.white,
     padding: SPACING.md,
     borderRadius: BORDER_RADIUS.md,
   },
   dueDateLabel: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginBottom: SPACING.xs,
   },
   dueDateValue: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: FONT_WEIGHT.semiBold,
   },
   daysLeft: {
     fontSize: FONT_SIZE.base,
@@ -528,7 +528,7 @@ const styles = StyleSheet.create({
   },
   paymentPlan: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: FONT_WEIGHT.semiBold,
     marginBottom: SPACING.xs,
   },
   paymentAmount: {
@@ -539,7 +539,7 @@ const styles = StyleSheet.create({
   },
   paymentDue: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
   payButton: {
     borderRadius: BORDER_RADIUS.lg,
@@ -565,7 +565,7 @@ const styles = StyleSheet.create({
   },
   historyDate: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
   historyStatus: {
     marginLeft: SPACING.md,
@@ -576,7 +576,7 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: FONT_WEIGHT.semiBold,
     color: COLORS.gray[500],
     marginTop: SPACING.md,
   },
@@ -587,7 +587,7 @@ const styles = StyleSheet.create({
   },
   fab: {
     position: 'absolute',
-    margin: SPACING.base,
+    margin: SPACING.md,
     right: 0,
     bottom: 0,
   },
@@ -624,7 +624,7 @@ const styles = StyleSheet.create({
   },
   planOptionName: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: FONT_WEIGHT.semiBold,
     marginBottom: SPACING.xs,
   },
   planOptionValue: {
@@ -635,17 +635,17 @@ const styles = StyleSheet.create({
   },
   planOptionDescription: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
   dueDateSection: {
     marginTop: 20,
-    padding: SPACING.base,
-    backgroundColor: COLORS.background.light,
+    padding: SPACING.md,
+    backgroundColor: COLORS.white,
     borderRadius: BORDER_RADIUS.md,
   },
   dueDateSectionTitle: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: FONT_WEIGHT.semiBold,
     marginBottom: SPACING.md,
   },
   dateButton: {

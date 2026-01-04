@@ -99,9 +99,9 @@ class NodeMailerService {
             body {
                 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
                 line-height: 1.6;
-                color: COLORS.text.primary}
+                color: COLORS.black}
             .container {
-                background-color: COLORS.text.primary}
+                background-color: COLORS.black}
             .header {
                 text-align: center;
                 margin-bottom: 32px;
@@ -111,7 +111,7 @@ class NodeMailerService {
             .logo {
                 font-size: 28px;
                 font-weight: bold;
-                color: COLORS.text.primary}
+                color: COLORS.black}
             .button {
                 display: inline-block;
                 background: linear-gradient(135deg, currentTheme.info[500], currentTheme.info[700]);
@@ -125,13 +125,13 @@ class NodeMailerService {
                 box-shadow: 0 4px 12px currentTheme.info[500] + "4D";
             }
             .warning {
-                background-color: COLORS.text.primary}
+                background-color: COLORS.black}
             .footer {
                 text-align: center;
                 margin-top: 32px;
                 padding-top: 24px;
                 border-top: 1px solid currentTheme.gray[300];
-                color: COLORS.text.primary}
+                color: COLORS.black}
         </style>
     </head>
     <body>
@@ -158,7 +158,7 @@ class NodeMailerService {
             </div>
             
             <p>Se o botão não funcionar, copie e cole este link no seu navegador:</p>
-            <p style="word-break: break-all; background-color: COLORS.text.primary}
+            <p style="word-break: break-all; background-color: COLORS.black}
             </p>
             
             <p><strong>Se você não solicitou esta recuperação de senha, ignore este email.</strong> Sua senha permanecerá inalterada.</p>
@@ -196,9 +196,9 @@ class NodeMailerService {
             body {
                 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
                 line-height: 1.6;
-                color: COLORS.text.primary}
+                color: COLORS.black}
             .container {
-                background-color: COLORS.text.primary}
+                background-color: COLORS.black}
             .header {
                 text-align: center;
                 margin-bottom: 32px;
@@ -208,9 +208,9 @@ class NodeMailerService {
             .logo {
                 font-size: 28px;
                 font-weight: bold;
-                color: COLORS.text.primary}
+                color: COLORS.black}
             .user-type {
-                background-color: COLORS.text.primary}
+                background-color: COLORS.black}
             .button {
                 display: inline-block;
                 background: linear-gradient(135deg, currentTheme.info[500], currentTheme.info[700]);
@@ -224,13 +224,13 @@ class NodeMailerService {
                 box-shadow: 0 4px 12px currentTheme.info[500] + "4D";
             }
             .expiration {
-                background-color: COLORS.text.primary}
+                background-color: COLORS.black}
             .footer {
                 text-align: center;
                 margin-top: 32px;
                 padding-top: 24px;
                 border-top: 1px solid currentTheme.gray[300];
-                color: COLORS.text.primary}
+                color: COLORS.black}
         </style>
     </head>
     <body>
@@ -244,7 +244,7 @@ class NodeMailerService {
             
             <p>Olá!</p>
             
-            <p><strong>${inviterName}</strong> convidou você para se juntar à academia <strong style="color: COLORS.text.primary}</strong> como <span class="user-type">${userTypeText[userType]}</span>.</p>
+            <p><strong>${inviterName}</strong> convidou você para se juntar à academia <strong style="color: COLORS.black}</strong> como <span class="user-type">${userTypeText[userType]}</span>.</p>
             
             <p>Com o MyGym você poderá:</p>
             <ul>
@@ -266,7 +266,7 @@ class NodeMailerService {
             </div>
             
             <p>Se o botão não funcionar, copie e cole este link no seu navegador:</p>
-            <p style="word-break: break-all; background-color: COLORS.text.primary}
+            <p style="word-break: break-all; background-color: COLORS.black}
             </p>
             
             <div class="footer">
@@ -303,9 +303,9 @@ class NodeMailerService {
             body {
                 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
                 line-height: 1.6;
-                color: COLORS.text.primary}
+                color: COLORS.black}
             .container {
-                background-color: COLORS.text.primary}
+                background-color: COLORS.black}
             .header {
                 text-align: center;
                 margin-bottom: 32px;
@@ -315,15 +315,15 @@ class NodeMailerService {
             .logo {
                 font-size: 28px;
                 font-weight: bold;
-                color: COLORS.text.primary}
+                color: COLORS.black}
             .steps {
-                background-color: COLORS.text.primary}
+                background-color: COLORS.black}
             .footer {
                 text-align: center;
                 margin-top: 32px;
                 padding-top: 24px;
                 border-top: 1px solid currentTheme.gray[300];
-                color: COLORS.text.primary}
+                color: COLORS.black}
         </style>
     </head>
     <body>
@@ -379,15 +379,15 @@ class NodeMailerService {
             body {
                 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
                 line-height: 1.6;
-                color: COLORS.text.primary}
+                color: COLORS.black}
             .container {
-                background-color: COLORS.text.primary}
+                background-color: COLORS.black}
             .reminder {
-                background-color: COLORS.text.primary}
+                background-color: COLORS.black}
             .time {
                 font-size: 24px;
                 font-weight: bold;
-                color: COLORS.text.primary}
+                color: COLORS.black}
         </style>
     </head>
     <body>

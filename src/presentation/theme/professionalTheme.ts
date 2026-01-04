@@ -112,13 +112,13 @@ export const TYPOGRAPHY = {
   h1: { fontSize: FONT_SIZE.xxxl, fontWeight: FONT_WEIGHT.bold, lineHeight: 40 },
   h2: { fontSize: FONT_SIZE.xxl, fontWeight: FONT_WEIGHT.bold, lineHeight: 36 },
   h3: { fontSize: FONT_SIZE.xxl, fontWeight: FONT_WEIGHT.bold, lineHeight: 32 },
-  h4: { fontSize: FONT_SIZE.xl, fontWeight: FONT_WEIGHT.semibold, lineHeight: 28 },
-  h5: { fontSize: FONT_SIZE.lg, fontWeight: FONT_WEIGHT.semibold, lineHeight: 24 },
-  h6: { fontSize: FONT_SIZE.md, fontWeight: FONT_WEIGHT.semibold, lineHeight: 22 },
+  h4: { fontSize: FONT_SIZE.xl, fontWeight: FONT_WEIGHT.semiBold, lineHeight: 28 },
+  h5: { fontSize: FONT_SIZE.lg, fontWeight: FONT_WEIGHT.semiBold, lineHeight: 24 },
+  h6: { fontSize: FONT_SIZE.md, fontWeight: FONT_WEIGHT.semiBold, lineHeight: 22 },
   body1: { fontSize: FONT_SIZE.md, fontWeight: 'normal', lineHeight: 24 },
   body2: { fontSize: FONT_SIZE.base, fontWeight: 'normal', lineHeight: 20 },
   caption: { fontSize: FONT_SIZE.sm, fontWeight: 'normal', lineHeight: 16 },
-  button: { fontSize: FONT_SIZE.base, fontWeight: FONT_WEIGHT.semibold, lineHeight: 20 },
+  button: { fontSize: FONT_SIZE.base, fontWeight: FONT_WEIGHT.semiBold, lineHeight: 20 },
 };
 
 export const SPACING = {

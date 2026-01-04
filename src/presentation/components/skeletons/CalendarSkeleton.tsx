@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.gray[100],
     },
     headerContainer: {
-        padding: SPACING.base,
+        padding: SPACING.md,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -75,9 +75,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     cardContainer: {
-        margin: SPACING.base,
+        margin: SPACING.md,
         marginTop: SPACING.sm,
-        padding: SPACING.base,
+        padding: SPACING.md,
         backgroundColor: COLORS.white,
         borderRadius: BORDER_RADIUS.md,
         elevation: 2,
@@ -90,14 +90,14 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: SPACING.base,
+        marginBottom: SPACING.md,
     },
     classItem: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: SPACING.base,
+        marginBottom: SPACING.md,
         padding: SPACING.md,
-        backgroundColor: COLORS.background.light,
+        backgroundColor: COLORS.white,
         borderRadius: BORDER_RADIUS.md,
     },
     classTime: {

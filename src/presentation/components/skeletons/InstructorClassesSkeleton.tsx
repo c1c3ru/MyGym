@@ -65,13 +65,13 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.gray[100],
     },
     searchContainer: {
-        margin: SPACING.base,
+        margin: SPACING.md,
         marginBottom: SPACING.sm,
     },
     cardContainer: {
-        margin: SPACING.base,
+        margin: SPACING.md,
         marginTop: SPACING.sm,
-        padding: SPACING.base,
+        padding: SPACING.md,
         backgroundColor: COLORS.white,
         borderRadius: BORDER_RADIUS.md,
         elevation: 2,
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     actionsContainer: {
         flexDirection: 'row',
         justifyContent: 'flex-end',
-        marginTop: SPACING.base,
+        marginTop: SPACING.md,
         gap: SPACING.sm,
     },
     fabContainer: {

@@ -218,7 +218,7 @@ const ReportsScreen: React.FC<ReportsScreenProps> = ({ navigation }) => {
       case 'payment': return COLORS.primary[500];
       case 'class': return COLORS.warning[500];
       case 'checkin': return COLORS.secondary[500];
-      default: return COLORS.text.secondary;
+      default: return COLORS.gray[500];
     }
   }, []);
 
@@ -434,7 +434,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    padding: SPACING.base,
+    padding: SPACING.md,
     paddingBottom: 100,
   },
   loadingContainer: {
@@ -448,22 +448,22 @@ const styles = StyleSheet.create({
   title: {
     fontSize: FONT_SIZE.xxl,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.text.primary,
+    color: COLORS.black,
   },
   subtitle: {
     fontSize: FONT_SIZE.md,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginTop: SPACING.xs,
   },
   card: {
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
     elevation: 4,
   },
   cardTitle: {
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
-    marginBottom: SPACING.base,
-    color: COLORS.text.primary,
+    marginBottom: SPACING.md,
+    color: COLORS.black,
   },
   statsGrid: {
     flexDirection: 'row',
@@ -474,9 +474,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     width: '48%',
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
     padding: SPACING.md,
-    backgroundColor: COLORS.background.light,
+    backgroundColor: COLORS.white,
     borderRadius: BORDER_RADIUS.md,
   },
   statIcon: {
@@ -493,11 +493,11 @@ const styles = StyleSheet.create({
   statNumber: {
     fontSize: FONT_SIZE.xl,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.text.primary,
+    color: COLORS.black,
   },
   statLabel: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginTop: 2,
   },
   statSubtext: {
@@ -510,7 +510,7 @@ const styles = StyleSheet.create({
   },
   occupancyLabel: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.primary,
+    color: COLORS.black,
     marginBottom: SPACING.sm,
   },
   progressBar: {
@@ -520,14 +520,14 @@ const styles = StyleSheet.create({
   },
   occupancyPercentage: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     textAlign: 'right',
   },
   noDataText: {
     textAlign: 'center',
     color: COLORS.gray[500],
     fontStyle: 'italic',
-    marginTop: SPACING.base,
+    marginTop: SPACING.md,
   },
   activityItem: {
     flexDirection: 'row',
@@ -550,12 +550,12 @@ const styles = StyleSheet.create({
   },
   activityAction: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.primary,
+    color: COLORS.black,
     fontWeight: FONT_WEIGHT.medium,
   },
   activityTime: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginTop: 2,
   },
   actionsContainer: {

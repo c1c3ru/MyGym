@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT , BORDER_WIDTH } from '@presentation/theme/designTokens';
+import { getString } from "@utils/theme";
 
 const styles = StyleSheet.create({
   // Base button styles
@@ -29,7 +30,7 @@ const styles = StyleSheet.create({
   // Sizes
   small: {
     paddingVertical: SPACING.sm,
-    paddingHorizontal: SPACING.base,
+    paddingHorizontal: SPACING.md,
     minHeight: 36,
   },
   medium: {
@@ -38,7 +39,7 @@ const styles = StyleSheet.create({
     minHeight: 44,
   },
   large: {
-    paddingVertical: SPACING.base,
+    paddingVertical: SPACING.md,
     paddingHorizontal: 32,
     minHeight: 52,
   },
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
 
   // Text styles
   text: {
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: FONT_WEIGHT.semiBold,
     textAlign: 'center',
   },
   textPrimary: {

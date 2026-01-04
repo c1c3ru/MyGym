@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     },
     countryButtonLabel: {
         fontSize: FONT_SIZE.base,
-        fontWeight: FONT_WEIGHT.semibold as any,
+        fontWeight: FONT_WEIGHT.semiBold as any,
     },
     phoneInput: {
         flex: 1,

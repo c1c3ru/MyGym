@@ -16,6 +16,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useTheme } from '@contexts/ThemeContext';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { getAuthGradient } from '@presentation/theme/authTheme';
+import { getString } from "@utils/theme";
 
 const NotificationSettingsScreen = ({ navigation }: any) => {
   const { user, userProfile, updateUserProfile } = useAuthFacade();
@@ -367,14 +368,14 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   card: {
-    margin: SPACING.base,
+    margin: SPACING.md,
     marginTop: SPACING.sm,
     elevation: 2,
   },
   cardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   cardTitle: {
     marginLeft: SPACING.sm,
@@ -385,11 +386,11 @@ const styles = StyleSheet.create({
   },
   infoText: {
     marginBottom: SPACING.sm,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     fontSize: FONT_SIZE.base,
   },
   buttonContainer: {
-    margin: SPACING.base,
+    margin: SPACING.md,
     gap: SPACING.md,
   },
   resetButton: {

@@ -30,10 +30,10 @@ const LoginSkeleton: React.FC = () => {
                 </View>
 
                 {/* Login Button */}
-                <SkeletonLoader width="100%" height={48} borderRadius={24} style={{ marginTop: SPACING.base }} />
+                <SkeletonLoader width="100%" height={48} borderRadius={24} style={{ marginTop: SPACING.md }} />
 
                 {/* Forgot Password */}
-                <SkeletonLoader width="50%" height={16} style={{ marginTop: SPACING.base, alignSelf: 'center' }} />
+                <SkeletonLoader width="50%" height={16} style={{ marginTop: SPACING.md, alignSelf: 'center' }} />
             </View>
 
             {/* Divider */}
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
     },
     fieldContainer: {
-        marginBottom: SPACING.base,
+        marginBottom: SPACING.md,
     },
     dividerContainer: {
         marginHorizontal: 24,
@@ -92,14 +92,14 @@ const styles = StyleSheet.create({
     },
     socialContainer: {
         marginHorizontal: 24,
-        marginTop: SPACING.base,
+        marginTop: SPACING.md,
     },
     registerContainer: {
         marginTop: SPACING.lg,
         marginHorizontal: 24,
     },
     languageContainer: {
-        marginTop: SPACING.base,
+        marginTop: SPACING.md,
         marginBottom: SPACING.lg,
     },
 });

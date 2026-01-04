@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'flex-start',
-        marginBottom: SPACING.base,
+        marginBottom: SPACING.md,
     },
     studentInfo: {
         flexDirection: 'row',
@@ -241,22 +241,22 @@ const styles = StyleSheet.create({
         fontSize: FONT_SIZE.lg,
         fontWeight: FONT_WEIGHT.bold as any,
         marginBottom: SPACING.xs,
-        color: COLORS.text.primary,
+        color: COLORS.black,
     },
     studentEmail: {
         fontSize: FONT_SIZE.base,
-        color: COLORS.text.secondary,
+        color: COLORS.gray[500],
         marginBottom: 2,
     },
     studentPhone: {
         fontSize: FONT_SIZE.base,
-        color: COLORS.text.secondary,
+        color: COLORS.gray[500],
     },
     studentStats: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginBottom: SPACING.md,
-        backgroundColor: COLORS.background.light,
+        backgroundColor: COLORS.white,
         borderRadius: BORDER_RADIUS.md,
         padding: SPACING.md,
     },
@@ -266,7 +266,7 @@ const styles = StyleSheet.create({
     },
     statLabel: {
         fontSize: FONT_SIZE.sm,
-        color: COLORS.text.secondary,
+        color: COLORS.gray[500],
         marginBottom: SPACING.xs,
         fontWeight: FONT_WEIGHT.medium as any,
     },
@@ -276,17 +276,17 @@ const styles = StyleSheet.create({
     graduationText: {
         fontSize: FONT_SIZE.sm,
         fontWeight: FONT_WEIGHT.bold as any,
-        color: COLORS.text.primary,
+        color: COLORS.black,
     },
     additionalInfo: {
-        backgroundColor: COLORS.background.light,
+        backgroundColor: COLORS.white,
         borderRadius: BORDER_RADIUS.md,
         padding: SPACING.md,
         marginBottom: SPACING.md,
     },
     infoText: {
         fontSize: FONT_SIZE.sm,
-        color: COLORS.text.secondary,
+        color: COLORS.gray[500],
         marginBottom: 2,
     },
     divider: {

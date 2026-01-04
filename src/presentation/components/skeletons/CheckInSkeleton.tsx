@@ -24,7 +24,7 @@ const CheckInSkeleton: React.FC = () => {
 
             {/* Active Check-ins Skeleton */}
             <View style={styles.cardContainer}>
-                <SkeletonLoader width="50%" height={20} style={{ marginBottom: SPACING.base }} />
+                <SkeletonLoader width="50%" height={20} style={{ marginBottom: SPACING.md }} />
 
                 {[1, 2].map((index) => (
                     <View key={index} style={styles.checkInItem}>
@@ -43,7 +43,7 @@ const CheckInSkeleton: React.FC = () => {
 
             {/* Quick Actions Skeleton */}
             <View style={styles.cardContainer}>
-                <SkeletonLoader width="40%" height={20} style={{ marginBottom: SPACING.base }} />
+                <SkeletonLoader width="40%" height={20} style={{ marginBottom: SPACING.md }} />
 
                 <View style={styles.actionsGrid}>
                     {[1, 2, 3, 4].map((index) => (
@@ -57,7 +57,7 @@ const CheckInSkeleton: React.FC = () => {
 
             {/* Recent Check-ins Skeleton */}
             <View style={styles.cardContainer}>
-                <SkeletonLoader width="45%" height={20} style={{ marginBottom: SPACING.base }} />
+                <SkeletonLoader width="45%" height={20} style={{ marginBottom: SPACING.md }} />
 
                 {[1, 2, 3, 4].map((index) => (
                     <View key={index} style={styles.recentItem}>
@@ -88,8 +88,8 @@ const styles = StyleSheet.create({
     statsContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        paddingHorizontal: SPACING.base,
-        marginTop: SPACING.base,
+        paddingHorizontal: SPACING.md,
+        marginTop: SPACING.md,
         marginBottom: SPACING.sm,
     },
     statCard: {
@@ -111,9 +111,9 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     cardContainer: {
-        margin: SPACING.base,
+        margin: SPACING.md,
         marginTop: SPACING.sm,
-        padding: SPACING.base,
+        padding: SPACING.md,
         backgroundColor: COLORS.white,
         borderRadius: BORDER_RADIUS.md,
         elevation: 2,
@@ -123,9 +123,9 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
     },
     checkInItem: {
-        marginBottom: SPACING.base,
+        marginBottom: SPACING.md,
         padding: SPACING.md,
-        backgroundColor: COLORS.background.light,
+        backgroundColor: COLORS.white,
         borderRadius: BORDER_RADIUS.md,
     },
     checkInHeader: {
@@ -146,8 +146,8 @@ const styles = StyleSheet.create({
     actionCard: {
         width: '48%',
         alignItems: 'center',
-        padding: SPACING.base,
-        backgroundColor: COLORS.background.light,
+        padding: SPACING.md,
+        backgroundColor: COLORS.white,
         borderRadius: BORDER_RADIUS.md,
         marginBottom: SPACING.md,
     },

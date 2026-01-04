@@ -96,7 +96,7 @@ const FormSelect: React.FC<FormSelectProps> = ({
                             <Ionicons
                                 name={visible ? "chevron-up" : "chevron-down"}
                                 size={20}
-                                color={hasError ? COLORS.error[500] : COLORS.text.secondary}
+                                color={hasError ? COLORS.error[500] : COLORS.gray[500]}
                             />
                         )}
                     >
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     },
     label: {
         fontSize: FONT_SIZE.sm,
-        color: COLORS.text.secondary,
+        color: COLORS.gray[500],
         marginBottom: SPACING.xs,
         marginLeft: SPACING.xs,
     },
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: SPACING.sm,
     },
     buttonLabel: {
-        color: COLORS.text.primary,
+        color: COLORS.black,
         textAlign: 'left',
         flex: 1,
     },

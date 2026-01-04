@@ -21,6 +21,7 @@ import { useTheme } from '@contexts/ThemeContext';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { getAuthGradient, getAuthCardColors } from '@presentation/theme/authTheme';
 import type { AuthScreenProps, RegisterFormData, RegisterFormErrors, SnackbarState } from './types';
+import { getString } from "@utils/theme";
 
 const { width } = Dimensions.get('window');
 
@@ -532,7 +533,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   headerIcon: {
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
     ...Platform.select({
       web: {
         boxShadow: '0 2px 3.84px currentTheme.black + "40"'
@@ -567,7 +568,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: FONT_SIZE.md,
-    color: COLORS.text.primary,
+    color: COLORS.black,
     opacity: 0.9,
     textAlign: 'center',
     ...Platform.select({
@@ -601,15 +602,15 @@ const styles = StyleSheet.create({
   cardTitle: {
     textAlign: 'center',
     marginBottom: SPACING.lg,
-    color: COLORS.text.primary,
+    color: COLORS.black,
     fontSize: FONT_SIZE.xl,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: FONT_WEIGHT.semiBold,
   },
   sectionTitle: {
     fontSize: FONT_SIZE.lg,
-    marginBottom: SPACING.base,
-    color: COLORS.text.primary,
-    fontWeight: FONT_WEIGHT.semibold,
+    marginBottom: SPACING.md,
+    color: COLORS.black,
+    fontWeight: FONT_WEIGHT.semiBold,
   },
   input: {
     marginBottom: SPACING.sm,
@@ -620,7 +621,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.gray[300],
   },
   userTypeContainer: {
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   userTypeCard: {
     marginBottom: SPACING.md,
@@ -645,17 +646,17 @@ const styles = StyleSheet.create({
   },
   userTypeLabel: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semibold,
-    color: COLORS.text.primary,
+    fontWeight: FONT_WEIGHT.semiBold,
+    color: COLORS.black,
   },
   userTypeDescription: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginTop: 2,
   },
   passwordHint: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginBottom: 20,
     fontStyle: 'italic',
     textAlign: 'center',
@@ -673,24 +674,24 @@ const styles = StyleSheet.create({
   },
   checkboxText: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.text.primary,
+    color: COLORS.black,
     lineHeight: 20,
   },
   link: {
     color: COLORS.primary[500],
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: FONT_WEIGHT.semiBold,
     textDecorationLine: 'underline',
   },
   checkboxLabel: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.text.primary,
+    color: COLORS.black,
   },
   checkboxError: {
     marginTop: -SPACING.sm,
     marginLeft: SPACING.lg,
   },
   button: {
-    marginTop: SPACING.base,
+    marginTop: SPACING.md,
     paddingVertical: SPACING.xs,
     borderRadius: BORDER_RADIUS.lg,
     elevation: 3,

@@ -2,6 +2,7 @@ import React, { Suspense } from 'react';
 import { View, ActivityIndicator, StyleSheet } from 'react-native';
 import { Text } from 'react-native-paper';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { getString } from "@utils/theme";
 
 // Componente de loading para telas lazy
 const LazyLoadingFallback = ({ message = getString('loadingState') }) => (
@@ -28,9 +29,9 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.gray[100],
   },
   text: {
-    marginTop: SPACING.base,
+    marginTop: SPACING.md,
     fontSize: FONT_SIZE.md,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
 });
 

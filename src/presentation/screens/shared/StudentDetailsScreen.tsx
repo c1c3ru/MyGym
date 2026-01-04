@@ -31,6 +31,7 @@ import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@present
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
 import { getAuthGradient } from '@presentation/theme/authTheme';
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
+import { getString } from "@utils/theme";
 
 interface StudentData {
   id: string;
@@ -189,7 +190,7 @@ const StudentDetailsScreen: React.FC<StudentDetailsScreenProps> = ({ route, navi
       'pending': COLORS.warning[500],
       'overdue': COLORS.error[500]
     };
-    return colors[status] || COLORS.text.secondary;
+    return colors[status] || COLORS.gray[500];
   }, []);
 
   const getPaymentStatusText = useCallback((status: string) => {
@@ -293,21 +294,21 @@ const StudentDetailsScreen: React.FC<StudentDetailsScreenProps> = ({ route, navi
 
             <View style={styles.infoSection}>
               <View style={styles.infoRow}>
-                <Ionicons name="call" size={20} color={COLORS.text.secondary} />
+                <Ionicons name="call" size={20} color={COLORS.gray[500]} />
                 <Text style={styles.infoText}>
                   {studentInfo?.phone || getString('phoneNotInformed')}
                 </Text>
               </View>
 
               <View style={styles.infoRow}>
-                <Ionicons name="location" size={20} color={COLORS.text.secondary} />
+                <Ionicons name="location" size={20} color={COLORS.gray[500]} />
                 <Text style={styles.infoText}>
                   {studentInfo?.address || 'Endereço não informado'}
                 </Text>
               </View>
 
               <View style={styles.infoRow}>
-                <Ionicons name="calendar" size={20} color={COLORS.text.secondary} />
+                <Ionicons name="calendar" size={20} color={COLORS.gray[500]} />
                 <Text style={styles.infoText}>
                   Cadastrado em: {formatDate(studentInfo?.createdAt)}
                 </Text>
@@ -327,7 +328,7 @@ const StudentDetailsScreen: React.FC<StudentDetailsScreenProps> = ({ route, navi
                 <Card.Content key={classItem.id || index}>
                   <View style={styles.listItemContent}>
                     <View style={styles.listItemLeft}>
-                      <Ionicons name="fitness" size={20} color={COLORS.text.secondary} style={styles.listIcon} />
+                      <Ionicons name="fitness" size={20} color={COLORS.gray[500]} style={styles.listIcon} />
                       <View>
                         <Text style={styles.listTitle}>{classItem.name}</Text>
                         <Text style={styles.listSubtitle}>{classItem.modality}</Text>
@@ -362,7 +363,7 @@ const StudentDetailsScreen: React.FC<StudentDetailsScreenProps> = ({ route, navi
                 <Card.Content key={payment.id || index}>
                   <View style={styles.listItemContent}>
                     <View style={styles.listItemLeft}>
-                      <Ionicons name="receipt" size={20} color={COLORS.text.secondary} style={styles.listIcon} />
+                      <Ionicons name="receipt" size={20} color={COLORS.gray[500]} style={styles.listIcon} />
                       <View>
                         <Text style={styles.listTitle}>
                           {formatCurrency(payment.amount)}
@@ -439,7 +440,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   card: {
-    margin: SPACING.base,
+    margin: SPACING.md,
     marginTop: SPACING.sm,
     backgroundColor: COLORS.white,
     borderRadius: BORDER_RADIUS.md,
@@ -461,27 +462,27 @@ const styles = StyleSheet.create({
   studentHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   avatar: {
     backgroundColor: COLORS.info[500],
   },
   avatarText: {
     color: COLORS.white,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: FONT_WEIGHT.semiBold,
   },
   studentInfo: {
-    marginLeft: SPACING.base,
+    marginLeft: SPACING.md,
     flex: 1,
   },
   studentName: {
     fontSize: FONT_SIZE.xl,
-    fontWeight: FONT_WEIGHT.semibold,
-    color: COLORS.text.primary,
+    fontWeight: FONT_WEIGHT.semiBold,
+    color: COLORS.black,
   },
   studentEmail: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginTop: SPACING.xs,
   },
   statusBadge: {
@@ -502,12 +503,12 @@ const styles = StyleSheet.create({
   infoText: {
     marginLeft: SPACING.md,
     fontSize: FONT_SIZE.md,
-    color: COLORS.text.primary,
+    color: COLORS.black,
   },
   cardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   cardTitle: {
     marginLeft: SPACING.sm,
@@ -515,7 +516,7 @@ const styles = StyleSheet.create({
   },
   noDataText: {
     textAlign: 'center',
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     fontStyle: 'italic',
     padding: SPACING.lg,
   },
@@ -540,20 +541,20 @@ const styles = StyleSheet.create({
   listTitle: {
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.medium,
-    color: COLORS.text.primary,
+    color: COLORS.black,
   },
   listSubtitle: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginTop: 2,
   },
   viewAllButton: {
-    marginTop: SPACING.base,
+    marginTop: SPACING.md,
   },
   actionsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: SPACING.base,
+    marginTop: SPACING.md,
   },
   actionButton: {
     width: '48%',

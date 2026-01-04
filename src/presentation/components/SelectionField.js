@@ -32,7 +32,7 @@ const SelectionField = ({
           <IconButton
             icon={icon}
             size={20}
-            iconColor={value ? COLORS.info[700] : COLORS.text.secondary}
+            iconColor={value ? COLORS.info[700] : COLORS.gray[500]}
           />
           <Text style={[
             styles.selectionButtonText,
@@ -53,12 +53,12 @@ const SelectionField = ({
 
 const styles = StyleSheet.create({
   selectionItem: {
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   selectionLabel: {
     fontSize: FONT_SIZE.base,
     fontWeight: FONT_WEIGHT.medium,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginBottom: SPACING.sm,
   },
   selectionButton: {
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   selectionButtonText: {
     flex: 1,
     fontSize: FONT_SIZE.md,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
   selectionButtonTextSelected: {
     color: COLORS.info[700],

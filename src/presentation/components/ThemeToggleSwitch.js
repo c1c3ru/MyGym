@@ -33,12 +33,12 @@ const ThemeToggleSwitch = ({ style = {} }) => {
             size={24}
             color={currentTheme.primary[500]}
           />
-          <Text style={[styles.title, { color: COLORS.text.primary }]}>
+          <Text style={[styles.title, { color: COLORS.black }]}>
             Aparência
           </Text>
         </View>
 
-        <Text style={[styles.description, { color: COLORS.text.primary }]}>
+        <Text style={[styles.description, { color: COLORS.black }]}>
           Escolha entre o tema claro sóbrio ou escuro premium
         </Text>
 
@@ -47,10 +47,10 @@ const ThemeToggleSwitch = ({ style = {} }) => {
         {/* Switch Principal */}
         <View style={styles.switchRow}>
           <View style={styles.switchInfo}>
-            <Text style={[styles.switchLabel, { color: COLORS.text.primary }]}>
+            <Text style={[styles.switchLabel, { color: COLORS.black }]}>
               {themeInfo.name}
             </Text>
-            <Text style={[styles.switchDescription, { color: COLORS.text.primary }]}>
+            <Text style={[styles.switchDescription, { color: COLORS.black }]}>
               {themeInfo.description}
             </Text>
           </View>
@@ -70,7 +70,7 @@ const ThemeToggleSwitch = ({ style = {} }) => {
 
         {/* Opções de Tema */}
         <View style={styles.themeOptions}>
-          <Text style={[styles.optionsTitle, { color: COLORS.text.primary }]}>
+          <Text style={[styles.optionsTitle, { color: COLORS.black }]}>
             Temas Disponíveis
           </Text>
 
@@ -92,10 +92,10 @@ const ThemeToggleSwitch = ({ style = {} }) => {
             <View style={styles.themePreview}>
               <View style={[styles.previewDark, styles.previewBox]} />
               <View style={styles.previewInfo}>
-                <Text style={[styles.themeName, { color: COLORS.text.primary }]}>
+                <Text style={[styles.themeName, { color: COLORS.black }]}>
                   Dark Premium
                 </Text>
-                <Text style={[styles.themeDesc, { color: COLORS.text.primary }]}>
+                <Text style={[styles.themeDesc, { color: COLORS.black }]}>
                   Tema escuro para academias de artes marciais
                 </Text>
               </View>
@@ -127,10 +127,10 @@ const ThemeToggleSwitch = ({ style = {} }) => {
             <View style={styles.themePreview}>
               <View style={[styles.previewLight, styles.previewBox]} />
               <View style={styles.previewInfo}>
-                <Text style={[styles.themeName, { color: COLORS.text.primary }]}>
+                <Text style={[styles.themeName, { color: COLORS.black }]}>
                   Light Sóbrio
                 </Text>
-                <Text style={[styles.themeDesc, { color: COLORS.text.primary }]}>
+                <Text style={[styles.themeDesc, { color: COLORS.black }]}>
                   Tema claro inspirado em incubadoras tecnológicas
                 </Text>
               </View>
@@ -152,7 +152,7 @@ const ThemeToggleSwitch = ({ style = {} }) => {
             size={16}
             color={currentTheme.info[500]}
           />
-          <Text style={[styles.infoText, { color: COLORS.text.primary }]}>
+          <Text style={[styles.infoText, { color: COLORS.black }]}>
             A preferência de tema é salva automaticamente e aplicada em todo o app
           </Text>
         </View>
@@ -163,7 +163,7 @@ const ThemeToggleSwitch = ({ style = {} }) => {
 
 const styles = StyleSheet.create({
   container: {
-    margin: SPACING.base,
+    margin: SPACING.md,
     elevation: 2,
   },
 
@@ -182,11 +182,11 @@ const styles = StyleSheet.create({
   description: {
     fontSize: FONT_SIZE.sm,
     lineHeight: 20,
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
 
   divider: {
-    marginVertical: SPACING.base,
+    marginVertical: SPACING.md,
   },
 
   switchRow: {
@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
 
   switchInfo: {
     flex: 1,
-    marginRight: SPACING.base,
+    marginRight: SPACING.md,
   },
 
   switchLabel: {
@@ -219,14 +219,14 @@ const styles = StyleSheet.create({
   optionsTitle: {
     fontSize: FONT_SIZE.base,
     fontWeight: FONT_WEIGHT.medium,
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
 
   themeOption: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    padding: SPACING.base,
+    padding: SPACING.md,
     borderRadius: BORDER_RADIUS.md,
     borderWidth: 1,
     marginBottom: SPACING.sm,
@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
   },
 
   previewLight: {
-    backgroundColor: COLORS.background.light,
+    backgroundColor: COLORS.white,
   },
 
   previewInfo: {
@@ -275,7 +275,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     padding: SPACING.sm,
     borderRadius: BORDER_RADIUS.sm,
-    marginTop: SPACING.base,
+    marginTop: SPACING.md,
   },
 
   infoText: {

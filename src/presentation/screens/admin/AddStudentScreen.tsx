@@ -39,6 +39,7 @@ import cacheService, { CACHE_KEYS } from '@infrastructure/services/cacheService'
 import formValidator, { commonSchemas } from '@utils/formValidation';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
+import { getString } from "@utils/theme";
 
 const AddStudentScreen = ({ navigation, route }: any) => {
   const { currentTheme } = useThemeToggle();
@@ -640,7 +641,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    padding: SPACING.base,
+    padding: SPACING.md,
     paddingBottom: 100,
   },
   card: {
@@ -656,13 +657,13 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
     marginTop: 20,
-    marginBottom: SPACING.base,
-    color: COLORS.text.primary,
+    marginBottom: SPACING.md,
+    color: COLORS.black,
   },
   sectionSubtitle: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.secondary,
-    marginBottom: SPACING.base,
+    color: COLORS.gray[500],
+    marginBottom: SPACING.md,
     fontStyle: 'italic',
   },
   divider: {
@@ -672,7 +673,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: SPACING.sm,
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   classChip: {
     marginBottom: SPACING.sm,
@@ -695,7 +696,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     marginTop: 20,
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   loadingContainer: {
     alignItems: 'center',
@@ -704,7 +705,7 @@ const styles = StyleSheet.create({
   loadingText: {
     marginTop: SPACING.md,
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
   selectedClassesContainer: {
     flexDirection: 'row',
@@ -740,7 +741,7 @@ const styles = StyleSheet.create({
     color: COLORS.gray[500],
     textAlign: 'center',
     marginTop: SPACING.xs,
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   retryButton: {
     marginTop: SPACING.sm,
@@ -752,21 +753,21 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.medium,
     marginBottom: SPACING.sm,
-    color: COLORS.text.primary,
+    color: COLORS.black,
   },
   fieldLabel: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: FONT_WEIGHT.semiBold,
     marginBottom: SPACING.sm,
     marginTop: SPACING.sm,
-    color: COLORS.text.primary,
+    color: COLORS.black,
   },
   radioContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
     marginTop: SPACING.sm,
-    paddingHorizontal: SPACING.base,
+    paddingHorizontal: SPACING.md,
   },
   radioItem: {
     flexDirection: 'row',
@@ -790,7 +791,7 @@ const styles = StyleSheet.create({
     opacity: 0.7,
   },
   snackbar: {
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   snackbarSuccess: {
     backgroundColor: COLORS.primary[500],

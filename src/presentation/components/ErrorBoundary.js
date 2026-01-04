@@ -81,14 +81,14 @@ const styles = StyleSheet.create({
     padding: SPACING.xl,
   },
   title: {
-    marginTop: SPACING.base,
+    marginTop: SPACING.md,
     marginBottom: SPACING.sm,
     textAlign: 'center',
-    color: COLORS.text.primary,
+    color: COLORS.black,
   },
   message: {
     textAlign: 'center',
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginBottom: SPACING.lg,
   },
   button: {

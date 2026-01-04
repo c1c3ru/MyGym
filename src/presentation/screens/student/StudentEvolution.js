@@ -297,20 +297,20 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   statsCard: {
-    margin: SPACING.base,
+    margin: SPACING.md,
     marginBottom: SPACING.sm,
     elevation: 4,
     backgroundColor: COLORS.primary[50],
   },
   card: {
-    margin: SPACING.base,
+    margin: SPACING.md,
     marginTop: SPACING.sm,
     elevation: 2,
   },
   cardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   cardTitle: {
     marginLeft: SPACING.sm,
@@ -319,7 +319,7 @@ const styles = StyleSheet.create({
   statsGrid: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   statItem: {
     alignItems: 'center',
@@ -335,7 +335,7 @@ const styles = StyleSheet.create({
   },
   statLabel: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginTop: SPACING.xs,
   },
   currentGraduation: {
@@ -351,7 +351,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   timelineItem: {
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   timelineContent: {
     backgroundColor: COLORS.white,
@@ -377,16 +377,16 @@ const styles = StyleSheet.create({
   },
   graduationDate: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
   instructorText: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginBottom: SPACING.xs,
   },
   observationsText: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.primary,
+    color: COLORS.black,
     fontStyle: 'italic',
   },
   timelineLine: {
@@ -402,8 +402,8 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: FONT_SIZE.md,
-    color: COLORS.text.secondary,
-    marginTop: SPACING.base,
+    color: COLORS.gray[500],
+    marginTop: SPACING.md,
     textAlign: 'center',
   },
   emptySubtext: {

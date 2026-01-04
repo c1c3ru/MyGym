@@ -387,7 +387,7 @@ const AdminClasses = ({ navigation }) => {
   };
 
   const getCapacityColor = (current, max) => {
-    if (!max) return COLORS.text.secondary;
+    if (!max) return COLORS.gray[500];
     const percentage = (current / max) * 100;
     if (percentage >= 90) return COLORS.error[500];
     if (percentage >= 70) return COLORS.warning[500];
@@ -520,16 +520,16 @@ const AdminClasses = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background.default,
+    backgroundColor: COLORS.white,
   },
   header: {
-    padding: SPACING.base,
+    padding: SPACING.md,
     backgroundColor: COLORS.background.paper,
     elevation: 2,
   },
   searchbar: {
     elevation: 0,
-    backgroundColor: COLORS.background.light,
+    backgroundColor: COLORS.white,
     marginBottom: SPACING.sm,
   },
   filterRow: {
@@ -543,7 +543,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   classCard: {
-    margin: SPACING.base,
+    margin: SPACING.md,
     marginBottom: SPACING.sm,
     elevation: 2,
   },
@@ -575,7 +575,7 @@ const styles = StyleSheet.create({
   },
   detailText: {
     marginLeft: SPACING.sm,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     flex: 1,
   },
   statusRow: {
@@ -598,7 +598,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   emptyCard: {
-    margin: SPACING.base,
+    margin: SPACING.md,
     elevation: 2,
   },
   emptyContent: {
@@ -606,22 +606,22 @@ const styles = StyleSheet.create({
     padding: 32,
   },
   emptyTitle: {
-    marginTop: SPACING.base,
+    marginTop: SPACING.md,
     textAlign: 'center',
   },
   emptyText: {
     textAlign: 'center',
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
   statsCard: {
-    margin: SPACING.base,
+    margin: SPACING.md,
     marginTop: SPACING.sm,
     elevation: 2,
     backgroundColor: COLORS.warning[50],
   },
   statsTitle: {
     textAlign: 'center',
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
   },
   statsGrid: {
     flexDirection: 'row',
@@ -637,12 +637,12 @@ const styles = StyleSheet.create({
   },
   statLabel: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     textAlign: 'center',
   },
   fab: {
     position: 'absolute',
-    margin: SPACING.base,
+    margin: SPACING.md,
     right: 0,
     bottom: 0,
     backgroundColor: COLORS.primary[500],
@@ -652,7 +652,7 @@ const styles = StyleSheet.create({
   },
   calendarFab: {
     position: 'absolute',
-    margin: SPACING.base,
+    margin: SPACING.md,
     right: 0,
     bottom: 80, // Acima do FAB principal
     backgroundColor: COLORS.info[500],
@@ -670,14 +670,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: SPACING.base,
+    padding: SPACING.md,
     borderBottomWidth: 1,
     borderBottomColor: COLORS.gray[300],
   },
   calendarModalTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.semibold,
-    color: COLORS.text.primary,
+    fontWeight: FONT_WEIGHT.semiBold,
+    color: COLORS.black,
   },
   calendarContainer: {
     flex: 1,

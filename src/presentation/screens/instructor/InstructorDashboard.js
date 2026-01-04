@@ -457,7 +457,7 @@ const InstructorDashboard = ({ navigation }) => {
 
                         <View style={styles.timelineDetails}>
                           <View style={styles.timelineInfo}>
-                            <MaterialCommunityIcons name="clock" size={16} color={COLORS.text.secondary} />
+                            <MaterialCommunityIcons name="clock" size={16} color={COLORS.gray[500]} />
                             <Text style={styles.timelineText}>
                               {classItem.schedule?.map(s =>
                                 `${formatTime(s.hour, s.minute)}`
@@ -466,7 +466,7 @@ const InstructorDashboard = ({ navigation }) => {
                           </View>
 
                           <View style={styles.timelineInfo}>
-                            <MaterialCommunityIcons name="account-multiple" size={16} color={COLORS.text.secondary} />
+                            <MaterialCommunityIcons name="account-multiple" size={16} color={COLORS.gray[500]} />
                             <Text style={styles.timelineText}>
                               {classItem.currentStudents || 0}/{classItem.maxCapacity || getString('notAvailable')} {getString('students')}
                             </Text>
@@ -778,7 +778,7 @@ const InstructorDashboard = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background.default,
+    backgroundColor: COLORS.white,
   },
   scrollView: {
     flex: 1,
@@ -892,12 +892,12 @@ const styles = StyleSheet.create({
   modernCardTitle: {
     fontSize: ResponsiveUtils.fontSize.large,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.text.primary,
+    color: COLORS.black,
     marginBottom: SPACING.xs,
   },
   modernCardSubtitle: {
     fontSize: ResponsiveUtils.fontSize.small,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
 
   // Ações rápidas modernizadas
@@ -952,7 +952,7 @@ const styles = StyleSheet.create({
   },
   timelineContent: {
     flex: 1,
-    backgroundColor: COLORS.background.light,
+    backgroundColor: COLORS.white,
     borderRadius: ResponsiveUtils.borderRadius.medium,
     padding: ResponsiveUtils.spacing.md,
   },
@@ -965,7 +965,7 @@ const styles = StyleSheet.create({
   timelineTitle: {
     fontSize: ResponsiveUtils.fontSize.medium,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.text.primary,
+    color: COLORS.black,
     flex: 1,
   },
   modernChip: {
@@ -985,7 +985,7 @@ const styles = StyleSheet.create({
   },
   timelineText: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginLeft: SPACING.xs,
   },
   timelineButton: {
@@ -1009,7 +1009,7 @@ const styles = StyleSheet.create({
   emptyStateText: {
     fontSize: ResponsiveUtils.fontSize.medium,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginTop: ResponsiveUtils.spacing.sm,
   },
   emptyStateSubtext: {
@@ -1069,13 +1069,13 @@ const styles = StyleSheet.create({
     fontWeight: FONT_WEIGHT.medium,
   },
   announcementTitle: {
-    fontWeight: FONT_WEIGHT.semibold,
-    color: COLORS.text.primary,
+    fontWeight: FONT_WEIGHT.semiBold,
+    color: COLORS.black,
     marginBottom: ResponsiveUtils.spacing.xs,
     fontSize: ResponsiveUtils.fontSize.medium,
   },
   announcementMessage: {
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginBottom: ResponsiveUtils.spacing.xs,
     fontSize: ResponsiveUtils.fontSize.small,
     lineHeight: 20,
@@ -1134,11 +1134,11 @@ const styles = StyleSheet.create({
     marginBottom: ResponsiveUtils.spacing.sm,
   },
   classTime: {
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginBottom: ResponsiveUtils.spacing.xs,
   },
   classCapacity: {
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
   classButton: {
     marginTop: ResponsiveUtils.spacing.sm,
@@ -1172,12 +1172,12 @@ const styles = StyleSheet.create({
     marginBottom: ResponsiveUtils.spacing.xs,
   },
   upcomingClassInfo: {
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginBottom: ResponsiveUtils.spacing.sm,
   },
   emptyText: {
     textAlign: 'center',
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     fontStyle: 'italic',
     marginVertical: ResponsiveUtils.spacing.md,
   },

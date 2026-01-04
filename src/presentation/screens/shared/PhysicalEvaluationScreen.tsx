@@ -500,10 +500,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    padding: SPACING.base,
+    padding: SPACING.md,
   },
   card: {
-    marginBottom: SPACING.base,
+    marginBottom: SPACING.md,
     elevation: 4,
   },
   headerSection: {
@@ -519,16 +519,16 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: FONT_SIZE.md,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     textAlign: 'center',
     lineHeight: 22,
   },
   sectionTitle: {
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
-    marginTop: SPACING.base,
+    marginTop: SPACING.md,
     marginBottom: SPACING.md,
-    color: COLORS.text.primary,
+    color: COLORS.black,
   },
   input: {
     marginBottom: SPACING.sm,
@@ -545,7 +545,7 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.sm,
   },
   imcContainer: {
-    padding: SPACING.base,
+    padding: SPACING.md,
     marginVertical: 16,
     borderRadius: BORDER_RADIUS.md,
     elevation: 2,

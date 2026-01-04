@@ -94,12 +94,12 @@ const GraduationBoard = ({
 
           <View style={styles.examDetails}>
             <View style={styles.examDetailRow}>
-              <Ionicons name="person" size={16} color={COLORS.text.secondary} />
+              <Ionicons name="person" size={16} color={COLORS.gray[500]} />
               <Text style={styles.examDetailText}>Examinador: {exam.examiner}</Text>
             </View>
             
             <View style={styles.examDetailRow}>
-              <Ionicons name="people" size={16} color={COLORS.text.secondary} />
+              <Ionicons name="people" size={16} color={COLORS.gray[500]} />
               <Text style={styles.examDetailText}>
                 {exam.candidateStudents.length} candidatos inscritos
               </Text>
@@ -300,13 +300,13 @@ const GraduationBoard = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background.default,
+    backgroundColor: COLORS.white,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: SPACING.base,
+    paddingHorizontal: SPACING.md,
     paddingVertical: SPACING.md,
     backgroundColor: COLORS.card.default.background,
     elevation: 2,
@@ -316,11 +316,11 @@ const styles = StyleSheet.create({
     fontWeight: FONT_WEIGHT.bold,
   },
   segmentedButtons: {
-    margin: SPACING.base,
+    margin: SPACING.md,
   },
   content: {
     flex: 1,
-    paddingHorizontal: SPACING.base,
+    paddingHorizontal: SPACING.md,
   },
   examCard: {
     marginBottom: SPACING.md,
@@ -343,12 +343,12 @@ const styles = StyleSheet.create({
   examDate: {
     fontSize: FONT_SIZE.md,
     color: COLORS.info[500],
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: FONT_WEIGHT.semiBold,
     marginBottom: 2,
   },
   examLocation: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
   modalityChip: {
     alignSelf: 'flex-start',
@@ -367,7 +367,7 @@ const styles = StyleSheet.create({
   examDetailText: {
     marginLeft: SPACING.sm,
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.primary,
+    color: COLORS.black,
   },
   examActions: {
     flexDirection: 'row',
@@ -397,20 +397,20 @@ const styles = StyleSheet.create({
   },
   graduationBelt: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
   resultChip: {
     alignSelf: 'flex-start',
   },
   graduationScore: {
     fontSize: FONT_SIZE.base,
-    fontWeight: FONT_WEIGHT.semibold,
-    color: COLORS.text.primary,
+    fontWeight: FONT_WEIGHT.semiBold,
+    color: COLORS.black,
     marginBottom: SPACING.xs,
   },
   graduationNotes: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     fontStyle: 'italic',
   },
   statCard: {
@@ -437,12 +437,12 @@ const styles = StyleSheet.create({
   },
   statLabel: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
   statValue: {
     fontSize: FONT_SIZE.base,
-    fontWeight: FONT_WEIGHT.semibold,
-    color: COLORS.text.primary,
+    fontWeight: FONT_WEIGHT.semiBold,
+    color: COLORS.black,
   },
   emptyState: {
     alignItems: 'center',
@@ -453,7 +453,7 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: FONT_SIZE.md,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginTop: SPACING.md,
     textAlign: 'center',
   },
@@ -464,7 +464,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   emptyAction: {
-    marginTop: SPACING.base,
+    marginTop: SPACING.md,
   },
 });
 

@@ -23,6 +23,7 @@ import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import StudentDashboardSkeleton from '@components/skeletons/StudentDashboardSkeleton';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { useOnboarding } from '@components/OnboardingTour';
+import { getString } from "@utils/theme";
 
 const StudentDashboard = ({ navigation }) => {
   const { user, userProfile } = useAuthFacade();
@@ -423,7 +424,7 @@ const StudentDashboard = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background.default,
+    backgroundColor: COLORS.white,
   },
   scrollView: {
     flex: 1,
@@ -461,7 +462,7 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     fontSize: ResponsiveUtils?.fontSize?.large || 18,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: FONT_WEIGHT.semiBold,
     marginBottom: ResponsiveUtils?.spacing?.md || 12,
     color: COLORS.primary[500],
   },
@@ -473,7 +474,7 @@ const styles = StyleSheet.create({
   },
   graduationText: {
     textAlign: 'center',
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
   emptyText: {
     color: COLORS.gray[600],
@@ -488,7 +489,7 @@ const styles = StyleSheet.create({
   loadingContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    padding: SPACING.base,
+    padding: SPACING.md,
   },
   loadingText: {
     marginTop: SPACING.sm,
@@ -541,12 +542,12 @@ const styles = StyleSheet.create({
     marginTop: SPACING.sm,
   },
   announcementTitle: {
-    fontWeight: FONT_WEIGHT.semibold,
-    color: COLORS.text.primary,
+    fontWeight: FONT_WEIGHT.semiBold,
+    color: COLORS.black,
     marginBottom: ResponsiveUtils?.spacing?.xs || 4,
   },
   announcementMessage: {
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginBottom: ResponsiveUtils?.spacing?.xs || 4,
   },
   announcementDate: {

@@ -19,6 +19,7 @@ import cacheService, { CACHE_KEYS, CACHE_TTL } from '@infrastructure/services/ca
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import ReportsSkeleton from '@components/skeletons/ReportsSkeleton';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { getString } from "@utils/theme";
 
 const Relatorios = ({ navigation }) => {
   const { user, userProfile } = useAuthFacade();
@@ -237,7 +238,7 @@ const Relatorios = ({ navigation }) => {
                     </Chip>
                   </View>
                   <View style={styles.aulaDetails}>
-                    <MaterialCommunityIcons name="account-multiple" size={16} color={COLORS.text.secondary} />
+                    <MaterialCommunityIcons name="account-multiple" size={16} color={COLORS.gray[500]} />
                     <Text style={styles.aulaAlunos}>{aula.alunos} alunos</Text>
                   </View>
                   <View style={styles.progressBar}>
@@ -311,7 +312,7 @@ const Relatorios = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background.default,
+    backgroundColor: COLORS.white,
   },
   scrollView: {
     flex: 1,
@@ -330,12 +331,12 @@ const styles = StyleSheet.create({
     marginLeft: ResponsiveUtils.spacing.md,
     fontSize: ResponsiveUtils.fontSize.large,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.text.primary,
+    color: COLORS.black,
   },
   sectionTitle: {
     fontSize: ResponsiveUtils.fontSize.medium,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.text.primary,
+    color: COLORS.black,
     marginBottom: ResponsiveUtils.spacing.md,
   },
   periodSelector: {
@@ -362,16 +363,16 @@ const styles = StyleSheet.create({
   statTitle: {
     marginLeft: ResponsiveUtils.spacing.xs,
     fontSize: ResponsiveUtils.fontSize.small,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
   statValue: {
     fontSize: ResponsiveUtils.fontSize.extraLarge,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.text.primary,
+    color: COLORS.black,
   },
   statSubtitle: {
     fontSize: ResponsiveUtils.fontSize.small,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
     marginTop: 2,
   },
   aulaItem: {
@@ -389,7 +390,7 @@ const styles = StyleSheet.create({
   aulaNome: {
     fontSize: ResponsiveUtils.fontSize.medium,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.text.primary,
+    color: COLORS.black,
     flex: 1,
   },
   frequenciaChip: {
@@ -403,7 +404,7 @@ const styles = StyleSheet.create({
   aulaAlunos: {
     marginLeft: SPACING.xs,
     fontSize: ResponsiveUtils.fontSize.small,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
   progressBar: {
     height: 4,
@@ -425,7 +426,7 @@ const styles = StyleSheet.create({
   evolucaoMes: {
     fontSize: ResponsiveUtils.fontSize.medium,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.text.primary,
+    color: COLORS.black,
     width: 50,
   },
   evolucaoData: {
@@ -440,7 +441,7 @@ const styles = StyleSheet.create({
   evolucaoValue: {
     marginLeft: SPACING.xs,
     fontSize: ResponsiveUtils.fontSize.small,
-    color: COLORS.text.secondary,
+    color: COLORS.gray[500],
   },
   exportButtons: {
     flexDirection: 'row',
