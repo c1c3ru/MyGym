@@ -41,11 +41,11 @@ const CheckInScreen: React.FC<CheckInScreenProps> = ({ navigation }) => {
 
   useEffect(() => {
     const loadData = async () => {
-      if (!user?.uid) return;
-      setLoading(true);
       try {
-        const history = await academyFirestoreService.getCheckInHistory(user.uid);
-        setCheckIns(history);
+        if (user?.id) {
+          const history = await academyFirestoreService.getCheckInHistory(user.id, academia?.id);
+          setCheckIns(history);
+        }
 
         // Se academiaId for fornecida, buscar aulas
         if (academia?.id) {
@@ -63,12 +63,12 @@ const CheckInScreen: React.FC<CheckInScreenProps> = ({ navigation }) => {
   }, [user, academia]);
 
   const handleCheckIn = async (classInfo?: ClassInfo) => {
-    if (!user?.uid) return;
+    if (!user?.id) return;
     setLoading(true);
     try {
-      await academyFirestoreService.createCheckIn({
-        studentId: user.uid,
-        academyId: academia?.id || '',
+      await academyFirestoreService.create('checkIns', {
+        studentId: user.id,
+        academiaId: academia?.id || '',
         classId: classInfo?.id || '',
         className: classInfo?.name || 'Aula Avulsa',
         date: new Date(),
@@ -78,8 +78,10 @@ const CheckInScreen: React.FC<CheckInScreenProps> = ({ navigation }) => {
       Alert.alert(getString('success'), getString('checkInSuccess'));
 
       // Atualizar histórico
-      const history = await academyFirestoreService.getCheckInHistory(user.uid);
-      setCheckIns(history);
+      if (user?.id) {
+        const history = await academyFirestoreService.getCheckInHistory(user.id, academia?.id);
+        setCheckIns(history);
+      }
     } catch (error) {
       console.error('Erro ao realizar check-in:', error);
       Alert.alert(getString('error'), getString('checkInError'));

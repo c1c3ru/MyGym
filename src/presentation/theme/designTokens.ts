@@ -59,7 +59,7 @@ export const LINE_HEIGHT = {
     normal: 1.5,
     relaxed: 1.75,
     loose: 2,
-};
+} as const;
 
 // ============================================
 // BORDER RADIUS - Raios de borda
@@ -494,7 +494,7 @@ export const OPACITY = {
     strong: 0.7,
     heavy: 0.9,
     opaque: 1,
-};
+} as const;
 
 // ============================================
 // ANIMATION - Durações e easings
@@ -515,7 +515,7 @@ export const ANIMATION = {
         easeInOut: 'ease-in-out',
         spring: 'cubic-bezier(0.68, -0.55, 0.265, 1.55)',
     },
-};
+} as const;
 
 // ============================================
 // Z-INDEX - Camadas de profundidade
@@ -531,7 +531,7 @@ export const Z_INDEX = {
     tooltip: 1070,
     notification: 1080,
     max: 9999,
-};
+} as const;
 
 // ============================================
 // ICON SIZE - Tamanhos de ícones
@@ -545,7 +545,7 @@ export const ICON_SIZE = {
     xl: 40,
     xxl: 48,
     huge: 64,
-};
+} as const;
 
 // ============================================
 // BREAKPOINTS - Pontos de quebra responsivos
@@ -557,7 +557,7 @@ export const BREAKPOINTS = {
     lg: 992,
     xl: 1200,
     xxl: 1400,
-};
+} as const;
 
 // ============================================
 // CONTAINER - Larguras máximas de container
@@ -569,7 +569,7 @@ export const CONTAINER = {
     lg: 1140,
     xl: 1320,
     fluid: '100%',
-};
+} as const;
 
 // ============================================
 // TRANSITIONS - Transições pré-definidas
@@ -580,7 +580,7 @@ export const TRANSITIONS = {
     transform: `transform ${ANIMATION.duration.normal}ms ${ANIMATION.easing.spring}`,
     color: `color ${ANIMATION.duration.fast}ms ${ANIMATION.easing.easeInOut}`,
     background: `background-color ${ANIMATION.duration.fast}ms ${ANIMATION.easing.easeInOut}`,
-};
+} as const;
 
 // ============================================
 // UTILITIES - Funções utilitárias
@@ -642,33 +642,6 @@ export const getColor = (path: string) => {
 export const getElevation = (level: keyof typeof ELEVATION) => ELEVATION[level] || ELEVATION.none;
 
 // ============================================
-// EXPORT DEFAULT - Objeto completo
-// ============================================
-export default {
-    SPACING,
-    FONT_SIZE,
-    FONT_WEIGHT,
-    LINE_HEIGHT,
-    BORDER_RADIUS,
-    BORDER_WIDTH,
-    ELEVATION,
-    COLORS,
-    OPACITY,
-    ANIMATION,
-    Z_INDEX,
-    ICON_SIZE,
-    BREAKPOINTS,
-    CONTAINER,
-    TRANSITIONS,
-    // Utilities
-    getSpacing,
-    getFontSize,
-    getColor,
-    getElevation,
-    // Themes disponíveis via import direto
-};
-
-// ============================================
 // THEME SYSTEM - Sistema de alternância de temas
 // ============================================
 
@@ -689,7 +662,7 @@ export const DARK_THEME = {
     border: COLORS.border,
     overlay: COLORS.overlay,
     gradients: COLORS.gradients,
-};
+} as const;
 
 // Importação dinâmica compatível com TS
 let _lightTheme: any = null;
@@ -714,6 +687,37 @@ export const useCurrentTheme = (isDark = true) => {
 
 // Getter para LIGHT_THEME (lazy)
 export const getLightThemeTokens = () => getLightTheme();
+
+// ============================================
+// EXPORT DEFAULT - Objeto completo
+// ============================================
+export default {
+    SPACING,
+    FONT_SIZE,
+    FONT_WEIGHT,
+    LINE_HEIGHT,
+    BORDER_RADIUS,
+    BORDER_WIDTH,
+    ELEVATION,
+    COLORS,
+    OPACITY,
+    ANIMATION,
+    Z_INDEX,
+    ICON_SIZE,
+    BREAKPOINTS,
+    CONTAINER,
+    TRANSITIONS,
+    // Utilities
+    getSpacing,
+    getFontSize,
+    getColor,
+    getElevation,
+    // Themes
+    DARK_THEME,
+    getTheme,
+    useCurrentTheme,
+    getLightThemeTokens,
+};
 
 // Exportar temas para uso direto
 export { DARK_THEME as DARK_THEME_TOKENS };
