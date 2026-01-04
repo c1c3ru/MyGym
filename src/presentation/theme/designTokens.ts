@@ -480,7 +480,7 @@ export const COLORS = {
             red: '#F44336',         // Faixa vermelha (coral)
         },
     },
-};
+} as const;
 
 // ============================================
 // OPACITY - Níveis de opacidade

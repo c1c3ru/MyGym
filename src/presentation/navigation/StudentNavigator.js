@@ -26,7 +26,7 @@ const Stack = createStackNavigator();
 // Navegação para Alunos
 const StudentNavigator = () => {
   const { getString } = useTheme();
-  
+
   return (
     <Tab.Navigator
       screenOptions={({ route, navigation }) => ({
@@ -58,23 +58,23 @@ const StudentNavigator = () => {
         },
       })}
     >
-      <Tab.Screen 
-        name=getString('dashboard') 
+      <Tab.Screen
+        name={getString('dashboard')}
         component={StudentDashboard}
         options={{ title: getString('studentDashboard') }}
       />
-      <Tab.Screen 
-        name=getString('payments') 
+      <Tab.Screen
+        name={getString('payments')}
         component={StudentPayments}
         options={{ title: getString('payments') }}
       />
-      <Tab.Screen 
-        name="Evolução" 
+      <Tab.Screen
+        name="Evolução"
         component={StudentEvolution}
         options={{ title: getString('evolution') }}
       />
-      <Tab.Screen 
-        name="Calendar" 
+      <Tab.Screen
+        name="Calendar"
         component={StudentCalendar}
         options={{ title: getString('calendar') }}
       />
@@ -86,15 +86,15 @@ const StudentNavigator = () => {
 const StudentStackNavigator = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen 
-        name="StudentTabs" 
+      <Stack.Screen
+        name="StudentTabs"
         component={StudentNavigator}
         options={{ headerShown: false }}
       />
-      
+
       {/* Profile-related screens */}
-      <Stack.Screen 
-        name="Profile" 
+      <Stack.Screen
+        name="Profile"
         component={ProfileScreen}
         options={{
           headerShown: true,
@@ -108,8 +108,8 @@ const StudentStackNavigator = () => {
           ),
         }}
       />
-      <Stack.Screen 
-        name="ChangePassword" 
+      <Stack.Screen
+        name="ChangePassword"
         component={ChangePasswordScreen}
         options={{
           headerShown: true,
@@ -123,8 +123,8 @@ const StudentStackNavigator = () => {
           ),
         }}
       />
-      <Stack.Screen 
-        name="PhysicalEvaluation" 
+      <Stack.Screen
+        name="PhysicalEvaluation"
         component={PhysicalEvaluationScreen}
         options={{
           headerShown: true,
@@ -138,8 +138,8 @@ const StudentStackNavigator = () => {
           ),
         }}
       />
-      <Stack.Screen 
-        name="PhysicalEvaluationHistory" 
+      <Stack.Screen
+        name="PhysicalEvaluationHistory"
         component={PhysicalEvaluationHistoryScreen}
         options={{
           headerShown: true,
@@ -153,8 +153,8 @@ const StudentStackNavigator = () => {
           ),
         }}
       />
-      <Stack.Screen 
-        name="NotificationSettings" 
+      <Stack.Screen
+        name="NotificationSettings"
         component={NotificationSettingsScreen}
         options={{
           headerShown: true,
@@ -168,8 +168,8 @@ const StudentStackNavigator = () => {
           ),
         }}
       />
-      <Stack.Screen 
-        name="PrivacySettings" 
+      <Stack.Screen
+        name="PrivacySettings"
         component={PrivacySettingsScreen}
         options={{
           headerShown: true,

@@ -34,7 +34,7 @@ const Tab = createBottomTabNavigator();
 // Navegação para Professores
 const InstructorTabNavigator = () => {
   const { getString } = useTheme();
-  
+
   return (
     <Tab.Navigator
       screenOptions={({ route, navigation }) => ({
@@ -64,18 +64,18 @@ const InstructorTabNavigator = () => {
         },
       })}
     >
-      <Tab.Screen 
-        name=getString('dashboard') 
+      <Tab.Screen
+        name={getString('dashboard')}
         component={InstructorDashboard}
         options={{ title: getString('dashboard') }}
       />
-      <Tab.Screen 
-        name="Classes" 
+      <Tab.Screen
+        name="Classes"
         component={InstructorClasses}
         options={{ title: getString('classes') }}
       />
-      <Tab.Screen 
-        name="Students" 
+      <Tab.Screen
+        name="Students"
         component={InstructorStudents}
         options={{ title: getString('students') }}
       />
@@ -86,12 +86,12 @@ const InstructorTabNavigator = () => {
 // Stack Navigator para Instrutor (para incluir telas modais)
 const InstructorNavigator = () => {
   const { getString } = useTheme();
-  
+
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="InstructorTabs" component={InstructorTabNavigator} />
-      <Stack.Screen 
-        name="NovaAula" 
+      <Stack.Screen
+        name="NovaAula"
         component={NovaAula}
         options={{
           headerShown: true,
@@ -105,8 +105,8 @@ const InstructorNavigator = () => {
           ),
         }}
       />
-      <Stack.Screen 
-        name="ScheduleClasses" 
+      <Stack.Screen
+        name="ScheduleClasses"
         component={ScheduleClassesScreen}
         options={{
           headerShown: true,
@@ -120,8 +120,8 @@ const InstructorNavigator = () => {
           ),
         }}
       />
-      <Stack.Screen 
-        name="checkIn" 
+      <Stack.Screen
+        name="checkIn"
         component={CheckIn}
         options={{
           headerShown: true,
@@ -135,8 +135,8 @@ const InstructorNavigator = () => {
           ),
         }}
       />
-      <Stack.Screen 
-        name="Relatorios" 
+      <Stack.Screen
+        name="Relatorios"
         component={Relatorios}
         options={{
           headerShown: true,
@@ -150,8 +150,8 @@ const InstructorNavigator = () => {
           ),
         }}
       />
-      <Stack.Screen 
-        name="classDetailsScreen" 
+      <Stack.Screen
+        name="classDetailsScreen"
         component={ClassDetailsScreen}
         options={{
           headerShown: true,
@@ -165,8 +165,8 @@ const InstructorNavigator = () => {
           ),
         }}
       />
-      <Stack.Screen 
-        name="CheckIns" 
+      <Stack.Screen
+        name="CheckIns"
         component={CheckIn}
         options={{
           headerShown: true,
@@ -180,8 +180,8 @@ const InstructorNavigator = () => {
           ),
         }}
       />
-      <Stack.Screen 
-        name="addClassScreen" 
+      <Stack.Screen
+        name="addClassScreen"
         component={AddClassScreen}
         options={{
           headerShown: true,
@@ -195,8 +195,8 @@ const InstructorNavigator = () => {
           ),
         }}
       />
-      <Stack.Screen 
-        name="AddStudent" 
+      <Stack.Screen
+        name="AddStudent"
         component={AddStudentScreen}
         options={{
           headerShown: true,
@@ -210,8 +210,8 @@ const InstructorNavigator = () => {
           ),
         }}
       />
-      <Stack.Screen 
-        name="StudentProfile" 
+      <Stack.Screen
+        name="StudentProfile"
         component={StudentProfileScreen}
         options={{
           headerShown: true,
@@ -225,8 +225,8 @@ const InstructorNavigator = () => {
           ),
         }}
       />
-      <Stack.Screen 
-        name="AddGraduation" 
+      <Stack.Screen
+        name="AddGraduation"
         component={AddGraduationScreen}
         options={{
           headerShown: true,
@@ -240,10 +240,10 @@ const InstructorNavigator = () => {
           ),
         }}
       />
-      
+
       {/* Profile-related screens */}
-      <Stack.Screen 
-        name="Profile" 
+      <Stack.Screen
+        name="Profile"
         component={ProfileScreen}
         options={{
           headerShown: true,
@@ -257,8 +257,8 @@ const InstructorNavigator = () => {
           ),
         }}
       />
-      <Stack.Screen 
-        name="ChangePassword" 
+      <Stack.Screen
+        name="ChangePassword"
         component={ChangePasswordScreen}
         options={{
           headerShown: true,
@@ -272,8 +272,8 @@ const InstructorNavigator = () => {
           ),
         }}
       />
-      <Stack.Screen 
-        name="PhysicalEvaluation" 
+      <Stack.Screen
+        name="PhysicalEvaluation"
         component={PhysicalEvaluationScreen}
         options={{
           headerShown: true,
@@ -287,8 +287,8 @@ const InstructorNavigator = () => {
           ),
         }}
       />
-      <Stack.Screen 
-        name="PhysicalEvaluationHistory" 
+      <Stack.Screen
+        name="PhysicalEvaluationHistory"
         component={PhysicalEvaluationHistoryScreen}
         options={{
           headerShown: true,
@@ -302,8 +302,8 @@ const InstructorNavigator = () => {
           ),
         }}
       />
-      <Stack.Screen 
-        name="NotificationSettings" 
+      <Stack.Screen
+        name="NotificationSettings"
         component={NotificationSettingsScreen}
         options={{
           headerShown: true,
@@ -317,8 +317,8 @@ const InstructorNavigator = () => {
           ),
         }}
       />
-      <Stack.Screen 
-        name="PrivacySettings" 
+      <Stack.Screen
+        name="PrivacySettings"
         component={PrivacySettingsScreen}
         options={{
           headerShown: true,
