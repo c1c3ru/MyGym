@@ -536,29 +536,32 @@ export function useAuthFacade() {
                 const errorName = getErrorName(error);
                 const errorMessage = getErrorMessage(error);
 
-                if (errorName === getString('userProfileNotFoundError')) {
-                  // Este é um cenário esperado, não um erro crítico
-                  console.log('👤 Usuário autenticado mas sem perfil. Direcionando para criação de perfil...');
+                console.log(`🔍 [AuthFacade] Catch no listener - Name: "${errorName}", Message: "${errorMessage}"`);
 
-                  // Mantém o usuário autenticado mas sem perfil completo
+                // Verificar se o erro é de perfil não encontrado
+                const isProfileNotFound =
+                  errorName === 'UserProfileNotFoundError' ||
+                  errorName === 'userProfileNotFoundError' ||
+                  errorMessage.toLowerCase().includes('profile not found') ||
+                  errorMessage.toLowerCase().includes('perfil não encontrado') ||
+                  (typeof getString === 'function' && errorName === getString('userProfileNotFoundError'));
+
+                if (isProfileNotFound) {
+                  console.log('👤 [AuthFacade] Perfil não encontrado confirmado. Mantendo usuário para cadastro.');
+
+                  // Mantém o usuário autenticado para que possa criar o perfil
                   setUser(user);
                   setUserProfile(null);
                   setCustomClaims({
-                    role: 'student', // Papel padrão temporário
+                    role: 'student',
                     academiaId: undefined,
                     permissions: []
                   });
                   setGym(null);
-
-                  // Notificação amigável direcionando para criação de perfil
-                  showError('Bem-vindo! Precisamos configurar seu perfil para continuar. Por favor, complete suas informações.');
-
                 } else {
-                  // Para outros erros críticos, logar como erro e fazer logout
-                  console.error('🚨 Erro crítico ao carregar sessão do usuário:', { errorName, errorMessage, error });
+                  // Para outros erros realmente críticos
+                  console.error('🚨 [AuthFacade] Erro crítico real:', { errorName, errorMessage });
                   crashlyticsService.logAuthError(error, { method: 'authStateListener' });
-
-                  showError('Erro crítico na sessão. Fazendo logout por segurança.');
                   logout();
                 }
               }

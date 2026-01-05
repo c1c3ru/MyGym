@@ -75,96 +75,70 @@ const AppNavigator = () => {
   }), [loading, user, userProfile, academia, customClaims, hasValidClaims]);
 
   console.log('🧭 AppNavigator: Estado atual:', navigationState);
-  console.log('🧭 AppNavigator: Loading:', loading);
-  console.log('🧭 AppNavigator: User:', !!user);
-  console.log('🧭 AppNavigator: UserProfile:', !!userProfile);
-  console.log('🧭 AppNavigator: Academia:', !!academia);
-  console.log('🧭 AppNavigator: hasValidClaims:', hasValidClaims);
-  console.log('🧭 AppNavigator: profileCompleted:', userProfile?.profileCompleted);
-  console.log('🧭 AppNavigator: customClaims:', customClaims);
 
   if (loading) {
-    console.log('🧭 AppNavigator: Mostrando LoadingScreen - LOADING TRUE');
+    console.log('🧭 AppNavigator: Mostrando LoadingScreen');
     return <LoadingScreen />;
   }
 
-  // Se usuário não está logado, mostrar telas de autenticação
-  if (!user) {
-    console.log('🧭 AppNavigator: Renderizando AuthNavigator (usuário não logado)');
-    return (
-      <NavigationContainer>
-        <AuthNavigator />
-      </NavigationContainer>
-    );
-  }
+  // Função para renderizar o conteúdo correto baseado no estado de autenticação
+  const renderContent = () => {
+    // 1. Usuário não logado
+    if (!user) {
+      console.log('🧭 AppNavigator: Renderizando AuthNavigator');
+      return <AuthNavigator />;
+    }
 
-  // Se usuário está logado mas não tem perfil, mostrar loading
-  if (!userProfile) {
-    console.log('🧭 AppNavigator: Carregando perfil do usuário...');
-    return <LoadingScreen />;
-  }
-
-  // Se usuário não completou o perfil, mostrar seleção de tipo
-  // Verificar se realmente precisa completar o perfil (não apenas se profileCompleted é false)
-  const needsProfileCompletion = userProfile.profileCompleted === false && 
-    (!customClaims?.role || !userProfile.userType);
-  
-  if (!hasValidClaims && needsProfileCompletion) {
-    console.log('🧭 AppNavigator: Usuário precisa completar perfil, mostrando seleção de tipo');
-    console.log('🧭 AppNavigator: hasValidClaims:', hasValidClaims);
-    console.log('🧭 AppNavigator: profileCompleted:', userProfile.profileCompleted);
-    console.log('🧭 AppNavigator: customClaims.role:', customClaims?.role);
-    console.log('🧭 AppNavigator: userProfile.userType:', userProfile.userType);
-    return (
-      <NavigationContainer>
+    // 2. Usuário logado mas sem perfil (ex: login social novo ou perfil deletado)
+    if (!userProfile) {
+      console.log('🧭 AppNavigator: Usuário sem perfil. Direcionando para criação...');
+      return (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="UserTypeSelection" component={UserTypeSelectionScreen} />
         </Stack.Navigator>
-      </NavigationContainer>
-    );
-  }
+      );
+    }
 
-  // Se usuário não tem academia associada (verificar tanto no perfil quanto nos claims)
-  const hasAcademiaAssociation = userProfile.academiaId || customClaims?.academiaId;
-  
-  if (!hasAcademiaAssociation) {
-    console.log('🧭 AppNavigator: Usuário sem academia (perfil ou claims), mostrando onboarding');
-    return (
-      <NavigationContainer>
+    // 3. Usuário com perfil incompleto
+    const needsProfileCompletion = userProfile.profileCompleted === false &&
+      (!customClaims?.role || !userProfile.userType);
+
+    if (!hasValidClaims && needsProfileCompletion) {
+      console.log('🧭 AppNavigator: Perfil incompleto. Direcionando para seleção de tipo...');
+      return (
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="UserTypeSelection" component={UserTypeSelectionScreen} />
+        </Stack.Navigator>
+      );
+    }
+
+    // 4. Usuário sem academia associada
+    const hasAcademiaAssociation = userProfile.academiaId || customClaims?.academiaId;
+    if (!hasAcademiaAssociation) {
+      console.log('🧭 AppNavigator: Sem academia associada. Direcionando para onboarding...');
+      return (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="AcademyOnboarding" component={AcademyOnboardingScreen} />
         </Stack.Navigator>
-      </NavigationContainer>
-    );
-  }
+      );
+    }
 
-  // Se tem academia mas dados não carregaram ainda, mostrar loading
-  // EXCETO para admins que podem não ter academia ainda
-  const academiaId = userProfile.academiaId || customClaims?.academiaId;
-  if (!academia && academiaId) {
-    console.log('🧭 AppNavigator: Carregando dados da academia...', academiaId);
-    return <LoadingScreen />;
-  }
+    // 5. Carregando dados da academia
+    const academiaId = userProfile.academiaId || customClaims?.academiaId;
+    if (!academia && academiaId) {
+      console.log('🧭 AppNavigator: Carregando dados da academia...', academiaId);
+      return <LoadingScreen />;
+    }
 
+    // 6. App Principal
+    const userType = getFinalUserType(userProfile);
+    console.log('🧭 AppNavigator: Renderizando MainNavigator para:', userType);
+    return <MainNavigator userType={userType} />;
+  };
 
-  // Determinar tipo de usuário final (normalizado)
-  const userType = getFinalUserType(userProfile);
-  
-  // Usuário completo com academia, mostrar app principal
-  console.log('🧭 AppNavigator: Renderizando MainNavigator para:', userType, {
-    tipo: userProfile.tipo,
-    userType: userProfile.userType,
-    finalUserType: userType,
-    academiaId: userProfile.academiaId || customClaims?.academiaId,
-    academiaName: academia?.nome,
-    hasValidClaims: navigationState.hasValidClaims,
-    claimsRole: customClaims?.role,
-    claimsAcademiaId: customClaims?.academiaId
-  });
-  
   return (
     <NavigationContainer>
-      <MainNavigator userType={userType} />
+      {renderContent()}
     </NavigationContainer>
   );
 };

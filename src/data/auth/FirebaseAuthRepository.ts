@@ -162,7 +162,7 @@ export class FirebaseAuthRepository implements AuthRepository {
         updatedAt: new Date()
       };
 
-      await updateDoc(doc(this.db, 'users', userId), updateData);
+      await setDoc(doc(this.db, 'users', userId), updateData, { merge: true });
 
       // Get the updated profile
       const updatedProfile = await this.getUserProfile(userId);

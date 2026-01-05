@@ -40,7 +40,7 @@ const UserTypeSelectionScreen: React.FC<UserTypeSelectionScreenProps> = ({ navig
     {
       id: 'student' as UserType,
       tipo: 'aluno',
-      title: getString('student'),
+      title: 'Aluno',
       description: 'Sou um praticante que quer treinar e acompanhar meu progresso',
       icon: 'school',
       color: COLORS.info[500],
@@ -54,7 +54,7 @@ const UserTypeSelectionScreen: React.FC<UserTypeSelectionScreenProps> = ({ navig
     {
       id: 'instructor' as UserType,
       tipo: 'instrutor',
-      title: getString('instructor'),
+      title: 'Instrutor',
       description: 'Sou um instrutor que ministra aulas e acompanha alunos',
       icon: 'fitness-center',
       color: COLORS.warning[500],
@@ -68,7 +68,7 @@ const UserTypeSelectionScreen: React.FC<UserTypeSelectionScreenProps> = ({ navig
     {
       id: 'admin' as UserType,
       tipo: 'administrador',
-      title: getString('administrator'),
+      title: 'Administrador',
       description: 'Sou responsável pela gestão completa da academia',
       icon: 'business',
       color: COLORS.primary[500],
@@ -82,6 +82,7 @@ const UserTypeSelectionScreen: React.FC<UserTypeSelectionScreenProps> = ({ navig
   ];
 
   const handleSelectType = async () => {
+    console.log('🔘 UserTypeSelection: handleSelectType iniciado');
     if (!selectedType) {
       Alert.alert('Seleção Obrigatória', 'Por favor, selecione o tipo de usuário.');
       return;
@@ -90,19 +91,38 @@ const UserTypeSelectionScreen: React.FC<UserTypeSelectionScreenProps> = ({ navig
     setLoading(true);
     try {
       const selectedUserType = userTypes.find(type => type.id === selectedType);
-      if (!selectedUserType) return;
+      if (!selectedUserType) {
+        console.error('❌ Tipo de usuário selecionado inválido:', selectedType);
+        return;
+      }
+
+      console.log('📝 Atualizando perfil para tipo:', selectedUserType.id);
+
+      // Garantir que user.uid existe
+      if (!user?.id) {
+        throw new Error('ID do usuário não encontrado');
+      }
 
       await updateUserProfile({
         userType: selectedUserType.id,
         profileCompleted: true,
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        // Adicionar campos obrigatórios para criação de perfil
+        name: user.displayName || user.email?.split('@')[0] || 'Usuário',
+        email: user.email || '',
+        isActive: true
       });
 
-      // O AppNavigator irá detectar a mudança e redirecionar automaticamente
-      console.log('✅ UserTypeSelection: Perfil atualizado, AppNavigator irá redirecionar');
+      console.log('✅ UserTypeSelection: Perfil atualizado/criado com sucesso!');
+
+      // Forçar um reload da página se estiver na web para garantir atualização do estado
+      if (Platform.OS === 'web') {
+        window.location.reload();
+      }
+
     } catch (error) {
-      console.error('Erro ao atualizar perfil:', error);
-      Alert.alert(getString('error'), 'Não foi possível salvar o tipo de usuário. Tente novamente.');
+      console.error('❌ Erro ao atualizar perfil:', error);
+      Alert.alert('Erro', `Não foi possível salvar o tipo de usuário: ${(error as Error).message}`);
     } finally {
       setLoading(false);
     }
