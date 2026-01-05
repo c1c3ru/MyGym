@@ -162,6 +162,12 @@ export class FirebaseAuthRepository implements AuthRepository {
         updatedAt: new Date()
       };
 
+      console.log('📝 [FirebaseAuthRepository] Atualizando perfil:', {
+        userId,
+        authUid: this.auth.currentUser?.uid,
+        match: userId === this.auth.currentUser?.uid
+      });
+
       await setDoc(doc(this.db, 'users', userId), updateData, { merge: true });
 
       // Get the updated profile
