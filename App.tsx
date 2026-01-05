@@ -18,16 +18,16 @@ export default function App() {
         <PaperProvider>
           <ThemeToggleProvider>
             <ThemeProvider>
-              <AuthProvider>
-                <NotificationProvider>
+              <NotificationProvider>
+                <AuthProvider>
                   <UndoProvider>
                     <OnboardingProvider>
                       <StatusBar style="auto" />
                       <AppNavigator />
                     </OnboardingProvider>
                   </UndoProvider>
-                </NotificationProvider>
-              </AuthProvider>
+                </AuthProvider>
+              </NotificationProvider>
             </ThemeProvider>
           </ThemeToggleProvider>
         </PaperProvider>
