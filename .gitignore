@@ -55,3 +55,7 @@ tmp/
 
 # Relatórios gerados (podem ser recriados)
 docs/reports/*.json
+
+# APK files (build artifacts)
+*.apk
+*.aab
