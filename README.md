@@ -253,15 +253,43 @@ eas build --platform all
 - [x] Mappers para conversão de dados
 - [x] Use Cases testáveis
 
-## 🚀 Próximas Funcionalidades
+## 🚀 Funcionalidades Firebase Implementadas
 
-- [ ] Sistema de check-in com geolocalização
-- [ ] Notificações push
-- [ ] Chat entre usuários
-- [ ] Relatórios avançados
-- [ ] Integração com pagamentos online
-- [ ] Sistema de avaliações
-- [ ] Backup automático de dados
+### ✅ Implementado Recentemente (Janeiro 2026)
+
+- [x] **Firebase Cloud Messaging (FCM)** - Sistema completo de notificações push
+  - Notificações de novas aulas
+  - Lembretes de pagamento (diários às 9h)
+  - Lembretes de aulas (2h antes)
+  - Gerenciamento automático de tokens
+  
+- [x] **Cloud Functions** - 7 functions prontas para produção
+  - Check-in com geolocalização (raio de 100m)
+  - Processamento de pagamentos (template)
+  - Processamento automático de avaliações
+  - Sistema de notificações agendadas
+  
+- [x] **Cloud Storage** - Backup e armazenamento
+  - Backup automático diário do Firestore (2h da manhã)
+  - Limpeza automática de backups antigos (30 dias)
+  - Upload de fotos de perfil
+  
+- [x] **Firestore para Chat** - Estrutura para mensagens em tempo real
+  - Listeners em tempo real
+  - Queries otimizadas
+
+**📚 Documentação Completa:**
+- [Guia de Setup Firebase](docs/FIREBASE_SETUP.md)
+- [Resumo de Implementação](docs/FIREBASE_IMPLEMENTATION_SUMMARY.md)
+- [README Cloud Functions](functions/README.md)
+
+### 🔜 Próximas Funcionalidades
+
+- [ ] Interface de chat no app
+- [ ] Integração com Mercado Pago/Stripe
+- [ ] Relatórios avançados com Analytics
+- [ ] Sistema de gamificação
+- [ ] Videochamadas para aulas online
 
 ## 🤝 Contribuição
 
