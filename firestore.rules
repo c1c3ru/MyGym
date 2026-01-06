@@ -223,12 +223,11 @@ service cloud.firestore {
                            gymId == getAcademiaId() && 
                            isAdmin();
       
-      // Instrutor pode ler APENAS seus próprios dados
+      // Instrutor pode ler dados de TODOS os instrutores da mesma academia
       allow read: if request.auth != null && 
                      hasValidAcademia() &&
                      gymId == getAcademiaId() && 
-                     isInstructor() && 
-                     request.auth.uid == instructorId;
+                     isInstructor();
     }
     
     // Avaliações físicas da academia

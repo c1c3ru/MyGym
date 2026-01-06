@@ -307,470 +307,480 @@ const InstructorDashboard = ({ navigation }) => {
       }}
       errorContext={{ screen: 'InstructorDashboard', academiaId: userProfile?.academiaId, instructorId: user?.uid }}
     >
-      <SafeAreaView style={styles.container}>
-        <ScrollView
-          style={styles.scrollView}
-          showsVerticalScrollIndicator={false}
-          onScroll={Animated.event(
-            [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-            { useNativeDriver: false }
-          )}
-          scrollEventThrottle={16}
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={onRefresh}
-              colors={[COLORS.primary[500]]}
-              tintColor={COLORS.primary[500]}
-            />
-          }
-        >
-          {/* Header Moderno com Gradiente */}
-          <Animated.View style={[headerTransform]}>
-            <View style={styles.headerContainer}>
-              <LinearGradient
-                colors={[COLORS.primary[500], COLORS.primary[600], COLORS.primary[700]]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
-                style={styles.headerGradient}
-              >
-                <View style={styles.headerContent}>
-                  <Animated.View
-                    style={{
-                      transform: [{ scale: animations.scaleAnim }],
-                    }}
-                  >
-                    <Avatar.Text
-                      size={ResponsiveUtils.isTablet() ? 85 : 65}
-                      label={userProfile?.name?.charAt(0) || 'P'}
-                      style={styles.avatar}
-                    />
-                  </Animated.View>
-                  <View style={styles.headerText}>
-                    <Text style={styles.welcomeText}>
-                      {getString('hello')}, {userProfile?.name?.split(' ')[0] || 'Professor'}! 👋
-                    </Text>
-                    <Text style={styles.roleText}>
-                      {userProfile?.specialties?.join(' • ') || getString('martialArtsInstructor')}
-                    </Text>
-                    <View style={styles.statusBadge}>
-                      <MaterialCommunityIcons name="circle" size={8} color={COLORS.primary[500]} />
-                      <Text style={styles.statusText}>{getString('online')}</Text>
+      <LinearGradient
+        colors={['#1E1E1E', '#121212', '#000000']}
+        style={{ flex: 1 }}
+      >
+        <SafeAreaView style={[styles.container, { backgroundColor: 'transparent' }]}>
+          <ScrollView
+            style={styles.scrollView}
+            showsVerticalScrollIndicator={false}
+            onScroll={Animated.event(
+              [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+              { useNativeDriver: false }
+            )}
+            scrollEventThrottle={16}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+                colors={[COLORS.primary[500]]}
+                tintColor={COLORS.primary[500]}
+              />
+            }
+          >
+            {/* Header Moderno com Gradiente */}
+            <Animated.View style={[headerTransform]}>
+              <View style={styles.headerContainer}>
+                <LinearGradient
+                  colors={[COLORS.primary[500], COLORS.primary[600], COLORS.primary[700]]}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 1 }}
+                  style={styles.headerGradient}
+                >
+                  <View style={styles.headerContent}>
+                    <Animated.View
+                      style={{
+                        transform: [{ scale: animations.scaleAnim }],
+                      }}
+                    >
+                      <Avatar.Text
+                        size={ResponsiveUtils.isTablet() ? 85 : 65}
+                        label={userProfile?.name?.charAt(0) || 'P'}
+                        style={styles.avatar}
+                      />
+                    </Animated.View>
+                    <View style={styles.headerText}>
+                      <Text style={styles.welcomeText}>
+                        {getString('hello')}, {userProfile?.name?.split(' ')[0] || 'Professor'}! 👋
+                      </Text>
+                      <Text style={styles.roleText}>
+                        {userProfile?.specialties?.join(' • ') || getString('martialArtsInstructor')}
+                      </Text>
+                      <View style={styles.statusBadge}>
+                        <MaterialCommunityIcons name="circle" size={8} color={COLORS.primary[500]} />
+                        <Text style={styles.statusText}>{getString('online')}</Text>
+                      </View>
                     </View>
+                    <Animated.View style={{ opacity: animations.fadeAnim }}>
+                      <MaterialCommunityIcons
+                        name="account-star"
+                        size={24}
+                        color={COLORS.white}
+                      />
+                    </Animated.View>
                   </View>
-                  <Animated.View style={{ opacity: animations.fadeAnim }}>
-                    <MaterialCommunityIcons
-                      name="account-star"
-                      size={24}
-                      color={COLORS.white}
-                    />
+                </LinearGradient>
+              </View>
+            </Animated.View>
+
+            {/* Cards de Estatísticas Modernos */}
+            <View style={styles.statsContainer}>
+              <Animated.View style={[styles.statCard, { opacity: animations.fadeAnim }]}>
+                <LinearGradient
+                  colors={['rgba(255,255,255,0.05)', 'rgba(255,255,255,0.02)']}
+                  style={styles.statGradient}
+                >
+                  <MaterialCommunityIcons name="school-outline" size={32} color={COLORS.primary[400]} />
+                  <Text style={styles.statNumber}>{dashboardData.myClasses.length}</Text>
+                  <Text style={styles.statLabel}>{getString('myClasses')}</Text>
+                </LinearGradient>
+              </Animated.View>
+
+              <Animated.View style={[styles.statCard, { opacity: animations.fadeAnim }]}>
+                <LinearGradient
+                  colors={['rgba(255,255,255,0.05)', 'rgba(255,255,255,0.02)']}
+                  style={styles.statGradient}
+                >
+                  <MaterialCommunityIcons name="account-group" size={32} color={COLORS.info[400]} />
+                  <Text style={styles.statNumber}>{dashboardData.totalStudents}</Text>
+                  <Text style={styles.statLabel}>{getString('totalStudents')}</Text>
+                </LinearGradient>
+              </Animated.View>
+
+              <Animated.View style={[styles.statCard, { opacity: animations.fadeAnim }]}>
+                <LinearGradient
+                  colors={['rgba(255,255,255,0.05)', 'rgba(255,255,255,0.02)']}
+                  style={styles.statGradient}
+                >
+                  <MaterialCommunityIcons name="calendar-today" size={32} color={COLORS.warning[400]} />
+                  <Text style={styles.statNumber}>{dashboardData.todayClasses.length}</Text>
+                  <Text style={styles.statLabel}>{getString('classesToday')}</Text>
+                </LinearGradient>
+              </Animated.View>
+
+              <Animated.View style={[styles.statCard, { opacity: animations.fadeAnim }]}>
+                <LinearGradient
+                  colors={['rgba(255,255,255,0.05)', 'rgba(255,255,255,0.02)']}
+                  style={styles.statGradient}
+                >
+                  <MaterialCommunityIcons name="check-circle" size={32} color={COLORS.secondary[400]} />
+                  <Text style={styles.statNumber}>{dashboardData.activeCheckIns}</Text>
+                  <Text style={styles.statLabel}>{getString('checkIns')}</Text>
+                </LinearGradient>
+              </Animated.View>
+            </View>
+
+            {/* Timeline de Aulas Hoje */}
+            <AnimatedCard delay={200} style={styles.modernCard}>
+              <Card.Content>
+                <View style={styles.modernCardHeader}>
+                  <View style={styles.headerIconContainer}>
+                    <MaterialCommunityIcons name="clock-time-four" size={24} color={COLORS.info[400]} />
+                  </View>
+                  <View>
+                    <Text style={styles.modernCardTitle}>{getString('todaySchedule')}</Text>
+                    <Text style={styles.modernCardSubtitle}>
+                      {dashboardData.todayClasses.length} {getString('classesScheduled')}
+                    </Text>
+                  </View>
+                </View>
+
+                {dashboardData.todayClasses.length > 0 ? (
+                  <View style={styles.timelineContainer}>
+                    {dashboardData.todayClasses.map((classItem, index) => (
+                      <Animated.View
+                        key={index}
+                        style={[
+                          styles.timelineItem,
+                          { opacity: animations.fadeAnim }
+                        ]}
+                      >
+                        <View style={styles.timelineDot} />
+                        <View style={styles.timelineContent}>
+                          <View style={styles.timelineHeader}>
+                            <Text style={styles.timelineTitle}>{classItem.name}</Text>
+                            <Chip
+                              mode="flat"
+                              style={styles.modernChip}
+                              textStyle={styles.chipText}
+                            >
+                              {classItem.modality}
+                            </Chip>
+                          </View>
+
+                          <View style={styles.timelineDetails}>
+                            <View style={styles.timelineInfo}>
+                              <MaterialCommunityIcons name="clock" size={16} color={COLORS.gray[400]} />
+                              <Text style={styles.timelineText}>
+                                {classItem.schedule?.map(s =>
+                                  `${formatTime(s.hour, s.minute)}`
+                                ).join(', ')}
+                              </Text>
+                            </View>
+
+                            <View style={styles.timelineInfo}>
+                              <MaterialCommunityIcons name="account-multiple" size={16} color={COLORS.gray[400]} />
+                              <Text style={styles.timelineText}>
+                                {classItem.currentStudents || 0}/{classItem.maxCapacity || getString('notAvailable')} {getString('students')}
+                              </Text>
+                            </View>
+                          </View>
+
+                          <AnimatedButton
+                            mode="contained"
+                            onPress={() => navigation.navigate(getString('classes'), { classId: classItem.id })}
+                            style={styles.timelineButton}
+                            compact
+                            buttonColor={COLORS.primary[600]}
+                            textColor={COLORS.white}
+                          >
+                            {getString('manageClass')}
+                          </AnimatedButton>
+                        </View>
+                        {index < dashboardData.todayClasses.length - 1 && (
+                          <View style={styles.timelineLine} />
+                        )}
+                      </Animated.View>
+                    ))}
+                  </View>
+                ) : (
+                  <View style={styles.emptyState}>
+                    <MaterialCommunityIcons name="calendar-blank" size={48} color={COLORS.gray[600]} />
+                    <Text style={styles.emptyStateText}>{getString('noClassesToday')}</Text>
+                    <Text style={styles.emptyStateSubtext}>{getString('planNextClasses')}</Text>
+                  </View>
+                )}
+              </Card.Content>
+            </AnimatedCard>
+
+            {/* Ações Rápidas Modernizadas */}
+            <AnimatedCard delay={300} style={styles.modernCard}>
+              <Card.Content>
+                <View style={styles.modernCardHeader}>
+                  <View style={styles.headerIconContainer}>
+                    <MaterialCommunityIcons name="lightning-bolt" size={24} color={COLORS.warning[400]} />
+                  </View>
+                  <View>
+                    <Text style={styles.modernCardTitle}>{getString('quickActions')}</Text>
+                    <Text style={styles.modernCardSubtitle}>{getString('directAccessFunctionalities')}</Text>
+                  </View>
+                </View>
+
+                <View style={styles.modernQuickActions}>
+                  <Animated.View style={[styles.actionCard, { opacity: animations.fadeAnim }]}>
+                    <LinearGradient
+                      colors={['rgba(255,255,255,0.05)', 'rgba(255,255,255,0.02)']}
+                      style={styles.actionGradient}
+                    >
+                      <MaterialCommunityIcons name="calendar-plus" size={28} color={COLORS.primary[400]} />
+                      <Text style={styles.actionTitle}>{getString('scheduleClasses')}</Text>
+                      <Text style={styles.actionSubtitle}>{getString('addClassesToYourClasses')}</Text>
+                      <AnimatedButton
+                        mode="contained"
+                        onPress={() => {
+                          if (dashboardData.classes?.length > 0) {
+                            navigation.navigate('ScheduleClasses', {
+                              classes: dashboardData.classes
+                            });
+                          } else {
+                            Alert.alert(
+                              getString('noClassesTitle'),
+                              getString('needOneClassToSchedule'),
+                              [
+                                { text: getString('cancel'), style: 'cancel' },
+                                { text: getString('createClassAction'), onPress: () => navigation.navigate(getString('addClassScreen')) }
+                              ]
+                            );
+                          }
+                        }}
+                        style={styles.modernActionButton}
+                        buttonColor={COLORS.primary[600]}
+                        textColor={COLORS.white}
+                        compact
+                      >
+                        {getString('scheduleAction')}
+                      </AnimatedButton>
+                    </LinearGradient>
+                  </Animated.View>
+
+                  <Animated.View style={[styles.actionCard, { opacity: animations.fadeAnim }]}>
+                    <LinearGradient
+                      colors={['rgba(255,255,255,0.05)', 'rgba(255,255,255,0.02)']}
+                      style={styles.actionGradient}
+                    >
+                      <MaterialCommunityIcons name="qrcode-scan" size={28} color={COLORS.info[400]} />
+                      <Text style={styles.actionTitle}>{getString('checkIn')}</Text>
+                      <Text style={styles.actionSubtitle}>{getString('digitalAttendance')}</Text>
+                      <AnimatedButton
+                        mode="contained"
+                        onPress={() => navigation.navigate('CheckIn')}
+                        style={styles.modernActionButton}
+                        buttonColor={COLORS.info[600]}
+                        textColor={COLORS.white}
+                        compact
+                      >
+                        {getString('open')}
+                      </AnimatedButton>
+                    </LinearGradient>
+                  </Animated.View>
+
+                  <Animated.View style={[styles.actionCard, { opacity: animations.fadeAnim, marginTop: 10 }]}>
+                    <LinearGradient
+                      colors={['rgba(255,255,255,0.05)', 'rgba(255,255,255,0.02)']}
+                      style={styles.actionGradient}
+                    >
+                      <MaterialCommunityIcons name="chart-line" size={28} color={COLORS.secondary[400]} />
+                      <Text style={styles.actionTitle}>{getString('reports')}</Text>
+                      <Text style={styles.actionSubtitle}>{getString('dataAnalysis')}</Text>
+                      <AnimatedButton
+                        mode="contained"
+                        onPress={() => navigation.navigate('Relatorios')}
+                        style={styles.modernActionButton}
+                        buttonColor={COLORS.secondary[600]}
+                        textColor={COLORS.white}
+                        compact
+                      >
+                        {getString('view')}
+                      </AnimatedButton>
+                    </LinearGradient>
                   </Animated.View>
                 </View>
-              </LinearGradient>
-            </View>
-          </Animated.View>
+              </Card.Content>
+            </AnimatedCard>
 
-          {/* Cards de Estatísticas Modernos */}
-          <View style={styles.statsContainer}>
-            <Animated.View style={[styles.statCard, { opacity: animations.fadeAnim }]}>
-              <LinearGradient
-                colors={[COLORS.primary[500], COLORS.primary[600]]}
-                style={styles.statGradient}
-              >
-                <MaterialCommunityIcons name="school-outline" size={32} color={COLORS.white} />
-                <Text style={styles.statNumber}>{dashboardData.myClasses.length}</Text>
-                <Text style={styles.statLabel}>{getString('myClasses')}</Text>
-              </LinearGradient>
-            </Animated.View>
-
-            <Animated.View style={[styles.statCard, { opacity: animations.fadeAnim }]}>
-              <LinearGradient
-                colors={[COLORS.info[500], COLORS.info[700]]}
-                style={styles.statGradient}
-              >
-                <MaterialCommunityIcons name="account-group" size={32} color={COLORS.white} />
-                <Text style={styles.statNumber}>{dashboardData.totalStudents}</Text>
-                <Text style={styles.statLabel}>{getString('totalStudents')}</Text>
-              </LinearGradient>
-            </Animated.View>
-
-            <Animated.View style={[styles.statCard, { opacity: animations.fadeAnim }]}>
-              <LinearGradient
-                colors={[COLORS.warning[500], COLORS.warning[600]]}
-                style={styles.statGradient}
-              >
-                <MaterialCommunityIcons name="calendar-today" size={32} color={COLORS.white} />
-                <Text style={styles.statNumber}>{dashboardData.todayClasses.length}</Text>
-                <Text style={styles.statLabel}>{getString('classesToday')}</Text>
-              </LinearGradient>
-            </Animated.View>
-
-            <Animated.View style={[styles.statCard, { opacity: animations.fadeAnim }]}>
-              <LinearGradient
-                colors={[COLORS.secondary[500], COLORS.secondary[700]]}
-                style={styles.statGradient}
-              >
-                <MaterialCommunityIcons name="check-circle" size={32} color={COLORS.white} />
-                <Text style={styles.statNumber}>{dashboardData.activeCheckIns}</Text>
-                <Text style={styles.statLabel}>{getString('checkIns')}</Text>
-              </LinearGradient>
-            </Animated.View>
-          </View>
-
-          {/* Timeline de Aulas Hoje */}
-          <AnimatedCard delay={200} style={styles.modernCard}>
-            <Card.Content>
-              <View style={styles.modernCardHeader}>
-                <View style={styles.headerIconContainer}>
-                  <MaterialCommunityIcons name="clock-time-four" size={24} color={COLORS.info[500]} />
+            {/* Avisos e Comunicados */}
+            <AnimatedCard delay={350} style={styles.modernCard}>
+              <Card.Content>
+                <View style={styles.modernCardHeader}>
+                  <View style={styles.headerIconContainer}>
+                    <MaterialCommunityIcons name="bullhorn" size={24} color={COLORS.error[400]} />
+                  </View>
+                  <View style={styles.headerTitleContainer}>
+                    <Text style={styles.modernCardTitle}>{getString('announcements')}</Text>
+                    <Text style={styles.modernCardSubtitle}>{getString('importantCommunications')}</Text>
+                  </View>
+                  <AnimatedButton
+                    icon="refresh"
+                    mode="text"
+                    onPress={loadAnnouncements}
+                    loading={loadingAnnouncements}
+                    compact
+                    style={styles.refreshButton}
+                    textColor={COLORS.primary[400]}
+                  >
+                    {loadingAnnouncements ? '' : getString('update')}
+                  </AnimatedButton>
                 </View>
-                <View>
-                  <Text style={styles.modernCardTitle}>{getString('todaySchedule')}</Text>
-                  <Text style={styles.modernCardSubtitle}>
-                    {dashboardData.todayClasses.length} {getString('classesScheduled')}
+
+                {loadingAnnouncements ? (
+                  <View style={styles.loadingContainer}>
+                    <ActivityIndicator size="small" color={COLORS.primary[400]} />
+                    <Text style={styles.loadingText}>{getString('loadingAnnouncements')}</Text>
+                  </View>
+                ) : announcements.length > 0 ? (
+                  <View style={styles.announcementsContainer}>
+                    {announcements.map((announcement, index) => (
+                      <View
+                        key={announcement.id}
+                        style={[
+                          styles.announcementItem,
+                          announcement.priority > 0 && styles.highPriorityAnnouncement
+                        ]}
+                      >
+                        {announcement.priority > 0 && (
+                          <View style={styles.priorityBadge}>
+                            <MaterialCommunityIcons name="alert-circle" size={16} color={COLORS.warning[400]} />
+                            <Text style={styles.priorityText}>{getString('important')}</Text>
+                          </View>
+                        )}
+                        <Text style={styles.announcementTitle}>
+                          {announcement.title}
+                        </Text>
+                        <Text style={styles.announcementMessage}>
+                          {announcement.message}
+                        </Text>
+                        <View style={styles.announcementFooter}>
+                          <Text style={styles.announcementDate}>
+                            {announcement.date}
+                          </Text>
+                          {announcement.isRead && (
+                            <MaterialCommunityIcons name="check-all" size={16} color={COLORS.primary[400]} />
+                          )}
+                        </View>
+                        {index < announcements.length - 1 && <Divider style={styles.announcementDivider} />}
+                      </View>
+                    ))}
+                  </View>
+                ) : (
+                  <View style={styles.emptyState}>
+                    <MaterialCommunityIcons name="bell-off-outline" size={48} color={COLORS.gray[600]} />
+                    <Text style={styles.emptyStateText}>{getString('noAnnouncementsNow')}</Text>
+                    <Text style={styles.emptyStateSubtext}>{getString('notifyNewCommunications')}</Text>
+                  </View>
+                )}
+              </Card.Content>
+            </AnimatedCard>
+
+            {/* Graduações Recentes */}
+            <AnimatedCard delay={400} style={styles.card}>
+              <Card.Content>
+                <View style={styles.cardHeader}>
+                  <Ionicons name="trophy-outline" size={24} color={COLORS.warning[400]} />
+                  <Text style={[styles.cardTitle, { fontSize: ResponsiveUtils.fontSize.medium }]}>
+                    {getString('recentGraduations')}
                   </Text>
                 </View>
-              </View>
 
-              {dashboardData.todayClasses.length > 0 ? (
-                <View style={styles.timelineContainer}>
-                  {dashboardData.todayClasses.map((classItem, index) => (
+                {dashboardData.recentGraduations.length > 0 ? (
+                  dashboardData.recentGraduations.map((graduation, index) => (
+                    <Animated.View
+                      key={index}
+                      style={{
+                        opacity: animations.fadeAnim,
+                        transform: [{
+                          translateX: animations.slideAnim.interpolate({
+                            inputRange: [-50, 0],
+                            outputRange: [-30, 0],
+                          })
+                        }]
+                      }}
+                    >
+                      <List.Item
+                        title={`${graduation.studentName} - ${graduation.graduation}`}
+                        description={`${graduation.modality} • ${graduation.date.toLocaleDateString('pt-BR')}`}
+                        titleStyle={{ fontSize: ResponsiveUtils.fontSize.medium, color: COLORS.white }}
+                        descriptionStyle={{ fontSize: ResponsiveUtils.fontSize.small, color: COLORS.gray[400] }}
+                        left={() => <List.Icon icon="trophy" color={COLORS.warning[400]} />}
+                      />
+                    </Animated.View>
+                  ))
+                ) : (
+                  <Text style={[styles.emptyText, { fontSize: ResponsiveUtils.fontSize.small }]}>
+                    {getString('noRecentGraduations')}
+                  </Text>
+                )}
+
+                <AnimatedButton
+                  mode="text"
+                  onPress={() => {/* Implementar histórico completo */ }}
+                  style={styles.viewAllButton}
+                  textColor={COLORS.primary[400]}
+                >
+                  {getString('viewAllGraduations')}
+                </AnimatedButton>
+              </Card.Content>
+            </AnimatedCard>
+
+            {/* Próximas Aulas */}
+            <AnimatedCard delay={500} style={styles.card}>
+              <Card.Content>
+                <View style={styles.cardHeader}>
+                  <Ionicons name="calendar-outline" size={24} color={COLORS.warning[400]} />
+                  <Text style={[styles.cardTitle, { fontSize: ResponsiveUtils.fontSize.medium }]}>
+                    {getString('upcomingClasses')}
+                  </Text>
+                </View>
+
+                {dashboardData.upcomingClasses.length > 0 ? (
+                  dashboardData.upcomingClasses.map((classItem, index) => (
                     <Animated.View
                       key={index}
                       style={[
-                        styles.timelineItem,
-                        { opacity: animations.fadeAnim }
+                        styles.upcomingClass,
+                        {
+                          opacity: animations.fadeAnim,
+                          transform: [{
+                            translateY: animations.slideAnim.interpolate({
+                              inputRange: [-50, 0],
+                              outputRange: [-15, 0],
+                            })
+                          }]
+                        }
                       ]}
                     >
-                      <View style={styles.timelineDot} />
-                      <View style={styles.timelineContent}>
-                        <View style={styles.timelineHeader}>
-                          <Text style={styles.timelineTitle}>{classItem.name}</Text>
-                          <Chip
-                            mode="flat"
-                            style={styles.modernChip}
-                            textStyle={styles.chipText}
-                          >
-                            {classItem.modality}
-                          </Chip>
-                        </View>
-
-                        <View style={styles.timelineDetails}>
-                          <View style={styles.timelineInfo}>
-                            <MaterialCommunityIcons name="clock" size={16} color={COLORS.gray[500]} />
-                            <Text style={styles.timelineText}>
-                              {classItem.schedule?.map(s =>
-                                `${formatTime(s.hour, s.minute)}`
-                              ).join(', ')}
-                            </Text>
-                          </View>
-
-                          <View style={styles.timelineInfo}>
-                            <MaterialCommunityIcons name="account-multiple" size={16} color={COLORS.gray[500]} />
-                            <Text style={styles.timelineText}>
-                              {classItem.currentStudents || 0}/{classItem.maxCapacity || getString('notAvailable')} {getString('students')}
-                            </Text>
-                          </View>
-                        </View>
-
-                        <AnimatedButton
-                          mode="contained"
-                          onPress={() => navigation.navigate(getString('classes'), { classId: classItem.id })}
-                          style={styles.timelineButton}
-                          compact
-                        >
-                          {getString('manageClass')}
-                        </AnimatedButton>
-                      </View>
-                      {index < dashboardData.todayClasses.length - 1 && (
-                        <View style={styles.timelineLine} />
+                      <Text style={[styles.upcomingClassName, { fontSize: ResponsiveUtils.fontSize.medium }]}>
+                        {classItem.name}
+                      </Text>
+                      <Text style={[styles.upcomingClassInfo, { fontSize: ResponsiveUtils.fontSize.small }]}>
+                        {classItem.modality} • {classItem.schedule?.[0] ?
+                          `${getDayName(classItem.schedule[0].dayOfWeek)} ${formatTime(classItem.schedule[0].hour)}`
+                          : getString('scheduleNotDefined')}
+                      </Text>
+                      {index < dashboardData.upcomingClasses.length - 1 && (
+                        <Divider style={styles.divider} />
                       )}
                     </Animated.View>
-                  ))}
-                </View>
-              ) : (
-                <View style={styles.emptyState}>
-                  <MaterialCommunityIcons name="calendar-blank" size={48} color={COLORS.gray[400]} />
-                  <Text style={styles.emptyStateText}>{getString('noClassesToday')}</Text>
-                  <Text style={styles.emptyStateSubtext}>{getString('planNextClasses')}</Text>
-                </View>
-              )}
-            </Card.Content>
-          </AnimatedCard>
+                  ))
+                ) : (
+                  <Text style={[styles.emptyText, { fontSize: ResponsiveUtils.fontSize.small }]}>
+                    {getString('noUpcomingClasses')}
+                  </Text>
+                )}
 
-          {/* Ações Rápidas Modernizadas */}
-          <AnimatedCard delay={300} style={styles.modernCard}>
-            <Card.Content>
-              <View style={styles.modernCardHeader}>
-                <View style={styles.headerIconContainer}>
-                  <MaterialCommunityIcons name="lightning-bolt" size={24} color={COLORS.warning[500]} />
-                </View>
-                <View>
-                  <Text style={styles.modernCardTitle}>{getString('quickActions')}</Text>
-                  <Text style={styles.modernCardSubtitle}>{getString('directAccessFunctionalities')}</Text>
-                </View>
-              </View>
-
-              <View style={styles.modernQuickActions}>
-                <Animated.View style={[styles.actionCard, { opacity: animations.fadeAnim }]}>
-                  <LinearGradient
-                    colors={[COLORS.primary[500], COLORS.primary[600]]}
-                    style={styles.actionGradient}
-                  >
-                    <MaterialCommunityIcons name="calendar-plus" size={28} color={COLORS.white} />
-                    <Text style={styles.actionTitle}>Agendar Aulas</Text>
-                    <Text style={styles.actionSubtitle}>Adicione aulas às suas turmas</Text>
-                    <AnimatedButton
-                      mode="contained"
-                      onPress={() => {
-                        if (dashboardData.classes?.length > 0) {
-                          navigation.navigate('ScheduleClasses', {
-                            classes: dashboardData.classes
-                          });
-                        } else {
-                          Alert.alert(
-                            'Nenhuma Turma',
-                            'Você precisa ter pelo menos uma turma criada para agendar aulas.',
-                            [
-                              { text: getString('cancel'), style: 'cancel' },
-                              { text: 'Criar Turma', onPress: () => navigation.navigate(getString('addClassScreen')) }
-                            ]
-                          );
-                        }
-                      }}
-                      style={styles.modernActionButton}
-                      buttonColor="whiteTransparent"
-                      textColor={COLORS.white}
-                      compact
-                    >
-                      Agendar
-                    </AnimatedButton>
-                  </LinearGradient>
-                </Animated.View>
-
-                <Animated.View style={[styles.actionCard, { opacity: animations.fadeAnim }]}>
-                  <LinearGradient
-                    colors={[COLORS.info[500], COLORS.info[700]]}
-                    style={styles.actionGradient}
-                  >
-                    <MaterialCommunityIcons name="qrcode-scan" size={28} color={COLORS.white} />
-                    <Text style={styles.actionTitle}>{getString('checkIn')}</Text>
-                    <Text style={styles.actionSubtitle}>{getString('digitalAttendance')}</Text>
-                    <AnimatedButton
-                      mode="contained"
-                      onPress={() => navigation.navigate('CheckIn')}
-                      style={styles.modernActionButton}
-                      buttonColor="whiteTransparent"
-                      textColor={COLORS.white}
-                      compact
-                    >
-                      {getString('open')}
-                    </AnimatedButton>
-                  </LinearGradient>
-                </Animated.View>
-
-                <Animated.View style={[styles.actionCard, { opacity: animations.fadeAnim }]}>
-                  <LinearGradient
-                    colors={[COLORS.secondary[500], COLORS.secondary[700]]}
-                    style={styles.actionGradient}
-                  >
-                    <MaterialCommunityIcons name="chart-line" size={28} color={COLORS.white} />
-                    <Text style={styles.actionTitle}>{getString('reports')}</Text>
-                    <Text style={styles.actionSubtitle}>{getString('dataAnalysis')}</Text>
-                    <AnimatedButton
-                      mode="contained"
-                      onPress={() => navigation.navigate('Relatorios')}
-                      style={styles.modernActionButton}
-                      buttonColor="whiteTransparent"
-                      textColor={COLORS.white}
-                      compact
-                    >
-                      {getString('view')}
-                    </AnimatedButton>
-                  </LinearGradient>
-                </Animated.View>
-              </View>
-            </Card.Content>
-          </AnimatedCard>
-
-          {/* Avisos e Comunicados */}
-          <AnimatedCard delay={350} style={styles.modernCard}>
-            <Card.Content>
-              <View style={styles.modernCardHeader}>
-                <View style={styles.headerIconContainer}>
-                  <MaterialCommunityIcons name="bullhorn" size={24} color={COLORS.error[500]} />
-                </View>
-                <View style={styles.headerTitleContainer}>
-                  <Text style={styles.modernCardTitle}>{getString('announcements')}</Text>
-                  <Text style={styles.modernCardSubtitle}>{getString('importantCommunications')}</Text>
-                </View>
                 <AnimatedButton
-                  icon="refresh"
-                  mode="text"
-                  onPress={loadAnnouncements}
-                  loading={loadingAnnouncements}
-                  compact
-                  style={styles.refreshButton}
+                  mode="outlined"
+                  onPress={() => navigation.navigate(getString('classes'))}
+                  style={styles.viewAllButton}
+                  textColor={COLORS.white}
                 >
-                  {loadingAnnouncements ? '' : getString('update')}
+                  {getString('viewAllClasses')}
                 </AnimatedButton>
-              </View>
-
-              {loadingAnnouncements ? (
-                <View style={styles.loadingContainer}>
-                  <ActivityIndicator size="small" color={COLORS.primary[500]} />
-                  <Text style={styles.loadingText}>{getString('loadingAnnouncements')}</Text>
-                </View>
-              ) : announcements.length > 0 ? (
-                <View style={styles.announcementsContainer}>
-                  {announcements.map((announcement, index) => (
-                    <View
-                      key={announcement.id}
-                      style={[
-                        styles.announcementItem,
-                        announcement.priority > 0 && styles.highPriorityAnnouncement
-                      ]}
-                    >
-                      {announcement.priority > 0 && (
-                        <View style={styles.priorityBadge}>
-                          <MaterialCommunityIcons name="alert-circle" size={16} color={COLORS.warning[400]} />
-                          <Text style={styles.priorityText}>{getString('important')}</Text>
-                        </View>
-                      )}
-                      <Text style={styles.announcementTitle}>
-                        {announcement.title}
-                      </Text>
-                      <Text style={styles.announcementMessage}>
-                        {announcement.message}
-                      </Text>
-                      <View style={styles.announcementFooter}>
-                        <Text style={styles.announcementDate}>
-                          {announcement.date}
-                        </Text>
-                        {announcement.isRead && (
-                          <MaterialCommunityIcons name="check-all" size={16} color={COLORS.primary[500]} />
-                        )}
-                      </View>
-                      {index < announcements.length - 1 && <Divider style={styles.announcementDivider} />}
-                    </View>
-                  ))}
-                </View>
-              ) : (
-                <View style={styles.emptyState}>
-                  <MaterialCommunityIcons name="bell-off-outline" size={48} color={COLORS.gray[400]} />
-                  <Text style={styles.emptyStateText}>{getString('noAnnouncementsNow')}</Text>
-                  <Text style={styles.emptyStateSubtext}>{getString('notifyNewCommunications')}</Text>
-                </View>
-              )}
-            </Card.Content>
-          </AnimatedCard>
-
-          {/* Graduações Recentes */}
-          <AnimatedCard delay={400} style={styles.card}>
-            <Card.Content>
-              <View style={styles.cardHeader}>
-                <Ionicons name="trophy-outline" size={24} color={COLORS.warning[300]} />
-                <Text style={[styles.cardTitle, { fontSize: ResponsiveUtils.fontSize.medium }]}>
-                  {getString('recentGraduations')}
-                </Text>
-              </View>
-
-              {dashboardData.recentGraduations.length > 0 ? (
-                dashboardData.recentGraduations.map((graduation, index) => (
-                  <Animated.View
-                    key={index}
-                    style={{
-                      opacity: animations.fadeAnim,
-                      transform: [{
-                        translateX: animations.slideAnim.interpolate({
-                          inputRange: [-50, 0],
-                          outputRange: [-30, 0],
-                        })
-                      }]
-                    }}
-                  >
-                    <List.Item
-                      title={`${graduation.studentName} - ${graduation.graduation}`}
-                      description={`${graduation.modality} • ${graduation.date.toLocaleDateString('pt-BR')}`}
-                      titleStyle={{ fontSize: ResponsiveUtils.fontSize.medium }}
-                      descriptionStyle={{ fontSize: ResponsiveUtils.fontSize.small }}
-                      left={() => <List.Icon icon="trophy" color={COLORS.warning[300]} />}
-                    />
-                  </Animated.View>
-                ))
-              ) : (
-                <Text style={[styles.emptyText, { fontSize: ResponsiveUtils.fontSize.small }]}>
-                  {getString('noRecentGraduations')}
-                </Text>
-              )}
-
-              <AnimatedButton
-                mode="text"
-                onPress={() => {/* Implementar histórico completo */ }}
-                style={styles.viewAllButton}
-              >
-                {getString('viewAllGraduations')}
-              </AnimatedButton>
-            </Card.Content>
-          </AnimatedCard>
-
-          {/* Próximas Aulas */}
-          <AnimatedCard delay={500} style={styles.card}>
-            <Card.Content>
-              <View style={styles.cardHeader}>
-                <Ionicons name="calendar-outline" size={24} color={COLORS.warning[500]} />
-                <Text style={[styles.cardTitle, { fontSize: ResponsiveUtils.fontSize.medium }]}>
-                  {getString('upcomingClasses')}
-                </Text>
-              </View>
-
-              {dashboardData.upcomingClasses.length > 0 ? (
-                dashboardData.upcomingClasses.map((classItem, index) => (
-                  <Animated.View
-                    key={index}
-                    style={[
-                      styles.upcomingClass,
-                      {
-                        opacity: animations.fadeAnim,
-                        transform: [{
-                          translateY: animations.slideAnim.interpolate({
-                            inputRange: [-50, 0],
-                            outputRange: [-15, 0],
-                          })
-                        }]
-                      }
-                    ]}
-                  >
-                    <Text style={[styles.upcomingClassName, { fontSize: ResponsiveUtils.fontSize.medium }]}>
-                      {classItem.name}
-                    </Text>
-                    <Text style={[styles.upcomingClassInfo, { fontSize: ResponsiveUtils.fontSize.small }]}>
-                      {classItem.modality} • {classItem.schedule?.[0] ?
-                        `${getDayName(classItem.schedule[0].dayOfWeek)} ${formatTime(classItem.schedule[0].hour)}`
-                        : getString('scheduleNotDefined')}
-                    </Text>
-                    {index < dashboardData.upcomingClasses.length - 1 && (
-                      <Divider style={styles.divider} />
-                    )}
-                  </Animated.View>
-                ))
-              ) : (
-                <Text style={[styles.emptyText, { fontSize: ResponsiveUtils.fontSize.small }]}>
-                  {getString('noUpcomingClasses')}
-                </Text>
-              )}
-
-              <AnimatedButton
-                mode="outlined"
-                onPress={() => navigation.navigate(getString('classes'))}
-                style={styles.viewAllButton}
-              >
-                {getString('viewAllClasses')}
-              </AnimatedButton>
-            </Card.Content>
-          </AnimatedCard>
-        </ScrollView>
-      </SafeAreaView>
+              </Card.Content>
+            </AnimatedCard>
+          </ScrollView>
+        </SafeAreaView>
+      </LinearGradient>
     </EnhancedErrorBoundary>
   );
 };
@@ -778,7 +788,7 @@ const InstructorDashboard = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.white,
+    backgroundColor: '#121212', // Dark background for glassmorphism
   },
   scrollView: {
     flex: 1,
@@ -799,9 +809,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   avatar: {
-    backgroundColor: COLORS.white + '33',
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
     borderWidth: 2,
-    borderColor: COLORS.white + '4D',
+    borderColor: 'rgba(255, 255, 255, 0.3)',
   },
   headerText: {
     marginLeft: ResponsiveUtils.spacing.md,
@@ -815,13 +825,13 @@ const styles = StyleSheet.create({
   },
   roleText: {
     fontSize: ResponsiveUtils.fontSize.medium,
-    color: COLORS.white + 'E6',
+    color: 'rgba(255, 255, 255, 0.8)',
     marginBottom: SPACING.sm,
   },
   statusBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: COLORS.white + '33',
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
     paddingHorizontal: SPACING.sm,
     paddingVertical: SPACING.xs,
     borderRadius: BORDER_RADIUS.md,
@@ -847,7 +857,9 @@ const styles = StyleSheet.create({
     marginBottom: ResponsiveUtils.spacing.md,
     borderRadius: ResponsiveUtils.borderRadius.medium,
     overflow: 'hidden',
-    ...ResponsiveUtils.elevation,
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    borderColor: 'rgba(255, 255, 255, 0.1)',
+    borderWidth: 1,
   },
   statGradient: {
     padding: ResponsiveUtils.spacing.md,
@@ -863,17 +875,20 @@ const styles = StyleSheet.create({
   },
   statLabel: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.white + 'E6',
+    color: 'rgba(255, 255, 255, 0.7)',
     textAlign: 'center',
     marginTop: SPACING.xs,
   },
 
-  // Cards modernos
+  // Cards modernos (Glassmorphism)
   modernCard: {
     margin: ResponsiveUtils.spacing.md,
     marginBottom: ResponsiveUtils.spacing.md,
     borderRadius: ResponsiveUtils.borderRadius.large,
-    ...ResponsiveUtils.elevation,
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    borderColor: 'rgba(255, 255, 255, 0.1)',
+    borderWidth: 1,
+    overflow: 'hidden',
   },
   modernCardHeader: {
     flexDirection: 'row',
@@ -884,7 +899,7 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: BORDER_RADIUS.full,
-    backgroundColor: COLORS.gray[100],
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: ResponsiveUtils.spacing.md,
@@ -892,12 +907,12 @@ const styles = StyleSheet.create({
   modernCardTitle: {
     fontSize: ResponsiveUtils.fontSize.large,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.black,
+    color: COLORS.white,
     marginBottom: SPACING.xs,
   },
   modernCardSubtitle: {
     fontSize: ResponsiveUtils.fontSize.small,
-    color: COLORS.gray[500],
+    color: 'rgba(255, 255, 255, 0.6)',
   },
 
   // Ações rápidas modernizadas
@@ -911,6 +926,9 @@ const styles = StyleSheet.create({
     marginBottom: ResponsiveUtils.spacing.sm,
     borderRadius: ResponsiveUtils.borderRadius.medium,
     overflow: 'hidden',
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    borderColor: 'rgba(255, 255, 255, 0.1)',
+    borderWidth: 1,
   },
   actionGradient: {
     padding: ResponsiveUtils.spacing.md,
@@ -923,15 +941,17 @@ const styles = StyleSheet.create({
     fontWeight: FONT_WEIGHT.bold,
     color: COLORS.white,
     marginTop: SPACING.sm,
+    textAlign: 'center',
   },
   actionSubtitle: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.white,
+    color: 'rgba(255, 255, 255, 0.8)',
     textAlign: 'center',
     marginBottom: SPACING.sm,
   },
   modernActionButton: {
     borderRadius: BORDER_RADIUS.lg,
+    width: '100%',
   },
 
   // Timeline
@@ -949,12 +969,18 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primary[500],
     marginTop: 6,
     marginRight: ResponsiveUtils.spacing.md,
+    shadowColor: COLORS.primary[500],
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.5,
+    shadowRadius: 8,
   },
   timelineContent: {
     flex: 1,
-    backgroundColor: COLORS.white,
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
     borderRadius: ResponsiveUtils.borderRadius.medium,
     padding: ResponsiveUtils.spacing.md,
+    borderColor: 'rgba(255, 255, 255, 0.1)',
+    borderWidth: 1,
   },
   timelineHeader: {
     flexDirection: 'row',
@@ -965,15 +991,17 @@ const styles = StyleSheet.create({
   timelineTitle: {
     fontSize: ResponsiveUtils.fontSize.medium,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.black,
+    color: COLORS.white,
     flex: 1,
   },
   modernChip: {
-    backgroundColor: COLORS.info[50],
+    backgroundColor: 'rgba(33, 150, 243, 0.2)', // Info color transparent
+    borderColor: 'rgba(33, 150, 243, 0.3)',
+    borderWidth: 1,
   },
   chipText: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.info[700],
+    color: '#64B5F6', // Lighter info color
   },
   timelineDetails: {
     marginBottom: ResponsiveUtils.spacing.sm,
@@ -985,7 +1013,7 @@ const styles = StyleSheet.create({
   },
   timelineText: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.gray[500],
+    color: 'rgba(255, 255, 255, 0.7)',
     marginLeft: SPACING.xs,
   },
   timelineButton: {
@@ -998,7 +1026,7 @@ const styles = StyleSheet.create({
     top: 18,
     bottom: -ResponsiveUtils.spacing.md,
     width: 2,
-    backgroundColor: COLORS.gray[300],
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
   },
 
   // Estados vazios
@@ -1009,12 +1037,12 @@ const styles = StyleSheet.create({
   emptyStateText: {
     fontSize: ResponsiveUtils.fontSize.medium,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.gray[500],
+    color: 'rgba(255, 255, 255, 0.6)',
     marginTop: ResponsiveUtils.spacing.sm,
   },
   emptyStateSubtext: {
     fontSize: ResponsiveUtils.fontSize.small,
-    color: COLORS.gray[500],
+    color: 'rgba(255, 255, 255, 0.4)',
     textAlign: 'center',
     marginTop: SPACING.xs,
   },
@@ -1034,7 +1062,7 @@ const styles = StyleSheet.create({
   },
   loadingText: {
     marginTop: SPACING.sm,
-    color: COLORS.gray[600],
+    color: 'rgba(255, 255, 255, 0.6)',
     fontSize: ResponsiveUtils.fontSize.small,
   },
   announcementsContainer: {
@@ -1046,16 +1074,18 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   highPriorityAnnouncement: {
-    backgroundColor: COLORS.warning[50],
+    backgroundColor: 'rgba(255, 152, 0, 0.1)', // Warning color transparent
     borderRadius: ResponsiveUtils.borderRadius.small,
     marginHorizontal: -ResponsiveUtils.spacing.sm,
     paddingHorizontal: ResponsiveUtils.spacing.sm,
     paddingTop: ResponsiveUtils.spacing.sm,
+    borderLeftWidth: 3,
+    borderLeftColor: COLORS.warning[500],
   },
   priorityBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: COLORS.warning[100],
+    backgroundColor: 'rgba(255, 152, 0, 0.2)',
     paddingHorizontal: ResponsiveUtils.spacing.sm,
     paddingVertical: SPACING.xs,
     borderRadius: BORDER_RADIUS.md,
@@ -1064,18 +1094,18 @@ const styles = StyleSheet.create({
   },
   priorityText: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.warning[700],
+    color: '#FFB74D', // Lighter warning color
     marginLeft: SPACING.xs,
     fontWeight: FONT_WEIGHT.medium,
   },
   announcementTitle: {
     fontWeight: FONT_WEIGHT.semibold,
-    color: COLORS.black,
+    color: COLORS.white,
     marginBottom: ResponsiveUtils.spacing.xs,
     fontSize: ResponsiveUtils.fontSize.medium,
   },
   announcementMessage: {
-    color: COLORS.gray[500],
+    color: 'rgba(255, 255, 255, 0.7)',
     marginBottom: ResponsiveUtils.spacing.xs,
     fontSize: ResponsiveUtils.fontSize.small,
     lineHeight: 20,
@@ -1087,19 +1117,22 @@ const styles = StyleSheet.create({
     marginTop: ResponsiveUtils.spacing.xs,
   },
   announcementDate: {
-    color: COLORS.gray[500],
+    color: 'rgba(255, 255, 255, 0.5)',
     fontSize: ResponsiveUtils.fontSize.small,
   },
   announcementDivider: {
     marginTop: ResponsiveUtils.spacing.md,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
   },
 
-  // Estilos legados mantidos para compatibilidade
+  // Estilos legados mantidos para compatibilidade (atualizados para dark)
   card: {
     margin: ResponsiveUtils.spacing.md,
     marginBottom: ResponsiveUtils.spacing.sm,
     borderRadius: ResponsiveUtils.borderRadius.medium,
-    ...ResponsiveUtils.elevation,
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    borderColor: 'rgba(255, 255, 255, 0.1)',
+    borderWidth: 1,
   },
   cardHeader: {
     flexDirection: 'row',
@@ -1110,11 +1143,12 @@ const styles = StyleSheet.create({
     marginLeft: ResponsiveUtils.spacing.sm,
     fontWeight: FONT_WEIGHT.bold,
     marginBottom: ResponsiveUtils.spacing.xs,
+    color: COLORS.white,
   },
   classItem: {
     marginBottom: ResponsiveUtils.spacing.md,
     padding: ResponsiveUtils.spacing.sm,
-    backgroundColor: COLORS.gray[50],
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
     borderRadius: ResponsiveUtils.borderRadius.small,
   },
   classHeader: {
@@ -1126,6 +1160,7 @@ const styles = StyleSheet.create({
   className: {
     fontWeight: FONT_WEIGHT.bold,
     flex: 1,
+    color: COLORS.white,
   },
   modalityChip: {
     marginLeft: ResponsiveUtils.spacing.sm,
@@ -1134,11 +1169,11 @@ const styles = StyleSheet.create({
     marginBottom: ResponsiveUtils.spacing.sm,
   },
   classTime: {
-    color: COLORS.gray[500],
+    color: 'rgba(255, 255, 255, 0.6)',
     marginBottom: ResponsiveUtils.spacing.xs,
   },
   classCapacity: {
-    color: COLORS.gray[500],
+    color: 'rgba(255, 255, 255, 0.6)',
   },
   classButton: {
     marginTop: ResponsiveUtils.spacing.sm,
@@ -1164,25 +1199,29 @@ const styles = StyleSheet.create({
   upcomingClass: {
     marginBottom: ResponsiveUtils.spacing.sm,
     padding: ResponsiveUtils.spacing.sm,
-    backgroundColor: COLORS.warning[50],
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
     borderRadius: ResponsiveUtils.borderRadius.small,
+    borderLeftWidth: 3,
+    borderLeftColor: COLORS.warning[500],
   },
   upcomingClassName: {
     fontWeight: FONT_WEIGHT.bold,
     marginBottom: ResponsiveUtils.spacing.xs,
+    color: COLORS.white,
   },
   upcomingClassInfo: {
-    color: COLORS.gray[500],
+    color: 'rgba(255, 255, 255, 0.6)',
     marginBottom: ResponsiveUtils.spacing.sm,
   },
   emptyText: {
     textAlign: 'center',
-    color: COLORS.gray[500],
+    color: 'rgba(255, 255, 255, 0.5)',
     fontStyle: 'italic',
     marginVertical: ResponsiveUtils.spacing.md,
   },
   divider: {
     marginVertical: ResponsiveUtils.spacing.sm,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
   },
   viewAllButton: {
     marginTop: ResponsiveUtils.spacing.sm,

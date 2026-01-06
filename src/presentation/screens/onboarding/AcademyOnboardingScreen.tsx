@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, ScrollView, Alert } from 'react-native';
+import { View, StyleSheet, ScrollView, Alert, Platform } from 'react-native';
 import {
   Card,
   Button,
   TextInput,
   Dialog,
   Portal,
-  Divider,
   Text,
-  Chip
+  TouchableRipple
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { httpsCallable } from 'firebase/functions';
 import { functions } from '@infrastructure/services/firebase';
@@ -19,13 +19,19 @@ import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@present
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
 import { getString } from "@utils/theme";
 
+import { useNavigation } from '@react-navigation/native';
+
 const AcademyOnboardingScreen = () => {
+  const navigation = useNavigation();
   const { currentTheme } = useThemeToggle();
 
-  const { refreshClaimsAndProfile } = useAuthFacade();
+  const { refreshClaimsAndProfile, signOut: logout } = useAuthFacade();
 
-  // Estados para criação de academia
   const [createAcademyVisible, setCreateAcademyVisible] = useState(false);
+  const [useInviteVisible, setUseInviteVisible] = useState(false);
+  const [creatingAcademy, setCreatingAcademy] = useState(false);
+  const [usingInvite, setUsingInvite] = useState(false);
+  const [inviteCode, setInviteCode] = useState('');
   const [academyData, setAcademyData] = useState({
     name: '',
     description: '',
@@ -33,102 +39,6 @@ const AcademyOnboardingScreen = () => {
     phone: '',
     email: ''
   });
-
-  // Estados para usar convite
-  const [useInviteVisible, setUseInviteVisible] = useState(false);
-  const [inviteCode, setInviteCode] = useState('');
-
-  // Estados de carregamento
-  const [creatingAcademy, setCreatingAcademy] = useState(false);
-  const [usingInvite, setUsingInvite] = useState(false);
-
-  const handleCreateAcademy = async () => {
-    if (!academyData.name.trim()) {
-      Alert.alert(getString('error'), 'Nome da academia é obrigatório');
-      return;
-    }
-
-    try {
-      setCreatingAcademy(true);
-
-      // Chamar Cloud Function para criar academia
-      if (!functions) throw new Error('Serviço de funções indisponível');
-
-      const createAcademyFunction = httpsCallable(functions, 'createAcademy');
-      const result = await createAcademyFunction(academyData);
-
-      const data = result.data as { success: boolean, role: string };
-
-      if (data.success) {
-        // Atualizar claims e perfil após criação da academia
-        await refreshClaimsAndProfile();
-
-        Alert.alert(
-          'Sucesso!',
-          'Academia criada com sucesso! Você agora é o administrador.',
-          [
-            {
-              text: getString('ok'),
-              onPress: () => {
-                setCreateAcademyVisible(false);
-                // A navegação será automática após o AuthContext detectar as mudanças
-              }
-            }
-          ]
-        );
-      }
-    } catch (error: any) {
-      console.error('Erro ao criar academia:', error);
-      Alert.alert(getString('error'), error.message || 'Erro ao criar academia');
-    } finally {
-      setCreatingAcademy(false);
-    }
-  };
-
-  const handleUseInvite = async () => {
-    if (!inviteCode.trim()) {
-      Alert.alert(getString('error'), 'Código de convite é obrigatório');
-      return;
-    }
-
-    try {
-      setUsingInvite(true);
-
-      // Chamar Cloud Function para usar convite
-      if (!functions) throw new Error('Serviço de funções indisponível');
-
-      const useInviteFunction = httpsCallable(functions, 'useInvite');
-      const result = await useInviteFunction({ inviteCode: inviteCode.trim() });
-
-      const data = result.data as { success: boolean, role: string };
-
-      if (data.success) {
-        // Atualizar claims e perfil após usar convite
-        await refreshClaimsAndProfile();
-
-        const roleText = data.role === 'instructor' ? 'instrutor' : 'aluno';
-
-        Alert.alert(
-          'Sucesso!',
-          `Você foi associado à academia como ${roleText}!`,
-          [
-            {
-              text: getString('ok'),
-              onPress: () => {
-                setUseInviteVisible(false);
-                // A navegação será automática após o AuthContext detectar as mudanças
-              }
-            }
-          ]
-        );
-      }
-    } catch (error: any) {
-      console.error('Erro ao usar convite:', error);
-      Alert.alert(getString('error'), error.message || 'Código de convite inválido ou expirado');
-    } finally {
-      setUsingInvite(false);
-    }
-  };
 
   const resetCreateAcademyForm = () => {
     setAcademyData({
@@ -144,303 +54,400 @@ const AcademyOnboardingScreen = () => {
     setInviteCode('');
   };
 
+  const handleCreateAcademy = async () => {
+    if (!academyData.name.trim()) return;
+
+    try {
+      setCreatingAcademy(true);
+      const createAcademyFn = httpsCallable(functions, 'createAcademy');
+      await createAcademyFn(academyData);
+
+      Alert.alert('Sucesso', 'Academia criada com sucesso!');
+      setCreateAcademyVisible(false);
+      resetCreateAcademyForm();
+      await refreshClaimsAndProfile();
+    } catch (error) {
+      console.error('Erro ao criar academia:', error);
+      Alert.alert('Erro', 'Não foi possível criar a academia. Tente novamente.');
+    } finally {
+      setCreatingAcademy(false);
+    }
+  };
+
+  const handleUseInvite = async () => {
+    if (!inviteCode.trim()) return;
+
+    try {
+      setUsingInvite(true);
+      const useInviteFn = httpsCallable(functions, 'useInvite');
+      await useInviteFn({ inviteCode: inviteCode });
+
+      Alert.alert('Sucesso', 'Você se juntou à academia com sucesso!');
+      setUseInviteVisible(false);
+      resetInviteForm();
+      await refreshClaimsAndProfile();
+    } catch (error) {
+      console.error('Erro ao usar convite:', error);
+      Alert.alert('Erro', 'Código de convite inválido ou erro ao processar.');
+    } finally {
+      setUsingInvite(false);
+    }
+  };
+
+  const handleLogout = async () => {
+    console.log('🔘 Botão Sair pressionado');
+
+    if (Platform.OS === 'web') {
+      const shouldLogout = window.confirm('Deseja realmente sair da conta?');
+      if (shouldLogout) {
+        try {
+          await logout();
+        } catch (error) {
+          console.error('Erro ao sair:', error);
+        }
+      }
+    } else {
+      Alert.alert(
+        'Sair',
+        'Deseja realmente sair da conta?',
+        [
+          { text: 'Cancelar', style: 'cancel' },
+          {
+            text: 'Sair',
+            style: 'destructive',
+            onPress: async () => {
+              try {
+                await logout();
+              } catch (error) {
+                console.error('Erro ao sair:', error);
+              }
+            }
+          }
+        ]
+      );
+    }
+  };
+
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        <View style={styles.header}>
-          <Ionicons name="school-outline" size={64} color={COLORS.primary[500]} />
-          <Text style={styles.title}>Bem-vindo ao MyGym!</Text>
-          <Text style={styles.subtitle}>
-            Para começar, você precisa estar associado a uma academia.
-            Escolha uma das opções abaixo:
-          </Text>
-        </View>
-
-        <View style={styles.optionsContainer}>
-          {/* Opção 1: Criar Nova Academia */}
-          <Card style={styles.optionCard}>
-            <Card.Content>
-              <View style={styles.optionHeader}>
-                <Ionicons name="add-circle-outline" size={32} color={COLORS.info[500]} />
-                <Text style={styles.optionTitle}>Criar Minha Academia</Text>
-              </View>
-              <Text style={styles.optionDescription}>
-                Crie uma nova academia e torne-se o administrador.
-                Você poderá gerenciar alunos, instrutores e todas as configurações.
-              </Text>
-              <Button
-                mode="contained"
-                onPress={() => setCreateAcademyVisible(true)}
-                style={styles.optionButton}
-                icon="plus"
-              >
-                Criar Academia
-              </Button>
-            </Card.Content>
-          </Card>
-
-          <Divider style={styles.divider} />
-
-          {/* Opção 2: Usar Código de Convite */}
-          <Card style={styles.optionCard}>
-            <Card.Content>
-              <View style={styles.optionHeader}>
-                <Ionicons name="ticket-outline" size={32} color={COLORS.warning[500]} />
-                <Text style={styles.optionTitle}>Tenho um Código de Convite</Text>
-              </View>
-              <Text style={styles.optionDescription}>
-                Se você recebeu um código de convite de uma academia,
-                use-o para se associar como aluno ou instrutor.
-              </Text>
-              <Button
-                mode="outlined"
-                onPress={() => setUseInviteVisible(true)}
-                style={styles.optionButton}
-                icon="ticket"
-              >
-                Usar Convite
-              </Button>
-            </Card.Content>
-          </Card>
-        </View>
-
-        {/* Informações adicionais */}
-        <Card style={styles.infoCard}>
-          <Card.Content>
-            <Text style={styles.infoTitle}>Como funciona?</Text>
-            <View style={styles.infoItem}>
-              <Chip icon="shield-check" style={styles.infoChip}>Seguro</Chip>
-              <Text style={styles.infoText}>
-                Cada academia tem seus dados completamente isolados
-              </Text>
-            </View>
-            <View style={styles.infoItem}>
-              <Chip icon="account-group" style={styles.infoChip}>Colaborativo</Chip>
-              <Text style={styles.infoText}>
-                Admins podem convidar instrutores e alunos
-              </Text>
-            </View>
-            <View style={styles.infoItem}>
-              <Chip icon="cog" style={styles.infoChip}>Personalizável</Chip>
-              <Text style={styles.infoText}>
-                Cada academia gerencia suas próprias modalidades e planos
-              </Text>
-            </View>
-          </Card.Content>
-        </Card>
-      </ScrollView>
-
-      {/* Dialog para criar academia */}
-      <Portal>
-        <Dialog
-          visible={createAcademyVisible}
-          onDismiss={() => {
-            setCreateAcademyVisible(false);
-            resetCreateAcademyForm();
-          }}
-          style={styles.dialog}
-        >
-          <Dialog.Title>Criar Nova Academia</Dialog.Title>
-          <Dialog.Content>
-            <TextInput
-              label="Nome da Academia *"
-              value={academyData.name}
-              onChangeText={(text) => setAcademyData(prev => ({ ...prev, name: text }))}
-              mode="outlined"
-              style={styles.input}
-              disabled={creatingAcademy}
-            />
-            <TextInput
-              label={getString('description')}
-              value={academyData.description}
-              onChangeText={(text) => setAcademyData(prev => ({ ...prev, description: text }))}
-              mode="outlined"
-              multiline
-              numberOfLines={3}
-              style={styles.input}
-              disabled={creatingAcademy}
-            />
-            <TextInput
-              label={getString('address')}
-              value={academyData.address}
-              onChangeText={(text) => setAcademyData(prev => ({ ...prev, address: text }))}
-              mode="outlined"
-              style={styles.input}
-              disabled={creatingAcademy}
-            />
-            <TextInput
-              label={getString('phone')}
-              value={academyData.phone}
-              onChangeText={(text) => setAcademyData(prev => ({ ...prev, phone: text }))}
-              mode="outlined"
-              keyboardType="phone-pad"
-              style={styles.input}
-              disabled={creatingAcademy}
-            />
-            <TextInput
-              label="email"
-              value={academyData.email}
-              onChangeText={(text) => setAcademyData(prev => ({ ...prev, email: text }))}
-              mode="outlined"
-              keyboardType="email-address"
-              style={styles.input}
-              disabled={creatingAcademy}
-            />
-          </Dialog.Content>
-          <Dialog.Actions>
-            <Button
-              onPress={() => {
-                setCreateAcademyVisible(false);
-                resetCreateAcademyForm();
-              }}
-              disabled={creatingAcademy}
-            >{getString('cancel')}</Button>
+    <LinearGradient
+      colors={COLORS.gradients.accent}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
+      style={styles.container}
+    >
+      <SafeAreaView style={styles.safeArea}>
+        <ScrollView contentContainerStyle={styles.scrollContent}>
+          <View style={styles.headerRow}>
             <Button
               mode="contained"
-              onPress={handleCreateAcademy}
-              disabled={creatingAcademy || !academyData.name.trim()}
-              loading={creatingAcademy}
+              icon="arrow-left"
+              onPress={() => {
+                if (navigation.canGoBack()) {
+                  navigation.goBack();
+                } else {
+                  handleLogout();
+                }
+              }}
+              textColor={COLORS.white}
+              buttonColor="rgba(255, 255, 255, 0.2)"
             >
-              {creatingAcademy ? 'Criando...' : 'Criar Academia'}
+              Voltar
             </Button>
-          </Dialog.Actions>
-        </Dialog>
-      </Portal>
+            <Button
+              mode="contained"
+              icon="logout"
+              onPress={handleLogout}
+              textColor={COLORS.white}
+              buttonColor="rgba(255, 255, 255, 0.2)"
+            >
+              Sair
+            </Button>
+          </View>
 
-      {/* Dialog para usar convite */}
-      <Portal>
-        <Dialog
-          visible={useInviteVisible}
-          onDismiss={() => {
-            setUseInviteVisible(false);
-            resetInviteForm();
-          }}
-          style={styles.dialog}
-        >
-          <Dialog.Title>Usar Código de Convite</Dialog.Title>
-          <Dialog.Content>
-            <Text style={styles.inviteDescription}>
-              Digite o código de convite que você recebeu do administrador da academia:
+          <View style={styles.header}>
+            <View style={styles.iconCircle}>
+              <Ionicons name="school" size={48} color={COLORS.primary[600]} />
+            </View>
+            <Text style={styles.title}>Bem-vindo ao MyGym!</Text>
+            <Text style={styles.subtitle}>
+              Para começar, você precisa estar associado a uma academia.
             </Text>
-            <TextInput
-              label="Código de Convite *"
-              value={inviteCode}
-              onChangeText={setInviteCode}
-              mode="outlined"
-              style={styles.input}
-              placeholder="Ex: abc123xyz789"
-              autoCapitalize="none"
-              disabled={usingInvite}
-            />
-          </Dialog.Content>
-          <Dialog.Actions>
-            <Button
-              onPress={() => {
-                setUseInviteVisible(false);
-                resetInviteForm();
-              }}
-              disabled={usingInvite}
-            >{getString('cancel')}</Button>
-            <Button
-              mode="contained"
-              onPress={handleUseInvite}
-              disabled={usingInvite || !inviteCode.trim()}
-              loading={usingInvite}
-            >
-              {usingInvite ? 'Verificando...' : 'Usar Convite'}
-            </Button>
-          </Dialog.Actions>
-        </Dialog>
-      </Portal>
-    </SafeAreaView>
+          </View>
+
+          <View style={styles.optionsContainer}>
+            {/* Opção 1: Criar Nova Academia */}
+            <Card style={styles.glassCard} mode="elevated">
+              <TouchableRipple
+                onPress={() => setCreateAcademyVisible(true)}
+                style={styles.touchable}
+                rippleColor="rgba(0, 0, 0, 0.1)"
+              >
+                <Card.Content style={styles.cardContent}>
+                  <View style={[styles.optionIcon, { backgroundColor: COLORS.info[100] }]}>
+                    <Ionicons name="add" size={32} color={COLORS.info[600]} />
+                  </View>
+                  <View style={styles.optionTextContainer}>
+                    <Text style={styles.optionTitle}>Criar Minha Academia</Text>
+                    <Text style={styles.optionDescription}>
+                      Torne-se administrador e gerencie sua própria academia.
+                    </Text>
+                  </View>
+                  <Ionicons name="chevron-forward" size={24} color={COLORS.gray[400]} />
+                </Card.Content>
+              </TouchableRipple>
+            </Card>
+
+            {/* Opção 2: Usar Código de Convite */}
+            <Card style={styles.glassCard} mode="elevated">
+              <TouchableRipple
+                onPress={() => setUseInviteVisible(true)}
+                style={styles.touchable}
+                rippleColor="rgba(0, 0, 0, 0.1)"
+              >
+                <Card.Content style={styles.cardContent}>
+                  <View style={[styles.optionIcon, { backgroundColor: COLORS.warning[100] }]}>
+                    <Ionicons name="ticket" size={32} color={COLORS.warning[600]} />
+                  </View>
+                  <View style={styles.optionTextContainer}>
+                    <Text style={styles.optionTitle}>Tenho um Código</Text>
+                    <Text style={styles.optionDescription}>
+                      Entre como aluno ou instrutor usando um convite.
+                    </Text>
+                  </View>
+                  <Ionicons name="chevron-forward" size={24} color={COLORS.gray[400]} />
+                </Card.Content>
+              </TouchableRipple>
+            </Card>
+          </View>
+
+          {/* Informações adicionais */}
+          <View style={styles.featuresRow}>
+            <View style={styles.featureItem}>
+              <Ionicons name="shield-checkmark" size={24} color={COLORS.white} style={{ opacity: 0.8 }} />
+              <Text style={styles.featureText}>Seguro</Text>
+            </View>
+            <View style={styles.featureDivider} />
+            <View style={styles.featureItem}>
+              <Ionicons name="people" size={24} color={COLORS.white} style={{ opacity: 0.8 }} />
+              <Text style={styles.featureText}>Colaborativo</Text>
+            </View>
+            <View style={styles.featureDivider} />
+            <View style={styles.featureItem}>
+              <Ionicons name="options" size={24} color={COLORS.white} style={{ opacity: 0.8 }} />
+              <Text style={styles.featureText}>Flexível</Text>
+            </View>
+          </View>
+
+        </ScrollView>
+
+        {/* Dialogs */}
+        <Portal>
+          <Dialog visible={createAcademyVisible} onDismiss={() => setCreateAcademyVisible(false)} style={styles.dialog}>
+            <Dialog.Title>Criar Nova Academia</Dialog.Title>
+            <Dialog.Content>
+              <TextInput
+                label="Nome da Academia *"
+                value={academyData.name}
+                onChangeText={(text) => setAcademyData(prev => ({ ...prev, name: text }))}
+                mode="outlined"
+                style={styles.input}
+              />
+              <TextInput
+                label={getString('description')}
+                value={academyData.description}
+                onChangeText={(text) => setAcademyData(prev => ({ ...prev, description: text }))}
+                mode="outlined"
+                multiline
+                numberOfLines={3}
+                style={styles.input}
+              />
+              <TextInput
+                label={getString('address')}
+                value={academyData.address}
+                onChangeText={(text) => setAcademyData(prev => ({ ...prev, address: text }))}
+                mode="outlined"
+                style={styles.input}
+              />
+              <TextInput
+                label={getString('phone')}
+                value={academyData.phone}
+                onChangeText={(text) => setAcademyData(prev => ({ ...prev, phone: text }))}
+                mode="outlined"
+                keyboardType="phone-pad"
+                style={styles.input}
+              />
+              <TextInput
+                label="Email"
+                value={academyData.email}
+                onChangeText={(text) => setAcademyData(prev => ({ ...prev, email: text }))}
+                mode="outlined"
+                keyboardType="email-address"
+                style={styles.input}
+              />
+            </Dialog.Content>
+            <Dialog.Actions>
+              <Button onPress={() => setCreateAcademyVisible(false)}>{getString('cancel')}</Button>
+              <Button mode="contained" onPress={handleCreateAcademy} loading={creatingAcademy} disabled={creatingAcademy}>
+                Criar
+              </Button>
+            </Dialog.Actions>
+          </Dialog>
+
+          <Dialog visible={useInviteVisible} onDismiss={() => setUseInviteVisible(false)} style={styles.dialog}>
+            <Dialog.Title>Usar Código de Convite</Dialog.Title>
+            <Dialog.Content>
+              <Text style={styles.inviteDescription}>
+                Digite o código fornecido pelo administrador:
+              </Text>
+              <TextInput
+                label="Código *"
+                value={inviteCode}
+                onChangeText={setInviteCode}
+                mode="outlined"
+                style={styles.input}
+                autoCapitalize="none"
+              />
+            </Dialog.Content>
+            <Dialog.Actions>
+              <Button onPress={() => setUseInviteVisible(false)}>{getString('cancel')}</Button>
+              <Button mode="contained" onPress={handleUseInvite} loading={usingInvite} disabled={usingInvite}>
+                Entrar
+              </Button>
+            </Dialog.Actions>
+          </Dialog>
+        </Portal>
+      </SafeAreaView>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.gray[100],
+  },
+  safeArea: {
+    flex: 1,
   },
   scrollContent: {
     padding: SPACING.lg,
+    paddingBottom: SPACING.xxl,
+  },
+  topBar: {
+    alignItems: 'flex-end',
+    marginBottom: SPACING.md,
   },
   header: {
     alignItems: 'center',
-    marginBottom: 30,
+    marginBottom: SPACING.xl,
+  },
+  iconCircle: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: COLORS.white,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: SPACING.lg,
+    elevation: 8,
+    shadowColor: COLORS.black,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
   },
   title: {
     fontSize: FONT_SIZE.xxl,
     fontWeight: FONT_WEIGHT.bold,
+    color: COLORS.white,
     textAlign: 'center',
-    marginTop: SPACING.md,
-    color: COLORS.black,
+    marginBottom: SPACING.sm,
   },
   subtitle: {
     fontSize: FONT_SIZE.md,
+    color: 'rgba(255, 255, 255, 0.9)',
     textAlign: 'center',
-    marginTop: SPACING.sm,
-    color: COLORS.gray[500],
+    maxWidth: '80%',
     lineHeight: 24,
   },
   optionsContainer: {
-    marginBottom: 30,
+    marginBottom: SPACING.xl,
   },
-  optionCard: {
+  glassCard: {
+    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+    borderRadius: BORDER_RADIUS.lg,
     marginBottom: SPACING.md,
+    overflow: 'hidden',
     elevation: 4,
   },
-  optionHeader: {
+  touchable: {
+    borderRadius: BORDER_RADIUS.lg,
+  },
+  cardContent: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: SPACING.md,
+    padding: SPACING.lg,
+  },
+  optionIcon: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: SPACING.md,
+  },
+  optionTextContainer: {
+    flex: 1,
   },
   optionTitle: {
-    marginLeft: SPACING.md,
-    fontSize: FONT_SIZE.xl,
-    color: COLORS.black,
+    fontSize: FONT_SIZE.lg,
+    fontWeight: FONT_WEIGHT.bold,
+    color: COLORS.gray[800],
+    marginBottom: 4,
   },
   optionDescription: {
-    fontSize: FONT_SIZE.base,
-    color: COLORS.gray[500],
-    lineHeight: 20,
-    marginBottom: SPACING.md,
+    fontSize: FONT_SIZE.sm,
+    color: COLORS.gray[600],
+    lineHeight: 18,
   },
-  optionButton: {
-    marginTop: SPACING.sm,
-  },
-  divider: {
-    marginVertical: 20,
-    backgroundColor: COLORS.gray[300],
-  },
-  infoCard: {
-    backgroundColor: COLORS.primary[50],
-    elevation: 2,
-  },
-  infoTitle: {
-    fontSize: FONT_SIZE.lg,
-    color: COLORS.primary[800],
-    marginBottom: SPACING.md,
-  },
-  infoItem: {
+  featuresRow: {
     flexDirection: 'row',
+    justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: SPACING.md,
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+    borderRadius: BORDER_RADIUS.full,
+    paddingVertical: SPACING.md,
+    paddingHorizontal: SPACING.xl,
+    alignSelf: 'center',
   },
-  infoChip: {
-    marginRight: SPACING.md,
-    backgroundColor: COLORS.primary[500],
+  featureItem: {
+    alignItems: 'center',
+    paddingHorizontal: SPACING.md,
   },
-  infoText: {
-    flex: 1,
-    fontSize: FONT_SIZE.base,
-    color: COLORS.primary[800],
+  featureText: {
+    color: COLORS.white,
+    fontSize: FONT_SIZE.xs,
+    fontWeight: FONT_WEIGHT.semibold,
+    marginTop: 4,
+  },
+  featureDivider: {
+    width: 1,
+    height: 24,
+    backgroundColor: 'rgba(255, 255, 255, 0.3)',
   },
   dialog: {
     maxWidth: 500,
     alignSelf: 'center',
+    width: '90%',
+    borderRadius: BORDER_RADIUS.md,
   },
   input: {
     marginBottom: SPACING.md,
+    backgroundColor: COLORS.white,
+  },
+  headerRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 10,
   },
   inviteDescription: {
     marginBottom: SPACING.md,

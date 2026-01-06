@@ -1,11 +1,11 @@
 // Mappers between Firebase data and domain entities
 
 import { User, UserProfile, Claims, Academia, UserType } from '@domain/auth/entities';
-import { 
-  FirebaseUserData, 
-  FirestoreUserProfileData, 
-  FirebaseClaimsData, 
-  FirestoreAcademiaData 
+import {
+  FirebaseUserData,
+  FirestoreUserProfileData,
+  FirebaseClaimsData,
+  FirestoreAcademiaData
 } from './models';
 
 export class AuthMappers {
@@ -14,10 +14,10 @@ export class AuthMappers {
       id: firebaseUser.uid,
       email: firebaseUser.email || '',
       emailVerified: firebaseUser.emailVerified,
-      createdAt: firebaseUser.metadata?.creationTime 
+      createdAt: firebaseUser.metadata?.creationTime
         ? new Date(firebaseUser.metadata.creationTime)
         : new Date(),
-      lastSignInAt: firebaseUser.metadata?.lastSignInTime 
+      lastSignInAt: firebaseUser.metadata?.lastSignInTime
         ? new Date(firebaseUser.metadata.lastSignInTime)
         : undefined
     };
@@ -100,7 +100,7 @@ export class AuthMappers {
 
   static toFirestoreUserProfile(userProfile: Partial<UserProfile>): Partial<FirestoreUserProfileData> {
     const data: Partial<FirestoreUserProfileData> = {};
-    
+
     if (userProfile.id) data.id = userProfile.id;
     if (userProfile.name) data.name = userProfile.name;
     if (userProfile.email) data.email = userProfile.email;
@@ -108,6 +108,7 @@ export class AuthMappers {
     if (userProfile.userType) data.userType = userProfile.userType;
     if (userProfile.academiaId !== undefined) data.academiaId = userProfile.academiaId;
     if (userProfile.isActive !== undefined) data.isActive = userProfile.isActive;
+    if (userProfile.profileCompleted !== undefined) data.profileCompleted = userProfile.profileCompleted;
     if (userProfile.currentGraduation !== undefined) data.currentGraduation = userProfile.currentGraduation;
     if (userProfile.graduations) data.graduations = userProfile.graduations;
     if (userProfile.classIds) data.classIds = userProfile.classIds;
@@ -119,22 +120,22 @@ export class AuthMappers {
 
   private static toDate(timestamp: any): Date {
     if (!timestamp) return new Date();
-    
+
     // Handle Firestore Timestamp
     if (timestamp && typeof timestamp.toDate === 'function') {
       return timestamp.toDate();
     }
-    
+
     // Handle Date object
     if (timestamp instanceof Date) {
       return timestamp;
     }
-    
+
     // Handle timestamp in seconds (Firestore format)
     if (timestamp && timestamp.seconds) {
       return new Date(timestamp.seconds * 1000);
     }
-    
+
     // Handle string or number
     return new Date(timestamp);
   }

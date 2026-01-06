@@ -23,6 +23,7 @@ export const FirestoreUserProfileModel = z.object({
   tipo: z.enum(['aluno', 'instrutor', 'administrador']).optional(), // Legacy support
   academiaId: z.string().optional(),
   isActive: z.boolean().default(true),
+  profileCompleted: z.boolean().optional(),
   currentGraduation: z.string().nullable().optional(),
   graduations: z.array(z.string()).default([]),
   classIds: z.array(z.string()).default([]),
@@ -32,8 +33,8 @@ export const FirestoreUserProfileModel = z.object({
 
 // Firebase Custom Claims model
 export const FirebaseClaimsModel = z.object({
-  role: z.string().optional(),
-  academiaId: z.string().optional(),
+  role: z.string().nullable().optional(),
+  academiaId: z.string().nullable().optional(),
   permissions: z.array(z.string()).optional()
 });
 
