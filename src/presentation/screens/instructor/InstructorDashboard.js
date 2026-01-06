@@ -377,47 +377,35 @@ const InstructorDashboard = ({ navigation }) => {
             {/* Cards de Estatísticas Modernos */}
             <View style={styles.statsContainer}>
               <Animated.View style={[styles.statCard, { opacity: animations.fadeAnim }]}>
-                <LinearGradient
-                  colors={['rgba(255,255,255,0.05)', 'rgba(255,255,255,0.02)']}
-                  style={styles.statGradient}
-                >
+                <View style={styles.statGradient}>
                   <MaterialCommunityIcons name="school-outline" size={32} color={COLORS.primary[400]} />
                   <Text style={styles.statNumber}>{dashboardData.myClasses.length}</Text>
                   <Text style={styles.statLabel}>{getString('myClasses')}</Text>
-                </LinearGradient>
+                </View>
               </Animated.View>
 
               <Animated.View style={[styles.statCard, { opacity: animations.fadeAnim }]}>
-                <LinearGradient
-                  colors={['rgba(255,255,255,0.05)', 'rgba(255,255,255,0.02)']}
-                  style={styles.statGradient}
-                >
+                <View style={styles.statGradient}>
                   <MaterialCommunityIcons name="account-group" size={32} color={COLORS.info[400]} />
                   <Text style={styles.statNumber}>{dashboardData.totalStudents}</Text>
                   <Text style={styles.statLabel}>{getString('totalStudents')}</Text>
-                </LinearGradient>
+                </View>
               </Animated.View>
 
               <Animated.View style={[styles.statCard, { opacity: animations.fadeAnim }]}>
-                <LinearGradient
-                  colors={['rgba(255,255,255,0.05)', 'rgba(255,255,255,0.02)']}
-                  style={styles.statGradient}
-                >
+                <View style={styles.statGradient}>
                   <MaterialCommunityIcons name="calendar-today" size={32} color={COLORS.warning[400]} />
                   <Text style={styles.statNumber}>{dashboardData.todayClasses.length}</Text>
                   <Text style={styles.statLabel}>{getString('classesToday')}</Text>
-                </LinearGradient>
+                </View>
               </Animated.View>
 
               <Animated.View style={[styles.statCard, { opacity: animations.fadeAnim }]}>
-                <LinearGradient
-                  colors={['rgba(255,255,255,0.05)', 'rgba(255,255,255,0.02)']}
-                  style={styles.statGradient}
-                >
+                <View style={styles.statGradient}>
                   <MaterialCommunityIcons name="check-circle" size={32} color={COLORS.secondary[400]} />
                   <Text style={styles.statNumber}>{dashboardData.activeCheckIns}</Text>
                   <Text style={styles.statLabel}>{getString('checkIns')}</Text>
-                </LinearGradient>
+                </View>
               </Animated.View>
             </View>
 
