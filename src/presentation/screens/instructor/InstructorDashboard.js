@@ -519,10 +519,7 @@ const InstructorDashboard = ({ navigation }) => {
 
                 <View style={styles.modernQuickActions}>
                   <Animated.View style={[styles.actionCard, { opacity: animations.fadeAnim }]}>
-                    <LinearGradient
-                      colors={['rgba(255,255,255,0.05)', 'rgba(255,255,255,0.02)']}
-                      style={styles.actionGradient}
-                    >
+                    <View style={styles.actionGradient}>
                       <MaterialCommunityIcons name="calendar-plus" size={28} color={COLORS.primary[400]} />
                       <Text style={styles.actionTitle}>{getString('scheduleClasses')}</Text>
                       <Text style={styles.actionSubtitle}>{getString('addClassesToYourClasses')}</Text>
@@ -551,14 +548,11 @@ const InstructorDashboard = ({ navigation }) => {
                       >
                         {getString('scheduleAction')}
                       </AnimatedButton>
-                    </LinearGradient>
+                    </View>
                   </Animated.View>
 
                   <Animated.View style={[styles.actionCard, { opacity: animations.fadeAnim }]}>
-                    <LinearGradient
-                      colors={['rgba(255,255,255,0.05)', 'rgba(255,255,255,0.02)']}
-                      style={styles.actionGradient}
-                    >
+                    <View style={styles.actionGradient}>
                       <MaterialCommunityIcons name="qrcode-scan" size={28} color={COLORS.info[400]} />
                       <Text style={styles.actionTitle}>{getString('checkIn')}</Text>
                       <Text style={styles.actionSubtitle}>{getString('digitalAttendance')}</Text>
@@ -572,14 +566,11 @@ const InstructorDashboard = ({ navigation }) => {
                       >
                         {getString('open')}
                       </AnimatedButton>
-                    </LinearGradient>
+                    </View>
                   </Animated.View>
 
                   <Animated.View style={[styles.actionCard, { opacity: animations.fadeAnim, marginTop: 10 }]}>
-                    <LinearGradient
-                      colors={['rgba(255,255,255,0.05)', 'rgba(255,255,255,0.02)']}
-                      style={styles.actionGradient}
-                    >
+                    <View style={styles.actionGradient}>
                       <MaterialCommunityIcons name="chart-line" size={28} color={COLORS.secondary[400]} />
                       <Text style={styles.actionTitle}>{getString('reports')}</Text>
                       <Text style={styles.actionSubtitle}>{getString('dataAnalysis')}</Text>
@@ -593,7 +584,7 @@ const InstructorDashboard = ({ navigation }) => {
                       >
                         {getString('view')}
                       </AnimatedButton>
-                    </LinearGradient>
+                    </View>
                   </Animated.View>
                 </View>
               </Card.Content>
