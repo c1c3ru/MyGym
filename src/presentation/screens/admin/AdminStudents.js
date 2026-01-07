@@ -55,6 +55,7 @@ const AdminStudents = ({ navigation }) => {
       console.log('🏫 Academia ID:', academiaId);
       if (!academiaId) {
         console.error('❌ Academia ID não encontrado');
+        setStudents([]);
         return;
       }
 
@@ -70,63 +71,88 @@ const AdminStudents = ({ navigation }) => {
           const studentsData = await academyFirestoreService.getAll('students', academiaId);
           console.log('👥 Alunos encontrados:', studentsData.length);
 
-          // Usar batch processing para enriquecer dados dos alunos
-          const enrichedData = await batchFirestoreService.batchProcessQuery(
-            'students',
-            async (studentsBatch) => {
-              return Promise.all(
-                studentsBatch.map(async (student) => {
+          // Se não há alunos, retornar array vazio
+          if (!studentsData || studentsData.length === 0) {
+            return [];
+          }
+
+          // Processar alunos de forma mais simples e rápida
+          const enrichedData = await Promise.all(
+            studentsData.map(async (student) => {
+              try {
+                // Validar se student.id existe
+                if (!student?.id) {
+                  return {
+                    ...student,
+                    paymentStatus: 'unknown',
+                    totalPayments: 0,
+                    modalities: []
+                  };
+                }
+
+                // Usar Promise.race para adicionar timeout
+                const enrichmentPromise = (async () => {
                   try {
-                    // Validar se student.id existe antes de fazer a query
-                    if (!student?.id) {
-                      return {
-                        ...student,
-                        paymentStatus: 'unknown',
-                        totalPayments: 0,
-                        modalities: []
-                      };
-                    }
+                    // Buscar pagamentos do aluno (limitado aos últimos 10)
+                    const payments = await academyFirestoreService.getWhere(
+                      'payments',
+                      'studentId',
+                      '==',
+                      student.id,
+                      academiaId
+                    );
 
-                    // Buscar pagamentos do aluno
-                    const payments = await academyFirestoreService.getWhere('payments', 'studentId', '==', student.id, academiaId);
+                    const latestPayment = payments?.[0];
 
-                    // Buscar turmas do aluno para determinar modalidades
-                    const studentClasses = await academyFirestoreService.getWhere('classes', 'students', 'array-contains', student.id, academiaId);
-
-                    // Extrair modalidades únicas das turmas
-                    const studentModalities = [...new Set(studentClasses.map(cls => cls.modality).filter(Boolean))];
-
-                    const latestPayment = payments[0];
                     return {
                       ...student,
                       paymentStatus: latestPayment?.status || 'unknown',
                       lastPaymentDate: latestPayment?.createdAt,
-                      totalPayments: payments.length,
-                      modalities: studentModalities
+                      totalPayments: payments?.length || 0,
+                      modalities: student.modalities || []
                     };
                   } catch (error) {
-                    console.error('❌ Erro ao enriquecer dados do aluno:', error);
+                    console.warn(`⚠️ Erro ao enriquecer aluno ${student.id}:`, error.message);
                     return {
                       ...student,
                       paymentStatus: 'unknown',
                       totalPayments: 0,
-                      modalities: []
+                      modalities: student.modalities || []
                     };
                   }
-                })
-              );
-            },
-            { batchSize: 50 },
-            academiaId
+                })();
+
+                // Timeout de 5 segundos por aluno
+                const timeoutPromise = new Promise((resolve) =>
+                  setTimeout(() => resolve({
+                    ...student,
+                    paymentStatus: 'unknown',
+                    totalPayments: 0,
+                    modalities: student.modalities || []
+                  }), 5000)
+                );
+
+                return await Promise.race([enrichmentPromise, timeoutPromise]);
+
+              } catch (error) {
+                console.error('❌ Erro ao processar aluno:', error);
+                return {
+                  ...student,
+                  paymentStatus: 'unknown',
+                  totalPayments: 0,
+                  modalities: []
+                };
+              }
+            })
           );
 
-          return enrichedData.flat();
+          return enrichedData;
         },
         CACHE_TTL.MEDIUM // Cache por 5 minutos
       );
 
       setStudents(enrichedStudents || []);
-      console.log('✅ Alunos carregados com sucesso');
+      console.log('✅ Alunos carregados com sucesso:', enrichedStudents?.length);
 
       // Track analytics
       trackFeatureUsage('students_list_loaded', {
@@ -136,6 +162,8 @@ const AdminStudents = ({ navigation }) => {
 
     } catch (error) {
       console.error('❌ Erro ao carregar alunos:', error);
+      setStudents([]);
+      Alert.alert('Erro', 'Não foi possível carregar a lista de alunos. Tente novamente.');
     } finally {
       setLoading(false);
     }

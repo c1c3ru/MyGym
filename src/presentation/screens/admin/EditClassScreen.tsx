@@ -157,7 +157,7 @@ const EditClassScreen = ({ route, navigation }: EditClassScreenProps) => {
 
     // Bloquear quando não houver modalidades cadastradas no sistema
     if (!modalities || modalities.length === 0) {
-      newErrors.modality = 'Nenhuma modalidade cadastrada. Vá em Admin > Modalidades para cadastrar antes de continuar.';
+      newErrors.modality = getString('noModalityGoToAdmin');
     }
 
     if (!formData.modality) {
@@ -309,7 +309,7 @@ const EditClassScreen = ({ route, navigation }: EditClassScreenProps) => {
               <Text style={styles.label}>Modalidade</Text>
               <View style={styles.chipContainer}>
                 {modalities.length === 0 && (
-                  <Text style={{ color: COLORS.gray[500] }}>Nenhuma modalidade cadastrada</Text>
+                  <Text style={{ color: COLORS.gray[500] }}>{getString('noModalitiesRegistered')}</Text>
                 )}
                 {modalities.map((m) => (
                   <Chip
