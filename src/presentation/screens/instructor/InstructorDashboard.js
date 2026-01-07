@@ -328,6 +328,7 @@ const InstructorDashboard = ({ navigation }) => {
                 tintColor={COLORS.primary[500]}
               />
             }
+            contentContainerStyle={{ paddingBottom: SPACING.xl }}
           >
             {/* Header Moderno com Gradiente */}
             <Animated.View style={[headerTransform]}>

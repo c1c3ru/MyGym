@@ -1,6 +1,22 @@
 import React from 'react';
+import { Platform } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+
+// Injetar estilos globais para Web para garantir altura total
+if (Platform.OS === 'web' && typeof document !== 'undefined') {
+  const style = document.createElement('style');
+  style.textContent = `
+    html, body, #root {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+  `;
+  document.head.appendChild(style);
+}
+
 import { Provider as PaperProvider } from 'react-native-paper';
 import { ThemeProvider } from './src/presentation/contexts/ThemeContext';
 import { ThemeToggleProvider } from './src/presentation/contexts/ThemeToggleContext';
@@ -14,7 +30,7 @@ import AppNavigator from './src/presentation/navigation/AppNavigator';
 export default function App() {
   return (
     <EnhancedErrorBoundary>
-      <SafeAreaProvider>
+      <SafeAreaProvider style={{ flex: 1 }}>
         <PaperProvider>
           <ThemeToggleProvider>
             <ThemeProvider>

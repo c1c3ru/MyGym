@@ -25,12 +25,12 @@ import cacheService, { CACHE_KEYS, CACHE_TTL } from '@infrastructure/services/ca
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import InstructorStudentsSkeleton from '@components/skeletons/InstructorStudentsSkeleton';
 import { EnhancedFlashList } from '@components/EnhancedFlashList';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT , BORDER_WIDTH } from '@presentation/theme/designTokens';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, BORDER_WIDTH } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
 
 const InstructorStudents = ({ navigation }) => {
   const { currentTheme } = useThemeToggle();
-  
+
   const { user, userProfile, academia } = useAuthFacade();
   const { getString } = useTheme();
   const [students, setStudents] = useState([]);
@@ -54,10 +54,10 @@ const InstructorStudents = ({ navigation }) => {
   const [modalityButtonDisabled, setModalityButtonDisabled] = useState(false);
 
   // Analytics tracking
-  useScreenTracking('InstructorStudents', { 
+  useScreenTracking('InstructorStudents', {
     academiaId: userProfile?.academiaId,
     userType: 'instructor',
-    instructorId: user?.uid 
+    instructorId: user?.uid
   });
   const { trackButtonClick, trackFeatureUsage } = useUserActionTracking();
 
@@ -66,7 +66,7 @@ const InstructorStudents = ({ navigation }) => {
     try {
       setLoading(true);
       console.log(getString('loadingStudentsInstructor'), user.id);
-      
+
       if (!userProfile?.academiaId) {
         console.warn('⚠️ Usuário sem academiaId definido');
         setStudents([]);
@@ -74,29 +74,29 @@ const InstructorStudents = ({ navigation }) => {
         setModalities([]);
         return;
       }
-      
+
       // Usar cache inteligente para dados do instrutor
       const cacheKey = CACHE_KEYS.INSTRUCTOR_STUDENTS(userProfile.academiaId, user.id);
-      
+
       const instructorData = await cacheService.getOrSet(
         cacheKey,
         async () => {
           console.log('🔍 Buscando dados do instrutor (cache miss):', user.id);
-          
+
           // Usar Promise.all para carregar dados em paralelo
           const [instructorStudents, instructorClasses, allModalities] = await Promise.all([
             academyStudentService.getStudentsByInstructor(user.id, userProfile.academiaId).catch(() => []),
             academyFirestoreService.getWhere('classes', 'instructorId', '==', user.id, userProfile.academiaId).catch(() => []),
             academyFirestoreService.getAll('modalities', userProfile.academiaId).catch(() => [])
           ]);
-          
+
           // Remover duplicatas das modalidades
-          const uniqueModalities = allModalities.filter((modality, index, self) => 
+          const uniqueModalities = allModalities.filter((modality, index, self) =>
             index === self.findIndex(m => m.id === modality.id || m.name === modality.name)
           );
-          
+
           console.log(`✅ Dados carregados: ${instructorStudents.length} alunos, ${instructorClasses.length} turmas, ${uniqueModalities.length} modalidades`);
-          
+
           return {
             students: instructorStudents,
             classes: instructorClasses || [],
@@ -105,11 +105,11 @@ const InstructorStudents = ({ navigation }) => {
         },
         CACHE_TTL.MEDIUM // Cache por 5 minutos
       );
-      
+
       setStudents(instructorData.students);
       setClasses(instructorData.classes);
       setModalities(instructorData.modalities);
-      
+
       // Track analytics
       trackFeatureUsage('instructor_students_loaded', {
         academiaId: userProfile.academiaId,
@@ -117,7 +117,7 @@ const InstructorStudents = ({ navigation }) => {
         studentsCount: instructorData.students.length,
         classesCount: instructorData.classes.length
       });
-      
+
       console.log(getString('instructorDataLoaded'));
     } catch (error) {
       console.error(getString('generalErrorLoadingInstructorData'), error);
@@ -328,7 +328,7 @@ const InstructorStudents = ({ navigation }) => {
           value={searchQuery}
           style={styles.searchbar}
         />
-        
+
         {/* Filtros Avançados - Linha 1 */}
         <View style={styles.filtersRow}>
           <View style={styles.filtersContainer}>
@@ -336,7 +336,7 @@ const InstructorStudents = ({ navigation }) => {
               visible={filterVisible}
               onDismiss={() => setFilterVisible(false)}
               anchor={
-                <Button 
+                <Button
                   mode={selectedFilter !== 'all' ? "contained" : "outlined"}
                   onPress={() => setFilterVisible(true)}
                   icon="filter"
@@ -361,7 +361,7 @@ const InstructorStudents = ({ navigation }) => {
               visible={genderMenuVisible}
               onDismiss={() => setGenderMenuVisible(false)}
               anchor={
-                <Button 
+                <Button
                   mode={selectedGender ? "contained" : "outlined"}
                   onPress={() => setGenderMenuVisible(true)}
                   icon="human-male-female"
@@ -383,7 +383,7 @@ const InstructorStudents = ({ navigation }) => {
 
             {/* Dropdown de Modalidade - Usando Modal */}
             <View style={styles.dropdownContainer}>
-              <Button 
+              <Button
                 mode={selectedModalityId ? "contained" : "outlined"}
                 onPress={() => setModalityMenuVisible(true)}
                 icon="dumbbell"
@@ -402,18 +402,18 @@ const InstructorStudents = ({ navigation }) => {
 
         {/* Botões de Ação dos Filtros */}
         <View style={styles.filterActionsRow}>
-          <Button 
-            mode="outlined" 
-            onPress={clearFilters} 
+          <Button
+            mode="outlined"
+            onPress={clearFilters}
             style={styles.clearButtonImproved}
             icon="filter-remove"
             labelStyle={styles.actionButtonLabel}
           >
             {getString('clearFilters')}
           </Button>
-          <Button 
-            mode="contained" 
-            onPress={applyFilters} 
+          <Button
+            mode="contained"
+            onPress={applyFilters}
             style={styles.applyButtonImproved}
             icon="check"
             labelStyle={styles.actionButtonLabel}
@@ -440,7 +440,7 @@ const InstructorStudents = ({ navigation }) => {
             style={styles.advancedFilterInput}
           />
           <TextInput
-            label="Desde (AAAA-MM-DD)"
+            label={getString('sinceDate')}
             value={enrollmentStart}
             onChangeText={setEnrollmentStart}
             mode="outlined"
@@ -456,8 +456,9 @@ const InstructorStudents = ({ navigation }) => {
         </View>
       </View>
 
-      <ScrollView 
+      <ScrollView
         style={styles.scrollView}
+        contentContainerStyle={{ flexGrow: 1, paddingBottom: 100 }}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
@@ -468,17 +469,17 @@ const InstructorStudents = ({ navigation }) => {
               <Card.Content>
                 <View style={styles.studentHeader}>
                   <View style={styles.studentInfo}>
-                    <Avatar.Text 
-                      size={50} 
-                      label={student.name?.charAt(0) || 'A'} 
+                    <Avatar.Text
+                      size={50}
+                      label={student.name?.charAt(0) || 'A'}
                       style={styles.avatar}
                     />
                     <View style={styles.studentDetails}>
                       <Text style={[styles.studentName, styles.title]}>{student.name}</Text>
                       <Text style={styles.studentEmail}>{student.email}</Text>
                       {student.currentGraduation && (
-                        <Chip 
-                          mode="outlined" 
+                        <Chip
+                          mode="outlined"
                           style={styles.graduationChip}
                           textStyle={styles.graduationText}
                         >
@@ -487,7 +488,7 @@ const InstructorStudents = ({ navigation }) => {
                       )}
                     </View>
                   </View>
-                  
+
                   <IconButton
                     icon="dots-vertical"
                     onPress={() => handleStudentPress(student)}
@@ -496,31 +497,31 @@ const InstructorStudents = ({ navigation }) => {
 
                 <View style={styles.studentStats}>
                   <View style={styles.statItem}>
-                    <Text style={styles.statLabel}>Status</Text>
-                    <Chip 
+                    <Text style={styles.statLabel}>{getString('status')}</Text>
+                    <Chip
                       mode="outlined"
                       style={[
                         styles.statusChip,
                         { borderColor: student.isActive !== false ? COLORS.primary[500] : COLORS.error[500] }
                       ]}
-                      textStyle={{ 
+                      textStyle={{
                         color: student.isActive !== false ? COLORS.primary[500] : COLORS.error[500],
                         fontSize: FONT_SIZE.sm
                       }}
                     >
-                      {student.isActive !== false ? 'active' : getString('inactive')}
+                      {student.isActive !== false ? getString('active') : getString('inactive')}
                     </Chip>
                   </View>
 
                   <View style={styles.statItem}>
                     <Text style={styles.statLabel}>{getString('payment')}</Text>
-                    <Chip 
+                    <Chip
                       mode="outlined"
                       style={[
                         styles.statusChip,
                         { borderColor: getPaymentStatusColor(student.paymentStatus) }
                       ]}
-                      textStyle={{ 
+                      textStyle={{
                         color: getPaymentStatusColor(student.paymentStatus),
                         fontSize: FONT_SIZE.sm
                       }}
@@ -532,7 +533,7 @@ const InstructorStudents = ({ navigation }) => {
 
                 {student.graduations && student.graduations.length > 0 && (
                   <View style={styles.graduationsInfo}>
-                    <Text style={styles.graduationsTitle}>Última graduação:</Text>
+                    <Text style={styles.graduationsTitle}>{getString('lastGraduation')}</Text>
                     <Text style={styles.lastGraduation}>
                       {student.graduations[0]?.graduation} - {student.graduations[0]?.modality}
                     </Text>
@@ -545,16 +546,16 @@ const InstructorStudents = ({ navigation }) => {
                 <Divider style={styles.divider} />
 
                 <View style={styles.studentActions}>
-                  <Button 
-                    mode="outlined" 
+                  <Button
+                    mode="outlined"
                     onPress={() => handleStudentPress(student)}
                     style={styles.actionButton}
                   >
                     {getString('viewProfile')}
                   </Button>
 
-                  <Button 
-                    mode="contained" 
+                  <Button
+                    mode="contained"
                     onPress={() => handleAddGraduation(student)}
                     style={styles.actionButton}
                   >
@@ -580,33 +581,33 @@ const InstructorStudents = ({ navigation }) => {
         {students.length > 0 && (
           <Card style={styles.statsCard}>
             <Card.Content>
-              <Text style={[styles.statsTitle, styles.title]}>Resumo dos Alunos</Text>
-              
+              <Text style={[styles.statsTitle, styles.title]}>{getString('studentsSummary')}</Text>
+
               <View style={styles.statsRow}>
                 <View style={styles.statItem}>
                   <Text style={styles.statNumber}>{students.length}</Text>
-                  <Text style={styles.statLabel}>Total</Text>
+                  <Text style={styles.statLabel}>{getString('total')}</Text>
                 </View>
-                
+
                 <View style={styles.statItem}>
                   <Text style={styles.statNumber}>
                     {students.filter(s => s.isActive !== false).length}
                   </Text>
-                  <Text style={styles.statLabel}>Ativos</Text>
+                  <Text style={styles.statLabel}>{getString('activeCount')}</Text>
                 </View>
-                
+
                 <View style={styles.statItem}>
                   <Text style={styles.statNumber}>
                     {students.filter(s => s.paymentStatus === 'paid').length}
                   </Text>
-                  <Text style={styles.statLabel}>Em Dia</Text>
+                  <Text style={styles.statLabel}>{getString('upToDate')}</Text>
                 </View>
-                
+
                 <View style={styles.statItem}>
                   <Text style={styles.statNumber}>
                     {students.filter(s => s.graduations && s.graduations.length > 0).length}
                   </Text>
-                  <Text style={styles.statLabel}>Com Graduação</Text>
+                  <Text style={styles.statLabel}>{getString('withGraduation')}</Text>
                 </View>
               </View>
             </Card.Content>
@@ -617,7 +618,7 @@ const InstructorStudents = ({ navigation }) => {
       <FAB
         style={styles.fab}
         icon="account-plus"
-        label="Novo Aluno"
+        label={getString('newStudent')}
         onPress={() => navigation.navigate('AddStudent')}
       />
 
@@ -628,7 +629,7 @@ const InstructorStudents = ({ navigation }) => {
         animationType="fade"
         onRequestClose={() => setModalityMenuVisible(false)}
       >
-        <TouchableOpacity 
+        <TouchableOpacity
           style={styles.modalOverlay}
           activeOpacity={1}
           onPress={() => setModalityMenuVisible(false)}
@@ -636,7 +637,7 @@ const InstructorStudents = ({ navigation }) => {
           <View style={styles.modalDropdownContainer}>
             <View style={styles.modalDropdownList}>
               <ScrollView style={styles.dropdownScroll} nestedScrollEnabled={true}>
-                <TouchableOpacity 
+                <TouchableOpacity
                   style={styles.dropdownItem}
                   onPress={() => {
                     setSelectedModalityId('');
@@ -645,9 +646,9 @@ const InstructorStudents = ({ navigation }) => {
                 >
                   <Text style={styles.dropdownItemText}>{getString('allModalities')}</Text>
                 </TouchableOpacity>
-                
+
                 {modalities.map(m => (
-                  <TouchableOpacity 
+                  <TouchableOpacity
                     key={m.id}
                     style={[
                       styles.dropdownItem,
