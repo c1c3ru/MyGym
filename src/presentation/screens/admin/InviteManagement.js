@@ -357,17 +357,41 @@ export default function InviteManagement({ navigation }) {
               <Text variant="titleMedium" style={styles.sectionTitle}>
                 Convites Enviados ({invites.length})
               </Text>
-              <ActionButton
-                mode="text"
-                onPress={cleanupAcceptedInvites}
-                loading={loading}
-                icon="broom"
-                size="small"
-                variant="secondary"
-                style={styles.cleanupButton}
-              >
-                Limpar Aceitos
-              </ActionButton>
+              <View style={styles.headerActions}>
+                <ActionButton
+                  mode="text"
+                  onPress={cleanupAcceptedInvites}
+                  loading={loading}
+                  icon="broom"
+                  size="small"
+                  variant="secondary"
+                  style={styles.actionButton}
+                >
+                  Limpar Aceitos
+                </ActionButton>
+                <ActionButton
+                  mode="text"
+                  onPress={deleteExpiredInvites}
+                  loading={loading}
+                  icon="clock-alert"
+                  size="small"
+                  variant="warning"
+                  style={styles.actionButton}
+                >
+                  Limpar Expirados
+                </ActionButton>
+                <ActionButton
+                  mode="text"
+                  onPress={deleteAllInvites}
+                  loading={loading}
+                  icon="delete-sweep"
+                  size="small"
+                  variant="danger"
+                  style={styles.actionButton}
+                >
+                  Excluir Todos
+                </ActionButton>
+              </View>
             </View>
 
             {invites.length === 0 ? (
@@ -524,6 +548,17 @@ const styles = {
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: SPACING.md,
+    flexWrap: 'wrap',
+    gap: SPACING.sm,
+  },
+  headerActions: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: SPACING.xs,
+    alignItems: 'center',
+  },
+  actionButton: {
+    marginLeft: SPACING.xs,
   },
   cleanupButton: {
     marginLeft: SPACING.sm,
@@ -565,6 +600,17 @@ const styles = {
     opacity: 0.6,
     marginTop: 2,
     fontStyle: 'italic',
+  },
+  inviteActions: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    marginTop: SPACING.sm,
+    paddingTop: SPACING.sm,
+    borderTopWidth: 1,
+    borderTopColor: COLORS.gray[200],
+  },
+  deleteButton: {
+    marginLeft: SPACING.sm,
   },
   emptyText: {
     textAlign: 'center',
