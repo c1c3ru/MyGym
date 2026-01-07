@@ -750,7 +750,7 @@ const InstructorDashboard = ({ navigation }) => {
 
                 <AnimatedButton
                   mode="outlined"
-                  onPress={() => navigation.navigate(getString('classes'))}
+                  onPress={() => navigation.navigate('Classes')}
                   style={styles.viewAllButton}
                   textColor={COLORS.white}
                 >

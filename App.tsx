@@ -31,9 +31,9 @@ export default function App() {
   return (
     <EnhancedErrorBoundary>
       <SafeAreaProvider style={{ flex: 1 }}>
-        <PaperProvider>
-          <ThemeToggleProvider>
-            <ThemeProvider>
+        <ThemeToggleProvider>
+          <ThemeProvider>
+            <PaperProvider>
               <NotificationProvider>
                 <AuthProvider>
                   <UndoProvider>
@@ -44,9 +44,9 @@ export default function App() {
                   </UndoProvider>
                 </AuthProvider>
               </NotificationProvider>
-            </ThemeProvider>
-          </ThemeToggleProvider>
-        </PaperProvider>
+            </PaperProvider>
+          </ThemeProvider>
+        </ThemeToggleProvider>
       </SafeAreaProvider>
     </EnhancedErrorBoundary>
   );
