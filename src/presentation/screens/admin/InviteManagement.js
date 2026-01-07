@@ -75,33 +75,45 @@ export default function InviteManagement({ navigation }) {
       // Gerar link do convite usando o token retornado
       const inviteLink = InviteService.generateInviteLink(inviteResult.token);
 
+      // Obter nome da academia com fallback
+      const academiaName = academia.nome || academia.name || 'Academia';
+      const inviterName = userProfile?.name || user?.displayName || getString('administrator');
+
+      console.log('📧 Enviando email com parâmetros:', {
+        email: newInvite.email,
+        academiaName,
+        inviteLink,
+        inviterName,
+        userType: newInvite.tipo
+      });
+
       // Enviar email
       const emailSent = await InviteService.sendInviteEmail(
         newInvite.email,
-        academia.nome,
+        academiaName,
         inviteLink,
-        userProfile.name || getString('administrator'),
+        inviterName,
         newInvite.tipo
       );
 
       if (!emailSent) {
         Alert.alert(getString('warning'), 'Convite criado, mas houve problema no envio do email. O convite ainda é válido.');
+      } else {
+        Alert.alert(
+          'Convite Enviado!',
+          `Convite enviado com sucesso para ${newInvite.email}`,
+          [{
+            text: getString('ok'), onPress: () => {
+              setShowInviteModal(false);
+              setNewInvite({ email: '', tipo: 'aluno' });
+              loadInvites();
+            }
+          }]
+        );
       }
-
-      Alert.alert(
-        'Convite Enviado!',
-        `Convite enviado para ${newInvite.email}`,
-        [{
-          text: getString('ok'), onPress: () => {
-            setShowInviteModal(false);
-            setNewInvite({ email: '', tipo: 'aluno' });
-            loadInvites();
-          }
-        }]
-      );
     } catch (error) {
       console.error('Erro ao enviar convite:', error);
-      Alert.alert(getString('error'), 'Não foi possível enviar o convite');
+      Alert.alert(getString('error'), `Não foi possível enviar o convite: ${error.message || error}`);
     } finally {
       setLoading(false);
     }
@@ -110,11 +122,12 @@ export default function InviteManagement({ navigation }) {
   const shareQRCode = async () => {
     try {
       const joinLink = InviteService.generateJoinLink(academia.id);
-      const message = `Junte-se à ${academia.nome}!\n\nEscaneie o QR Code ou use este link:\n${joinLink}`;
+      const academiaName = academia.nome || academia.name || 'Academia';
+      const message = `Junte-se à ${academiaName}!\n\nEscaneie o QR Code ou use este link:\n${joinLink}`;
 
       await Share.share({
         message,
-        title: `Convite - ${academia.nome}`,
+        title: `Convite - ${academiaName}`,
       });
     } catch (error) {
       console.error('Erro ao compartilhar:', error);
