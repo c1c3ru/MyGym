@@ -9,13 +9,9 @@ service cloud.firestore {
       // Usuário pode ler e escrever seus próprios dados
       allow read, write: if request.auth != null && request.auth.uid == userId;
       
-      // Admin pode ler usuários da mesma academia (para gerenciamento)
-      allow read: if request.auth != null && 
-                     isAdmin() && 
-                     hasValidAcademia() &&
-                     (resource == null || 
-                      !exists(/databases/$(database)/documents/users/$(userId)) ||
-                      resource.data.academiaId == getAcademiaId());
+      // Admin pode ler e modificar usuários da mesma academia
+      allow read, write: if request.auth != null && 
+                           canModifyUserData(userId);
     }
     
     // ============================================================================
@@ -296,7 +292,14 @@ service cloud.firestore {
                            gymId == getAcademiaId() && 
                            isAdmin();
       
-      // Usuários podem ler e atualizar APENAS suas próprias notificações
+      // Instrutor pode criar notificações (ex: avisos para alunos)
+      allow create: if request.auth != null && 
+                      hasValidAcademia() &&
+                      gymId == getAcademiaId() && 
+                      isInstructor() &&
+                      validateNotificationData();
+
+      // Usuários podem ler e atualizar (marcar como lida) APENAS suas próprias notificações
       allow read, update: if request.auth != null && 
                             hasValidAcademia() &&
                             gymId == getAcademiaId() && 
@@ -356,19 +359,10 @@ service cloud.firestore {
       return getAcademiaId() != null;
     }
     
-    // REMOVIDO: Funções com get() calls para melhor performance
-    // O controle de acesso é feito via custom claims e validação no frontend
-    
-    // Verificar se é o próprio usuário ou admin/instrutor da academia
-    function canAccessUserData(userId) {
-      return request.auth.uid == userId || 
-             (hasValidAcademia() && isAdminOrInstructor());
-    }
-    
-    // Verificar se pode modificar dados de outro usuário
+    // Verificar se pode modificar dados de outro usuário (apenas Admin da mesma academia)
     function canModifyUserData(userId) {
-      return request.auth.uid == userId || 
-             (hasValidAcademia() && isAdmin());
+      return (hasValidAcademia() && isAdmin() && 
+              (resource == null || !exists(/databases/$(database)/documents/users/$(userId)) || resource.data.academiaId == getAcademiaId()));
     }
     
     // ============================================================================
@@ -445,4 +439,3 @@ service cloud.firestore {
     }
   }
 }
-

@@ -67,7 +67,10 @@ const InstructorTabNavigator = () => {
       <Tab.Screen
         name={getString('dashboard')}
         component={InstructorDashboard}
-        options={{ title: getString('dashboard') }}
+        options={{
+          title: getString('dashboard'),
+          headerShown: false
+        }}
       />
       <Tab.Screen
         name="Classes"
