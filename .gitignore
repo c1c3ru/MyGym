@@ -59,3 +59,8 @@ docs/reports/*.json
 # APK files (build artifacts)
 *.apk
 *.aab
+
+# Firebase Functions environment variables
+functions/.env
+functions/.env.local
+functions/.env.*.local
