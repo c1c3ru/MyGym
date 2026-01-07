@@ -196,7 +196,7 @@ export default function InviteManagement({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.scrollView}>
+      <ScrollView style={styles.scrollView} contentContainerStyle={{ paddingBottom: 100 }}>
         {/* Header */}
         <Card style={styles.headerCard}>
           <Card.Content>

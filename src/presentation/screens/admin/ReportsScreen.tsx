@@ -354,9 +354,9 @@ const ReportsScreen: React.FC<ReportsScreenProps> = ({ navigation }) => {
 
               <DataTable>
                 <DataTable.Header>
-                  <DataTable.Title>{getString('class')}</DataTable.Title>
-                  <DataTable.Title>{getString('modality')}</DataTable.Title>
-                  <DataTable.Title numeric>{getString('students')}</DataTable.Title>
+                  <DataTable.Title>Turma</DataTable.Title>
+                  <DataTable.Title>Modalidade</DataTable.Title>
+                  <DataTable.Title numeric>Alunos</DataTable.Title>
                 </DataTable.Header>
 
                 {topClasses.map((classItem, index) => (
@@ -369,7 +369,7 @@ const ReportsScreen: React.FC<ReportsScreenProps> = ({ navigation }) => {
               </DataTable>
 
               {topClasses.length === 0 && (
-                <Text style={styles.noDataText}>{getString('noClassesFound')}</Text>
+                <Text style={styles.noDataText}>Nenhuma turma encontrada</Text>
               )}
             </Card.Content>
           </Card>

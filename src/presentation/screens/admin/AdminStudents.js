@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { View, StyleSheet, RefreshControl, Alert } from 'react-native';
 import usePullToRefresh from '@hooks/usePullToRefresh';
-import { 
+import {
   FAB,
   Searchbar,
   Menu,
@@ -28,7 +28,7 @@ import { getString } from "@utils/theme";
 
 const AdminStudents = ({ navigation }) => {
   const { currentTheme } = useThemeToggle();
-  
+
   const { user, userProfile, academia } = useAuthFacade();
   const [students, setStudents] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -39,9 +39,9 @@ const AdminStudents = ({ navigation }) => {
   const [selectedStudent, setSelectedStudent] = useState(null);
 
   // Analytics tracking
-  useScreenTracking('AdminStudents', { 
+  useScreenTracking('AdminStudents', {
     academiaId: userProfile?.academiaId,
-    userType: userProfile?.userType 
+    userType: userProfile?.userType
   });
   const { trackButtonClick, trackSearch, trackFeatureUsage } = useUserActionTracking();
 
@@ -49,7 +49,7 @@ const AdminStudents = ({ navigation }) => {
   const loadStudents = useCallback(async () => {
     try {
       setLoading(true);
-      
+
       // Obter ID da academia
       const academiaId = userProfile?.academiaId || academia?.id;
       console.log('🏫 Academia ID:', academiaId);
@@ -60,12 +60,12 @@ const AdminStudents = ({ navigation }) => {
 
       // Usar cache inteligente para carregar alunos
       const cacheKey = CACHE_KEYS.STUDENTS(academiaId);
-      
+
       const enrichedStudents = await cacheService.getOrSet(
         cacheKey,
         async () => {
           console.log('🔍 Buscando alunos na academia (cache miss):', academiaId);
-          
+
           // Buscar alunos da academia usando subcoleção
           const studentsData = await academyFirestoreService.getAll('students', academiaId);
           console.log('👥 Alunos encontrados:', studentsData.length);
@@ -89,13 +89,13 @@ const AdminStudents = ({ navigation }) => {
 
                     // Buscar pagamentos do aluno
                     const payments = await academyFirestoreService.getWhere('payments', 'studentId', '==', student.id, academiaId);
-                    
+
                     // Buscar turmas do aluno para determinar modalidades
                     const studentClasses = await academyFirestoreService.getWhere('classes', 'students', 'array-contains', student.id, academiaId);
-                    
+
                     // Extrair modalidades únicas das turmas
                     const studentModalities = [...new Set(studentClasses.map(cls => cls.modality).filter(Boolean))];
-                    
+
                     const latestPayment = payments[0];
                     return {
                       ...student,
@@ -127,7 +127,7 @@ const AdminStudents = ({ navigation }) => {
 
       setStudents(enrichedStudents || []);
       console.log('✅ Alunos carregados com sucesso');
-      
+
       // Track analytics
       trackFeatureUsage('students_list_loaded', {
         studentsCount: enrichedStudents?.length || 0,
@@ -237,16 +237,16 @@ const AdminStudents = ({ navigation }) => {
     navigation.navigate('AddStudent', {
       onStudentAdded: (newStudent) => {
         console.log('🔄 Novo aluno adicionado, atualizando lista:', newStudent.name);
-        
+
         // Invalidar cache de alunos
         const academiaId = userProfile?.academiaId || academia?.id;
         if (academiaId) {
           cacheService.invalidatePattern(`students:${academiaId})`);
         }
-        
+
         // Adicionar o novo aluno à lista imediatamente
         setStudents(prevStudents => [newStudent, ...prevStudents]);
-        
+
         // Também recarregar para garantir dados atualizados
         setTimeout(() => {
           loadStudents();
@@ -271,8 +271,8 @@ const AdminStudents = ({ navigation }) => {
       `Tem certeza que deseja excluir o aluno ${student.name}?`,
       [
         { text: getString('cancel'), style: 'cancel' },
-        { 
-          text: getString('delete'), 
+        {
+          text: getString('delete'),
           style: 'destructive',
           onPress: async () => {
             try {
@@ -333,14 +333,14 @@ const AdminStudents = ({ navigation }) => {
             value={searchQuery}
             style={styles.searchbar}
           />
-          
+
           <View style={styles.filterRow}>
             <Menu
               visible={filterVisible}
               onDismiss={() => setFilterVisible(false)}
               anchor={
-                <Button 
-                  mode="outlined" 
+                <Button
+                  mode="outlined"
                   onPress={() => setFilterVisible(true)}
                   icon="filter"
                   style={styles.filterButton}
@@ -409,7 +409,7 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: COLORS.background.paper,
-    paddingHorizontal: SPACING.md,
+    paddingHorizontal: '4%',
     paddingVertical: SPACING.md,
     elevation: 2,
   },
@@ -417,23 +417,27 @@ const styles = StyleSheet.create({
     elevation: 0,
     backgroundColor: COLORS.white,
     marginBottom: SPACING.sm,
+    width: '100%',
   },
   filterRow: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
+    width: '100%',
   },
   filterButton: {
     borderColor: COLORS.warning[500],
   },
   studentCard: {
-    marginVertical: 8,
+    marginVertical: SPACING.sm,
     elevation: 2,
+    width: '100%',
   },
   studentHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: SPACING.md,
+    width: '100%',
   },
   studentInfo: {
     flexDirection: 'row',
@@ -464,7 +468,8 @@ const styles = StyleSheet.create({
   studentStats: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginVertical: 12,
+    marginVertical: SPACING.md,
+    width: '100%',
   },
   statColumn: {
     alignItems: 'center',
@@ -481,10 +486,10 @@ const styles = StyleSheet.create({
     color: COLORS.black,
   },
   statusChip: {
-    height: 24,
+    minHeight: 24,
   },
   divider: {
-    marginVertical: 12,
+    marginVertical: SPACING.md,
   },
   fab: {
     position: 'absolute',
@@ -494,7 +499,8 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primary[500],
   },
   listContainer: {
-    paddingHorizontal: SPACING.md,
+    paddingHorizontal: '4%',
+    paddingBottom: 100,
   },
   emptyContainer: {
     flex: 1,

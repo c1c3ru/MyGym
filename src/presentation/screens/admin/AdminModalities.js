@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, ScrollView, RefreshControl, Alert, Platform } from 'react-native';
+import { View, StyleSheet, ScrollView, RefreshControl, Alert, Platform, Animated } from 'react-native';
 import {
   Card,
   Button,
@@ -56,6 +56,9 @@ const AdminModalities = ({ navigation }) => {
     targetAudience: 'all' // 'all', 'students', 'instructors'
   });
 
+  // Animações para micro-interações
+  const [fadeAnim] = useState(new Animated.Value(0));
+
   useEffect(() => {
     // Debug do usuário atual
     console.log('=== DEBUG USER INFO ===');
@@ -69,6 +72,13 @@ const AdminModalities = ({ navigation }) => {
     console.log('======================');
 
     loadData();
+
+    // Iniciar animação de entrada
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 600,
+      useNativeDriver: true,
+    }).start();
   }, []);
 
   const loadData = async () => {
@@ -589,6 +599,7 @@ const AdminModalities = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <ScrollView
         style={styles.scrollView}
+        contentContainerStyle={{ paddingBottom: 100 }}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
@@ -964,7 +975,7 @@ const AdminModalities = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.gray[100],
+    backgroundColor: COLORS.background.default,
   },
   loadingContainer: {
     flex: 1,
@@ -981,7 +992,12 @@ const styles = StyleSheet.create({
   card: {
     margin: SPACING.md,
     marginBottom: SPACING.sm,
-    elevation: 2,
+    // Glassmorphism
+    backgroundColor: 'rgba(255, 255, 255, 0.08)',
+    borderRadius: BORDER_RADIUS.lg,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.12)',
+    elevation: 6,
   },
   cardHeader: {
     flexDirection: 'row',
@@ -1016,8 +1032,12 @@ const styles = StyleSheet.create({
   statsCard: {
     margin: SPACING.md,
     marginTop: SPACING.sm,
-    elevation: 2,
-    backgroundColor: COLORS.card.default.background,
+    // Glassmorphism com toque de cor
+    backgroundColor: 'rgba(211, 47, 47, 0.12)',
+    borderRadius: BORDER_RADIUS.lg,
+    borderWidth: 1,
+    borderColor: 'rgba(211, 47, 47, 0.2)',
+    elevation: 6,
   },
   statsTitle: {
     textAlign: 'center',

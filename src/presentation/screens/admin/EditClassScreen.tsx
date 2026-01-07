@@ -121,7 +121,7 @@ const EditClassScreen = ({ route, navigation }: EditClassScreenProps) => {
           status: classData.status || 'active'
         });
       } else {
-        setSnackbar({ visible: true, message: getString('classNotFound'), type: 'error' });
+        setSnackbar({ visible: true, message: 'Turma não encontrada', type: 'error' });
         setTimeout(() => navigation.goBack(), 800);
       }
     } catch (error) {
@@ -306,7 +306,7 @@ const EditClassScreen = ({ route, navigation }: EditClassScreenProps) => {
 
             {/* Modalidade */}
             <View style={styles.pickerContainer}>
-              <Text style={styles.label}>{getString('modality')}</Text>
+              <Text style={styles.label}>Modalidade</Text>
               <View style={styles.chipContainer}>
                 {modalities.length === 0 && (
                   <Text style={{ color: COLORS.gray[500] }}>Nenhuma modalidade cadastrada</Text>
@@ -370,7 +370,7 @@ const EditClassScreen = ({ route, navigation }: EditClassScreenProps) => {
 
             {/* Instrutor */}
             <View style={styles.pickerContainer}>
-              <Text style={styles.label}>{getString('instructor')}</Text>
+              <Text style={styles.label}>Instrutor</Text>
               <View style={styles.chipContainer}>
                 {instructors.length === 0 && (
                   <Text style={{ color: COLORS.gray[500] }}>Nenhum instrutor encontrado</Text>
@@ -439,7 +439,7 @@ const EditClassScreen = ({ route, navigation }: EditClassScreenProps) => {
                 style={styles.button}
                 disabled={loading}
                 variant="secondary"
-              >{getString('cancel')}</ActionButton>
+              >Cancelar</ActionButton>
               <ActionButton
                 mode="contained"
                 onPress={handleSubmit}
@@ -447,7 +447,7 @@ const EditClassScreen = ({ route, navigation }: EditClassScreenProps) => {
                 loading={loading}
                 disabled={loading || modalities.length === 0}
                 variant="success"
-              >{getString('save')}</ActionButton>
+              >Salvar</ActionButton>
             </ActionButtonGroup>
 
             {/* Botão Excluir */}
@@ -483,7 +483,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    padding: SPACING.md,
+    paddingHorizontal: '4%',
+    paddingVertical: SPACING.md,
     paddingBottom: 100,
   },
   loadingContainer: {
@@ -492,16 +493,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   card: {
-    marginBottom: 20,
+    marginBottom: SPACING.lg,
+    width: '100%',
   },
   title: {
     fontSize: FONT_SIZE.xxl,
     fontWeight: FONT_WEIGHT.bold,
-    marginBottom: 20,
+    marginBottom: SPACING.lg,
     textAlign: 'center',
   },
   input: {
     marginBottom: SPACING.md,
+    width: '100%',
   },
   label: {
     fontSize: FONT_SIZE.md,
@@ -511,47 +514,59 @@ const styles = StyleSheet.create({
   },
   pickerContainer: {
     marginBottom: SPACING.md,
+    width: '100%',
   },
   chipContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: SPACING.sm,
+    width: '100%',
   },
   chip: {
     marginBottom: SPACING.sm,
+    flexGrow: 0,
+    flexShrink: 1,
   },
   picker: {
     borderWidth: BORDER_WIDTH.base,
     borderColor: COLORS.gray[400],
     borderRadius: BORDER_RADIUS.sm,
     backgroundColor: COLORS.white,
+    width: '100%',
   },
   pickerStyle: {
-    height: 50,
+    minHeight: 50,
   },
   radioContainer: {
-    marginBottom: 20,
+    marginBottom: SPACING.lg,
+    width: '100%',
   },
   radioItem: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: SPACING.sm,
+    flex: 1,
   },
   radioLabel: {
     marginLeft: SPACING.sm,
     fontSize: FONT_SIZE.md,
+    flex: 1,
   },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 20,
+    marginTop: SPACING.lg,
+    width: '100%',
+    gap: SPACING.md,
   },
   button: {
     flex: 1,
-    marginHorizontal: 8,
+    minWidth: 0,
   },
   deleteButton: {
     borderColor: COLORS.error[700],
+    width: '100%',
+    marginTop: SPACING.lg,
   },
   helperTip: {
     marginTop: -4,

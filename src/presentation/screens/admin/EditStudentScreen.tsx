@@ -88,12 +88,12 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
           sexo: studentData.sexo || ''
         });
       } else {
-        Alert.alert(getString('error'), 'Aluno não encontrado');
+        Alert.alert('Erro', 'Aluno não encontrado');
         navigation.goBack();
       }
     } catch (error) {
       console.error('Erro ao carregar aluno:', error);
-      Alert.alert(getString('error'), 'Não foi possível carregar os dados do aluno');
+      Alert.alert('Erro', 'Não foi possível carregar os dados do aluno');
     } finally {
       setLoadingData(false);
     }
@@ -109,7 +109,7 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
     if (!formData.email.trim()) {
       newErrors.email = 'Email é obrigatório';
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = getString('invalidEmail');
+      newErrors.email = 'Email inválido';
     }
 
     if (!formData.phone.trim()) {
@@ -186,15 +186,15 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
 
   const handleDelete = () => {
     Alert.alert(
-      getString('confirmDelete'),
+      'Confirmar Exclusão',
       'Tem certeza que deseja excluir este aluno? Esta ação não pode ser desfeita.',
       [
         {
-          text: getString('cancel'),
+          text: 'Cancelar',
           style: 'cancel'
         },
         {
-          text: getString('delete'),
+          text: 'Excluir',
           style: 'destructive',
           onPress: async () => {
             try {
@@ -287,7 +287,7 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
             {(errors as any).email && <HelperText type="error">{(errors as any).email}</HelperText>}
 
             <TextInput
-              label={getString('phone')}
+              label="Telefone"
               value={formData.phone}
               onChangeText={(value: any) => updateFormData('phone', value)}
               mode="outlined"
@@ -376,11 +376,11 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
               >
                 <View style={styles.radioItem}>
                   <RadioButton value="active" />
-                  <Text style={styles.radioLabel}>{getString('active')}</Text>
+                  <Text style={styles.radioLabel}>Ativo</Text>
                 </View>
                 <View style={styles.radioItem}>
                   <RadioButton value="inactive" />
-                  <Text style={styles.radioLabel}>{getString('inactive')}</Text>
+                  <Text style={styles.radioLabel}>Inativo</Text>
                 </View>
                 <View style={styles.radioItem}>
                   <RadioButton value="suspended" />
@@ -396,14 +396,14 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
                 onPress={() => navigation.goBack()}
                 style={[styles.button, styles.cancelButton]}
                 disabled={loading}
-              >{getString('cancel')}</Button>
+              >Cancelar</Button>
               <Button
                 mode="contained"
                 onPress={handleSubmit}
                 style={[styles.button, styles.saveButton]}
                 loading={loading}
                 disabled={loading}
-              >{getString('save')}</Button>
+              >Salvar</Button>
             </View>
 
             {/* Botão Excluir */}

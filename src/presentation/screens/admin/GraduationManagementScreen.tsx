@@ -106,7 +106,7 @@ const GraduationManagementScreen: React.FC<{ navigation: any }> = ({ navigation 
       Alert.alert(
         'Acesso Negado',
         'Você não tem permissão para acessar esta funcionalidade.',
-        [{ text: getString('ok'), onPress: () => navigation.goBack() }]
+        [{ text: 'OK', onPress: () => navigation.goBack() }]
       );
     }
   }, [canManageGraduations, navigation]);
@@ -141,7 +141,7 @@ const GraduationManagementScreen: React.FC<{ navigation: any }> = ({ navigation 
       'Verificação Automática',
       'Deseja executar uma verificação automática de graduações? Isso enviará notificações para instrutores sobre estudantes elegíveis.',
       [
-        { text: getString('cancel'), style: 'cancel' },
+        { text: 'Cancelar', style: 'cancel' },
         {
           text: 'Executar',
           onPress: async () => {
@@ -218,7 +218,7 @@ const GraduationManagementScreen: React.FC<{ navigation: any }> = ({ navigation 
                 onPress={() => setSelectedModality(modality)}
                 style={styles.filterChip}
               >
-                {modality === 'all' ? getString('all') : modality}
+                {modality === 'all' ? 'Todas' : modality}
               </Chip>
             ))}
           </View>
@@ -321,7 +321,7 @@ const GraduationManagementScreen: React.FC<{ navigation: any }> = ({ navigation 
           <Dialog.Title>Agendar Exame de Graduação</Dialog.Title>
           <Dialog.Content>
             <TextInput
-              label="modality"
+              label="Modalidade"
               value={examForm.modality}
               onChangeText={(text) => setExamForm(prev => ({ ...prev, modality: text }))}
               style={styles.input}
@@ -339,14 +339,14 @@ const GraduationManagementScreen: React.FC<{ navigation: any }> = ({ navigation 
               style={styles.input}
             />
             <TextInput
-              label="local"
+              label="Local"
               value={examForm.location}
               onChangeText={(text) => setExamForm(prev => ({ ...prev, location: text }))}
               style={styles.input}
             />
           </Dialog.Content>
           <Dialog.Actions>
-            <Button onPress={() => setExamDialogVisible(false)}>{getString('cancel')}</Button>
+            <Button onPress={() => setExamDialogVisible(false)}>Cancelar</Button>
             <Button mode="contained" onPress={handleScheduleExam}>
               Agendar
             </Button>
@@ -414,6 +414,7 @@ const GraduationManagementScreen: React.FC<{ navigation: any }> = ({ navigation 
 
       <ScrollView
         style={styles.content}
+        contentContainerStyle={{ paddingBottom: 100 }}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={refreshGraduationBoard} />
         }

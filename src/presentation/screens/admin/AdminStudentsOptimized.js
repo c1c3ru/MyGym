@@ -341,7 +341,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.gray[100],
   },
   listContainer: {
-    paddingBottom: 0,
+    paddingBottom: 100,
     minHeight: 2, // Garantir altura mínima para FlashList
   },
   flashList: {

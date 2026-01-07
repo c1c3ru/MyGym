@@ -11,3 +11,5 @@ export { onEvaluationUpdate } from './evaluations/evaluationProcessor';
 export { scheduledFirestoreExport } from './backup/firestoreBackup';
 export { sendPaymentReminder } from './notifications/paymentReminders';
 export { sendClassReminder } from './notifications/classReminders';
+export { sendInviteEmail } from './invites/sendInviteEmail';
+

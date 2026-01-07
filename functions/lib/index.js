@@ -33,7 +33,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sendClassReminder = exports.sendPaymentReminder = exports.scheduledFirestoreExport = exports.onEvaluationUpdate = exports.processPayment = exports.checkInGeo = exports.sendNewClassNotification = void 0;
+exports.sendInviteEmail = exports.sendClassReminder = exports.sendPaymentReminder = exports.scheduledFirestoreExport = exports.onEvaluationUpdate = exports.processPayment = exports.checkInGeo = exports.sendNewClassNotification = void 0;
 const admin = __importStar(require("firebase-admin"));
 // Initialize Firebase Admin
 admin.initializeApp();
@@ -52,4 +52,6 @@ var paymentReminders_1 = require("./notifications/paymentReminders");
 Object.defineProperty(exports, "sendPaymentReminder", { enumerable: true, get: function () { return paymentReminders_1.sendPaymentReminder; } });
 var classReminders_1 = require("./notifications/classReminders");
 Object.defineProperty(exports, "sendClassReminder", { enumerable: true, get: function () { return classReminders_1.sendClassReminder; } });
+var sendInviteEmail_1 = require("./invites/sendInviteEmail");
+Object.defineProperty(exports, "sendInviteEmail", { enumerable: true, get: function () { return sendInviteEmail_1.sendInviteEmail; } });
 //# sourceMappingURL=index.js.map

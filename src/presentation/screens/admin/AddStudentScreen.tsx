@@ -156,7 +156,7 @@ const AddStudentScreen = ({ navigation, route }: any) => {
         : [...prev, classId];
 
       // Feedback visual
-      const className = availableClasses.find(c => c.id === classId)?.name || getString('class');
+      const className = availableClasses.find(c => c.id === classId)?.name || 'Turma';
       if (isSelected) {
         showSnackbar(`${className} removida da seleção`, 'info');
         trackButtonClick('remove_class_selection', { classId, className });
@@ -291,7 +291,7 @@ const AddStudentScreen = ({ navigation, route }: any) => {
     });
 
     if (result.blocked) {
-      Alert.alert(getString('actionBlocked'), 'Muitas criações de aluno. Aguarde alguns minutos.');
+      Alert.alert('Ação Bloqueada', 'Muitas criações de aluno. Aguarde alguns minutos.');
     }
   }, [validateForm, executeStudentCreation, formData, selectedClasses, user?.id, userProfile?.academiaId, academia?.id, trackFeatureUsage, route.params, resetForm, navigation]);
 
@@ -326,7 +326,7 @@ const AddStudentScreen = ({ navigation, route }: any) => {
           visible={showValidationBanner}
           actions={[
             {
-              label: getString('ok'),
+              label: 'OK',
               onPress: () => setShowValidationBanner(false),
             },
           ]}
@@ -578,11 +578,11 @@ const AddStudentScreen = ({ navigation, route }: any) => {
                 >
                   <View style={styles.radioItem}>
                     <RadioButton value="active" />
-                    <Text style={styles.radioLabel}>{getString('active')}</Text>
+                    <Text style={styles.radioLabel}>Ativo</Text>
                   </View>
                   <View style={styles.radioItem}>
                     <RadioButton value="inactive" />
-                    <Text style={styles.radioLabel}>{getString('inactive')}</Text>
+                    <Text style={styles.radioLabel}>Inativo</Text>
                   </View>
                 </RadioButton.Group>
               </View>
@@ -594,7 +594,7 @@ const AddStudentScreen = ({ navigation, route }: any) => {
                   onPress={() => navigation.goBack()}
                   style={styles.button}
                   disabled={loading}
-                >{getString('cancel')}</Button>
+                >Cancelar</Button>
                 <Button
                   mode="contained"
                   onPress={handleSubmit}
@@ -621,7 +621,7 @@ const AddStudentScreen = ({ navigation, route }: any) => {
             snackbar.type === 'error' && styles.snackbarError
           ]}
           action={{
-            label: getString('close'),
+            label: 'Fechar',
             onPress: hideSnackbar,
           }}
         >
@@ -641,22 +641,24 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    padding: SPACING.md,
+    paddingHorizontal: '4%',
+    paddingVertical: SPACING.md,
     paddingBottom: 100,
   },
   card: {
-    marginBottom: 20,
+    marginBottom: SPACING.lg,
+    width: '100%',
   },
   title: {
     fontSize: FONT_SIZE.xxl,
     fontWeight: FONT_WEIGHT.bold,
-    marginBottom: 20,
+    marginBottom: SPACING.lg,
     textAlign: 'center',
   },
   sectionTitle: {
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
-    marginTop: 20,
+    marginTop: SPACING.lg,
     marginBottom: SPACING.md,
     color: COLORS.black,
   },
@@ -667,16 +669,19 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
   },
   divider: {
-    marginVertical: 16,
+    marginVertical: SPACING.md,
   },
   classesContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: SPACING.sm,
     marginBottom: SPACING.md,
+    width: '100%',
   },
   classChip: {
     marginBottom: SPACING.sm,
+    flexGrow: 0,
+    flexShrink: 1,
   },
   selectedChip: {
     backgroundColor: COLORS.info[500],
@@ -695,12 +700,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop: 20,
+    marginTop: SPACING.lg,
     marginBottom: SPACING.md,
+    width: '100%',
   },
   loadingContainer: {
     alignItems: 'center',
-    padding: 32,
+    padding: SPACING.xl,
+    width: '100%',
   },
   loadingText: {
     marginTop: SPACING.md,
@@ -715,6 +722,7 @@ const styles = StyleSheet.create({
     padding: SPACING.md,
     borderRadius: BORDER_RADIUS.md,
     marginTop: SPACING.sm,
+    width: '100%',
   },
   selectedClassesInfo: {
     fontSize: FONT_SIZE.base,
@@ -727,10 +735,11 @@ const styles = StyleSheet.create({
   },
   emptyStateContainer: {
     alignItems: 'center',
-    padding: 32,
+    padding: SPACING.xl,
     backgroundColor: COLORS.gray[100],
     borderRadius: BORDER_RADIUS.md,
-    marginVertical: 16,
+    marginVertical: SPACING.md,
+    width: '100%',
   },
   emptyStateIcon: {
     fontSize: FONT_SIZE.display,
@@ -748,6 +757,7 @@ const styles = StyleSheet.create({
   },
   input: {
     marginBottom: SPACING.md,
+    width: '100%',
   },
   label: {
     fontSize: FONT_SIZE.md,
@@ -768,24 +778,29 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.md,
     marginTop: SPACING.sm,
     paddingHorizontal: SPACING.md,
+    width: '100%',
   },
   radioItem: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: SPACING.sm,
+    flex: 1,
   },
   radioLabel: {
     marginLeft: SPACING.sm,
     fontSize: FONT_SIZE.md,
+    flex: 1,
   },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 30,
+    marginTop: SPACING.xl,
+    width: '100%',
+    gap: SPACING.md,
   },
   button: {
     flex: 1,
-    marginHorizontal: 8,
+    minWidth: 0,
   },
   buttonLoading: {
     opacity: 0.7,
@@ -799,19 +814,19 @@ const styles = StyleSheet.create({
   snackbarError: {
     backgroundColor: COLORS.error[500],
   },
-  validationBanner: {
-    backgroundColor: COLORS.error[50],
-  },
   loadingOverlay: {
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: COLORS.black + "80",
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: 1000,
+  },
+  validationBanner: {
+    backgroundColor: COLORS.warning[50],
   },
 });
 

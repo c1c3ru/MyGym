@@ -358,6 +358,7 @@ const AdminDashboard = ({ navigation }) => {
 
           <Animated.ScrollView
             style={styles.scrollView}
+            contentContainerStyle={{ paddingBottom: 100 }}
             refreshControl={
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={COLORS.white} />
             }
@@ -739,9 +740,16 @@ const styles = StyleSheet.create({
     marginBottom: ResponsiveUtils.spacing.md,
     borderRadius: ResponsiveUtils.borderRadius.medium,
     overflow: 'hidden',
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
-    borderColor: 'rgba(255, 255, 255, 0.1)',
+    // Glassmorphism
+    backgroundColor: 'rgba(255, 255, 255, 0.08)',
+    borderColor: 'rgba(255, 255, 255, 0.15)',
     borderWidth: 1,
+    // Elevação para profundidade
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.3,
+    shadowRadius: 12,
+    elevation: 8,
   },
   statGradient: {
     padding: ResponsiveUtils.spacing.md,
@@ -765,18 +773,32 @@ const styles = StyleSheet.create({
   card: {
     margin: ResponsiveUtils.spacing.md,
     marginTop: ResponsiveUtils.spacing.sm,
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
-    borderColor: 'rgba(255, 255, 255, 0.1)',
+    // Glassmorphism
+    backgroundColor: 'rgba(255, 255, 255, 0.08)',
+    borderColor: 'rgba(255, 255, 255, 0.15)',
     borderWidth: 1,
     borderRadius: ResponsiveUtils.borderRadius.large,
+    // Elevação
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.3,
+    shadowRadius: 16,
+    elevation: 10,
   },
   modernCard: {
     margin: ResponsiveUtils.spacing.md,
     marginBottom: ResponsiveUtils.spacing.md,
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
-    borderColor: 'rgba(255, 255, 255, 0.1)',
+    // Glassmorphism
+    backgroundColor: 'rgba(255, 255, 255, 0.08)',
+    borderColor: 'rgba(255, 255, 255, 0.15)',
     borderWidth: 1,
     borderRadius: ResponsiveUtils.borderRadius.large,
+    // Elevação
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.3,
+    shadowRadius: 16,
+    elevation: 10,
   },
   cardHeader: {
     flexDirection: 'row',

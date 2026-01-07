@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import { View, StyleSheet, RefreshControl, Alert } from 'react-native';
+import { View, StyleSheet, RefreshControl, Alert, Animated } from 'react-native';
 import {
   Card,
   Button,
@@ -41,6 +41,9 @@ const AdminClasses = ({ navigation }) => {
   const [refreshing, setRefreshing] = useState(false);
   const [showCalendarModal, setShowCalendarModal] = useState(false);
 
+  // Animações para micro-interações
+  const [fadeAnim] = useState(new Animated.Value(0));
+
   // Analytics tracking
   useScreenTracking('AdminClasses', {
     academiaId: userProfile?.academiaId,
@@ -51,6 +54,13 @@ const AdminClasses = ({ navigation }) => {
 
   useEffect(() => {
     loadClasses();
+
+    // Iniciar animação de entrada
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 600,
+      useNativeDriver: true,
+    }).start();
   }, []);
 
   // Recarregar sempre que a tela ganhar foco (ex.: após excluir turma e voltar)
@@ -143,14 +153,14 @@ const AdminClasses = ({ navigation }) => {
                       ...classItem,
                       currentStudents: students.length,
                       students: students,
-                      instructorName: instructor?.name || getString('notAssigned')
+                      instructorName: instructor?.name || 'Não atribuído'
                     };
                   } catch (error) {
                     return {
                       ...classItem,
                       currentStudents: 0,
                       students: [],
-                      instructorName: getString('notAssigned')
+                      instructorName: 'Não atribuído'
                     };
                   }
                 })
@@ -176,7 +186,7 @@ const AdminClasses = ({ navigation }) => {
 
     } catch (error) {
       console.error(getString('loadClassesError'), error);
-      Alert.alert(getString('error'), getString('errorLoadingClasses'));
+      Alert.alert('Erro', 'Erro ao carregar turmas');
     } finally {
       setLoading(false);
       setRefreshing(false);
@@ -281,11 +291,11 @@ const AdminClasses = ({ navigation }) => {
     <Card style={styles.emptyCard}>
       <Card.Content style={styles.emptyContent}>
         <Ionicons name="school-outline" size={48} color="currentTheme.gray[300]" />
-        <Text style={[styles.emptyTitle, styles.title]}>{getString('noClassesFound')}</Text>
+        <Text style={[styles.emptyTitle, styles.title]}>Nenhuma turma encontrada</Text>
         <Text style={[styles.emptyText, styles.paragraph]}>
           {searchQuery ?
             'noMatchingClasses' :
-            getString('noClassesRegistered')
+            'Nenhuma turma registrada'
           }
         </Text>
       </Card.Content>
@@ -298,33 +308,33 @@ const AdminClasses = ({ navigation }) => {
     return (
       <Card style={styles.statsCard}>
         <Card.Content>
-          <Text style={[styles.statsTitle, styles.title]}>{getString('classStatistics')}</Text>
+          <Text style={[styles.statsTitle, styles.title]}>Estatísticas das Turmas</Text>
 
           <View style={styles.statsGrid}>
             <View style={styles.statItem}>
               <Text style={styles.statNumber}>{classes.length}</Text>
-              <Text style={styles.statLabel}>{getString('total')}</Text>
+              <Text style={styles.statLabel}>Total</Text>
             </View>
 
             <View style={styles.statItem}>
               <Text style={styles.statNumber}>
                 {classes.filter(c => c.isActive !== false).length}
               </Text>
-              <Text style={styles.statLabel}>{getString('activeClasses')}</Text>
+              <Text style={styles.statLabel}>Turmas Ativas</Text>
             </View>
 
             <View style={styles.statItem}>
               <Text style={styles.statNumber}>
                 {classes.reduce((sum, c) => sum + (c.currentStudents || 0), 0)}
               </Text>
-              <Text style={styles.statLabel}>{getString('totalStudents')}</Text>
+              <Text style={styles.statLabel}>Total de Alunos</Text>
             </View>
 
             <View style={styles.statItem}>
               <Text style={styles.statNumber}>
                 {[...new Set(classes.map(c => c.modality))].length}
               </Text>
-              <Text style={styles.statLabel}>{getString('modalities')}</Text>
+              <Text style={styles.statLabel}>Modalidades</Text>
             </View>
           </View>
         </Card.Content>
@@ -334,12 +344,12 @@ const AdminClasses = ({ navigation }) => {
 
   const handleDeleteClass = (classItem) => {
     Alert.alert(
-      getString('confirmDeletion'),
-      getString('confirmDeleteClass').replace('{className}', classItem.name),
+      'Confirmar Exclusão',
+      'Tem certeza que deseja excluir a turma {className}?'.replace('{className}', classItem.name),
       [
-        { text: getString('cancel'), style: 'cancel' },
+        { text: 'Cancelar', style: 'cancel' },
         {
-          text: getString('delete'),
+          text: 'Excluir',
           style: 'destructive',
           onPress: async () => {
             try {
@@ -349,11 +359,11 @@ const AdminClasses = ({ navigation }) => {
               await firestoreService.delete('classes', classItem.id);
               // Garantir sincronização com servidor
               loadClasses();
-              Alert.alert(getString('success'), getString('classDeletedSuccess'));
+              Alert.alert('Sucesso', 'Turma excluída com sucesso');
             } catch (error) {
               // Em caso de erro, recarregar lista para reverter remoção otimista
               loadClasses();
-              Alert.alert(getString('error'), getString('errorDeletingClass'));
+              Alert.alert('Erro', 'Erro ao excluir turma');
             }
           }
         }
@@ -366,9 +376,9 @@ const AdminClasses = ({ navigation }) => {
     try {
       const schedule = classItem?.schedule;
       if (Array.isArray(schedule) && schedule.length > 0) {
-        const days = [getString('sunday'), getString('monday'), getString('tuesday'), getString('wednesday'), getString('thursday'), getString('friday'), getString('saturday')];
+        const days = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
         return schedule.map((s) => {
-          const day = typeof s.dayOfWeek === 'number' ? days[s.dayOfWeek] : getString('day');
+          const day = typeof s.dayOfWeek === 'number' ? days[s.dayOfWeek] : 'Dia';
           const hour = (s.hour ?? '').toString().padStart(2, '0');
           const minute = (s.minute ?? 0).toString().padStart(2, '0');
           return `${day} ${hour}:${minute}`;
@@ -380,9 +390,9 @@ const AdminClasses = ({ navigation }) => {
       if (typeof classItem?.scheduleText === 'string' && classItem.scheduleText.trim()) {
         return classItem.scheduleText.trim();
       }
-      return getString('scheduleNotDefined');
+      return 'Horário não definido';
     } catch (e) {
-      return getString('scheduleNotDefined');
+      return 'Horário não definido';
     }
   };
 
@@ -396,14 +406,14 @@ const AdminClasses = ({ navigation }) => {
 
   const getFilterText = (filter) => {
     const filters = {
-      'all': getString('allClasses'),
-      'active': getString('activeClasses'),
-      'inactive': getString('inactiveClasses'),
-      'full': getString('fullClasses'),
-      'empty': getString('emptyClasses'),
-      'no_instructor': getString('noInstructor')
+      'all': 'Todas as Turmas',
+      'active': 'Turmas Ativas',
+      'inactive': 'Turmas Inativas',
+      'full': 'Turmas Cheias',
+      'empty': 'Turmas Vazias',
+      'no_instructor': 'Sem Instrutor'
     };
-    return filters[filter] || getString('allClasses');
+    return filters[filter] || 'Todas as Turmas';
   };
 
   return (
@@ -416,7 +426,7 @@ const AdminClasses = ({ navigation }) => {
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>
           <Searchbar
-            placeholder={getString('searchClasses')}
+            placeholder="Buscar turmas"
             onChangeText={setSearchQuery}
             value={searchQuery}
             style={styles.searchbar}
@@ -437,12 +447,12 @@ const AdminClasses = ({ navigation }) => {
                 </Button>
               }
             >
-              <Menu.Item onPress={() => { setSelectedFilter('all'); setFilterVisible(false); }} title={getString('allClasses')} />
-              <Menu.Item onPress={() => { setSelectedFilter('active'); setFilterVisible(false); }} title={getString('activeClasses')} />
-              <Menu.Item onPress={() => { setSelectedFilter('inactive'); setFilterVisible(false); }} title={getString('inactiveClasses')} />
-              <Menu.Item onPress={() => { setSelectedFilter('full'); setFilterVisible(false); }} title={getString('fullClasses')} />
-              <Menu.Item onPress={() => { setSelectedFilter('empty'); setFilterVisible(false); }} title={getString('emptyClasses')} />
-              <Menu.Item onPress={() => { setSelectedFilter('no_instructor'); setFilterVisible(false); }} title={getString('noInstructor')} />
+              <Menu.Item onPress={() => { setSelectedFilter('all'); setFilterVisible(false); }} title="Todas as Turmas" />
+              <Menu.Item onPress={() => { setSelectedFilter('active'); setFilterVisible(false); }} title="Turmas Ativas" />
+              <Menu.Item onPress={() => { setSelectedFilter('inactive'); setFilterVisible(false); }} title="Turmas Inativas" />
+              <Menu.Item onPress={() => { setSelectedFilter('full'); setFilterVisible(false); }} title="Turmas Cheias" />
+              <Menu.Item onPress={() => { setSelectedFilter('empty'); setFilterVisible(false); }} title="Turmas Vazias" />
+              <Menu.Item onPress={() => { setSelectedFilter('no_instructor'); setFilterVisible(false); }} title="Sem Instrutor" />
             </Menu>
           </View>
         </View>
@@ -459,7 +469,7 @@ const AdminClasses = ({ navigation }) => {
             onRefresh={onRefresh}
             ListEmptyComponent={renderEmptyList}
             ListFooterComponent={renderStatsCard}
-            emptyMessage={getString('noClassesFound')}
+            emptyMessage="Nenhuma turma encontrada"
             contentContainerStyle={styles.listContainer}
             accessible={true}
             accessibilityLabel={`Lista de ${filteredClasses.length} turmas`}
@@ -469,7 +479,7 @@ const AdminClasses = ({ navigation }) => {
         <FAB
           style={styles.fab}
           icon="plus"
-          label={getString('newClass')}
+          label="Nova Turma"
           onPress={handleAddClass}
         />
 
@@ -489,7 +499,7 @@ const AdminClasses = ({ navigation }) => {
           >
             <View style={styles.calendarModalHeader}>
               <Text style={styles.calendarModalTitle}>Cronograma das Turmas</Text>
-              <Button onPress={() => setShowCalendarModal(false)}>{getString('close')}</Button>
+              <Button onPress={() => setShowCalendarModal(false)}>Fechar</Button>
             </View>
             <View style={styles.calendarContainer}>
               <FreeGymScheduler
@@ -523,7 +533,8 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
   },
   header: {
-    padding: SPACING.md,
+    paddingHorizontal: '4%',
+    paddingVertical: SPACING.md,
     backgroundColor: COLORS.background.paper,
     elevation: 2,
   },
@@ -531,10 +542,12 @@ const styles = StyleSheet.create({
     elevation: 0,
     backgroundColor: COLORS.white,
     marginBottom: SPACING.sm,
+    width: '100%',
   },
   filterRow: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
+    width: '100%',
   },
   filterButton: {
     borderColor: COLORS.warning[500],
@@ -543,8 +556,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   classCard: {
-    margin: SPACING.md,
-    marginBottom: SPACING.sm,
+    marginHorizontal: '4%',
+    marginVertical: SPACING.sm,
     elevation: 2,
   },
   classHeader: {
@@ -552,6 +565,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: SPACING.md,
+    width: '100%',
   },
   classInfo: {
     flexDirection: 'row',
@@ -567,11 +581,13 @@ const styles = StyleSheet.create({
   },
   classDetails: {
     marginBottom: SPACING.md,
+    width: '100%',
   },
   detailRow: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: SPACING.xs,
+    width: '100%',
   },
   detailText: {
     marginLeft: SPACING.sm,
@@ -582,6 +598,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     marginBottom: SPACING.md,
+    width: '100%',
   },
   statusChip: {
     borderWidth: BORDER_WIDTH.base,
@@ -589,21 +606,23 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.xs,
   },
   divider: {
-    marginVertical: 12,
+    marginVertical: SPACING.md,
   },
   classActions: {
     marginTop: SPACING.xs,
+    width: '100%',
   },
   actionButton: {
     flex: 1,
   },
   emptyCard: {
-    margin: SPACING.md,
+    marginHorizontal: '4%',
+    marginVertical: SPACING.md,
     elevation: 2,
   },
   emptyContent: {
     alignItems: 'center',
-    padding: 32,
+    padding: SPACING.xl,
   },
   emptyTitle: {
     marginTop: SPACING.md,
@@ -614,8 +633,8 @@ const styles = StyleSheet.create({
     color: COLORS.gray[500],
   },
   statsCard: {
-    margin: SPACING.md,
-    marginTop: SPACING.sm,
+    marginHorizontal: '4%',
+    marginVertical: SPACING.sm,
     elevation: 2,
     backgroundColor: COLORS.warning[50],
   },
@@ -626,9 +645,11 @@ const styles = StyleSheet.create({
   statsGrid: {
     flexDirection: 'row',
     justifyContent: 'space-around',
+    width: '100%',
   },
   statItem: {
     alignItems: 'center',
+    flex: 1,
   },
   statNumber: {
     fontSize: FONT_SIZE.xl,
@@ -649,17 +670,19 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     paddingHorizontal: 0,
+    paddingBottom: 100,
   },
   calendarFab: {
     position: 'absolute',
     margin: SPACING.md,
     right: 0,
-    bottom: 80, // Acima do FAB principal
+    bottom: 80,
     backgroundColor: COLORS.info[500],
   },
   calendarModalContainer: {
     backgroundColor: COLORS.card.elevated.background,
-    margin: SPACING.lg,
+    marginHorizontal: '5%',
+    marginVertical: SPACING.lg,
     borderRadius: BORDER_RADIUS.md,
     maxHeight: '90%',
     borderWidth: 1,
