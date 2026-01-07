@@ -254,17 +254,17 @@ const AdminDashboard = ({ navigation }) => {
   // Memoized navigation handlers
   const handleNavigateToStudents = useCallback(() => {
     trackButtonClick('navigate_students');
-    navigation.navigate(getString('students'));
+    navigation.navigate('Students');
   }, [navigation, trackButtonClick]);
 
   const handleNavigateToClasses = useCallback(() => {
     trackButtonClick('navigate_classes');
-    navigation.navigate(getString('classes'));
+    navigation.navigate('Classes');
   }, [navigation, trackButtonClick]);
 
   const handleNavigateToManagement = useCallback(() => {
     trackButtonClick('navigate_management');
-    navigation.navigate(getString('management'));
+    navigation.navigate('Management');
   }, [navigation, trackButtonClick]);
 
   const handleShowCalendar = useCallback(() => {
@@ -326,7 +326,7 @@ const AdminDashboard = ({ navigation }) => {
                     console.log('🚀 Botão criar turma clicado no AdminDashboard');
                     setShowCalendarModal(false);
                     console.log('📱 Navegando para AddClass...');
-                    navigation.navigate('AddClass');
+                    navigation.navigate('addClassScreen');
                   }}
                   navigation={navigation}
                 />

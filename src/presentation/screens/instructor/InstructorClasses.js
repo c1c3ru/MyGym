@@ -188,7 +188,7 @@ const InstructorClasses = ({ navigation }) => {
 
   const handleAddClass = useCallback(() => {
     trackButtonClick('instructor_add_class');
-    navigation.navigate(getString('addClassScreen'));
+    navigation.navigate('addClassScreen');
   }, [navigation, trackButtonClick]);
 
   const formatSchedule = useCallback((classItem) => {

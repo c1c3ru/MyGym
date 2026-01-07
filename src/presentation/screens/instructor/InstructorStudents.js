@@ -260,7 +260,7 @@ const InstructorStudents = ({ navigation }) => {
 
 
   const handleStudentPress = (student) => {
-    navigation.navigate(getString('studentProfile', { studentId: student.id, studentData: student }));
+    navigation.navigate('StudentProfile', { studentId: student.id, studentData: student });
   };
 
   const handleAddGraduation = (student) => {

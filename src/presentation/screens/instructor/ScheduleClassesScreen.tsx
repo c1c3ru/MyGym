@@ -208,7 +208,7 @@ const ScheduleClassesScreen = ({ navigation, route }: ScheduleClassesScreenProps
                 <Text style={styles.emptyText}>{getString('noClassesFound')}</Text>
                 <Button
                   mode="contained"
-                  onPress={() => navigation.navigate('AddClass')}
+                  onPress={() => navigation.navigate('addClassScreen')}
                   style={styles.createButton}
                 >
                   Criar Turma

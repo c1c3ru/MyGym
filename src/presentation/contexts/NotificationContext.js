@@ -2,7 +2,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Platform } from 'react-native';
 import notificationService from '@infrastructure/services/notificationService';
-import { AuthContext } from '@presentation/contexts/AuthProvider';
+import useAuthUIStore from '@presentation/stores/AuthUIStore';
 import { firestoreService } from '@infrastructure/services/firestoreService';
 
 const NotificationContext = createContext();
@@ -13,10 +13,9 @@ export const NotificationProvider = ({ children }) => {
   const [pushNotificationsEnabled, setPushNotificationsEnabled] = useState(false);
   const [unreadNotifications, setUnreadNotifications] = useState([]);
 
-  // Usar AuthContext diretamente para evitar dependência circular com AuthFacade
-  const authContext = useContext(AuthContext);
-  const user = authContext?.user || null;
-  const userProfile = authContext?.userProfile || null;
+  // Usar useAuthUIStore diretamente para evitar dependência circular com AuthContext/AuthFacade
+  const user = useAuthUIStore(state => state.user);
+  const userProfile = useAuthUIStore(state => state.userProfile);
 
   // Inicializar serviço de notificações
   useEffect(() => {

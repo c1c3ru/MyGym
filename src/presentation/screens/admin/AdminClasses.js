@@ -192,15 +192,15 @@ const AdminClasses = ({ navigation }) => {
     trackButtonClick('class_details', { classId: classItem.id });
 
     // Navegar para o AdminStack pai para acessar ClassDetails
-    const adminStackNav = navigation.getParent && navigation.getParent(getString('adminStack'));
+    const adminStackNav = navigation.getParent && navigation.getParent('AdminStack');
     if (adminStackNav && typeof adminStackNav.navigate === 'function') {
-      adminStackNav.navigate(getString('classDetailsScreen'), { classId: classItem.id, classData: classItem });
+      adminStackNav.navigate('ClassDetails', { classId: classItem.id, classData: classItem });
       return;
     }
     // Fallback: tentar navegar pelo parent
     const parentNav = navigation.getParent && navigation.getParent();
     if (parentNav && typeof parentNav.navigate === 'function') {
-      parentNav.navigate(getString('classDetailsScreen'), { classId: classItem.id, classData: classItem });
+      parentNav.navigate('ClassDetails', { classId: classItem.id, classData: classItem });
       return;
     }
     // Fallback final
@@ -255,11 +255,11 @@ const AdminClasses = ({ navigation }) => {
     // Fallback: tentar navegar pelo parent
     const parentNav = navigation.getParent && navigation.getParent();
     if (parentNav && typeof parentNav.navigate === 'function') {
-      parentNav.navigate(getString('editClass'), { classId: classItem.id, classData: classItem });
+      parentNav.navigate('EditClass', { classId: classItem.id, classData: classItem });
       return;
     }
     // Fallback final
-    navigation.navigate(getString('editClass', { classId: classItem.id, classData: classItem }));
+    navigation.navigate('EditClass', { classId: classItem.id, classData: classItem });
   }, [navigation, trackButtonClick]);
 
   // Memoized render functions

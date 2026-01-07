@@ -23,7 +23,7 @@ import { getString } from "@utils/theme";
 
 const AdminStudentsOptimized = ({ navigation }) => {
   const { currentTheme } = useThemeToggle();
-  
+
   const { user, userProfile, academia } = useAuth();
   const [students, setStudents] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -89,18 +89,18 @@ const AdminStudentsOptimized = ({ navigation }) => {
   const loadStudents = useCallback(async () => {
     try {
       setLoading(true);
-      
+
       const academiaId = userProfile?.academiaId || academia?.id;
       console.log('🏫 Academia ID:', academiaId);
       if (!academiaId) {
         console.error('❌ Academia ID não encontrado');
         return;
       }
-      
+
       console.log('🔍 Buscando alunos na academia:', academiaId);
       const studentUsers = await academyFirestoreService.getAll('students', academiaId);
       console.log('👥 Alunos encontrados:', studentUsers.length);
-      
+
       // Buscar informações de pagamento para cada aluno
       const studentsWithPayments = await Promise.all(
         studentUsers.map(async (student) => {
@@ -122,7 +122,7 @@ const AdminStudentsOptimized = ({ navigation }) => {
           }
         })
       );
-      
+
       setStudents(studentsWithPayments);
     } catch (error) {
       console.error('Erro ao carregar alunos:', error);
@@ -135,7 +135,7 @@ const AdminStudentsOptimized = ({ navigation }) => {
 
   // Callbacks memoizados para performance
   const handleStudentPress = useCallback((student) => {
-    navigation.navigate(getString('studentProfile', { student }));
+    navigation.navigate('StudentProfile', { student });
   }, [navigation]);
 
   const handleEditStudent = useCallback((student) => {
@@ -195,14 +195,14 @@ const AdminStudentsOptimized = ({ navigation }) => {
         accessibilityLabel="Campo de busca de alunos"
         accessibilityHint="Digite para buscar alunos por nome, email ou graduação"
       />
-      
+
       <View style={styles.filterRow}>
         <Menu
           visible={filterVisible}
           onDismiss={() => setFilterVisible(false)}
           anchor={
-            <Button 
-              mode="outlined" 
+            <Button
+              mode="outlined"
               onPress={() => setFilterVisible(true)}
               icon="filter"
               style={styles.filterButton}
@@ -234,7 +234,7 @@ const AdminStudentsOptimized = ({ navigation }) => {
           <Text style={[styles.statsTitle, styles.title]} accessibilityRole="header">
             Estatísticas Gerais
           </Text>
-          
+
           <View style={styles.statsGrid}>
             <View style={styles.statItem}>
               <Text style={[styles.statNumber, styles.title]} accessible={true}>
@@ -242,21 +242,21 @@ const AdminStudentsOptimized = ({ navigation }) => {
               </Text>
               <Text style={[styles.statLabel, styles.paragraph]}>Total</Text>
             </View>
-            
+
             <View style={styles.statItem}>
               <Text style={[styles.statNumber, styles.title]} accessible={true}>
                 {stats.active}
               </Text>
               <Text style={[styles.statLabel, styles.paragraph]}>Ativos</Text>
             </View>
-            
+
             <View style={styles.statItem}>
               <Text style={[styles.statNumber, styles.title]} accessible={true}>
                 {stats.paymentOk}
               </Text>
               <Text style={[styles.statLabel, styles.paragraph]}>Pagamento OK</Text>
             </View>
-            
+
             <View style={styles.statItem}>
               <Text style={[styles.statNumber, styles.title]} accessible={true}>
                 {stats.overdue}
@@ -276,8 +276,8 @@ const AdminStudentsOptimized = ({ navigation }) => {
         <Ionicons name="people-outline" size={48} color="currentTheme.gray[300]" />
         <Text style={[styles.emptyTitle, styles.title]}>{getString('noStudentsFound')}</Text>
         <Text style={[styles.emptyText, styles.paragraph]}>
-          {searchQuery ? 
-            'Nenhum aluno corresponde à sua busca' : 
+          {searchQuery ?
+            'Nenhum aluno corresponde à sua busca' :
             'Nenhum aluno cadastrado ainda'
           }
         </Text>

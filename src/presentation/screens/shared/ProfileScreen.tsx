@@ -553,7 +553,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
                     }
                     left={() => <List.Icon icon="clipboard-pulse-outline" />}
                     right={() => <List.Icon icon="chevron-right" />}
-                    onPress={() => navigation.navigate(getString('physicalEvaluationHistory'))}
+                    onPress={() => navigation.navigate('PhysicalEvaluationHistory')}
                   />
                 </Card.Content>
               </Card>
@@ -607,7 +607,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
                 description={getString('viewAllEvaluations')}
                 left={() => <List.Icon icon="history" />}
                 right={() => <List.Icon icon="chevron-right" />}
-                onPress={() => navigation.navigate(getString('physicalEvaluationHistory'))}
+                onPress={() => navigation.navigate('PhysicalEvaluationHistory')}
               />
               <Divider />
 
@@ -616,7 +616,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
                 description={getString('configureAppNotifications')}
                 left={() => <List.Icon icon="bell" />}
                 right={() => <List.Icon icon="chevron-right" />}
-                onPress={() => navigation.navigate(getString('notificationSettings'))}
+                onPress={() => navigation.navigate('NotificationSettings')}
               />
               <Divider />
 
@@ -625,7 +625,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
                 description={getString('privacyLGPDSettings')}
                 left={() => <List.Icon icon="shield" />}
                 right={() => <List.Icon icon="chevron-right" />}
-                onPress={() => navigation.navigate(getString('privacySettings'))}
+                onPress={() => navigation.navigate('PrivacySettings')}
               />
             </Card.Content>
           </Card>

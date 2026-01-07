@@ -410,7 +410,7 @@ const ReportsScreen: React.FC<ReportsScreenProps> = ({ navigation }) => {
 
                 <Button
                   mode="contained"
-                  onPress={() => navigation.navigate('AddClass')}
+                  onPress={() => navigation.navigate('addClassScreen')}
                   style={[styles.actionButton, { backgroundColor: COLORS.primary[500] }]}
                   icon={({ size, color }) => <MaterialCommunityIcons name="school-outline" size={size} color={color} />}
                 >

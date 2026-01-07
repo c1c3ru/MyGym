@@ -347,7 +347,7 @@ const ClassDetailsScreen: React.FC<ClassDetailsScreenProps> = ({ route, navigati
                       <Button
                         mode="outlined"
                         compact
-                        onPress={() => navigation.navigate('StudentDetails', {
+                        onPress={() => navigation.navigate('StudentProfile', {
                           studentId: student.id,
                           studentData: student
                         })}
@@ -378,10 +378,10 @@ const ClassDetailsScreen: React.FC<ClassDetailsScreenProps> = ({ route, navigati
               <Surface style={styles.actionItem} elevation={2}>
                 <Button
                   mode="contained"
-                  onPress={() => navigation.navigate(getString('checkIns', {
+                  onPress={() => navigation.navigate('CheckIns', {
                     classId: classId,
                     className: classInfo?.name
-                  }))}
+                  })}
                   style={[styles.actionButton, { backgroundColor: COLORS.info[500] }]}
                   contentStyle={styles.actionButtonContent}
                   labelStyle={styles.actionButtonLabel}

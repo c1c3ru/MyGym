@@ -468,7 +468,7 @@ const InstructorDashboard = ({ navigation }) => {
 
                           <AnimatedButton
                             mode="contained"
-                            onPress={() => navigation.navigate(getString('classes'), { classId: classItem.id })}
+                            onPress={() => navigation.navigate('Classes', { classId: classItem.id })}
                             style={styles.timelineButton}
                             compact
                             buttonColor={COLORS.primary[600]}
@@ -525,7 +525,7 @@ const InstructorDashboard = ({ navigation }) => {
                               getString('needOneClassToSchedule'),
                               [
                                 { text: getString('cancel'), style: 'cancel' },
-                                { text: getString('createClassAction'), onPress: () => navigation.navigate(getString('addClassScreen')) }
+                                { text: getString('createClassAction'), onPress: () => navigation.navigate('addClassScreen') }
                               ]
                             );
                           }
@@ -547,7 +547,7 @@ const InstructorDashboard = ({ navigation }) => {
                       <Text style={styles.actionSubtitle}>{getString('digitalAttendance')}</Text>
                       <AnimatedButton
                         mode="contained"
-                        onPress={() => navigation.navigate('CheckIn')}
+                        onPress={() => navigation.navigate('checkIn')}
                         style={styles.modernActionButton}
                         buttonColor={COLORS.info[600]}
                         textColor={COLORS.white}

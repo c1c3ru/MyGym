@@ -112,22 +112,10 @@ const ImprovedScheduleSelector: React.FC<ImprovedScheduleSelectorProps> = ({
 
     // Atualizar schedule quando value mudar
     useEffect(() => {
-        if (value && isValidSchedule(value)) {
+        if (value && isValidSchedule(value) && JSON.stringify(value) !== JSON.stringify(schedule)) {
             setSchedule(value);
         }
     }, [value]);
-
-    // Notificar mudanças
-    useEffect(() => {
-        const hasScheduleData = Object.values(schedule.hours).some(hours => hours.length > 0);
-        if (hasScheduleData && onScheduleChange) {
-            onScheduleChange({
-                ...schedule,
-                duration,
-                timezone
-            });
-        }
-    }, [schedule, duration, timezone]);
 
     // Alternar horário para o dia selecionado
     const toggleTimeSlot = useCallback((time: string) => {
@@ -145,8 +133,19 @@ const ImprovedScheduleSelector: React.FC<ImprovedScheduleSelectorProps> = ({
         }
 
         newSchedule.hours[selectedDay] = dayHours;
+
+        // Atualizar estado local
         setSchedule(newSchedule);
-    }, [selectedDay, schedule]);
+
+        // Notificar pai diretamente
+        if (onScheduleChange) {
+            onScheduleChange({
+                ...newSchedule,
+                duration,
+                timezone
+            });
+        }
+    }, [selectedDay, schedule, onScheduleChange, duration, timezone]);
 
     // Gerar datas marcadas para preview
     const markedDates = useMemo(() => {

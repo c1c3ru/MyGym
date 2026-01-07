@@ -56,17 +56,17 @@ const AdminTabNavigator = () => {
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
-          if (route.name === getString('dashboard')) {
+          if (route.name === 'Dashboard') {
             iconName = focused ? 'home' : 'home-outline';
-          } else if (route.name === getString('students')) {
+          } else if (route.name === 'Students') {
             iconName = focused ? 'people' : 'people-outline';
-          } else if (route.name === getString('classes')) {
+          } else if (route.name === 'Classes') {
             iconName = focused ? 'school' : 'school-outline';
-          } else if (route.name === getString('modalities')) {
+          } else if (route.name === 'Modalities') {
             iconName = focused ? 'fitness' : 'fitness-outline';
-          } else if (route.name === getString('management')) {
+          } else if (route.name === 'Management') {
             iconName = focused ? 'stats-chart' : 'stats-chart-outline';
-          } else if (route.name === getString('invitations')) {
+          } else if (route.name === 'Invitations') {
             iconName = focused ? 'mail' : 'mail-outline';
           }
           return <Ionicons name={iconName} size={size} color={color} />;
@@ -79,7 +79,7 @@ const AdminTabNavigator = () => {
       })}
     >
       <Tab.Screen
-        name={getString('dashboard')}
+        name="Dashboard"
         component={AdminDashboard}
         options={{
           title: getString('dashboard'),
@@ -124,6 +124,21 @@ const AdminNavigator = () => {
       <Stack.Screen name="AdminTabs" component={AdminTabNavigator} />
       <Stack.Screen
         name="AddClass"
+        component={AddClassScreen}
+        options={{
+          headerShown: true,
+          header: ({ navigation }) => (
+            <UniversalHeader
+              title={getString('newClass')}
+              navigation={navigation}
+              showBack={true}
+              backgroundColor={COLORS.primary[500]}
+            />
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="addClassScreen"
         component={AddClassScreen}
         options={{
           headerShown: true,

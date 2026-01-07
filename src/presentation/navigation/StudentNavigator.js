@@ -40,13 +40,13 @@ const StudentNavigator = () => {
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
-          if (route.name === getString('dashboard')) {
+          if (route.name === 'Dashboard') {
             iconName = focused ? 'home' : 'home-outline';
-          } else if (route.name === getString('payments')) {
+          } else if (route.name === 'Payments') {
             iconName = focused ? 'card' : 'card-outline';
-          } else if (route.name === 'Evolução') {
+          } else if (route.name === 'Evolution') {
             iconName = focused ? 'trending-up' : 'trending-up-outline';
-          } else if (route.name === getString('calendar')) {
+          } else if (route.name === 'Calendar') {
             iconName = focused ? 'calendar' : 'calendar-outline';
           }
           return <Ionicons name={iconName} size={size} color={color} />;
@@ -59,17 +59,17 @@ const StudentNavigator = () => {
       })}
     >
       <Tab.Screen
-        name={getString('dashboard')}
+        name="Dashboard"
         component={StudentDashboard}
         options={{ title: getString('studentDashboard') }}
       />
       <Tab.Screen
-        name={getString('payments')}
+        name="Payments"
         component={StudentPayments}
         options={{ title: getString('payments') }}
       />
       <Tab.Screen
-        name="Evolução"
+        name="Evolution"
         component={StudentEvolution}
         options={{ title: getString('evolution') }}
       />

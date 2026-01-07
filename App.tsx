@@ -33,8 +33,8 @@ export default function App() {
       <SafeAreaProvider style={{ flex: 1 }}>
         <ThemeToggleProvider>
           <ThemeProvider>
-            <PaperProvider>
-              <NotificationProvider>
+            <NotificationProvider>
+              <PaperProvider>
                 <AuthProvider>
                   <UndoProvider>
                     <OnboardingProvider>
@@ -43,8 +43,8 @@ export default function App() {
                     </OnboardingProvider>
                   </UndoProvider>
                 </AuthProvider>
-              </NotificationProvider>
-            </PaperProvider>
+              </PaperProvider>
+            </NotificationProvider>
           </ThemeProvider>
         </ThemeToggleProvider>
       </SafeAreaProvider>

@@ -119,7 +119,7 @@ const UniversalHeader: React.FC<UniversalHeaderProps> = ({
 
     const handleProfile = () => {
         closeMenu();
-        navigation?.navigate(getString('profile'));
+        navigation?.navigate('Profile');
     };
 
     const getUserTypeColor = () => {
