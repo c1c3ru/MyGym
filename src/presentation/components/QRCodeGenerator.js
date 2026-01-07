@@ -10,7 +10,7 @@ import { getString } from "@utils/theme";
 // Import do logo usando alias
 const logoIcon = require('@assets/icon.png');
 
-function QRCodeGenerator({ size = 200, showActions = true, academiaId, academiaNome }) {
+function QRCodeGenerator({ size = 200, showActions = true, academiaId, academiaNome, academiaCodigo }) {
   try {
     authContext = useAuthFacade();
   } catch (error) {
@@ -203,7 +203,11 @@ MyGym`;
         </Text>
 
         <Text variant="bodySmall" style={styles.academyCode}>
-          Código da Academia: {finalAcademiaId}
+          {academiaCodigo || academia?.codigo ? (
+            <>Código da Academia: <Text style={{ fontWeight: 'bold' }}>{academiaCodigo || academia?.codigo}</Text></>
+          ) : (
+            <>ID da Academia: <Text style={{ fontSize: 10 }}>{finalAcademiaId}</Text></>
+          )}
         </Text>
 
         <View style={styles.qrContainer}>

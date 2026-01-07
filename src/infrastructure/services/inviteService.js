@@ -45,7 +45,13 @@ export class InviteService {
    * @returns {string} Token do convite
    */
   static generateInviteToken() {
-    return Math.random().toString(36).substring(2) + Date.now().toString(36);
+    // Gerar um código curto e legível de 6 caracteres (ex: AB12CD)
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let token = '';
+    for (let i = 0; i < 6; i++) {
+      token += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return token;
   }
 
   /**
@@ -112,7 +118,7 @@ export class InviteService {
 
       if (result.data.success) {
         return {
-          id: token, // Usar token como ID temporário
+          id: result.data.inviteId || token,
           academiaId: result.data.academiaId,
           tipo: result.data.role
         };

@@ -206,23 +206,30 @@ const AcademiaSelectionScreen: React.FC<AcademiaSelectionScreenProps> = ({ navig
   };
 
   const handleInviteLinkSubmit = async () => {
-    if (!inviteLink.trim()) {
+    const input = inviteLink.trim();
+    if (!input) {
       Alert.alert(getString('error'), getString('enterInviteLink'));
       return;
     }
 
     try {
-      const urlInfo: any = InviteService.parseInviteUrl(inviteLink.trim());
+      // Tentar processar como URL primeiro
+      const urlInfo: any = InviteService.parseInviteUrl(input);
 
-      if (!urlInfo) {
-        Alert.alert(getString('error'), getString('invalidLink'));
-        return;
-      }
-
-      if (urlInfo.type === 'join') {
-        await joinAcademia(urlInfo.academiaId);
-      } else if (urlInfo.type === 'invite') {
-        await processInviteLink(urlInfo.token);
+      if (urlInfo) {
+        if (urlInfo.type === 'join') {
+          await joinAcademia(urlInfo.academiaId);
+        } else if (urlInfo.type === 'invite') {
+          await processInviteLink(urlInfo.token);
+        }
+      } else {
+        // Se não for URL, tentar processar como código direto (token)
+        // Códigos curtos geralmente têm 6 caracteres
+        if (input.length >= 6) {
+          await processInviteLink(input);
+        } else {
+          Alert.alert(getString('error'), getString('invalidLinkOrCode'));
+        }
       }
     } catch (error) {
       console.error(getString('logoutError'), error);
@@ -490,7 +497,7 @@ const AcademiaSelectionScreen: React.FC<AcademiaSelectionScreenProps> = ({ navig
                 icon="link"
                 style={styles.optionButton}
               >
-                Link de Convite
+                Link ou Código de Convite
               </Button>
             </View>
           </Card.Content>
@@ -759,15 +766,15 @@ const AcademiaSelectionScreen: React.FC<AcademiaSelectionScreenProps> = ({ navig
           contentContainerStyle={styles.modal}
         >
           <Text variant="titleLarge" style={styles.modalTitle as any}>
-            Link de Convite
+            Link ou Código de Convite
           </Text>
 
           <Text variant="bodyMedium" style={styles.modalDescription as any}>
-            Cole aqui o link de convite que você recebeu
+            Cole aqui o link ou digite o código de convite que você recebeu
           </Text>
 
           <TextInput
-            label="Link do Convite"
+            label="Link ou Código do Convite"
             value={inviteLink}
             onChangeText={setInviteLink}
             mode="outlined"

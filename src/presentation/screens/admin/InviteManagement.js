@@ -279,6 +279,11 @@ export default function InviteManagement({ navigation }) {
             <Text variant="bodySmall" style={styles.inviteType}>
               {invite.tipo === 'aluno' ? getString('student') : getString('instructor')}
             </Text>
+            {invite.inviteToken && (
+              <Text variant="bodySmall" style={styles.inviteCode}>
+                Código: <Text style={{ fontWeight: 'bold', color: COLORS.primary[600] }}>{invite.inviteToken}</Text>
+              </Text>
+            )}
           </View>
           <Chip
             style={[styles.statusChip, { backgroundColor: getStatusColor(invite.status) }]}
@@ -496,6 +501,7 @@ export default function InviteManagement({ navigation }) {
             showActions={false}
             academiaId={academia?.id}
             academiaNome={academia?.nome}
+            academiaCodigo={academia?.codigo}
           />
 
           <Text variant="bodySmall" style={styles.qrInstructions}>
@@ -601,6 +607,11 @@ const styles = {
   inviteType: {
     opacity: 0.7,
     marginTop: SPACING.xs,
+  },
+  inviteCode: {
+    marginTop: 4,
+    fontSize: 12,
+    color: COLORS.gray[600],
   },
   statusChip: {
     marginLeft: SPACING.md,
