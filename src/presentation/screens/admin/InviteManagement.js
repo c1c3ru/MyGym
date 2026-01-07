@@ -143,6 +143,100 @@ export default function InviteManagement({ navigation }) {
     }
   };
 
+  const deleteInvite = async (inviteId, inviteEmail) => {
+    Alert.alert(
+      'Confirmar Exclusão',
+      `Deseja realmente excluir o convite para ${inviteEmail}?`,
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        {
+          text: 'Excluir',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              setLoading(true);
+              await InviteService.deleteInvite(academia.id, inviteId);
+              Alert.alert('Sucesso', 'Convite excluído com sucesso!');
+              loadInvites();
+            } catch (error) {
+              console.error('Erro ao excluir convite:', error);
+              Alert.alert(getString('error'), 'Não foi possível excluir o convite');
+            } finally {
+              setLoading(false);
+            }
+          }
+        }
+      ]
+    );
+  };
+
+  const deleteAllInvites = async () => {
+    Alert.alert(
+      'Confirmar Exclusão em Massa',
+      `Deseja realmente excluir TODOS os ${invites.length} convites? Esta ação não pode ser desfeita.`,
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        {
+          text: 'Excluir Todos',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              setLoading(true);
+              const deletedCount = await InviteService.deleteAllInvites(academia.id);
+              Alert.alert(
+                'Sucesso',
+                `${deletedCount} convite(s) excluído(s) com sucesso!`,
+                [{ text: getString('ok'), onPress: loadInvites }]
+              );
+            } catch (error) {
+              console.error('Erro ao excluir todos os convites:', error);
+              Alert.alert(getString('error'), 'Não foi possível excluir os convites');
+            } finally {
+              setLoading(false);
+            }
+          }
+        }
+      ]
+    );
+  };
+
+  const deleteExpiredInvites = async () => {
+    const expiredCount = invites.filter(inv => inv.status === 'expired').length;
+
+    if (expiredCount === 0) {
+      Alert.alert(getString('info'), 'Nenhum convite expirado encontrado.');
+      return;
+    }
+
+    Alert.alert(
+      'Limpar Convites Expirados',
+      `Deseja excluir ${expiredCount} convite(s) expirado(s)?`,
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        {
+          text: 'Excluir Expirados',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              setLoading(true);
+              const deletedCount = await InviteService.deleteExpiredInvites(academia.id);
+              Alert.alert(
+                'Sucesso',
+                `${deletedCount} convite(s) expirado(s) excluído(s)!`,
+                [{ text: getString('ok'), onPress: loadInvites }]
+              );
+            } catch (error) {
+              console.error('Erro ao excluir convites expirados:', error);
+              Alert.alert(getString('error'), 'Não foi possível excluir os convites expirados');
+            } finally {
+              setLoading(false);
+            }
+          }
+        }
+      ]
+    );
+  };
+
   const getStatusColor = (status) => {
     switch (status) {
       case 'pending': return COLORS.warning[500];
@@ -190,6 +284,20 @@ export default function InviteManagement({ navigation }) {
             Expira em: {invite.expiresAt?.toDate?.()?.toLocaleDateString() || getString('dataNotAvailable')}
           </Text>
         )}
+
+        {/* Botão de exclusão individual */}
+        <View style={styles.inviteActions}>
+          <ActionButton
+            mode="text"
+            onPress={() => deleteInvite(invite.id, invite.email)}
+            icon="delete"
+            size="small"
+            variant="danger"
+            style={styles.deleteButton}
+          >
+            Excluir
+          </ActionButton>
+        </View>
       </Card.Content>
     </Card>
   );

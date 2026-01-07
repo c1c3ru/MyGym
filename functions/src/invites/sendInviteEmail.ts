@@ -1,64 +1,87 @@
 import * as functions from 'firebase-functions';
+import { defineString } from 'firebase-functions/params';
 import * as nodemailer from 'nodemailer';
 
+// Definir parâmetros de configuração
+const gmailEmail = defineString('GMAIL_EMAIL', {
+  description: 'Email do Gmail para envio de convites',
+  default: ''
+});
+
+const gmailPassword = defineString('GMAIL_PASSWORD', {
+  description: 'Senha de aplicativo do Gmail',
+  default: ''
+});
 
 /**
  * Cloud Function para enviar email de convite
- * Configuração do Gmail ou outro provedor de email necessária
+ * 
+ * Configure as variáveis de ambiente:
+ * 1. Crie arquivo .env no diretório functions/:
+ *    GMAIL_EMAIL=seu-email@gmail.com
+ *    GMAIL_PASSWORD=sua-senha-app
+ * 
+ * 2. Ou configure no Firebase Console:
+ *    https://console.firebase.google.com/project/academia-app-5cf79/functions/list
  */
 export const sendInviteEmail = functions.https.onCall(async (data, context) => {
-    // Verificar autenticação
-    if (!context.auth) {
-        throw new functions.https.HttpsError(
-            'unauthenticated',
-            'Usuário deve estar autenticado para enviar convites'
-        );
+  // Verificar autenticação
+  if (!context.auth) {
+    throw new functions.https.HttpsError(
+      'unauthenticated',
+      'Usuário deve estar autenticado para enviar convites'
+    );
+  }
+
+  const { email, academiaName, inviteLink, inviterName, userType } = data;
+
+  // Validar dados
+  if (!email || !academiaName || !inviteLink) {
+    throw new functions.https.HttpsError(
+      'invalid-argument',
+      'Email, nome da academia e link são obrigatórios'
+    );
+  }
+
+  try {
+    // Obter valores dos parâmetros
+    const emailConfig = gmailEmail.value();
+    const passwordConfig = gmailPassword.value();
+
+    // Verificar se as credenciais estão configuradas
+    if (!emailConfig || !passwordConfig) {
+      console.warn('⚠️ Configuração de email não encontrada.');
+      console.log('📝 Configure as variáveis de ambiente:');
+      console.log('   1. Crie arquivo .env no diretório functions/');
+      console.log('   2. Adicione: GMAIL_EMAIL=seu-email@gmail.com');
+      console.log('   3. Adicione: GMAIL_PASSWORD=sua-senha-app');
+      console.log('   4. Ou configure no Firebase Console');
+
+      // Retornar sucesso mesmo sem enviar (para não bloquear o fluxo)
+      return {
+        success: true,
+        message: 'Convite criado (email não configurado)',
+        emailSent: false,
+        needsConfig: true
+      };
     }
 
-    const { email, academiaName, inviteLink, inviterName, userType } = data;
+    // Configurar transporter do Nodemailer
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: emailConfig,
+        pass: passwordConfig,
+      },
+    });
 
-    // Validar dados
-    if (!email || !academiaName || !inviteLink) {
-        throw new functions.https.HttpsError(
-            'invalid-argument',
-            'Email, nome da academia e link são obrigatórios'
-        );
-    }
-
-    try {
-        // Configurar transporter do Nodemailer
-        // IMPORTANTE: Configure as variáveis de ambiente no Firebase:
-        // firebase functions:config:set gmail.email="seu-email@gmail.com" gmail.password="sua-senha-app"
-        const gmailEmail = functions.config().gmail?.email;
-        const gmailPassword = functions.config().gmail?.password;
-
-        if (!gmailEmail || !gmailPassword) {
-            console.warn('⚠️ Configuração de email não encontrada. Email não será enviado.');
-            console.log('Configure com: firebase functions:config:set gmail.email="..." gmail.password="..."');
-
-            // Retornar sucesso mesmo sem enviar (para não bloquear o fluxo)
-            return {
-                success: true,
-                message: 'Convite criado (email não configurado)',
-                emailSent: false
-            };
-        }
-
-        const transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: gmailEmail,
-                pass: gmailPassword,
-            },
-        });
-
-        // Template do email
-        const userTypeText = userType === 'instrutor' ? 'instrutor' : 'aluno';
-        const mailOptions = {
-            from: `${academiaName} <${gmailEmail}>`,
-            to: email,
-            subject: `Convite para ${academiaName}`,
-            html: `
+    // Template do email
+    const userTypeText = userType === 'instrutor' ? 'instrutor' : 'aluno';
+    const mailOptions = {
+      from: `${academiaName} <${emailConfig}>`,
+      to: email,
+      subject: `Convite para ${academiaName}`,
+      html: `
         <!DOCTYPE html>
         <html>
         <head>
@@ -123,30 +146,30 @@ export const sendInviteEmail = functions.https.onCall(async (data, context) => {
         </body>
         </html>
       `,
-        };
+    };
 
-        // Enviar email
-        await transporter.sendMail(mailOptions);
+    // Enviar email
+    await transporter.sendMail(mailOptions);
 
-        console.log('✅ Email de convite enviado com sucesso para:', email);
+    console.log('✅ Email de convite enviado com sucesso para:', email);
 
-        return {
-            success: true,
-            message: 'Email enviado com sucesso',
-            emailSent: true
-        };
-    } catch (error) {
-        console.error('❌ Erro ao enviar email:', error);
+    return {
+      success: true,
+      message: 'Email enviado com sucesso',
+      emailSent: true
+    };
+  } catch (error) {
+    console.error('❌ Erro ao enviar email:', error);
 
-        const errorMessage = error instanceof Error ? error.message : 'Erro desconhecido';
+    const errorMessage = error instanceof Error ? error.message : 'Erro desconhecido';
 
-        // Não lançar erro para não bloquear o fluxo
-        // O convite ainda será criado mesmo se o email falhar
-        return {
-            success: true,
-            message: 'Convite criado (erro ao enviar email)',
-            emailSent: false,
-            error: errorMessage
-        };
-    }
+    // Não lançar erro para não bloquear o fluxo
+    // O convite ainda será criado mesmo se o email falhar
+    return {
+      success: true,
+      message: 'Convite criado (erro ao enviar email)',
+      emailSent: false,
+      error: errorMessage
+    };
+  }
 });

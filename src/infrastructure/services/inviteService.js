@@ -391,5 +391,92 @@ export class InviteService {
       return false;
     }
   }
+
+  /**
+   * Deletar um convite específico do histórico
+   * @param {string} academiaId - ID da academia
+   * @param {string} inviteId - ID do convite
+   * @returns {Promise<void>}
+   */
+  static async deleteInvite(academiaId, inviteId) {
+    try {
+      const { deleteDoc } = await import('firebase/firestore');
+      const inviteRef = doc(db, 'gyms', academiaId, 'invites', inviteId);
+      await deleteDoc(inviteRef);
+      console.log('✅ Convite deletado com sucesso:', inviteId);
+    } catch (error) {
+      console.error('❌ Erro ao deletar convite:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Deletar todos os convites de uma academia
+   * @param {string} academiaId - ID da academia
+   * @param {string} filterStatus - Filtrar por status (opcional: 'all', 'pending', 'accepted', 'expired')
+   * @returns {Promise<number>} Número de convites deletados
+   */
+  static async deleteAllInvites(academiaId, filterStatus = 'all') {
+    try {
+      const { deleteDoc } = await import('firebase/firestore');
+
+      let q;
+      if (filterStatus === 'all') {
+        q = query(collection(db, 'gyms', academiaId, 'invites'));
+      } else {
+        q = query(
+          collection(db, 'gyms', academiaId, 'invites'),
+          where('status', '==', filterStatus)
+        );
+      }
+
+      const snapshot = await getDocs(q);
+      let deletedCount = 0;
+
+      // Deletar em lote para melhor performance
+      const deletePromises = snapshot.docs.map(async (docSnapshot) => {
+        await deleteDoc(doc(db, 'gyms', academiaId, 'invites', docSnapshot.id));
+        deletedCount++;
+      });
+
+      await Promise.all(deletePromises);
+
+      console.log(`✅ ${deletedCount} convite(s) deletado(s) com sucesso`);
+      return deletedCount;
+    } catch (error) {
+      console.error('❌ Erro ao deletar convites:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Deletar convites expirados de uma academia
+   * @param {string} academiaId - ID da academia
+   * @returns {Promise<number>} Número de convites deletados
+   */
+  static async deleteExpiredInvites(academiaId) {
+    try {
+      const { deleteDoc } = await import('firebase/firestore');
+
+      const q = query(
+        collection(db, 'gyms', academiaId, 'invites'),
+        where('status', '==', 'expired')
+      );
+
+      const snapshot = await getDocs(q);
+      let deletedCount = 0;
+
+      for (const docSnapshot of snapshot.docs) {
+        await deleteDoc(doc(db, 'gyms', academiaId, 'invites', docSnapshot.id));
+        deletedCount++;
+      }
+
+      console.log(`✅ ${deletedCount} convite(s) expirado(s) deletado(s)`);
+      return deletedCount;
+    } catch (error) {
+      console.error('❌ Erro ao deletar convites expirados:', error);
+      throw error;
+    }
+  }
 }
 
