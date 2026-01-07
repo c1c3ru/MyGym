@@ -237,7 +237,7 @@ const StudentEvolution = ({ navigation }) => {
             <Card.Content>
               <View style={styles.cardHeader}>
                 <Ionicons name="fitness-outline" size={24} color={COLORS.primary[500]} />
-                <Text style={[styles.cardTitle, styles.title]}>Modalidades Praticadas</Text>
+                <Text style={[styles.cardTitle, styles.title]}>{getString('modalities')}</Text>
               </View>
 
               <View style={styles.modalitiesContainer}>

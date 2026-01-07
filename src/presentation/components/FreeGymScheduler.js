@@ -373,7 +373,7 @@ const FreeGymScheduler = ({
                 onPress={() => setFilterModality(null)}
                 style={styles.filterChip}
               >
-                Todas as Modalidades
+                {getString('allModalities')}
               </Chip>
 
               {modalities.map(modality => (

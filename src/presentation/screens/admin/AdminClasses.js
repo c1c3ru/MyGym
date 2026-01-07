@@ -334,7 +334,7 @@ const AdminClasses = ({ navigation }) => {
               <Text style={styles.statNumber}>
                 {[...new Set(classes.map(c => c.modality))].length}
               </Text>
-              <Text style={styles.statLabel}>Modalidades</Text>
+              <Text style={styles.statLabel}>{getString('modalities')}</Text>
             </View>
           </View>
         </Card.Content>

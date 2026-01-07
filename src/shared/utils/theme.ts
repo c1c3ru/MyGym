@@ -80,12 +80,16 @@ export const languages: Record<LanguageCode, any> = {
       belts: 'Faixas',
       modality: 'Modalidade',
       modalities: 'Modalidades',
+      fightModalities: 'Modalidades de Luta',
       payment: 'Pagamento',
       payments: 'Pagamentos',
       schedule: 'Horário',
       schedules: 'Horários',
       lesson: 'Aula',
       lessons: 'Aulas',
+      newClass: 'Nova Turma',
+      noModalitiesRegistered: 'Nenhuma modalidade cadastrada',
+      noModalityGoToAdmin: 'Nenhuma modalidade cadastrada. Vá em Admin > Modalidades para cadastrar antes de continuar.',
 
       // COMMON
       yes: 'Sim',
@@ -273,8 +277,11 @@ export const languages: Record<LanguageCode, any> = {
 
       // ANNOUNCEMENTS
       announcements: 'Avisos',
+      announcementBoard: 'Mural de Avisos',
       noAnnouncementsNow: 'Nenhum aviso no momento',
       highPriority: 'Alta Prioridade',
+      expiresOn: 'Expira em:',
+      noExpirationDate: 'Sem data de expiração',
 
       // BELT LEVELS
       whiteBelt: 'Faixa Branca',
@@ -442,12 +449,16 @@ export const languages: Record<LanguageCode, any> = {
       belts: 'Belts',
       modality: 'Modality',
       modalities: 'Modalities',
+      fightModalities: 'Fight Modalities',
       payment: 'Payment',
       payments: 'Payments',
       schedule: 'Schedule',
       schedules: 'Schedules',
       lesson: 'Lesson',
       lessons: 'Lessons',
+      newClass: 'New Class',
+      noModalitiesRegistered: 'No modalities registered',
+      noModalityGoToAdmin: 'No modalities registered. Go to Admin > Modalities to register before continuing.',
 
       // COMMON
       yes: 'Yes',
@@ -569,8 +580,11 @@ export const languages: Record<LanguageCode, any> = {
 
       // ANNOUNCEMENTS
       announcements: 'Announcements',
+      announcementBoard: 'Announcement Board',
       noAnnouncementsNow: 'No announcements at the moment',
       highPriority: 'High Priority',
+      expiresOn: 'Expires on:',
+      noExpirationDate: 'No expiration date',
 
       // BELT LEVELS
       whiteBelt: 'White Belt',
@@ -731,13 +745,17 @@ export const languages: Record<LanguageCode, any> = {
       belt: 'Cinturón',
       belts: 'Cinturones',
       modality: 'Modalidad',
-      modalities: 'modalities',
+      modalities: 'Modalidades',
+      fightModalities: 'Modalidades de Lucha',
       payment: 'Pago',
       payments: 'Pagos',
       schedule: 'Horario',
       schedules: 'Horarios',
       lesson: 'Lección',
       lessons: 'Lecciones',
+      newClass: 'Nueva Clase',
+      noModalitiesRegistered: 'Ninguna modalidad registrada',
+      noModalityGoToAdmin: 'Ninguna modalidad registrada. Vaya a Admin > Modalidades para registrar antes de continuar.',
 
       // COMMON
       yes: 'Sí',
@@ -859,8 +877,11 @@ export const languages: Record<LanguageCode, any> = {
 
       // ANNOUNCEMENTS
       announcements: 'Avisos',
+      announcementBoard: 'Tablón de Avisos',
       noAnnouncementsNow: 'Ningún aviso en este momento',
       highPriority: 'Alta Prioridad',
+      expiresOn: 'Expira el:',
+      noExpirationDate: 'Sin fecha de expiración',
 
       // BELT LEVELS
       whiteBelt: 'Cinturón Blanco',
