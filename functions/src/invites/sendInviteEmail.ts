@@ -85,63 +85,168 @@ export const sendInviteEmail = functions.https.onCall(async (data, context) => {
         <!DOCTYPE html>
         <html>
         <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
           <style>
             body {
-              font-family: Arial, sans-serif;
+              font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
               line-height: 1.6;
               color: #333;
+              margin: 0;
+              padding: 0;
+              background-color: #f5f5f5;
+            }
+            .container {
               max-width: 600px;
               margin: 0 auto;
-              padding: 20px;
+              background-color: #ffffff;
             }
             .header {
               background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
               color: white;
-              padding: 30px;
+              padding: 40px 30px;
               text-align: center;
-              border-radius: 10px 10px 0 0;
+            }
+            .header h1 {
+              margin: 0;
+              font-size: 28px;
+              font-weight: 700;
             }
             .content {
-              background: #f9f9f9;
-              padding: 30px;
-              border-radius: 0 0 10px 10px;
+              padding: 40px 30px;
+            }
+            .content p {
+              margin: 0 0 15px 0;
+              font-size: 16px;
             }
             .button {
               display: inline-block;
-              background: #667eea;
-              color: white;
-              padding: 15px 30px;
+              background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+              color: white !important;
+              padding: 16px 40px;
               text-decoration: none;
-              border-radius: 5px;
+              border-radius: 8px;
+              margin: 25px 0;
+              font-weight: 600;
+              font-size: 16px;
+              box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+              transition: transform 0.2s;
+            }
+            .button:hover {
+              transform: translateY(-2px);
+              box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+            }
+            .link-box {
+              background: #f9f9f9;
+              border: 1px solid #e0e0e0;
+              border-radius: 8px;
+              padding: 15px;
               margin: 20px 0;
-              font-weight: bold;
+              word-break: break-all;
+            }
+            .link-box code {
+              color: #667eea;
+              font-size: 14px;
+            }
+            .info-box {
+              background: #fff3cd;
+              border-left: 4px solid #ffc107;
+              padding: 15px;
+              margin: 20px 0;
+              border-radius: 4px;
+            }
+            .store-buttons {
+              text-align: center;
+              margin: 30px 0;
+              padding: 20px 0;
+              border-top: 2px solid #f0f0f0;
+            }
+            .store-buttons p {
+              font-size: 14px;
+              color: #666;
+              margin-bottom: 15px;
+            }
+            .store-badge {
+              display: inline-block;
+              margin: 0 10px;
+            }
+            .store-badge img {
+              height: 50px;
+              width: auto;
             }
             .footer {
               text-align: center;
-              margin-top: 20px;
+              padding: 30px;
+              background-color: #f9f9f9;
+              border-top: 1px solid #e0e0e0;
               color: #666;
-              font-size: 12px;
+              font-size: 13px;
+            }
+            .footer p {
+              margin: 5px 0;
+            }
+            @media only screen and (max-width: 600px) {
+              .header h1 {
+                font-size: 24px;
+              }
+              .content {
+                padding: 30px 20px;
+              }
+              .button {
+                display: block;
+                text-align: center;
+              }
+              .store-badge {
+                display: block;
+                margin: 10px auto;
+              }
             }
           </style>
         </head>
         <body>
-          <div class="header">
-            <h1>🥋 Convite para ${academiaName}</h1>
-          </div>
-          <div class="content">
-            <p>Olá!</p>
-            <p><strong>${inviterName}</strong> convidou você para fazer parte da <strong>${academiaName}</strong> como <strong>${userTypeText}</strong>.</p>
-            <p>Clique no botão abaixo para aceitar o convite e começar sua jornada:</p>
-            <center>
-              <a href="${inviteLink}" class="button">Aceitar Convite</a>
-            </center>
-            <p><small>Ou copie e cole este link no seu navegador:</small><br>
-            <code>${inviteLink}</code></p>
-            <p><strong>⏰ Este convite expira em 7 dias.</strong></p>
-          </div>
-          <div class="footer">
-            <p>Este é um email automático. Por favor, não responda.</p>
-            <p>© ${new Date().getFullYear()} ${academiaName}</p>
+          <div class="container">
+            <div class="header">
+              <h1>🥋 Convite para ${academiaName}</h1>
+            </div>
+            
+            <div class="content">
+              <p>Olá!</p>
+              
+              <p><strong>${inviterName}</strong> convidou você para fazer parte da <strong>${academiaName}</strong> como <strong>${userTypeText}</strong>.</p>
+              
+              <p>Estamos muito felizes em recebê-lo(a)! Clique no botão abaixo para aceitar o convite e começar sua jornada:</p>
+              
+              <center>
+                <a href="${inviteLink}" class="button">✨ Aceitar Convite</a>
+              </center>
+              
+              <p style="font-size: 14px; color: #666; margin-top: 20px;">
+                <small>Ou copie e cole este link no seu navegador:</small>
+              </p>
+              <div class="link-box">
+                <code>${inviteLink}</code>
+              </div>
+              
+              <div class="info-box">
+                <strong>⏰ Importante:</strong> Este convite expira em 7 dias.
+              </div>
+
+              <div class="store-buttons">
+                <p><strong>Baixe nosso aplicativo:</strong></p>
+                <a href="https://apps.apple.com/app/mygym" class="store-badge" target="_blank">
+                  <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&amp;releaseDate=1234567890" alt="Download na App Store">
+                </a>
+                <a href="https://play.google.com/store/apps/details?id=com.mygym.app" class="store-badge" target="_blank">
+                  <img src="https://play.google.com/intl/en_us/badges/static/images/badges/pt-br_badge_web_generic.png" alt="Disponível no Google Play">
+                </a>
+              </div>
+            </div>
+            
+            <div class="footer">
+              <p><strong>${academiaName}</strong></p>
+              <p>Este é um email automático. Por favor, não responda.</p>
+              <p style="margin-top: 15px;">© ${new Date().getFullYear()} ${academiaName}. Todos os direitos reservados.</p>
+            </div>
           </div>
         </body>
         </html>
