@@ -35,13 +35,29 @@ var __importStar = (this && this.__importStar) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sendInviteEmail = void 0;
 const functions = __importStar(require("firebase-functions"));
+const params_1 = require("firebase-functions/params");
 const nodemailer = __importStar(require("nodemailer"));
+// Definir parâmetros de configuração
+const gmailEmail = (0, params_1.defineString)('GMAIL_EMAIL', {
+    description: 'Email do Gmail para envio de convites',
+    default: ''
+});
+const gmailPassword = (0, params_1.defineString)('GMAIL_PASSWORD', {
+    description: 'Senha de aplicativo do Gmail',
+    default: ''
+});
 /**
  * Cloud Function para enviar email de convite
- * Configuração do Gmail ou outro provedor de email necessária
+ *
+ * Configure as variáveis de ambiente:
+ * 1. Crie arquivo .env no diretório functions/:
+ *    GMAIL_EMAIL=seu-email@gmail.com
+ *    GMAIL_PASSWORD=sua-senha-app
+ *
+ * 2. Ou configure no Firebase Console:
+ *    https://console.firebase.google.com/project/academia-app-5cf79/functions/list
  */
 exports.sendInviteEmail = functions.https.onCall(async (data, context) => {
-    var _a, _b;
     // Verificar autenticação
     if (!context.auth) {
         throw new functions.https.HttpsError('unauthenticated', 'Usuário deve estar autenticado para enviar convites');
@@ -52,32 +68,37 @@ exports.sendInviteEmail = functions.https.onCall(async (data, context) => {
         throw new functions.https.HttpsError('invalid-argument', 'Email, nome da academia e link são obrigatórios');
     }
     try {
-        // Configurar transporter do Nodemailer
-        // IMPORTANTE: Configure as variáveis de ambiente no Firebase:
-        // firebase functions:config:set gmail.email="seu-email@gmail.com" gmail.password="sua-senha-app"
-        const gmailEmail = (_a = functions.config().gmail) === null || _a === void 0 ? void 0 : _a.email;
-        const gmailPassword = (_b = functions.config().gmail) === null || _b === void 0 ? void 0 : _b.password;
-        if (!gmailEmail || !gmailPassword) {
-            console.warn('⚠️ Configuração de email não encontrada. Email não será enviado.');
-            console.log('Configure com: firebase functions:config:set gmail.email="..." gmail.password="..."');
+        // Obter valores dos parâmetros
+        const emailConfig = gmailEmail.value();
+        const passwordConfig = gmailPassword.value();
+        // Verificar se as credenciais estão configuradas
+        if (!emailConfig || !passwordConfig) {
+            console.warn('⚠️ Configuração de email não encontrada.');
+            console.log('📝 Configure as variáveis de ambiente:');
+            console.log('   1. Crie arquivo .env no diretório functions/');
+            console.log('   2. Adicione: GMAIL_EMAIL=seu-email@gmail.com');
+            console.log('   3. Adicione: GMAIL_PASSWORD=sua-senha-app');
+            console.log('   4. Ou configure no Firebase Console');
             // Retornar sucesso mesmo sem enviar (para não bloquear o fluxo)
             return {
                 success: true,
                 message: 'Convite criado (email não configurado)',
-                emailSent: false
+                emailSent: false,
+                needsConfig: true
             };
         }
+        // Configurar transporter do Nodemailer
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: gmailEmail,
-                pass: gmailPassword,
+                user: emailConfig,
+                pass: passwordConfig,
             },
         });
         // Template do email
         const userTypeText = userType === 'instrutor' ? 'instrutor' : 'aluno';
         const mailOptions = {
-            from: `${academiaName} <${gmailEmail}>`,
+            from: `${academiaName} <${emailConfig}>`,
             to: email,
             subject: `Convite para ${academiaName}`,
             html: `
