@@ -65,86 +65,54 @@ const AdminStudents = ({ navigation }) => {
       const enrichedStudents = await cacheService.getOrSet(
         cacheKey,
         async () => {
-          console.log('🔍 Buscando alunos na academia (cache miss):', academiaId);
+          console.log('🔍 Buscando dados da academia (cache miss):', academiaId);
 
-          // Buscar alunos da academia usando subcoleção
-          const studentsData = await academyFirestoreService.getAll('students', academiaId);
-          console.log('👥 Alunos encontrados:', studentsData.length);
+          // 1. Buscar todos os alunos, turmas e pagamentos em paralelo
+          const [studentsData, allClasses, allPayments] = await Promise.all([
+            academyFirestoreService.getAll('students', academiaId),
+            academyFirestoreService.getAll('classes', academiaId),
+            academyFirestoreService.getAll('payments', academiaId)
+          ]);
 
-          // Se não há alunos, retornar array vazio
+          console.log(`👥 Dados carregados: ${studentsData.length} alunos, ${allClasses.length} turmas, ${allPayments.length} pagamentos`);
+
           if (!studentsData || studentsData.length === 0) {
             return [];
           }
 
-          // Processar alunos de forma mais simples e rápida
-          const enrichedData = await Promise.all(
-            studentsData.map(async (student) => {
-              try {
-                // Validar se student.id existe
-                if (!student?.id) {
-                  return {
-                    ...student,
-                    paymentStatus: 'unknown',
-                    totalPayments: 0,
-                    modalities: []
-                  };
-                }
+          // 2. Criar mapas para busca rápida em memória
+          const paymentsByStudent = allPayments.reduce((acc, p) => {
+            if (!acc[p.studentId]) acc[p.studentId] = [];
+            acc[p.studentId].push(p);
+            return acc;
+          }, {});
 
-                // Usar Promise.race para adicionar timeout
-                const enrichmentPromise = (async () => {
-                  try {
-                    // Buscar pagamentos do aluno (limitado aos últimos 10)
-                    const payments = await academyFirestoreService.getWhere(
-                      'payments',
-                      'studentId',
-                      '==',
-                      student.id,
-                      academiaId
-                    );
+          const classesMap = allClasses.reduce((acc, c) => {
+            acc[c.id] = c;
+            return acc;
+          }, {});
 
-                    const latestPayment = payments?.[0];
+          // 3. Enriquecer dados dos alunos em memória (sem novas requisições)
+          const enrichedData = studentsData.map(student => {
+            // Obter pagamentos do aluno
+            const studentPayments = paymentsByStudent[student.id] || [];
+            const latestPayment = studentPayments[0]; // Já vem ordenado por createdAt desc do getAll
 
-                    return {
-                      ...student,
-                      paymentStatus: latestPayment?.status || 'unknown',
-                      lastPaymentDate: latestPayment?.createdAt,
-                      totalPayments: payments?.length || 0,
-                      modalities: student.modalities || []
-                    };
-                  } catch (error) {
-                    console.warn(`⚠️ Erro ao enriquecer aluno ${student.id}:`, error.message);
-                    return {
-                      ...student,
-                      paymentStatus: 'unknown',
-                      totalPayments: 0,
-                      modalities: student.modalities || []
-                    };
-                  }
-                })();
+            // Obter modalidades das turmas do aluno
+            const studentModalities = (student.classIds || [])
+              .map(classId => classesMap[classId]?.modality)
+              .filter(Boolean);
 
-                // Timeout de 5 segundos por aluno
-                const timeoutPromise = new Promise((resolve) =>
-                  setTimeout(() => resolve({
-                    ...student,
-                    paymentStatus: 'unknown',
-                    totalPayments: 0,
-                    modalities: student.modalities || []
-                  }), 5000)
-                );
+            const uniqueModalities = [...new Set(studentModalities)];
 
-                return await Promise.race([enrichmentPromise, timeoutPromise]);
-
-              } catch (error) {
-                console.error('❌ Erro ao processar aluno:', error);
-                return {
-                  ...student,
-                  paymentStatus: 'unknown',
-                  totalPayments: 0,
-                  modalities: []
-                };
-              }
-            })
-          );
+            return {
+              ...student,
+              paymentStatus: latestPayment?.status || 'unknown',
+              lastPaymentDate: latestPayment?.createdAt,
+              totalPayments: studentPayments.length,
+              modalities: uniqueModalities
+            };
+          });
 
           return enrichedData;
         },
