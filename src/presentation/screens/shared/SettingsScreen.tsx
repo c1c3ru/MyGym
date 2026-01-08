@@ -1,44 +1,40 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, ScrollView, Alert, Platform, Dimensions } from 'react-native';
+import { View, StyleSheet, ScrollView, Alert, Platform } from 'react-native';
 import {
-  Card,
   Text,
   Button,
   List,
   Switch,
   Divider
 } from 'react-native-paper';
+import ModernCard from '@components/modern/ModernCard';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
-import { ResponsiveUtils } from '@utils/animations';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, BORDER_WIDTH } from '@presentation/theme/designTokens';
-import { getAuthGradient, getAuthCardColors } from '@presentation/theme/authTheme';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { getAuthGradient } from '@presentation/theme/authTheme';
 import ThemeToggleSwitch from '@components/ThemeToggleSwitch';
 import { useTheme } from '@contexts/ThemeContext';
 import type { NavigationProp } from '@react-navigation/native';
-import { getString } from "@utils/theme";
-
 
 interface SettingsScreenProps {
   navigation: NavigationProp<any>;
 }
 
 /**
- * Tela de configurações
+ * Tela de configurações modernizada com glassmorphism
  * Permite ao usuário gerenciar preferências, conta e privacidade
  */
 const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
   const { user, userProfile, logout } = useAuthFacade();
-  const { isDarkMode } = useTheme();
+  const { isDarkMode, getString } = useTheme();
   const [notifications, setNotifications] = useState<boolean>(true);
-  const [darkMode, setDarkMode] = useState<boolean>(false);
   const [autoBackup, setAutoBackup] = useState<boolean>(true);
 
   const handleLogout = (): void => {
     Alert.alert(
-      getString('confirmLogout'),
+      getString('logout'),
       getString('confirmLogoutMessage'),
       [
         { text: getString('cancel'), style: 'cancel' },
@@ -49,7 +45,7 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
             try {
               await logout();
             } catch (error) {
-              Alert.alert(getString('error'), 'Não foi possível fazer logout');
+              Alert.alert(getString('error'), getString('logoutError'));
             }
           }
         }
@@ -62,20 +58,20 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
   };
 
   const handleDataExport = () => {
-    Alert.alert('Em Desenvolvimento', 'Funcionalidade de exportação será implementada em breve');
+    Alert.alert(getString('inDevelopment'), getString('exportDataDevelopment'));
   };
 
   const handleDeleteAccount = () => {
     Alert.alert(
-      'Excluir Conta',
-      'Esta ação é irreversível. Todos os seus dados serão perdidos.',
+      getString('deleteAccount'),
+      getString('deleteAccountWarning'),
       [
         { text: getString('cancel'), style: 'cancel' },
         {
           text: getString('delete'),
           style: 'destructive',
           onPress: () => {
-            Alert.alert('Em Desenvolvimento', 'Funcionalidade será implementada em breve');
+            Alert.alert(getString('inDevelopment'), getString('deleteAccountDevelopment'));
           }
         }
       ]
@@ -94,188 +90,219 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
           showsVerticalScrollIndicator={false}
         >
           {/* Informações da Conta */}
-          <Card style={styles.card}>
-            <View style={styles.cardHeader}>
-              <Ionicons name="person-circle" size={24} color={COLORS.info[500]} />
-              <Text variant="headlineSmall" style={styles.cardTitle}>{getString('account')}</Text>
+          <ModernCard variant="card" style={styles.card}>
+            <View>
+              <View style={styles.cardHeader}>
+                <Ionicons name="person-circle" size={24} color={COLORS.info[500]} />
+                <Text variant="headlineSmall" style={[styles.cardTitle, { color: isDarkMode ? COLORS.white : COLORS.black }]}>
+                  {getString('account')}
+                </Text>
+              </View>
+
+              <List.Item
+                title={getString('name')}
+                description={userProfile?.name || getString('notInformed')}
+                left={() => <Ionicons name="person" size={20} color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
+                titleStyle={{ color: isDarkMode ? COLORS.white : COLORS.black }}
+                descriptionStyle={{ color: isDarkMode ? COLORS.gray[300] : COLORS.gray[600] }}
+              />
+
+              <List.Item
+                title={getString('email')}
+                description={user?.email}
+                left={() => <Ionicons name="mail" size={20} color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
+                titleStyle={{ color: isDarkMode ? COLORS.white : COLORS.black }}
+                descriptionStyle={{ color: isDarkMode ? COLORS.gray[300] : COLORS.gray[600] }}
+              />
+
+              <List.Item
+                title={getString('editProfile')}
+                left={() => <Ionicons name="create" size={20} color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
+                right={() => <List.Icon icon="chevron-right" color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
+                onPress={() => navigation.navigate('Profile')}
+                titleStyle={{ color: isDarkMode ? COLORS.white : COLORS.black }}
+              />
+
+              <List.Item
+                title={getString('changePassword')}
+                left={() => <Ionicons name="lock-closed" size={20} color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
+                right={() => <List.Icon icon="chevron-right" color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
+                onPress={handleChangePassword}
+                titleStyle={{ color: isDarkMode ? COLORS.white : COLORS.black }}
+              />
             </View>
-
-            <List.Item
-              title={getString('name')}
-              description={userProfile?.name || getString('notInformed')}
-              left={(props) => <Ionicons name="person" size={20} color={COLORS.gray[500]} />}
-            />
-
-            <List.Item
-              title="email"
-              description={user?.email}
-              left={(props) => <Ionicons name="mail" size={20} color={COLORS.gray[500]} />}
-            />
-
-            <List.Item
-              title={getString('editProfile')}
-              left={(props) => <Ionicons name="create" size={20} color={COLORS.gray[500]} />}
-              right={(props) => <List.Icon icon="chevron-right" />}
-              onPress={() => navigation.navigate('Profile')}
-            />
-
-            <List.Item
-              title={getString('changePassword')}
-              left={(props) => <Ionicons name="lock-closed" size={20} color={COLORS.gray[500]} />}
-              right={(props) => <List.Icon icon="chevron-right" />}
-              onPress={handleChangePassword}
-            />
-          </Card>
+          </ModernCard>
 
           {/* Alternância de Temas */}
           <ThemeToggleSwitch />
 
           {/* Botão para Ver Demonstração */}
-          <Card style={styles.card}>
-            <View style={styles.cardHeader}>
-              <Ionicons name="color-palette" size={24} color={COLORS.secondary[500]} />
-              <Text variant="headlineSmall" style={styles.cardTitle}>{getString('demonstration')}</Text>
-            </View>
+          <ModernCard variant="card" style={styles.card}>
+            <View>
+              <View style={styles.cardHeader}>
+                <Ionicons name="color-palette" size={24} color={COLORS.secondary[500]} />
+                <Text variant="headlineSmall" style={[styles.cardTitle, { color: isDarkMode ? COLORS.white : COLORS.black }]}>
+                  {getString('demonstration')}
+                </Text>
+              </View>
 
-            <List.Item
-              title={getString('viewThemeDemo')}
-              description={getString('viewAvailableThemes')}
-              left={(props) => <Ionicons name="eye" size={20} color={COLORS.gray[500]} />}
-              right={(props) => <List.Icon icon="chevron-right" />}
-              onPress={() => navigation.navigate('ThemeDemo')}
-            />
-          </Card>
+              <List.Item
+                title={getString('viewThemeDemo')}
+                description={getString('viewAvailableThemes')}
+                left={() => <Ionicons name="eye" size={20} color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
+                right={() => <List.Icon icon="chevron-right" color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
+                onPress={() => navigation.navigate('ThemeDemo')}
+                titleStyle={{ color: isDarkMode ? COLORS.white : COLORS.black }}
+                descriptionStyle={{ color: isDarkMode ? COLORS.gray[300] : COLORS.gray[600] }}
+              />
+            </View>
+          </ModernCard>
 
           {/* Preferências */}
-          <Card style={styles.card}>
-            <View style={styles.cardHeader}>
-              <Ionicons name="settings" size={24} color={COLORS.primary[500]} />
-              <Text variant="headlineSmall" style={styles.cardTitle}>{getString('preferences')}</Text>
+          <ModernCard variant="card" style={styles.card}>
+            <View>
+              <View style={styles.cardHeader}>
+                <Ionicons name="settings" size={24} color={COLORS.primary[500]} />
+                <Text variant="headlineSmall" style={[styles.cardTitle, { color: isDarkMode ? COLORS.white : COLORS.black }]}>
+                  {getString('preferences')}
+                </Text>
+              </View>
+
+              <List.Item
+                title={getString('notifications')}
+                description={getString('receivePushNotifications')}
+                left={() => <Ionicons name="notifications" size={20} color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
+                right={() => (
+                  <Switch
+                    value={notifications}
+                    onValueChange={setNotifications}
+                    trackColor={{ false: COLORS.gray[600], true: COLORS.info[500] }}
+                  />
+                )}
+                titleStyle={{ color: isDarkMode ? COLORS.white : COLORS.black }}
+                descriptionStyle={{ color: isDarkMode ? COLORS.gray[300] : COLORS.gray[600] }}
+              />
+
+              <List.Item
+                title={getString('autoBackup')}
+                description={getString('autoBackupDescription')}
+                left={() => <Ionicons name="cloud-upload" size={20} color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
+                right={() => (
+                  <Switch
+                    value={autoBackup}
+                    onValueChange={setAutoBackup}
+                    trackColor={{ false: COLORS.gray[600], true: COLORS.info[500] }}
+                  />
+                )}
+                titleStyle={{ color: isDarkMode ? COLORS.white : COLORS.black }}
+                descriptionStyle={{ color: isDarkMode ? COLORS.gray[300] : COLORS.gray[600] }}
+              />
             </View>
-
-            <List.Item
-              title={getString('notifications')}
-              description={getString('receivePushNotifications')}
-              left={(props) => <Ionicons name="notifications" size={20} color={COLORS.gray[500]} />}
-              right={(props) => (
-                <Switch
-                  value={notifications}
-                  onValueChange={setNotifications}
-                  trackColor={{ false: COLORS.gray[600], true: COLORS.info[500] }}
-                />
-              )}
-            />
-
-            <List.Item
-              title={getString('darkMode')}
-              description={getString('darkModeDescription')}
-              left={(props) => <Ionicons name="moon" size={20} color={COLORS.gray[500]} />}
-              right={(props) => (
-                <Switch
-                  value={darkMode}
-                  onValueChange={setDarkMode}
-                  trackColor={{ false: COLORS.gray[600], true: COLORS.info[500] }}
-                />
-              )}
-            />
-
-            <List.Item
-              title={getString('autoBackup')}
-              description={getString('autoBackupDescription')}
-              left={(props) => <Ionicons name="cloud-upload" size={20} color={COLORS.gray[500]} />}
-              right={(props) => (
-                <Switch
-                  value={autoBackup}
-                  onValueChange={setAutoBackup}
-                  trackColor={{ false: COLORS.gray[600], true: COLORS.info[500] }}
-                />
-              )}
-            />
-          </Card>
+          </ModernCard>
 
           {/* Dados e Privacidade */}
-          <Card style={styles.card}>
-            <View style={styles.cardHeader}>
-              <Ionicons name="shield-checkmark" size={24} color={COLORS.warning[500]} />
-              <Text variant="headlineSmall" style={styles.cardTitle}>{getString('dataAndPrivacy')}</Text>
+          <ModernCard variant="card" style={styles.card}>
+            <View>
+              <View style={styles.cardHeader}>
+                <Ionicons name="shield-checkmark" size={24} color={COLORS.warning[500]} />
+                <Text variant="headlineSmall" style={[styles.cardTitle, { color: isDarkMode ? COLORS.white : COLORS.black }]}>
+                  {getString('dataAndPrivacy')}
+                </Text>
+              </View>
+
+              <List.Item
+                title={getString('exportData')}
+                description={getString('downloadDataCopy')}
+                left={() => <Ionicons name="download" size={20} color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
+                right={() => <List.Icon icon="chevron-right" color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
+                onPress={handleDataExport}
+                titleStyle={{ color: isDarkMode ? COLORS.white : COLORS.black }}
+                descriptionStyle={{ color: isDarkMode ? COLORS.gray[300] : COLORS.gray[600] }}
+              />
+
+              <List.Item
+                title={getString('privacyPolicy')}
+                left={() => <Ionicons name="document-text" size={20} color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
+                right={() => <List.Icon icon="chevron-right" color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
+                titleStyle={{ color: isDarkMode ? COLORS.white : COLORS.black }}
+              />
+
+              <List.Item
+                title={getString('termsOfUse')}
+                left={() => <Ionicons name="library" size={20} color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
+                right={() => <List.Icon icon="chevron-right" color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
+                titleStyle={{ color: isDarkMode ? COLORS.white : COLORS.black }}
+              />
             </View>
-
-            <List.Item
-              title={getString('exportData')}
-              description={getString('downloadDataCopy')}
-              left={(props) => <Ionicons name="download" size={20} color={COLORS.gray[500]} />}
-              right={(props) => <List.Icon icon="chevron-right" />}
-              onPress={handleDataExport}
-            />
-
-            <List.Item
-              title={getString('privacyPolicy')}
-              left={(props) => <Ionicons name="document-text" size={20} color={COLORS.gray[500]} />}
-              right={(props) => <List.Icon icon="chevron-right" />}
-            />
-
-            <List.Item
-              title={getString('termsOfUse')}
-              left={(props) => <Ionicons name="library" size={20} color={COLORS.gray[500]} />}
-              right={(props) => <List.Icon icon="chevron-right" />}
-            />
-          </Card>
+          </ModernCard>
 
           {/* Sobre */}
-          <Card style={styles.card}>
-            <View style={styles.cardHeader}>
-              <Ionicons name="information-circle" size={24} color={COLORS.secondary[500]} />
-              <Text variant="headlineSmall" style={styles.cardTitle}>{getString('about')}</Text>
+          <ModernCard variant="card" style={styles.card}>
+            <View>
+              <View style={styles.cardHeader}>
+                <Ionicons name="information-circle" size={24} color={COLORS.secondary[500]} />
+                <Text variant="headlineSmall" style={[styles.cardTitle, { color: isDarkMode ? COLORS.white : COLORS.black }]}>
+                  {getString('about')}
+                </Text>
+              </View>
+
+              <List.Item
+                title={getString('appVersion')}
+                description="1.0.0"
+                left={() => <Ionicons name="apps" size={20} color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
+                titleStyle={{ color: isDarkMode ? COLORS.white : COLORS.black }}
+                descriptionStyle={{ color: isDarkMode ? COLORS.gray[300] : COLORS.gray[600] }}
+              />
+
+              <List.Item
+                title={getString('helpCenter')}
+                left={() => <Ionicons name="help-circle" size={20} color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
+                right={() => <List.Icon icon="chevron-right" color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
+                titleStyle={{ color: isDarkMode ? COLORS.white : COLORS.black }}
+              />
+
+              <List.Item
+                title={getString('sendFeedback')}
+                left={() => <Ionicons name="chatbubble-ellipses" size={20} color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
+                right={() => <List.Icon icon="chevron-right" color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
+                titleStyle={{ color: isDarkMode ? COLORS.white : COLORS.black }}
+              />
             </View>
-
-            <List.Item
-              title="Versão do App"
-              description="1.0.0"
-              left={(props) => <Ionicons name="apps" size={20} color={COLORS.gray[500]} />}
-            />
-
-            <List.Item
-              title="Central de Ajuda"
-              left={(props) => <Ionicons name="help-circle" size={20} color={COLORS.gray[500]} />}
-              right={(props) => <List.Icon icon="chevron-right" />}
-            />
-
-            <List.Item
-              title="Enviar Feedback"
-              left={(props) => <Ionicons name="chatbubble-ellipses" size={20} color={COLORS.gray[500]} />}
-              right={(props) => <List.Icon icon="chevron-right" />}
-            />
-          </Card>
+          </ModernCard>
 
           {/* Ações Perigosas */}
-          <Card style={[styles.card, styles.dangerCard]}>
-            <View style={styles.cardHeader}>
-              <Ionicons name="warning" size={24} color={COLORS.error[500]} />
-              <Text variant="headlineSmall" style={[styles.cardTitle, styles.dangerTitle]}>{getString('dangerZone')}</Text>
+          <ModernCard variant="card" style={styles.dangerCard}>
+            <View>
+              <View style={styles.cardHeader}>
+                <Ionicons name="warning" size={24} color={COLORS.error[500]} />
+                <Text variant="headlineSmall" style={[styles.cardTitle, styles.dangerTitle]}>
+                  {getString('dangerZone')}
+                </Text>
+              </View>
+
+              <Button
+                mode="contained"
+                onPress={handleLogout}
+                buttonColor={COLORS.warning[500]}
+                textColor={COLORS.white}
+                icon={() => <Ionicons name="log-out" size={20} color={COLORS.white} />}
+                style={styles.dangerButton}
+              >
+                {getString('signOut')}
+              </Button>
+
+              <Button
+                mode="contained"
+                onPress={handleDeleteAccount}
+                buttonColor={COLORS.error[500]}
+                textColor={COLORS.white}
+                icon={() => <Ionicons name="trash" size={20} color={COLORS.white} />}
+                style={[styles.dangerButton, { marginTop: SPACING.md }]}
+              >
+                {getString('deleteAccount')}
+              </Button>
             </View>
-
-            <Button
-              mode="contained"
-              onPress={handleLogout}
-              buttonColor={COLORS.warning[500]}
-              textColor={COLORS.white}
-              icon={() => <Ionicons name="log-out" size={20} color={COLORS.white} />}
-              style={styles.dangerButton}
-            >
-              {getString('signOut')}
-            </Button>
-
-            <Button
-              mode="contained"
-              onPress={handleDeleteAccount}
-              buttonColor={COLORS.error[500]}
-              textColor={COLORS.white}
-              icon={() => <Ionicons name="trash" size={20} color={COLORS.white} />}
-              style={[styles.dangerButton, { marginTop: SPACING.md }]}
-            >
-              {getString('deleteAccount')}
-            </Button>
-          </Card>
+          </ModernCard>
         </ScrollView>
       </SafeAreaView>
     </LinearGradient>
@@ -293,49 +320,36 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    paddingBottom: ResponsiveUtils?.spacing?.xl || 32,
+    paddingBottom: SPACING.xxl,
+    paddingHorizontal: SPACING.md,
   },
   card: {
-    margin: ResponsiveUtils?.spacing?.md || 16,
-    marginTop: ResponsiveUtils?.spacing?.sm || 8,
-    maxWidth: ResponsiveUtils?.isTablet?.() ? 600 : '100%',
-    alignSelf: 'center',
-    width: '100%',
-    backgroundColor: COLORS.card.default.background,
-    borderColor: COLORS.card.default.border,
-    borderWidth: BORDER_WIDTH.thin,
-    ...Platform.select({
-      ios: {},
-      android: {
-        elevation: 4,
-      },
-      web: {
-        boxShadow: `0 2px 4px ${COLORS.card.default.shadow}`,
-      },
-    }),
+    marginTop: SPACING.md,
+    marginBottom: SPACING.sm,
   },
   dangerCard: {
-    backgroundColor: COLORS.card.default.background,
-    borderColor: COLORS.error[500],
-    borderWidth: BORDER_WIDTH.base,
     borderLeftWidth: 4,
     borderLeftColor: COLORS.error[500],
+    marginBottom: SPACING.xxl,
   },
   cardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: ResponsiveUtils?.spacing?.md || 16,
+    marginBottom: SPACING.md,
+    paddingHorizontal: SPACING.sm,
   },
   cardTitle: {
-    marginLeft: ResponsiveUtils?.spacing?.sm || 8,
-    fontSize: ResponsiveUtils?.fontSize?.large || 18,
+    marginLeft: SPACING.sm,
+    fontSize: FONT_SIZE.lg,
+    fontWeight: FONT_WEIGHT.semibold as any,
   },
   dangerTitle: {
     color: COLORS.error[500],
   },
   dangerButton: {
-    borderRadius: ResponsiveUtils?.borderRadius?.medium || 12,
-    marginBottom: ResponsiveUtils?.spacing?.sm || 8,
+    borderRadius: BORDER_RADIUS.md,
+    marginBottom: SPACING.sm,
+    marginHorizontal: SPACING.md,
   },
 });
 

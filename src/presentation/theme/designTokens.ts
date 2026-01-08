@@ -144,64 +144,105 @@ export const ELEVATION = {
 } as const;
 
 // ============================================
-// GLASS - Efeitos de vidro (Glassmorphism)
+// GLASS - Efeitos de vidro (Glassmorphism) - Unified System
 // ============================================
 export const GLASS = {
-    default: {
-        backgroundColor: 'rgba(26, 26, 26, 0.6)',
-        backdropFilter: 'blur(10px)',
+    // Dark theme variants (default)
+    dark: {
+        backgroundColor: 'rgba(26, 26, 26, 0.7)',
         borderColor: 'rgba(255, 255, 255, 0.1)',
+        backdropFilter: 'blur(12px)',
+        shadowColor: 'rgba(0, 0, 0, 0.3)',
         borderWidth: 1,
-        shadowColor: '#000',
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.3,
         shadowRadius: 8,
         elevation: 5,
     },
-    heavy: {
-        backgroundColor: 'rgba(26, 26, 26, 0.8)',
-        backdropFilter: 'blur(20px)',
-        borderColor: 'rgba(255, 255, 255, 0.15)',
-        borderWidth: 1,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 8 },
-        shadowOpacity: 0.4,
-        shadowRadius: 12,
-        elevation: 8,
-    },
+    // Light theme variants
     light: {
-        backgroundColor: 'rgba(255, 255, 255, 0.05)',
-        backdropFilter: 'blur(5px)',
-        borderColor: 'rgba(255, 255, 255, 0.2)',
+        backgroundColor: 'rgba(255, 255, 255, 0.7)',
+        borderColor: 'rgba(255, 255, 255, 0.5)',
+        backdropFilter: 'blur(10px)',
+        shadowColor: 'rgba(31, 38, 135, 0.1)',
         borderWidth: 1,
-        shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
         shadowRadius: 4,
         elevation: 2,
     },
+    // Medium intensity
+    medium: {
+        backgroundColor: 'rgba(255, 255, 255, 0.5)',
+        borderColor: 'rgba(255, 255, 255, 0.3)',
+        backdropFilter: 'blur(15px)',
+        shadowColor: 'rgba(31, 38, 135, 0.15)',
+        borderWidth: 1,
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.15,
+        shadowRadius: 6,
+        elevation: 3,
+    },
+    // Heavy blur effect
+    heavy: {
+        backgroundColor: 'rgba(20, 20, 20, 0.8)',
+        borderColor: 'rgba(255, 255, 255, 0.15)',
+        backdropFilter: 'blur(20px)',
+        shadowColor: 'rgba(0, 0, 0, 0.4)',
+        borderWidth: 1,
+        shadowOffset: { width: 0, height: 8 },
+        shadowOpacity: 0.4,
+        shadowRadius: 12,
+        elevation: 8,
+    },
+    // Premium dark with accent
+    premium: {
+        backgroundColor: 'rgba(20, 20, 20, 0.7)',
+        borderColor: 'rgba(211, 47, 47, 0.3)', // Primary color accent
+        backdropFilter: 'blur(16px)',
+        shadowColor: 'rgba(0, 0, 0, 0.4)',
+        borderWidth: 1,
+        shadowOffset: { width: 0, height: 6 },
+        shadowOpacity: 0.35,
+        shadowRadius: 10,
+        elevation: 6,
+    },
+    // Card variant
     card: {
         backgroundColor: 'rgba(30, 30, 30, 0.7)',
-        backdropFilter: 'blur(12px)',
         borderColor: 'rgba(255, 255, 255, 0.08)',
+        backdropFilter: 'blur(12px)',
+        shadowColor: 'rgba(0, 0, 0, 0.3)',
         borderWidth: 1,
-        shadowColor: '#000',
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.3,
         shadowRadius: 8,
         elevation: 5,
     },
+    // Modal variant
     modal: {
         backgroundColor: 'rgba(20, 20, 20, 0.85)',
-        backdropFilter: 'blur(25px)',
         borderColor: 'rgba(255, 255, 255, 0.1)',
+        backdropFilter: 'blur(25px)',
+        shadowColor: 'rgba(0, 0, 0, 0.5)',
         borderWidth: 1,
-        shadowColor: '#000',
         shadowOffset: { width: 0, height: 10 },
         shadowOpacity: 0.5,
         shadowRadius: 20,
         elevation: 15,
-    }
+    },
+    // Subtle variant
+    subtle: {
+        backgroundColor: 'rgba(255, 255, 255, 0.05)',
+        borderColor: 'rgba(255, 255, 255, 0.2)',
+        backdropFilter: 'blur(5px)',
+        shadowColor: 'rgba(0, 0, 0, 0.1)',
+        borderWidth: 1,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 2,
+    },
 } as const;
 
 // ============================================
@@ -643,41 +684,6 @@ export const TRANSITIONS = {
     background: `background-color ${ANIMATION.duration.fast}ms ${ANIMATION.easing.easeInOut}`,
 } as const;
 
-// ============================================
-// GLASS EFFECTS - Efeitos de vidro (Glassmorphism)
-// ============================================
-export const GLASS_EFFECTS = {
-    light: {
-        backgroundColor: 'rgba(255, 255, 255, 0.7)',
-        borderColor: 'rgba(255, 255, 255, 0.5)',
-        backdropFilter: 'blur(10px)',
-        shadowColor: 'rgba(31, 38, 135, 0.1)',
-    },
-    medium: {
-        backgroundColor: 'rgba(255, 255, 255, 0.5)',
-        borderColor: 'rgba(255, 255, 255, 0.3)',
-        backdropFilter: 'blur(15px)',
-        shadowColor: 'rgba(31, 38, 135, 0.15)',
-    },
-    heavy: {
-        backgroundColor: 'rgba(255, 255, 255, 0.3)',
-        borderColor: 'rgba(255, 255, 255, 0.2)',
-        backdropFilter: 'blur(20px)',
-        shadowColor: 'rgba(31, 38, 135, 0.2)',
-    },
-    dark: {
-        backgroundColor: 'rgba(0, 0, 0, 0.6)',
-        borderColor: 'rgba(255, 255, 255, 0.1)',
-        backdropFilter: 'blur(12px)',
-        shadowColor: 'rgba(0, 0, 0, 0.3)',
-    },
-    premium: {
-        backgroundColor: 'rgba(20, 20, 20, 0.7)',
-        borderColor: 'rgba(211, 47, 47, 0.3)', // Primary color accent
-        backdropFilter: 'blur(16px)',
-        shadowColor: 'rgba(0, 0, 0, 0.4)',
-    }
-} as const;
 
 // ============================================
 // UTILITIES - Funções utilitárias
@@ -806,7 +812,6 @@ export default {
     BREAKPOINTS,
     CONTAINER,
     TRANSITIONS,
-    GLASS_EFFECTS,
     // Utilities
     getSpacing,
     getFontSize,

@@ -22,7 +22,7 @@ import batchFirestoreService from '@infrastructure/services/batchFirestoreServic
 import cacheService, { CACHE_KEYS, CACHE_TTL } from '@infrastructure/services/cacheService';
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import StudentListSkeleton from '@components/skeletons/StudentListSkeleton';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, GLASS_EFFECTS } from '@presentation/theme/designTokens';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, GLASS } from '@presentation/theme/designTokens';
 import { useTheme } from '@contexts/ThemeContext';
 import { getAuthGradient } from '@presentation/theme/authTheme';
 
@@ -428,15 +428,15 @@ const styles = StyleSheet.create({
   },
   searchbar: {
     elevation: 0,
-    backgroundColor: GLASS_EFFECTS.premium.backgroundColor,
+    backgroundColor: GLASS.premium.backgroundColor,
     marginBottom: SPACING.sm,
     width: '100%',
     borderRadius: BORDER_RADIUS.lg,
     borderWidth: 1,
-    borderColor: GLASS_EFFECTS.premium.borderColor,
+    borderColor: GLASS.premium.borderColor,
     ...Platform.select({
       web: {
-        backdropFilter: GLASS_EFFECTS.premium.backdropFilter,
+        backdropFilter: GLASS.premium.backdropFilter,
       }
     })
   },
@@ -451,7 +451,7 @@ const styles = StyleSheet.create({
   },
   filterButton: {
     borderColor: COLORS.primary[500],
-    backgroundColor: GLASS_EFFECTS.premium.backgroundColor,
+    backgroundColor: GLASS.premium.backgroundColor,
   },
   fab: {
     position: 'absolute',

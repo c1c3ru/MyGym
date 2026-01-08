@@ -4,22 +4,23 @@ import {
   TextInput,
   Button,
   Text,
-  Card,
   Divider,
   ActivityIndicator,
   RadioButton,
   Chip,
   Snackbar,
   HelperText,
-  Checkbox
+  Checkbox,
+  Card
 } from 'react-native-paper';
+import ModernCard from '@components/modern/ModernCard';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getAuthGradient, getAuthCardColors } from '@presentation/theme/authTheme';
+import { getAuthGradient } from '@presentation/theme/authTheme';
 import type { AuthScreenProps, RegisterFormData, RegisterFormErrors, SnackbarState } from './types';
 import { getString } from "@utils/theme";
 
@@ -240,11 +241,8 @@ const RegisterScreen = ({ navigation }: AuthScreenProps) => {
               { transform: [{ scale: scaleAnim }, { translateX: slideAnim }] }
             ]}
           >
-            <View style={[
-              styles.card,
-              getAuthCardColors(isDarkMode),
-            ]}>
-              <Card.Content>
+            <ModernCard variant="card" style={styles.card}>
+              <View style={{ padding: SPACING.md }}>
                 <Text style={[styles.cardTitle, { color: isDarkMode ? COLORS.white : COLORS.black }]}>{getString('personalData')}</Text>
 
                 <TextInput
@@ -484,8 +482,8 @@ const RegisterScreen = ({ navigation }: AuthScreenProps) => {
                     {getString('signIn')}
                   </Button>
                 </View>
-              </Card.Content>
-            </View>
+              </View>
+            </ModernCard>
           </Animated.View>
         </ScrollView>
 

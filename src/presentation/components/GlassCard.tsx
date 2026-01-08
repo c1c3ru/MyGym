@@ -6,20 +6,21 @@ import { useTheme } from '@contexts/ThemeContext';
 interface GlassCardProps {
     children: React.ReactNode;
     style?: StyleProp<ViewStyle>;
-    variant?: 'default' | 'heavy' | 'light' | 'card' | 'modal';
+    variant?: 'dark' | 'light' | 'medium' | 'heavy' | 'premium' | 'card' | 'modal' | 'subtle';
 }
 
 export const GlassCard: React.FC<GlassCardProps> = ({
     children,
     style,
-    variant = 'default'
+    variant = 'dark'
 }) => {
     const { isDarkMode } = useTheme();
     const theme = useCurrentTheme(isDarkMode);
-    // Fallback to default if glass property or variant doesn't exist (safety check)
-    const glassStyle = theme.glass?.[variant] || theme.glass?.default || {
-        backgroundColor: 'rgba(255, 255, 255, 0.8)',
-        borderColor: 'rgba(255, 255, 255, 0.5)',
+
+    // Use the unified GLASS tokens with proper fallback
+    const glassStyle = theme.glass?.[variant] || theme.glass?.dark || {
+        backgroundColor: 'rgba(26, 26, 26, 0.7)',
+        borderColor: 'rgba(255, 255, 255, 0.1)',
         borderWidth: 1,
     };
 

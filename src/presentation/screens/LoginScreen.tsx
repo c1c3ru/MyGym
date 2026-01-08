@@ -144,12 +144,12 @@ export default function LoginScreen({ navigation }: AuthScreenProps) {
     email: {
       required: true,
       pattern: /\S+@\S+\.\S+/,
-      message: getString('invalidEmail') || getString('invalidEmail')
+      message: getString('invalidEmail')
     },
     password: {
       required: true,
       minLength: 6,
-      message: getString('passwordTooShort') || 'Senha deve ter pelo menos 6 caracteres'
+      message: getString('passwordMinChars')
     }
   }), [getString]);
 
@@ -237,7 +237,7 @@ export default function LoginScreen({ navigation }: AuthScreenProps) {
     setLoading(true);
     try {
       await signInWithGoogle();
-      showSnackbar('Login com Google realizado com sucesso!', 'success');
+      showSnackbar(getString('googleLoginSuccess'), 'success');
     } catch (error) {
       console.error(getString('googleLoginError'), error);
       const errorCode = mapAuthErrorToCode(error);
@@ -252,7 +252,7 @@ export default function LoginScreen({ navigation }: AuthScreenProps) {
     setLoading(true);
     try {
       await signInWithFacebook();
-      showSnackbar('Login com Facebook realizado com sucesso!', 'success');
+      showSnackbar(getString('facebookLoginSuccess'), 'success');
     } catch (error) {
       console.error(getString('facebookLoginError'), error);
       const errorCode = mapAuthErrorToCode(error);
@@ -267,7 +267,7 @@ export default function LoginScreen({ navigation }: AuthScreenProps) {
     setLoading(true);
     try {
       await signInWithMicrosoft();
-      showSnackbar('Login com Microsoft realizado com sucesso!', 'success');
+      showSnackbar(getString('microsoftLoginSuccess'), 'success');
     } catch (error) {
       console.error(getString('microsoftLoginError'), error);
       const errorCode = mapAuthErrorToCode(error);
@@ -282,7 +282,7 @@ export default function LoginScreen({ navigation }: AuthScreenProps) {
     setLoading(true);
     try {
       await signInWithApple();
-      showSnackbar('Login com Apple realizado com sucesso!', 'success');
+      showSnackbar(getString('appleLoginSuccess'), 'success');
     } catch (error) {
       console.error(getString('appleLoginError'), error);
       const errorCode = mapAuthErrorToCode(error);

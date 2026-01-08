@@ -146,7 +146,7 @@ const ThemeToggleSwitch = ({ style = {} }) => {
         </View>
 
         {/* Informações Adicionais */}
-        <View style={[styles.infoBox, { backgroundColor: currentTheme.card.section.background }]}>
+        <View style={[styles.infoBox, { backgroundColor: currentTheme.card.default.background }]}>
           <MaterialCommunityIcons
             name="information-outline"
             size={16}

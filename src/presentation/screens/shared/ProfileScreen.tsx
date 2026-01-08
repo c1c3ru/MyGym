@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView, Alert, TouchableOpacity, Dimensions } from 'react-native';
 import {
-  Card,
   Button,
   Avatar,
   TextInput,
@@ -12,6 +11,7 @@ import {
   Modal,
   Surface
 } from 'react-native-paper';
+import ModernCard from '@components/modern/ModernCard';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -22,7 +22,7 @@ import { firestoreService } from '@infrastructure/services/firestoreService';
 import PaymentDueDateEditor from '@components/PaymentDueDateEditor';
 import type { NavigationProp } from '@react-navigation/native';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, BORDER_WIDTH } from '@presentation/theme/designTokens';
-import { getAuthGradient, getAuthCardColors } from '@presentation/theme/authTheme';
+import { getAuthGradient } from '@presentation/theme/authTheme';
 import { getString } from "@utils/theme";
 
 interface ProfileScreenProps {
@@ -273,8 +273,8 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.scrollView}>
           {/* Header do Perfil */}
-          <Card style={styles.headerCard}>
-            <Card.Content style={styles.headerContent}>
+          <ModernCard variant="card" style={styles.headerCard}>
+            <View style={styles.headerContent}>
               <Avatar.Text
                 size={80}
                 label={userProfile?.name?.charAt(0) || 'U'}
@@ -291,13 +291,13 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
                   {getClaimsTypeText()}
                 </Chip>
               </View>
-            </Card.Content>
-          </Card>
+            </View>
+          </ModernCard>
 
           {/* Notificação de Vencimento */}
           {paymentDueNotification && (
-            <Card style={[styles.card, styles.warningCard]}>
-              <Card.Content>
+            <ModernCard variant="card" style={styles.warningCard}>
+              <View>
                 <View style={styles.cardHeader}>
                   <Ionicons name="warning-outline" size={24} color={COLORS.warning[500]} />
                   <Text style={[styles.cardTitle, styles.title, { color: COLORS.warning[500] }]}>{getString('paymentNearDue')}</Text>
@@ -334,13 +334,13 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
                     </Button>
                   </View>
                 </View>
-              </Card.Content>
-            </Card>
+              </View>
+            </ModernCard>
           )}
 
           {/* Informações Pessoais */}
-          <Card style={styles.card}>
-            <Card.Content>
+          <ModernCard variant="card">
+            <View>
               <View style={styles.cardHeader}>
                 <Ionicons name="person-outline" size={24} color={COLORS.info[500]} />
                 <Text style={[styles.cardTitle, styles.title]}>{getString('personalInformation')}</Text>
@@ -453,14 +453,14 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
                   />
                 </View>
               )}
-            </Card.Content>
-          </Card>
+            </View>
+          </ModernCard>
 
           {/* Informações da Academia (apenas para alunos) */}
           {isStudent() && (
             <>
-              <Card style={styles.card}>
-                <Card.Content>
+              <ModernCard variant="card">
+                <View>
                   <View style={styles.cardHeader}>
                     <Ionicons name="school-outline" size={24} color={COLORS.primary[500]} />
                     <Text style={[styles.cardTitle, styles.title]}>{getString('academyInformation')}</Text>
@@ -488,12 +488,12 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
                     }
                     left={() => <List.Icon icon="calendar-start" />}
                   />
-                </Card.Content>
-              </Card>
+                </View>
+              </ModernCard>
 
               {/* Treinos esta semana */}
-              <Card style={styles.card}>
-                <Card.Content>
+              <ModernCard variant="card">
+                <View>
                   <View style={styles.cardHeader}>
                     <Ionicons name="calendar-outline" size={24} color={COLORS.info[500]} />
                     <Text style={[styles.cardTitle, styles.title]}>{getString('trainingsThisWeek')}</Text>
@@ -515,36 +515,36 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
                   </View>
 
                   <Text style={styles.noTrainingText}>{getString('noTrainingThisWeek')}</Text>
-                </Card.Content>
-              </Card>
+                </View>
+              </ModernCard>
 
               {/* Contratos */}
-              <Card style={styles.card}>
-                <Card.Content>
+              <ModernCard variant="card">
+                <View>
                   <List.Item
                     title={getString('contracts')}
                     description={`${getString('nextDueDate')}: ${checkInStats.nextPayment}`}
                     left={() => <List.Icon icon="file-document-outline" />}
                     right={() => <List.Icon icon="chevron-right" />}
                   />
-                </Card.Content>
-              </Card>
+                </View>
+              </ModernCard>
 
               {/* Check-ins */}
-              <Card style={styles.card}>
-                <Card.Content>
+              <ModernCard variant="card">
+                <View>
                   <List.Item
                     title={getString('checkIns')}
                     description={`${getString('checkInsThisWeek')}: ${checkInStats.thisWeek}/${checkInStats.total}`}
                     left={() => <List.Icon icon="check-circle-outline" />}
                     right={() => <List.Icon icon="chevron-right" />}
                   />
-                </Card.Content>
-              </Card>
+                </View>
+              </ModernCard>
 
               {/* Avaliações físicas */}
-              <Card style={styles.card}>
-                <Card.Content>
+              <ModernCard variant="card">
+                <View>
                   <List.Item
                     title={getString('physicalEvaluations')}
                     description={physicalEvaluations.length > 0 ?
@@ -555,12 +555,12 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
                     right={() => <List.Icon icon="chevron-right" />}
                     onPress={() => navigation.navigate('PhysicalEvaluationHistory')}
                   />
-                </Card.Content>
-              </Card>
+                </View>
+              </ModernCard>
 
               {/* Minhas Lesões */}
-              <Card style={styles.card}>
-                <Card.Content>
+              <ModernCard variant="card">
+                <View>
                   <List.Item
                     title={getString('myInjuries')}
                     description={injuries.length > 0 ?
@@ -571,14 +571,14 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
                     right={() => <List.Icon icon="chevron-right" />}
                     onPress={() => navigation.navigate('InjuryHistory')}
                   />
-                </Card.Content>
-              </Card>
+                </View>
+              </ModernCard>
             </>
           )}
 
           {/* Configurações da Conta */}
-          <Card style={styles.card}>
-            <Card.Content>
+          <ModernCard variant="card">
+            <View>
               <View style={styles.cardHeader}>
                 <Ionicons name="settings-outline" size={24} color={COLORS.gray[500]} />
                 <Text style={[styles.cardTitle, styles.title]}>{getString('accountSettings')}</Text>
@@ -627,12 +627,12 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
                 right={() => <List.Icon icon="chevron-right" />}
                 onPress={() => navigation.navigate('PrivacySettings')}
               />
-            </Card.Content>
-          </Card>
+            </View>
+          </ModernCard>
 
           {/* Ações da Conta */}
-          <Card style={styles.card}>
-            <Card.Content>
+          <ModernCard variant="card">
+            <View>
               <Button
                 mode="outlined"
                 onPress={handleLogout}
@@ -642,8 +642,8 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
               >
                 {getString('signOut')}
               </Button>
-            </Card.Content>
-          </Card>
+            </View>
+          </ModernCard>
         </ScrollView>
 
         {/* Modal Treinos no Ano */}
@@ -652,16 +652,16 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
           onDismiss={() => setShowYearModal(false)}
           contentContainerStyle={styles.modalContainer}
         >
-          <Card style={styles.modalCard}>
-            <Card.Title
-              title={getString('trainingsThisYear')}
-              left={() => <Ionicons name="calendar" size={24} color={COLORS.info[500]} />}
-              right={() => (
-                <Button onPress={() => setShowYearModal(false)} icon="close">{getString('close')}</Button>
-              )}
-            />
+          <ModernCard variant="modal">
+            <View>
+              <View style={styles.cardHeader}>
+                <Ionicons name="calendar" size={24} color={COLORS.info[500]} />
+                <Text style={[styles.cardTitle, styles.title]}>{getString('trainingsThisYear')}</Text>
+                <Button onPress={() => setShowYearModal(false)} icon="close">
+                  {getString('close')}
+                </Button>
+              </View>
 
-            <Card.Content>
               <View style={styles.yearSelector}>
                 <Button
                   mode="outlined"
@@ -681,8 +681,8 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
               <ScrollView style={styles.monthsContainer}>
                 {renderMonthsGrid()}
               </ScrollView>
-            </Card.Content>
-          </Card>
+            </View>
+          </ModernCard>
         </Modal>
 
         {/* Modal Editor de Data de Vencimento */}
@@ -701,8 +701,10 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
 
   function renderMonthsGrid() {
     const months = [
-      'JAN', 'FEV', 'MAR', 'ABR', 'MAI', 'JUN',
-      'JUL', 'AGO', 'SET', 'OUT', 'NOV', 'DEZ'
+      getString('janShort'), getString('febShort'), getString('marShort'),
+      getString('aprShort'), getString('mayShort'), getString('junShort'),
+      getString('julShort'), getString('augShort'), getString('sepShort'),
+      getString('octShort'), getString('novShort'), getString('decShort')
     ];
 
     return (
@@ -764,10 +766,6 @@ const styles = StyleSheet.create({
   headerCard: {
     margin: SPACING.md,
     marginBottom: SPACING.sm,
-    backgroundColor: COLORS.card.default.background,
-    borderColor: COLORS.card.default.border,
-    borderWidth: BORDER_WIDTH.thin,
-    elevation: 4,
   },
   headerContent: {
     flexDirection: 'row',
@@ -829,14 +827,7 @@ const styles = StyleSheet.create({
     marginLeft: SPACING.sm,
     backgroundColor: COLORS.primary[500],
   },
-  card: {
-    margin: SPACING.md,
-    marginTop: SPACING.sm,
-    backgroundColor: COLORS.card.default.background,
-    borderColor: COLORS.card.default.border,
-    borderWidth: BORDER_WIDTH.thin,
-    elevation: 2,
-  },
+
   cardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -888,12 +879,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     margin: SPACING.lg,
   },
-  modalCard: {
-    maxHeight: '80%',
-    backgroundColor: COLORS.card.elevated.background,
-    borderColor: COLORS.card.elevated.border,
-    borderWidth: BORDER_WIDTH.thin,
-  },
+
   yearSelector: {
     flexDirection: 'row',
     alignItems: 'center',

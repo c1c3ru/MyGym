@@ -2,7 +2,7 @@ import React, { memo, useCallback } from 'react';
 import { View, StyleSheet, Platform } from 'react-native';
 import { Card, Text, Avatar, Chip, Divider, IconButton } from 'react-native-paper';
 import ActionButton, { ActionButtonGroup } from '../ActionButton';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, GLASS_EFFECTS } from '@presentation/theme/designTokens';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, GLASS } from '@presentation/theme/designTokens';
 import { Student } from '../../types/student';
 import { useTheme } from '@contexts/ThemeContext';
 
@@ -182,13 +182,13 @@ StudentListItem.displayName = 'StudentListItem';
 const styles = StyleSheet.create({
     glassCard: {
         marginVertical: 8,
-        backgroundColor: GLASS_EFFECTS.premium.backgroundColor,
+        backgroundColor: GLASS.premium.backgroundColor,
         borderRadius: BORDER_RADIUS.lg,
         borderWidth: 1,
-        borderColor: GLASS_EFFECTS.premium.borderColor,
+        borderColor: GLASS.premium.borderColor,
         ...Platform.select({
             ios: {
-                shadowColor: GLASS_EFFECTS.premium.shadowColor,
+                shadowColor: GLASS.premium.shadowColor,
                 shadowOffset: { width: 0, height: 4 },
                 shadowOpacity: 0.3,
                 shadowRadius: 8,
@@ -197,8 +197,8 @@ const styles = StyleSheet.create({
                 elevation: 4,
             },
             web: {
-                boxShadow: `0 8px 32px 0 ${GLASS_EFFECTS.premium.shadowColor}`,
-                backdropFilter: GLASS_EFFECTS.premium.backdropFilter,
+                boxShadow: `0 8px 32px 0 ${GLASS.premium.shadowColor}`,
+                backdropFilter: GLASS.premium.backdropFilter,
             },
         }),
     },

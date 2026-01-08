@@ -25,7 +25,7 @@ import cacheService, { CACHE_KEYS, CACHE_TTL } from '@infrastructure/services/ca
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import CheckInSkeleton from '@components/skeletons/CheckInSkeleton';
 import { EnhancedFlashList } from '@components/EnhancedFlashList';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, GLASS_EFFECTS } from '@presentation/theme/designTokens';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, GLASS } from '@presentation/theme/designTokens';
 import { useTheme } from '@contexts/ThemeContext';
 
 const CheckIn = ({ navigation }) => {
@@ -953,12 +953,12 @@ const styles = StyleSheet.create({
     marginBottom: ResponsiveUtils.spacing.sm,
     borderRadius: ResponsiveUtils.borderRadius.medium,
     // Glassmorphism
-    backgroundColor: GLASS_EFFECTS.premium.backgroundColor,
-    borderColor: GLASS_EFFECTS.premium.borderColor,
+    backgroundColor: GLASS.premium.backgroundColor,
+    borderColor: GLASS.premium.borderColor,
     borderWidth: 1,
     ...Platform.select({
       ios: {
-        shadowColor: GLASS_EFFECTS.premium.shadowColor,
+        shadowColor: GLASS.premium.shadowColor,
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.3,
         shadowRadius: 8,
@@ -967,8 +967,8 @@ const styles = StyleSheet.create({
         elevation: 4,
       },
       web: {
-        boxShadow: `0 4px 16px 0 ${GLASS_EFFECTS.premium.shadowColor}`,
-        backdropFilter: GLASS_EFFECTS.premium.backdropFilter,
+        boxShadow: `0 4px 16px 0 ${GLASS.premium.shadowColor}`,
+        backdropFilter: GLASS.premium.backdropFilter,
       },
     }),
   },

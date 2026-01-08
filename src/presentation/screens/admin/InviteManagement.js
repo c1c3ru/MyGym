@@ -23,12 +23,11 @@ export default function InviteManagement({ navigation }) {
   const { user, userProfile, academia } = useAuthFacade();
   const [invites, setInvites] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [loadingCleanup, setLoadingCleanup] = useState(false);
-  const [loadingDeleteAll, setLoadingDeleteAll] = useState(false);
-  const [loadingDeleteExpired, setLoadingDeleteExpired] = useState(false);
+  const [loadingDelete, setLoadingDelete] = useState(false);
   const [deletingInviteId, setDeletingInviteId] = useState(null);
   const [showInviteModal, setShowInviteModal] = useState(false);
   const [showQRModal, setShowQRModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [newInvite, setNewInvite] = useState({
     email: '',
     tipo: 'aluno'
@@ -138,28 +137,6 @@ export default function InviteManagement({ navigation }) {
     }
   };
 
-  const cleanupAcceptedInvites = async () => {
-    try {
-      setLoadingCleanup(true);
-      const cleanedCount = await InviteService.cleanupAcceptedInvites(academia.id);
-
-      if (cleanedCount > 0) {
-        Alert.alert(
-          'Limpeza Concluída',
-          `${cleanedCount} convite(s) aceito(s) foram removidos do mural.`,
-          [{ text: getString('ok'), onPress: loadInvites }]
-        );
-      } else {
-        Alert.alert(getString('info'), 'Nenhum convite aceito encontrado para remover.');
-      }
-    } catch (error) {
-      console.error('Erro ao limpar convites:', error);
-      Alert.alert(getString('error'), 'Não foi possível limpar os convites aceitos');
-    } finally {
-      setLoadingCleanup(false);
-    }
-  };
-
   const deleteInvite = async (inviteId, inviteEmail) => {
     Alert.alert(
       'Confirmar Exclusão',
@@ -187,66 +164,37 @@ export default function InviteManagement({ navigation }) {
     );
   };
 
-  const deleteAllInvites = async () => {
+  const handleDeleteByStatus = async (status) => {
+    setShowDeleteModal(false);
+
+    const statusLabels = {
+      'pending': 'Pendentes',
+      'accepted': 'Aceitos',
+      'expired': 'Expirados',
+      'all': 'Todos'
+    };
+
+    const statusLabel = statusLabels[status] || status;
+
     Alert.alert(
-      'Confirmar Exclusão em Massa',
-      `Deseja realmente excluir TODOS os ${invites.length} convites? Esta ação não pode ser desfeita.`,
+      'Confirmar Exclusão',
+      `Deseja excluir ${status === 'all' ? 'TODOS os' : 'os convites'} ${statusLabel}?`,
       [
         { text: 'Cancelar', style: 'cancel' },
         {
-          text: 'Excluir Todos',
+          text: 'Excluir',
           style: 'destructive',
           onPress: async () => {
             try {
-              setLoadingDeleteAll(true);
-              const deletedCount = await InviteService.deleteAllInvites(academia.id);
-              Alert.alert(
-                'Sucesso',
-                `${deletedCount} convite(s) excluído(s) com sucesso!`,
-                [{ text: getString('ok'), onPress: loadInvites }]
-              );
+              setLoadingDelete(true);
+              const count = await InviteService.deleteAllInvites(academia.id, status);
+              Alert.alert('Sucesso', `${count} convite(s) excluído(s)!`);
+              loadInvites();
             } catch (error) {
-              console.error('Erro ao excluir todos os convites:', error);
+              console.error('Erro ao excluir convites:', error);
               Alert.alert(getString('error'), 'Não foi possível excluir os convites');
             } finally {
-              setLoadingDeleteAll(false);
-            }
-          }
-        }
-      ]
-    );
-  };
-
-  const deleteExpiredInvites = async () => {
-    const expiredCount = invites.filter(inv => inv.status === 'expired').length;
-
-    if (expiredCount === 0) {
-      Alert.alert(getString('info'), 'Nenhum convite expirado encontrado.');
-      return;
-    }
-
-    Alert.alert(
-      'Limpar Convites Expirados',
-      `Deseja excluir ${expiredCount} convite(s) expirado(s)?`,
-      [
-        { text: 'Cancelar', style: 'cancel' },
-        {
-          text: 'Excluir Expirados',
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              setLoadingDeleteExpired(true);
-              const deletedCount = await InviteService.deleteExpiredInvites(academia.id);
-              Alert.alert(
-                'Sucesso',
-                `${deletedCount} convite(s) expirado(s) excluído(s)!`,
-                [{ text: getString('ok'), onPress: loadInvites }]
-              );
-            } catch (error) {
-              console.error('Erro ao excluir convites expirados:', error);
-              Alert.alert(getString('error'), 'Não foi possível excluir os convites expirados');
-            } finally {
-              setLoadingDeleteExpired(false);
+              setLoadingDelete(false);
             }
           }
         }
@@ -384,39 +332,15 @@ export default function InviteManagement({ navigation }) {
               <View style={styles.headerActions}>
                 <ActionButton
                   mode="text"
-                  onPress={cleanupAcceptedInvites}
-                  loading={loadingCleanup}
-                  disabled={loadingCleanup}
-                  icon="broom"
+                  onPress={() => setShowDeleteModal(true)}
+                  loading={loadingDelete}
+                  disabled={loadingDelete}
+                  icon="delete-sweep"
                   size="small"
                   variant="secondary"
                   style={styles.actionButton}
                 >
-                  Limpar Aceitos
-                </ActionButton>
-                <ActionButton
-                  mode="text"
-                  onPress={deleteExpiredInvites}
-                  loading={loadingDeleteExpired}
-                  disabled={loadingDeleteExpired}
-                  icon="clock-alert"
-                  size="small"
-                  variant="warning"
-                  style={styles.actionButton}
-                >
-                  Limpar Expirados
-                </ActionButton>
-                <ActionButton
-                  mode="text"
-                  onPress={deleteAllInvites}
-                  loading={loadingDeleteAll}
-                  disabled={loadingDeleteAll}
-                  icon="delete-sweep"
-                  size="small"
-                  variant="danger"
-                  style={styles.actionButton}
-                >
-                  Excluir Todos
+                  Gerenciar Exclusão
                 </ActionButton>
               </View>
             </View>
@@ -532,6 +456,65 @@ export default function InviteManagement({ navigation }) {
               Compartilhar
             </Button>
           </View>
+        </Modal>
+      </Portal>
+
+      {/* Modal de Opções de Exclusão */}
+      <Portal>
+        <Modal
+          visible={showDeleteModal}
+          onDismiss={() => setShowDeleteModal(false)}
+          contentContainerStyle={styles.modal}
+        >
+          <Text variant="titleLarge" style={styles.modalTitle}>
+            Excluir Convites
+          </Text>
+          <Text variant="bodyMedium" style={{ marginBottom: 20, textAlign: 'center' }}>
+            Selecione o tipo de convite que deseja remover:
+          </Text>
+
+          <View style={{ gap: 10 }}>
+            <Button
+              mode="outlined"
+              onPress={() => handleDeleteByStatus('pending')}
+              textColor={COLORS.warning[600]}
+              style={{ borderColor: COLORS.warning[600] }}
+            >
+              Excluir Pendentes
+            </Button>
+            <Button
+              mode="outlined"
+              onPress={() => handleDeleteByStatus('accepted')}
+              textColor={COLORS.primary[600]}
+              style={{ borderColor: COLORS.primary[600] }}
+            >
+              Excluir Aceitos
+            </Button>
+            <Button
+              mode="outlined"
+              onPress={() => handleDeleteByStatus('expired')}
+              textColor={COLORS.error[600]}
+              style={{ borderColor: COLORS.error[600] }}
+            >
+              Excluir Expirados
+            </Button>
+            <Divider style={{ marginVertical: 10 }} />
+            <Button
+              mode="contained"
+              onPress={() => handleDeleteByStatus('all')}
+              buttonColor={COLORS.error[600]}
+            >
+              Excluir TODOS
+            </Button>
+          </View>
+
+          <Button
+            mode="text"
+            onPress={() => setShowDeleteModal(false)}
+            style={{ marginTop: 20 }}
+          >
+            Cancelar
+          </Button>
         </Modal>
       </Portal>
     </View>
