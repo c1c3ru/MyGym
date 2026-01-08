@@ -1,4 +1,4 @@
-import { collection, addDoc, doc, getDoc, updateDoc, query, where, getDocs } from 'firebase/firestore';
+import { collection, addDoc, doc, getDoc, updateDoc, query, where, getDocs, deleteDoc } from 'firebase/firestore';
 import { db } from '@infrastructure/services/firebase';
 
 /**
@@ -314,7 +314,7 @@ export class InviteService {
   }
 
   /**
-   * Listar convites ativos (pendentes) de uma academia
+   * Listar convites ativos (pendentes, expirados e aceitos) de uma academia
    * @param {string} academiaId - ID da academia
    * @returns {Promise<Array>} Lista de convites ativos
    */
@@ -322,7 +322,7 @@ export class InviteService {
     try {
       const q = query(
         collection(db, 'gyms', academiaId, 'invites'),
-        where('status', 'in', ['pending', 'expired'])
+        where('status', 'in', ['pending', 'expired', 'accepted'])
       );
 
       const snapshot = await getDocs(q);
@@ -406,7 +406,6 @@ export class InviteService {
    */
   static async deleteInvite(academiaId, inviteId) {
     try {
-      const { deleteDoc } = await import('firebase/firestore');
       const inviteRef = doc(db, 'gyms', academiaId, 'invites', inviteId);
       await deleteDoc(inviteRef);
       console.log('✅ Convite deletado com sucesso:', inviteId);
@@ -424,8 +423,6 @@ export class InviteService {
    */
   static async deleteAllInvites(academiaId, filterStatus = 'all') {
     try {
-      const { deleteDoc } = await import('firebase/firestore');
-
       let q;
       if (filterStatus === 'all') {
         q = query(collection(db, 'gyms', academiaId, 'invites'));
@@ -462,8 +459,6 @@ export class InviteService {
    */
   static async deleteExpiredInvites(academiaId) {
     try {
-      const { deleteDoc } = await import('firebase/firestore');
-
       const q = query(
         collection(db, 'gyms', academiaId, 'invites'),
         where('status', '==', 'expired')

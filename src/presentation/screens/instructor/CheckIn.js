@@ -25,10 +25,11 @@ import cacheService, { CACHE_KEYS, CACHE_TTL } from '@infrastructure/services/ca
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import CheckInSkeleton from '@components/skeletons/CheckInSkeleton';
 import { EnhancedFlashList } from '@components/EnhancedFlashList';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getString } from "@utils/theme";
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, GLASS_EFFECTS } from '@presentation/theme/designTokens';
+import { useTheme } from '@contexts/ThemeContext';
 
 const CheckIn = ({ navigation }) => {
+  const { getString } = useTheme();
   const { user, userProfile } = useAuthFacade();
   const [classes, setClasses] = useState([]);
   const [activeCheckIns, setActiveCheckIns] = useState([]);
@@ -536,14 +537,14 @@ const CheckIn = ({ navigation }) => {
           <Card.Content>
             <View style={styles.header}>
               <MaterialCommunityIcons name="school" size={32} color={COLORS.primary[500]} />
-              <Text style={styles.title}>Minhas Turmas</Text>
+              <Text style={styles.title}>{getString('myClasses')}</Text>
             </View>
 
             {classes.length > 0 ? (
               classes.map((classItem) => (
                 <Surface key={classItem.id} style={styles.checkInItem}>
                   <View style={styles.checkInHeader}>
-                    <Text style={styles.aulaName}>{String(classItem.name || 'Turma sem nome')}</Text>
+                    <Text style={styles.aulaName}>{String(classItem.name || getString('unnamedClass'))}</Text>
                     <Chip
                       mode="flat"
                       style={[
@@ -589,7 +590,7 @@ const CheckIn = ({ navigation }) => {
                       buttonColor={COLORS.primary[500]}
                       compact
                     >
-                      Iniciar Check-in
+                      {getString('startCheckIn')}
                     </Button>
                   </View>
                 </Surface>
@@ -609,7 +610,7 @@ const CheckIn = ({ navigation }) => {
             <Card.Content>
               <View style={styles.header}>
                 <MaterialCommunityIcons name="qrcode-scan" size={32} color={COLORS.info[500]} />
-                <Text style={styles.title}>Sessões Ativas</Text>
+                <Text style={styles.title}>{getString('activeSessions')}</Text>
               </View>
 
               {activeCheckIns.map((session) => (
@@ -649,7 +650,7 @@ const CheckIn = ({ navigation }) => {
                       textColor={COLORS.error[500]}
                       compact
                     >
-                      Parar Check-in
+                      {getString('stopCheckIn')}
                     </Button>
                   </View>
                 </Surface>
@@ -663,7 +664,7 @@ const CheckIn = ({ navigation }) => {
           <Card.Content>
             <View style={styles.header}>
               <MaterialCommunityIcons name="history" size={32} color={COLORS.warning[500]} />
-              <Text style={styles.title}>Check-ins de Hoje</Text>
+              <Text style={styles.title}>{getString('todaysCheckIns')}</Text>
             </View>
 
             {recentCheckIns.length > 0 ? (
@@ -684,7 +685,7 @@ const CheckIn = ({ navigation }) => {
                       compact
                       style={{ marginTop: SPACING.sm }}
                     >
-                      {checkIn.type === 'manual' ? 'manual' : getString('qrCode')}
+                      {checkIn.type === 'manual' ? getString('manual') : getString('qrCode')}
                     </Chip>
                   )}
                 />
@@ -692,7 +693,7 @@ const CheckIn = ({ navigation }) => {
             ) : (
               <View style={styles.emptyState}>
                 <MaterialCommunityIcons name="history" size={48} color={COLORS.gray[400]} />
-                <Text style={styles.emptyText}>Nenhum check-in hoje</Text>
+                <Text style={styles.emptyText}>{getString('noCheckInsToday')}</Text>
               </View>
             )}
           </Card.Content>
@@ -706,11 +707,11 @@ const CheckIn = ({ navigation }) => {
           onDismiss={() => setManualCheckInVisible(false)}
           contentContainerStyle={styles.modalContainer}
         >
-          <Text style={styles.modalTitle}>Check-in Manual</Text>
+          <Text style={styles.modalTitle}>{getString('manualCheckIn')}</Text>
 
           {/* Seleção de Turma */}
           <View style={styles.classSelectionContainer}>
-            <Text style={styles.modalSubtitle}>Selecione a turma:</Text>
+            <Text style={styles.modalSubtitle}>{getString('selectClass')}:</Text>
             <View style={styles.classGrid}>
               {classes.map((classItem) => (
                 <Button
@@ -739,7 +740,7 @@ const CheckIn = ({ navigation }) => {
 
           {/* Busca de Alunos */}
           <Searchbar
-            placeholder="searchStudent"
+            placeholder={getString('searchStudent')}
             onChangeText={filterStudents}
             value={searchQuery}
             style={styles.searchbar}
@@ -749,7 +750,7 @@ const CheckIn = ({ navigation }) => {
           {filteredStudents.length > 0 && (
             <View style={styles.batchControls}>
               <Text style={styles.selectionCount}>
-                {selectedStudents.size} de {filteredStudents.length} selecionados
+                {selectedStudents.size} de {filteredStudents.length} {getString('selected')}
               </Text>
               <View style={styles.batchButtons}>
                 <Button
@@ -758,7 +759,7 @@ const CheckIn = ({ navigation }) => {
                   onPress={selectAllStudents}
                   style={styles.batchButton}
                 >
-                  Selecionar Todos
+                  {getString('selectAll')}
                 </Button>
                 <Button
                   mode="outlined"
@@ -766,7 +767,7 @@ const CheckIn = ({ navigation }) => {
                   onPress={clearSelection}
                   style={styles.batchButton}
                 >
-                  Limpar
+                  {getString('clear')}
                 </Button>
               </View>
             </View>
@@ -795,7 +796,7 @@ const CheckIn = ({ navigation }) => {
                             style={styles.checkInChip}
                             textStyle={styles.checkInChipText}
                           >
-                            Presente
+                            {getString('present')}
                           </Chip>
                         )}
                       </View>
@@ -951,7 +952,25 @@ const styles = StyleSheet.create({
     padding: ResponsiveUtils.spacing.md,
     marginBottom: ResponsiveUtils.spacing.sm,
     borderRadius: ResponsiveUtils.borderRadius.medium,
-    backgroundColor: COLORS.white,
+    // Glassmorphism
+    backgroundColor: GLASS_EFFECTS.premium.backgroundColor,
+    borderColor: GLASS_EFFECTS.premium.borderColor,
+    borderWidth: 1,
+    ...Platform.select({
+      ios: {
+        shadowColor: GLASS_EFFECTS.premium.shadowColor,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
+      },
+      android: {
+        elevation: 4,
+      },
+      web: {
+        boxShadow: `0 4px 16px 0 ${GLASS_EFFECTS.premium.shadowColor}`,
+        backdropFilter: GLASS_EFFECTS.premium.backdropFilter,
+      },
+    }),
   },
   checkInHeader: {
     flexDirection: 'row',

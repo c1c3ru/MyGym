@@ -20,7 +20,8 @@ import {
   Chip,
   Surface,
   Divider,
-  RadioButton
+  RadioButton,
+  ActivityIndicator
 } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useAuth } from '@contexts/AuthProvider';
@@ -42,7 +43,7 @@ const { width } = Dimensions.get('window');
 const AddGraduationScreen = ({ route, navigation }: any) => {
   const { studentId, studentName } = route.params;
   const { user, userProfile, academia } = useAuth();
-  const { getString } = useTheme();
+  const { getString, isDarkMode } = useTheme();
 
   const [formData, setFormData] = useState({
     graduation: '',
@@ -70,17 +71,17 @@ const AddGraduationScreen = ({ route, navigation }: any) => {
 
   const defaultGraduationLevels = [
     { id: COLORS.special.belt.white, name: getString('whiteBelt'), color: COLORS.special.belt.white, order: 1 },
-    { id: COLORS.warning[500], name: 'Faixa Amarela', color: COLORS.special.belt.yellow, order: 2 },
-    { id: COLORS.warning[600], name: 'Faixa Laranja', color: COLORS.special.belt.orange, order: 3 },
-    { id: COLORS.success[500], name: 'Faixa Verde', color: COLORS.special.belt.green, order: 4 },
+    { id: COLORS.warning[500], name: getString('yellowBelt'), color: COLORS.special.belt.yellow, order: 2 },
+    { id: COLORS.warning[600], name: getString('orangeBelt'), color: COLORS.special.belt.orange, order: 3 },
+    { id: COLORS.success[500], name: getString('greenBelt'), color: COLORS.special.belt.green, order: 4 },
     { id: COLORS.info[500], name: getString('blueBelt'), color: COLORS.special.belt.blue, order: 5 },
-    { id: 'purple', name: 'Faixa Roxa', color: COLORS.special.belt.purple, order: 6 },
-    { id: 'brown', name: 'Faixa Marrom', color: COLORS.special.belt.brown, order: 7 },
-    { id: 'black-1', name: 'Faixa Preta 1º Dan', color: COLORS.special.belt.black, order: 8 },
-    { id: 'black-2', name: 'Faixa Preta 2º Dan', color: COLORS.special.belt.black, order: 9 },
-    { id: 'black-3', name: 'Faixa Preta 3º Dan', color: COLORS.special.belt.black, order: 10 },
-    { id: 'black-4', name: 'Faixa Preta 4º Dan', color: COLORS.special.belt.black, order: 11 },
-    { id: 'black-5', name: 'Faixa Preta 5º Dan', color: COLORS.special.belt.black, order: 12 },
+    { id: 'purple', name: getString('purpleBelt'), color: COLORS.special.belt.purple, order: 6 },
+    { id: 'brown', name: getString('brownBelt'), color: COLORS.special.belt.brown, order: 7 },
+    { id: 'black-1', name: getString('blackBelt1'), color: COLORS.special.belt.black, order: 8 },
+    { id: 'black-2', name: getString('blackBelt2'), color: COLORS.special.belt.black, order: 9 },
+    { id: 'black-3', name: getString('blackBelt3'), color: COLORS.special.belt.black, order: 10 },
+    { id: 'black-4', name: getString('blackBelt4'), color: COLORS.special.belt.black, order: 11 },
+    { id: 'black-5', name: getString('blackBelt5'), color: COLORS.special.belt.black, order: 12 },
   ];
 
   useEffect(() => {
@@ -95,7 +96,7 @@ const AddGraduationScreen = ({ route, navigation }: any) => {
       const academiaId = userProfile?.academiaId || academia?.id;
       if (!academiaId) {
         console.error(getString('academyIdNotFound'));
-        showSnackbar('Academia não encontrada. Faça login novamente.', 'error');
+        showSnackbar(getString('academyNotFoundLogin'), 'error');
         return;
       }
 
@@ -114,7 +115,7 @@ const AddGraduationScreen = ({ route, navigation }: any) => {
 
     } catch (error) {
       console.error('Erro ao carregar dados:', error as Error);
-      showSnackbar((error as Error).message || 'Não foi possível carregar os dados necessários', 'error');
+      showSnackbar((error as Error).message || getString('loadDataError'), 'error');
     } finally {
       setLoading(false);
     }
@@ -129,14 +130,23 @@ const AddGraduationScreen = ({ route, navigation }: any) => {
   const getGraduationColor = (levelName: string, index: number) => {
     const colorMap: { [key: string]: string } = {
       'Branca': COLORS.special.belt.white,
+      'White': COLORS.special.belt.white,
       'Amarela': COLORS.special.belt.yellow,
+      'Yellow': COLORS.special.belt.yellow,
       'Laranja': COLORS.special.belt.orange,
+      'Orange': COLORS.special.belt.orange,
       'Verde': COLORS.special.belt.green,
+      'Green': COLORS.special.belt.green,
       'Azul': COLORS.special.belt.blue,
+      'Blue': COLORS.special.belt.blue,
       'Roxa': COLORS.special.belt.purple,
+      'Purple': COLORS.special.belt.purple,
       'Marrom': COLORS.special.belt.brown,
+      'Brown': COLORS.special.belt.brown,
       'Preta': COLORS.special.belt.black,
+      'Black': COLORS.special.belt.black,
       'Vermelha': COLORS.special.belt.red,
+      'Red': COLORS.special.belt.red,
       'Coral': COLORS.special.belt.red,
       'Crua': COLORS.gray[600],
       'Cordão': COLORS.warning[300]
@@ -209,14 +219,14 @@ const AddGraduationScreen = ({ route, navigation }: any) => {
 
     if (!formData.graduation) {
       console.log('❌ Falha na validação: graduação não selecionada');
-      showSnackbar('Por favor, selecione uma graduação', 'error');
+      showSnackbar(getString('selectGraduationError'), 'error');
       return false;
     }
     console.log('✅ Graduação válida:', formData.graduation);
 
     if (!formData.modality) {
       console.log('❌ Falha na validação: modalidade não selecionada');
-      showSnackbar('Por favor, selecione uma modalidade', 'error');
+      showSnackbar(getString('selectModalityError'), 'error');
       return false;
     }
     console.log('✅ Modalidade válida:', formData.modality);
@@ -226,7 +236,7 @@ const AddGraduationScreen = ({ route, navigation }: any) => {
         instructor: formData.instructor,
         instructorId: formData.instructorId
       });
-      showSnackbar('Por favor, selecione um instrutor responsável', 'error');
+      showSnackbar(getString('selectInstructorError'), 'error');
       return false;
     }
     console.log('✅ Instrutor válido:', formData.instructor, 'ID:', formData.instructorId);
@@ -234,7 +244,7 @@ const AddGraduationScreen = ({ route, navigation }: any) => {
     // Validar data
     if (!formData.date) {
       console.log('❌ Falha na validação: data não selecionada');
-      showSnackbar('Por favor, selecione uma data', 'error');
+      showSnackbar(getString('selectDateError'), 'error');
       return false;
     }
     console.log('✅ Data válida:', formData.date);
@@ -246,7 +256,7 @@ const AddGraduationScreen = ({ route, navigation }: any) => {
         dataFormulario: formData.date,
         hoje: today
       });
-      showSnackbar('A data da graduação não pode ser futura', 'error');
+      showSnackbar(getString('futureDateError'), 'error');
       return false;
     }
     console.log('✅ Data não é futura');
@@ -256,7 +266,7 @@ const AddGraduationScreen = ({ route, navigation }: any) => {
       const certPattern = /^CERT-\d{4}-\d+$/;
       if (!certPattern.test(formData.certificate.trim())) {
         console.log('❌ Falha na validação: formato do certificado inválido:', formData.certificate);
-        showSnackbar('Formato do certificado deve ser: CERT-YYYY-NNN (ex: CERT-2024-001)', 'error');
+        showSnackbar(getString('certificateFormatError'), 'error');
         return false;
       }
       console.log('✅ Certificado válido:', formData.certificate);
@@ -288,7 +298,7 @@ const AddGraduationScreen = ({ route, navigation }: any) => {
 
       if (!academiaId) {
         console.error(getString('academyIdNotFound'));
-        showSnackbar('Academia não encontrada. Faça login novamente.', 'error');
+        showSnackbar(getString('academyNotFoundLogin'), 'error');
         return;
       }
 
@@ -305,7 +315,7 @@ const AddGraduationScreen = ({ route, navigation }: any) => {
 
       await graduationRepository.addGraduation(academiaId, studentId, graduationData);
 
-      showSnackbar('Graduação adicionada com sucesso!', 'success');
+      showSnackbar(getString('graduationAddedSuccess'), 'success');
 
       setTimeout(() => {
         navigation.goBack();
@@ -320,318 +330,325 @@ const AddGraduationScreen = ({ route, navigation }: any) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      {/* Header com gradiente */}
-      <LinearGradient
-        colors={[COLORS.info[700], COLORS.info[800]]}
-        style={styles.header}
-      >
-        <View style={styles.headerContent}>
-          <IconButton
-            icon="arrow-left"
-            iconColor={COLORS.white}
-            size={24}
-            onPress={() => navigation.goBack()}
-          />
-          <View style={styles.headerTextContainer}>
-            <Text style={styles.headerTitle}>Nova Graduação</Text>
-            <Text style={styles.headerSubtitle}>{studentName || getString('student')}</Text>
+    <LinearGradient
+      colors={getAuthGradient(isDarkMode) as any}
+      style={styles.container}
+    >
+      <SafeAreaView style={styles.safeArea}>
+        {/* Header Transparente */}
+        <View style={styles.header}>
+          <View style={styles.headerContent}>
+            <IconButton
+              icon="arrow-left"
+              iconColor={COLORS.white}
+              size={24}
+              onPress={() => navigation.goBack()}
+            />
+            <View style={styles.headerTextContainer}>
+              <Text style={styles.headerTitle}>{getString('newGraduation')}</Text>
+              <Text style={styles.headerSubtitle}>{studentName || getString('student')}</Text>
+            </View>
           </View>
         </View>
-      </LinearGradient>
 
-      <ScrollView
-        style={styles.scrollContainer}
-        contentContainerStyle={styles.contentContainer}
-        showsVerticalScrollIndicator={false}
-      >
-        {/* Card de graduação atual */}
-        {formData.previousGraduation ? (
-          <Surface style={styles.currentGraduationCard} elevation={2}>
-            <View style={styles.currentGraduationContent}>
-              <IconButton icon="medal" size={24} iconColor={COLORS.warning[500]} />
-              <View style={styles.currentGraduationText}>
-                <Text style={styles.currentGraduationLabel}>Graduação Atual</Text>
-                <Text style={styles.currentGraduationValue}>{String(formData.previousGraduation)}</Text>
+        <ScrollView
+          style={styles.scrollContainer}
+          contentContainerStyle={styles.contentContainer}
+          showsVerticalScrollIndicator={false}
+        >
+          {/* Card de graduação atual */}
+          {formData.previousGraduation ? (
+            <View style={styles.glassCard}>
+              <View style={styles.currentGraduationContent}>
+                <IconButton icon="medal" size={24} iconColor={COLORS.warning[500]} />
+                <View style={styles.currentGraduationText}>
+                  <Text style={styles.currentGraduationLabel}>{getString('currentGraduation')}</Text>
+                  <Text style={styles.currentGraduationValue}>{String(formData.previousGraduation)}</Text>
+                </View>
               </View>
             </View>
-          </Surface>
+          ) : null}
+
+          {/* Seção de seleções */}
+          <View style={styles.glassCard}>
+            <View style={styles.cardContent}>
+              <Text style={styles.sectionTitle}>{getString('graduationInfo')}</Text>
+
+              {/* Modalidade */}
+              <SelectionField
+                label={getString('modality')}
+                value={formData.modality}
+                placeholder={getString('selectModality')}
+                icon={formData.modality ? "karate" : "plus"}
+                onPress={() => setModalityDialogVisible(true)}
+                required
+              />
+
+              {/* Instrutor */}
+              <SelectionField
+                label={getString('responsibleInstructor')}
+                value={formData.instructor}
+                placeholder={getString('selectInstructor')}
+                icon={formData.instructor ? "account-check" : "plus"}
+                onPress={() => setInstructorDialogVisible(true)}
+                required
+              />
+
+              {/* Nova Graduação */}
+              <SelectionField
+                label={getString('newGraduationLabel')}
+                value={formData.graduation}
+                placeholder={getString('selectGraduation')}
+                icon={formData.graduation ? "trophy" : "plus"}
+                onPress={() => setGraduationDialogVisible(true)}
+                disabled={!formData.modalityId}
+                helperText={(!formData.modalityId ? getString('selectModalityFirst') : undefined) as any}
+                required
+              />
+            </View>
+          </View>
+
+          {/* Data e observações */}
+          <View style={styles.glassCard}>
+            <View style={styles.cardContent}>
+              <Text style={styles.sectionTitle}>{getString('additionalDetails')}</Text>
+
+              {/* Data */}
+              <View style={styles.inputGroup}>
+                <Text style={styles.inputLabel}>{getString('graduationDate')} *</Text>
+                <TouchableOpacity
+                  style={styles.dateButton}
+                  onPress={() => setShowDatePicker(true)}
+                >
+                  <IconButton icon="calendar" size={20} iconColor={COLORS.info[700]} />
+                  <Text style={styles.dateButtonText}>
+                    {formData.date ?
+                      (formData.date instanceof Date ?
+                        formData.date.toLocaleDateString('pt-BR', {
+                          weekday: 'long',
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric'
+                        }) : getString('invalidDate')
+                      ) : getString('selectDate')}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+
+              {/* Observações */}
+              <View style={styles.inputGroup}>
+                <Text style={styles.inputLabel}>{getString('notes')}</Text>
+                <TextInput
+                  mode="outlined"
+                  multiline
+                  numberOfLines={4}
+                  value={formData.notes}
+                  onChangeText={(text) => setFormData(prev => ({ ...prev, notes: text }))}
+                  placeholder={getString('addGraduationNotesPlaceholder')}
+                  style={styles.notesInput}
+                  outlineColor={COLORS.gray[300]}
+                  activeOutlineColor={COLORS.info[700]}
+                  theme={{ colors: { background: 'rgba(255,255,255,0.5)' } }}
+                />
+              </View>
+
+              {/* Certificado */}
+              <View style={styles.inputGroup}>
+                <Text style={styles.inputLabel}>{getString('certificateNumberOptional')}</Text>
+                <TextInput
+                  mode="outlined"
+                  value={formData.certificate}
+                  onChangeText={(text) => setFormData(prev => ({ ...prev, certificate: text }))}
+                  placeholder={getString('certificatePlaceholder')}
+                  style={styles.certificateInput}
+                  outlineColor={COLORS.gray[300]}
+                  activeOutlineColor={COLORS.warning[500]}
+                  left={<TextInput.Icon icon="certificate" />}
+                  theme={{ colors: { background: 'rgba(255,255,255,0.5)' } }}
+                />
+              </View>
+            </View>
+          </View>
+
+          {/* Botões de ação */}
+          <View style={styles.actionContainer}>
+            <Button
+              mode="contained"
+              onPress={handleSubmit}
+              loading={loading}
+              disabled={loading || !formData.graduation || !formData.modalityId}
+              style={styles.submitButton}
+              contentStyle={styles.submitButtonContent}
+              labelStyle={styles.submitButtonLabel}
+              icon={loading ? undefined : "content-save"}
+            >
+              {loading ? getString('saving') : getString('saveGraduation')}
+            </Button>
+
+            <Button
+              mode="outlined"
+              onPress={() => navigation.goBack()}
+              disabled={loading}
+              style={styles.cancelButton}
+              contentStyle={styles.cancelButtonContent}
+              labelStyle={styles.cancelButtonLabel}
+            >{getString('cancel')}</Button>
+          </View>
+        </ScrollView>
+
+        {/* DateTimePicker */}
+        {showDatePicker ? (
+          <DateTimePicker
+            value={formData.date || new Date()}
+            mode="date"
+            display="default"
+            onChange={(event, selectedDate) => {
+              setShowDatePicker(false);
+              if (selectedDate) {
+                setFormData(prev => ({ ...prev, date: selectedDate }));
+              }
+            }}
+          />
         ) : null}
 
-        {/* Seção de seleções */}
-        <Card style={styles.selectionCard}>
-          <Card.Content>
-            <Text style={styles.sectionTitle}>Informações da Graduação</Text>
-
-            {/* Modalidade */}
-            <SelectionField
-              label="modality"
-              value={formData.modality}
-              placeholder="Selecionar Modalidade"
-              icon={formData.modality ? "karate" : "plus"}
-              onPress={() => setModalityDialogVisible(true)}
-              required
-            />
-
-            {/* Instrutor */}
-            <SelectionField
-              label="Instrutor Responsável"
-              value={formData.instructor}
-              placeholder="Selecionar Instrutor"
-              icon={formData.instructor ? "account-check" : "plus"}
-              onPress={() => setInstructorDialogVisible(true)}
-              required
-            />
-
-            {/* Nova Graduação */}
-            <SelectionField
-              label="newGraduation"
-              value={formData.graduation}
-              placeholder="Selecionar Graduação"
-              icon={formData.graduation ? "trophy" : "plus"}
-              onPress={() => setGraduationDialogVisible(true)}
-              disabled={!formData.modalityId}
-              helperText={(!formData.modalityId ? "Selecione uma modalidade primeiro" : undefined) as any}
-              required
-            />
-          </Card.Content>
-        </Card>
-
-        {/* Data e observações */}
-        <Card style={styles.detailsCard}>
-          <Card.Content>
-            <Text style={styles.sectionTitle}>Detalhes Adicionais</Text>
-
-            {/* Data */}
-            <View style={styles.inputGroup}>
-              <Text style={styles.inputLabel}>Data da Graduação *</Text>
-              <TouchableOpacity
-                style={styles.dateButton}
-                onPress={() => setShowDatePicker(true)}
-              >
-                <IconButton icon="calendar" size={20} iconColor={COLORS.info[700]} />
-                <Text style={styles.dateButtonText}>
-                  {formData.date ?
-                    (formData.date instanceof Date ?
-                      formData.date.toLocaleDateString('pt-BR', {
-                        weekday: 'long',
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                      }) : 'Data inválida'
-                    ) : 'Selecionar data'}
-                </Text>
-              </TouchableOpacity>
+        <Portal>
+          <Dialog visible={modalityDialogVisible} onDismiss={() => setModalityDialogVisible(false)}>
+            <View style={styles.dialogTitleContainer}>
+              <Text style={styles.dialogTitle}>{getString('selectModality')}</Text>
             </View>
-
-            {/* Observações */}
-            <View style={styles.inputGroup}>
-              <Text style={styles.inputLabel}>{getString('notes')}</Text>
-              <TextInput
-                mode="outlined"
-                multiline
-                numberOfLines={4}
-                value={formData.notes}
-                onChangeText={(text) => setFormData(prev => ({ ...prev, notes: text }))}
-                placeholder="Adicione observações sobre a graduação..."
-                style={styles.notesInput}
-                outlineColor={COLORS.gray[300]}
-                activeOutlineColor={COLORS.info[700]}
-              />
-            </View>
-
-            {/* Certificado */}
-            <View style={styles.inputGroup}>
-              <Text style={styles.inputLabel}>Número do Certificado (Opcional)</Text>
-              <TextInput
-                mode="outlined"
-                value={formData.certificate}
-                onChangeText={(text) => setFormData(prev => ({ ...prev, certificate: text }))}
-                placeholder="Ex: CERT-2024-001"
-                style={styles.certificateInput}
-                outlineColor={COLORS.gray[300]}
-                activeOutlineColor={COLORS.warning[500]}
-                left={<TextInput.Icon icon="certificate" />}
-              />
-            </View>
-          </Card.Content>
-        </Card>
-
-        {/* Botões de ação */}
-        <View style={styles.actionContainer}>
-          <Button
-            mode="contained"
-            onPress={handleSubmit}
-            loading={loading}
-            disabled={loading || !formData.graduation || !formData.modalityId}
-            style={styles.submitButton}
-            contentStyle={styles.submitButtonContent}
-            labelStyle={styles.submitButtonLabel}
-            icon={loading ? undefined : "content-save"}
-          >
-            {loading ? 'saving' : 'Salvar Graduação'}
-          </Button>
-
-          <Button
-            mode="outlined"
-            onPress={() => navigation.goBack()}
-            disabled={loading}
-            style={styles.cancelButton}
-            contentStyle={styles.cancelButtonContent}
-            labelStyle={styles.cancelButtonLabel}
-          >{getString('cancel')}</Button>
-        </View>
-      </ScrollView>
-
-      {/* DateTimePicker */}
-      {showDatePicker ? (
-        <DateTimePicker
-          value={formData.date || new Date()}
-          mode="date"
-          display="default"
-          onChange={(event, selectedDate) => {
-            setShowDatePicker(false);
-            if (selectedDate) {
-              setFormData(prev => ({ ...prev, date: selectedDate }));
-            }
-          }}
-        />
-      ) : null}
-
-      <Portal>
-        <Dialog visible={modalityDialogVisible} onDismiss={() => setModalityDialogVisible(false)}>
-          <View style={styles.dialogTitleContainer}>
-            <Text style={styles.dialogTitle}>Selecionar Modalidade</Text>
-          </View>
-          <Dialog.ScrollArea>
-            <ScrollView style={styles.dialogScroll}>
-              {loading ? (
-                <View style={styles.loadingContainer}>
-                  <Text style={styles.loadingText}>Carregando modalidades...</Text>
-                </View>
-              ) : modalities.length > 0 ? (
-                modalities.map((modality) => (
-                  <View key={modality.id}>
-                    <RadioButton.Item
-                      label={modality.name}
-                      value={modality.id}
-                      status={formData.modalityId === modality.id ? 'checked' : 'unchecked'}
-                      onPress={() => selectModality(modality)}
-                    />
+            <Dialog.ScrollArea>
+              <ScrollView style={styles.dialogScroll}>
+                {loading ? (
+                  <View style={styles.loadingContainer}>
+                    <Text style={styles.loadingText}>{getString('loadingModalities')}</Text>
                   </View>
-                ))
-              ) : (
-                <Text style={styles.emptyText}>Nenhuma modalidade encontrada</Text>
-              )}
-            </ScrollView>
-          </Dialog.ScrollArea>
-          <Dialog.Actions>
-            <Button onPress={() => setModalityDialogVisible(false)}>{getString('cancel')}</Button>
-          </Dialog.Actions>
-        </Dialog>
-      </Portal>
-
-      <Portal>
-        <Dialog visible={graduationDialogVisible} onDismiss={() => setGraduationDialogVisible(false)}>
-          <Dialog.Title>Selecionar Graduação</Dialog.Title>
-          <Dialog.Content>
-            <ScrollView style={styles.dialogContent}>
-              {graduationLevels.length > 0 ? (
-                graduationLevels.map((level, index) => (
-                  <TouchableOpacity
-                    key={level.id || `graduation-${index}`}
-                    style={styles.dialogItem}
-                    onPress={() => {
-                      setFormData(prev => ({
-                        ...prev,
-                        graduation: level.name
-                      }));
-                      setGraduationDialogVisible(false);
-                    }}
-                  >
-                    <View style={styles.graduationItem}>
-                      <View style={[styles.colorIndicator, { backgroundColor: level.color || COLORS.gray[300] }]} />
-                      <Text style={styles.dialogItemText}>{level.name || 'Graduação sem nome'}</Text>
+                ) : modalities.length > 0 ? (
+                  modalities.map((modality) => (
+                    <View key={modality.id}>
+                      <RadioButton.Item
+                        label={modality.name}
+                        value={modality.id}
+                        status={formData.modalityId === modality.id ? 'checked' : 'unchecked'}
+                        onPress={() => selectModality(modality)}
+                      />
                     </View>
-                  </TouchableOpacity>
-                ))
-              ) : (
-                <Text style={styles.emptyText}>Nenhuma graduação disponível</Text>
-              )}
-            </ScrollView>
-          </Dialog.Content>
-          <Dialog.Actions>
-            <Button onPress={() => setGraduationDialogVisible(false)}>{getString('cancel')}</Button>
-          </Dialog.Actions>
-        </Dialog>
-      </Portal>
+                  ))
+                ) : (
+                  <Text style={styles.emptyText}>{getString('noModalitiesFound')}</Text>
+                )}
+              </ScrollView>
+            </Dialog.ScrollArea>
+            <Dialog.Actions>
+              <Button onPress={() => setModalityDialogVisible(false)}>{getString('cancel')}</Button>
+            </Dialog.Actions>
+          </Dialog>
+        </Portal>
 
-      <Portal>
-        <Dialog visible={instructorDialogVisible} onDismiss={() => setInstructorDialogVisible(false)}>
-          <Dialog.Title>Selecionar Instrutor</Dialog.Title>
-          <Dialog.Content>
-            <ScrollView style={styles.dialogContent}>
-              {loading ? (
-                <View style={styles.loadingContainer}>
-                  <Text style={styles.loadingText}>Carregando instrutores...</Text>
-                </View>
-              ) : instructors.length > 0 ? (
-                instructors.map((instructor, index) => (
-                  <TouchableOpacity
-                    key={instructor.id || `instructor-${index}`}
-                    style={styles.dialogItem}
-                    onPress={() => {
-                      setFormData(prev => ({
-                        ...prev,
-                        instructor: instructor.name || instructor.displayName || instructor.email || getString('instructor'),
-                        instructorId: instructor.id
-                      }));
-                      setInstructorDialogVisible(false);
-                    }}
-                  >
-                    <Text style={styles.dialogItemText}>
-                      {(instructor.name || instructor.displayName || instructor.email || 'Instrutor sem nome').toString()}
-                    </Text>
-                  </TouchableOpacity>
-                ))
-              ) : (
-                <Text style={styles.emptyText}>Nenhum instrutor encontrado</Text>
-              )}
-            </ScrollView>
-          </Dialog.Content>
-          <Dialog.Actions>
-            <Button onPress={() => setInstructorDialogVisible(false)}>{getString('cancel')}</Button>
-          </Dialog.Actions>
-        </Dialog>
-      </Portal>
+        <Portal>
+          <Dialog visible={graduationDialogVisible} onDismiss={() => setGraduationDialogVisible(false)}>
+            <Dialog.Title>{getString('selectGraduation')}</Dialog.Title>
+            <Dialog.Content>
+              <ScrollView style={styles.dialogContent}>
+                {graduationLevels.length > 0 ? (
+                  graduationLevels.map((level, index) => (
+                    <TouchableOpacity
+                      key={level.id || `graduation-${index}`}
+                      style={styles.dialogItem}
+                      onPress={() => {
+                        setFormData(prev => ({
+                          ...prev,
+                          graduation: level.name
+                        }));
+                        setGraduationDialogVisible(false);
+                      }}
+                    >
+                      <View style={styles.graduationItem}>
+                        <View style={[styles.colorIndicator, { backgroundColor: level.color || COLORS.gray[300] }]} />
+                        <Text style={styles.dialogItemText}>{level.name || getString('unnamedGraduation')}</Text>
+                      </View>
+                    </TouchableOpacity>
+                  ))
+                ) : (
+                  <Text style={styles.emptyText}>{getString('noGraduationsAvailable')}</Text>
+                )}
+              </ScrollView>
+            </Dialog.Content>
+            <Dialog.Actions>
+              <Button onPress={() => setGraduationDialogVisible(false)}>{getString('cancel')}</Button>
+            </Dialog.Actions>
+          </Dialog>
+        </Portal>
 
-      <Snackbar
-        visible={snackbarVisible}
-        onDismiss={() => setSnackbarVisible(false)}
-        duration={snackbarType === 'success' ? 2000 : 4000}
-        style={{
-          backgroundColor: snackbarType === 'success' ? COLORS.primary[500] : COLORS.error[500]
-        }}
-        action={{
-          label: getString('ok'),
-          onPress: () => setSnackbarVisible(false),
-        }}
-      >
-        <Text style={{ color: COLORS.white }}>{snackbarMessage || getString('message')}</Text>
-      </Snackbar>
-    </SafeAreaView>
+        <Portal>
+          <Dialog visible={instructorDialogVisible} onDismiss={() => setInstructorDialogVisible(false)}>
+            <Dialog.Title>{getString('selectInstructor')}</Dialog.Title>
+            <Dialog.Content>
+              <ScrollView style={styles.dialogContent}>
+                {loading ? (
+                  <View style={styles.loadingContainer}>
+                    <Text style={styles.loadingText}>{getString('loadingInstructors')}</Text>
+                  </View>
+                ) : instructors.length > 0 ? (
+                  instructors.map((instructor, index) => (
+                    <TouchableOpacity
+                      key={instructor.id || `instructor-${index}`}
+                      style={styles.dialogItem}
+                      onPress={() => {
+                        setFormData(prev => ({
+                          ...prev,
+                          instructor: instructor.name || instructor.displayName || instructor.email || getString('instructor'),
+                          instructorId: instructor.id
+                        }));
+                        setInstructorDialogVisible(false);
+                      }}
+                    >
+                      <Text style={styles.dialogItemText}>
+                        {(instructor.name || instructor.displayName || instructor.email || getString('unnamedInstructor')).toString()}
+                      </Text>
+                    </TouchableOpacity>
+                  ))
+                ) : (
+                  <Text style={styles.emptyText}>{getString('noInstructorsFound')}</Text>
+                )}
+              </ScrollView>
+            </Dialog.Content>
+            <Dialog.Actions>
+              <Button onPress={() => setInstructorDialogVisible(false)}>{getString('cancel')}</Button>
+            </Dialog.Actions>
+          </Dialog>
+        </Portal>
+
+        <Snackbar
+          visible={snackbarVisible}
+          onDismiss={() => setSnackbarVisible(false)}
+          duration={snackbarType === 'success' ? 2000 : 4000}
+          style={{
+            backgroundColor: snackbarType === 'success' ? COLORS.primary[500] : COLORS.error[500]
+          }}
+          action={{
+            label: getString('ok'),
+            onPress: () => setSnackbarVisible(false),
+          }}
+        >
+          <Text style={{ color: COLORS.white }}>{snackbarMessage || getString('message')}</Text>
+        </Snackbar>
+      </SafeAreaView>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.white,
+  },
+  safeArea: {
+    flex: 1,
   },
   header: {
     paddingTop: Platform.OS === 'ios' ? 50 : 30,
     paddingBottom: 20,
     paddingHorizontal: SPACING.md,
+    backgroundColor: 'transparent',
   },
   headerContent: {
     flexDirection: 'row',
@@ -661,10 +678,30 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     width: '100%',
   },
-  currentGraduationCard: {
-    borderRadius: BORDER_RADIUS.md,
+  glassCard: {
     marginBottom: SPACING.md,
-    backgroundColor: COLORS.white,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    borderRadius: BORDER_RADIUS.lg,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.5)',
+    ...Platform.select({
+      ios: {
+        shadowColor: COLORS.black,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.1,
+        shadowRadius: 12,
+      },
+      android: {
+        elevation: 4,
+      },
+      web: {
+        boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.15)',
+        backdropFilter: 'blur(10px)',
+      },
+    }),
+  },
+  cardContent: {
+    padding: SPACING.md,
   },
   currentGraduationContent: {
     flexDirection: 'row',
@@ -677,7 +714,7 @@ const styles = StyleSheet.create({
   },
   currentGraduationLabel: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.gray[500],
+    color: COLORS.gray[600],
     textTransform: 'uppercase',
     fontWeight: FONT_WEIGHT.medium,
     letterSpacing: 0.5,
@@ -688,68 +725,11 @@ const styles = StyleSheet.create({
     color: COLORS.black,
     marginTop: 2,
   },
-  selectionCard: {
-    borderRadius: BORDER_RADIUS.md,
-    marginBottom: SPACING.md,
-    elevation: 2,
-  },
   sectionTitle: {
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
     color: COLORS.black,
     marginBottom: SPACING.md,
-  },
-  selectionItem: {
-    marginBottom: SPACING.md,
-  },
-  selectionLabel: {
-    fontSize: FONT_SIZE.base,
-    fontWeight: FONT_WEIGHT.medium,
-    color: COLORS.gray[500],
-    marginBottom: SPACING.sm,
-  },
-  selectionButton: {
-    borderWidth: BORDER_WIDTH.base,
-    borderColor: COLORS.gray[400],
-    borderRadius: BORDER_RADIUS.md,
-    backgroundColor: COLORS.white,
-  },
-  selectionButtonSelected: {
-    borderColor: COLORS.info[700],
-    backgroundColor: COLORS.info[50],
-  },
-  selectionButtonDisabled: {
-    borderColor: COLORS.gray[300],
-    backgroundColor: COLORS.gray[100],
-  },
-  selectionButtonContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: SPACING.sm,
-    paddingHorizontal: SPACING.xs,
-  },
-  selectionButtonText: {
-    flex: 1,
-    fontSize: FONT_SIZE.md,
-    color: COLORS.gray[500],
-  },
-  selectionButtonTextSelected: {
-    color: COLORS.info[700],
-    fontWeight: FONT_WEIGHT.medium,
-  },
-  selectionButtonTextDisabled: {
-    color: COLORS.gray[500],
-  },
-  helperText: {
-    fontSize: FONT_SIZE.sm,
-    color: COLORS.gray[500],
-    marginTop: SPACING.xs,
-    fontStyle: 'italic',
-  },
-  detailsCard: {
-    borderRadius: BORDER_RADIUS.md,
-    marginBottom: SPACING.md,
-    elevation: 2,
   },
   inputGroup: {
     marginBottom: SPACING.md,
@@ -757,7 +737,7 @@ const styles = StyleSheet.create({
   inputLabel: {
     fontSize: FONT_SIZE.base,
     fontWeight: FONT_WEIGHT.medium,
-    color: COLORS.gray[500],
+    color: COLORS.gray[600],
     marginBottom: SPACING.sm,
   },
   dateButton: {
@@ -766,7 +746,7 @@ const styles = StyleSheet.create({
     borderWidth: BORDER_WIDTH.base,
     borderColor: COLORS.gray[400],
     borderRadius: BORDER_RADIUS.md,
-    backgroundColor: COLORS.white,
+    backgroundColor: 'rgba(255,255,255,0.5)',
     paddingVertical: SPACING.sm,
     paddingHorizontal: SPACING.xs,
   },
@@ -777,20 +757,10 @@ const styles = StyleSheet.create({
     textTransform: 'capitalize',
   },
   notesInput: {
-    backgroundColor: COLORS.white,
-  },
-  certificateCard: {
-    borderRadius: BORDER_RADIUS.md,
-    marginBottom: SPACING.md,
-    elevation: 2,
-  },
-  certificateHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: SPACING.sm,
+    backgroundColor: 'transparent',
   },
   certificateInput: {
-    backgroundColor: COLORS.white,
+    backgroundColor: 'transparent',
   },
   actionContainer: {
     marginTop: SPACING.sm,
@@ -801,7 +771,7 @@ const styles = StyleSheet.create({
     borderRadius: BORDER_RADIUS.md,
   },
   submitButtonContent: {
-    height: 48,
+    paddingVertical: SPACING.xs,
   },
   submitButtonLabel: {
     fontSize: FONT_SIZE.md,
@@ -810,28 +780,47 @@ const styles = StyleSheet.create({
   cancelButton: {
     borderColor: COLORS.gray[500],
     borderRadius: BORDER_RADIUS.md,
+    backgroundColor: 'rgba(255,255,255,0.5)',
   },
   cancelButtonContent: {
-    height: 48,
+    paddingVertical: SPACING.xs,
   },
   cancelButtonLabel: {
     fontSize: FONT_SIZE.md,
-    color: COLORS.gray[500],
+    color: COLORS.gray[700],
   },
   dialogTitleContainer: {
-    padding: SPACING.lg,
-    paddingBottom: SPACING.md,
+    padding: SPACING.md,
+    borderBottomWidth: 1,
+    borderBottomColor: COLORS.gray[200],
   },
   dialogTitle: {
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
     color: COLORS.black,
   },
+  dialogScroll: {
+    maxHeight: 300,
+  },
+  loadingContainer: {
+    padding: SPACING.md,
+    alignItems: 'center',
+  },
+  loadingText: {
+    marginTop: SPACING.sm,
+    color: COLORS.gray[500],
+  },
+  emptyText: {
+    padding: SPACING.md,
+    textAlign: 'center',
+    color: COLORS.gray[500],
+  },
   dialogContent: {
     maxHeight: 300,
   },
   dialogItem: {
-    padding: SPACING.md,
+    paddingVertical: SPACING.sm,
+    paddingHorizontal: SPACING.md,
     borderBottomWidth: 1,
     borderBottomColor: COLORS.gray[100],
   },
@@ -842,32 +831,14 @@ const styles = StyleSheet.create({
   graduationItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: SPACING.md,
   },
   colorIndicator: {
     width: 20,
     height: 20,
     borderRadius: 10,
-    borderWidth: BORDER_WIDTH.base,
-    borderColor: COLORS.gray[400],
-  },
-  emptyText: {
-    fontSize: FONT_SIZE.base,
-    color: COLORS.gray[500],
-    textAlign: 'center',
-    padding: SPACING.lg,
-    fontStyle: 'italic',
-  },
-  loadingContainer: {
-    padding: SPACING.lg,
-    alignItems: 'center',
-  },
-  loadingText: {
-    marginTop: SPACING.sm,
-    color: COLORS.gray[500],
-  },
-  dialogScroll: {
-    maxHeight: 400,
+    marginRight: SPACING.md,
+    borderWidth: 1,
+    borderColor: COLORS.gray[300],
   },
 });
 

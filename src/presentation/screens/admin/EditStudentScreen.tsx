@@ -3,7 +3,8 @@ import {
   View,
   StyleSheet,
   ScrollView,
-  Alert
+  Alert,
+  Platform
 } from 'react-native';
 import {
   Card,
@@ -19,7 +20,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
-import { firestoreService } from '@infrastructure/services/firestoreService';
+import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
+
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { getAuthGradient } from '@presentation/theme/authTheme';
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
@@ -32,7 +34,7 @@ interface EditStudentScreenProps {
 const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route }) => {
   const { user, userProfile, academia } = useAuthFacade();
   const { studentId } = route.params as any;
-  const { getString } = useTheme();
+  const { getString, isDarkMode } = useTheme();
   const [loading, setLoading] = useState(false);
   const [loadingData, setLoadingData] = useState(true);
   const [snackbarVisible, setSnackbarVisible] = useState(false);
@@ -71,7 +73,7 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
       }
 
       // Buscar aluno na subcoleção da academia
-      const studentData = await firestoreService.getById(`gyms/${academiaId}/students`, studentId) as any;
+      const studentData = await academyFirestoreService.getById('students', studentId, academiaId) as any;
 
       if (studentData) {
         setFormData({
@@ -151,6 +153,7 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
         medicalConditions: formData.medicalConditions.trim(),
         goals: formData.goals.trim(),
         status: formData.status,
+        isActive: formData.status === 'active',
         sexo: formData.sexo,
         updatedAt: new Date(),
         updatedBy: user?.id
@@ -163,7 +166,7 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
       }
 
       // Atualizar aluno na subcoleção da academia
-      await firestoreService.update(`gyms/${academiaId}/students`, studentId, studentData);
+      await academyFirestoreService.update('students', studentId, studentData, academiaId);
 
       setSnackbarMessage('Aluno atualizado com sucesso!');
       setSnackbarType('success');
@@ -199,7 +202,14 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
           onPress: async () => {
             try {
               setLoading(true);
-              await firestoreService.delete('users', studentId);
+
+              // Obter ID da academia
+              const academiaId = userProfile?.academiaId || academia?.id;
+              if (!academiaId) {
+                throw new Error(getString('academyIdNotFound'));
+              }
+
+              await academyFirestoreService.delete('students', studentId, academiaId);
 
               setSnackbarMessage('Aluno excluído com sucesso!');
               setSnackbarType('success');
@@ -250,32 +260,36 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView
-        style={styles.scrollView}
-        showsVerticalScrollIndicator={false}
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={styles.scrollContent}
-      >
-        <Card style={styles.card}>
-          <Card.Content>
-            <Text style={[styles.title, styles.title]}>Editar Aluno</Text>
+    <LinearGradient
+      colors={getAuthGradient(isDarkMode) as any}
+      style={styles.container}
+    >
+      <SafeAreaView style={styles.safeArea}>
+        <ScrollView
+          style={styles.scrollView}
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+          contentContainerStyle={styles.scrollContent}
+        >
+          <View style={styles.glassCard}>
+            <Text style={styles.title}>{getString('editStudent')}</Text>
 
             {/* Dados Pessoais */}
-            <Text style={styles.sectionTitle}>Dados Pessoais</Text>
+            <Text style={styles.sectionTitle}>{getString('personalData')}</Text>
 
             <TextInput
-              label="Nome Completo"
+              label={getString('fullName')}
               value={formData.name}
               onChangeText={(value: any) => updateFormData('name', value)}
               mode="outlined"
               style={styles.input}
               error={!!(errors as any).name}
+              theme={{ colors: { background: 'rgba(255,255,255,0.5)' } }}
             />
             {(errors as any).name && <HelperText type="error">{(errors as any).name}</HelperText>}
 
             <TextInput
-              label="email"
+              label={getString('email')}
               value={formData.email}
               onChangeText={(value: any) => updateFormData('email', value)}
               mode="outlined"
@@ -283,108 +297,116 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
               autoCapitalize="none"
               style={styles.input}
               error={!!(errors as any).email}
+              theme={{ colors: { background: 'rgba(255,255,255,0.5)' } }}
             />
             {(errors as any).email && <HelperText type="error">{(errors as any).email}</HelperText>}
 
             <TextInput
-              label="Telefone"
+              label={getString('phone')}
               value={formData.phone}
               onChangeText={(value: any) => updateFormData('phone', value)}
               mode="outlined"
               keyboardType="phone-pad"
               style={styles.input}
               error={!!(errors as any).phone}
+              theme={{ colors: { background: 'rgba(255,255,255,0.5)' } }}
             />
             {(errors as any).phone && <HelperText type="error">{(errors as any).phone}</HelperText>}
 
             <TextInput
-              label="Data de Nascimento (DD/MM/AAAA)"
+              label={getString('birthDate')}
               value={formData.birthDate}
               onChangeText={(value: any) => updateFormData('birthDate', value)}
               mode="outlined"
               placeholder="01/01/1990"
               style={styles.input}
               error={!!(errors as any).birthDate}
+              theme={{ colors: { background: 'rgba(255,255,255,0.5)' } }}
             />
             {(errors as any).birthDate && <HelperText type="error">{(errors as any).birthDate}</HelperText>}
 
             <TextInput
-              label="Endereço (opcional)"
+              label={getString('address')}
               value={formData.address}
               onChangeText={(value: any) => updateFormData('address', value)}
               mode="outlined"
               multiline
               numberOfLines={2}
               style={styles.input}
+              theme={{ colors: { background: 'rgba(255,255,255,0.5)' } }}
             />
 
             {/* Contato de Emergência */}
-            <Text style={styles.sectionTitle}>Contato de Emergência</Text>
+            <Text style={styles.sectionTitle}>{getString('emergencyContact')}</Text>
 
             <TextInput
-              label="Nome do Contato"
+              label={getString('contactName')}
               value={formData.emergencyContact}
               onChangeText={(value: any) => updateFormData('emergencyContact', value)}
               mode="outlined"
               style={styles.input}
               error={!!(errors as any).emergencyContact}
+              theme={{ colors: { background: 'rgba(255,255,255,0.5)' } }}
             />
             {(errors as any).emergencyContact && <HelperText type="error">{(errors as any).emergencyContact}</HelperText>}
 
             <TextInput
-              label="Telefone de Emergência"
+              label={getString('emergencyPhone')}
               value={formData.emergencyPhone}
               onChangeText={(value: any) => updateFormData('emergencyPhone', value)}
               mode="outlined"
               keyboardType="phone-pad"
               style={styles.input}
               error={!!(errors as any).emergencyPhone}
+              theme={{ colors: { background: 'rgba(255,255,255,0.5)' } }}
             />
             {(errors as any).emergencyPhone && <HelperText type="error">{(errors as any).emergencyPhone}</HelperText>}
 
             {/* Informações Médicas */}
-            <Text style={styles.sectionTitle}>Informações Médicas</Text>
+            <Text style={styles.sectionTitle}>{getString('medicalInfo')}</Text>
 
             <TextInput
-              label="Condições Médicas (opcional)"
+              label={getString('medicalConditions')}
               value={formData.medicalConditions}
               onChangeText={(value: any) => updateFormData('medicalConditions', value)}
               mode="outlined"
               multiline
               numberOfLines={3}
-              placeholder="Informe alergias, lesões, medicamentos, etc."
+              placeholder={getString('medicalConditionsPlaceholder')}
               style={styles.input}
+              theme={{ colors: { background: 'rgba(255,255,255,0.5)' } }}
             />
 
             <TextInput
-              label="Objetivos (opcional)"
+              label={getString('goals')}
               value={formData.goals}
               onChangeText={(value: any) => updateFormData('goals', value)}
               mode="outlined"
               multiline
               numberOfLines={2}
-              placeholder="Perda de peso, ganho de massa, condicionamento..."
+              placeholder={getString('goalsPlaceholder')}
               style={styles.input}
+              theme={{ colors: { background: 'rgba(255,255,255,0.5)' } }}
             />
 
             {/* Status */}
             <View style={styles.radioContainer}>
-              <Text style={styles.label}>Status</Text>
+              <Text style={styles.label}>{getString('status')}</Text>
               <RadioButton.Group
                 onValueChange={(value: any) => updateFormData('status', value)}
                 value={formData.status}
               >
                 <View style={styles.radioItem}>
-                  <RadioButton value="active" />
-                  <Text style={styles.radioLabel}>Ativo</Text>
+                  <RadioButton value="active" color={COLORS.primary[500]} />
+                  <Text style={styles.radioLabel}>{getString('active')}</Text>
                 </View>
                 <View style={styles.radioItem}>
-                  <RadioButton value="inactive" />
-                  <Text style={styles.radioLabel}>Inativo</Text>
+                  <RadioButton value="inactive" color={COLORS.gray[500]} />
+                  <Text style={styles.radioLabel}>{getString('inactive')}</Text>
                 </View>
                 <View style={styles.radioItem}>
-                  <RadioButton value="suspended" />
-                  <Text style={styles.radioLabel}>Suspenso</Text>
+                  <RadioButton value="suspended" color={COLORS.error[500]} />
+                  <Text style={styles.radioLabel}>{getString('suspended')}</Text>
                 </View>
               </RadioButton.Group>
             </View>
@@ -396,14 +418,15 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
                 onPress={() => navigation.goBack()}
                 style={[styles.button, styles.cancelButton]}
                 disabled={loading}
-              >Cancelar</Button>
+                textColor={COLORS.gray[700]}
+              >{getString('cancel')}</Button>
               <Button
                 mode="contained"
                 onPress={handleSubmit}
                 style={[styles.button, styles.saveButton]}
                 loading={loading}
                 disabled={loading}
-              >Salvar</Button>
+              >{getString('save')}</Button>
             </View>
 
             {/* Botão Excluir */}
@@ -413,31 +436,34 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
               style={[styles.button, styles.deleteButton]}
               textColor={COLORS.error[700]}
               disabled={loading}
+              icon="trash-can-outline"
             >
-              Excluir Aluno
+              {getString('deleteStudent')}
             </Button>
-          </Card.Content>
-        </Card>
-      </ScrollView>
+          </View>
+        </ScrollView>
 
-      <Snackbar
-        visible={snackbarVisible}
-        onDismiss={() => setSnackbarVisible(false)}
-        duration={3000}
-        style={{
-          backgroundColor: snackbarType === 'success' ? COLORS.primary[500] : COLORS.error[500]
-        }}
-      >
-        {snackbarMessage}
-      </Snackbar>
-    </SafeAreaView>
+        <Snackbar
+          visible={snackbarVisible}
+          onDismiss={() => setSnackbarVisible(false)}
+          duration={3000}
+          style={{
+            backgroundColor: snackbarType === 'success' ? COLORS.success[500] : COLORS.error[500]
+          }}
+        >
+          {snackbarMessage}
+        </Snackbar>
+      </SafeAreaView>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.gray[100],
+  },
+  safeArea: {
+    flex: 1,
   },
   scrollView: {
     flex: 1,
@@ -456,34 +482,61 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.md,
     color: COLORS.gray[500],
   },
-  card: {
-    marginBottom: 20,
+  glassCard: {
+    padding: SPACING.lg,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    borderRadius: BORDER_RADIUS.lg,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.5)',
+    ...Platform.select({
+      ios: {
+        shadowColor: COLORS.black,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.1,
+        shadowRadius: 12,
+      },
+      android: {
+        elevation: 4,
+      },
+      web: {
+        boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.15)',
+        backdropFilter: 'blur(10px)',
+      },
+    }),
   },
   title: {
     fontSize: FONT_SIZE.xxl,
     fontWeight: FONT_WEIGHT.bold,
     marginBottom: 20,
     textAlign: 'center',
+    color: COLORS.gray[900],
   },
   sectionTitle: {
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
     marginTop: 20,
     marginBottom: SPACING.md,
-    color: COLORS.black,
+    color: COLORS.primary[700],
+    borderBottomWidth: 1,
+    borderBottomColor: COLORS.gray[200],
+    paddingBottom: SPACING.xs,
   },
   input: {
     marginBottom: SPACING.md,
+    backgroundColor: 'transparent',
   },
   label: {
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.medium,
     marginBottom: SPACING.sm,
-    color: COLORS.black,
+    color: COLORS.gray[800],
   },
   radioContainer: {
     marginBottom: 20,
     marginTop: SPACING.md,
+    backgroundColor: 'rgba(255,255,255,0.5)',
+    padding: SPACING.md,
+    borderRadius: BORDER_RADIUS.md,
   },
   radioItem: {
     flexDirection: 'row',
@@ -493,6 +546,7 @@ const styles = StyleSheet.create({
   radioLabel: {
     marginLeft: SPACING.sm,
     fontSize: FONT_SIZE.md,
+    color: COLORS.gray[800],
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -502,6 +556,7 @@ const styles = StyleSheet.create({
   },
   button: {
     flex: 1,
+    borderRadius: BORDER_RADIUS.md,
   },
   cancelButton: {
     borderColor: COLORS.gray[500],
@@ -512,6 +567,7 @@ const styles = StyleSheet.create({
   deleteButton: {
     borderColor: COLORS.error[700],
     marginTop: 20,
+    borderWidth: 1,
   },
 });
 

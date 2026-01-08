@@ -12,6 +12,8 @@ export interface Student {
     phone?: string;
     /** Indica se o estudante está ativo */
     isActive?: boolean;
+    /** Status detalhado do estudante */
+    status?: 'active' | 'inactive' | 'suspended' | string;
     /** Status do pagamento atual */
     paymentStatus?: 'paid' | 'pending' | 'overdue' | string;
     /** Graduação atual (ex: faixa branca, azul) */

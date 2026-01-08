@@ -20,7 +20,7 @@ import { academyFirestoreService } from '@infrastructure/services/academyFiresto
 import { useAuth } from '@contexts/AuthProvider';
 import { useTheme } from '@contexts/ThemeContext';
 import { useCustomClaims } from '@hooks/useCustomClaims';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, GLASS_EFFECTS } from '@presentation/theme/designTokens';
 import { getAuthGradient } from '@presentation/theme/authTheme';
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
 
@@ -127,8 +127,8 @@ const ClassDetailsScreen: React.FC<ClassDetailsScreenProps> = ({ route, navigati
   const handleDeleteClass = () => {
     if (!classId) return;
     Alert.alert(
-      '🗑️ Confirmar Exclusão',
-      'Tem certeza que deseja excluir esta turma? Esta ação não pode ser desfeita e todos os alunos serão desvinculados.',
+      getString('confirmDeleteClass'),
+      getString('confirmDeleteClassMessage'),
       [
         { text: getString('cancel'), style: 'cancel' },
         {
@@ -140,7 +140,7 @@ const ClassDetailsScreen: React.FC<ClassDetailsScreenProps> = ({ route, navigati
               await academyFirestoreService.delete('classes', classId, academiaId);
               setSnackbar({
                 visible: true,
-                message: '✅ Turma excluída com sucesso!',
+                message: getString('classDeletedSuccess'),
                 type: 'success'
               });
               setTimeout(() => {
@@ -150,7 +150,7 @@ const ClassDetailsScreen: React.FC<ClassDetailsScreenProps> = ({ route, navigati
               console.error('❌ Erro ao excluir turma:', error);
               setSnackbar({
                 visible: true,
-                message: '❌ Erro ao excluir turma. Tente novamente.',
+                message: getString('classDeleteError'),
                 type: 'error'
               });
             }
@@ -171,7 +171,7 @@ const ClassDetailsScreen: React.FC<ClassDetailsScreenProps> = ({ route, navigati
     // Se for um objeto único com dayOfWeek, minute, hour
     if (!Array.isArray(schedule) && schedule.dayOfWeek !== undefined && schedule.hour !== undefined && schedule.minute !== undefined) {
       const days = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
-      const dayName = days[schedule.dayOfWeek] || `Dia ${schedule.dayOfWeek}`;
+      const dayName = days[schedule.dayOfWeek] || `${getString('day')} ${schedule.dayOfWeek}`;
       const time = `${schedule.hour.toString().padStart(2, '0')}:${schedule.minute.toString().padStart(2, '0')}`;
       return `${dayName} - ${time}`;
     }
@@ -182,11 +182,11 @@ const ClassDetailsScreen: React.FC<ClassDetailsScreenProps> = ({ route, navigati
         if (typeof s === 'string') return s;
         if (s.dayOfWeek !== undefined && s.hour !== undefined && s.minute !== undefined) {
           const days = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
-          const dayName = days[s.dayOfWeek] || `Dia ${s.dayOfWeek}`;
+          const dayName = days[s.dayOfWeek] || `${getString('day')} ${s.dayOfWeek}`;
           const time = `${s.hour.toString().padStart(2, '0')}:${s.minute.toString().padStart(2, '0')}`;
           return `${dayName} - ${time}`;
         }
-        return `${s.day || getString('day')} - ${s.time || 'Horário'}`;
+        return `${s.day || getString('day')} - ${s.time || getString('time')}`;
       }).join(', ');
     }
 
@@ -207,7 +207,7 @@ const ClassDetailsScreen: React.FC<ClassDetailsScreenProps> = ({ route, navigati
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.loadingContainer}>
-          <Text>Carregando detalhes da turma...</Text>
+          <Text>{getString('loadingClassDetails')}</Text>
         </View>
       </SafeAreaView>
     );
@@ -254,13 +254,13 @@ const ClassDetailsScreen: React.FC<ClassDetailsScreenProps> = ({ route, navigati
               <View style={styles.statItem}>
                 <Ionicons name="time" size={24} color={COLORS.primary[500]} />
                 <Text style={styles.statNumber}>{classInfo?.schedule?.length || 0}</Text>
-                <Text style={styles.statLabel}>Horários</Text>
+                <Text style={styles.statLabel}>{getString('schedules')}</Text>
               </View>
               <View style={styles.statDivider} />
               <View style={styles.statItem}>
                 <Ionicons name="trophy" size={24} color={COLORS.warning[500]} />
                 <Text style={styles.statNumber}>{classInfo?.level || getString('all')}</Text>
-                <Text style={styles.statLabel}>Nível</Text>
+                <Text style={styles.statLabel}>{getString('level')}</Text>
               </View>
             </View>
           </View>
@@ -269,7 +269,7 @@ const ClassDetailsScreen: React.FC<ClassDetailsScreenProps> = ({ route, navigati
         {/* Informações Detalhadas */}
         <Card style={styles.detailsCard}>
           <Card.Content>
-            <Text style={styles.sectionTitle}>📋 Informações</Text>
+            <Text style={styles.sectionTitle}>{getString('information')}</Text>
 
             <View style={styles.infoRow}>
               <Ionicons name="person-circle" size={24} color={COLORS.info[500]} />
@@ -284,7 +284,7 @@ const ClassDetailsScreen: React.FC<ClassDetailsScreenProps> = ({ route, navigati
             <View style={styles.infoRow}>
               <Ionicons name="time-outline" size={24} color={COLORS.primary[500]} />
               <View style={styles.infoContent}>
-                <Text style={styles.infoLabel}>Horários</Text>
+                <Text style={styles.infoLabel}>{getString('schedules')}</Text>
                 <Text style={styles.infoValue}>
                   {formatSchedule(classInfo?.schedule) || classInfo?.scheduleText || getString('scheduleNotDefined')}
                 </Text>
@@ -294,9 +294,9 @@ const ClassDetailsScreen: React.FC<ClassDetailsScreenProps> = ({ route, navigati
             <View style={styles.infoRow}>
               <Ionicons name="people-outline" size={24} color={COLORS.warning[500]} />
               <View style={styles.infoContent}>
-                <Text style={styles.infoLabel}>Capacidade</Text>
+                <Text style={styles.infoLabel}>{getString('capacity')}</Text>
                 <Text style={styles.infoValue}>
-                  {students.length} / {classInfo?.maxStudents || '∞'} alunos
+                  {students.length} / {classInfo?.maxStudents || '∞'} {getString('students')}
                 </Text>
               </View>
             </View>
@@ -315,8 +315,8 @@ const ClassDetailsScreen: React.FC<ClassDetailsScreenProps> = ({ route, navigati
           <Card.Content>
             <View style={styles.studentsHeader}>
               <View style={styles.studentsInfo}>
-                <Text style={styles.sectionTitle}>👥 Alunos Matriculados</Text>
-                <Text style={styles.studentsCount}>{students.length} aluno{students.length !== 1 ? 's' : ''}</Text>
+                <Text style={styles.sectionTitle}>{getString('enrolledStudents')}</Text>
+                <Text style={styles.studentsCount}>{students.length} {getString('student')}{students.length !== 1 ? 's' : ''}</Text>
               </View>
               <Button
                 mode={showStudents ? "contained" : "outlined"}
@@ -324,7 +324,7 @@ const ClassDetailsScreen: React.FC<ClassDetailsScreenProps> = ({ route, navigati
                 icon={showStudents ? "chevron-up" : "chevron-down"}
                 style={styles.toggleButton}
               >
-                {showStudents ? 'hide' : 'Ver Alunos'}
+                {showStudents ? getString('hideStudents') : getString('viewStudents')}
               </Button>
             </View>
 
@@ -353,15 +353,15 @@ const ClassDetailsScreen: React.FC<ClassDetailsScreenProps> = ({ route, navigati
                         })}
                         style={styles.studentButton}
                       >
-                        Ver Perfil
+                        {getString('viewProfile')}
                       </Button>
                     </Surface>
                   ))
                 ) : (
                   <View style={styles.emptyState}>
                     <Ionicons name="people-outline" size={48} color={COLORS.gray[400]} />
-                    <Text style={styles.emptyText}>Nenhum aluno matriculado</Text>
-                    <Text style={styles.emptySubtext}>Os alunos aparecerão aqui quando se matricularem</Text>
+                    <Text style={styles.emptyText}>{getString('noStudentsEnrolled')}</Text>
+                    <Text style={styles.emptySubtext}>{getString('studentsWillAppearHere')}</Text>
                   </View>
                 )}
               </View>
@@ -372,7 +372,7 @@ const ClassDetailsScreen: React.FC<ClassDetailsScreenProps> = ({ route, navigati
         {/* Ações Rápidas */}
         <Card style={styles.actionsCard}>
           <Card.Content>
-            <Text style={styles.sectionTitle}>⚡ Ações Rápidas</Text>
+            <Text style={styles.sectionTitle}>{getString('quickActions')}</Text>
 
             <View style={styles.actionsGrid}>
               <Surface style={styles.actionItem} elevation={2}>
@@ -387,7 +387,7 @@ const ClassDetailsScreen: React.FC<ClassDetailsScreenProps> = ({ route, navigati
                   labelStyle={styles.actionButtonLabel}
                 >
                   <Ionicons name="checkmark-circle" size={20} color={COLORS.white} />
-                  {"\n"}Check-ins
+                  {"\n"}{getString('checkIns')}
                 </Button>
               </Surface>
 
@@ -408,7 +408,7 @@ const ClassDetailsScreen: React.FC<ClassDetailsScreenProps> = ({ route, navigati
                   labelStyle={styles.actionButtonLabel}
                 >
                   <Ionicons name={showStudents ? "eye-off" : "eye"} size={20} color={COLORS.white} />
-                  {"\n"}{isAdmin() ? 'Gerenciar' : (showStudents ? 'hide' : 'Ver Alunos')}
+                  {"\n"}{isAdmin() ? getString('manage') : (showStudents ? getString('hideStudents') : getString('viewStudents'))}
                 </Button>
               </Surface>
             </View>
@@ -422,7 +422,7 @@ const ClassDetailsScreen: React.FC<ClassDetailsScreenProps> = ({ route, navigati
               contentStyle={styles.deleteButtonContent}
               icon="delete"
             >
-              Excluir Turma
+              {getString('deleteClass')}
             </Button>
           </Card.Content>
         </Card>
@@ -461,7 +461,25 @@ const styles = StyleSheet.create({
     margin: SPACING.md,
     marginBottom: SPACING.md,
     borderRadius: BORDER_RADIUS.lg,
-    backgroundColor: COLORS.white,
+    // Glassmorphism
+    backgroundColor: GLASS_EFFECTS.premium.backgroundColor,
+    borderColor: GLASS_EFFECTS.premium.borderColor,
+    borderWidth: 1,
+    ...Platform.select({
+      ios: {
+        shadowColor: GLASS_EFFECTS.premium.shadowColor,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
+      },
+      android: {
+        elevation: 4,
+      },
+      web: {
+        boxShadow: `0 4px 16px 0 ${GLASS_EFFECTS.premium.shadowColor}`,
+        backdropFilter: GLASS_EFFECTS.premium.backdropFilter,
+      },
+    }),
   },
   headerContent: {
     padding: SPACING.lg,
@@ -529,6 +547,25 @@ const styles = StyleSheet.create({
     margin: SPACING.md,
     marginTop: SPACING.sm,
     borderRadius: BORDER_RADIUS.md,
+    // Glassmorphism
+    backgroundColor: GLASS_EFFECTS.premium.backgroundColor,
+    borderColor: GLASS_EFFECTS.premium.borderColor,
+    borderWidth: 1,
+    ...Platform.select({
+      ios: {
+        shadowColor: GLASS_EFFECTS.premium.shadowColor,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
+      },
+      android: {
+        elevation: 4,
+      },
+      web: {
+        boxShadow: `0 4px 16px 0 ${GLASS_EFFECTS.premium.shadowColor}`,
+        backdropFilter: GLASS_EFFECTS.premium.backdropFilter,
+      },
+    }),
   },
   sectionTitle: {
     fontSize: FONT_SIZE.lg,
@@ -570,6 +607,25 @@ const styles = StyleSheet.create({
     margin: SPACING.md,
     marginTop: SPACING.sm,
     borderRadius: BORDER_RADIUS.md,
+    // Glassmorphism
+    backgroundColor: GLASS_EFFECTS.premium.backgroundColor,
+    borderColor: GLASS_EFFECTS.premium.borderColor,
+    borderWidth: 1,
+    ...Platform.select({
+      ios: {
+        shadowColor: GLASS_EFFECTS.premium.shadowColor,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
+      },
+      android: {
+        elevation: 4,
+      },
+      web: {
+        boxShadow: `0 4px 16px 0 ${GLASS_EFFECTS.premium.shadowColor}`,
+        backdropFilter: GLASS_EFFECTS.premium.backdropFilter,
+      },
+    }),
   },
   studentsHeader: {
     flexDirection: 'row',
@@ -647,6 +703,25 @@ const styles = StyleSheet.create({
     margin: SPACING.md,
     marginTop: SPACING.sm,
     borderRadius: BORDER_RADIUS.md,
+    // Glassmorphism
+    backgroundColor: GLASS_EFFECTS.premium.backgroundColor,
+    borderColor: GLASS_EFFECTS.premium.borderColor,
+    borderWidth: 1,
+    ...Platform.select({
+      ios: {
+        shadowColor: GLASS_EFFECTS.premium.shadowColor,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
+      },
+      android: {
+        elevation: 4,
+      },
+      web: {
+        boxShadow: `0 4px 16px 0 ${GLASS_EFFECTS.premium.shadowColor}`,
+        backdropFilter: GLASS_EFFECTS.premium.backdropFilter,
+      },
+    }),
   },
   actionsGrid: {
     flexDirection: 'row',

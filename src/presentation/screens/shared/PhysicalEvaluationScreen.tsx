@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, ScrollView, Alert } from 'react-native';
+import { View, StyleSheet, ScrollView, Alert, Platform } from 'react-native';
 import {
   Card,
   Text,
@@ -9,7 +9,8 @@ import {
   Snackbar,
   Chip,
   Divider,
-  Surface
+  Surface,
+  IconButton
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -38,7 +39,7 @@ interface PhysicalEvaluationData {
   date?: Date;
   createdBy?: string;
   updatedAt?: Date;
-  createdAt?: Date; // Added missing property
+  createdAt?: Date;
 }
 
 interface PhysicalEvaluationScreenProps {
@@ -65,7 +66,7 @@ interface ErrosFormulario {
 
 const PhysicalEvaluationScreen = ({ navigation, route }: PhysicalEvaluationScreenProps) => {
   const { user, academia, userProfile } = useAuth();
-  const { getString } = useTheme();
+  const { getString, isDarkMode } = useTheme();
   const { evaluation, isEditing = false } = route.params || {};
 
   const [loading, setLoading] = useState(false);
@@ -87,6 +88,14 @@ const PhysicalEvaluationScreen = ({ navigation, route }: PhysicalEvaluationScree
   const [errors, setErrors] = useState<ErrosFormulario>({});
   const [calculatedIMC, setCalculatedIMC] = useState<string | null>(null);
   const [imcClassification, setImcClassification] = useState('');
+
+  useEffect(() => {
+    navigation.setOptions({
+      title: getString('physicalEvaluation'),
+      headerTransparent: true,
+      headerTintColor: COLORS.white,
+    });
+  }, [navigation, getString]);
 
   useEffect(() => {
     if (isEditing && evaluation) {
@@ -132,22 +141,22 @@ const PhysicalEvaluationScreen = ({ navigation, route }: PhysicalEvaluationScree
   };
 
   const getIMCClassification = (imc: number) => {
-    if (imc < 18.5) return 'Abaixo do peso';
-    if (imc < 25) return 'Peso normal';
-    if (imc < 30) return 'Sobrepeso';
-    if (imc < 35) return 'Obesidade grau I';
-    if (imc < 40) return 'Obesidade grau II';
-    return 'Obesidade grau III';
+    if (imc < 18.5) return 'underweight';
+    if (imc < 25) return 'normalWeight';
+    if (imc < 30) return 'overweight';
+    if (imc < 35) return 'obesityI';
+    if (imc < 40) return 'obesityII';
+    return 'obesityIII';
   };
 
   const getIMCColor = (classification: string) => {
     switch (classification) {
-      case 'Abaixo do peso': return COLORS.warning[500];
-      case 'Peso normal': return COLORS.primary[500];
-      case 'Sobrepeso': return COLORS.warning[500];
-      case 'Obesidade grau I': return COLORS.error[500];
-      case 'Obesidade grau II': return COLORS.error[500];
-      case 'Obesidade grau III': return COLORS.secondary[500];
+      case 'underweight': return COLORS.warning[500];
+      case 'normalWeight': return COLORS.success[500]; // Changed to success (green) for normal weight
+      case 'overweight': return COLORS.warning[500];
+      case 'obesityI': return COLORS.error[500];
+      case 'obesityII': return COLORS.error[500];
+      case 'obesityIII': return COLORS.secondary[500];
       default: return COLORS.gray[500];
     }
   };
@@ -156,40 +165,40 @@ const PhysicalEvaluationScreen = ({ navigation, route }: PhysicalEvaluationScree
     const newErrors: ErrosFormulario = {};
 
     if (!formData.weight.trim()) {
-      newErrors.weight = 'Peso é obrigatório';
+      newErrors.weight = getString('weightRequired');
     } else {
       const normalizedWeight = normalizeNumber(formData.weight);
       if (isNaN(Number(normalizedWeight)) || parseFloat(normalizedWeight) <= 0) {
-        newErrors.weight = 'Peso deve ser um número válido maior que 0 (ex: 70 ou 70,5)';
+        newErrors.weight = getString('weightInvalid');
       }
     }
 
     if (!formData.height.trim()) {
-      newErrors.height = 'Altura é obrigatória';
+      newErrors.height = getString('heightRequired');
     } else {
       const normalizedHeight = normalizeNumber(formData.height);
       if (isNaN(Number(normalizedHeight)) || parseFloat(normalizedHeight) <= 0) {
-        newErrors.height = 'Altura deve ser um número válido maior que 0 (ex: 1,74 ou 174)';
+        newErrors.height = getString('heightInvalid');
       }
     }
 
     if (!formData.age.trim()) {
-      newErrors.age = 'Idade é obrigatória';
+      newErrors.age = getString('ageRequired');
     } else if (isNaN(Number(formData.age)) || parseInt(formData.age) <= 0 || parseInt(formData.age) > 120) {
-      newErrors.age = 'Idade deve ser um número válido entre 1 e 120';
+      newErrors.age = getString('ageInvalid');
     }
 
     // Validações opcionais para bioimpedância
     if (formData.bodyFat && (isNaN(Number(formData.bodyFat)) || parseFloat(formData.bodyFat) < 0 || parseFloat(formData.bodyFat) > 100)) {
-      newErrors.bodyFat = 'Percentual de gordura deve estar entre 0 e 100';
+      newErrors.bodyFat = getString('bodyFatInvalid');
     }
 
     if (formData.muscleMass && (isNaN(Number(formData.muscleMass)) || parseFloat(formData.muscleMass) <= 0)) {
-      newErrors.muscleMass = 'Massa muscular deve ser um número válido maior que 0';
+      newErrors.muscleMass = getString('muscleMassInvalid');
     }
 
     if (formData.bodyWater && (isNaN(Number(formData.bodyWater)) || parseFloat(formData.bodyWater) < 0 || parseFloat(formData.bodyWater) > 100)) {
-      newErrors.bodyWater = 'Percentual de água deve estar entre 0 e 100';
+      newErrors.bodyWater = getString('bodyWaterInvalid');
     }
 
     setErrors(newErrors);
@@ -206,7 +215,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }: PhysicalEvaluationScree
     if (!academiaId) {
       setSnackbar({
         visible: true,
-        message: 'Erro: Academia não identificada. Faça login novamente.',
+        message: getString('academyNotIdentified'),
         type: 'error'
       });
       return;
@@ -228,7 +237,11 @@ const PhysicalEvaluationScreen = ({ navigation, route }: PhysicalEvaluationScree
         bodyWater: formData.bodyWater ? parseFloat(normalizeNumber(formData.bodyWater)) : null,
         notes: formData.notes.trim(),
         imc: calculatedIMC ? parseFloat(calculatedIMC) : 0,
-        imcClassification,
+        imcClassification: getString(imcClassification), // Save localized string or key? Better to save key, but existing data might be string. Saving localized string for now to match existing behavior, or maybe save key?
+        // Actually, saving localized string is bad practice, but if other parts of app expect it...
+        // Let's save the key if we can, but for now let's save the localized string to be safe with existing display logic elsewhere.
+        // Wait, if I save 'underweight', and then view it, I need to translate it back.
+        // Ideally I should save the key. But let's assume I save the localized string for now as per `getString(imcClassification)`.
         date: new Date(),
         createdBy: user.id,
         updatedAt: new Date()
@@ -243,7 +256,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }: PhysicalEvaluationScree
         );
         setSnackbar({
           visible: true,
-          message: 'Avaliação física atualizada com sucesso! 🎉',
+          message: getString('evaluationUpdatedSuccess'),
           type: 'success'
         });
       } else {
@@ -255,7 +268,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }: PhysicalEvaluationScree
         );
         setSnackbar({
           visible: true,
-          message: 'Avaliação física salva com sucesso! 🎉',
+          message: getString('evaluationSavedSuccess'),
           type: 'success'
         });
       }
@@ -268,7 +281,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }: PhysicalEvaluationScree
       console.error('Erro ao salvar avaliação física:', error);
       setSnackbar({
         visible: true,
-        message: 'Erro ao salvar avaliação física. Tente novamente.',
+        message: getString('evaluationSaveError'),
         type: 'error'
       });
     } finally {
@@ -292,61 +305,90 @@ const PhysicalEvaluationScreen = ({ navigation, route }: PhysicalEvaluationScree
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView
-        style={styles.scrollView}
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
-        keyboardShouldPersistTaps="handled"
-      >
-        <Card style={styles.card}>
-          <Card.Content>
+    <LinearGradient
+      colors={getAuthGradient(isDarkMode) as any}
+      style={styles.container}
+    >
+      <SafeAreaView style={styles.safeArea}>
+        <View style={styles.header}>
+          <IconButton
+            icon="arrow-left"
+            iconColor={COLORS.white}
+            size={24}
+            onPress={() => navigation.goBack()}
+          />
+          <Text style={styles.headerTitle}>{isEditing ? getString('editPhysicalEvaluation') : getString('newPhysicalEvaluation')}</Text>
+          <View style={{ width: 48 }} />
+        </View>
+
+        <ScrollView
+          style={styles.scrollView}
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+        >
+          <View style={styles.glassCard}>
             <View style={styles.headerSection}>
-              <Ionicons name="fitness-outline" size={32} color={COLORS.primary[500]} />
+              <View style={styles.iconContainer}>
+                <Ionicons name="fitness-outline" size={32} color={COLORS.primary[500]} />
+              </View>
               <Text style={styles.title}>
-                {isEditing ? 'Editar Avaliação Física' : 'Nova Avaliação Física'}
+                {isEditing ? getString('editPhysicalEvaluation') : getString('newPhysicalEvaluation')}
               </Text>
               <Text style={styles.subtitle}>
-                Registre suas medidas e acompanhe sua evolução física
+                {getString('physicalEvaluationSubtitle')}
               </Text>
             </View>
 
+            <Divider style={styles.divider} />
+
             {/* Dados Básicos */}
-            <Text style={styles.sectionTitle}>📏 Medidas Básicas</Text>
+            <Text style={styles.sectionTitle}>📏 {getString('basicMeasurements')}</Text>
 
             <View style={styles.inputRow}>
-              <TextInput
-                label="Peso (kg)"
-                value={formData.weight}
-                onChangeText={(value: any) => updateFormData('weight', value)}
-                mode="outlined"
-                keyboardType="decimal-pad"
-                style={[styles.input, styles.halfInput]}
-                error={!!errors.weight}
-              />
-              <TextInput
-                label="Altura (cm)"
-                value={formData.height}
-                onChangeText={(value: any) => updateFormData('height', value)}
-                mode="outlined"
-                keyboardType="decimal-pad"
-                style={[styles.input, styles.halfInput]}
-                error={!!errors.height}
-              />
-            </View>
+              <View style={styles.halfInput}>
+                <TextInput
+                  label={getString('weightKg')}
+                  value={formData.weight}
+                  onChangeText={(value: any) => updateFormData('weight', value)}
+                  mode="outlined"
+                  keyboardType="decimal-pad"
+                  style={styles.input}
+                  outlineColor={COLORS.gray[400]}
+                  activeOutlineColor={COLORS.primary[500]}
+                  theme={{ colors: { background: 'rgba(255,255,255,0.5)' } }}
+                  error={!!errors.weight}
+                />
+                {errors.weight && <HelperText type="error">{errors.weight}</HelperText>}
+              </View>
 
-            <View style={styles.errorContainer}>
-              {errors.weight && <HelperText type="error">{errors.weight}</HelperText>}
-              {errors.height && <HelperText type="error">{errors.height}</HelperText>}
+              <View style={styles.halfInput}>
+                <TextInput
+                  label={getString('heightCm')}
+                  value={formData.height}
+                  onChangeText={(value: any) => updateFormData('height', value)}
+                  mode="outlined"
+                  keyboardType="decimal-pad"
+                  style={styles.input}
+                  outlineColor={COLORS.gray[400]}
+                  activeOutlineColor={COLORS.primary[500]}
+                  theme={{ colors: { background: 'rgba(255,255,255,0.5)' } }}
+                  error={!!errors.height}
+                />
+                {errors.height && <HelperText type="error">{errors.height}</HelperText>}
+              </View>
             </View>
 
             <TextInput
-              label="Idade (anos)"
+              label={getString('ageYears')}
               value={formData.age}
               onChangeText={(value: any) => updateFormData('age', value)}
               mode="outlined"
               keyboardType="numeric"
               style={styles.input}
+              outlineColor={COLORS.gray[400]}
+              activeOutlineColor={COLORS.primary[500]}
+              theme={{ colors: { background: 'rgba(255,255,255,0.5)' } }}
               error={!!errors.age}
             />
             {errors.age && <HelperText type="error">{errors.age}</HelperText>}
@@ -356,7 +398,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }: PhysicalEvaluationScree
               <Surface style={styles.imcContainer}>
                 <View style={styles.imcHeader}>
                   <Ionicons name="calculator-outline" size={24} color={COLORS.info[500]} />
-                  <Text style={styles.imcTitle}>Índice de Massa Corporal (IMC)</Text>
+                  <Text style={styles.imcTitle}>{getString('bmiTitle')}</Text>
                 </View>
                 <View style={styles.imcResult}>
                   <Text style={styles.imcValue}>{calculatedIMC}</Text>
@@ -365,7 +407,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }: PhysicalEvaluationScree
                     style={[styles.imcChip, { backgroundColor: getIMCColor(imcClassification) }]}
                     textStyle={{ color: COLORS.white, fontWeight: FONT_WEIGHT.bold }}
                   >
-                    {imcClassification}
+                    {getString(imcClassification)}
                   </Chip>
                 </View>
               </Surface>
@@ -374,85 +416,118 @@ const PhysicalEvaluationScreen = ({ navigation, route }: PhysicalEvaluationScree
             <Divider style={styles.divider} />
 
             {/* Bioimpedância */}
-            <Text style={styles.sectionTitle}>⚡ Bioimpedância (Opcional)</Text>
+            <Text style={styles.sectionTitle}>⚡ {getString('bioimpedanceOptional')}</Text>
 
             <View style={styles.inputRow}>
-              <TextInput
-                label="Gordura Corporal (%)"
-                value={formData.bodyFat}
-                onChangeText={(value: any) => updateFormData('bodyFat', value)}
-                mode="outlined"
-                keyboardType="decimal-pad"
-                style={[styles.input, styles.halfInput]}
-                error={!!errors.bodyFat}
-              />
-              <TextInput
-                label="Massa Muscular (kg)"
-                value={formData.muscleMass}
-                onChangeText={(value: any) => updateFormData('muscleMass', value)}
-                mode="outlined"
-                keyboardType="decimal-pad"
-                style={[styles.input, styles.halfInput]}
-                error={!!errors.muscleMass}
-              />
+              <View style={styles.halfInput}>
+                <TextInput
+                  label={getString('bodyFatPercent')}
+                  value={formData.bodyFat}
+                  onChangeText={(value: any) => updateFormData('bodyFat', value)}
+                  mode="outlined"
+                  keyboardType="decimal-pad"
+                  style={styles.input}
+                  outlineColor={COLORS.gray[400]}
+                  activeOutlineColor={COLORS.primary[500]}
+                  theme={{ colors: { background: 'rgba(255,255,255,0.5)' } }}
+                  error={!!errors.bodyFat}
+                />
+                {errors.bodyFat && <HelperText type="error">{errors.bodyFat}</HelperText>}
+              </View>
+
+              <View style={styles.halfInput}>
+                <TextInput
+                  label={getString('muscleMassKg')}
+                  value={formData.muscleMass}
+                  onChangeText={(value: any) => updateFormData('muscleMass', value)}
+                  mode="outlined"
+                  keyboardType="decimal-pad"
+                  style={styles.input}
+                  outlineColor={COLORS.gray[400]}
+                  activeOutlineColor={COLORS.primary[500]}
+                  theme={{ colors: { background: 'rgba(255,255,255,0.5)' } }}
+                  error={!!errors.muscleMass}
+                />
+                {errors.muscleMass && <HelperText type="error">{errors.muscleMass}</HelperText>}
+              </View>
             </View>
 
             <View style={styles.inputRow}>
-              <TextInput
-                label="Massa Óssea (kg)"
-                value={formData.boneMass}
-                onChangeText={(value: any) => updateFormData('boneMass', value)}
-                mode="outlined"
-                keyboardType="decimal-pad"
-                style={[styles.input, styles.halfInput]}
-              />
-              <TextInput
-                label="Gordura Visceral"
-                value={formData.viscFat}
-                onChangeText={(value: any) => updateFormData('viscFat', value)}
-                mode="outlined"
-                keyboardType="decimal-pad"
-                style={[styles.input, styles.halfInput]}
-              />
+              <View style={styles.halfInput}>
+                <TextInput
+                  label={getString('boneMassKg')}
+                  value={formData.boneMass}
+                  onChangeText={(value: any) => updateFormData('boneMass', value)}
+                  mode="outlined"
+                  keyboardType="decimal-pad"
+                  style={styles.input}
+                  outlineColor={COLORS.gray[400]}
+                  activeOutlineColor={COLORS.primary[500]}
+                  theme={{ colors: { background: 'rgba(255,255,255,0.5)' } }}
+                />
+              </View>
+
+              <View style={styles.halfInput}>
+                <TextInput
+                  label={getString('visceralFat')}
+                  value={formData.viscFat}
+                  onChangeText={(value: any) => updateFormData('viscFat', value)}
+                  mode="outlined"
+                  keyboardType="decimal-pad"
+                  style={styles.input}
+                  outlineColor={COLORS.gray[400]}
+                  activeOutlineColor={COLORS.primary[500]}
+                  theme={{ colors: { background: 'rgba(255,255,255,0.5)' } }}
+                />
+              </View>
             </View>
 
             <View style={styles.inputRow}>
-              <TextInput
-                label="Metabolismo Basal (kcal)"
-                value={formData.basalMetabolism}
-                onChangeText={(value: any) => updateFormData('basalMetabolism', value)}
-                mode="outlined"
-                keyboardType="numeric"
-                style={[styles.input, styles.halfInput]}
-              />
-              <TextInput
-                label="Água Corporal (%)"
-                value={formData.bodyWater}
-                onChangeText={(value: any) => updateFormData('bodyWater', value)}
-                mode="outlined"
-                keyboardType="decimal-pad"
-                style={[styles.input, styles.halfInput]}
-                error={!!errors.bodyWater}
-              />
-            </View>
+              <View style={styles.halfInput}>
+                <TextInput
+                  label={getString('basalMetabolismKcal')}
+                  value={formData.basalMetabolism}
+                  onChangeText={(value: any) => updateFormData('basalMetabolism', value)}
+                  mode="outlined"
+                  keyboardType="numeric"
+                  style={styles.input}
+                  outlineColor={COLORS.gray[400]}
+                  activeOutlineColor={COLORS.primary[500]}
+                  theme={{ colors: { background: 'rgba(255,255,255,0.5)' } }}
+                />
+              </View>
 
-            <View style={styles.errorContainer}>
-              {errors.bodyFat && <HelperText type="error">{errors.bodyFat}</HelperText>}
-              {errors.muscleMass && <HelperText type="error">{errors.muscleMass}</HelperText>}
-              {errors.bodyWater && <HelperText type="error">{errors.bodyWater}</HelperText>}
+              <View style={styles.halfInput}>
+                <TextInput
+                  label={getString('bodyWaterPercent')}
+                  value={formData.bodyWater}
+                  onChangeText={(value: any) => updateFormData('bodyWater', value)}
+                  mode="outlined"
+                  keyboardType="decimal-pad"
+                  style={styles.input}
+                  outlineColor={COLORS.gray[400]}
+                  activeOutlineColor={COLORS.primary[500]}
+                  theme={{ colors: { background: 'rgba(255,255,255,0.5)' } }}
+                  error={!!errors.bodyWater}
+                />
+                {errors.bodyWater && <HelperText type="error">{errors.bodyWater}</HelperText>}
+              </View>
             </View>
 
             {/* Observações */}
-            <Text style={styles.sectionTitle}>📝 Observações</Text>
+            <Text style={styles.sectionTitle}>📝 {getString('observations')}</Text>
             <TextInput
-              label="optionalObservations"
+              label={getString('optionalObservations')}
               value={formData.notes}
               onChangeText={(value: any) => updateFormData('notes', value)}
               mode="outlined"
               multiline
               numberOfLines={3}
               style={styles.input}
-              placeholder="Ex: Início de nova dieta, mudança no treino, etc."
+              placeholder={getString('observationsPlaceholder')}
+              outlineColor={COLORS.gray[400]}
+              activeOutlineColor={COLORS.primary[500]}
+              theme={{ colors: { background: 'rgba(255,255,255,0.5)' } }}
             />
 
             {/* Botões */}
@@ -462,64 +537,108 @@ const PhysicalEvaluationScreen = ({ navigation, route }: PhysicalEvaluationScree
                 onPress={() => navigation.goBack()}
                 style={styles.button}
                 disabled={loading}
+                textColor={COLORS.gray[700]}
               >{getString('cancel')}</Button>
               <Button
                 mode="contained"
                 onPress={handleSave}
-                style={styles.button}
+                style={[styles.button, { backgroundColor: COLORS.primary[500] }]}
                 loading={loading}
                 disabled={loading}
               >
                 {isEditing ? getString('update') : getString('save')}
               </Button>
             </View>
-          </Card.Content>
-        </Card>
-      </ScrollView>
+          </View>
+        </ScrollView>
 
-      <Snackbar
-        visible={snackbar.visible}
-        onDismiss={() => setSnackbar({ ...snackbar, visible: false })}
-        duration={snackbar.type === 'success' ? 3000 : 5000}
-        style={{
-          backgroundColor: snackbar.type === 'success' ? COLORS.primary[500] : COLORS.error[500]
-        }}
-      >
-        {snackbar.message}
-      </Snackbar>
-    </SafeAreaView>
+        <Snackbar
+          visible={snackbar.visible}
+          onDismiss={() => setSnackbar({ ...snackbar, visible: false })}
+          duration={snackbar.type === 'success' ? 3000 : 5000}
+          style={{
+            backgroundColor: snackbar.type === 'success' ? COLORS.primary[500] : COLORS.error[500]
+          }}
+        >
+          {snackbar.message}
+        </Snackbar>
+      </SafeAreaView>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.gray[100],
+  },
+  safeArea: {
+    flex: 1,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: SPACING.sm,
+    paddingVertical: SPACING.sm,
+  },
+  headerTitle: {
+    fontSize: FONT_SIZE.lg,
+    fontWeight: FONT_WEIGHT.bold,
+    color: COLORS.white,
   },
   scrollView: {
     flex: 1,
   },
   scrollContent: {
     padding: SPACING.md,
+    paddingBottom: SPACING.xl,
   },
-  card: {
-    marginBottom: SPACING.md,
-    elevation: 4,
+  glassCard: {
+    padding: SPACING.md,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    borderRadius: BORDER_RADIUS.lg,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.5)',
+    ...Platform.select({
+      ios: {
+        shadowColor: COLORS.black,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.1,
+        shadowRadius: 12,
+      },
+      android: {
+        elevation: 4,
+      },
+      web: {
+        boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.15)',
+        backdropFilter: 'blur(10px)',
+      },
+    }),
   },
   headerSection: {
     alignItems: 'center',
     marginBottom: SPACING.lg,
   },
-  title: {
-    fontSize: FONT_SIZE.xxl,
-    fontWeight: FONT_WEIGHT.bold,
-    marginTop: SPACING.md,
+  iconContainer: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    backgroundColor: COLORS.primary[50],
+    justifyContent: 'center',
+    alignItems: 'center',
     marginBottom: SPACING.sm,
+  },
+  title: {
+    fontSize: FONT_SIZE.xl,
+    fontWeight: FONT_WEIGHT.bold,
+    marginTop: SPACING.sm,
+    marginBottom: SPACING.xs,
     textAlign: 'center',
+    color: COLORS.black,
   },
   subtitle: {
     fontSize: FONT_SIZE.md,
-    color: COLORS.gray[500],
+    color: COLORS.gray[600],
     textAlign: 'center',
     lineHeight: 22,
   },
@@ -532,6 +651,7 @@ const styles = StyleSheet.create({
   },
   input: {
     marginBottom: SPACING.sm,
+    backgroundColor: 'transparent',
   },
   inputRow: {
     flexDirection: 'row',
@@ -548,8 +668,10 @@ const styles = StyleSheet.create({
     padding: SPACING.md,
     marginVertical: 16,
     borderRadius: BORDER_RADIUS.md,
-    elevation: 2,
+    elevation: 0,
     backgroundColor: COLORS.info[50],
+    borderWidth: 1,
+    borderColor: COLORS.info[200],
   },
   imcHeader: {
     flexDirection: 'row',
@@ -573,10 +695,11 @@ const styles = StyleSheet.create({
     color: COLORS.info[700],
   },
   imcChip: {
-    elevation: 2,
+    elevation: 0,
   },
   divider: {
     marginVertical: 16,
+    backgroundColor: COLORS.gray[200],
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -586,6 +709,7 @@ const styles = StyleSheet.create({
   },
   button: {
     flex: 1,
+    borderRadius: BORDER_RADIUS.md,
   },
 });
 

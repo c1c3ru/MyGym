@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, ScrollView, RefreshControl, Dimensions } from 'react-native';
+import { View, StyleSheet, ScrollView, RefreshControl, Dimensions, Platform } from 'react-native';
 import {
   Card,
   Text,
@@ -29,7 +29,7 @@ const { width } = Dimensions.get('window');
 
 const PhysicalEvaluationHistoryScreen = ({ navigation }: PhysicalEvaluationHistoryScreenProps) => {
   const { user, academia, userProfile } = useAuth();
-  const { getString } = useTheme();
+  const { getString, isDarkMode } = useTheme();
 
   const [evaluations, setEvaluations] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -76,12 +76,24 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }: PhysicalEvaluationHisto
 
   const getIMCColor = (classification: string) => {
     switch (classification) {
-      case 'Abaixo do peso': return COLORS.warning[500];
-      case 'Peso normal': return COLORS.primary[500];
-      case 'Sobrepeso': return COLORS.warning[500];
-      case 'Obesidade grau I': return COLORS.error[500];
-      case 'Obesidade grau II': return COLORS.error[500];
-      case 'Obesidade grau III': return COLORS.secondary[500];
+      case 'underweight':
+      case 'Abaixo do peso':
+        return COLORS.warning[500];
+      case 'normalWeight':
+      case 'Peso normal':
+        return COLORS.success[500];
+      case 'overweight':
+      case 'Sobrepeso':
+        return COLORS.warning[500];
+      case 'obesityI':
+      case 'Obesidade grau I':
+        return COLORS.error[500];
+      case 'obesityII':
+      case 'Obesidade grau II':
+        return COLORS.error[500];
+      case 'obesityIII':
+      case 'Obesidade grau III':
+        return COLORS.secondary[500];
       default: return COLORS.gray[500];
     }
   };
@@ -167,34 +179,38 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }: PhysicalEvaluationHisto
   const progress = getProgress();
 
   const metrics = [
-    { key: 'weight', label: 'Peso', icon: 'scale-outline' },
+    { key: 'weight', label: getString('weightKg').replace(' (kg)', ''), icon: 'scale-outline' },
     { key: 'imc', label: 'IMC', icon: 'calculator-outline' },
-    { key: 'bodyFat', label: 'Gordura', icon: 'body-outline' },
-    { key: 'muscleMass', label: 'Músculo', icon: 'fitness-outline' }
+    { key: 'bodyFat', label: getString('bodyFatPercent').replace(' (%)', ''), icon: 'body-outline' },
+    { key: 'muscleMass', label: getString('muscleMassKg').replace(' (kg)', ''), icon: 'fitness-outline' }
   ];
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView
-        style={styles.scrollView}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-      >
-        {/* Resumo Atual */}
-        {latestEvaluation && (
-          <Card style={styles.card}>
-            <Card.Content>
+    <LinearGradient
+      colors={getAuthGradient(isDarkMode) as any}
+      style={styles.container}
+    >
+      <SafeAreaView style={styles.safeArea}>
+        <ScrollView
+          style={styles.scrollView}
+          contentContainerStyle={styles.scrollContent}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={COLORS.primary[500]} />
+          }
+        >
+          {/* Resumo Atual */}
+          {latestEvaluation && (
+            <View style={styles.glassCard}>
               <View style={styles.cardHeader}>
                 <Ionicons name="fitness-outline" size={24} color={COLORS.primary[500]} />
-                <Text style={styles.cardTitle}>Avaliação Atual</Text>
+                <Text style={styles.cardTitle}>{getString('currentEvaluation')}</Text>
                 <Text style={styles.dateText}>{formatDate(latestEvaluation.date)}</Text>
               </View>
 
               <View style={styles.statsGrid}>
                 <Surface style={styles.statItem}>
                   <Text style={styles.statValue}>{latestEvaluation.weight} kg</Text>
-                  <Text style={styles.statLabel}>Peso</Text>
+                  <Text style={styles.statLabel}>{getString('weightKg').replace(' (kg)', '')}</Text>
                 </Surface>
 
                 <Surface style={styles.statItem}>
@@ -204,12 +220,12 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }: PhysicalEvaluationHisto
 
                 <Surface style={styles.statItem}>
                   <Text style={styles.statValue}>{latestEvaluation.height} cm</Text>
-                  <Text style={styles.statLabel}>Altura</Text>
+                  <Text style={styles.statLabel}>{getString('heightCm').replace(' (cm)', '')}</Text>
                 </Surface>
 
                 <Surface style={styles.statItem}>
-                  <Text style={styles.statValue}>{latestEvaluation.age} anos</Text>
-                  <Text style={styles.statLabel}>Idade</Text>
+                  <Text style={styles.statValue}>{latestEvaluation.age} {getString('ageYears').replace(' (anos)', '')}</Text>
+                  <Text style={styles.statLabel}>{getString('ageYears').replace(' (anos)', '')}</Text>
                 </Surface>
               </View>
 
@@ -219,26 +235,24 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }: PhysicalEvaluationHisto
                   style={[styles.imcChip, { backgroundColor: getIMCColor(latestEvaluation.imcClassification) }]}
                   textStyle={{ color: COLORS.white, fontWeight: FONT_WEIGHT.bold }}
                 >
-                  {latestEvaluation.imcClassification}
+                  {getString(latestEvaluation.imcClassification)}
                 </Chip>
               </View>
-            </Card.Content>
-          </Card>
-        )}
+            </View>
+          )}
 
-        {/* Progresso */}
-        {progress && (
-          <Card style={styles.card}>
-            <Card.Content>
+          {/* Progresso */}
+          {progress && (
+            <View style={styles.glassCard}>
               <View style={styles.cardHeader}>
                 <Ionicons name="trending-up-outline" size={24} color={COLORS.info[500]} />
-                <Text style={styles.cardTitle}>Progresso</Text>
-                <Text style={styles.subtitle}>vs. avaliação anterior</Text>
+                <Text style={styles.cardTitle}>{getString('progress')}</Text>
+                <Text style={styles.subtitle}>{getString('vsPreviousEvaluation')}</Text>
               </View>
 
               <View style={styles.progressGrid}>
                 <View style={styles.progressItem}>
-                  <Text style={styles.progressLabel}>Peso</Text>
+                  <Text style={styles.progressLabel}>{getString('weightKg').replace(' (kg)', '')}</Text>
                   <Text style={[
                     styles.progressValue,
                     { color: progress.weight > 0 ? COLORS.error[500] : progress.weight < 0 ? COLORS.primary[500] : COLORS.gray[500] }
@@ -259,7 +273,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }: PhysicalEvaluationHisto
 
                 {progress.bodyFat !== null && (
                   <View style={styles.progressItem}>
-                    <Text style={styles.progressLabel}>Gordura</Text>
+                    <Text style={styles.progressLabel}>{getString('bodyFatPercent').replace(' (%)', '')}</Text>
                     <Text style={[
                       styles.progressValue,
                       { color: progress.bodyFat > 0 ? COLORS.error[500] : progress.bodyFat < 0 ? COLORS.primary[500] : COLORS.gray[500] }
@@ -271,7 +285,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }: PhysicalEvaluationHisto
 
                 {progress.muscleMass !== null && (
                   <View style={styles.progressItem}>
-                    <Text style={styles.progressLabel}>Músculo</Text>
+                    <Text style={styles.progressLabel}>{getString('muscleMassKg').replace(' (kg)', '')}</Text>
                     <Text style={[
                       styles.progressValue,
                       { color: progress.muscleMass > 0 ? COLORS.primary[500] : progress.muscleMass < 0 ? COLORS.error[500] : COLORS.gray[500] }
@@ -281,17 +295,15 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }: PhysicalEvaluationHisto
                   </View>
                 )}
               </View>
-            </Card.Content>
-          </Card>
-        )}
+            </View>
+          )}
 
-        {/* Gráfico de Evolução */}
-        {chartData && (
-          <Card style={styles.card}>
-            <Card.Content>
+          {/* Gráfico de Evolução */}
+          {chartData && (
+            <View style={styles.glassCard}>
               <View style={styles.cardHeader}>
                 <Ionicons name="analytics-outline" size={24} color={COLORS.secondary[500]} />
-                <Text style={styles.cardTitle}>Evolução</Text>
+                <Text style={styles.cardTitle}>{getString('evolution')}</Text>
               </View>
 
               <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.metricsContainer}>
@@ -314,9 +326,13 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }: PhysicalEvaluationHisto
                 width={width - 64}
                 height={220}
                 chartConfig={{
-                  backgroundColor: COLORS.white,
-                  backgroundGradientFrom: COLORS.white,
-                  backgroundGradientTo: COLORS.white,
+                  backgroundColor: 'transparent',
+                  backgroundGradientFrom: '#ffffff',
+                  backgroundGradientTo: '#ffffff',
+                  backgroundGradientFromOpacity: 0.5,
+                  backgroundGradientToOpacity: 0.5,
+                  fillShadowGradientFrom: COLORS.primary[500],
+                  fillShadowGradientTo: COLORS.primary[100],
                   decimalPlaces: selectedMetric === 'imc' ? 2 : 1,
                   color: (opacity = 1) => `rgba(33, 150, 243, ${opacity})`,
                   labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
@@ -335,30 +351,28 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }: PhysicalEvaluationHisto
                 bezier
                 style={styles.chart}
               />
-            </Card.Content>
-          </Card>
-        )}
+            </View>
+          )}
 
-        {/* Histórico */}
-        <Card style={styles.card}>
-          <Card.Content>
+          {/* Histórico */}
+          <View style={styles.glassCard}>
             <View style={styles.cardHeader}>
               <Ionicons name="time-outline" size={24} color={COLORS.warning[500]} />
-              <Text style={styles.cardTitle}>Histórico de Avaliações</Text>
+              <Text style={styles.cardTitle}>{getString('evaluationHistory')}</Text>
             </View>
 
             {evaluations.length === 0 ? (
               <View style={styles.emptyState}>
                 <Ionicons name="document-outline" size={48} color={COLORS.gray[400]} />
-                <Text style={styles.emptyText}>Nenhuma avaliação física encontrada</Text>
-                <Text style={styles.emptySubtext}>Faça sua primeira avaliação para começar a acompanhar sua evolução</Text>
+                <Text style={styles.emptyText}>{getString('noEvaluationsFound')}</Text>
+                <Text style={styles.emptySubtext}>{getString('startEvaluationPrompt')}</Text>
               </View>
             ) : (
               evaluations.map((evaluation, index) => (
                 <View key={evaluation.id || index}>
                   <List.Item
                     title={`${evaluation.weight} kg • IMC ${evaluation.imc}`}
-                    description={`${formatDate(evaluation.date)} • ${evaluation.imcClassification}`}
+                    description={`${formatDate(evaluation.date)} • ${getString(evaluation.imcClassification)}`}
                     left={() => <List.Icon icon="scale" />}
                     right={() => <List.Icon icon="chevron-right" />}
                     onPress={() => navigation.navigate('PhysicalEvaluation', {
@@ -370,32 +384,56 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }: PhysicalEvaluationHisto
                 </View>
               ))
             )}
-          </Card.Content>
-        </Card>
-      </ScrollView>
+          </View>
+        </ScrollView>
 
-      <FAB
-        style={styles.fab}
-        icon="plus"
-        onPress={() => navigation.navigate('PhysicalEvaluation')}
-        label="Nova Avaliação"
-      />
-    </SafeAreaView>
+        <FAB
+          style={styles.fab}
+          icon="plus"
+          onPress={() => navigation.navigate('PhysicalEvaluation')}
+          label={getString('newEvaluation')}
+        />
+      </SafeAreaView>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.gray[100],
+  },
+  safeArea: {
+    flex: 1,
   },
   scrollView: {
     flex: 1,
-    padding: SPACING.md,
   },
-  card: {
+  scrollContent: {
+    padding: SPACING.md,
+    paddingBottom: 80, // Space for FAB
+  },
+  glassCard: {
     marginBottom: SPACING.md,
-    elevation: 4,
+    padding: SPACING.md,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    borderRadius: BORDER_RADIUS.lg,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.5)',
+    ...Platform.select({
+      ios: {
+        shadowColor: COLORS.black,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.1,
+        shadowRadius: 12,
+      },
+      android: {
+        elevation: 4,
+      },
+      web: {
+        boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.15)',
+        backdropFilter: 'blur(10px)',
+      },
+    }),
   },
   cardHeader: {
     flexDirection: 'row',
@@ -407,6 +445,7 @@ const styles = StyleSheet.create({
     fontWeight: FONT_WEIGHT.bold,
     marginLeft: SPACING.sm,
     flex: 1,
+    color: COLORS.black,
   },
   dateText: {
     fontSize: FONT_SIZE.base,
@@ -428,7 +467,10 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.sm,
     borderRadius: BORDER_RADIUS.md,
     alignItems: 'center',
-    elevation: 2,
+    elevation: 0,
+    backgroundColor: COLORS.white,
+    borderWidth: 1,
+    borderColor: COLORS.gray[100],
   },
   statValue: {
     fontSize: FONT_SIZE.xl,
@@ -444,7 +486,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   imcChip: {
-    elevation: 2,
+    elevation: 0,
   },
   progressGrid: {
     flexDirection: 'row',

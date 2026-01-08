@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { View, StyleSheet, RefreshControl, Alert } from 'react-native';
+import { View, StyleSheet, RefreshControl, Alert, Platform } from 'react-native';
 import usePullToRefresh from '@hooks/usePullToRefresh';
 import {
   FAB,
@@ -9,6 +9,7 @@ import {
   Text
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
@@ -21,12 +22,12 @@ import batchFirestoreService from '@infrastructure/services/batchFirestoreServic
 import cacheService, { CACHE_KEYS, CACHE_TTL } from '@infrastructure/services/cacheService';
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import StudentListSkeleton from '@components/skeletons/StudentListSkeleton';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { useThemeToggle } from '@contexts/ThemeToggleContext';
-import { getString } from "@utils/theme";
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, GLASS_EFFECTS } from '@presentation/theme/designTokens';
+import { useTheme } from '@contexts/ThemeContext';
+import { getAuthGradient } from '@presentation/theme/authTheme';
 
 const AdminStudents = ({ navigation }) => {
-  const { currentTheme } = useThemeToggle();
+  const { getString, isDarkMode } = useTheme();
 
   const { user, userProfile, academia } = useAuthFacade();
   const [students, setStudents] = useState([]);
@@ -160,7 +161,7 @@ const AdminStudents = ({ navigation }) => {
   const handleDeleteStudent = useCallback((student) => {
     Alert.alert(
       getString('confirmDelete'),
-      `Tem certeza que deseja excluir o aluno ${student.name}?`,
+      getString('confirmDeleteStudent').replace('{name}', student.name),
       [
         { text: getString('cancel'), style: 'cancel' },
         {
@@ -168,17 +169,22 @@ const AdminStudents = ({ navigation }) => {
           style: 'destructive',
           onPress: async () => {
             try {
-              await firestoreService.delete('users', student.id);
-              loadStudents();
-              Alert.alert(getString('success'), 'Aluno excluído com sucesso');
+              const academiaId = userProfile?.academiaId || academia?.id;
+              if (academiaId) {
+                await academyFirestoreService.delete('students', student.id, academiaId);
+                loadStudents();
+                Alert.alert(getString('success'), getString('studentDeletedSuccess'));
+              } else {
+                Alert.alert(getString('error'), getString('error'));
+              }
             } catch (error) {
-              Alert.alert(getString('error'), 'Não foi possível excluir o aluno');
+              Alert.alert(getString('error'), getString('studentDeleteError'));
             }
           }
         }
       ]
     );
-  }, [loadStudents]);
+  }, [loadStudents, getString]);
 
   const handleDisassociateStudent = useCallback((student) => {
     setSelectedStudent(student);
@@ -230,13 +236,13 @@ const AdminStudents = ({ navigation }) => {
   // Empty list component
   const renderEmptyList = useCallback(() => (
     <View style={styles.emptyContainer}>
-      <Ionicons name="people-outline" size={64} color={currentTheme?.gray?.[300] || COLORS.gray[300]} />
+      <Ionicons name="people-outline" size={64} color={COLORS.text.tertiary} />
       <Text style={styles.emptyText}>{getString('noStudentsFound')}</Text>
       <Text style={styles.emptySubtext}>
-        {searchQuery ? 'Tente ajustar os filtros de busca' : 'Adicione o primeiro aluno da academia'}
+        {searchQuery ? getString('adjustSearchFilters') : getString('addFirstStudent')}
       </Text>
     </View>
-  ), [searchQuery, currentTheme]);
+  ), [searchQuery, getString]);
 
   // Carregar dados quando o componente montar
   useEffect(() => {
@@ -289,24 +295,6 @@ const AdminStudents = ({ navigation }) => {
 
   // onRefresh is now provided by usePullToRefresh hook
 
-  const getPaymentStatusColor = (status) => {
-    switch (status) {
-      case 'paid': return COLORS.primary[500];
-      case 'pending': return COLORS.warning[500];
-      case 'overdue': return COLORS.error[500];
-      default: return COLORS.gray[500];
-    }
-  };
-
-  const getPaymentStatusText = (status) => {
-    switch (status) {
-      case 'paid': return getString('paymentUpToDate');
-      case 'pending': return getString('paymentPending');
-      case 'overdue': return getString('overdue');
-      default: return getString('notAvailable');
-    }
-  };
-
   const getFilterText = (filter) => {
     const filters = {
       'all': getString('all'),
@@ -326,92 +314,102 @@ const AdminStudents = ({ navigation }) => {
       }}
       errorContext={{ screen: 'AdminStudents', academiaId: userProfile?.academiaId }}
     >
-      <SafeAreaView style={styles.container}>
-        <View style={styles.header}>
-          <Searchbar
-            placeholder="Buscar alunos..."
-            onChangeText={setSearchQuery}
-            value={searchQuery}
-            style={styles.searchbar}
+      <LinearGradient
+        colors={getAuthGradient(isDarkMode)}
+        style={styles.container}
+      >
+        <SafeAreaView style={styles.safeArea}>
+          <View style={styles.header}>
+            <Searchbar
+              placeholder={getString('searchStudents')}
+              onChangeText={setSearchQuery}
+              value={searchQuery}
+              style={styles.searchbar}
+              inputStyle={styles.searchInput}
+              iconColor={COLORS.text.secondary}
+              placeholderTextColor={COLORS.text.tertiary}
+            />
+
+            <View style={styles.filterRow}>
+              <Menu
+                visible={filterVisible}
+                onDismiss={() => setFilterVisible(false)}
+                anchor={
+                  <Button
+                    mode="outlined"
+                    onPress={() => setFilterVisible(true)}
+                    icon="filter"
+                    style={styles.filterButton}
+                    textColor={COLORS.primary[500]}
+                  >
+                    {getFilterText(selectedFilter)}
+                  </Button>
+                }
+              >
+                <Menu.Item onPress={() => { setSelectedFilter('all'); setFilterVisible(false); }} title={getString('all')} />
+                <Menu.Item onPress={() => { setSelectedFilter('active'); setFilterVisible(false); }} title={getString('active')} />
+                <Menu.Item onPress={() => { setSelectedFilter('inactive'); setFilterVisible(false); }} title={getString('inactive')} />
+                <Menu.Item onPress={() => { setSelectedFilter('payment_ok'); setFilterVisible(false); }} title={getString('paymentOK')} />
+                <Menu.Item onPress={() => { setSelectedFilter('payment_pending'); setFilterVisible(false); }} title={getString('paymentPending')} />
+                <Menu.Item onPress={() => { setSelectedFilter('payment_overdue'); setFilterVisible(false); }} title={getString('paymentOverdue')} />
+              </Menu>
+            </View>
+          </View>
+
+
+          <View style={{ flex: 1, minHeight: 400 }}>
+            {(() => {
+              console.log('🔍 AdminStudents render state:', {
+                loading,
+                studentsCount: students.length,
+                filteredCount: filteredStudents.length
+              });
+
+              if (loading) {
+                return <StudentListSkeleton count={5} />;
+              }
+
+              return (
+                <EnhancedFlashList
+                  data={filteredStudents}
+                  renderItem={renderStudentItem}
+                  keyExtractor={keyExtractor}
+                  estimatedItemSize={200}
+                  refreshing={refreshing}
+                  onRefresh={onRefresh}
+                  ListEmptyComponent={renderEmptyList}
+                  emptyMessage="noStudentsFound"
+                  loadingMore={false}
+                  contentContainerStyle={styles.listContainer}
+                  accessible={true}
+                  accessibilityLabel={`Lista de ${filteredStudents.length} alunos`}
+                />
+              );
+            })()}
+          </View>
+
+          <FAB
+            style={styles.fab}
+            icon="plus"
+            onPress={() => navigation.navigate('AddStudent')}
+            color={COLORS.white}
           />
 
-          <View style={styles.filterRow}>
-            <Menu
-              visible={filterVisible}
-              onDismiss={() => setFilterVisible(false)}
-              anchor={
-                <Button
-                  mode="outlined"
-                  onPress={() => setFilterVisible(true)}
-                  icon="filter"
-                  style={styles.filterButton}
-                >
-                  {getFilterText(selectedFilter)}
-                </Button>
-              }
-            >
-              <Menu.Item onPress={() => { setSelectedFilter('all'); setFilterVisible(false); }} title="all" />
-              <Menu.Item onPress={() => { setSelectedFilter('active'); setFilterVisible(false); }} title="active" />
-              <Menu.Item onPress={() => { setSelectedFilter('inactive'); setFilterVisible(false); }} title="inactive" />
-              <Menu.Item onPress={() => { setSelectedFilter('payment_ok'); setFilterVisible(false); }} title="paymentOK" />
-              <Menu.Item onPress={() => { setSelectedFilter('payment_pending'); setFilterVisible(false); }} title="paymentPending" />
-              <Menu.Item onPress={() => { setSelectedFilter('payment_overdue'); setFilterVisible(false); }} title="paymentOverdue" />
-            </Menu>
-          </View>
-        </View>
-
-
-        <View style={{ flex: 1, minHeight: 400 }}>
-          {(() => {
-            console.log('🔍 AdminStudents render state:', {
-              loading,
-              studentsCount: students.length,
-              filteredCount: filteredStudents.length
-            });
-
-            if (loading) {
-              return <StudentListSkeleton count={5} />;
-            }
-
-            return (
-              <EnhancedFlashList
-                data={filteredStudents}
-                renderItem={renderStudentItem}
-                keyExtractor={keyExtractor}
-                estimatedItemSize={200}
-                refreshing={refreshing}
-                onRefresh={onRefresh}
-                ListEmptyComponent={renderEmptyList}
-                emptyMessage="noStudentsFound"
-                loadingMore={false}
-                contentContainerStyle={styles.listContainer}
-                accessible={true}
-                accessibilityLabel={`Lista de ${filteredStudents.length} alunos`}
-              />
-            );
-          })()}
-        </View>
-
-        <FAB
-          style={styles.fab}
-          icon="plus"
-          onPress={() => navigation.navigate('AddStudent')}
-        />
-
-        <StudentDisassociationDialog
-          visible={showDisassociationDialog}
-          student={selectedStudent}
-          onDismiss={() => {
-            setShowDisassociationDialog(false);
-            setSelectedStudent(null);
-          }}
-          onConfirm={() => {
-            setShowDisassociationDialog(false);
-            setSelectedStudent(null);
-            loadStudents();
-          }}
-        />
-      </SafeAreaView>
+          <StudentDisassociationDialog
+            visible={showDisassociationDialog}
+            student={selectedStudent}
+            onDismiss={() => {
+              setShowDisassociationDialog(false);
+              setSelectedStudent(null);
+            }}
+            onConfirm={() => {
+              setShowDisassociationDialog(false);
+              setSelectedStudent(null);
+              loadStudents();
+            }}
+          />
+        </SafeAreaView>
+      </LinearGradient>
     </EnhancedErrorBoundary>
   );
 };
@@ -419,19 +417,32 @@ const AdminStudents = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.white,
+  },
+  safeArea: {
+    flex: 1,
   },
   header: {
-    backgroundColor: COLORS.background.paper,
     paddingHorizontal: '4%',
     paddingVertical: SPACING.md,
-    elevation: 2,
+    backgroundColor: 'transparent',
   },
   searchbar: {
     elevation: 0,
-    backgroundColor: COLORS.white,
+    backgroundColor: GLASS_EFFECTS.premium.backgroundColor,
     marginBottom: SPACING.sm,
     width: '100%',
+    borderRadius: BORDER_RADIUS.lg,
+    borderWidth: 1,
+    borderColor: GLASS_EFFECTS.premium.borderColor,
+    ...Platform.select({
+      web: {
+        backdropFilter: GLASS_EFFECTS.premium.backdropFilter,
+      }
+    })
+  },
+  searchInput: {
+    fontSize: FONT_SIZE.md,
+    color: COLORS.text.primary,
   },
   filterRow: {
     flexDirection: 'row',
@@ -439,71 +450,8 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   filterButton: {
-    borderColor: COLORS.warning[500],
-  },
-  studentCard: {
-    marginVertical: SPACING.sm,
-    elevation: 2,
-    width: '100%',
-  },
-  studentHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: SPACING.md,
-    width: '100%',
-  },
-  studentInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    flex: 1,
-  },
-  avatar: {
-    backgroundColor: COLORS.primary[500],
-  },
-  studentDetails: {
-    marginLeft: SPACING.md,
-    flex: 1,
-  },
-  studentName: {
-    fontSize: FONT_SIZE.md,
-    marginBottom: 2,
-    color: COLORS.card.premium.text,
-  },
-  studentEmail: {
-    fontSize: FONT_SIZE.sm,
-    color: COLORS.neutral.light,
-    marginBottom: 2,
-  },
-  studentPhone: {
-    fontSize: FONT_SIZE.sm,
-    color: COLORS.neutral.light,
-  },
-  studentStats: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginVertical: SPACING.md,
-    width: '100%',
-  },
-  statColumn: {
-    alignItems: 'center',
-    flex: 1,
-  },
-  statLabel: {
-    fontSize: FONT_SIZE.sm,
-    color: COLORS.gray[500],
-    marginBottom: SPACING.xs,
-  },
-  statValue: {
-    fontSize: FONT_SIZE.base,
-    fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.black,
-  },
-  statusChip: {
-    minHeight: 24,
-  },
-  divider: {
-    marginVertical: SPACING.md,
+    borderColor: COLORS.primary[500],
+    backgroundColor: GLASS_EFFECTS.premium.backgroundColor,
   },
   fab: {
     position: 'absolute',
@@ -511,6 +459,7 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     backgroundColor: COLORS.primary[500],
+    borderRadius: BORDER_RADIUS.full,
   },
   listContainer: {
     paddingHorizontal: '4%',
@@ -524,13 +473,14 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: FONT_SIZE.lg,
-    color: COLORS.gray[500],
+    color: COLORS.text.secondary,
     marginTop: SPACING.md,
     textAlign: 'center',
+    fontWeight: FONT_WEIGHT.bold,
   },
   emptySubtext: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.gray[500],
+    color: COLORS.text.tertiary,
     marginTop: SPACING.sm,
     textAlign: 'center',
   },

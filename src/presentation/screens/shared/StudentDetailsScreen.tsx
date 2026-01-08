@@ -31,7 +31,7 @@ import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@present
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
 import { getAuthGradient } from '@presentation/theme/authTheme';
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
-import { getString } from "@utils/theme";
+
 
 interface StudentData {
   id: string;
@@ -98,6 +98,12 @@ const StudentDetailsScreen: React.FC<StudentDetailsScreenProps> = ({ route, navi
       loadStudentDetails();
     }
   }, [studentId]);
+
+  useEffect(() => {
+    navigation.setOptions({
+      title: getString('studentDetails'),
+    });
+  }, [navigation, getString]);
 
   const loadStudentDetails = useCallback(async () => {
     try {
@@ -260,171 +266,204 @@ const StudentDetailsScreen: React.FC<StudentDetailsScreenProps> = ({ route, navi
       }}
       errorContext={{ screen: 'StudentDetailsScreen', academiaId: userProfile?.academiaId, studentId }}
     >
-      <SafeAreaView style={styles.container}>
-        <ScrollView
-          style={styles.scrollView}
-          showsVerticalScrollIndicator={false}
-          keyboardShouldPersistTaps="handled"
-          contentContainerStyle={styles.scrollContent}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
-        >
-          {/* Informações do Aluno */}
-          <Card style={styles.card}>
-            <View style={styles.studentHeader}>
-              <Avatar.Text
-                size={80}
-                label={studentInfo?.name?.charAt(0) || 'A'}
-                style={styles.avatar}
-              />
-              <View style={styles.studentInfo}>
-                <Text variant="headlineSmall" style={styles.studentName}>{studentInfo?.name || getString('student')}</Text>
-                <Text style={styles.studentEmail}>{studentInfo?.email}</Text>
-                <Text style={[
-                  styles.statusBadge,
-                  { color: studentInfo?.isActive ? COLORS.primary[500] : COLORS.error[500] }
-                ]}>
-                  {studentInfo?.isActive ? 'active' : getString('inactive')}
-                </Text>
-              </View>
-            </View>
-
-            <Divider style={styles.divider} />
-
-            <View style={styles.infoSection}>
-              <View style={styles.infoRow}>
-                <Ionicons name="call" size={20} color={COLORS.gray[500]} />
-                <Text style={styles.infoText}>
-                  {studentInfo?.phone || getString('phoneNotInformed')}
-                </Text>
-              </View>
-
-              <View style={styles.infoRow}>
-                <Ionicons name="location" size={20} color={COLORS.gray[500]} />
-                <Text style={styles.infoText}>
-                  {studentInfo?.address || 'Endereço não informado'}
-                </Text>
-              </View>
-
-              <View style={styles.infoRow}>
-                <Ionicons name="calendar" size={20} color={COLORS.gray[500]} />
-                <Text style={styles.infoText}>
-                  Cadastrado em: {formatDate(studentInfo?.createdAt)}
-                </Text>
-              </View>
-            </View>
-          </Card>
-
-          {/* Turmas Matriculadas */}
-          <Card style={styles.card}>
-            <View style={styles.cardHeader}>
-              <Ionicons name="school" size={24} color={COLORS.info[500]} />
-              <Text variant="titleMedium" style={styles.cardTitle}>Turmas Matriculadas</Text>
-            </View>
-
-            {studentClasses.length > 0 ? (
-              studentClasses.map((classItem, index) => (
-                <Card.Content key={classItem.id || index}>
-                  <View style={styles.listItemContent}>
-                    <View style={styles.listItemLeft}>
-                      <Ionicons name="fitness" size={20} color={COLORS.gray[500]} style={styles.listIcon} />
-                      <View>
-                        <Text style={styles.listTitle}>{classItem.name}</Text>
-                        <Text style={styles.listSubtitle}>{classItem.modality}</Text>
-                      </View>
-                    </View>
-                    <Button
-                      mode="outlined"
-                      compact
-                      onPress={() => handleViewClassDetails(classItem)}
-                    >
-                      Detalhes
-                    </Button>
-                  </View>
-                </Card.Content>
-              ))
-            ) : (
-              <Text style={styles.noDataText}>
-                Nenhuma turma matriculada
-              </Text>
-            )}
-          </Card>
-
-          {/* Histórico de Pagamentos */}
-          <Card style={styles.card}>
-            <View style={styles.cardHeader}>
-              <Ionicons name="card" size={24} color={COLORS.primary[500]} />
-              <Text variant="titleMedium" style={styles.cardTitle}>Histórico de Pagamentos</Text>
-            </View>
-
-            {payments.length > 0 ? (
-              payments.slice(0, 5).map((payment, index) => (
-                <Card.Content key={payment.id || index}>
-                  <View style={styles.listItemContent}>
-                    <View style={styles.listItemLeft}>
-                      <Ionicons name="receipt" size={20} color={COLORS.gray[500]} style={styles.listIcon} />
-                      <View>
-                        <Text style={styles.listTitle}>
-                          {formatCurrency(payment.amount)}
-                        </Text>
-                        <Text style={styles.listSubtitle}>
-                          {formatDate(payment.createdAt)}
-                        </Text>
-                      </View>
-                    </View>
-                    <Text style={{
-                      color: getPaymentStatusColor(payment.status),
-                      fontWeight: FONT_WEIGHT.bold
-                    }}>
-                      {getPaymentStatusText(payment.status)}
+      <LinearGradient
+        colors={getAuthGradient(isDarkMode) as any}
+        style={styles.container}
+      >
+        <SafeAreaView style={styles.safeArea}>
+          <ScrollView
+            style={styles.scrollView}
+            showsVerticalScrollIndicator={false}
+            keyboardShouldPersistTaps="handled"
+            contentContainerStyle={styles.scrollContent}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={COLORS.primary[500]} />
+            }
+          >
+            {/* Informações do Aluno */}
+            <View style={styles.glassCard}>
+              <View style={styles.studentHeader}>
+                <Avatar.Text
+                  size={80}
+                  label={studentInfo?.name?.charAt(0) || 'A'}
+                  style={styles.avatar}
+                  labelStyle={styles.avatarText}
+                />
+                <View style={styles.studentInfo}>
+                  <Text variant="headlineSmall" style={styles.studentName}>{studentInfo?.name || getString('student')}</Text>
+                  <Text style={styles.studentEmail}>{studentInfo?.email}</Text>
+                  <View style={[
+                    styles.statusBadge,
+                    { backgroundColor: studentInfo?.isActive ? COLORS.success[100] : COLORS.error[100] }
+                  ]}>
+                    <Text style={[
+                      styles.statusText,
+                      { color: studentInfo?.isActive ? COLORS.success[700] : COLORS.error[700] }
+                    ]}>
+                      {studentInfo?.isActive ? getString('active') : getString('inactive')}
                     </Text>
                   </View>
-                </Card.Content>
-              ))
-            ) : (
-              <Text style={styles.noDataText}>
-                Nenhum pagamento registrado
-              </Text>
-            )}
+                </View>
+              </View>
 
-            {payments.length > 5 && (
-              <Button
-                mode="outlined"
-                onPress={handleViewAllPayments}
-                style={styles.viewAllButton}
-              >
-                Ver Todos os Pagamentos
-              </Button>
-            )}
-          </Card>
+              <Divider style={styles.divider} />
 
-          {/* Ações */}
-          <Card style={styles.card}>
-            <Text variant="titleMedium" style={styles.cardTitle}>Ações</Text>
+              <View style={styles.infoSection}>
+                <View style={styles.infoRow}>
+                  <View style={styles.iconContainer}>
+                    <Ionicons name="call" size={20} color={COLORS.primary[500]} />
+                  </View>
+                  <Text style={styles.infoText}>
+                    {studentInfo?.phone || getString('phoneNotInformed')}
+                  </Text>
+                </View>
 
-            <View style={styles.actionsContainer}>
-              <Button
-                mode="contained"
-                onPress={handleEditStudent}
-                style={[styles.actionButton, { backgroundColor: COLORS.info[500] }]}
-                icon="pencil"
-              >
-                Editar Aluno
-              </Button>
+                <View style={styles.infoRow}>
+                  <View style={styles.iconContainer}>
+                    <Ionicons name="location" size={20} color={COLORS.primary[500]} />
+                  </View>
+                  <Text style={styles.infoText}>
+                    {studentInfo?.address || getString('addressNotInformed')}
+                  </Text>
+                </View>
 
-              <Button
-                mode="contained"
-                onPress={handleAddGraduation}
-                style={[styles.actionButton, { backgroundColor: COLORS.primary[500] }]}
-                icon="trophy"
-              >
-                {getString('addGraduation')}
-              </Button>
+                <View style={styles.infoRow}>
+                  <View style={styles.iconContainer}>
+                    <Ionicons name="calendar" size={20} color={COLORS.primary[500]} />
+                  </View>
+                  <Text style={styles.infoText}>
+                    {getString('registeredAt')}: {formatDate(studentInfo?.createdAt)}
+                  </Text>
+                </View>
+              </View>
             </View>
-          </Card>
-        </ScrollView>
-      </SafeAreaView>
+
+            {/* Turmas Matriculadas */}
+            <View style={styles.glassCard}>
+              <View style={styles.cardHeader}>
+                <View style={[styles.iconContainer, { backgroundColor: COLORS.info[100] }]}>
+                  <Ionicons name="school" size={24} color={COLORS.info[500]} />
+                </View>
+                <Text variant="titleMedium" style={styles.cardTitle}>{getString('enrolledClasses')}</Text>
+              </View>
+
+              {studentClasses.length > 0 ? (
+                studentClasses.map((classItem, index) => (
+                  <View key={classItem.id || index} style={styles.listItem}>
+                    <View style={styles.listItemContent}>
+                      <View style={styles.listItemLeft}>
+                        <View style={[styles.miniIconContainer, { backgroundColor: COLORS.secondary[100] }]}>
+                          <Ionicons name="fitness" size={18} color={COLORS.secondary[500]} />
+                        </View>
+                        <View>
+                          <Text style={styles.listTitle}>{classItem.name}</Text>
+                          <Text style={styles.listSubtitle}>{classItem.modality}</Text>
+                        </View>
+                      </View>
+                      <Button
+                        mode="text"
+                        compact
+                        onPress={() => handleViewClassDetails(classItem)}
+                        textColor={COLORS.primary[500]}
+                      >
+                        {getString('details')}
+                      </Button>
+                    </View>
+                  </View>
+                ))
+              ) : (
+                <Text style={styles.noDataText}>
+                  {getString('noClassesEnrolled')}
+                </Text>
+              )}
+            </View>
+
+            {/* Histórico de Pagamentos */}
+            <View style={styles.glassCard}>
+              <View style={styles.cardHeader}>
+                <View style={[styles.iconContainer, { backgroundColor: COLORS.success[100] }]}>
+                  <Ionicons name="card" size={24} color={COLORS.success[500]} />
+                </View>
+                <Text variant="titleMedium" style={styles.cardTitle}>{getString('paymentHistory')}</Text>
+              </View>
+
+              {payments.length > 0 ? (
+                payments.slice(0, 5).map((payment, index) => (
+                  <View key={payment.id || index} style={styles.listItem}>
+                    <View style={styles.listItemContent}>
+                      <View style={styles.listItemLeft}>
+                        <View style={[styles.miniIconContainer, { backgroundColor: COLORS.gray[100] }]}>
+                          <Ionicons name="receipt" size={18} color={COLORS.gray[600]} />
+                        </View>
+                        <View>
+                          <Text style={styles.listTitle}>
+                            {formatCurrency(payment.amount)}
+                          </Text>
+                          <Text style={styles.listSubtitle}>
+                            {formatDate(payment.createdAt)}
+                          </Text>
+                        </View>
+                      </View>
+                      <View style={[
+                        styles.statusChip,
+                        { backgroundColor: getPaymentStatusColor(payment.status) + '20' }
+                      ]}>
+                        <Text style={{
+                          color: getPaymentStatusColor(payment.status),
+                          fontWeight: FONT_WEIGHT.bold,
+                          fontSize: FONT_SIZE.xs
+                        }}>
+                          {getPaymentStatusText(payment.status)}
+                        </Text>
+                      </View>
+                    </View>
+                  </View>
+                ))
+              ) : (
+                <Text style={styles.noDataText}>
+                  {getString('noPaymentsRegistered')}
+                </Text>
+              )}
+
+              {payments.length > 5 && (
+                <Button
+                  mode="outlined"
+                  onPress={handleViewAllPayments}
+                  style={styles.viewAllButton}
+                  textColor={COLORS.primary[500]}
+                >
+                  {getString('viewAllPayments')}
+                </Button>
+              )}
+            </View>
+
+            {/* Ações */}
+            <View style={styles.glassCard}>
+              <Text variant="titleMedium" style={[styles.cardTitle, { marginBottom: SPACING.md }]}>{getString('actions')}</Text>
+
+              <View style={styles.actionsContainer}>
+                <Button
+                  mode="contained"
+                  onPress={handleEditStudent}
+                  style={[styles.actionButton, { backgroundColor: COLORS.info[500] }]}
+                  icon="pencil"
+                >
+                  {getString('editStudent')}
+                </Button>
+
+                <Button
+                  mode="contained"
+                  onPress={handleAddGraduation}
+                  style={[styles.actionButton, { backgroundColor: COLORS.primary[500] }]}
+                  icon="trophy"
+                >
+                  {getString('addGraduation')}
+                </Button>
+              </View>
+            </View>
+          </ScrollView>
+        </SafeAreaView>
+      </LinearGradient>
     </EnhancedErrorBoundary>
   );
 };
@@ -432,30 +471,36 @@ const StudentDetailsScreen: React.FC<StudentDetailsScreenProps> = ({ route, navi
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.gray[100],
+  },
+  safeArea: {
+    flex: 1,
   },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  card: {
+  glassCard: {
     margin: SPACING.md,
     marginTop: SPACING.sm,
-    backgroundColor: COLORS.white,
-    borderRadius: BORDER_RADIUS.md,
+    padding: SPACING.md,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    borderRadius: BORDER_RADIUS.lg,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.5)',
     ...Platform.select({
       ios: {
-        shadowColor: COLORS.gray[900],
-        shadowOffset: { width: 0, height: 2 },
+        shadowColor: COLORS.black,
+        shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.1,
-        shadowRadius: 4,
+        shadowRadius: 12,
       },
       android: {
         elevation: 4,
       },
       web: {
-        boxShadow: '0 2px 4px currentTheme.black + "1A"',
+        boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.15)',
+        backdropFilter: 'blur(10px)',
       },
     }),
   },
@@ -465,11 +510,14 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.md,
   },
   avatar: {
-    backgroundColor: COLORS.info[500],
+    backgroundColor: COLORS.primary[500],
+    borderWidth: 2,
+    borderColor: COLORS.white,
   },
   avatarText: {
     color: COLORS.white,
-    fontWeight: FONT_WEIGHT.semibold,
+    fontWeight: FONT_WEIGHT.bold,
+    fontSize: FONT_SIZE.xxl,
   },
   studentInfo: {
     marginLeft: SPACING.md,
@@ -477,33 +525,50 @@ const styles = StyleSheet.create({
   },
   studentName: {
     fontSize: FONT_SIZE.xl,
-    fontWeight: FONT_WEIGHT.semibold,
-    color: COLORS.black,
+    fontWeight: FONT_WEIGHT.bold,
+    color: COLORS.gray[900],
   },
   studentEmail: {
-    fontSize: FONT_SIZE.base,
-    color: COLORS.gray[500],
-    marginTop: SPACING.xs,
+    fontSize: FONT_SIZE.sm,
+    color: COLORS.gray[600],
+    marginTop: 2,
   },
   statusBadge: {
     marginTop: SPACING.sm,
     alignSelf: 'flex-start',
+    paddingHorizontal: SPACING.sm,
+    paddingVertical: 2,
+    borderRadius: BORDER_RADIUS.full,
+  },
+  statusText: {
+    fontSize: FONT_SIZE.xs,
+    fontWeight: FONT_WEIGHT.bold,
+    textTransform: 'uppercase',
   },
   divider: {
-    marginVertical: 16,
+    marginVertical: SPACING.md,
+    backgroundColor: COLORS.gray[200],
   },
   infoSection: {
-    marginTop: SPACING.sm,
+    gap: SPACING.sm,
   },
   infoRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: SPACING.md,
+  },
+  iconContainer: {
+    width: 32,
+    height: 32,
+    borderRadius: BORDER_RADIUS.md,
+    backgroundColor: COLORS.primary[50],
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   infoText: {
     marginLeft: SPACING.md,
     fontSize: FONT_SIZE.md,
-    color: COLORS.black,
+    color: COLORS.gray[800],
+    flex: 1,
   },
   cardHeader: {
     flexDirection: 'row',
@@ -513,6 +578,8 @@ const styles = StyleSheet.create({
   cardTitle: {
     marginLeft: SPACING.sm,
     fontSize: FONT_SIZE.lg,
+    fontWeight: FONT_WEIGHT.bold,
+    color: COLORS.gray[900],
   },
   noDataText: {
     textAlign: 'center',
@@ -523,7 +590,7 @@ const styles = StyleSheet.create({
   listItem: {
     paddingVertical: SPACING.sm,
     borderBottomWidth: 1,
-    borderBottomColor: COLORS.gray[300],
+    borderBottomColor: COLORS.gray[100],
   },
   listItemContent: {
     flexDirection: 'row',
@@ -535,29 +602,39 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
   },
-  listIcon: {
+  miniIconContainer: {
+    width: 32,
+    height: 32,
+    borderRadius: BORDER_RADIUS.full,
+    justifyContent: 'center',
+    alignItems: 'center',
     marginRight: SPACING.md,
   },
   listTitle: {
     fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.medium,
-    color: COLORS.black,
+    fontWeight: FONT_WEIGHT.semibold,
+    color: COLORS.gray[900],
   },
   listSubtitle: {
-    fontSize: FONT_SIZE.base,
+    fontSize: FONT_SIZE.sm,
     color: COLORS.gray[500],
-    marginTop: 2,
+  },
+  statusChip: {
+    paddingHorizontal: SPACING.sm,
+    paddingVertical: 2,
+    borderRadius: BORDER_RADIUS.sm,
   },
   viewAllButton: {
     marginTop: SPACING.md,
+    borderColor: COLORS.primary[500],
   },
   actionsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: SPACING.md,
+    gap: SPACING.md,
   },
   actionButton: {
-    width: '48%',
+    flex: 1,
     borderRadius: BORDER_RADIUS.md,
   },
   scrollView: {

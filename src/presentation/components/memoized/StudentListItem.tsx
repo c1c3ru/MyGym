@@ -1,10 +1,10 @@
-import { getString } from "@utils/theme";
 import React, { memo, useCallback } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Platform } from 'react-native';
 import { Card, Text, Avatar, Chip, Divider, IconButton } from 'react-native-paper';
 import ActionButton, { ActionButtonGroup } from '../ActionButton';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, GLASS_EFFECTS } from '@presentation/theme/designTokens';
 import { Student } from '../../types/student';
+import { useTheme } from '@contexts/ThemeContext';
 
 /**
  * Propriedades para o componente StudentListItem
@@ -32,6 +32,8 @@ const StudentListItem = memo<StudentListItemProps>(({
     onView,
     index
 }) => {
+    const { getString } = useTheme();
+
     const handlePress = useCallback(() => {
         onPress?.(student);
     }, [student, onPress]);
@@ -49,14 +51,15 @@ const StudentListItem = memo<StudentListItemProps>(({
     }, [student, onView]);
 
     return (
-        <Card style={styles.studentCard}>
-            <Card.Content>
+        <View style={styles.glassCard}>
+            <View style={styles.cardContent}>
                 <View style={styles.studentHeader}>
                     <View style={styles.studentInfo}>
                         <Avatar.Text
                             size={50}
                             label={student.name?.charAt(0) || 'A'}
                             style={styles.avatar}
+                            labelStyle={{ color: COLORS.white, fontWeight: 'bold' }}
                         />
                         <View style={styles.studentDetails}>
                             <Text style={styles.studentName}>{student.name}</Text>
@@ -70,31 +73,48 @@ const StudentListItem = memo<StudentListItemProps>(({
                     <IconButton
                         icon="dots-vertical"
                         onPress={handlePress}
+                        iconColor={COLORS.text.secondary}
                     />
                 </View>
 
                 <View style={styles.studentStats}>
                     <View style={styles.statColumn}>
-                        <Text style={styles.statLabel}>Status</Text>
+                        <Text style={styles.statLabel}>{getString('status')}</Text>
                         <Chip
                             mode="outlined"
                             style={[
                                 styles.statusChip,
-                                { backgroundColor: student.isActive ? COLORS.success[50] : COLORS.error[50] }
+                                {
+                                    backgroundColor:
+                                        student.status === 'suspended' ? 'rgba(211, 47, 47, 0.1)' : // Error with opacity
+                                            (student.status === 'inactive' || (!student.status && !student.isActive)) ? 'rgba(117, 117, 117, 0.1)' : // Gray with opacity
+                                                'rgba(76, 175, 80, 0.1)', // Success with opacity
+                                    borderColor:
+                                        student.status === 'suspended' ? COLORS.error[500] :
+                                            (student.status === 'inactive' || (!student.status && !student.isActive)) ? COLORS.gray[500] :
+                                                COLORS.success[500]
+                                }
                             ]}
                             textStyle={{
-                                color: student.isActive ? COLORS.primary[800] : COLORS.error[800],
+                                color:
+                                    student.status === 'suspended' ? COLORS.error[300] :
+                                        (student.status === 'inactive' || (!student.status && !student.isActive)) ? COLORS.gray[400] :
+                                            COLORS.success[300],
                                 fontSize: FONT_SIZE.sm
                             }}
                         >
-                            {student.isActive ? getString('active') : getString('inactive')}
+                            {
+                                student.status === 'suspended' ? getString('suspended') :
+                                    (student.status === 'inactive' || (!student.status && !student.isActive)) ? getString('inactive') :
+                                        getString('active')
+                            }
                         </Chip>
                     </View>
 
                     <View style={styles.statColumn}>
                         <Text style={styles.statLabel}>{getString('graduation')}</Text>
                         <Text style={styles.statValue}>
-                            {student.currentGraduation || getString('beginner')}
+                            {student.currentGraduation ? getString(student.currentGraduation) : getString('beginner')}
                         </Text>
                     </View>
 
@@ -137,11 +157,11 @@ const StudentListItem = memo<StudentListItemProps>(({
                         size="small"
                         style={styles.actionButton}
                     >
-                        Desassociar
+                        {getString('disassociate')}
                     </ActionButton>
                 </ActionButtonGroup>
-            </Card.Content>
-        </Card>
+            </View>
+        </View>
     );
 }, (prevProps, nextProps) => {
     // Custom comparison function for better performance
@@ -160,12 +180,30 @@ const StudentListItem = memo<StudentListItemProps>(({
 StudentListItem.displayName = 'StudentListItem';
 
 const styles = StyleSheet.create({
-    studentCard: {
+    glassCard: {
         marginVertical: 8,
-        elevation: 2,
-        backgroundColor: COLORS.card.premium.background,
+        backgroundColor: GLASS_EFFECTS.premium.backgroundColor,
+        borderRadius: BORDER_RADIUS.lg,
         borderWidth: 1,
-        borderColor: COLORS.card.premium.border,
+        borderColor: GLASS_EFFECTS.premium.borderColor,
+        ...Platform.select({
+            ios: {
+                shadowColor: GLASS_EFFECTS.premium.shadowColor,
+                shadowOffset: { width: 0, height: 4 },
+                shadowOpacity: 0.3,
+                shadowRadius: 8,
+            },
+            android: {
+                elevation: 4,
+            },
+            web: {
+                boxShadow: `0 8px 32px 0 ${GLASS_EFFECTS.premium.shadowColor}`,
+                backdropFilter: GLASS_EFFECTS.premium.backdropFilter,
+            },
+        }),
+    },
+    cardContent: {
+        padding: SPACING.md,
     },
     studentHeader: {
         flexDirection: 'row',
@@ -179,7 +217,9 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     avatar: {
-        backgroundColor: COLORS.primary[500],
+        backgroundColor: COLORS.primary[700],
+        borderWidth: 2,
+        borderColor: COLORS.border.accent,
     },
     studentDetails: {
         marginLeft: SPACING.md,
@@ -188,17 +228,17 @@ const styles = StyleSheet.create({
     studentName: {
         fontSize: FONT_SIZE.md,
         marginBottom: 2,
-        color: COLORS.card.premium.text,
-        fontWeight: FONT_WEIGHT.semibold as any,
+        color: COLORS.text.primary,
+        fontWeight: FONT_WEIGHT.bold as any,
     },
     studentEmail: {
         fontSize: FONT_SIZE.sm,
-        color: COLORS.neutral.light,
+        color: COLORS.text.secondary,
         marginBottom: 2,
     },
     studentPhone: {
         fontSize: FONT_SIZE.sm,
-        color: COLORS.neutral.light,
+        color: COLORS.text.tertiary,
     },
     studentStats: {
         flexDirection: 'row',
@@ -211,13 +251,13 @@ const styles = StyleSheet.create({
     },
     statLabel: {
         fontSize: FONT_SIZE.sm,
-        color: COLORS.neutral.light,
+        color: COLORS.text.tertiary,
         marginBottom: SPACING.xs,
     },
     statValue: {
         fontSize: FONT_SIZE.base,
         fontWeight: FONT_WEIGHT.bold as any,
-        color: COLORS.black,
+        color: COLORS.text.primary,
     },
     statusChip: {
         height: 24,

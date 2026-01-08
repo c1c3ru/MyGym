@@ -166,7 +166,7 @@ const AdminModalities = ({ navigation }) => {
       if (editingModality) {
         // Editar modalidade existente
         await academyCollectionsService.updateModality(userProfile.academiaId, editingModality.id, newModality);
-        Alert.alert(getString('success'), 'Modalidade atualizada com sucesso!');
+        Alert.alert(getString('success'), getString('modalityUpdatedSuccess'));
       } else {
         // Criar nova modalidade
         await academyCollectionsService.createModality(userProfile.academiaId, newModality);
@@ -178,7 +178,7 @@ const AdminModalities = ({ navigation }) => {
       setModalityDialogVisible(false);
       loadData();
     } catch (error) {
-      Alert.alert(getString('error'), editingModality ? 'Erro ao atualizar modalidade' : getString('errorCreatingModality'));
+      Alert.alert(getString('error'), editingModality ? getString('modalityUpdateError') : getString('errorCreatingModality'));
     }
   };
 
@@ -194,7 +194,7 @@ const AdminModalities = ({ navigation }) => {
     // Para web, usar window.confirm em vez de Alert.alert
     if (Platform.OS === 'web') {
       console.log('🌐 Usando window.confirm para web');
-      const confirmed = window.confirm(`Tem certeza que deseja excluir a modalidade "${modality.name}"?`);
+      const confirmed = window.confirm(getString('confirmDeleteModality').replace('{name}', modality.name));
 
       if (confirmed) {
         console.log('✅ Usuário confirmou exclusão via window.confirm');
@@ -206,7 +206,7 @@ const AdminModalities = ({ navigation }) => {
       console.log('📱 Usando Alert.alert para mobile');
       Alert.alert(
         getString('confirmDelete'),
-        `Tem certeza que deseja excluir a modalidade "${modality.name}"?`,
+        getString('confirmDeleteModality').replace('{name}', modality.name),
         [
           {
             text: getString('cancel'),
@@ -300,14 +300,14 @@ const AdminModalities = ({ navigation }) => {
       setModalities(prev => prev.filter(m => m.id !== modality.id));
       console.log('✅ Lista local atualizada');
 
-      showNotification('✅ Modalidade excluída com sucesso!', 'success');
+      showNotification(getString('modalityDeletedSuccess'), 'success');
     } catch (error) {
       console.error('❌ Erro detalhado ao excluir modalidade:', error);
       console.error('Error code:', error.code);
       console.error('Error message:', error.message);
       console.error('Error stack:', error.stack);
 
-      showNotification(`❌ Erro: ${error.message}`, 'error');
+      showNotification(`${getString('error')}: ${error.message}`, 'error');
     } finally {
       // Remover ID da lista de itens sendo excluídos
       setDeletingIds(prev => {
@@ -340,7 +340,7 @@ const AdminModalities = ({ navigation }) => {
       if (editingPlan) {
         // Editar plano existente
         await academyCollectionsService.updatePlan(userProfile.academiaId, editingPlan.id, planData);
-        Alert.alert(getString('success'), 'Plano atualizado com sucesso!');
+        Alert.alert(getString('success'), getString('planUpdatedSuccess'));
       } else {
         // Criar novo plano
         await academyCollectionsService.createPlan(userProfile.academiaId, planData);
@@ -352,7 +352,7 @@ const AdminModalities = ({ navigation }) => {
       setPlanDialogVisible(false);
       loadData();
     } catch (error) {
-      Alert.alert(getString('error'), editingPlan ? 'Erro ao atualizar plano' : getString('errorCreatingPlan'));
+      Alert.alert(getString('error'), editingPlan ? getString('planUpdateError') : getString('errorCreatingPlan'));
     }
   };
 
@@ -373,7 +373,7 @@ const AdminModalities = ({ navigation }) => {
     // Para web, usar window.confirm em vez de Alert.alert
     if (Platform.OS === 'web') {
       console.log('🌐 Usando window.confirm para web');
-      const confirmed = window.confirm(`Tem certeza que deseja excluir o plano "${plan.name}"?`);
+      const confirmed = window.confirm(getString('confirmDeletePlan').replace('{name}', plan.name));
 
       if (confirmed) {
         console.log('✅ Usuário confirmou exclusão via window.confirm');
@@ -385,7 +385,7 @@ const AdminModalities = ({ navigation }) => {
       console.log('📱 Usando Alert.alert para mobile');
       Alert.alert(
         getString('confirmDelete'),
-        `Tem certeza que deseja excluir o plano "${plan.name}"?`,
+        getString('confirmDeletePlan').replace('{name}', plan.name),
         [
           {
             text: getString('cancel'),
@@ -430,7 +430,7 @@ const AdminModalities = ({ navigation }) => {
       setPlans(prev => prev.filter(p => p.id !== plan.id));
       console.log('✅ Lista local atualizada');
 
-      showNotification('✅ Plano excluído com sucesso!', 'success');
+      showNotification(getString('planDeletedSuccess'), 'success');
     } catch (error) {
       console.error('❌ Erro detalhado ao excluir plano:', error);
       showNotification(`❌ Erro: ${error.message}`, 'error');
@@ -469,7 +469,7 @@ const AdminModalities = ({ navigation }) => {
       if (editingAnnouncement) {
         // Editar aviso existente
         await academyCollectionsService.updateAnnouncement(userProfile.academiaId, editingAnnouncement.id, announcementData);
-        Alert.alert(getString('success'), 'Aviso atualizado com sucesso!');
+        Alert.alert(getString('success'), getString('announcementUpdatedSuccess'));
       } else {
         // Criar novo aviso
         await academyCollectionsService.createAnnouncement(userProfile.academiaId, announcementData);
@@ -481,7 +481,7 @@ const AdminModalities = ({ navigation }) => {
       setAnnouncementDialogVisible(false);
       loadData();
     } catch (error) {
-      Alert.alert(getString('error'), editingAnnouncement ? 'Erro ao atualizar aviso' : getString('errorPublishingAnnouncement'));
+      Alert.alert(getString('error'), editingAnnouncement ? getString('announcementUpdateError') : getString('errorPublishingAnnouncement'));
     }
   };
 
@@ -502,7 +502,7 @@ const AdminModalities = ({ navigation }) => {
     // Para web, usar window.confirm em vez de Alert.alert
     if (Platform.OS === 'web') {
       console.log('🌐 Usando window.confirm para web');
-      const confirmed = window.confirm(`Tem certeza que deseja excluir o aviso "${announcement.title}"?`);
+      const confirmed = window.confirm(getString('confirmDeleteAnnouncement').replace('{title}', announcement.title));
 
       if (confirmed) {
         console.log('✅ Usuário confirmou exclusão via window.confirm');
@@ -514,7 +514,7 @@ const AdminModalities = ({ navigation }) => {
       console.log('📱 Usando Alert.alert para mobile');
       Alert.alert(
         getString('confirmDelete'),
-        `Tem certeza que deseja excluir o aviso "${announcement.title}"?`,
+        getString('confirmDeleteAnnouncement').replace('{title}', announcement.title),
         [
           {
             text: getString('cancel'),
@@ -559,7 +559,7 @@ const AdminModalities = ({ navigation }) => {
       setAnnouncements(prev => prev.filter(a => a.id !== announcement.id));
       console.log('✅ Lista local atualizada');
 
-      showNotification('✅ Aviso excluído com sucesso!', 'success');
+      showNotification(getString('announcementDeletedSuccess'), 'success');
     } catch (error) {
       console.error('❌ Erro detalhado ao excluir aviso:', error);
       showNotification(`❌ Erro: ${error.message}`, 'error');
@@ -851,7 +851,7 @@ const AdminModalities = ({ navigation }) => {
           setEditingPlan(null);
           setNewPlan({ name: '', value: '', duration: '', description: '' });
         }}>
-          <Dialog.Title>{editingPlan ? 'Editar Plano' : getString('newPlan')}</Dialog.Title>
+          <Dialog.Title>{editingPlan ? getString('editPlan') : getString('newPlan')}</Dialog.Title>
           <Dialog.Content>
             <TextInput
               label={getString('planName')}
@@ -904,7 +904,7 @@ const AdminModalities = ({ navigation }) => {
           setEditingAnnouncement(null);
           setNewAnnouncement({ title: '', content: '', expirationDate: '', targetAudience: 'all' });
         }}>
-          <Dialog.Title>{editingAnnouncement ? 'Editar Aviso' : getString('newAnnouncement')}</Dialog.Title>
+          <Dialog.Title>{editingAnnouncement ? getString('editAnnouncement') : getString('newAnnouncement')}</Dialog.Title>
           <Dialog.Content>
             <TextInput
               label={getString('announcementTitle')}
@@ -927,7 +927,7 @@ const AdminModalities = ({ navigation }) => {
               value={newAnnouncement.expirationDate}
               onChangeText={(text) => setNewAnnouncement({ ...newAnnouncement, expirationDate: text })}
               mode="outlined"
-              placeholder="dateFormat"
+              placeholder={getString('dateFormat')}
               style={styles.dialogInput}
             />
 

@@ -26,7 +26,7 @@ import batchFirestoreService from '@infrastructure/services/batchFirestoreServic
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import DashboardSkeleton from '@components/skeletons/DashboardSkeleton';
 import FreeGymScheduler from '@components/FreeGymScheduler';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, GLASS_EFFECTS } from '@presentation/theme/designTokens';
 import { useOnboarding } from '@components/OnboardingTour';
 import { getString } from "@utils/theme";
 
@@ -742,15 +742,25 @@ const styles = StyleSheet.create({
     borderRadius: ResponsiveUtils.borderRadius.medium,
     overflow: 'hidden',
     // Glassmorphism
-    backgroundColor: 'rgba(255, 255, 255, 0.08)',
-    borderColor: 'rgba(255, 255, 255, 0.15)',
+    backgroundColor: GLASS_EFFECTS.premium.backgroundColor,
+    borderColor: GLASS_EFFECTS.premium.borderColor,
     borderWidth: 1,
     // Elevação para profundidade
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.3,
-    shadowRadius: 12,
-    elevation: 8,
+    ...Platform.select({
+      ios: {
+        shadowColor: GLASS_EFFECTS.premium.shadowColor,
+        shadowOffset: { width: 0, height: 6 },
+        shadowOpacity: 0.3,
+        shadowRadius: 12,
+      },
+      android: {
+        elevation: 8,
+      },
+      web: {
+        boxShadow: `0 8px 32px 0 ${GLASS_EFFECTS.premium.shadowColor}`,
+        backdropFilter: GLASS_EFFECTS.premium.backdropFilter,
+      },
+    }),
   },
   statGradient: {
     padding: ResponsiveUtils.spacing.md,
@@ -775,31 +785,51 @@ const styles = StyleSheet.create({
     margin: ResponsiveUtils.spacing.md,
     marginTop: ResponsiveUtils.spacing.sm,
     // Glassmorphism
-    backgroundColor: 'rgba(255, 255, 255, 0.08)',
-    borderColor: 'rgba(255, 255, 255, 0.15)',
+    backgroundColor: GLASS_EFFECTS.premium.backgroundColor,
+    borderColor: GLASS_EFFECTS.premium.borderColor,
     borderWidth: 1,
     borderRadius: ResponsiveUtils.borderRadius.large,
     // Elevação
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.3,
-    shadowRadius: 16,
-    elevation: 10,
+    ...Platform.select({
+      ios: {
+        shadowColor: GLASS_EFFECTS.premium.shadowColor,
+        shadowOffset: { width: 0, height: 8 },
+        shadowOpacity: 0.3,
+        shadowRadius: 16,
+      },
+      android: {
+        elevation: 10,
+      },
+      web: {
+        boxShadow: `0 8px 32px 0 ${GLASS_EFFECTS.premium.shadowColor}`,
+        backdropFilter: GLASS_EFFECTS.premium.backdropFilter,
+      },
+    }),
   },
   modernCard: {
     margin: ResponsiveUtils.spacing.md,
     marginBottom: ResponsiveUtils.spacing.md,
     // Glassmorphism
-    backgroundColor: 'rgba(255, 255, 255, 0.08)',
-    borderColor: 'rgba(255, 255, 255, 0.15)',
+    backgroundColor: GLASS_EFFECTS.premium.backgroundColor,
+    borderColor: GLASS_EFFECTS.premium.borderColor,
     borderWidth: 1,
     borderRadius: ResponsiveUtils.borderRadius.large,
     // Elevação
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.3,
-    shadowRadius: 16,
-    elevation: 10,
+    ...Platform.select({
+      ios: {
+        shadowColor: GLASS_EFFECTS.premium.shadowColor,
+        shadowOffset: { width: 0, height: 8 },
+        shadowOpacity: 0.3,
+        shadowRadius: 16,
+      },
+      android: {
+        elevation: 10,
+      },
+      web: {
+        boxShadow: `0 8px 32px 0 ${GLASS_EFFECTS.premium.shadowColor}`,
+        backdropFilter: GLASS_EFFECTS.premium.backdropFilter,
+      },
+    }),
   },
   cardHeader: {
     flexDirection: 'row',
@@ -926,11 +956,18 @@ const styles = StyleSheet.create({
   },
   // Modals
   calendarModalContainer: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: GLASS_EFFECTS.premium.backgroundColor,
     margin: 20,
     borderRadius: BORDER_RADIUS.lg,
     height: '80%',
     overflow: 'hidden',
+    borderColor: GLASS_EFFECTS.premium.borderColor,
+    borderWidth: 1,
+    ...Platform.select({
+      web: {
+        backdropFilter: GLASS_EFFECTS.premium.backdropFilter,
+      }
+    })
   },
   calendarModalHeader: {
     flexDirection: 'row',
@@ -949,10 +986,17 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   modalContainer: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: GLASS_EFFECTS.premium.backgroundColor,
     margin: 20,
     borderRadius: BORDER_RADIUS.lg,
     padding: SPACING.md,
+    borderColor: GLASS_EFFECTS.premium.borderColor,
+    borderWidth: 1,
+    ...Platform.select({
+      web: {
+        backdropFilter: GLASS_EFFECTS.premium.backdropFilter,
+      }
+    })
   },
 });
 

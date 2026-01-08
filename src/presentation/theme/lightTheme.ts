@@ -1,4 +1,62 @@
 import { COLORS, SPACING, FONT_SIZE, FONT_WEIGHT, BORDER_RADIUS, ELEVATION } from '@presentation/theme/designTokens';
+
+const LIGHT_GLASS = {
+  default: {
+    backgroundColor: 'rgba(255, 255, 255, 0.7)',
+    backdropFilter: 'blur(10px)',
+    borderColor: 'rgba(255, 255, 255, 0.5)',
+    borderWidth: 1,
+    shadowColor: 'rgba(0, 0, 0, 0.05)',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  heavy: {
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    backdropFilter: 'blur(20px)',
+    borderColor: 'rgba(255, 255, 255, 0.6)',
+    borderWidth: 1,
+    shadowColor: 'rgba(0, 0, 0, 0.08)',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.15,
+    shadowRadius: 12,
+    elevation: 4,
+  },
+  light: {
+    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    backdropFilter: 'blur(5px)',
+    borderColor: 'rgba(255, 255, 255, 0.3)',
+    borderWidth: 1,
+    shadowColor: 'rgba(0, 0, 0, 0.03)',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 1,
+  },
+  card: {
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    backdropFilter: 'blur(12px)',
+    borderColor: 'rgba(255, 255, 255, 0.4)',
+    borderWidth: 1,
+    shadowColor: 'rgba(0, 0, 0, 0.06)',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 3,
+  },
+  modal: {
+    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+    backdropFilter: 'blur(25px)',
+    borderColor: 'rgba(255, 255, 255, 0.5)',
+    borderWidth: 1,
+    shadowColor: 'rgba(0, 0, 0, 0.1)',
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.2,
+    shadowRadius: 20,
+    elevation: 10,
+  }
+};
 // Removido import circular - valores serão definidos diretamente
 /**
  * Light Theme Premium - MyGym
@@ -29,7 +87,7 @@ export const LIGHT_THEME = {
   // Azul como cor principal (destaque das imagens)
   primary: {
     50: '#E3F2FD',
-    100: '#BBDEFB', 
+    100: '#BBDEFB',
     200: '#90CAF9',
     300: '#64B5F6',
     400: '#42A5F5',
@@ -117,7 +175,7 @@ export const LIGHT_THEME = {
     },
     elevated: {
       background: '#FFFFFF',
-      text: '#2C3E50', 
+      text: '#2C3E50',
       border: '#D1D5DB',
       shadow: 'rgba(0, 0, 0, 0.12)',
     },
@@ -199,26 +257,29 @@ export const LIGHT_THEME = {
     // Sombra azul para elementos de destaque
     primary: '0 4px 14px rgba(33, 150, 243, 0.15)',
   },
+
+  // Efeitos de vidro
+  glass: LIGHT_GLASS,
 };
 
 // Tema específico para academias (baseado no padrão visual)
 export const ACADEMY_LIGHT_COLORS = {
   // Header com gradiente azul sóbrio
   headerGradient: LIGHT_THEME.gradients.primary,
-  
+
   // Cores de destaque para diferentes perfis
   admin: {
     primary: LIGHT_THEME.primary[600],
     secondary: LIGHT_THEME.secondary[500],
     background: LIGHT_THEME.card.primary.background,
   },
-  
+
   instructor: {
     primary: LIGHT_THEME.secondary[600],
-    secondary: LIGHT_THEME.primary[500], 
+    secondary: LIGHT_THEME.primary[500],
     background: LIGHT_THEME.card.secondary.background,
   },
-  
+
   student: {
     primary: LIGHT_THEME.info[600],
     secondary: LIGHT_THEME.secondary[400],
@@ -242,42 +303,42 @@ export const LIGHT_TYPOGRAPHY = {
     color: LIGHT_THEME.text.primary,
     lineHeight: 40,
   },
-  
+
   h1: {
     fontSize: FONT_SIZE.xxl,        // xxl
     fontWeight: FONT_WEIGHT.light,   // light
     color: LIGHT_THEME.text.primary,
     lineHeight: 36,
   },
-  
+
   h2: {
     fontSize: FONT_SIZE.xl,        // xl
     fontWeight: FONT_WEIGHT.regular,   // regular
     color: LIGHT_THEME.text.primary,
     lineHeight: 32,
   },
-  
+
   h3: {
     fontSize: FONT_SIZE.lg,        // lg
     fontWeight: FONT_WEIGHT.regular,   // regular
     color: LIGHT_THEME.text.primary,
     lineHeight: 28,
   },
-  
+
   body1: {
     fontSize: FONT_SIZE.base,        // base
     fontWeight: FONT_WEIGHT.regular,   // regular
     color: LIGHT_THEME.text.primary,
     lineHeight: 24,
   },
-  
+
   body2: {
     fontSize: FONT_SIZE.sm,        // sm
     fontWeight: FONT_WEIGHT.regular,   // regular
     color: LIGHT_THEME.text.secondary,
     lineHeight: 20,
   },
-  
+
   caption: {
     fontSize: FONT_SIZE.xs,        // xs
     fontWeight: FONT_WEIGHT.regular,   // regular

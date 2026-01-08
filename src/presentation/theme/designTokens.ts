@@ -144,6 +144,67 @@ export const ELEVATION = {
 } as const;
 
 // ============================================
+// GLASS - Efeitos de vidro (Glassmorphism)
+// ============================================
+export const GLASS = {
+    default: {
+        backgroundColor: 'rgba(26, 26, 26, 0.6)',
+        backdropFilter: 'blur(10px)',
+        borderColor: 'rgba(255, 255, 255, 0.1)',
+        borderWidth: 1,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
+        elevation: 5,
+    },
+    heavy: {
+        backgroundColor: 'rgba(26, 26, 26, 0.8)',
+        backdropFilter: 'blur(20px)',
+        borderColor: 'rgba(255, 255, 255, 0.15)',
+        borderWidth: 1,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 8 },
+        shadowOpacity: 0.4,
+        shadowRadius: 12,
+        elevation: 8,
+    },
+    light: {
+        backgroundColor: 'rgba(255, 255, 255, 0.05)',
+        backdropFilter: 'blur(5px)',
+        borderColor: 'rgba(255, 255, 255, 0.2)',
+        borderWidth: 1,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 2,
+    },
+    card: {
+        backgroundColor: 'rgba(30, 30, 30, 0.7)',
+        backdropFilter: 'blur(12px)',
+        borderColor: 'rgba(255, 255, 255, 0.08)',
+        borderWidth: 1,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
+        elevation: 5,
+    },
+    modal: {
+        backgroundColor: 'rgba(20, 20, 20, 0.85)',
+        backdropFilter: 'blur(25px)',
+        borderColor: 'rgba(255, 255, 255, 0.1)',
+        borderWidth: 1,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 10 },
+        shadowOpacity: 0.5,
+        shadowRadius: 20,
+        elevation: 15,
+    }
+} as const;
+
+// ============================================
 // COLORS - Paleta de cores
 // ============================================
 export const COLORS = {
@@ -583,6 +644,42 @@ export const TRANSITIONS = {
 } as const;
 
 // ============================================
+// GLASS EFFECTS - Efeitos de vidro (Glassmorphism)
+// ============================================
+export const GLASS_EFFECTS = {
+    light: {
+        backgroundColor: 'rgba(255, 255, 255, 0.7)',
+        borderColor: 'rgba(255, 255, 255, 0.5)',
+        backdropFilter: 'blur(10px)',
+        shadowColor: 'rgba(31, 38, 135, 0.1)',
+    },
+    medium: {
+        backgroundColor: 'rgba(255, 255, 255, 0.5)',
+        borderColor: 'rgba(255, 255, 255, 0.3)',
+        backdropFilter: 'blur(15px)',
+        shadowColor: 'rgba(31, 38, 135, 0.15)',
+    },
+    heavy: {
+        backgroundColor: 'rgba(255, 255, 255, 0.3)',
+        borderColor: 'rgba(255, 255, 255, 0.2)',
+        backdropFilter: 'blur(20px)',
+        shadowColor: 'rgba(31, 38, 135, 0.2)',
+    },
+    dark: {
+        backgroundColor: 'rgba(0, 0, 0, 0.6)',
+        borderColor: 'rgba(255, 255, 255, 0.1)',
+        backdropFilter: 'blur(12px)',
+        shadowColor: 'rgba(0, 0, 0, 0.3)',
+    },
+    premium: {
+        backgroundColor: 'rgba(20, 20, 20, 0.7)',
+        borderColor: 'rgba(211, 47, 47, 0.3)', // Primary color accent
+        backdropFilter: 'blur(16px)',
+        shadowColor: 'rgba(0, 0, 0, 0.4)',
+    }
+} as const;
+
+// ============================================
 // UTILITIES - Funções utilitárias
 // ============================================
 
@@ -662,6 +759,7 @@ export const DARK_THEME = {
     border: COLORS.border,
     overlay: COLORS.overlay,
     gradients: COLORS.gradients,
+    glass: GLASS,
 } as const;
 
 // Importação dinâmica compatível com TS
@@ -699,6 +797,7 @@ export default {
     BORDER_RADIUS,
     BORDER_WIDTH,
     ELEVATION,
+    GLASS,
     COLORS,
     OPACITY,
     ANIMATION,
@@ -707,6 +806,7 @@ export default {
     BREAKPOINTS,
     CONTAINER,
     TRANSITIONS,
+    GLASS_EFFECTS,
     // Utilities
     getSpacing,
     getFontSize,

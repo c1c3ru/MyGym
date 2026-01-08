@@ -4,6 +4,7 @@ import { View, StyleSheet, ViewStyle, StyleProp, Platform, FlatList } from 'reac
 import { ActivityIndicator, Text } from 'react-native-paper';
 import { flashListConfig } from '@utils/performanceOptimizations';
 import { COLORS, SPACING, FONT_SIZE } from '@presentation/theme/designTokens';
+import { useTheme } from '@contexts/ThemeContext';
 
 const styles = StyleSheet.create({
     defaultFlashList: {
@@ -34,22 +35,28 @@ const styles = StyleSheet.create({
     },
 });
 
-const LoadingFooter = memo(() => (
-    <View style={styles.loadingFooter}>
-        <ActivityIndicator size="small" color={COLORS.info[500]} />
-        <Text style={styles.loadingText}>Carregando mais...</Text>
-    </View>
-));
+const LoadingFooter = memo(() => {
+    const { getString } = useTheme();
+    return (
+        <View style={styles.loadingFooter}>
+            <ActivityIndicator size="small" color={COLORS.info[500]} />
+            <Text style={styles.loadingText}>{getString('loadingMore')}</Text>
+        </View>
+    );
+});
 
 interface EmptyComponentProps {
     message?: string;
 }
 
-const EmptyComponent = memo(({ message = 'Nenhum item encontrado' }: EmptyComponentProps) => (
-    <View style={styles.emptyContainer}>
-        <Text style={styles.emptyText}>{message}</Text>
-    </View>
-));
+const EmptyComponent = memo(({ message }: EmptyComponentProps) => {
+    const { getString } = useTheme();
+    return (
+        <View style={styles.emptyContainer}>
+            <Text style={styles.emptyText}>{message || getString('noItemsFound')}</Text>
+        </View>
+    );
+});
 
 interface EnhancedFlashListProps<T> extends Omit<FlashListProps<T>, 'estimatedItemSize' | 'contentContainerStyle'> {
     emptyMessage?: string;
@@ -83,6 +90,8 @@ function EnhancedFlashListInner<T>({
     accessibilityLabel,
     ...props
 }: EnhancedFlashListProps<T>) {
+    const { getString } = useTheme();
+
     const memoizedRenderItem = useCallback((info: any) => {
         return renderItem ? renderItem(info) : null;
     }, [renderItem]);
@@ -94,9 +103,9 @@ function EnhancedFlashListInner<T>({
 
     const memoizedListEmpty = useMemo(() => {
         if (ListEmptyComponent) return ListEmptyComponent;
-        if (emptyMessage) return <EmptyComponent message={emptyMessage} />;
+        if (emptyMessage) return <EmptyComponent message={getString(emptyMessage)} />;
         return <EmptyComponent />;
-    }, [ListEmptyComponent, emptyMessage]);
+    }, [ListEmptyComponent, emptyMessage, getString]);
 
     const memoizedListFooter = useMemo(() => {
         if (ListFooterComponent) return ListFooterComponent;
@@ -108,6 +117,8 @@ function EnhancedFlashListInner<T>({
         ...flashListConfig,
         estimatedItemSize,
     }), [estimatedItemSize]);
+
+    const listAccessibilityLabel = accessibilityLabel || getString('listWithItems').replace('{count}', (data?.length || 0).toString());
 
     if (Platform.OS === 'web') {
         return (
@@ -129,7 +140,7 @@ function EnhancedFlashListInner<T>({
                     ListEmptyComponent={memoizedListEmpty}
                     contentContainerStyle={contentContainerStyle}
                     accessible={accessible}
-                    accessibilityLabel={accessibilityLabel || `Lista com ${data?.length || 0} itens`}
+                    accessibilityLabel={listAccessibilityLabel}
                 />
             </View>
         );
@@ -156,7 +167,7 @@ function EnhancedFlashListInner<T>({
                 ListEmptyComponent={memoizedListEmpty}
                 contentContainerStyle={contentContainerStyle}
                 accessible={accessible}
-                accessibilityLabel={accessibilityLabel || `Lista com ${data?.length || 0} itens`}
+                accessibilityLabel={listAccessibilityLabel}
                 {...props}
             />
         </View>
