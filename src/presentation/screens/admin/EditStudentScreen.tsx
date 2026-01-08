@@ -411,7 +411,7 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
               mode="outlined"
               onPress={handleDelete}
               style={[styles.button, styles.deleteButton]}
-              textColor="currentTheme.primary[700]"
+              textColor={COLORS.error[700]}
               disabled={loading}
             >
               Excluir Aluno

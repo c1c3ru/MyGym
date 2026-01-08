@@ -21,7 +21,6 @@ import batchFirestoreService from '@infrastructure/services/batchFirestoreServic
 import cacheService, { CACHE_KEYS, CACHE_TTL } from '@infrastructure/services/cacheService';
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import StudentListSkeleton from '@components/skeletons/StudentListSkeleton';
-import { useFocusEffect } from '@react-navigation/native';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
 import { getString } from "@utils/theme";
@@ -47,8 +46,10 @@ const AdminStudents = ({ navigation }) => {
 
   // Define loadStudents before using it in usePullToRefresh
   const loadStudents = useCallback(async () => {
+    console.log('📥 loadStudents chamado - iniciando carregamento');
     try {
       setLoading(true);
+      console.log('⏳ Loading definido como true');
 
       // Obter ID da academia
       const academiaId = userProfile?.academiaId || academia?.id;
@@ -133,24 +134,95 @@ const AdminStudents = ({ navigation }) => {
       setStudents([]);
       Alert.alert('Erro', 'Não foi possível carregar a lista de alunos. Tente novamente.');
     } finally {
+      console.log('✅ Finalizando loadStudents - definindo loading como false');
       setLoading(false);
     }
   }, [userProfile?.academiaId, academia?.id, trackFeatureUsage]);
 
   const { refreshing, onRefresh } = usePullToRefresh(loadStudents);
 
+  // Handler functions - defined before renderStudentItem to avoid initialization errors
+  const handleStudentPress = useCallback((student) => {
+    trackButtonClick('student_details', { studentId: student.id });
+    navigation.navigate('StudentDetails', { studentId: student.id, studentData: student });
+  }, [trackButtonClick, navigation]);
+
+  const handleViewStudent = useCallback((student) => {
+    trackButtonClick('view_student', { studentId: student.id });
+    navigation.navigate('StudentDetails', { studentId: student.id, studentData: student });
+  }, [trackButtonClick, navigation]);
+
+  const handleEditStudent = useCallback((student) => {
+    trackButtonClick('edit_student', { studentId: student.id });
+    navigation.navigate('EditStudent', { studentId: student.id, studentData: student });
+  }, [trackButtonClick, navigation]);
+
+  const handleDeleteStudent = useCallback((student) => {
+    Alert.alert(
+      getString('confirmDelete'),
+      `Tem certeza que deseja excluir o aluno ${student.name}?`,
+      [
+        { text: getString('cancel'), style: 'cancel' },
+        {
+          text: getString('delete'),
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await firestoreService.delete('users', student.id);
+              loadStudents();
+              Alert.alert(getString('success'), 'Aluno excluído com sucesso');
+            } catch (error) {
+              Alert.alert(getString('error'), 'Não foi possível excluir o aluno');
+            }
+          }
+        }
+      ]
+    );
+  }, [loadStudents]);
+
+  const handleDisassociateStudent = useCallback((student) => {
+    setSelectedStudent(student);
+    setShowDisassociationDialog(true);
+  }, []);
+
+  const handleAddStudent = useCallback(() => {
+    trackButtonClick('add_student');
+    navigation.navigate('AddStudent', {
+      onStudentAdded: (newStudent) => {
+        console.log('🔄 Novo aluno adicionado, atualizando lista:', newStudent.name);
+
+        // Invalidar cache de alunos
+        const academiaId = userProfile?.academiaId || academia?.id;
+        if (academiaId) {
+          cacheService.invalidatePattern(`students:${academiaId})`);
+        }
+
+        // Adicionar o novo aluno à lista imediatamente
+        setStudents(prevStudents => [newStudent, ...prevStudents]);
+
+        // Também recarregar para garantir dados atualizados
+        setTimeout(() => {
+          loadStudents();
+        }, 1000);
+      }
+    });
+  }, [trackButtonClick, navigation, userProfile?.academiaId, academia?.id, loadStudents]);
+
   // Memoized render function for FlashList
-  const renderStudentItem = useCallback(({ item: student, index }) => (
-    <StudentListItem
-      key={student.id || index}
-      student={student}
-      index={index}
-      onPress={handleStudentPress}
-      onView={handleViewStudent}
-      onEdit={handleEditStudent}
-      onDelete={handleDeleteStudent}
-    />
-  ), []);
+  const renderStudentItem = useCallback(({ item: student, index }) => {
+    console.log('🎨 renderStudentItem chamado para:', student.name, 'index:', index);
+    return (
+      <StudentListItem
+        key={student.id || index}
+        student={student}
+        index={index}
+        onPress={handleStudentPress}
+        onView={handleViewStudent}
+        onEdit={handleEditStudent}
+        onDelete={handleDeleteStudent}
+      />
+    );
+  }, [handleStudentPress, handleViewStudent, handleEditStudent, handleDeleteStudent]);
 
   // Key extractor for FlashList
   const keyExtractor = useCallback((item, index) => item.id || `student-${index}`, []);
@@ -158,20 +230,19 @@ const AdminStudents = ({ navigation }) => {
   // Empty list component
   const renderEmptyList = useCallback(() => (
     <View style={styles.emptyContainer}>
-      <Ionicons name="people-outline" size={64} color="currentTheme.gray[300]" />
+      <Ionicons name="people-outline" size={64} color={currentTheme?.gray?.[300] || COLORS.gray[300]} />
       <Text style={styles.emptyText}>{getString('noStudentsFound')}</Text>
       <Text style={styles.emptySubtext}>
         {searchQuery ? 'Tente ajustar os filtros de busca' : 'Adicione o primeiro aluno da academia'}
       </Text>
     </View>
-  ), [searchQuery]);
+  ), [searchQuery, currentTheme]);
 
-  // Auto-refresh quando a tela ganha foco
-  useFocusEffect(
-    React.useCallback(() => {
-      loadStudents();
-    }, [loadStudents])
-  );
+  // Carregar dados quando o componente montar
+  useEffect(() => {
+    console.log('🚀 AdminStudents useEffect executado - chamando loadStudents');
+    loadStudents();
+  }, []); // Array vazio = executa apenas uma vez no mount
 
   // Memoized filter function
   const filteredStudents = useMemo(() => {
@@ -217,72 +288,6 @@ const AdminStudents = ({ navigation }) => {
   }, [students, searchQuery, selectedFilter, trackSearch, userProfile?.academiaId]);
 
   // onRefresh is now provided by usePullToRefresh hook
-
-  const handleStudentPress = (student) => {
-    trackButtonClick('student_details', { studentId: student.id });
-    navigation.navigate('StudentDetails', { studentId: student.id, studentData: student });
-  };
-
-  const handleViewStudent = (student) => {
-    trackButtonClick('view_student', { studentId: student.id });
-    navigation.navigate('StudentDetails', { studentId: student.id, studentData: student });
-  };
-
-  const handleAddStudent = () => {
-    trackButtonClick('add_student');
-    navigation.navigate('AddStudent', {
-      onStudentAdded: (newStudent) => {
-        console.log('🔄 Novo aluno adicionado, atualizando lista:', newStudent.name);
-
-        // Invalidar cache de alunos
-        const academiaId = userProfile?.academiaId || academia?.id;
-        if (academiaId) {
-          cacheService.invalidatePattern(`students:${academiaId})`);
-        }
-
-        // Adicionar o novo aluno à lista imediatamente
-        setStudents(prevStudents => [newStudent, ...prevStudents]);
-
-        // Também recarregar para garantir dados atualizados
-        setTimeout(() => {
-          loadStudents();
-        }, 1000);
-      }
-    });
-  };
-
-  const handleEditStudent = (student) => {
-    trackButtonClick('edit_student', { studentId: student.id });
-    navigation.navigate('EditStudent', { studentId: student.id, studentData: student });
-  };
-
-  const handleDisassociateStudent = (student) => {
-    setSelectedStudent(student);
-    setShowDisassociationDialog(true);
-  };
-
-  const handleDeleteStudent = (student) => {
-    Alert.alert(
-      getString('confirmDelete'),
-      `Tem certeza que deseja excluir o aluno ${student.name}?`,
-      [
-        { text: getString('cancel'), style: 'cancel' },
-        {
-          text: getString('delete'),
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              await firestoreService.delete('users', student.id);
-              loadStudents();
-              Alert.alert(getString('success'), 'Aluno excluído com sucesso');
-            } catch (error) {
-              Alert.alert(getString('error'), 'Não foi possível excluir o aluno');
-            }
-          }
-        }
-      ]
-    );
-  };
 
   const getPaymentStatusColor = (status) => {
     switch (status) {
@@ -355,24 +360,37 @@ const AdminStudents = ({ navigation }) => {
           </View>
         </View>
 
-        {loading ? (
-          <StudentListSkeleton count={5} />
-        ) : (
-          <EnhancedFlashList
-            data={filteredStudents}
-            renderItem={renderStudentItem}
-            keyExtractor={keyExtractor}
-            estimatedItemSize={200}
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-            ListEmptyComponent={renderEmptyList}
-            emptyMessage="noStudentsFound"
-            loadingMore={false}
-            contentContainerStyle={styles.listContainer}
-            accessible={true}
-            accessibilityLabel={`Lista de ${filteredStudents.length} alunos`}
-          />
-        )}
+
+        <View style={{ flex: 1, minHeight: 400 }}>
+          {(() => {
+            console.log('🔍 AdminStudents render state:', {
+              loading,
+              studentsCount: students.length,
+              filteredCount: filteredStudents.length
+            });
+
+            if (loading) {
+              return <StudentListSkeleton count={5} />;
+            }
+
+            return (
+              <EnhancedFlashList
+                data={filteredStudents}
+                renderItem={renderStudentItem}
+                keyExtractor={keyExtractor}
+                estimatedItemSize={200}
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+                ListEmptyComponent={renderEmptyList}
+                emptyMessage="noStudentsFound"
+                loadingMore={false}
+                contentContainerStyle={styles.listContainer}
+                accessible={true}
+                accessibilityLabel={`Lista de ${filteredStudents.length} alunos`}
+              />
+            );
+          })()}
+        </View>
 
         <FAB
           style={styles.fab}

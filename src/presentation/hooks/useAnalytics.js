@@ -76,6 +76,14 @@ export const useScreenTracking = (screenName, additionalProperties = {}) => {
   const screenStartTime = useRef(null);
   const timerName = `screen_${screenName}`;
 
+  // Estabilizar additionalProperties para evitar loops
+  const propsRef = useRef(additionalProperties);
+  const propsStringified = JSON.stringify(additionalProperties);
+
+  useEffect(() => {
+    propsRef.current = additionalProperties;
+  }, [propsStringified]);
+
   useFocusEffect(
     useCallback(() => {
       // Tela ganhou foco
@@ -84,7 +92,7 @@ export const useScreenTracking = (screenName, additionalProperties = {}) => {
 
       trackEvent(ANALYTICS_EVENTS.SCREEN_VIEW, {
         screen: screenName,
-        ...additionalProperties
+        ...propsRef.current
       });
 
       return () => {
@@ -92,17 +100,17 @@ export const useScreenTracking = (screenName, additionalProperties = {}) => {
         if (screenStartTime.current) {
           const duration = endTimer(timerName, {
             screen: screenName,
-            ...additionalProperties
+            ...propsRef.current
           });
 
           trackEvent('screen_exit', {
             screen: screenName,
             duration,
-            ...additionalProperties
+            ...propsRef.current
           });
         }
       };
-    }, [screenName, trackEvent, startTimer, endTimer, additionalProperties])
+    }, [screenName, trackEvent, startTimer, endTimer, timerName])
   );
 };
 

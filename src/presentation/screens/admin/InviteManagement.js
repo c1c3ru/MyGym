@@ -23,6 +23,10 @@ export default function InviteManagement({ navigation }) {
   const { user, userProfile, academia } = useAuthFacade();
   const [invites, setInvites] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [loadingCleanup, setLoadingCleanup] = useState(false);
+  const [loadingDeleteAll, setLoadingDeleteAll] = useState(false);
+  const [loadingDeleteExpired, setLoadingDeleteExpired] = useState(false);
+  const [deletingInviteId, setDeletingInviteId] = useState(null);
   const [showInviteModal, setShowInviteModal] = useState(false);
   const [showQRModal, setShowQRModal] = useState(false);
   const [newInvite, setNewInvite] = useState({
@@ -136,7 +140,7 @@ export default function InviteManagement({ navigation }) {
 
   const cleanupAcceptedInvites = async () => {
     try {
-      setLoading(true);
+      setLoadingCleanup(true);
       const cleanedCount = await InviteService.cleanupAcceptedInvites(academia.id);
 
       if (cleanedCount > 0) {
@@ -152,7 +156,7 @@ export default function InviteManagement({ navigation }) {
       console.error('Erro ao limpar convites:', error);
       Alert.alert(getString('error'), 'Não foi possível limpar os convites aceitos');
     } finally {
-      setLoading(false);
+      setLoadingCleanup(false);
     }
   };
 
@@ -167,7 +171,7 @@ export default function InviteManagement({ navigation }) {
           style: 'destructive',
           onPress: async () => {
             try {
-              setLoading(true);
+              setDeletingInviteId(inviteId);
               await InviteService.deleteInvite(academia.id, inviteId);
               Alert.alert('Sucesso', 'Convite excluído com sucesso!');
               loadInvites();
@@ -175,7 +179,7 @@ export default function InviteManagement({ navigation }) {
               console.error('Erro ao excluir convite:', error);
               Alert.alert(getString('error'), 'Não foi possível excluir o convite');
             } finally {
-              setLoading(false);
+              setDeletingInviteId(null);
             }
           }
         }
@@ -194,7 +198,7 @@ export default function InviteManagement({ navigation }) {
           style: 'destructive',
           onPress: async () => {
             try {
-              setLoading(true);
+              setLoadingDeleteAll(true);
               const deletedCount = await InviteService.deleteAllInvites(academia.id);
               Alert.alert(
                 'Sucesso',
@@ -205,7 +209,7 @@ export default function InviteManagement({ navigation }) {
               console.error('Erro ao excluir todos os convites:', error);
               Alert.alert(getString('error'), 'Não foi possível excluir os convites');
             } finally {
-              setLoading(false);
+              setLoadingDeleteAll(false);
             }
           }
         }
@@ -231,7 +235,7 @@ export default function InviteManagement({ navigation }) {
           style: 'destructive',
           onPress: async () => {
             try {
-              setLoading(true);
+              setLoadingDeleteExpired(true);
               const deletedCount = await InviteService.deleteExpiredInvites(academia.id);
               Alert.alert(
                 'Sucesso',
@@ -242,7 +246,7 @@ export default function InviteManagement({ navigation }) {
               console.error('Erro ao excluir convites expirados:', error);
               Alert.alert(getString('error'), 'Não foi possível excluir os convites expirados');
             } finally {
-              setLoading(false);
+              setLoadingDeleteExpired(false);
             }
           }
         }
@@ -308,6 +312,8 @@ export default function InviteManagement({ navigation }) {
           <ActionButton
             mode="text"
             onPress={() => deleteInvite(invite.id, invite.email)}
+            loading={deletingInviteId === invite.id}
+            disabled={deletingInviteId === invite.id}
             icon="delete"
             size="small"
             variant="danger"
@@ -379,7 +385,8 @@ export default function InviteManagement({ navigation }) {
                 <ActionButton
                   mode="text"
                   onPress={cleanupAcceptedInvites}
-                  loading={loading}
+                  loading={loadingCleanup}
+                  disabled={loadingCleanup}
                   icon="broom"
                   size="small"
                   variant="secondary"
@@ -390,7 +397,8 @@ export default function InviteManagement({ navigation }) {
                 <ActionButton
                   mode="text"
                   onPress={deleteExpiredInvites}
-                  loading={loading}
+                  loading={loadingDeleteExpired}
+                  disabled={loadingDeleteExpired}
                   icon="clock-alert"
                   size="small"
                   variant="warning"
@@ -401,7 +409,8 @@ export default function InviteManagement({ navigation }) {
                 <ActionButton
                   mode="text"
                   onPress={deleteAllInvites}
-                  loading={loading}
+                  loading={loadingDeleteAll}
+                  disabled={loadingDeleteAll}
                   icon="delete-sweep"
                   size="small"
                   variant="danger"

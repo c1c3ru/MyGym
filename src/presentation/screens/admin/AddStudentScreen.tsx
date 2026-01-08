@@ -70,12 +70,12 @@ const AddStudentScreen = ({ navigation, route }: any) => {
 
   // Enhanced form validation
   const studentValidationSchema = {
-    name: ['required', 'minLength:2'],
+    name: ['required', { rule: 'minLength', params: [2] }],
     email: ['required', 'email'],
-    phone: ['required', 'minLength:10'],
+    phone: ['required', { rule: 'minLength', params: [10] }],
     birthDate: ['required'],
-    emergencyContact: ['required', 'minLength:2'],
-    emergencyPhone: ['required', 'minLength:10'],
+    emergencyContact: ['required', { rule: 'minLength', params: [2] }],
+    emergencyPhone: ['required', { rule: 'minLength', params: [10] }],
     sexo: ['required']
   };
 
@@ -132,7 +132,11 @@ const AddStudentScreen = ({ navigation, route }: any) => {
       setAvailableClasses(classes);
 
       if (classes.length === 0) {
-        showSnackbar('Nenhuma turma encontrada. Crie turmas primeiro para associar alunos.', 'info');
+        setSnackbar({
+          visible: true,
+          message: 'Nenhuma turma encontrada. Crie turmas primeiro para associar alunos.',
+          type: 'info'
+        });
       }
 
       trackFeatureUsage('classes_loaded_for_student', {
@@ -142,32 +146,34 @@ const AddStudentScreen = ({ navigation, route }: any) => {
 
     } catch (error) {
       console.error('❌ Erro ao carregar turmas:', error);
-      showSnackbar('Erro ao carregar turmas disponíveis', 'error');
+      setSnackbar({
+        visible: true,
+        message: 'Erro ao carregar turmas disponíveis',
+        type: 'error'
+      });
     } finally {
       setLoadingClasses(false);
     }
   }, [userProfile?.academiaId, trackFeatureUsage]);
 
   const toggleClassSelection = useCallback((classId: string) => {
+    const isCurrentlySelected = selectedClasses.includes(classId);
+    const className = availableClasses.find(c => c.id === classId)?.name || 'Turma';
+
     setSelectedClasses(prev => {
       const isSelected = prev.includes(classId);
-      const newSelection = isSelected
+      return isSelected
         ? prev.filter(id => id !== classId)
         : [...prev, classId];
-
-      // Feedback visual
-      const className = availableClasses.find(c => c.id === classId)?.name || 'Turma';
-      if (isSelected) {
-        showSnackbar(`${className} removida da seleção`, 'info');
-        trackButtonClick('remove_class_selection', { classId, className });
-      } else {
-        showSnackbar(`${className} adicionada à seleção`, 'success');
-        trackButtonClick('add_class_selection', { classId, className });
-      }
-
-      return newSelection;
     });
-  }, [availableClasses, trackButtonClick]);
+
+    // Feedback visual e analytics fora do setState
+    if (isCurrentlySelected) {
+      trackButtonClick('remove_class_selection', { classId, className });
+    } else {
+      trackButtonClick('add_class_selection', { classId, className });
+    }
+  }, [selectedClasses, availableClasses, trackButtonClick]);
 
   const showSnackbar = (message: string, type: string = 'info') => {
     setSnackbar({
