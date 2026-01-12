@@ -1,6 +1,13 @@
-
-import React, { useState } from 'react';
-import { View, StyleSheet, Alert, ScrollView, KeyboardAvoidingView, Platform, Dimensions } from 'react-native';
+import React, { useState } from "react";
+import {
+  View,
+  StyleSheet,
+  Alert,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+  Dimensions,
+} from "react-native";
 import {
   TextInput,
   Card,
@@ -8,20 +15,34 @@ import {
   ActivityIndicator,
   Snackbar,
   HelperText,
-  Text
-} from 'react-native-paper';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { LinearGradient } from 'expo-linear-gradient';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { sendPasswordResetEmail } from 'firebase/auth';
-import { auth } from '@infrastructure/services/firebase';
-import AnimatedCard from '@components/AnimatedCard';
-import AnimatedButton from '@components/AnimatedButton';
-import { ResponsiveUtils } from '@utils/animations';
-import { useTheme } from '@contexts/ThemeContext';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getAuthGradient, getAuthCardColors } from '@presentation/theme/authTheme';
-import type { AuthScreenProps, ForgotPasswordFormErrors, SnackbarState } from './types';
+  Text,
+} from "react-native-paper";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { LinearGradient } from "expo-linear-gradient";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { sendPasswordResetEmail } from "firebase/auth";
+import { auth } from "@infrastructure/services/firebase";
+import AnimatedCard from "@components/AnimatedCard";
+import AnimatedButton from "@components/AnimatedButton";
+import { ResponsiveUtils } from "@utils/animations";
+import { useTheme } from "@contexts/ThemeContext";
+import {
+  COLORS,
+  SPACING,
+  FONT_SIZE,
+  BORDER_RADIUS,
+  FONT_WEIGHT,
+} from "@presentation/theme/designTokens";
+import {
+  getAuthGradient,
+  getAuthCardColors,
+} from "@presentation/theme/authTheme";
+import { hexToRgba } from "@shared/utils/colorUtils";
+import type {
+  AuthScreenProps,
+  ForgotPasswordFormErrors,
+  SnackbarState,
+} from "./types";
 import { getString } from "@utils/theme";
 
 /**
@@ -30,26 +51,29 @@ import { getString } from "@utils/theme";
  */
 export default function ForgotPasswordScreen({ navigation }: AuthScreenProps) {
   const { isDarkMode, theme, getString } = useTheme();
-  const [email, setEmail] = useState<string>('');
+  const [email, setEmail] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [emailSent, setEmailSent] = useState<boolean>(false);
 
   // Feedback states
   const [snackbar, setSnackbar] = useState<SnackbarState>({
     visible: false,
-    message: '',
-    type: 'info'
+    message: "",
+    type: "info",
   });
   const [errors, setErrors] = useState<ForgotPasswordFormErrors>({});
 
   /**
    * Exibe uma mensagem de feedback ao usuário
    */
-  const showSnackbar = (message: string, type: SnackbarState['type'] = 'info'): void => {
+  const showSnackbar = (
+    message: string,
+    type: SnackbarState["type"] = "info",
+  ): void => {
     setSnackbar({
       visible: true,
       message,
-      type
+      type,
     });
   };
 
@@ -57,7 +81,7 @@ export default function ForgotPasswordScreen({ navigation }: AuthScreenProps) {
    * Oculta a mensagem de feedback
    */
   const hideSnackbar = (): void => {
-    setSnackbar(prev => ({ ...prev, visible: false }));
+    setSnackbar((prev) => ({ ...prev, visible: false }));
   };
 
   /**
@@ -68,9 +92,9 @@ export default function ForgotPasswordScreen({ navigation }: AuthScreenProps) {
     const newErrors: ForgotPasswordFormErrors = {};
 
     if (!email.trim()) {
-      newErrors.email = getString('emailRequired');
+      newErrors.email = getString("emailRequired");
     } else if (!/\S+@\S+\.\S+/.test(email.trim())) {
-      newErrors.email = getString('invalidEmail');
+      newErrors.email = getString("invalidEmail");
     }
 
     setErrors(newErrors);
@@ -82,50 +106,50 @@ export default function ForgotPasswordScreen({ navigation }: AuthScreenProps) {
    */
   const handleResetPassword = async (): Promise<void> => {
     if (!validateEmail()) {
-      showSnackbar(getString('pleaseValidEmail'), 'error');
+      showSnackbar(getString("pleaseValidEmail"), "error");
       return;
     }
 
     setLoading(true);
-    console.log('🔄 Iniciando processo de recuperação de senha...');
-    console.log('📧 Email:', email.trim());
-    console.log('🔥 Auth object:', auth);
+    console.log("🔄 Iniciando processo de recuperação de senha...");
+    console.log("📧 Email:", email.trim());
+    console.log("🔥 Auth object:", auth);
 
     try {
-      console.log('📤 Enviando email de recuperação...');
+      console.log("📤 Enviando email de recuperação...");
       await sendPasswordResetEmail(auth, email.trim());
-      console.log('✅ Email de recuperação enviado com sucesso!');
+      console.log("✅ Email de recuperação enviado com sucesso!");
 
       setEmailSent(true);
-      showSnackbar(getString('emailSentSuccess'), 'success');
+      showSnackbar(getString("emailSentSuccess"), "success");
 
       // Auto-voltar após 5 segundos para dar tempo de ler
       setTimeout(() => {
         navigation.goBack();
       }, 5000);
     } catch (error: any) {
-      console.error('❌ Erro detalhado ao enviar email:', error);
-      console.error('❌ Error code:', error.code);
-      console.error('❌ Error message:', error.message);
-      console.error('❌ Error stack:', error.stack);
+      console.error("❌ Erro detalhado ao enviar email:", error);
+      console.error("❌ Error code:", error.code);
+      console.error("❌ Error message:", error.message);
+      console.error("❌ Error stack:", error.stack);
 
-      let errorMessage = getString('resetPasswordError');
+      let errorMessage = getString("resetPasswordError");
 
-      if (error.code === 'auth/user-not-found') {
-        errorMessage = getString('emailNotFound');
-      } else if (error.code === 'auth/invalid-email') {
-        errorMessage = getString('invalidEmailFormat');
-      } else if (error.code === 'auth/too-many-requests') {
-        errorMessage = getString('tooManyRequests');
-      } else if (error.code === 'auth/network-request-failed') {
-        errorMessage = getString('networkError');
-      } else if (error.code === 'auth/configuration-not-found') {
-        errorMessage = getString('configurationNotFound');
+      if (error.code === "auth/user-not-found") {
+        errorMessage = getString("emailNotFound");
+      } else if (error.code === "auth/invalid-email") {
+        errorMessage = getString("invalidEmailFormat");
+      } else if (error.code === "auth/too-many-requests") {
+        errorMessage = getString("tooManyRequests");
+      } else if (error.code === "auth/network-request-failed") {
+        errorMessage = getString("networkError");
+      } else if (error.code === "auth/configuration-not-found") {
+        errorMessage = getString("configurationNotFound");
       } else if (error.message) {
-        errorMessage = `${getString('error')}: ${error.message}`;
+        errorMessage = `${getString("error")}: ${error.message}`;
       }
 
-      showSnackbar(errorMessage, 'error');
+      showSnackbar(errorMessage, "error");
     } finally {
       setLoading(false);
     }
@@ -139,7 +163,7 @@ export default function ForgotPasswordScreen({ navigation }: AuthScreenProps) {
       <SafeAreaView style={styles.container}>
         <KeyboardAvoidingView
           style={styles.keyboardAvoidingView}
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
           <ScrollView
             style={styles.scrollView}
@@ -154,27 +178,29 @@ export default function ForgotPasswordScreen({ navigation }: AuthScreenProps) {
                 color={COLORS.white}
                 style={styles.headerIcon}
               />
-              <Text style={styles.headerTitle}>{getString('recoverPassword')}</Text>
+              <Text style={styles.headerTitle}>
+                {getString("recoverPassword")}
+              </Text>
               <Text style={styles.headerSubtitle}>
-                {getString('enterEmailForInstructions')}
+                {getString("enterEmailForInstructions")}
               </Text>
             </View>
 
             <View style={styles.content}>
-              <View style={[
-                styles.cardWrapper,
-                getAuthCardColors(isDarkMode),
-              ]}>
+              <View style={[styles.cardWrapper, getAuthCardColors(isDarkMode)]}>
                 <Card.Content style={styles.cardContent}>
                   {!emailSent ? (
                     <>
                       <TextInput
-                        label={getString('email')}
+                        label={getString("email")}
                         value={email}
                         onChangeText={(text) => {
                           setEmail(text);
                           if (errors.email) {
-                            setErrors(prev => ({ ...prev, email: undefined }));
+                            setErrors((prev) => ({
+                              ...prev,
+                              email: undefined,
+                            }));
                           }
                         }}
                         mode="outlined"
@@ -185,7 +211,11 @@ export default function ForgotPasswordScreen({ navigation }: AuthScreenProps) {
                         left={<TextInput.Icon icon="email" />}
                         error={!!errors.email}
                       />
-                      {errors.email && <HelperText type="error" style={styles.errorText}>{errors.email}</HelperText>}
+                      {errors.email && (
+                        <HelperText type="error" style={styles.errorText}>
+                          {errors.email}
+                        </HelperText>
+                      )}
 
                       <AnimatedButton
                         mode="contained"
@@ -195,7 +225,7 @@ export default function ForgotPasswordScreen({ navigation }: AuthScreenProps) {
                         disabled={loading}
                         icon="email-send"
                       >
-                        {getString('sendEmail')}
+                        {getString("sendEmail")}
                       </AnimatedButton>
                     </>
                   ) : (
@@ -206,12 +236,23 @@ export default function ForgotPasswordScreen({ navigation }: AuthScreenProps) {
                         color={COLORS.primary[500]}
                         style={styles.successIcon}
                       />
-                      <Text style={[styles.successTitle, { color: COLORS.primary[500], fontWeight: 'bold', fontSize: FONT_SIZE.lg }]}>{getString('emailSent')}</Text>
+                      <Text
+                        style={[
+                          styles.successTitle,
+                          {
+                            color: COLORS.primary[500],
+                            fontWeight: "bold",
+                            fontSize: FONT_SIZE.lg,
+                          },
+                        ]}
+                      >
+                        {getString("emailSent")}
+                      </Text>
                       <Text style={styles.successText}>
-                        {getString('checkInboxInstructions')}
+                        {getString("checkInboxInstructions")}
                       </Text>
                       <Text style={styles.spamWarning}>
-                        {getString('spamFolderWarning')}
+                        {getString("spamFolderWarning")}
                       </Text>
                     </View>
                   )}
@@ -223,7 +264,7 @@ export default function ForgotPasswordScreen({ navigation }: AuthScreenProps) {
                       disabled={loading}
                       icon="arrow-left"
                     >
-                      {getString('backToLogin')}
+                      {getString("backToLogin")}
                     </Button>
                   </View>
                 </Card.Content>
@@ -236,16 +277,16 @@ export default function ForgotPasswordScreen({ navigation }: AuthScreenProps) {
         <Snackbar
           visible={snackbar.visible}
           onDismiss={hideSnackbar}
-          duration={snackbar.type === 'success' ? 4000 : 6000}
+          duration={snackbar.type === "success" ? 4000 : 6000}
           style={[
             styles.snackbar,
-            snackbar.type === 'success' && styles.snackbarSuccess,
-            snackbar.type === 'error' && styles.snackbarError
+            snackbar.type === "success" && styles.snackbarSuccess,
+            snackbar.type === "error" && styles.snackbarError,
           ]}
           action={{
-            label: getString('close'),
+            label: getString("close"),
             onPress: hideSnackbar,
-            textColor: COLORS.white
+            textColor: COLORS.white,
           }}
         >
           {snackbar.message}
@@ -261,7 +302,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
   },
   keyboardAvoidingView: {
     flex: 1,
@@ -274,7 +315,7 @@ const styles = StyleSheet.create({
     paddingBottom: ResponsiveUtils?.spacing?.xl || 32,
   },
   header: {
-    alignItems: 'center',
+    alignItems: "center",
     padding: ResponsiveUtils?.spacing?.xl || 32,
     paddingBottom: ResponsiveUtils?.spacing?.md || 16,
   },
@@ -286,28 +327,28 @@ const styles = StyleSheet.create({
     fontWeight: FONT_WEIGHT.bold,
     color: COLORS.white,
     marginBottom: ResponsiveUtils?.spacing?.sm || 8,
-    textAlign: 'center',
+    textAlign: "center",
   },
   headerSubtitle: {
     fontSize: ResponsiveUtils?.fontSize?.medium || 16,
     color: COLORS.white + "E6",
-    textAlign: 'center',
+    textAlign: "center",
   },
   content: {
     flex: 1,
     paddingHorizontal: ResponsiveUtils?.spacing?.md || 16,
     maxWidth: ResponsiveUtils?.isTablet?.() ? 500 : 450,
-    alignSelf: 'center',
-    width: '100%',
-    justifyContent: 'center',
+    alignSelf: "center",
+    width: "100%",
+    justifyContent: "center",
   },
   cardWrapper: {
     borderRadius: BORDER_RADIUS.lg,
     borderWidth: 1.5,
-    overflow: 'hidden',
+    overflow: "hidden",
     ...Platform.select({
       web: {
-        backdropFilter: 'blur(10px)',
+        backdropFilter: "blur(10px)",
         boxShadow: `0 8px 32px ${hexToRgba(COLORS.black, 0.2)}`,
       },
       default: {
@@ -316,7 +357,7 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.3,
         shadowRadius: 4.65,
-      }
+      },
     }),
   },
   cardContent: {
@@ -332,7 +373,7 @@ const styles = StyleSheet.create({
     borderRadius: ResponsiveUtils?.borderRadius?.large || 25,
   },
   successContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     paddingVertical: ResponsiveUtils?.spacing?.md || 16,
   },
   successIcon: {
@@ -341,14 +382,14 @@ const styles = StyleSheet.create({
   successTitle: {
     color: COLORS.primary[500],
     marginBottom: ResponsiveUtils?.spacing?.sm || 8,
-    textAlign: 'center',
+    textAlign: "center",
   },
   successText: {
-    textAlign: 'center',
+    textAlign: "center",
     color: COLORS.gray[500],
   },
   backContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginTop: ResponsiveUtils?.spacing?.md || 16,
   },
   errorText: {
@@ -356,7 +397,7 @@ const styles = StyleSheet.create({
     marginTop: -8,
   },
   snackbar: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 0,
     left: 0,
     right: 0,
@@ -369,7 +410,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.error[500],
   },
   spamWarning: {
-    textAlign: 'center',
+    textAlign: "center",
     color: COLORS.warning[500],
     marginTop: SPACING.md,
     fontSize: FONT_SIZE.base,

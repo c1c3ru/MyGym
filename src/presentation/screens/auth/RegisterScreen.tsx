@@ -1,5 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { View, StyleSheet, ScrollView, Animated, Alert, KeyboardAvoidingView, Platform, Dimensions, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect, useRef } from "react";
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  Animated,
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  Dimensions,
+  TouchableOpacity,
+} from "react-native";
 import {
   TextInput,
   Button,
@@ -11,20 +21,32 @@ import {
   Snackbar,
   HelperText,
   Checkbox,
-  Card
-} from 'react-native-paper';
-import ModernCard from '@components/modern/ModernCard';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { LinearGradient } from 'expo-linear-gradient';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useAuthFacade } from '@presentation/auth/AuthFacade';
-import { useTheme } from '@contexts/ThemeContext';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getAuthGradient } from '@presentation/theme/authTheme';
-import type { AuthScreenProps, RegisterFormData, RegisterFormErrors, SnackbarState } from './types';
+  Card,
+} from "react-native-paper";
+import ModernCard from "@components/modern/ModernCard";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { LinearGradient } from "expo-linear-gradient";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useAuthFacade } from "@presentation/auth/AuthFacade";
+import { useTheme } from "@contexts/ThemeContext";
+import {
+  COLORS,
+  SPACING,
+  FONT_SIZE,
+  BORDER_RADIUS,
+  FONT_WEIGHT,
+} from "@presentation/theme/designTokens";
+import { getAuthGradient } from "@presentation/theme/authTheme";
+import { hexToRgba } from "@shared/utils/colorUtils";
+import type {
+  AuthScreenProps,
+  RegisterFormData,
+  RegisterFormErrors,
+  SnackbarState,
+} from "./types";
 import { getString } from "@utils/theme";
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get("window");
 
 /**
  * Tela de cadastro
@@ -34,20 +56,25 @@ const RegisterScreen = ({ navigation }: AuthScreenProps) => {
   const { isDarkMode, getString } = useTheme();
 
   const [formData, setFormData] = useState<RegisterFormData>({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    phone: '',
-    userType: 'student',
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    phone: "",
+    userType: "student",
     acceptTerms: false,
-    acceptPrivacyPolicy: false
+    acceptPrivacyPolicy: false,
   });
   const [loading, setLoading] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
+  const [showConfirmPassword, setShowConfirmPassword] =
+    useState<boolean>(false);
   const [errors, setErrors] = useState<RegisterFormErrors>({});
-  const [snackbar, setSnackbar] = useState<SnackbarState>({ visible: false, message: '', type: 'error' });
+  const [snackbar, setSnackbar] = useState<SnackbarState>({
+    visible: false,
+    message: "",
+    type: "error",
+  });
 
   // Animações
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -62,17 +89,17 @@ const RegisterScreen = ({ navigation }: AuthScreenProps) => {
       Animated.timing(fadeAnim, {
         toValue: 1,
         duration: 800,
-        useNativeDriver: Platform.OS !== 'web',
+        useNativeDriver: Platform.OS !== "web",
       }),
       Animated.timing(slideAnim, {
         toValue: 0,
         duration: 800,
-        useNativeDriver: Platform.OS !== 'web',
+        useNativeDriver: Platform.OS !== "web",
       }),
       Animated.timing(scaleAnim, {
         toValue: 1,
         duration: 800,
-        useNativeDriver: Platform.OS !== 'web',
+        useNativeDriver: Platform.OS !== "web",
       }),
     ]).start();
   }, []);
@@ -81,36 +108,40 @@ const RegisterScreen = ({ navigation }: AuthScreenProps) => {
     const newErrors: RegisterFormErrors = {};
 
     if (!formData.name.trim()) {
-      newErrors.name = getString('nameRequired');
+      newErrors.name = getString("nameRequired");
     }
 
     if (!formData.email.trim()) {
-      newErrors.email = getString('emailRequired');
+      newErrors.email = getString("emailRequired");
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = getString('invalidEmail');
+      newErrors.email = getString("invalidEmail");
     }
 
     if (formData.password.length < 6) {
-      newErrors.password = getString('passwordMinLength');
+      newErrors.password = getString("passwordMinLength");
     }
 
     if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = getString('passwordsMismatch');
+      newErrors.confirmPassword = getString("passwordsMismatch");
     }
 
     if (!formData.acceptTerms) {
-      newErrors.acceptTerms = 'Você deve aceitar os termos de uso';
+      newErrors.acceptTerms = "Você deve aceitar os termos de uso";
     }
 
     if (!formData.acceptPrivacyPolicy) {
-      newErrors.acceptPrivacyPolicy = 'Você deve aceitar a política de privacidade';
+      newErrors.acceptPrivacyPolicy =
+        "Você deve aceitar a política de privacidade";
     }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const showSnackbar = (message: string, type: SnackbarState['type'] = 'error'): void => {
+  const showSnackbar = (
+    message: string,
+    type: SnackbarState["type"] = "error",
+  ): void => {
     setSnackbar({ visible: true, message, type });
   };
 
@@ -124,52 +155,73 @@ const RegisterScreen = ({ navigation }: AuthScreenProps) => {
         phone: formData.phone.trim(),
         userType: formData.userType,
         acceptTerms: formData.acceptTerms,
-        acceptPrivacyPolicy: formData.acceptPrivacyPolicy
+        acceptPrivacyPolicy: formData.acceptPrivacyPolicy,
       };
 
       await signUp(formData.email, formData.password, userData);
-      showSnackbar(getString('accountCreatedSuccess'), 'success');
+      showSnackbar(getString("accountCreatedSuccess"), "success");
 
       // Animação de sucesso
       Animated.sequence([
         Animated.timing(scaleAnim, {
           toValue: 1.05,
           duration: 200,
-          useNativeDriver: Platform.OS !== 'web',
+          useNativeDriver: Platform.OS !== "web",
         }),
         Animated.timing(scaleAnim, {
           toValue: 1,
           duration: 200,
-          useNativeDriver: Platform.OS !== 'web',
+          useNativeDriver: Platform.OS !== "web",
         }),
       ]).start();
     } catch (error: any) {
-      console.error('Erro no cadastro:', error);
-      let errorMessage = getString('registrationError');
+      console.error("Erro no cadastro:", error);
+      let errorMessage = getString("registrationError");
 
       // Mapear erros específicos do Firebase
-      if (error.code === 'auth/email-already-in-use' || error.message?.includes('email-already-in-use')) {
-        errorMessage = 'Este email já está cadastrado. Faça login ou use outro email.';
+      if (
+        error.code === "auth/email-already-in-use" ||
+        error.message?.includes("email-already-in-use")
+      ) {
+        errorMessage =
+          "Este email já está cadastrado. Faça login ou use outro email.";
         setErrors({ email: errorMessage });
-      } else if (error.code === 'auth/weak-password') {
-        errorMessage = 'Senha muito fraca. Use pelo menos 6 caracteres.';
+      } else if (error.code === "auth/weak-password") {
+        errorMessage = "Senha muito fraca. Use pelo menos 6 caracteres.";
         setErrors({ password: errorMessage });
-      } else if (error.code === 'auth/invalid-email') {
-        errorMessage = 'Email inválido. Verifique o formato.';
+      } else if (error.code === "auth/invalid-email") {
+        errorMessage = "Email inválido. Verifique o formato.";
         setErrors({ email: errorMessage });
-      } else if (error.message?.includes('EmailAlreadyInUse')) {
-        errorMessage = 'Este email já está cadastrado. Faça login ou use outro email.';
+      } else if (error.message?.includes("EmailAlreadyInUse")) {
+        errorMessage =
+          "Este email já está cadastrado. Faça login ou use outro email.";
         setErrors({ email: errorMessage });
       }
 
-      showSnackbar(errorMessage, 'error');
+      showSnackbar(errorMessage, "error");
 
       // Animação de erro (shake)
       Animated.sequence([
-        Animated.timing(slideAnim, { toValue: -10, duration: 100, useNativeDriver: Platform.OS !== 'web' }),
-        Animated.timing(slideAnim, { toValue: 10, duration: 100, useNativeDriver: Platform.OS !== 'web' }),
-        Animated.timing(slideAnim, { toValue: -5, duration: 100, useNativeDriver: Platform.OS !== 'web' }),
-        Animated.timing(slideAnim, { toValue: 0, duration: 100, useNativeDriver: Platform.OS !== 'web' }),
+        Animated.timing(slideAnim, {
+          toValue: -10,
+          duration: 100,
+          useNativeDriver: Platform.OS !== "web",
+        }),
+        Animated.timing(slideAnim, {
+          toValue: 10,
+          duration: 100,
+          useNativeDriver: Platform.OS !== "web",
+        }),
+        Animated.timing(slideAnim, {
+          toValue: -5,
+          duration: 100,
+          useNativeDriver: Platform.OS !== "web",
+        }),
+        Animated.timing(slideAnim, {
+          toValue: 0,
+          duration: 100,
+          useNativeDriver: Platform.OS !== "web",
+        }),
       ]).start();
     } finally {
       setLoading(false);
@@ -177,28 +229,38 @@ const RegisterScreen = ({ navigation }: AuthScreenProps) => {
   };
 
   const updateFormData = (field: keyof RegisterFormData, value: any): void => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
     // Limpar erro do campo quando usuário começar a digitar
     if (errors[field as keyof RegisterFormErrors]) {
-      setErrors(prev => ({ ...prev, [field]: undefined }));
+      setErrors((prev) => ({ ...prev, [field]: undefined }));
     }
   };
 
-  const getUserTypeIcon = (type: string): keyof typeof MaterialCommunityIcons.glyphMap => {
+  const getUserTypeIcon = (
+    type: string,
+  ): keyof typeof MaterialCommunityIcons.glyphMap => {
     switch (type) {
-      case 'student': return 'school';
-      case 'instructor': return 'account-tie';
-      case 'admin': return 'shield-account';
-      default: return 'account';
+      case "student":
+        return "school";
+      case "instructor":
+        return "account-tie";
+      case "admin":
+        return "shield-account";
+      default:
+        return "account";
     }
   };
 
   const getUserTypeColor = (type: string): string => {
     switch (type) {
-      case 'student': return COLORS.primary[500];
-      case 'instructor': return COLORS.warning[500];
-      case 'admin': return COLORS.error[500];
-      default: return COLORS.info[500];
+      case "student":
+        return COLORS.primary[500];
+      case "instructor":
+        return COLORS.warning[500];
+      case "admin":
+        return COLORS.error[500];
+      default:
+        return COLORS.info[500];
     }
   };
 
@@ -220,8 +282,8 @@ const RegisterScreen = ({ navigation }: AuthScreenProps) => {
               styles.header,
               {
                 opacity: fadeAnim,
-                transform: [{ translateY: slideAnim }]
-              }
+                transform: [{ translateY: slideAnim }],
+              },
             ]}
           >
             <MaterialCommunityIcons
@@ -230,31 +292,55 @@ const RegisterScreen = ({ navigation }: AuthScreenProps) => {
               color={COLORS.white}
               style={styles.headerIcon}
             />
-            <Text style={[styles.title, { color: isDarkMode ? COLORS.white : COLORS.black }]}>{getString('createAccount')}</Text>
-            <Text style={[styles.subtitle, { color: isDarkMode ? COLORS.gray[300] : COLORS.gray[600] }]}>
-              {getString('fillDataToRegister')}
+            <Text
+              style={[
+                styles.title,
+                { color: isDarkMode ? COLORS.white : COLORS.black },
+              ]}
+            >
+              {getString("createAccount")}
+            </Text>
+            <Text
+              style={[
+                styles.subtitle,
+                { color: isDarkMode ? COLORS.gray[300] : COLORS.gray[600] },
+              ]}
+            >
+              {getString("fillDataToRegister")}
             </Text>
           </Animated.View>
 
           <Animated.View
             style={[
-              { transform: [{ scale: scaleAnim }, { translateX: slideAnim }] }
+              { transform: [{ scale: scaleAnim }, { translateX: slideAnim }] },
             ]}
           >
             <ModernCard variant="card" style={styles.card}>
               <View style={{ padding: SPACING.md }}>
-                <Text style={[styles.cardTitle, { color: isDarkMode ? COLORS.white : COLORS.black }]}>{getString('personalData')}</Text>
+                <Text
+                  style={[
+                    styles.cardTitle,
+                    { color: isDarkMode ? COLORS.white : COLORS.black },
+                  ]}
+                >
+                  {getString("personalData")}
+                </Text>
 
                 <TextInput
-                  label={getString('fullName')}
+                  label={getString("fullName")}
                   value={formData.name}
-                  onChangeText={(text) => updateFormData('name', text)}
+                  onChangeText={(text) => updateFormData("name", text)}
                   mode="outlined"
-                  style={[styles.input, { backgroundColor: 'transparent' }]}
+                  style={[styles.input, { backgroundColor: "transparent" }]}
                   textColor={isDarkMode ? COLORS.white : COLORS.black}
                   disabled={loading}
                   error={!!errors.name}
-                  left={<TextInput.Icon icon="account" color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
+                  left={
+                    <TextInput.Icon
+                      icon="account"
+                      color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]}
+                    />
+                  }
                 />
                 {errors.name && (
                   <HelperText type="error" visible={!!errors.name}>
@@ -263,17 +349,22 @@ const RegisterScreen = ({ navigation }: AuthScreenProps) => {
                 )}
 
                 <TextInput
-                  label={getString('email') + ' *'}
+                  label={getString("email") + " *"}
                   value={formData.email}
-                  onChangeText={(text) => updateFormData('email', text)}
+                  onChangeText={(text) => updateFormData("email", text)}
                   mode="outlined"
                   keyboardType="email-address"
                   autoCapitalize="none"
-                  style={[styles.input, { backgroundColor: 'transparent' }]}
+                  style={[styles.input, { backgroundColor: "transparent" }]}
                   textColor={isDarkMode ? COLORS.white : COLORS.black}
                   disabled={loading}
                   error={!!errors.email}
-                  left={<TextInput.Icon icon="email" color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
+                  left={
+                    <TextInput.Icon
+                      icon="email"
+                      color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]}
+                    />
+                  }
                 />
                 {errors.email && (
                   <HelperText type="error" visible={!!errors.email}>
@@ -282,25 +373,49 @@ const RegisterScreen = ({ navigation }: AuthScreenProps) => {
                 )}
 
                 <TextInput
-                  label={getString('phoneWhatsApp')}
+                  label={getString("phoneWhatsApp")}
                   value={formData.phone}
-                  onChangeText={(text) => updateFormData('phone', text)}
+                  onChangeText={(text) => updateFormData("phone", text)}
                   mode="outlined"
                   keyboardType="phone-pad"
-                  style={[styles.input, { backgroundColor: 'transparent' }]}
+                  style={[styles.input, { backgroundColor: "transparent" }]}
                   textColor={isDarkMode ? COLORS.white : COLORS.black}
                   disabled={loading}
-                  left={<TextInput.Icon icon="phone" color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
+                  left={
+                    <TextInput.Icon
+                      icon="phone"
+                      color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]}
+                    />
+                  }
                 />
 
                 <Divider style={styles.divider} />
 
-                <Text style={[styles.sectionTitle, { color: isDarkMode ? COLORS.white : COLORS.black }]}>{getString('userType')}</Text>
+                <Text
+                  style={[
+                    styles.sectionTitle,
+                    { color: isDarkMode ? COLORS.white : COLORS.black },
+                  ]}
+                >
+                  {getString("userType")}
+                </Text>
                 <View style={styles.userTypeContainer}>
                   {[
-                    { value: 'student', label: getString('student'), description: getString('studentDescription') },
-                    { value: 'instructor', label: getString('instructor'), description: getString('instructorDescription') },
-                    { value: 'admin', label: getString('administrator'), description: getString('adminDescription') }
+                    {
+                      value: "student",
+                      label: getString("student"),
+                      description: getString("studentDescription"),
+                    },
+                    {
+                      value: "instructor",
+                      label: getString("instructor"),
+                      description: getString("instructorDescription"),
+                    },
+                    {
+                      value: "admin",
+                      label: getString("administrator"),
+                      description: getString("adminDescription"),
+                    },
                   ].map((type) => (
                     <Card
                       key={type.value}
@@ -309,10 +424,10 @@ const RegisterScreen = ({ navigation }: AuthScreenProps) => {
                         formData.userType === type.value && {
                           borderColor: getUserTypeColor(type.value),
                           borderWidth: 2,
-                          backgroundColor: getUserTypeColor(type.value) + '10'
-                        }
+                          backgroundColor: getUserTypeColor(type.value) + "10",
+                        },
                       ]}
-                      onPress={() => updateFormData('userType', type.value)}
+                      onPress={() => updateFormData("userType", type.value)}
                     >
                       <Card.Content style={styles.userTypeCardContent}>
                         <View style={styles.userTypeInfo}>
@@ -322,14 +437,40 @@ const RegisterScreen = ({ navigation }: AuthScreenProps) => {
                             color={getUserTypeColor(type.value)}
                           />
                           <View style={styles.userTypeText}>
-                            <Text style={[styles.userTypeLabel, { color: isDarkMode ? COLORS.white : COLORS.black }]}>{type.label}</Text>
-                            <Text style={[styles.userTypeDescription, { color: isDarkMode ? COLORS.gray[300] : COLORS.gray[600] }]}>{type.description}</Text>
+                            <Text
+                              style={[
+                                styles.userTypeLabel,
+                                {
+                                  color: isDarkMode
+                                    ? COLORS.white
+                                    : COLORS.black,
+                                },
+                              ]}
+                            >
+                              {type.label}
+                            </Text>
+                            <Text
+                              style={[
+                                styles.userTypeDescription,
+                                {
+                                  color: isDarkMode
+                                    ? COLORS.gray[300]
+                                    : COLORS.gray[600],
+                                },
+                              ]}
+                            >
+                              {type.description}
+                            </Text>
                           </View>
                         </View>
                         <RadioButton
                           value={type.value}
-                          status={formData.userType === type.value ? 'checked' : 'unchecked'}
-                          onPress={() => updateFormData('userType', type.value)}
+                          status={
+                            formData.userType === type.value
+                              ? "checked"
+                              : "unchecked"
+                          }
+                          onPress={() => updateFormData("userType", type.value)}
                           disabled={loading}
                         />
                       </Card.Content>
@@ -339,15 +480,27 @@ const RegisterScreen = ({ navigation }: AuthScreenProps) => {
 
                 <Divider style={styles.divider} />
 
-                <Text style={[styles.sectionTitle, { color: isDarkMode ? COLORS.white : COLORS.black }]}>{getString('passwordSection')}</Text>
+                <Text
+                  style={[
+                    styles.sectionTitle,
+                    { color: isDarkMode ? COLORS.white : COLORS.black },
+                  ]}
+                >
+                  {getString("passwordSection")}
+                </Text>
 
                 <TextInput
-                  label={getString('password') + ' *'}
+                  label={getString("password") + " *"}
                   value={formData.password}
-                  onChangeText={(text) => updateFormData('password', text)}
+                  onChangeText={(text) => updateFormData("password", text)}
                   mode="outlined"
                   secureTextEntry={!showPassword}
-                  left={<TextInput.Icon icon="lock" color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
+                  left={
+                    <TextInput.Icon
+                      icon="lock"
+                      color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]}
+                    />
+                  }
                   right={
                     <TextInput.Icon
                       icon={showPassword ? "eye-off" : "eye"}
@@ -355,7 +508,7 @@ const RegisterScreen = ({ navigation }: AuthScreenProps) => {
                       color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]}
                     />
                   }
-                  style={[styles.input, { backgroundColor: 'transparent' }]}
+                  style={[styles.input, { backgroundColor: "transparent" }]}
                   textColor={isDarkMode ? COLORS.white : COLORS.black}
                   disabled={loading}
                   error={!!errors.password}
@@ -367,20 +520,29 @@ const RegisterScreen = ({ navigation }: AuthScreenProps) => {
                 )}
 
                 <TextInput
-                  label={getString('confirmPassword')}
+                  label={getString("confirmPassword")}
                   value={formData.confirmPassword}
-                  onChangeText={(text) => updateFormData('confirmPassword', text)}
+                  onChangeText={(text) =>
+                    updateFormData("confirmPassword", text)
+                  }
                   mode="outlined"
                   secureTextEntry={!showConfirmPassword}
-                  left={<TextInput.Icon icon="lock-check" color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
-                  right={
+                  left={
                     <TextInput.Icon
-                      icon={showConfirmPassword ? "eye-off" : "eye"}
-                      onPress={() => setShowConfirmPassword(!showConfirmPassword)}
+                      icon="lock-check"
                       color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]}
                     />
                   }
-                  style={[styles.input, { backgroundColor: 'transparent' }]}
+                  right={
+                    <TextInput.Icon
+                      icon={showConfirmPassword ? "eye-off" : "eye"}
+                      onPress={() =>
+                        setShowConfirmPassword(!showConfirmPassword)
+                      }
+                      color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]}
+                    />
+                  }
+                  style={[styles.input, { backgroundColor: "transparent" }]}
                   textColor={isDarkMode ? COLORS.white : COLORS.black}
                   disabled={loading}
                   error={!!errors.confirmPassword}
@@ -392,7 +554,7 @@ const RegisterScreen = ({ navigation }: AuthScreenProps) => {
                 )}
 
                 <Text style={styles.passwordHint}>
-                  * {getString('passwordMinLength')}
+                  * {getString("passwordMinLength")}
                 </Text>
 
                 <Divider style={styles.divider} />
@@ -400,17 +562,28 @@ const RegisterScreen = ({ navigation }: AuthScreenProps) => {
                 <View style={styles.checkboxContainer}>
                   <View style={styles.checkboxRow}>
                     <Checkbox
-                      status={formData.acceptTerms ? 'checked' : 'unchecked'}
-                      onPress={() => updateFormData('acceptTerms', !formData.acceptTerms)}
+                      status={formData.acceptTerms ? "checked" : "unchecked"}
+                      onPress={() =>
+                        updateFormData("acceptTerms", !formData.acceptTerms)
+                      }
                       disabled={loading}
                       color={COLORS.primary[500]}
                     />
                     <View style={styles.checkboxTextContainer}>
-                      <Text style={[styles.checkboxText, { color: isDarkMode ? COLORS.gray[200] : COLORS.gray[800] }]}>
-                        Aceito os{' '}
+                      <Text
+                        style={[
+                          styles.checkboxText,
+                          {
+                            color: isDarkMode
+                              ? COLORS.gray[200]
+                              : COLORS.gray[800],
+                          },
+                        ]}
+                      >
+                        Aceito os{" "}
                         <Text
                           style={styles.link}
-                          onPress={() => navigation.navigate('TermsOfService')}
+                          onPress={() => navigation.navigate("TermsOfService")}
                         >
                           Termos de Uso
                         </Text>
@@ -418,7 +591,11 @@ const RegisterScreen = ({ navigation }: AuthScreenProps) => {
                     </View>
                   </View>
                   {errors.acceptTerms && (
-                    <HelperText type="error" visible={!!errors.acceptTerms} style={styles.checkboxError}>
+                    <HelperText
+                      type="error"
+                      visible={!!errors.acceptTerms}
+                      style={styles.checkboxError}
+                    >
                       {errors.acceptTerms}
                     </HelperText>
                   )}
@@ -427,17 +604,33 @@ const RegisterScreen = ({ navigation }: AuthScreenProps) => {
                 <View style={styles.checkboxContainer}>
                   <View style={styles.checkboxRow}>
                     <Checkbox
-                      status={formData.acceptPrivacyPolicy ? 'checked' : 'unchecked'}
-                      onPress={() => updateFormData('acceptPrivacyPolicy', !formData.acceptPrivacyPolicy)}
+                      status={
+                        formData.acceptPrivacyPolicy ? "checked" : "unchecked"
+                      }
+                      onPress={() =>
+                        updateFormData(
+                          "acceptPrivacyPolicy",
+                          !formData.acceptPrivacyPolicy,
+                        )
+                      }
                       disabled={loading}
                       color={COLORS.primary[500]}
                     />
                     <View style={styles.checkboxTextContainer}>
-                      <Text style={[styles.checkboxText, { color: isDarkMode ? COLORS.gray[200] : COLORS.gray[800] }]}>
-                        Aceito a{' '}
+                      <Text
+                        style={[
+                          styles.checkboxText,
+                          {
+                            color: isDarkMode
+                              ? COLORS.gray[200]
+                              : COLORS.gray[800],
+                          },
+                        ]}
+                      >
+                        Aceito a{" "}
                         <Text
                           style={styles.link}
-                          onPress={() => navigation.navigate('PrivacyPolicy')}
+                          onPress={() => navigation.navigate("PrivacyPolicy")}
                         >
                           Política de Privacidade
                         </Text>
@@ -445,7 +638,11 @@ const RegisterScreen = ({ navigation }: AuthScreenProps) => {
                     </View>
                   </View>
                   {errors.acceptPrivacyPolicy && (
-                    <HelperText type="error" visible={!!errors.acceptPrivacyPolicy} style={styles.checkboxError}>
+                    <HelperText
+                      type="error"
+                      visible={!!errors.acceptPrivacyPolicy}
+                      style={styles.checkboxError}
+                    >
                       {errors.acceptPrivacyPolicy}
                     </HelperText>
                   )}
@@ -462,24 +659,33 @@ const RegisterScreen = ({ navigation }: AuthScreenProps) => {
                   {loading ? (
                     <View style={styles.loadingContainer}>
                       <ActivityIndicator color={COLORS.white} size="small" />
-                      <Text style={styles.loadingText}>{getString('creatingAccount')}</Text>
+                      <Text style={styles.loadingText}>
+                        {getString("creatingAccount")}
+                      </Text>
                     </View>
                   ) : (
-                    getString('createAccount')
+                    getString("createAccount")
                   )}
                 </Button>
 
                 <View style={styles.loginContainer}>
-                  <Text style={{ color: isDarkMode ? COLORS.gray[200] : COLORS.gray[800] }}>
-                    {getString('alreadyHaveAccount')}{' '}
+                  <Text
+                    style={{
+                      color: isDarkMode ? COLORS.gray[200] : COLORS.gray[800],
+                    }}
+                  >
+                    {getString("alreadyHaveAccount")}{" "}
                   </Text>
                   <Button
                     mode="text"
-                    onPress={() => navigation.navigate('Login')}
+                    onPress={() => navigation.navigate("Login")}
                     disabled={loading}
-                    labelStyle={{ fontWeight: 'bold', color: COLORS.primary[500] }}
+                    labelStyle={{
+                      fontWeight: "bold",
+                      color: COLORS.primary[500],
+                    }}
                   >
-                    {getString('signIn')}
+                    {getString("signIn")}
                   </Button>
                 </View>
               </View>
@@ -493,10 +699,12 @@ const RegisterScreen = ({ navigation }: AuthScreenProps) => {
           duration={4000}
           style={[
             styles.snackbar,
-            snackbar.type === 'success' ? styles.successSnackbar : styles.errorSnackbar
+            snackbar.type === "success"
+              ? styles.successSnackbar
+              : styles.errorSnackbar,
           ]}
           action={{
-            label: getString('ok'),
+            label: getString("ok"),
             onPress: () => setSnackbar({ ...snackbar, visible: false }),
           }}
         >
@@ -510,16 +718,18 @@ const RegisterScreen = ({ navigation }: AuthScreenProps) => {
 const styles = StyleSheet.create({
   gradient: {
     flex: 1,
-    ...(Platform.OS === 'web' ? { minHeight: '100vh' } as any : {}),
+    ...(Platform.OS === "web" ? ({ minHeight: "100vh" } as any) : {}),
   },
   container: {
     flex: 1,
-    backgroundColor: 'transparent',
-    ...(Platform.OS === 'web' ? { minHeight: '100vh' } as any : {}),
+    backgroundColor: "transparent",
+    ...(Platform.OS === "web" ? ({ minHeight: "100vh" } as any) : {}),
   },
   scroll: {
     flex: 1,
-    ...(Platform.OS === 'web' ? { maxHeight: '100vh', overflowY: 'auto' } as any : {}),
+    ...(Platform.OS === "web"
+      ? ({ maxHeight: "100vh", overflowY: "auto" } as any)
+      : {}),
   },
   scrollContainer: {
     flexGrow: 1,
@@ -527,14 +737,14 @@ const styles = StyleSheet.create({
     paddingBottom: SPACING.lg,
   },
   header: {
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: 30,
   },
   headerIcon: {
     marginBottom: SPACING.md,
     ...Platform.select({
       web: {
-        boxShadow: '0 2px 3.84px currentTheme.black + "40"'
+        boxShadow: '0 2px 3.84px currentTheme.black + "40"',
       },
       default: {
         shadowColor: COLORS.black,
@@ -545,7 +755,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 5,
-      }
+      },
     }),
   },
   title: {
@@ -555,29 +765,29 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.sm,
     ...Platform.select({
       web: {
-        textShadow: '1px 1px 3px currentTheme.black + "4D"'
+        textShadow: '1px 1px 3px currentTheme.black + "4D"',
       },
       default: {
         textShadowColor: COLORS.black + "4D",
         textShadowOffset: { width: 1, height: 1 },
         textShadowRadius: 3,
-      }
+      },
     }),
   },
   subtitle: {
     fontSize: FONT_SIZE.md,
     color: COLORS.black,
     opacity: 0.9,
-    textAlign: 'center',
+    textAlign: "center",
     ...Platform.select({
       web: {
-        textShadow: '1px 1px 2px currentTheme.black + "4D"'
+        textShadow: '1px 1px 2px currentTheme.black + "4D"',
       },
       default: {
         textShadowColor: COLORS.black + "4D",
         textShadowOffset: { width: 1, height: 1 },
         textShadowRadius: 2,
-      }
+      },
     }),
   },
   card: {
@@ -585,7 +795,7 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     ...Platform.select({
       web: {
-        backdropFilter: 'blur(10px)',
+        backdropFilter: "blur(10px)",
         boxShadow: `0 8px 32px ${hexToRgba(COLORS.black, 0.2)}`,
       },
       default: {
@@ -594,11 +804,11 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.3,
         shadowRadius: 4.65,
-      }
+      },
     }),
   },
   cardTitle: {
-    textAlign: 'center',
+    textAlign: "center",
     marginBottom: SPACING.lg,
     color: COLORS.black,
     fontSize: FONT_SIZE.xl,
@@ -628,14 +838,14 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
   },
   userTypeCardContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     paddingVertical: SPACING.sm,
   },
   userTypeInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     flex: 1,
   },
   userTypeText: {
@@ -656,15 +866,15 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.sm,
     color: COLORS.gray[500],
     marginBottom: 20,
-    fontStyle: 'italic',
-    textAlign: 'center',
+    fontStyle: "italic",
+    textAlign: "center",
   },
   checkboxContainer: {
     marginBottom: SPACING.sm,
   },
   checkboxRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   checkboxTextContainer: {
     flex: 1,
@@ -678,7 +888,7 @@ const styles = StyleSheet.create({
   link: {
     color: COLORS.primary[500],
     fontWeight: FONT_WEIGHT.semibold,
-    textDecorationLine: 'underline',
+    textDecorationLine: "underline",
   },
   checkboxLabel: {
     fontSize: FONT_SIZE.sm,
@@ -698,9 +908,9 @@ const styles = StyleSheet.create({
     paddingVertical: SPACING.sm,
   },
   loadingContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
   },
   loadingText: {
     color: COLORS.white,
@@ -708,9 +918,9 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.md,
   },
   loginContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: 20,
   },
   snackbar: {

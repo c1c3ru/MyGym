@@ -36,6 +36,7 @@ import StudentDashboardSkeleton from '@components/skeletons/StudentDashboardSkel
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { getAuthGradient } from '@presentation/theme/authTheme';
 import { hexToRgba } from '@shared/utils/colorUtils';
+import { useProfileTheme } from '../../../contexts/ProfileThemeContext';
 
 const AnimatedModernCard: React.FC<{
     children: React.ReactNode;
@@ -80,11 +81,12 @@ const AnimatedModernCard: React.FC<{
 const StudentDashboard: React.FC<{ navigation: any }> = ({ navigation }) => {
     const { user, userProfile } = useAuthFacade();
     const { getString, isDarkMode } = useTheme();
+    const { theme: profileTheme } = useProfileTheme(); // 🎨 Tema dinâmico por perfil
+
 
     const [nextClasses, setNextClasses] = useState<any[]>([]);
     const [announcements, setAnnouncements] = useState<any[]>([]);
     const [dashboardData, setDashboardData] = useState<any>({
-        graduationStatus: getString('whiteBelt'),
         nextEvaluation: '2 meses',
         totalClasses: 0,
         attendanceRate: 0
@@ -214,7 +216,7 @@ const StudentDashboard: React.FC<{ navigation: any }> = ({ navigation }) => {
     return (
         <EnhancedErrorBoundary errorContext={{ screen: 'StudentDashboard', academiaId: userProfile?.academiaId, studentId: user?.id }}>
             <LinearGradient
-                colors={getAuthGradient(isDarkMode) as any}
+                colors={profileTheme.gradients.hero as any}
                 style={styles.gradient}
             >
                 <SafeAreaView style={styles.container}>
@@ -226,7 +228,7 @@ const StudentDashboard: React.FC<{ navigation: any }> = ({ navigation }) => {
                             <RefreshControl
                                 refreshing={refreshing}
                                 onRefresh={onRefresh}
-                                tintColor={COLORS.primary[500]}
+                                tintColor={profileTheme.primary[500]}
                             />
                         }
                     >
@@ -254,7 +256,7 @@ const StudentDashboard: React.FC<{ navigation: any }> = ({ navigation }) => {
                         <AnimatedModernCard delay={100}>
                             <View>
                                 <View style={styles.cardHeader}>
-                                    <Ionicons name="trophy-outline" size={24} color={COLORS.primary[500]} />
+                                    <Ionicons name="trophy-outline" size={24} color={profileTheme.primary[500]} />
                                     <Text style={styles.cardTitle}>{getString('graduationStatus')}</Text>
                                 </View>
                                 <View style={styles.graduationContent}>
@@ -276,7 +278,7 @@ const StudentDashboard: React.FC<{ navigation: any }> = ({ navigation }) => {
                         <AnimatedModernCard delay={200}>
                             <View>
                                 <View style={styles.cardHeader}>
-                                    <Ionicons name="calendar-outline" size={24} color={COLORS.primary[500]} />
+                                    <Ionicons name="calendar-outline" size={24} color={profileTheme.primary[500]} />
                                     <Text style={styles.cardTitle}>{getString('upcomingClasses')}</Text>
                                 </View>
 
@@ -313,12 +315,12 @@ const StudentDashboard: React.FC<{ navigation: any }> = ({ navigation }) => {
                         <AnimatedModernCard delay={300}>
                             <View>
                                 <View style={styles.cardHeader}>
-                                    <Ionicons name="megaphone-outline" size={24} color={COLORS.primary[500]} />
+                                    <Ionicons name="megaphone-outline" size={24} color={profileTheme.primary[500]} />
                                     <Text style={styles.cardTitle}>{getString('announcements')}</Text>
                                     <ActivityIndicator
                                         animating={loadingAnnouncements}
                                         size="small"
-                                        color={COLORS.primary[500]}
+                                        color={profileTheme.primary[500]}
                                         style={{ opacity: loadingAnnouncements ? 1 : 0 }}
                                     />
                                 </View>
@@ -347,7 +349,7 @@ const StudentDashboard: React.FC<{ navigation: any }> = ({ navigation }) => {
                         <AnimatedModernCard delay={400}>
                             <View>
                                 <View style={styles.cardHeader}>
-                                    <Ionicons name="flash-outline" size={24} color={COLORS.primary[500]} />
+                                    <Ionicons name="flash-outline" size={24} color={profileTheme.primary[500]} />
                                     <Text style={styles.cardTitle}>{getString('quickActions')}</Text>
                                 </View>
                                 <View style={styles.actionsGrid}>
@@ -397,7 +399,7 @@ const styles = StyleSheet.create({
         paddingVertical: SPACING.xs
     },
     avatar: {
-        backgroundColor: COLORS.primary[500],
+        backgroundColor: profileTheme.primary[500],
         elevation: 4
     },
     avatarLabel: {
@@ -428,7 +430,7 @@ const styles = StyleSheet.create({
     cardTitle: {
         fontSize: FONT_SIZE.md,
         fontWeight: '700',
-        color: COLORS.primary[500],
+        color: profileTheme.primary[500],
         textTransform: 'uppercase',
         letterSpacing: 1.5,
         flex: 1
@@ -438,14 +440,14 @@ const styles = StyleSheet.create({
         paddingVertical: SPACING.sm
     },
     beltChip: {
-        backgroundColor: hexToRgba(COLORS.primary[500], 0.1),
-        borderColor: COLORS.primary[500],
+        backgroundColor: hexToRgba(profileTheme.primary[500], 0.1),
+        borderColor: profileTheme.primary[500],
         borderWidth: 1,
         marginBottom: SPACING.sm,
         paddingHorizontal: SPACING.md
     },
     beltChipText: {
-        color: COLORS.primary[500],
+        color: profileTheme.primary[500],
         fontWeight: 'bold',
         fontSize: FONT_SIZE.md
     },

@@ -20,6 +20,7 @@ if (Platform.OS === 'web' && typeof document !== 'undefined') {
 
 import { ThemeProvider } from './src/presentation/contexts/ThemeContext';
 import { ThemeToggleProvider } from './src/presentation/contexts/ThemeToggleContext';
+import { ProfileThemeProvider } from './src/contexts/ProfileThemeContext';
 import { AuthProvider } from './src/presentation/contexts/AuthProvider';
 import { NotificationProvider } from './src/presentation/contexts/NotificationContext';
 import { UndoProvider } from './src/presentation/components/UndoManager';
@@ -36,12 +37,14 @@ export default function App() {
             <NotificationProvider>
 
               <AuthProvider>
-                <UndoProvider>
-                  <OnboardingProvider>
-                    <StatusBar style="auto" />
-                    <AppNavigator />
-                  </OnboardingProvider>
-                </UndoProvider>
+                <ProfileThemeProvider>
+                  <UndoProvider>
+                    <OnboardingProvider>
+                      <StatusBar style="auto" />
+                      <AppNavigator />
+                    </OnboardingProvider>
+                  </UndoProvider>
+                </ProfileThemeProvider>
               </AuthProvider>
 
             </NotificationProvider>
