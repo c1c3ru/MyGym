@@ -105,7 +105,14 @@ const PaymentManagementScreen: React.FC<PaymentManagementScreenProps> = ({ navig
 
   const loadPlans = async () => {
     try {
-      const availablePlans = await firestoreService.getAll('plans') as unknown as Plan[];
+      if (!academia?.id) {
+        console.warn('⚠️ Academia não identificada');
+        return;
+      }
+
+      // 🔒 SEGURANÇA: Buscar APENAS planos da própria academia
+      const { academyFirestoreService } = await import('@infrastructure/services/academyFirestoreService');
+      const availablePlans = await academyFirestoreService.getAll('plans', academia.id) as unknown as Plan[];
       setPlans(availablePlans);
     } catch (error) {
       console.error('Erro ao carregar planos:', error);

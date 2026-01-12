@@ -9,9 +9,13 @@ service cloud.firestore {
       // Usuário pode ler e escrever seus próprios dados
       allow read, write: if request.auth != null && request.auth.uid == userId;
       
-      // Admin pode ler e modificar usuários da mesma academia
-      allow read, write: if request.auth != null && 
-                           canModifyUserData(userId);
+      // Admin pode ler usuários da mesma academia (para gerenciamento)
+      allow read: if request.auth != null && 
+                     isAdmin() && 
+                     hasValidAcademia() &&
+                     (resource == null || 
+                      !exists(/databases/$(database)/documents/users/$(userId)) ||
+                      resource.data.academiaId == getAcademiaId());
     }
     
     // ============================================================================
@@ -82,23 +86,12 @@ service cloud.firestore {
                            gymId == getAcademiaId() && 
                            isAdmin();
       
-      // Instrutor pode ler suas próprias turmas (por ID, array de IDs ou email)
-      allow read: if request.auth != null && 
-                     hasValidAcademia() &&
-                     gymId == getAcademiaId() && 
-                     isInstructor() && 
-                     (
-                       resource.data.instructorId == request.auth.uid ||
-                       (resource.data.instructorIds is list && request.auth.uid in resource.data.instructorIds) ||
-                       (resource.data.instructorEmail == request.auth.token.email)
-                     );
-
-      // Instrutor pode escrever APENAS suas próprias turmas (onde é o instrutor principal)
-      allow write: if request.auth != null && 
-                     hasValidAcademia() &&
-                     gymId == getAcademiaId() && 
-                     isInstructor() && 
-                     (resource == null || resource.data.instructorId == request.auth.uid);
+      // Instrutor pode ler e escrever APENAS suas próprias turmas
+      allow read, write: if request.auth != null && 
+                           hasValidAcademia() &&
+                           gymId == getAcademiaId() && 
+                           isInstructor() && 
+                           (resource == null || resource.data.instructorId == request.auth.uid);
       
       // Alunos podem ler dados das turmas da própria academia
       // (Frontend controla quais turmas o aluno pode ver)
@@ -230,11 +223,12 @@ service cloud.firestore {
                            gymId == getAcademiaId() && 
                            isAdmin();
       
-      // Instrutor pode ler dados de TODOS os instrutores da mesma academia
+      // Instrutor pode ler APENAS seus próprios dados
       allow read: if request.auth != null && 
                      hasValidAcademia() &&
                      gymId == getAcademiaId() && 
-                     isInstructor();
+                     isInstructor() && 
+                     request.auth.uid == instructorId;
     }
     
     // Avaliações físicas da academia
@@ -292,14 +286,7 @@ service cloud.firestore {
                            gymId == getAcademiaId() && 
                            isAdmin();
       
-      // Instrutor pode criar notificações (ex: avisos para alunos)
-      allow create: if request.auth != null && 
-                      hasValidAcademia() &&
-                      gymId == getAcademiaId() && 
-                      isInstructor() &&
-                      validateNotificationData();
-
-      // Usuários podem ler e atualizar (marcar como lida) APENAS suas próprias notificações
+      // Usuários podem ler e atualizar APENAS suas próprias notificações
       allow read, update: if request.auth != null && 
                             hasValidAcademia() &&
                             gymId == getAcademiaId() && 
@@ -321,31 +308,6 @@ service cloud.firestore {
                       isAdminOrInstructor() &&
                       validateLogData();
     }
-    
-    // Convites da academia
-    match /gyms/{gymId}/invites/{inviteId} {
-      // Admin pode ler e escrever todos os convites da própria academia
-      allow read, write: if request.auth != null && 
-                           hasValidAcademia() &&
-                           gymId == getAcademiaId() && 
-                           isAdmin();
-      
-      // Admin pode criar convites para sua academia
-      allow create: if request.auth != null && 
-                      hasValidAcademia() &&
-                      gymId == getAcademiaId() && 
-                      isAdmin() &&
-                      validateInviteData();
-      
-      // Permitir leitura pública de convites por token (para aceitar convites)
-      allow read: if request.auth != null;
-      
-      // Permitir atualização de status do convite (quando aceito)
-      allow update: if request.auth != null &&
-                      resource.data.status == 'pending' &&
-                      request.resource.data.status in ['accepted', 'expired'];
-    }
-    
     
     // ============================================================================
     // FUNÇÕES AUXILIARES - USANDO CUSTOM CLAIMS (SEM GET CALLS)
@@ -384,10 +346,19 @@ service cloud.firestore {
       return getAcademiaId() != null;
     }
     
-    // Verificar se pode modificar dados de outro usuário (apenas Admin da mesma academia)
+    // REMOVIDO: Funções com get() calls para melhor performance
+    // O controle de acesso é feito via custom claims e validação no frontend
+    
+    // Verificar se é o próprio usuário ou admin/instrutor da academia
+    function canAccessUserData(userId) {
+      return request.auth.uid == userId || 
+             (hasValidAcademia() && isAdminOrInstructor());
+    }
+    
+    // Verificar se pode modificar dados de outro usuário
     function canModifyUserData(userId) {
-      return (hasValidAcademia() && isAdmin() && 
-              (resource == null || !exists(/databases/$(database)/documents/users/$(userId)) || resource.data.academiaId == getAcademiaId()));
+      return request.auth.uid == userId || 
+             (hasValidAcademia() && isAdmin());
     }
     
     // ============================================================================
@@ -462,16 +433,6 @@ service cloud.firestore {
              data.performedBy is string &&
              data.timestamp is timestamp;
     }
-    
-    // Validar dados de convite
-    function validateInviteData() {
-      let data = request.resource.data;
-      return data.keys().hasAll(['email', 'tipo', 'token', 'status', 'academiaId']) &&
-             data.academiaId == getAcademiaId() &&
-             data.email is string && data.email.matches('.*@.*') &&
-             data.tipo is string && data.tipo in ['aluno', 'instrutor'] &&
-             data.token is string && data.token.size() > 0 &&
-             data.status is string && data.status in ['pending', 'accepted', 'expired'];
-    }
   }
 }
+

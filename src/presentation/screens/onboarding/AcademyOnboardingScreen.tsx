@@ -80,15 +80,60 @@ const AcademyOnboardingScreen = () => {
     try {
       setUsingInvite(true);
       const useInviteFn = httpsCallable(functions, 'useInvite');
-      await useInviteFn({ inviteCode: inviteCode });
 
-      Alert.alert('Sucesso', 'Você se juntou à academia com sucesso!');
+      // Normalizar o código antes de enviar
+      const normalizedCode = inviteCode.trim().toUpperCase();
+
+      console.log('🎫 Tentando usar convite:', {
+        original: inviteCode,
+        normalized: normalizedCode
+      });
+
+      await useInviteFn({ inviteCode: normalizedCode });
+
+      Alert.alert(
+        '✅ Sucesso!',
+        'Você se juntou à academia com sucesso!',
+        [{ text: 'OK', style: 'default' }]
+      );
       setUseInviteVisible(false);
       resetInviteForm();
       await refreshClaimsAndProfile();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Erro ao usar convite:', error);
-      Alert.alert('Erro', 'Código de convite inválido ou erro ao processar.');
+
+      // Mensagens de erro mais específicas e amigáveis
+      let errorTitle = '❌ Erro ao Usar Convite';
+      let errorMessage = 'Não foi possível processar o código de convite.';
+      let suggestions = '';
+
+      // Tratar diferentes tipos de erro
+      if (error.code === 'not-found' || error.code === 'functions/not-found') {
+        errorTitle = '🔍 Convite Não Encontrado';
+        errorMessage = 'O código de convite informado não foi encontrado ou já foi utilizado por outro usuário.';
+        suggestions = '\n\n💡 Dicas:\n• Verifique se digitou o código corretamente\n• Confirme com o administrador se o convite ainda está válido\n• Solicite um novo código se necessário';
+      } else if (error.code === 'failed-precondition' || error.code === 'functions/failed-precondition') {
+        errorTitle = '⏰ Convite Expirado';
+        errorMessage = 'Este convite expirou e não pode mais ser utilizado.';
+        suggestions = '\n\n💡 Solução:\n• Entre em contato com o administrador da academia\n• Solicite um novo código de convite';
+      } else if (error.code === 'invalid-argument' || error.code === 'functions/invalid-argument') {
+        errorTitle = '⚠️ Código Inválido';
+        errorMessage = 'O código de convite informado é inválido.';
+        suggestions = '\n\n💡 Dica:\n• Verifique se o código possui 6 caracteres\n• Certifique-se de que não há espaços extras';
+      } else if (error.code === 'unauthenticated' || error.code === 'functions/unauthenticated') {
+        errorTitle = '🔐 Autenticação Necessária';
+        errorMessage = 'Você precisa estar autenticado para usar um convite.';
+        suggestions = '\n\n💡 Solução:\n• Faça logout e login novamente\n• Verifique sua conexão com a internet';
+      } else if (error.message) {
+        // Usar mensagem do backend se disponível
+        errorMessage = error.message;
+      }
+
+      Alert.alert(
+        errorTitle,
+        errorMessage + suggestions,
+        [{ text: 'Entendi', style: 'cancel' }]
+      );
     } finally {
       setUsingInvite(false);
     }
@@ -302,11 +347,29 @@ const AcademyOnboardingScreen = () => {
               <TextInput
                 label="Código *"
                 value={inviteCode}
-                onChangeText={setInviteCode}
+                onChangeText={(text) => setInviteCode(text.toUpperCase())}
                 mode="outlined"
                 style={styles.input}
-                autoCapitalize="none"
+                autoCapitalize="characters"
+                autoCorrect={false}
+                maxLength={6}
+                placeholder="Ex: ABC123"
               />
+
+              {/* Info Card com dicas */}
+              <Card style={styles.infoCard} mode="outlined">
+                <Card.Content style={styles.infoCardContent}>
+                  <Ionicons name="information-circle" size={20} color={COLORS.info[600]} style={styles.infoIcon} />
+                  <View style={styles.infoTextContainer}>
+                    <Text style={styles.infoTitle}>Problemas com o código?</Text>
+                    <Text style={styles.infoText}>
+                      • Verifique se o código está correto{'\n'}
+                      • Códigos expiram após 7 dias{'\n'}
+                      • Cada código pode ser usado apenas uma vez
+                    </Text>
+                  </View>
+                </Card.Content>
+              </Card>
             </Dialog.Content>
             <Dialog.Actions>
               <Button onPress={() => setUseInviteVisible(false)}>{getString('cancel')}</Button>
@@ -452,6 +515,34 @@ const styles = StyleSheet.create({
   inviteDescription: {
     marginBottom: SPACING.md,
     color: COLORS.gray[500],
+  },
+  infoCard: {
+    marginTop: SPACING.md,
+    backgroundColor: COLORS.info[50],
+    borderColor: COLORS.info[200],
+  },
+  infoCardContent: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    paddingVertical: SPACING.sm,
+  },
+  infoIcon: {
+    marginRight: SPACING.sm,
+    marginTop: 2,
+  },
+  infoTextContainer: {
+    flex: 1,
+  },
+  infoTitle: {
+    fontSize: FONT_SIZE.sm,
+    fontWeight: FONT_WEIGHT.semibold,
+    color: COLORS.info[700],
+    marginBottom: 4,
+  },
+  infoText: {
+    fontSize: FONT_SIZE.xs,
+    color: COLORS.info[600],
+    lineHeight: 18,
   },
 });
 

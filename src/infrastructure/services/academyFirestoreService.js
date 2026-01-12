@@ -33,7 +33,8 @@ const ACADEMY_ISOLATED_COLLECTIONS = [
   'checkIns',
   'audit_logs',
   'notifications',
-  'injuries'
+  'injuries',
+  'physicalEvaluations'
 ];
 
 // Subcoleções que ficam dentro de outras coleções

@@ -28,7 +28,8 @@ module.exports = function (api) {
         'import.meta.url': 'typeof window !== "undefined" ? window.location.href : "file:///"',
         'import.meta.env': 'typeof process !== "undefined" ? process.env : {}',
         'import.meta': '{ url: typeof window !== "undefined" ? window.location.href : "file:///", env: typeof process !== "undefined" ? process.env : {} }'
-      }]
+      }],
+      'react-native-reanimated/plugin'
     ],
     env: {
       web: {

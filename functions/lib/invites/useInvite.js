@@ -1,0 +1,211 @@
+"use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.useInvite = void 0;
+const functions = __importStar(require("firebase-functions"));
+const admin = __importStar(require("firebase-admin"));
+/**
+ * Mensagens de erro internacionalizadas
+ * TODO: Integrar com o sistema de i18n quando disponível no backend
+ */
+const ERROR_MESSAGES = {
+    pt: {
+        unauthenticated: 'Usuário deve estar autenticado para usar um convite',
+        inviteRequired: 'Código de convite é obrigatório',
+        inviteInvalid: 'Código de convite inválido ou já utilizado',
+        inviteExpired: 'Este convite expirou',
+        inviteAccepted: 'Convite aceito com sucesso',
+        processingError: 'Erro ao processar o convite',
+    },
+    en: {
+        unauthenticated: 'User must be authenticated to use an invite',
+        inviteRequired: 'Invite code is required',
+        inviteInvalid: 'Invalid or already used invite code',
+        inviteExpired: 'This invite has expired',
+        inviteAccepted: 'Invite accepted successfully',
+        processingError: 'Error processing invite',
+    },
+    es: {
+        unauthenticated: 'El usuario debe estar autenticado para usar una invitación',
+        inviteRequired: 'El código de invitación es obligatorio',
+        inviteInvalid: 'Código de invitación inválido o ya utilizado',
+        inviteExpired: 'Esta invitación ha expirado',
+        inviteAccepted: 'Invitación aceptada con éxito',
+        processingError: 'Error al procesar la invitación',
+    },
+};
+/**
+ * Obtém mensagens de erro no idioma apropriado
+ * @param language - Código do idioma ('pt', 'en', 'es')
+ */
+const getMessages = (language = 'pt') => {
+    return ERROR_MESSAGES[language] || ERROR_MESSAGES.pt;
+};
+/**
+ * Cloud Function para validar e usar um código de convite
+ *
+ * Esta função:
+ * 1. Valida a autenticação do usuário
+ * 2. Busca o convite pelo código (token) em todas as academias
+ * 3. Verifica se o convite é válido e não expirou
+ * 4. Associa o usuário à academia com o papel (role) especificado no convite
+ * 5. Marca o convite como aceito
+ *
+ * @param data - Dados da requisição contendo o código do convite
+ * @param context - Contexto da função incluindo informações de autenticação
+ * @returns Objeto com informações sobre o sucesso da operação
+ */
+exports.useInvite = functions.https.onCall(async (data, context) => {
+    var _a;
+    // Detectar idioma do usuário (pode ser expandido futuramente)
+    const language = 'pt';
+    const messages = getMessages(language);
+    // 1. Verificar autenticação
+    if (!context.auth) {
+        throw new functions.https.HttpsError('unauthenticated', messages.unauthenticated);
+    }
+    const { inviteCode } = data;
+    const userId = context.auth.uid;
+    // 2. Validar dados de entrada
+    if (!inviteCode || inviteCode.trim() === '') {
+        throw new functions.https.HttpsError('invalid-argument', messages.inviteRequired);
+    }
+    // Normalizar o código: uppercase e trim para evitar problemas de case sensitivity
+    const normalizedCode = inviteCode.trim().toUpperCase();
+    console.log('🔍 Validando convite:', {
+        originalCode: inviteCode,
+        normalizedCode: normalizedCode,
+        userId: userId,
+        timestamp: new Date().toISOString(),
+    });
+    try {
+        const db = admin.firestore();
+        // 3. Buscar o convite globalmente usando collectionGroup
+        // Os convites estão em subcoleções: gyms/{gymId}/invites
+        const invitesSnapshot = await db
+            .collectionGroup('invites')
+            .where('inviteToken', '==', normalizedCode)
+            .where('status', '==', 'pending')
+            .limit(1)
+            .get();
+        console.log('📊 Resultado da busca:', {
+            found: !invitesSnapshot.empty,
+            count: invitesSnapshot.size,
+            normalizedCode: normalizedCode,
+        });
+        // 4. Verificar se o convite existe
+        if (invitesSnapshot.empty) {
+            throw new functions.https.HttpsError('not-found', messages.inviteInvalid);
+        }
+        const inviteDoc = invitesSnapshot.docs[0];
+        const inviteData = inviteDoc.data();
+        const academiaId = inviteData.academiaId;
+        // 5. Verificar expiração do convite
+        if (inviteData.expiresAt) {
+            const now = new Date();
+            const expirationDate = inviteData.expiresAt.toDate();
+            if (expirationDate < now) {
+                // Marcar convite como expirado
+                await inviteDoc.ref.update({
+                    status: 'expired',
+                    updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+                });
+                throw new functions.https.HttpsError('failed-precondition', messages.inviteExpired);
+            }
+        }
+        // 6. Associar usuário à academia
+        // Converter tipo de usuário de português para inglês
+        const tipoMap = {
+            'aluno': 'student',
+            'instrutor': 'instructor',
+            'admin': 'admin',
+            'student': 'student',
+            'instructor': 'instructor'
+        };
+        const userType = tipoMap[inviteData.tipo] || 'student';
+        console.log('👤 Atualizando usuário:', {
+            userId,
+            academiaId,
+            tipoOriginal: inviteData.tipo,
+            userTypeConvertido: userType
+        });
+        const userRef = db.collection('users').doc(userId);
+        await userRef.update({
+            academiaId: academiaId,
+            userType: userType,
+            updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+        });
+        // 7. Marcar convite como aceito
+        await inviteDoc.ref.update({
+            status: 'accepted',
+            acceptedBy: userId,
+            acceptedAt: admin.firestore.FieldValue.serverTimestamp(),
+            updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+        });
+        // 8. Log da operação para auditoria
+        console.log(`Convite aceito com sucesso`, {
+            userId,
+            inviteId: inviteDoc.id,
+            academiaId,
+            role: inviteData.tipo || 'aluno',
+            timestamp: new Date().toISOString(),
+        });
+        // 9. Retornar sucesso
+        return {
+            success: true,
+            academiaId: academiaId,
+            inviteId: inviteDoc.id,
+            role: inviteData.tipo || 'aluno',
+            message: messages.inviteAccepted,
+        };
+    }
+    catch (error) {
+        // Log detalhado do erro para debugging
+        console.error('Erro ao processar convite:', {
+            error,
+            userId: (_a = context.auth) === null || _a === void 0 ? void 0 : _a.uid,
+            inviteCode: inviteCode.substring(0, 8) + '...', // Log parcial por segurança
+            timestamp: new Date().toISOString(),
+        });
+        // Re-lançar erros HttpsError
+        if (error instanceof functions.https.HttpsError) {
+            throw error;
+        }
+        // Tratar outros erros
+        const errorMessage = error instanceof Error ? error.message : messages.processingError;
+        throw new functions.https.HttpsError('internal', `${messages.processingError}: ${errorMessage}`);
+    }
+});
+//# sourceMappingURL=useInvite.js.map

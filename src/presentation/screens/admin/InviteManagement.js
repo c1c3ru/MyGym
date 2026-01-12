@@ -42,11 +42,17 @@ export default function InviteManagement({ navigation }) {
   const loadInvites = async () => {
     try {
       setLoading(true);
+      console.log('🔄 Carregando convites para academia:', academia?.id);
+
       // Usar a nova função que já filtra convites ativos (pendentes e expirados)
       const activeInvites = await InviteService.getActiveInvites(academia.id);
+
+      console.log('📥 Convites carregados:', activeInvites.length);
+      console.log('📋 Lista de convites:', activeInvites);
+
       setInvites(activeInvites);
     } catch (error) {
-      console.error('Erro ao carregar convites:', error);
+      console.error('❌ Erro ao carregar convites:', error);
       Alert.alert(getString('error'), 'Não foi possível carregar os convites');
     } finally {
       setLoading(false);
@@ -99,19 +105,25 @@ export default function InviteManagement({ navigation }) {
         newInvite.tipo
       );
 
+      console.log('✅ Convite criado com sucesso. Token:', inviteResult.token);
+
+      // Fechar modal e recarregar lista independente do resultado do email
+      setShowInviteModal(false);
+      setNewInvite({ email: '', tipo: 'aluno' });
+      await loadInvites();
+
+      // Mostrar feedback apropriado
       if (!emailSent) {
-        Alert.alert(getString('warning'), 'Convite criado, mas houve problema no envio do email. O convite ainda é válido.');
+        Alert.alert(
+          'Convite Criado!',
+          `Convite criado com código: ${inviteResult.token}\n\nHouve problema no envio do email, mas o código é válido e pode ser compartilhado manualmente.`,
+          [{ text: 'OK' }]
+        );
       } else {
         Alert.alert(
           'Convite Enviado!',
-          `Convite enviado com sucesso para ${newInvite.email}`,
-          [{
-            text: getString('ok'), onPress: () => {
-              setShowInviteModal(false);
-              setNewInvite({ email: '', tipo: 'aluno' });
-              loadInvites();
-            }
-          }]
+          `Convite enviado com sucesso para ${newInvite.email}\n\nCódigo: ${inviteResult.token}`,
+          [{ text: 'OK' }]
         );
       }
     } catch (error) {
@@ -138,6 +150,8 @@ export default function InviteManagement({ navigation }) {
   };
 
   const deleteInvite = async (inviteId, inviteEmail) => {
+    console.log('🗑️ Iniciando exclusão de convite:', { inviteId, inviteEmail, academiaId: academia?.id });
+
     Alert.alert(
       'Confirmar Exclusão',
       `Deseja realmente excluir o convite para ${inviteEmail}?`,
@@ -148,13 +162,33 @@ export default function InviteManagement({ navigation }) {
           style: 'destructive',
           onPress: async () => {
             try {
+              console.log('✅ Usuário confirmou exclusão');
               setDeletingInviteId(inviteId);
+
+              console.log('📞 Chamando InviteService.deleteInvite...');
               await InviteService.deleteInvite(academia.id, inviteId);
+
+              console.log('✅ Convite excluído com sucesso, recarregando lista...');
+              await loadInvites();
+
               Alert.alert('Sucesso', 'Convite excluído com sucesso!');
-              loadInvites();
             } catch (error) {
-              console.error('Erro ao excluir convite:', error);
-              Alert.alert(getString('error'), 'Não foi possível excluir o convite');
+              console.error('❌ Erro ao excluir convite:', error);
+              console.error('❌ Detalhes do erro:', {
+                message: error.message,
+                code: error.code,
+                stack: error.stack
+              });
+
+              let errorMessage = 'Não foi possível excluir o convite';
+
+              if (error.code === 'permission-denied') {
+                errorMessage = 'Você não tem permissão para excluir este convite';
+              } else if (error.message) {
+                errorMessage = `Erro: ${error.message}`;
+              }
+
+              Alert.alert(getString('error'), errorMessage);
             } finally {
               setDeletingInviteId(null);
             }

@@ -1,4 +1,4 @@
-import { collection, addDoc, doc, getDoc, updateDoc, query, where, getDocs, deleteDoc } from 'firebase/firestore';
+import { collection, addDoc, doc, getDoc, updateDoc, query, where, getDocs, deleteDoc, Timestamp } from 'firebase/firestore';
 import { db } from '@infrastructure/services/firebase';
 
 /**
@@ -16,18 +16,31 @@ export class InviteService {
    */
   static async createInvite(academiaId, email, tipo, createdBy) {
     try {
+      const now = new Date();
+      const expirationDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 dias
+
       const inviteData = {
         academiaId,
         email: email.toLowerCase().trim(),
         tipo,
         createdBy,
         status: 'pending', // pending, accepted, expired
-        createdAt: new Date(),
-        expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 dias
+        createdAt: Timestamp.fromDate(now),
+        expiresAt: Timestamp.fromDate(expirationDate),
         inviteToken: this.generateInviteToken()
       };
 
+      console.log('📝 Criando convite:', {
+        academiaId,
+        email: inviteData.email,
+        tipo,
+        token: inviteData.inviteToken,
+        expiresAt: expirationDate.toISOString()
+      });
+
       const inviteRef = await addDoc(collection(db, 'gyms', academiaId, 'invites'), inviteData);
+
+      console.log('✅ Convite criado no Firestore:', inviteRef.id);
 
       // Retornar tanto o ID quanto o token para facilitar o uso
       return {
@@ -35,23 +48,24 @@ export class InviteService {
         token: inviteData.inviteToken
       };
     } catch (error) {
-      console.error('Erro ao criar convite:', error);
+      console.error('❌ Erro ao criar convite:', error);
       throw error;
     }
   }
 
   /**
    * Gerar token único para o convite
-   * @returns {string} Token do convite
+   * @returns {string} Token do convite (sempre em uppercase)
    */
   static generateInviteToken() {
     // Gerar um código curto e legível de 6 caracteres (ex: AB12CD)
+    // Sempre em uppercase para evitar problemas de case sensitivity
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     let token = '';
     for (let i = 0; i < 6; i++) {
       token += chars.charAt(Math.floor(Math.random() * chars.length));
     }
-    return token;
+    return token; // Já está em uppercase por design
   }
 
   /**
@@ -320,6 +334,8 @@ export class InviteService {
    */
   static async getActiveInvites(academiaId) {
     try {
+      console.log('📋 Buscando convites ativos para academia:', academiaId);
+
       const q = query(
         collection(db, 'gyms', academiaId, 'invites'),
         where('status', 'in', ['pending', 'expired', 'accepted'])
@@ -327,12 +343,25 @@ export class InviteService {
 
       const snapshot = await getDocs(q);
 
-      return snapshot.docs.map(doc => ({
+      console.log('📊 Convites encontrados:', snapshot.size);
+
+      const invites = snapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data()
       }));
+
+      // Ordenar por data de criação (mais recentes primeiro)
+      invites.sort((a, b) => {
+        const dateA = a.createdAt?.toDate?.() || new Date(0);
+        const dateB = b.createdAt?.toDate?.() || new Date(0);
+        return dateB - dateA;
+      });
+
+      console.log('✅ Convites retornados:', invites.length);
+
+      return invites;
     } catch (error) {
-      console.error('Erro ao listar convites ativos:', error);
+      console.error('❌ Erro ao listar convites ativos:', error);
       throw error;
     }
   }
@@ -406,7 +435,19 @@ export class InviteService {
    */
   static async deleteInvite(academiaId, inviteId) {
     try {
+      console.log('🗑️ Tentando deletar convite:', { academiaId, inviteId });
+
       const inviteRef = doc(db, 'gyms', academiaId, 'invites', inviteId);
+
+      // Verificar se o convite existe antes de deletar
+      const inviteDoc = await getDoc(inviteRef);
+      if (!inviteDoc.exists()) {
+        console.warn('⚠️ Convite não encontrado:', inviteId);
+        throw new Error('Convite não encontrado');
+      }
+
+      console.log('📄 Convite encontrado:', inviteDoc.data());
+
       await deleteDoc(inviteRef);
       console.log('✅ Convite deletado com sucesso:', inviteId);
     } catch (error) {

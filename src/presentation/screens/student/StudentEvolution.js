@@ -38,17 +38,24 @@ const StudentEvolution = ({ navigation }) => {
     try {
       setLoading(true);
 
-      // Obter ID da academia
+      // Obter ID da academia e do usuário
       const academiaId = userProfile?.academiaId || academia?.id;
+      const userId = user?.id || user?.uid;
+
       if (!academiaId) {
         console.error(getString('academyIdNotFound'));
         return;
       }
 
-      // Buscar graduações do aluno na academia
-      const allGraduations = await firestoreService.getAll(`gyms/${academiaId}/graduations`);
-      const userGraduations = allGraduations.filter(graduation =>
-        graduation.studentId === user.id
+      if (!userId) {
+        console.error('ID do usuário não encontrado');
+        return;
+      }
+
+      // 🔒 SEGURANÇA: Buscar APENAS as graduações do próprio aluno
+      // Caminho correto: gyms/{gymId}/students/{studentId}/graduations
+      const userGraduations = await firestoreService.getAll(
+        `gyms/${academiaId}/students/${userId}/graduations`
       );
 
       // Ordenar graduações por data (mais recente primeiro)

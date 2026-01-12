@@ -104,6 +104,16 @@ export const useInvite = functions.https.onCall(
             );
         }
 
+        // Normalizar o código: uppercase e trim para evitar problemas de case sensitivity
+        const normalizedCode = inviteCode.trim().toUpperCase();
+
+        console.log('🔍 Validando convite:', {
+            originalCode: inviteCode,
+            normalizedCode: normalizedCode,
+            userId: userId,
+            timestamp: new Date().toISOString(),
+        });
+
         try {
             const db = admin.firestore();
 
@@ -111,10 +121,16 @@ export const useInvite = functions.https.onCall(
             // Os convites estão em subcoleções: gyms/{gymId}/invites
             const invitesSnapshot = await db
                 .collectionGroup('invites')
-                .where('inviteToken', '==', inviteCode.trim())
+                .where('inviteToken', '==', normalizedCode)
                 .where('status', '==', 'pending')
                 .limit(1)
                 .get();
+
+            console.log('📊 Resultado da busca:', {
+                found: !invitesSnapshot.empty,
+                count: invitesSnapshot.size,
+                normalizedCode: normalizedCode,
+            });
 
             // 4. Verificar se o convite existe
             if (invitesSnapshot.empty) {
@@ -147,11 +163,30 @@ export const useInvite = functions.https.onCall(
                 }
             }
 
+
             // 6. Associar usuário à academia
+            // Converter tipo de usuário de português para inglês
+            const tipoMap: Record<string, string> = {
+                'aluno': 'student',
+                'instrutor': 'instructor',
+                'admin': 'admin',
+                'student': 'student',
+                'instructor': 'instructor'
+            };
+
+            const userType = tipoMap[inviteData.tipo] || 'student';
+
+            console.log('👤 Atualizando usuário:', {
+                userId,
+                academiaId,
+                tipoOriginal: inviteData.tipo,
+                userTypeConvertido: userType
+            });
+
             const userRef = db.collection('users').doc(userId);
             await userRef.update({
                 academiaId: academiaId,
-                userType: inviteData.tipo || 'aluno',
+                userType: userType,
                 updatedAt: admin.firestore.FieldValue.serverTimestamp(),
             });
 
