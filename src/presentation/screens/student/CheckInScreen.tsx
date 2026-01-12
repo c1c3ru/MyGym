@@ -125,7 +125,7 @@ const CheckInScreen: React.FC<CheckInScreenProps> = ({ navigation }) => {
         className: classInfo?.name || 'Aula Avulsa',
         date: new Date(),
         status: 'completed'
-      });
+      }, academia?.id);
 
       Alert.alert(getString('success'), getString('checkInSuccess'));
 

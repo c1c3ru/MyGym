@@ -348,7 +348,8 @@ const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
     <SafeAreaView style={styles.container}>
       <ScrollView
         style={styles.scrollView}
-        showsVerticalScrollIndicator={false}
+        showsVerticalScrollIndicator={true}
+        persistentScrollbar={true}
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={styles.scrollContent}
       >
@@ -360,22 +361,23 @@ const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
         >
           <Card style={styles.card}>
             <Card.Content>
-              <Text style={styles.title}>Nova Turma</Text>
+              <Text style={styles.title}>{getString('newClass')}</Text>
 
               {/* Nome da Turma */}
               <TextInput
-                label="Nome da Turma"
+                label={getString('className')}
                 value={formData.name}
                 onChangeText={(value: string) => updateFormData('name', value)}
                 mode="outlined"
                 style={styles.input}
                 error={!!errors.name}
+                theme={{ colors: { onSurface: COLORS.text.primary, onSurfaceVariant: COLORS.text.secondary } }}
               />
               {errors.name && <HelperText type="error">{errors.name}</HelperText>}
 
               {/* Modalidade */}
               <View style={styles.pickerContainer}>
-                <Text style={styles.label}>Modalidade</Text>
+                <Text style={styles.label}>{getString('modality')}</Text>
                 <View style={styles.chipContainer}>
                   {modalities.length === 0 && (
                     <Text style={{ color: COLORS.gray[500] }}>{getString('noModalitiesRegistered')}</Text>
@@ -397,7 +399,7 @@ const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
 
               {/* Categoria por Idade */}
               <View style={styles.pickerContainer}>
-                <Text style={styles.label}>Categoria por Idade</Text>
+                <Text style={styles.label}>{getString('ageCategory')}</Text>
                 <View style={styles.chipContainer}>
                   {ageCategories.map((category) => (
                     <Chip
@@ -416,30 +418,32 @@ const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
 
               {/* Descrição */}
               <TextInput
-                label="Descrição (opcional)"
+                label={getString('description') + " (" + getString('optional') + ")"}
                 value={formData.description}
                 onChangeText={(value: string) => updateFormData('description', value)}
                 mode="outlined"
                 multiline
                 numberOfLines={3}
                 style={styles.input}
+                theme={{ colors: { onSurface: COLORS.text.primary, onSurfaceVariant: COLORS.text.secondary } }}
               />
 
               {/* Máximo de Alunos */}
               <TextInput
-                label="Máximo de Alunos"
+                label={getString('maxStudents')}
                 value={formData.maxStudents}
                 onChangeText={(value: string) => updateFormData('maxStudents', value)}
                 mode="outlined"
                 keyboardType="numeric"
                 style={styles.input}
                 error={!!errors.maxStudents}
+                theme={{ colors: { onSurface: COLORS.text.primary, onSurfaceVariant: COLORS.text.secondary } }}
               />
               {errors.maxStudents && <HelperText type="error">{errors.maxStudents}</HelperText>}
 
               {/* Instrutor */}
               <View style={styles.pickerContainer}>
-                <Text style={styles.label}>Instrutor da Turma</Text>
+                <Text style={styles.label}>{getString('instructor')}</Text>
 
                 {/* Opção "Eu serei o instrutor" sempre visível */}
                 <View style={styles.chipContainer}>
@@ -453,7 +457,7 @@ const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
                     mode={!formData.instructorId ? 'flat' : 'outlined'}
                     icon={!formData.instructorId ? 'check' : 'account'}
                   >
-                    👤 Eu serei o instrutor
+                    👤 {getString('iWillBeInstructor')}
                   </Chip>
                 </View>
 
@@ -461,7 +465,7 @@ const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
                 {!formData.instructorId && (
                   <View style={{ backgroundColor: COLORS.success[50], padding: SPACING.sm, borderRadius: BORDER_RADIUS.sm, marginBottom: SPACING.sm }}>
                     <Text style={{ color: COLORS.success[800], fontSize: FONT_SIZE.sm }}>
-                      ✅ Instrutor: {userProfile?.name || user?.displayName || user?.email}
+                      ✅ {getString('instructor')}: {userProfile?.name || user?.displayName || user?.email}
                     </Text>
                   </View>
                 )}
@@ -470,7 +474,7 @@ const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
                 {instructors.length > 0 && (
                   <>
                     <Text style={[styles.label, { fontSize: FONT_SIZE.base, marginTop: SPACING.md, marginBottom: SPACING.sm }]}>
-                      Ou escolher outro instrutor:
+                      {getString('orChooseOtherInstructor')}:
                     </Text>
                     <View style={styles.chipContainer}>
                       {instructors.map((instructor) => (
@@ -490,7 +494,7 @@ const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
 
                 {instructors.length === 0 && (
                   <Text style={{ color: COLORS.gray[500], fontSize: FONT_SIZE.sm, marginTop: SPACING.sm }}>
-                    Nenhum outro instrutor cadastrado na academia
+                    {getString('noOtherInstructors')}
                   </Text>
                 )}
 
@@ -498,12 +502,13 @@ const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
 
                 {/* Entrada manual do nome do instrutor como fallback */}
                 <TextInput
-                  label="Nome do Instrutor (manual)"
+                  label={getString('instructorNameManual')}
                   value={formData.instructorName}
                   onChangeText={(value: string) => updateFormData('instructorName', value)}
                   mode="outlined"
-                  placeholder={instructors.length === 0 ? 'Ex: Cícero Silva' : 'Opcional se já selecionou acima'}
+                  placeholder={instructors.length === 0 ? 'Ex: Cícero Silva' : getString('optionalIfSelectedAbove')}
                   style={styles.input}
+                  theme={{ colors: { onSurface: COLORS.text.primary, onSurfaceVariant: COLORS.text.secondary } }}
                 />
               </View>
 
@@ -516,7 +521,7 @@ const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
                 startHour={6}
                 endHour={22}
                 required={true}
-                label="classSchedules"
+                label={getString('schedules')}
                 style={styles.input}
                 instructorId={formData.instructorId || user?.id}
                 enableConflictValidation={true}
@@ -525,30 +530,31 @@ const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
 
               {/* Preço */}
               <TextInput
-                label="Preço Mensal (R$)"
+                label={getString('monthlyPrice')}
                 value={formData.price}
                 onChangeText={(value: string) => updateFormData('price', value)}
                 mode="outlined"
                 keyboardType="numeric"
                 style={styles.input}
                 error={!!errors.price}
+                theme={{ colors: { onSurface: COLORS.text.primary, onSurfaceVariant: COLORS.text.secondary } }}
               />
               {errors.price && <HelperText type="error">{errors.price}</HelperText>}
 
               {/* Status */}
               <View style={styles.radioContainer}>
-                <Text style={styles.label}>Status</Text>
+                <Text style={styles.label}>{getString('status')}</Text>
                 <RadioButton.Group
                   onValueChange={(value: string) => updateFormData('status', value)}
                   value={formData.status}
                 >
                   <View style={styles.radioItem}>
                     <RadioButton value="active" />
-                    <Text style={styles.radioLabel}>Ativa</Text>
+                    <Text style={styles.radioLabel}>{getString('active')}</Text>
                   </View>
                   <View style={styles.radioItem}>
                     <RadioButton value="inactive" />
-                    <Text style={styles.radioLabel}>Inativa</Text>
+                    <Text style={styles.radioLabel}>{getString('inactive')}</Text>
                   </View>
                 </RadioButton.Group>
               </View>
@@ -560,7 +566,7 @@ const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
                   onPress={() => navigation.goBack()}
                   style={styles.button}
                   disabled={loading}
-                >Cancelar</Button>
+                >{getString('cancel')}</Button>
                 <Button
                   mode="contained"
                   onPress={handleSubmit}
@@ -568,7 +574,7 @@ const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
                   loading={loading}
                   disabled={loading || modalities.length === 0}
                 >
-                  Criar Turma
+                  {getString('createClass')}
                 </Button>
               </View>
             </Card.Content>
@@ -627,6 +633,7 @@ const styles = StyleSheet.create({
     fontWeight: FONT_WEIGHT.bold,
     marginBottom: SPACING.lg,
     textAlign: 'center',
+    color: COLORS.text.primary,
   },
   input: {
     marginBottom: SPACING.md,
@@ -636,7 +643,7 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.medium,
     marginBottom: SPACING.sm,
-    color: COLORS.black,
+    color: COLORS.text.primary,
   },
   pickerContainer: {
     marginBottom: SPACING.md,
@@ -677,6 +684,7 @@ const styles = StyleSheet.create({
     marginLeft: SPACING.sm,
     fontSize: FONT_SIZE.md,
     flex: 1,
+    color: COLORS.text.secondary,
   },
   buttonContainer: {
     flexDirection: 'row',

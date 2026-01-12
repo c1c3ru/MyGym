@@ -356,7 +356,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }: PhysicalEvaluationScree
                   style={styles.input}
                   outlineColor={COLORS.gray[400]}
                   activeOutlineColor={COLORS.primary[500]}
-                  theme={{ colors: { background: 'rgba(255,255,255,0.5)' } }}
+                  theme={{ colors: { background: 'rgba(255,255,255,0.5)', onSurface: COLORS.gray[900], onSurfaceVariant: COLORS.gray[600] } }}
                   error={!!errors.weight}
                 />
                 {errors.weight && <HelperText type="error">{errors.weight}</HelperText>}
@@ -372,7 +372,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }: PhysicalEvaluationScree
                   style={styles.input}
                   outlineColor={COLORS.gray[400]}
                   activeOutlineColor={COLORS.primary[500]}
-                  theme={{ colors: { background: 'rgba(255,255,255,0.5)' } }}
+                  theme={{ colors: { background: 'rgba(255,255,255,0.5)', onSurface: COLORS.gray[900], onSurfaceVariant: COLORS.gray[600] } }}
                   error={!!errors.height}
                 />
                 {errors.height && <HelperText type="error">{errors.height}</HelperText>}
@@ -388,7 +388,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }: PhysicalEvaluationScree
               style={styles.input}
               outlineColor={COLORS.gray[400]}
               activeOutlineColor={COLORS.primary[500]}
-              theme={{ colors: { background: 'rgba(255,255,255,0.5)' } }}
+              theme={{ colors: { background: 'rgba(255,255,255,0.5)', onSurface: COLORS.gray[900], onSurfaceVariant: COLORS.gray[600] } }}
               error={!!errors.age}
             />
             {errors.age && <HelperText type="error">{errors.age}</HelperText>}
@@ -429,7 +429,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }: PhysicalEvaluationScree
                   style={styles.input}
                   outlineColor={COLORS.gray[400]}
                   activeOutlineColor={COLORS.primary[500]}
-                  theme={{ colors: { background: 'rgba(255,255,255,0.5)' } }}
+                  theme={{ colors: { background: 'rgba(255,255,255,0.5)', onSurface: COLORS.gray[900], onSurfaceVariant: COLORS.gray[600] } }}
                   error={!!errors.bodyFat}
                 />
                 {errors.bodyFat && <HelperText type="error">{errors.bodyFat}</HelperText>}
@@ -445,7 +445,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }: PhysicalEvaluationScree
                   style={styles.input}
                   outlineColor={COLORS.gray[400]}
                   activeOutlineColor={COLORS.primary[500]}
-                  theme={{ colors: { background: 'rgba(255,255,255,0.5)' } }}
+                  theme={{ colors: { background: 'rgba(255,255,255,0.5)', onSurface: COLORS.gray[900], onSurfaceVariant: COLORS.gray[600] } }}
                   error={!!errors.muscleMass}
                 />
                 {errors.muscleMass && <HelperText type="error">{errors.muscleMass}</HelperText>}
@@ -463,7 +463,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }: PhysicalEvaluationScree
                   style={styles.input}
                   outlineColor={COLORS.gray[400]}
                   activeOutlineColor={COLORS.primary[500]}
-                  theme={{ colors: { background: 'rgba(255,255,255,0.5)' } }}
+                  theme={{ colors: { background: 'rgba(255,255,255,0.5)', onSurface: COLORS.gray[900], onSurfaceVariant: COLORS.gray[600] } }}
                 />
               </View>
 
@@ -477,7 +477,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }: PhysicalEvaluationScree
                   style={styles.input}
                   outlineColor={COLORS.gray[400]}
                   activeOutlineColor={COLORS.primary[500]}
-                  theme={{ colors: { background: 'rgba(255,255,255,0.5)' } }}
+                  theme={{ colors: { background: 'rgba(255,255,255,0.5)', onSurface: COLORS.gray[900], onSurfaceVariant: COLORS.gray[600] } }}
                 />
               </View>
             </View>
@@ -493,7 +493,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }: PhysicalEvaluationScree
                   style={styles.input}
                   outlineColor={COLORS.gray[400]}
                   activeOutlineColor={COLORS.primary[500]}
-                  theme={{ colors: { background: 'rgba(255,255,255,0.5)' } }}
+                  theme={{ colors: { background: 'rgba(255,255,255,0.5)', onSurface: COLORS.gray[900], onSurfaceVariant: COLORS.gray[600] } }}
                 />
               </View>
 
@@ -507,7 +507,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }: PhysicalEvaluationScree
                   style={styles.input}
                   outlineColor={COLORS.gray[400]}
                   activeOutlineColor={COLORS.primary[500]}
-                  theme={{ colors: { background: 'rgba(255,255,255,0.5)' } }}
+                  theme={{ colors: { background: 'rgba(255,255,255,0.5)', onSurface: COLORS.gray[900], onSurfaceVariant: COLORS.gray[600] } }}
                   error={!!errors.bodyWater}
                 />
                 {errors.bodyWater && <HelperText type="error">{errors.bodyWater}</HelperText>}
@@ -527,7 +527,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }: PhysicalEvaluationScree
               placeholder={getString('observationsPlaceholder')}
               outlineColor={COLORS.gray[400]}
               activeOutlineColor={COLORS.primary[500]}
-              theme={{ colors: { background: 'rgba(255,255,255,0.5)' } }}
+              theme={{ colors: { background: 'rgba(255,255,255,0.5)', onSurface: COLORS.gray[900], onSurfaceVariant: COLORS.gray[600] } }}
             />
 
             {/* Botões */}

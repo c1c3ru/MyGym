@@ -284,7 +284,7 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
               mode="outlined"
               style={styles.input}
               error={!!(errors as any).name}
-              theme={{ colors: { background: 'rgba(255,255,255,0.5)' } }}
+              theme={{ colors: { background: 'rgba(255,255,255,0.5)', onSurface: COLORS.gray[900], onSurfaceVariant: COLORS.gray[600] } }}
             />
             {(errors as any).name && <HelperText type="error">{(errors as any).name}</HelperText>}
 
@@ -297,7 +297,7 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
               autoCapitalize="none"
               style={styles.input}
               error={!!(errors as any).email}
-              theme={{ colors: { background: 'rgba(255,255,255,0.5)' } }}
+              theme={{ colors: { background: 'rgba(255,255,255,0.5)', onSurface: COLORS.gray[900], onSurfaceVariant: COLORS.gray[600] } }}
             />
             {(errors as any).email && <HelperText type="error">{(errors as any).email}</HelperText>}
 
@@ -309,7 +309,7 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
               keyboardType="phone-pad"
               style={styles.input}
               error={!!(errors as any).phone}
-              theme={{ colors: { background: 'rgba(255,255,255,0.5)' } }}
+              theme={{ colors: { background: 'rgba(255,255,255,0.5)', onSurface: COLORS.gray[900], onSurfaceVariant: COLORS.gray[600] } }}
             />
             {(errors as any).phone && <HelperText type="error">{(errors as any).phone}</HelperText>}
 
@@ -321,7 +321,7 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
               placeholder="01/01/1990"
               style={styles.input}
               error={!!(errors as any).birthDate}
-              theme={{ colors: { background: 'rgba(255,255,255,0.5)' } }}
+              theme={{ colors: { background: 'rgba(255,255,255,0.5)', onSurface: COLORS.gray[900], onSurfaceVariant: COLORS.gray[600] } }}
             />
             {(errors as any).birthDate && <HelperText type="error">{(errors as any).birthDate}</HelperText>}
 
@@ -333,7 +333,7 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
               multiline
               numberOfLines={2}
               style={styles.input}
-              theme={{ colors: { background: 'rgba(255,255,255,0.5)' } }}
+              theme={{ colors: { background: 'rgba(255,255,255,0.5)', onSurface: COLORS.gray[900], onSurfaceVariant: COLORS.gray[600] } }}
             />
 
             {/* Contato de Emergência */}
@@ -346,7 +346,7 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
               mode="outlined"
               style={styles.input}
               error={!!(errors as any).emergencyContact}
-              theme={{ colors: { background: 'rgba(255,255,255,0.5)' } }}
+              theme={{ colors: { background: 'rgba(255,255,255,0.5)', onSurface: COLORS.gray[900], onSurfaceVariant: COLORS.gray[600] } }}
             />
             {(errors as any).emergencyContact && <HelperText type="error">{(errors as any).emergencyContact}</HelperText>}
 
@@ -358,7 +358,7 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
               keyboardType="phone-pad"
               style={styles.input}
               error={!!(errors as any).emergencyPhone}
-              theme={{ colors: { background: 'rgba(255,255,255,0.5)' } }}
+              theme={{ colors: { background: 'rgba(255,255,255,0.5)', onSurface: COLORS.gray[900], onSurfaceVariant: COLORS.gray[600] } }}
             />
             {(errors as any).emergencyPhone && <HelperText type="error">{(errors as any).emergencyPhone}</HelperText>}
 
@@ -374,7 +374,7 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
               numberOfLines={3}
               placeholder={getString('medicalConditionsPlaceholder')}
               style={styles.input}
-              theme={{ colors: { background: 'rgba(255,255,255,0.5)' } }}
+              theme={{ colors: { background: 'rgba(255,255,255,0.5)', onSurface: COLORS.gray[900], onSurfaceVariant: COLORS.gray[600] } }}
             />
 
             <TextInput
@@ -386,7 +386,7 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
               numberOfLines={2}
               placeholder={getString('goalsPlaceholder')}
               style={styles.input}
-              theme={{ colors: { background: 'rgba(255,255,255,0.5)' } }}
+              theme={{ colors: { background: 'rgba(255,255,255,0.5)', onSurface: COLORS.gray[900], onSurfaceVariant: COLORS.gray[600] } }}
             />
 
             {/* Status */}

@@ -17,7 +17,7 @@ if (Platform.OS === 'web' && typeof document !== 'undefined') {
   document.head.appendChild(style);
 }
 
-import { Provider as PaperProvider } from 'react-native-paper';
+
 import { ThemeProvider } from './src/presentation/contexts/ThemeContext';
 import { ThemeToggleProvider } from './src/presentation/contexts/ThemeToggleContext';
 import { AuthProvider } from './src/presentation/contexts/AuthProvider';
@@ -34,16 +34,16 @@ export default function App() {
         <ThemeToggleProvider>
           <ThemeProvider>
             <NotificationProvider>
-              <PaperProvider>
-                <AuthProvider>
-                  <UndoProvider>
-                    <OnboardingProvider>
-                      <StatusBar style="auto" />
-                      <AppNavigator />
-                    </OnboardingProvider>
-                  </UndoProvider>
-                </AuthProvider>
-              </PaperProvider>
+
+              <AuthProvider>
+                <UndoProvider>
+                  <OnboardingProvider>
+                    <StatusBar style="auto" />
+                    <AppNavigator />
+                  </OnboardingProvider>
+                </UndoProvider>
+              </AuthProvider>
+
             </NotificationProvider>
           </ThemeProvider>
         </ThemeToggleProvider>

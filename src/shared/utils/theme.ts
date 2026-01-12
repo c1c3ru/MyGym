@@ -1,6 +1,6 @@
-// Import design tokens
 import { COLORS } from '@presentation/theme/designTokens';
 import { LIGHT_THEME } from '@presentation/theme/lightTheme';
+import { MD3LightTheme, MD3DarkTheme } from 'react-native-paper';
 
 export type LanguageCode = 'pt' | 'en' | 'es';
 export const languages: Record<LanguageCode, any> = {
@@ -180,6 +180,13 @@ export const languages: Record<LanguageCode, any> = {
       emergencyContact: 'Contato de Emergência',
       medicalInformation: 'Informações Médicas',
       allergiesMedicationsConditions: 'Alergias, medicamentos, condições médicas...',
+      medicalInfo: 'Informações Médicas',
+      medicalConditions: 'Condições Médicas',
+      medicalConditionsPlaceholder: 'Alergias, medicamentos, condições...',
+      goals: 'Objetivos',
+      goalsPlaceholder: 'Objetivos com o treino...',
+      contactName: 'Nome do Contato',
+      emergencyPhone: 'Telefone de Emergência',
       saveChanges: 'Salvar Alterações',
       profileUpdatedSuccess: 'Perfil atualizado com sucesso',
       cannotUpdateProfile: 'Não foi possível atualizar o perfil',
@@ -407,6 +414,18 @@ export const languages: Record<LanguageCode, any> = {
 
 
       // CLASS DETAILS
+      classSchedules: 'Horários da Turma',
+      classDetails: 'Detalhes da Turma',
+      className: 'Nome da Turma',
+      ageCategory: 'Categoria por Idade',
+      maxStudents: 'Máximo de Alunos',
+      iWillBeInstructor: 'Eu serei o instrutor',
+      orChooseOtherInstructor: 'Ou escolher outro instrutor',
+      noOtherInstructors: 'Nenhum outro instrutor cadastrado',
+      instructorNameManual: 'Nome do Instrutor (manual)',
+      optionalIfSelectedAbove: 'Opcional se já selecionou acima',
+      monthlyPrice: 'Preço Mensal',
+      createClass: 'Criar Turma',
       confirmDeleteClass: 'Confirmar Exclusão',
       confirmDeleteClassMessage: 'Tem certeza que deseja excluir esta turma? Esta ação não pode ser desfeita e todos os alunos serão desvinculados.',
       classDeletedSuccess: 'Turma excluída com sucesso!',
@@ -918,6 +937,13 @@ export const languages: Record<LanguageCode, any> = {
       emergencyContact: 'Emergency Contact',
       medicalInformation: 'Medical Information',
       allergiesMedicationsConditions: 'Allergies, medications, medical conditions...',
+      medicalInfo: 'Medical Information',
+      medicalConditions: 'Medical Conditions',
+      medicalConditionsPlaceholder: 'Allergies, medications, medical conditions...',
+      goals: 'Goals',
+      goalsPlaceholder: 'Training goals...',
+      contactName: 'Contact Name',
+      emergencyPhone: 'Emergency Phone',
       saveChanges: 'Save Changes',
       profileUpdatedSuccess: 'Profile updated successfully',
       cannotUpdateProfile: 'Could not update profile',
@@ -1044,6 +1070,18 @@ export const languages: Record<LanguageCode, any> = {
 
 
       // CLASS DETAILS
+      classSchedules: 'Class Schedules',
+      classDetails: 'Class Details',
+      className: 'Class Name',
+      ageCategory: 'Age Category',
+      maxStudents: 'Max Students',
+      iWillBeInstructor: 'I will be the instructor',
+      orChooseOtherInstructor: 'Or choose another instructor',
+      noOtherInstructors: 'No other instructors registered',
+      instructorNameManual: 'Instructor Name (manual)',
+      optionalIfSelectedAbove: 'Optional if selected above',
+      monthlyPrice: 'Monthly Price',
+      createClass: 'Create Class',
       confirmDeleteClass: 'Confirm Delete',
       confirmDeleteClassMessage: 'Are you sure you want to delete this class? This action cannot be undone and all students will be unlinked.',
       classDeletedSuccess: 'Class deleted successfully!',
@@ -1539,6 +1577,13 @@ export const languages: Record<LanguageCode, any> = {
       emergencyContact: 'Contacto de Emergencia',
       medicalInformation: 'Información Médica',
       allergiesMedicationsConditions: 'Alergias, medicamentos, condiciones médicas...',
+      medicalInfo: 'Información Médica',
+      medicalConditions: 'Condiciones Médicas',
+      medicalConditionsPlaceholder: 'Alergias, medicamentos, condiciones...',
+      goals: 'Objetivos',
+      goalsPlaceholder: 'Objetivos de entrenamiento...',
+      contactName: 'Nombre del Contacto',
+      emergencyPhone: 'Teléfono de Emergencia',
       saveChanges: 'Guardar Cambios',
       profileUpdatedSuccess: 'Perfil actualizado con éxito',
       cannotUpdateProfile: 'No se pudo actualizar el perfil',
@@ -1660,6 +1705,18 @@ export const languages: Record<LanguageCode, any> = {
 
 
       // CLASS DETAILS
+      classSchedules: 'Horarios de la Clase',
+      classDetails: 'Detalles de la Clase',
+      className: 'Nombre de la Clase',
+      ageCategory: 'Categoría de Edad',
+      maxStudents: 'Máximo de Estudiantes',
+      iWillBeInstructor: 'Yo seré el instructor',
+      orChooseOtherInstructor: 'O elegir otro instructor',
+      noOtherInstructors: 'Ningún otro instructor registrado',
+      instructorNameManual: 'Nombre del Instructor (manual)',
+      optionalIfSelectedAbove: 'Opcional si ya seleccionó arriba',
+      monthlyPrice: 'Precio Mensual',
+      createClass: 'Crear Clase',
       confirmDeleteClass: 'Confirmar Eliminación',
       confirmDeleteClassMessage: '¿Está seguro de que desea eliminar esta clase? Esta acción no se puede deshacer y todos los estudiantes serán desvinculados.',
       classDeletedSuccess: '¡Clase eliminada con éxito!',
@@ -2034,8 +2091,10 @@ export const isLanguageSupported = (language: string): language is LanguageCode 
 };
 
 // Temas básicos usando design tokens
-export const lightTheme: { colors: Record<string, string> } = {
+export const lightTheme = {
+  ...MD3LightTheme,
   colors: {
+    ...MD3LightTheme.colors,
     primary: COLORS.primary[500],
     primaryVariant: COLORS.primary[700],
     secondary: COLORS.secondary[500],
@@ -2046,11 +2105,17 @@ export const lightTheme: { colors: Record<string, string> } = {
     accent: COLORS.info[500],
     textSecondary: LIGHT_THEME.text.secondary,
     textDisabled: LIGHT_THEME.text.disabled,
+    onSurface: LIGHT_THEME.text.primary,
+    onSurfaceVariant: LIGHT_THEME.text.secondary,
+    placeholder: LIGHT_THEME.text.secondary, // Explicit placeholder
+    error: COLORS.error[500],
   }
 };
 
-export const darkTheme: { colors: Record<string, string> } = {
+export const darkTheme = {
+  ...MD3DarkTheme,
   colors: {
+    ...MD3DarkTheme.colors,
     primary: COLORS.primary[400],
     primaryVariant: COLORS.primary[300],
     secondary: COLORS.secondary[400],
@@ -2061,6 +2126,10 @@ export const darkTheme: { colors: Record<string, string> } = {
     accent: COLORS.info[400],
     textSecondary: COLORS.gray[300],
     textDisabled: COLORS.gray[500],
+    onSurface: COLORS.white,
+    onSurfaceVariant: COLORS.gray[300], // Visible light gray
+    placeholder: COLORS.gray[300], // Explicit placeholder
+    error: COLORS.error[400],
   }
 };
 
@@ -2068,7 +2137,7 @@ export const darkTheme: { colors: Record<string, string> } = {
 export const getThemeForUserType = (
   userType: 'student' | 'instructor' | 'admin' = 'student',
   isDarkMode: boolean = false
-): { colors: Record<string, string>; userType: string; isDarkMode: boolean } => {
+) => {
   const baseTheme = isDarkMode ? darkTheme : lightTheme;
 
   // Cores específicas por tipo de usuário usando design tokens

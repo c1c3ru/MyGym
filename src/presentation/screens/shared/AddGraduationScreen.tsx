@@ -448,7 +448,7 @@ const AddGraduationScreen = ({ route, navigation }: any) => {
                   style={styles.notesInput}
                   outlineColor={COLORS.gray[300]}
                   activeOutlineColor={COLORS.info[700]}
-                  theme={{ colors: { background: 'rgba(255,255,255,0.5)' } }}
+                  theme={{ colors: { background: 'rgba(255,255,255,0.5)', onSurface: COLORS.gray[900], onSurfaceVariant: COLORS.gray[600] } }}
                 />
               </View>
 
@@ -464,7 +464,7 @@ const AddGraduationScreen = ({ route, navigation }: any) => {
                   outlineColor={COLORS.gray[300]}
                   activeOutlineColor={COLORS.warning[500]}
                   left={<TextInput.Icon icon="certificate" />}
-                  theme={{ colors: { background: 'rgba(255,255,255,0.5)' } }}
+                  theme={{ colors: { background: 'rgba(255,255,255,0.5)', onSurface: COLORS.gray[900], onSurfaceVariant: COLORS.gray[600] } }}
                 />
               </View>
             </View>

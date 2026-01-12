@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { lightTheme, darkTheme, languages, getThemeForUserType } from '@utils/theme';
 import type { ReactNode } from 'react';
+import { Provider as PaperProvider } from 'react-native-paper';
 
 // Tipos de idiomas suportados
 type LanguageCode = 'pt' | 'en' | 'es';
@@ -110,7 +111,9 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
 
   return (
     <ThemeContext.Provider value={value}>
-      {children}
+      <PaperProvider theme={theme}>
+        {children}
+      </PaperProvider>
     </ThemeContext.Provider>
   );
 };

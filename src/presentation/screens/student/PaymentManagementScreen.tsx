@@ -21,6 +21,7 @@ import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
 import { useCustomClaims } from '@hooks/useCustomClaims';
 import { firestoreService } from '@infrastructure/services/firestoreService';
+import paymentService from '@infrastructure/services/paymentService';
 import { getThemeColors } from '@presentation/theme/professionalTheme';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
@@ -68,6 +69,19 @@ const PaymentManagementScreen: React.FC<PaymentManagementScreenProps> = ({ navig
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
   const [customDueDate, setCustomDueDate] = useState(new Date());
+
+  // Payment Method Selection States
+  const [showPaymentMethodModal, setShowPaymentMethodModal] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState<string>('credit_card');
+  const [paymentToProcess, setPaymentToProcess] = useState<Payment | null>(null);
+
+  const paymentMethods = [
+    { id: 'pix', label: 'PIX', icon: 'qr-code-outline' },
+    { id: 'credit_card', label: 'Cartão de Crédito', icon: 'card-outline' },
+    { id: 'debit_card', label: 'Cartão de Débito', icon: 'card-outline' },
+    { id: 'bank_slip', label: 'Boleto Bancário', icon: 'barcode-outline' },
+    { id: 'cash', label: 'Dinheiro', icon: 'cash-outline' },
+  ];
 
   const themeColors = getThemeColors((role as 'admin' | 'instructor' | 'student') || 'student');
 
@@ -170,32 +184,36 @@ const PaymentManagementScreen: React.FC<PaymentManagementScreenProps> = ({ navig
   };
 
   const handlePayment = (payment: Payment) => {
-    Alert.alert(
-      'Realizar Pagamento',
-      `Confirmar pagamento de ${formatCurrency(payment.amount)}?`,
-      [
-        { text: getString('cancel'), style: 'cancel' },
+    setPaymentToProcess(payment);
+    setPaymentMethod('credit_card'); // Default
+    setShowPaymentMethodModal(true);
+  };
+
+  const processPayment = async () => {
+    if (!paymentToProcess || !academia?.id) return;
+
+    try {
+      setLoading(true);
+
+      // Use the paymentService to confirm payment and trigger notifications
+      await paymentService.confirmPayment(
+        paymentToProcess.id,
         {
-          text: getString('confirm'),
-          onPress: async () => {
-            try {
-              if (!academia?.id) throw new Error('Academia não identificada');
+          method: paymentMethod,
+          paidAt: new Date()
+        },
+        academia.id
+      );
 
-              await firestoreService.update(`gyms/${academia.id}/payments`, payment.id, {
-                status: 'paid',
-                paidAt: new Date(),
-                paymentMethod: 'app'
-              });
-
-              Alert.alert(getString('success'), 'Pagamento realizado com sucesso!');
-              loadPaymentData();
-            } catch (error) {
-              Alert.alert(getString('error'), 'Não foi possível processar o pagamento');
-            }
-          }
-        }
-      ]
-    );
+      Alert.alert(getString('success'), 'Pagamento realizado com sucesso!');
+      setShowPaymentMethodModal(false);
+      loadPaymentData();
+    } catch (error) {
+      console.error('Erro ao processar pagamento:', error);
+      Alert.alert(getString('error'), 'Não foi possível processar o pagamento');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const formatCurrency = (value: number | undefined) => {
@@ -439,22 +457,81 @@ const PaymentManagementScreen: React.FC<PaymentManagementScreenProps> = ({ navig
         </Modal>
       </Portal>
 
+      {/* Modal de Seleção de Método de Pagamento */}
+      <Portal>
+        <Modal
+          visible={showPaymentMethodModal}
+          onDismiss={() => setShowPaymentMethodModal(false)}
+          contentContainerStyle={styles.modal}
+        >
+          <Text style={styles.modalTitle}>Forma de Pagamento</Text>
+
+          <ScrollView style={styles.modalContent}>
+            {paymentToProcess && (
+              <View style={styles.paymentSummary}>
+                <Text style={styles.paymentSummaryTitle}>Resumo do Pagamento</Text>
+                <Text style={styles.paymentSummaryText}>Plano: {paymentToProcess.planName}</Text>
+                <Text style={styles.paymentSummaryValue}>{formatCurrency(paymentToProcess.amount)}</Text>
+              </View>
+            )}
+
+            <Text style={styles.sectionTitle}>Selecione como deseja pagar:</Text>
+
+            <RadioButton.Group
+              onValueChange={newValue => setPaymentMethod(newValue)}
+              value={paymentMethod}
+            >
+              {paymentMethods.map((method) => (
+                <Surface key={method.id} style={styles.methodOption} elevation={1}>
+                  <View style={styles.methodContent}>
+                    <RadioButton value={method.id} color={themeColors.primary} />
+                    <Ionicons name={method.icon as any} size={24} color={COLORS.gray[600]} style={styles.methodIcon} />
+                    <Text style={styles.methodLabel}>{method.label}</Text>
+                  </View>
+                </Surface>
+              ))}
+            </RadioButton.Group>
+          </ScrollView>
+
+          <View style={styles.modalActions}>
+            <Button
+              mode="outlined"
+              onPress={() => setShowPaymentMethodModal(false)}
+              style={styles.modalButton}
+            >
+              {getString('cancel')}
+            </Button>
+            <Button
+              mode="contained"
+              onPress={processPayment}
+              style={[styles.modalButton, { backgroundColor: COLORS.success[500] }]}
+              loading={loading}
+              disabled={loading}
+            >
+              Confirmar
+            </Button>
+          </View>
+        </Modal>
+      </Portal>
+
       {/* Date Picker */}
-      {showDatePicker && (
-        <DateTimePicker
-          value={customDueDate}
-          mode="date"
-          display="default"
-          onChange={(event: any, selectedDate?: Date) => {
-            setShowDatePicker(false);
-            if (selectedDate) {
-              setCustomDueDate(selectedDate);
-            }
-          }}
-          minimumDate={new Date()}
-        />
-      )}
-    </SafeAreaView>
+      {
+        showDatePicker && (
+          <DateTimePicker
+            value={customDueDate}
+            mode="date"
+            display="default"
+            onChange={(event: any, selectedDate?: Date) => {
+              setShowDatePicker(false);
+              if (selectedDate) {
+                setCustomDueDate(selectedDate);
+              }
+            }}
+            minimumDate={new Date()}
+          />
+        )
+      }
+    </SafeAreaView >
   );
 };
 
@@ -668,6 +745,53 @@ const styles = StyleSheet.create({
   modalButton: {
     flex: 1,
     marginHorizontal: 8,
+  },
+  paymentSummary: {
+    backgroundColor: COLORS.gray[50],
+    padding: SPACING.md,
+    borderRadius: BORDER_RADIUS.md,
+    marginBottom: SPACING.lg,
+    alignItems: 'center',
+  },
+  paymentSummaryTitle: {
+    fontSize: FONT_SIZE.sm,
+    color: COLORS.gray[500],
+    marginBottom: SPACING.xs,
+  },
+  paymentSummaryText: {
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.semibold,
+    color: COLORS.gray[700],
+    marginBottom: SPACING.xs,
+  },
+  paymentSummaryValue: {
+    fontSize: FONT_SIZE.xxl,
+    fontWeight: FONT_WEIGHT.bold,
+    color: COLORS.primary[500],
+  },
+  sectionTitle: {
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.semibold,
+    marginBottom: SPACING.md,
+    color: COLORS.gray[700],
+  },
+  methodOption: {
+    marginBottom: SPACING.sm,
+    borderRadius: BORDER_RADIUS.md,
+    backgroundColor: COLORS.white,
+  },
+  methodContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: SPACING.md,
+  },
+  methodIcon: {
+    marginHorizontal: SPACING.sm,
+  },
+  methodLabel: {
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.medium,
+    color: COLORS.gray[800],
   },
 });
 
