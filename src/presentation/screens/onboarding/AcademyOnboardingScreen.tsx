@@ -16,6 +16,7 @@ import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { httpsCallable } from 'firebase/functions';
 import { functions } from '@infrastructure/services/firebase';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { hexToRgba } from '@shared/utils/colorUtils';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
 import { getString } from "@utils/theme";
 
@@ -194,7 +195,7 @@ const AcademyOnboardingScreen = () => {
                 }
               }}
               textColor={COLORS.white}
-              buttonColor="rgba(255, 255, 255, 0.2)"
+              buttonColor={hexToRgba(COLORS.white, 0.2)}
             >
               Voltar
             </Button>
@@ -203,7 +204,7 @@ const AcademyOnboardingScreen = () => {
               icon="logout"
               onPress={handleLogout}
               textColor={COLORS.white}
-              buttonColor="rgba(255, 255, 255, 0.2)"
+              buttonColor={hexToRgba(COLORS.white, 0.2)}
             >
               Sair
             </Button>
@@ -225,7 +226,7 @@ const AcademyOnboardingScreen = () => {
               <TouchableRipple
                 onPress={() => setCreateAcademyVisible(true)}
                 style={styles.touchable}
-                rippleColor="rgba(0, 0, 0, 0.1)"
+                rippleColor={hexToRgba(COLORS.black, 0.1)}
               >
                 <Card.Content style={styles.cardContent}>
                   <View style={[styles.optionIcon, { backgroundColor: COLORS.info[100] }]}>
@@ -247,7 +248,7 @@ const AcademyOnboardingScreen = () => {
               <TouchableRipple
                 onPress={() => setUseInviteVisible(true)}
                 style={styles.touchable}
-                rippleColor="rgba(0, 0, 0, 0.1)"
+                rippleColor={hexToRgba(COLORS.black, 0.1)}
               >
                 <Card.Content style={styles.cardContent}>
                   <View style={[styles.optionIcon, { backgroundColor: COLORS.warning[100] }]}>
@@ -426,7 +427,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: FONT_SIZE.md,
-    color: 'rgba(255, 255, 255, 0.9)',
+    color: hexToRgba(COLORS.white, 0.9),
     textAlign: 'center',
     maxWidth: '80%',
     lineHeight: 24,
@@ -435,7 +436,7 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.xl,
   },
   glassCard: {
-    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+    backgroundColor: hexToRgba(COLORS.white, 0.95),
     borderRadius: BORDER_RADIUS.lg,
     marginBottom: SPACING.md,
     overflow: 'hidden',
@@ -475,7 +476,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+    backgroundColor: hexToRgba(COLORS.white, 0.15),
     borderRadius: BORDER_RADIUS.full,
     paddingVertical: SPACING.md,
     paddingHorizontal: SPACING.xl,
@@ -494,7 +495,7 @@ const styles = StyleSheet.create({
   featureDivider: {
     width: 1,
     height: 24,
-    backgroundColor: 'rgba(255, 255, 255, 0.3)',
+    backgroundColor: hexToRgba(COLORS.white, 0.3),
   },
   dialog: {
     maxWidth: 500,

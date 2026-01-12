@@ -25,6 +25,7 @@ import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import ReportsSkeleton from '@components/skeletons/ReportsSkeleton';
 import GlassCard from '@components/GlassCard';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { hexToRgba } from '@shared/utils/colorUtils';
 import type { NavigationProp } from '@react-navigation/native';
 
 interface ReportsScreenProps {
@@ -232,7 +233,7 @@ const ReportsScreen: React.FC<ReportsScreenProps> = ({ navigation }) => {
       <View style={styles.container}>
         {/* Background Gradient Principal */}
         <LinearGradient
-          colors={[COLORS.background.default, '#121212']}
+          colors={[COLORS.background.default, COLORS.secondary[800]]}
           style={StyleSheet.absoluteFill}
         />
 
@@ -478,7 +479,7 @@ const styles = StyleSheet.create({
   cardHeader: {
     marginBottom: SPACING.md,
     borderBottomWidth: 1,
-    borderBottomColor: 'rgba(255, 255, 255, 0.05)',
+    borderBottomColor: hexToRgba(COLORS.white, 0.05),
     paddingBottom: SPACING.sm,
   },
   cardTitle: {
@@ -498,10 +499,10 @@ const styles = StyleSheet.create({
     width: '100%',
     marginBottom: SPACING.md,
     padding: SPACING.md,
-    backgroundColor: 'rgba(255, 255, 255, 0.03)',
+    backgroundColor: hexToRgba(COLORS.white, 0.03),
     borderRadius: BORDER_RADIUS.md,
     borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.05)',
+    borderColor: hexToRgba(COLORS.white, 0.05),
   },
   statIcon: {
     width: 48,
@@ -510,7 +511,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: SPACING.md,
-    shadowColor: '#000',
+    shadowColor: COLORS.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 4,
@@ -557,7 +558,7 @@ const styles = StyleSheet.create({
     height: 8,
     borderRadius: BORDER_RADIUS.sm,
     marginBottom: SPACING.xs,
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    backgroundColor: hexToRgba(COLORS.white, 0.1),
   },
   occupancyPercentage: {
     fontSize: FONT_SIZE.sm,
@@ -566,14 +567,14 @@ const styles = StyleSheet.create({
   },
   // Table
   tableHeader: {
-    borderBottomColor: 'rgba(255, 255, 255, 0.1)',
+    borderBottomColor: hexToRgba(COLORS.white, 0.1),
   },
   tableTitle: {
     color: COLORS.gray[400],
     fontSize: FONT_SIZE.sm,
   },
   tableRow: {
-    borderBottomColor: 'rgba(255, 255, 255, 0.05)',
+    borderBottomColor: hexToRgba(COLORS.white, 0.05),
   },
   tableCell: {
     color: COLORS.white,
@@ -591,7 +592,7 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.md,
     paddingBottom: SPACING.md,
     borderBottomWidth: 1,
-    borderBottomColor: 'rgba(255, 255, 255, 0.05)',
+    borderBottomColor: hexToRgba(COLORS.white, 0.05),
   },
   activityIcon: {
     width: 36,

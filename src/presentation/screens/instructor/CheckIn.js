@@ -1,5 +1,12 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { View, StyleSheet, ScrollView, Alert, RefreshControl, Platform } from 'react-native';
+import React, { useState, useEffect, useCallback, useMemo } from "react";
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  Alert,
+  RefreshControl,
+  Platform,
+} from "react-native";
 import {
   Card,
   Text,
@@ -12,21 +19,35 @@ import {
   Modal,
   Portal,
   TextInput,
-  Searchbar
-} from 'react-native-paper';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useFocusEffect } from '@react-navigation/native';
-import { useAuthFacade } from '@presentation/auth/AuthFacade';
-import { academyFirestoreService, academyClassService } from '@infrastructure/services/academyFirestoreService';
-import { ResponsiveUtils } from '@utils/animations';
-import EnhancedErrorBoundary from '@components/EnhancedErrorBoundary';
-import cacheService, { CACHE_KEYS, CACHE_TTL } from '@infrastructure/services/cacheService';
-import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
-import CheckInSkeleton from '@components/skeletons/CheckInSkeleton';
-import { EnhancedFlashList } from '@components/EnhancedFlashList';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, GLASS } from '@presentation/theme/designTokens';
-import { useTheme } from '@contexts/ThemeContext';
+  Searchbar,
+} from "react-native-paper";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useFocusEffect } from "@react-navigation/native";
+import { useAuthFacade } from "@presentation/auth/AuthFacade";
+import {
+  academyFirestoreService,
+  academyClassService,
+} from "@infrastructure/services/academyFirestoreService";
+import { ResponsiveUtils } from "@utils/animations";
+import EnhancedErrorBoundary from "@components/EnhancedErrorBoundary";
+import cacheService, {
+  CACHE_KEYS,
+  CACHE_TTL,
+} from "@infrastructure/services/cacheService";
+import { useScreenTracking, useUserActionTracking } from "@hooks/useAnalytics";
+import CheckInSkeleton from "@components/skeletons/CheckInSkeleton";
+import { EnhancedFlashList } from "@components/EnhancedFlashList";
+import {
+  COLORS,
+  SPACING,
+  FONT_SIZE,
+  BORDER_RADIUS,
+  FONT_WEIGHT,
+  GLASS,
+} from "@presentation/theme/designTokens";
+import { hexToRgba } from "@shared/utils/colorUtils";
+import { useTheme } from "@contexts/ThemeContext";
 
 const CheckIn = ({ navigation }) => {
   const { getString } = useTheme();
@@ -41,7 +62,7 @@ const CheckIn = ({ navigation }) => {
   // Modal states
   const [manualCheckInVisible, setManualCheckInVisible] = useState(false);
   const [selectedClass, setSelectedClass] = useState(null);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [filteredStudents, setFilteredStudents] = useState([]);
 
   // Batch check-in states
@@ -50,10 +71,10 @@ const CheckIn = ({ navigation }) => {
   const [studentsWithCheckIn, setStudentsWithCheckIn] = useState(new Set());
 
   // Analytics tracking
-  useScreenTracking(getString('checkIn'), {
+  useScreenTracking(getString("checkIn"), {
     academiaId: userProfile?.academiaId,
-    userType: 'instructor',
-    instructorId: user?.uid
+    userType: "instructor",
+    instructorId: user?.uid,
   });
   const { trackButtonClick, trackFeatureUsage } = useUserActionTracking();
 
@@ -70,48 +91,81 @@ const CheckIn = ({ navigation }) => {
       const checkInData = await cacheService.getOrSet(
         cacheKey,
         async () => {
-          console.log('🔍 Buscando dados de check-in (cache miss):', user.id);
+          console.log("🔍 Buscando dados de check-in (cache miss):", user.id);
 
           // Usar Promise.all para carregar dados em paralelo
-          const [instructorClasses, activeSessions, recentSessions, allStudents] = await Promise.all([
-            academyClassService.getClassesByInstructor(user.id, userProfile.academiaId, user.email),
-            academyFirestoreService.getWhere('checkInSessions', 'instructorId', '==', user.id, userProfile.academiaId),
-            academyFirestoreService.getWhere('checkIns', 'instructorId', '==', user.id, userProfile.academiaId),
-            academyFirestoreService.getAll('students', userProfile.academiaId)
+          const [
+            instructorClasses,
+            activeSessions,
+            recentSessions,
+            allStudents,
+          ] = await Promise.all([
+            academyClassService.getClassesByInstructor(
+              user.id,
+              userProfile.academiaId,
+              user.email,
+            ),
+            academyFirestoreService.getWhere(
+              "checkInSessions",
+              "instructorId",
+              "==",
+              user.id,
+              userProfile.academiaId,
+            ),
+            academyFirestoreService.getWhere(
+              "checkIns",
+              "instructorId",
+              "==",
+              user.id,
+              userProfile.academiaId,
+            ),
+            academyFirestoreService.getAll("students", userProfile.academiaId),
           ]);
 
           // Filtrar sessões ativas (abertas nas últimas 24h)
           const now = new Date();
           const yesterday = new Date(now.getTime() - 24 * 60 * 60 * 1000);
 
-          const activeCheckIns = activeSessions.filter(session => {
-            const sessionDate = session.createdAt?.toDate ? session.createdAt.toDate() : new Date(session.createdAt);
-            return sessionDate > yesterday && session.status === 'active';
+          const activeCheckIns = activeSessions.filter((session) => {
+            const sessionDate = session.createdAt?.toDate
+              ? session.createdAt.toDate()
+              : new Date(session.createdAt);
+            return sessionDate > yesterday && session.status === "active";
           });
 
           // Filtrar check-ins recentes (hoje)
           const today = new Date();
           today.setHours(0, 0, 0, 0);
 
-          const recentCheckIns = recentSessions.filter(checkIn => {
-            const checkInDate = checkIn.timestamp?.toDate ? checkIn.timestamp.toDate() : new Date(checkIn.timestamp);
-            return checkInDate >= today;
-          }).sort((a, b) => {
-            const dateA = a.timestamp?.toDate ? a.timestamp.toDate() : new Date(a.timestamp);
-            const dateB = b.timestamp?.toDate ? b.timestamp.toDate() : new Date(b.timestamp);
-            return dateB - dateA;
-          });
+          const recentCheckIns = recentSessions
+            .filter((checkIn) => {
+              const checkInDate = checkIn.timestamp?.toDate
+                ? checkIn.timestamp.toDate()
+                : new Date(checkIn.timestamp);
+              return checkInDate >= today;
+            })
+            .sort((a, b) => {
+              const dateA = a.timestamp?.toDate
+                ? a.timestamp.toDate()
+                : new Date(a.timestamp);
+              const dateB = b.timestamp?.toDate
+                ? b.timestamp.toDate()
+                : new Date(b.timestamp);
+              return dateB - dateA;
+            });
 
-          console.log(`✅ Dados carregados: ${instructorClasses.length} turmas, ${activeCheckIns.length} check-ins ativos, ${recentCheckIns.length} check-ins recentes`);
+          console.log(
+            `✅ Dados carregados: ${instructorClasses.length} turmas, ${activeCheckIns.length} check-ins ativos, ${recentCheckIns.length} check-ins recentes`,
+          );
 
           return {
             classes: instructorClasses,
             activeCheckIns,
             recentCheckIns,
-            students: allStudents
+            students: allStudents,
           };
         },
-        CACHE_TTL.SHORT // Cache por 2 minutos (dados dinâmicos)
+        CACHE_TTL.SHORT, // Cache por 2 minutos (dados dinâmicos)
       );
 
       setClasses(checkInData.classes);
@@ -120,16 +174,15 @@ const CheckIn = ({ navigation }) => {
       setStudents(checkInData.students);
 
       // Track analytics
-      trackFeatureUsage('checkin_data_loaded', {
+      trackFeatureUsage("checkin_data_loaded", {
         academiaId: userProfile.academiaId,
         instructorId: user.id,
         classesCount: checkInData.classes.length,
-        activeCheckInsCount: checkInData.activeCheckIns.length
+        activeCheckInsCount: checkInData.activeCheckIns.length,
       });
-
     } catch (error) {
-      console.error('❌ CheckIn: Erro ao carregar dados:', error);
-      Alert.alert(getString('error'), getString('dataLoadError'));
+      console.error("❌ CheckIn: Erro ao carregar dados:", error);
+      Alert.alert(getString("error"), getString("dataLoadError"));
     } finally {
       setLoading(false);
       setRefreshing(false);
@@ -140,14 +193,16 @@ const CheckIn = ({ navigation }) => {
   useFocusEffect(
     useCallback(() => {
       loadData();
-    }, [loadData])
+    }, [loadData]),
   );
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     // Invalidar cache
     if (userProfile?.academiaId) {
-      cacheService.invalidatePattern(`checkin_data:${userProfile.academiaId}:${user.id}`);
+      cacheService.invalidatePattern(
+        `checkin_data:${userProfile.academiaId}:${user.id}`,
+      );
     }
     loadData();
   }, [loadData, userProfile?.academiaId, user.id]);
@@ -156,27 +211,30 @@ const CheckIn = ({ navigation }) => {
     try {
       // Buscar sessões de check-in ativas
       const activeSessions = await academyFirestoreService.getWhere(
-        'checkInSessions',
-        'instructorId',
-        '==',
+        "checkInSessions",
+        "instructorId",
+        "==",
         user.id,
-        userProfile.academiaId
+        userProfile.academiaId,
       );
 
-      const activeSessionsWithDetails = activeSessions.map(session => {
-        const classInfo = classes.find(c => c.id === session.classId);
+      const activeSessionsWithDetails = activeSessions.map((session) => {
+        const classInfo = classes.find((c) => c.id === session.classId);
         return {
           ...session,
-          className: classInfo?.name || getString('classNotFound'),
-          classSchedule: classInfo?.scheduleText || '',
-          maxStudents: classInfo?.maxStudents || 0
+          className: classInfo?.name || getString("classNotFound"),
+          classSchedule: classInfo?.scheduleText || "",
+          maxStudents: classInfo?.maxStudents || 0,
         };
       });
 
       setActiveCheckIns(activeSessionsWithDetails);
-      console.log('✅ Check-ins ativos carregados:', activeSessionsWithDetails.length);
+      console.log(
+        "✅ Check-ins ativos carregados:",
+        activeSessionsWithDetails.length,
+      );
     } catch (error) {
-      console.error('❌ CheckIn: Erro ao carregar check-ins ativos:', error);
+      console.error("❌ CheckIn: Erro ao carregar check-ins ativos:", error);
       setActiveCheckIns([]);
     }
   }, [user.id, userProfile?.academiaId]);
@@ -191,53 +249,58 @@ const CheckIn = ({ navigation }) => {
       // Para cada turma do instrutor, buscar check-ins na subcoleção
       for (const classItem of classes) {
         try {
-          const classCheckIns = await academyFirestoreService.getSubcollectionDocuments(
-            'classes',
-            classItem.id,
-            'checkIns',
-            userProfile.academiaId,
-            [
-              { field: 'date', operator: '>=', value: today }
-            ],
-            { field: 'createdAt', direction: 'desc' },
-            10
-          );
+          const classCheckIns =
+            await academyFirestoreService.getSubcollectionDocuments(
+              "classes",
+              classItem.id,
+              "checkIns",
+              userProfile.academiaId,
+              [{ field: "date", operator: ">=", value: today }],
+              { field: "createdAt", direction: "desc" },
+              10,
+            );
 
           // Adicionar informações da turma aos check-ins
-          const enrichedCheckIns = classCheckIns.map(checkIn => ({
+          const enrichedCheckIns = classCheckIns.map((checkIn) => ({
             ...checkIn,
             className: classItem.name,
-            classId: classItem.id
+            classId: classItem.id,
           }));
 
           allCheckIns = [...allCheckIns, ...enrichedCheckIns];
         } catch (error) {
-          console.error(`❌ Erro ao carregar check-ins da turma ${classItem.id}:`, error);
+          console.error(
+            `❌ Erro ao carregar check-ins da turma ${classItem.id}:`,
+            error,
+          );
         }
       }
 
       // Ordenar por data de criação e limitar a 10
       allCheckIns.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
       setRecentCheckIns(allCheckIns.slice(0, 10));
-      console.log('📋 Check-ins recentes carregados:', allCheckIns.length);
+      console.log("📋 Check-ins recentes carregados:", allCheckIns.length);
     } catch (error) {
-      console.error('❌ Erro ao carregar check-ins recentes:', error);
+      console.error("❌ Erro ao carregar check-ins recentes:", error);
       setRecentCheckIns([]);
     }
   };
 
   const loadStudents = async () => {
     try {
-      console.log('📚 Carregando alunos da academia:', userProfile.academiaId);
+      console.log("📚 Carregando alunos da academia:", userProfile.academiaId);
 
       // Buscar alunos na subcoleção da academia
-      const allStudents = await academyFirestoreService.getAll('students', userProfile.academiaId);
-      console.log('👥 Alunos encontrados:', allStudents.length);
+      const allStudents = await academyFirestoreService.getAll(
+        "students",
+        userProfile.academiaId,
+      );
+      console.log("👥 Alunos encontrados:", allStudents.length);
 
       setStudents(allStudents);
       setFilteredStudents(allStudents);
     } catch (error) {
-      console.error('❌ Erro ao carregar alunos:', error);
+      console.error("❌ Erro ao carregar alunos:", error);
       setStudents([]);
       setFilteredStudents([]);
     }
@@ -245,18 +308,23 @@ const CheckIn = ({ navigation }) => {
 
   const handleStartCheckIn = async (classId) => {
     try {
-      console.log('🚀 Iniciando check-in para aula:', classId);
+      console.log("🚀 Iniciando check-in para aula:", classId);
 
-      const classInfo = classes.find(c => c.id === classId);
+      const classInfo = classes.find((c) => c.id === classId);
       if (!classInfo) {
-        Alert.alert(getString('error'), getString('classNotFound'));
+        Alert.alert(getString("error"), getString("classNotFound"));
         return;
       }
 
       // Verificar se já existe uma sessão ativa para esta turma
-      const existingSession = activeCheckIns.find(session => session.classId === classId);
+      const existingSession = activeCheckIns.find(
+        (session) => session.classId === classId,
+      );
       if (existingSession) {
-        Alert.alert(getString('warning'), 'Já existe uma sessão de check-in ativa para esta turma');
+        Alert.alert(
+          getString("warning"),
+          "Já existe uma sessão de check-in ativa para esta turma",
+        );
         return;
       }
 
@@ -268,61 +336,79 @@ const CheckIn = ({ navigation }) => {
         instructorName: userProfile?.name || user.email,
         academiaId: userProfile.academiaId,
         startTime: new Date(),
-        status: 'active',
+        status: "active",
         checkInCount: 0,
-        createdAt: new Date()
+        createdAt: new Date(),
       };
 
-      const sessionId = await academyFirestoreService.create('checkInSessions', sessionData, userProfile.academiaId);
-      console.log('✅ Sessão de check-in criada:', sessionId);
+      const sessionId = await academyFirestoreService.create(
+        "checkInSessions",
+        sessionData,
+        userProfile.academiaId,
+      );
+      console.log("✅ Sessão de check-in criada:", sessionId);
 
       // Recarregar dados
       await loadActiveCheckIns();
 
-      Alert.alert(getString('success'), `Check-in iniciado para ${classInfo.name}`);
+      Alert.alert(
+        getString("success"),
+        `Check-in iniciado para ${classInfo.name}`,
+      );
     } catch (error) {
-      console.error('❌ Erro ao iniciar check-in:', error);
-      Alert.alert(getString('error'), 'Não foi possível iniciar o check-in. Tente novamente.');
+      console.error("❌ Erro ao iniciar check-in:", error);
+      Alert.alert(
+        getString("error"),
+        "Não foi possível iniciar o check-in. Tente novamente.",
+      );
     }
   };
 
   const handleStopCheckIn = async (sessionId) => {
     try {
-      console.log('⏹️ Parando check-in para sessão:', sessionId);
+      console.log("⏹️ Parando check-in para sessão:", sessionId);
 
       Alert.alert(
-        getString('confirm'),
-        'Deseja realmente parar esta sessão de check-in?',
+        getString("confirm"),
+        "Deseja realmente parar esta sessão de check-in?",
         [
-          { text: getString('cancel'), style: 'cancel' },
+          { text: getString("cancel"), style: "cancel" },
           {
-            text: 'Parar',
-            style: 'destructive',
+            text: "Parar",
+            style: "destructive",
             onPress: async () => {
               try {
                 // Atualizar status da sessão
-                await academyFirestoreService.update('checkInSessions', sessionId, {
-                  status: 'completed',
-                  endTime: new Date(),
-                  updatedAt: new Date()
-                }, userProfile.academiaId);
+                await academyFirestoreService.update(
+                  "checkInSessions",
+                  sessionId,
+                  {
+                    status: "completed",
+                    endTime: new Date(),
+                    updatedAt: new Date(),
+                  },
+                  userProfile.academiaId,
+                );
 
                 // Limpar seleção e recarregar dados
                 setSelectedStudents(new Set());
                 await loadRecentCheckIns();
                 await loadTodayCheckIns();
 
-                Alert.alert(getString('success'), getString('checkInStopped'));
+                Alert.alert(getString("success"), getString("checkInStopped"));
               } catch (error) {
-                console.error('❌ Erro ao parar check-in:', error);
-                Alert.alert(getString('error'), 'Não foi possível parar o check-in');
+                console.error("❌ Erro ao parar check-in:", error);
+                Alert.alert(
+                  getString("error"),
+                  "Não foi possível parar o check-in",
+                );
               }
-            }
-          }
-        ]
+            },
+          },
+        ],
       );
     } catch (error) {
-      console.error('❌ Erro ao parar check-in:', error);
+      console.error("❌ Erro ao parar check-in:", error);
     }
   };
 
@@ -330,13 +416,13 @@ const CheckIn = ({ navigation }) => {
     try {
       // Debug: verificar token do usuário
       const token = await user.getIdTokenResult();
-      console.log('🔍 Debug - Token claims:', token.claims);
-      console.log('🔍 Debug - User role:', token.claims.role);
-      console.log('🔍 Debug - Academia ID:', token.claims.academiaId);
-      console.log('🔍 Debug - User profile:', userProfile);
+      console.log("🔍 Debug - Token claims:", token.claims);
+      console.log("🔍 Debug - User role:", token.claims.role);
+      console.log("🔍 Debug - Academia ID:", token.claims.academiaId);
+      console.log("🔍 Debug - User profile:", userProfile);
 
       if (!selectedClass) {
-        Alert.alert(getString('error'), getString('selectClassFirst'));
+        Alert.alert(getString("error"), getString("selectClassFirst"));
         return;
       }
 
@@ -351,44 +437,47 @@ const CheckIn = ({ navigation }) => {
         instructorId: user.id,
         instructorName: userProfile?.name || user.email,
         academiaId: tokenAcademiaId,
-        type: 'manual',
-        date: new Date().toISOString().split('T')[0], // Formato YYYY-MM-DD
+        type: "manual",
+        date: new Date().toISOString().split("T")[0], // Formato YYYY-MM-DD
         timestamp: new Date(),
-        createdAt: new Date()
+        createdAt: new Date(),
       };
 
-      console.log('🔍 Debug - Usando academiaId do token:', tokenAcademiaId);
-      console.log('🔍 Debug - CheckIn data:', checkInData);
+      console.log("🔍 Debug - Usando academiaId do token:", tokenAcademiaId);
+      console.log("🔍 Debug - CheckIn data:", checkInData);
 
       // Usar subcoleção de check-ins dentro da turma selecionada
       await academyFirestoreService.addSubcollectionDocument(
-        'classes',
+        "classes",
         selectedClass.id,
-        'checkIns',
+        "checkIns",
         checkInData,
-        tokenAcademiaId
+        tokenAcademiaId,
       );
 
-      Alert.alert(getString('success'), `Check-in realizado para ${studentName}!`);
+      Alert.alert(
+        getString("success"),
+        `Check-in realizado para ${studentName}!`,
+      );
 
       // Recarregar dados
       await loadRecentCheckIns();
       await loadTodayCheckIns();
     } catch (error) {
-      console.error('❌ Erro no check-in manual:', error);
-      Alert.alert(getString('error'), 'Não foi possível realizar o check-in');
+      console.error("❌ Erro no check-in manual:", error);
+      Alert.alert(getString("error"), "Não foi possível realizar o check-in");
     }
   };
-
 
   const filterStudents = (query) => {
     setSearchQuery(query);
     if (!query.trim()) {
       setFilteredStudents(students);
     } else {
-      const filtered = students.filter(student =>
-        student.name?.toLowerCase().includes(query.toLowerCase()) ||
-        student.email?.toLowerCase().includes(query.toLowerCase())
+      const filtered = students.filter(
+        (student) =>
+          student.name?.toLowerCase().includes(query.toLowerCase()) ||
+          student.email?.toLowerCase().includes(query.toLowerCase()),
       );
       setFilteredStudents(filtered);
     }
@@ -398,23 +487,24 @@ const CheckIn = ({ navigation }) => {
     if (!selectedClass || !userProfile?.academiaId) return;
 
     try {
-      const today = new Date().toISOString().split('T')[0];
+      const today = new Date().toISOString().split("T")[0];
 
-      const todayCheckIns = await academyFirestoreService.getSubcollectionDocuments(
-        'classes',
-        selectedClass.id,
-        'checkIns',
-        userProfile.academiaId,
-        [{ field: 'date', operator: '==', value: today }]
-      );
+      const todayCheckIns =
+        await academyFirestoreService.getSubcollectionDocuments(
+          "classes",
+          selectedClass.id,
+          "checkIns",
+          userProfile.academiaId,
+          [{ field: "date", operator: "==", value: today }],
+        );
 
       const checkedInStudentIds = new Set(
-        todayCheckIns.map(checkIn => checkIn.studentId)
+        todayCheckIns.map((checkIn) => checkIn.studentId),
       );
 
       setStudentsWithCheckIn(checkedInStudentIds);
     } catch (error) {
-      console.error('❌ Erro ao carregar check-ins de hoje:', error);
+      console.error("❌ Erro ao carregar check-ins de hoje:", error);
     }
   }, [selectedClass, userProfile?.academiaId]);
 
@@ -431,10 +521,12 @@ const CheckIn = ({ navigation }) => {
 
   const selectAllStudents = () => {
     // Selecionar apenas alunos que ainda não fizeram check-in
-    const availableStudents = filteredStudents.filter(student =>
-      !studentsWithCheckIn.has(student.id)
+    const availableStudents = filteredStudents.filter(
+      (student) => !studentsWithCheckIn.has(student.id),
     );
-    const allStudentIds = new Set(availableStudents.map(student => student.id));
+    const allStudentIds = new Set(
+      availableStudents.map((student) => student.id),
+    );
     setSelectedStudents(allStudentIds);
   };
 
@@ -449,17 +541,20 @@ const CheckIn = ({ navigation }) => {
   };
 
   const handleBatchCheckIn = async () => {
-    console.log('🔍 Debug - handleBatchCheckIn iniciado');
-    console.log('🔍 Debug - Alunos selecionados:', selectedStudents.size);
-    console.log('🔍 Debug - Turma selecionada:', selectedClass?.name);
+    console.log("🔍 Debug - handleBatchCheckIn iniciado");
+    console.log("🔍 Debug - Alunos selecionados:", selectedStudents.size);
+    console.log("🔍 Debug - Turma selecionada:", selectedClass?.name);
 
     if (selectedStudents.size === 0) {
-      Alert.alert(getString('attention'), 'Selecione pelo menos um aluno para fazer check-in');
+      Alert.alert(
+        getString("attention"),
+        "Selecione pelo menos um aluno para fazer check-in",
+      );
       return;
     }
 
     if (!selectedClass) {
-      Alert.alert(getString('error'), getString('selectClassFirst'));
+      Alert.alert(getString("error"), getString("selectClassFirst"));
       return;
     }
 
@@ -469,56 +564,64 @@ const CheckIn = ({ navigation }) => {
       const token = await user.getIdTokenResult();
       const tokenAcademiaId = token.claims.academiaId;
 
-      console.log('🔍 Debug - Academia ID:', tokenAcademiaId);
-      console.log('🔍 Debug - User ID:', user.id);
+      console.log("🔍 Debug - Academia ID:", tokenAcademiaId);
+      console.log("🔍 Debug - User ID:", user.id);
 
-      const checkInPromises = Array.from(selectedStudents).map(async (studentId) => {
-        const student = students.find(s => s.id === studentId);
+      const checkInPromises = Array.from(selectedStudents).map(
+        async (studentId) => {
+          const student = students.find((s) => s.id === studentId);
 
-        console.log('✅ Criando check-in para:', student?.name);
+          console.log("✅ Criando check-in para:", student?.name);
 
-        const checkInData = {
-          studentId,
-          studentName: student?.name || getString('nameNotInformed'),
-          classId: selectedClass.id,
-          className: selectedClass.name,
-          instructorId: user.id,
-          instructorName: userProfile?.name || user.email,
-          academiaId: tokenAcademiaId,
-          type: 'manual',
-          date: new Date().toISOString().split('T')[0],
-          timestamp: new Date(),
-          createdAt: new Date()
-        };
+          const checkInData = {
+            studentId,
+            studentName: student?.name || getString("nameNotInformed"),
+            classId: selectedClass.id,
+            className: selectedClass.name,
+            instructorId: user.id,
+            instructorName: userProfile?.name || user.email,
+            academiaId: tokenAcademiaId,
+            type: "manual",
+            date: new Date().toISOString().split("T")[0],
+            timestamp: new Date(),
+            createdAt: new Date(),
+          };
 
-        console.log('📝 Dados do check-in:', checkInData);
+          console.log("📝 Dados do check-in:", checkInData);
 
-        return academyFirestoreService.addSubcollectionDocument(
-          'classes',
-          selectedClass.id,
-          'checkIns',
-          checkInData,
-          tokenAcademiaId
-        );
-      });
+          return academyFirestoreService.addSubcollectionDocument(
+            "classes",
+            selectedClass.id,
+            "checkIns",
+            checkInData,
+            tokenAcademiaId,
+          );
+        },
+      );
 
-      console.log('⏳ Aguardando conclusão de', checkInPromises.length, 'check-ins...');
+      console.log(
+        "⏳ Aguardando conclusão de",
+        checkInPromises.length,
+        "check-ins...",
+      );
       await Promise.all(checkInPromises);
-      console.log('✅ Todos os check-ins concluídos!');
+      console.log("✅ Todos os check-ins concluídos!");
 
       Alert.alert(
-        getString('successCheck'),
-        `Check-in realizado para ${selectedStudents.size} aluno(s)!`
+        getString("successCheck"),
+        `Check-in realizado para ${selectedStudents.size} aluno(s)!`,
       );
 
       // Limpar seleção e recarregar dados
       setSelectedStudents(new Set());
       await loadRecentCheckIns();
       await loadTodayCheckIns();
-
     } catch (error) {
-      console.error('❌ Erro no check-in em lote:', error);
-      Alert.alert(getString('error'), 'Falha ao realizar check-in em lote. Tente novamente.');
+      console.error("❌ Erro no check-in em lote:", error);
+      Alert.alert(
+        getString("error"),
+        "Falha ao realizar check-in em lote. Tente novamente.",
+      );
     } finally {
       setBatchProcessing(false);
     }
@@ -536,49 +639,76 @@ const CheckIn = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.header}>
-              <MaterialCommunityIcons name="school" size={32} color={COLORS.primary[500]} />
-              <Text style={styles.title}>{getString('myClasses')}</Text>
+              <MaterialCommunityIcons
+                name="school"
+                size={32}
+                color={COLORS.primary[500]}
+              />
+              <Text style={styles.title}>{getString("myClasses")}</Text>
             </View>
 
             {classes.length > 0 ? (
               classes.map((classItem) => (
                 <Surface key={classItem.id} style={styles.checkInItem}>
                   <View style={styles.checkInHeader}>
-                    <Text style={styles.aulaName}>{String(classItem.name || getString('unnamedClass'))}</Text>
+                    <Text style={styles.aulaName}>
+                      {String(classItem.name || getString("unnamedClass"))}
+                    </Text>
                     <Chip
                       mode="flat"
                       style={[
                         styles.statusChip,
-                        { backgroundColor: COLORS.info[500] }
+                        { backgroundColor: COLORS.info[500] },
                       ]}
                       textStyle={{ color: COLORS.white }}
                     >
-                      {typeof classItem.modality === 'object' && classItem.modality
-                        ? classItem.modality.name || 'modality'
-                        : classItem.modality || getString('modality')
-                      }
+                      {typeof classItem.modality === "object" &&
+                      classItem.modality
+                        ? classItem.modality.name || "modality"
+                        : classItem.modality || getString("modality")}
                     </Chip>
                   </View>
 
                   <View style={styles.checkInDetails}>
                     <View style={styles.detailItem}>
-                      <MaterialCommunityIcons name="clock" size={16} color={COLORS.gray[500]} />
+                      <MaterialCommunityIcons
+                        name="clock"
+                        size={16}
+                        color={COLORS.gray[500]}
+                      />
                       <Text style={styles.detailText}>
                         {(() => {
-                          if (typeof classItem.schedule === 'object' && classItem.schedule) {
-                            const day = String(classItem.schedule.dayOfWeek || '');
-                            const hour = String(classItem.schedule.hour || '00').padStart(2, '0');
-                            const minute = String(classItem.schedule.minute || 0).padStart(2, '0');
+                          if (
+                            typeof classItem.schedule === "object" &&
+                            classItem.schedule
+                          ) {
+                            const day = String(
+                              classItem.schedule.dayOfWeek || "",
+                            );
+                            const hour = String(
+                              classItem.schedule.hour || "00",
+                            ).padStart(2, "0");
+                            const minute = String(
+                              classItem.schedule.minute || 0,
+                            ).padStart(2, "0");
                             return `${day} ${hour}:${minute}`;
                           }
-                          return String(classItem.schedule || getString('scheduleNotDefined'));
+                          return String(
+                            classItem.schedule ||
+                              getString("scheduleNotDefined"),
+                          );
                         })()}
                       </Text>
                     </View>
                     <View style={styles.detailItem}>
-                      <MaterialCommunityIcons name="account-group" size={16} color={COLORS.gray[500]} />
+                      <MaterialCommunityIcons
+                        name="account-group"
+                        size={16}
+                        color={COLORS.gray[500]}
+                      />
                       <Text style={styles.detailText}>
-                        {String(classItem.currentStudents || 0)}/{String(classItem.maxStudents || 0)} alunos
+                        {String(classItem.currentStudents || 0)}/
+                        {String(classItem.maxStudents || 0)} alunos
                       </Text>
                     </View>
                   </View>
@@ -590,15 +720,21 @@ const CheckIn = ({ navigation }) => {
                       buttonColor={COLORS.primary[500]}
                       compact
                     >
-                      {getString('startCheckIn')}
+                      {getString("startCheckIn")}
                     </Button>
                   </View>
                 </Surface>
               ))
             ) : (
               <View style={styles.emptyState}>
-                <MaterialCommunityIcons name="school-outline" size={48} color={COLORS.gray[400]} />
-                <Text style={styles.emptyText}>{getString('noClassesFound')}</Text>
+                <MaterialCommunityIcons
+                  name="school-outline"
+                  size={48}
+                  color={COLORS.gray[400]}
+                />
+                <Text style={styles.emptyText}>
+                  {getString("noClassesFound")}
+                </Text>
               </View>
             )}
           </Card.Content>
@@ -609,8 +745,12 @@ const CheckIn = ({ navigation }) => {
           <Card style={styles.card}>
             <Card.Content>
               <View style={styles.header}>
-                <MaterialCommunityIcons name="qrcode-scan" size={32} color={COLORS.info[500]} />
-                <Text style={styles.title}>{getString('activeSessions')}</Text>
+                <MaterialCommunityIcons
+                  name="qrcode-scan"
+                  size={32}
+                  color={COLORS.info[500]}
+                />
+                <Text style={styles.title}>{getString("activeSessions")}</Text>
               </View>
 
               {activeCheckIns.map((session) => (
@@ -621,21 +761,33 @@ const CheckIn = ({ navigation }) => {
                       mode="flat"
                       style={[
                         styles.statusChip,
-                        { backgroundColor: COLORS.primary[500] }
+                        { backgroundColor: COLORS.primary[500] },
                       ]}
                       textStyle={{ color: COLORS.white }}
-                    >{getString('active')}</Chip>
+                    >
+                      {getString("active")}
+                    </Chip>
                   </View>
 
                   <View style={styles.checkInDetails}>
                     <View style={styles.detailItem}>
-                      <MaterialCommunityIcons name="clock" size={16} color={COLORS.gray[500]} />
+                      <MaterialCommunityIcons
+                        name="clock"
+                        size={16}
+                        color={COLORS.gray[500]}
+                      />
                       <Text style={styles.detailText}>
-                        Iniciado: {session.startTime?.toDate?.()?.toLocaleTimeString() || getString('now')}
+                        Iniciado:{" "}
+                        {session.startTime?.toDate?.()?.toLocaleTimeString() ||
+                          getString("now")}
                       </Text>
                     </View>
                     <View style={styles.detailItem}>
-                      <MaterialCommunityIcons name="check-circle" size={16} color={COLORS.gray[500]} />
+                      <MaterialCommunityIcons
+                        name="check-circle"
+                        size={16}
+                        color={COLORS.gray[500]}
+                      />
                       <Text style={styles.detailText}>
                         {session.checkInCount || 0} check-ins
                       </Text>
@@ -650,7 +802,7 @@ const CheckIn = ({ navigation }) => {
                       textColor={COLORS.error[500]}
                       compact
                     >
-                      {getString('stopCheckIn')}
+                      {getString("stopCheckIn")}
                     </Button>
                   </View>
                 </Surface>
@@ -663,8 +815,12 @@ const CheckIn = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.header}>
-              <MaterialCommunityIcons name="history" size={32} color={COLORS.warning[500]} />
-              <Text style={styles.title}>{getString('todaysCheckIns')}</Text>
+              <MaterialCommunityIcons
+                name="history"
+                size={32}
+                color={COLORS.warning[500]}
+              />
+              <Text style={styles.title}>{getString("todaysCheckIns")}</Text>
             </View>
 
             {recentCheckIns.length > 0 ? (
@@ -672,7 +828,7 @@ const CheckIn = ({ navigation }) => {
                 <List.Item
                   key={checkIn.id}
                   title={checkIn.studentName}
-                  description={`${checkIn.className} • ${checkIn.date?.toDate?.()?.toLocaleTimeString() || getString('now')}`}
+                  description={`${checkIn.className} • ${checkIn.date?.toDate?.()?.toLocaleTimeString() || getString("now")}`}
                   left={() => (
                     <List.Icon
                       icon="check-circle"
@@ -685,15 +841,23 @@ const CheckIn = ({ navigation }) => {
                       compact
                       style={{ marginTop: SPACING.sm }}
                     >
-                      {checkIn.type === 'manual' ? getString('manual') : getString('qrCode')}
+                      {checkIn.type === "manual"
+                        ? getString("manual")
+                        : getString("qrCode")}
                     </Chip>
                   )}
                 />
               ))
             ) : (
               <View style={styles.emptyState}>
-                <MaterialCommunityIcons name="history" size={48} color={COLORS.gray[400]} />
-                <Text style={styles.emptyText}>{getString('noCheckInsToday')}</Text>
+                <MaterialCommunityIcons
+                  name="history"
+                  size={48}
+                  color={COLORS.gray[400]}
+                />
+                <Text style={styles.emptyText}>
+                  {getString("noCheckInsToday")}
+                </Text>
               </View>
             )}
           </Card.Content>
@@ -707,16 +871,22 @@ const CheckIn = ({ navigation }) => {
           onDismiss={() => setManualCheckInVisible(false)}
           contentContainerStyle={styles.modalContainer}
         >
-          <Text style={styles.modalTitle}>{getString('manualCheckIn')}</Text>
+          <Text style={styles.modalTitle}>{getString("manualCheckIn")}</Text>
 
           {/* Seleção de Turma */}
           <View style={styles.classSelectionContainer}>
-            <Text style={styles.modalSubtitle}>{getString('selectClass')}:</Text>
+            <Text style={styles.modalSubtitle}>
+              {getString("selectClass")}:
+            </Text>
             <View style={styles.classGrid}>
               {classes.map((classItem) => (
                 <Button
                   key={classItem.id}
-                  mode={selectedClass?.id === classItem.id ? 'contained' : 'outlined'}
+                  mode={
+                    selectedClass?.id === classItem.id
+                      ? "contained"
+                      : "outlined"
+                  }
                   onPress={() => {
                     setSelectedClass(classItem);
                     // Limpar seleções anteriores ao trocar de turma
@@ -727,10 +897,15 @@ const CheckIn = ({ navigation }) => {
                   }}
                   style={[
                     styles.classButton,
-                    selectedClass?.id === classItem.id && styles.classButtonSelected
+                    selectedClass?.id === classItem.id &&
+                      styles.classButtonSelected,
                   ]}
                   labelStyle={styles.classButtonLabel}
-                  icon={selectedClass?.id === classItem.id ? 'check-circle' : 'account-group'}
+                  icon={
+                    selectedClass?.id === classItem.id
+                      ? "check-circle"
+                      : "account-group"
+                  }
                 >
                   {classItem.name}
                 </Button>
@@ -740,7 +915,7 @@ const CheckIn = ({ navigation }) => {
 
           {/* Busca de Alunos */}
           <Searchbar
-            placeholder={getString('searchStudent')}
+            placeholder={getString("searchStudent")}
             onChangeText={filterStudents}
             value={searchQuery}
             style={styles.searchbar}
@@ -750,7 +925,8 @@ const CheckIn = ({ navigation }) => {
           {filteredStudents.length > 0 && (
             <View style={styles.batchControls}>
               <Text style={styles.selectionCount}>
-                {selectedStudents.size} de {filteredStudents.length} {getString('selected')}
+                {selectedStudents.size} de {filteredStudents.length}{" "}
+                {getString("selected")}
               </Text>
               <View style={styles.batchButtons}>
                 <Button
@@ -759,7 +935,7 @@ const CheckIn = ({ navigation }) => {
                   onPress={selectAllStudents}
                   style={styles.batchButton}
                 >
-                  {getString('selectAll')}
+                  {getString("selectAll")}
                 </Button>
                 <Button
                   mode="outlined"
@@ -767,7 +943,7 @@ const CheckIn = ({ navigation }) => {
                   onPress={clearSelection}
                   style={styles.batchButton}
                 >
-                  {getString('clear')}
+                  {getString("clear")}
                 </Button>
               </View>
             </View>
@@ -783,11 +959,11 @@ const CheckIn = ({ navigation }) => {
                 return (
                   <List.Item
                     key={student.id}
-                    title={student.name || getString('nameNotInformed')}
+                    title={student.name || getString("nameNotInformed")}
                     description={
                       <View style={styles.studentDescription}>
                         <Text style={styles.studentEmail}>
-                          {student.email || getString('emailNotInformed')}
+                          {student.email || getString("emailNotInformed")}
                         </Text>
                         {hasCheckIn && (
                           <Chip
@@ -796,7 +972,7 @@ const CheckIn = ({ navigation }) => {
                             style={styles.checkInChip}
                             textStyle={styles.checkInChipText}
                           >
-                            {getString('present')}
+                            {getString("present")}
                           </Chip>
                         )}
                       </View>
@@ -809,11 +985,11 @@ const CheckIn = ({ navigation }) => {
                           onPress={() => toggleStudentSelection(student.id)}
                           style={[
                             styles.selectButton,
-                            hasCheckIn && styles.selectButtonDisabled
+                            hasCheckIn && styles.selectButtonDisabled,
                           ]}
                           disabled={hasCheckIn}
                         >
-                          {isSelected ? '✓' : '+'}
+                          {isSelected ? "✓" : "+"}
                         </Button>
                         {hasCheckIn && (
                           <MaterialCommunityIcons
@@ -829,28 +1005,36 @@ const CheckIn = ({ navigation }) => {
                       <Button
                         mode={hasCheckIn ? "outlined" : "contained"}
                         compact
-                        onPress={() => handleManualCheckIn(student.id, student.name)}
+                        onPress={() =>
+                          handleManualCheckIn(student.id, student.name)
+                        }
                         disabled={!selectedClass || hasCheckIn}
                         style={[
                           styles.individualCheckInButton,
-                          hasCheckIn && styles.alreadyCheckedInButton
+                          hasCheckIn && styles.alreadyCheckedInButton,
                         ]}
                       >
-                        {hasCheckIn ? 'Presente' : 'Check-in'}
+                        {hasCheckIn ? "Presente" : "Check-in"}
                       </Button>
                     )}
                     style={[
                       styles.studentItem,
-                      hasCheckIn && styles.studentItemCheckedIn
+                      hasCheckIn && styles.studentItemCheckedIn,
                     ]}
                   />
                 );
               })
             ) : (
               <View style={styles.emptyState}>
-                <MaterialCommunityIcons name="account-off" size={48} color={COLORS.gray[400]} />
+                <MaterialCommunityIcons
+                  name="account-off"
+                  size={48}
+                  color={COLORS.gray[400]}
+                />
                 <Text style={styles.emptyText}>
-                  {searchQuery ? 'Nenhum aluno encontrado na busca' : 'Nenhum aluno cadastrado'}
+                  {searchQuery
+                    ? "Nenhum aluno encontrado na busca"
+                    : "Nenhum aluno cadastrado"}
                 </Text>
                 <Text style={styles.emptySubtext}>
                   Total de alunos: {students.length}
@@ -865,20 +1049,28 @@ const CheckIn = ({ navigation }) => {
               onPress={() => {
                 setManualCheckInVisible(false);
                 setSelectedStudents(new Set());
-                setSearchQuery('');
+                setSearchQuery("");
               }}
               style={styles.modalButton}
               icon="close"
-            >{getString('cancel')}</Button>
+            >
+              {getString("cancel")}
+            </Button>
             <Button
               mode="contained"
               onPress={async () => {
                 if (!selectedClass) {
-                  Alert.alert(getString('attention'), getString('selectClassFirst'));
+                  Alert.alert(
+                    getString("attention"),
+                    getString("selectClassFirst"),
+                  );
                   return;
                 }
                 if (selectedStudents.size === 0) {
-                  Alert.alert(getString('attention'), 'Selecione pelo menos um aluno para fazer check-in');
+                  Alert.alert(
+                    getString("attention"),
+                    "Selecione pelo menos um aluno para fazer check-in",
+                  );
                   return;
                 }
                 await handleBatchCheckIn();
@@ -891,8 +1083,7 @@ const CheckIn = ({ navigation }) => {
             >
               {selectedStudents.size > 0
                 ? `Confirmar Check-in (${selectedStudents.size})`
-                : 'Selecione Alunos'
-              }
+                : "Selecione Alunos"}
             </Button>
           </View>
         </Modal>
@@ -902,12 +1093,15 @@ const CheckIn = ({ navigation }) => {
         icon="qrcode-plus"
         style={styles.fab}
         onPress={() => {
-          console.log('🔍 Debug - Abrindo check-in manual');
-          console.log('🔍 Debug - Turmas disponíveis:', classes.length);
-          console.log('🔍 Debug - Alunos carregados:', students.length);
+          console.log("🔍 Debug - Abrindo check-in manual");
+          console.log("🔍 Debug - Turmas disponíveis:", classes.length);
+          console.log("🔍 Debug - Alunos carregados:", students.length);
 
           if (classes.length === 0) {
-            Alert.alert(getString('warning'), 'Você precisa ter pelo menos uma turma para fazer check-in manual');
+            Alert.alert(
+              getString("warning"),
+              "Você precisa ter pelo menos uma turma para fazer check-in manual",
+            );
             return;
           }
 
@@ -938,8 +1132,8 @@ const styles = StyleSheet.create({
     ...ResponsiveUtils.elevation,
   },
   header: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: ResponsiveUtils.spacing.lg,
   },
   title: {
@@ -973,9 +1167,9 @@ const styles = StyleSheet.create({
     }),
   },
   checkInHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginBottom: ResponsiveUtils.spacing.sm,
   },
   aulaName: {
@@ -988,12 +1182,12 @@ const styles = StyleSheet.create({
     borderRadius: BORDER_RADIUS.md,
   },
   checkInDetails: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginBottom: ResponsiveUtils.spacing.md,
   },
   detailItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginRight: ResponsiveUtils.spacing.lg,
   },
   detailText: {
@@ -1002,10 +1196,10 @@ const styles = StyleSheet.create({
     color: COLORS.gray[500],
   },
   actionButtons: {
-    alignItems: 'flex-end',
+    alignItems: "flex-end",
   },
   emptyState: {
-    alignItems: 'center',
+    alignItems: "center",
     padding: ResponsiveUtils.spacing.xl,
   },
   emptyText: {
@@ -1019,7 +1213,7 @@ const styles = StyleSheet.create({
     marginTop: SPACING.xs,
   },
   fab: {
-    position: 'absolute',
+    position: "absolute",
     margin: SPACING.md,
     right: 0,
     bottom: 0,
@@ -1031,13 +1225,13 @@ const styles = StyleSheet.create({
     padding: SPACING.lg,
     margin: SPACING.lg,
     borderRadius: BORDER_RADIUS.md,
-    maxHeight: '80%',
+    maxHeight: "80%",
   },
   modalTitle: {
     fontSize: FONT_SIZE.xl,
     fontWeight: FONT_WEIGHT.bold,
     marginBottom: SPACING.md,
-    textAlign: 'center',
+    textAlign: "center",
   },
   modalSubtitle: {
     fontSize: FONT_SIZE.md,
@@ -1056,9 +1250,9 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.md,
   },
   batchControls: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingVertical: SPACING.md,
     paddingHorizontal: SPACING.md,
     backgroundColor: COLORS.gray[100],
@@ -1071,7 +1265,7 @@ const styles = StyleSheet.create({
     color: COLORS.info[500],
   },
   batchButtons: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: SPACING.sm,
   },
   batchButton: {
@@ -1091,9 +1285,9 @@ const styles = StyleSheet.create({
     minWidth: 80,
   },
   modalActions: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     gap: SPACING.md,
   },
   modalButton: {
@@ -1104,9 +1298,9 @@ const styles = StyleSheet.create({
   },
   // Estilos para indicadores visuais de check-in
   studentDescription: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     flex: 1,
   },
   studentEmail: {
@@ -1124,8 +1318,8 @@ const styles = StyleSheet.create({
     fontWeight: FONT_WEIGHT.semibold,
   },
   studentLeftSection: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   checkInIcon: {
     marginLeft: SPACING.sm,
@@ -1152,20 +1346,20 @@ const styles = StyleSheet.create({
     fontWeight: FONT_WEIGHT.bold,
     marginBottom: SPACING.md,
     color: COLORS.black,
-    textAlign: 'center',
+    textAlign: "center",
   },
   classSelectionContainer: {
     marginBottom: 20,
   },
   classGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
     gap: SPACING.md,
   },
   classButton: {
     flex: 1,
-    minWidth: '45%',
+    minWidth: "45%",
     marginBottom: SPACING.sm,
     paddingVertical: SPACING.md,
     borderRadius: BORDER_RADIUS.md,
@@ -1181,7 +1375,7 @@ const styles = StyleSheet.create({
     elevation: 4,
     ...Platform.select({
       web: {
-        boxShadow: '0 4px 8px rgba(76,175,80,0.3)',
+        boxShadow: `0 4px 8px ${hexToRgba(COLORS.success[500], 0.3)}`,
       },
     }),
   },
@@ -1197,9 +1391,9 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.md,
   },
   modalActions: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     gap: SPACING.md,
     paddingTop: SPACING.md,
     borderTopWidth: 1,

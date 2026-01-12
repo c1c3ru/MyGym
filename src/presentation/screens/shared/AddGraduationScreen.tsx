@@ -29,7 +29,8 @@ import { useTheme } from '@contexts/ThemeContext';
 import { LinearGradient } from 'expo-linear-gradient';
 import SelectionField from '@components/SelectionField';
 import graduationRepository from '@presentation/repositories/graduationRepository';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, BORDER_WIDTH, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, BORDER_WIDTH, FONT_WEIGHT, INPUT_THEME } from '@presentation/theme/designTokens';
+import { hexToRgba } from '@shared/utils/colorUtils';
 import { getAuthGradient } from '@presentation/theme/authTheme';
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
 
@@ -448,7 +449,7 @@ const AddGraduationScreen = ({ route, navigation }: any) => {
                   style={styles.notesInput}
                   outlineColor={COLORS.gray[300]}
                   activeOutlineColor={COLORS.info[700]}
-                  theme={{ colors: { background: 'rgba(255,255,255,0.5)', onSurface: COLORS.gray[900], onSurfaceVariant: COLORS.gray[600] } }}
+                  theme={INPUT_THEME}
                 />
               </View>
 
@@ -464,7 +465,7 @@ const AddGraduationScreen = ({ route, navigation }: any) => {
                   outlineColor={COLORS.gray[300]}
                   activeOutlineColor={COLORS.warning[500]}
                   left={<TextInput.Icon icon="certificate" />}
-                  theme={{ colors: { background: 'rgba(255,255,255,0.5)', onSurface: COLORS.gray[900], onSurfaceVariant: COLORS.gray[600] } }}
+                  theme={INPUT_THEME}
                 />
               </View>
             </View>
@@ -680,10 +681,10 @@ const styles = StyleSheet.create({
   },
   glassCard: {
     marginBottom: SPACING.md,
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    backgroundColor: hexToRgba(COLORS.white, 0.9),
     borderRadius: BORDER_RADIUS.lg,
     borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.5)',
+    borderColor: hexToRgba(COLORS.white, 0.5),
     ...Platform.select({
       ios: {
         shadowColor: COLORS.black,
@@ -695,7 +696,7 @@ const styles = StyleSheet.create({
         elevation: 4,
       },
       web: {
-        boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.15)',
+        boxShadow: `0 8px 32px 0 ${hexToRgba(COLORS.info[800], 0.15)}`,
         backdropFilter: 'blur(10px)',
       },
     }),
@@ -746,7 +747,7 @@ const styles = StyleSheet.create({
     borderWidth: BORDER_WIDTH.base,
     borderColor: COLORS.gray[400],
     borderRadius: BORDER_RADIUS.md,
-    backgroundColor: 'rgba(255,255,255,0.5)',
+    backgroundColor: hexToRgba(COLORS.white, 0.5),
     paddingVertical: SPACING.sm,
     paddingHorizontal: SPACING.xs,
   },
@@ -780,7 +781,7 @@ const styles = StyleSheet.create({
   cancelButton: {
     borderColor: COLORS.gray[500],
     borderRadius: BORDER_RADIUS.md,
-    backgroundColor: 'rgba(255,255,255,0.5)',
+    backgroundColor: hexToRgba(COLORS.white, 0.5),
   },
   cancelButtonContent: {
     paddingVertical: SPACING.xs,

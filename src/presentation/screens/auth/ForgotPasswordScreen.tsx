@@ -308,7 +308,7 @@ const styles = StyleSheet.create({
     ...Platform.select({
       web: {
         backdropFilter: 'blur(10px)',
-        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
+        boxShadow: `0 8px 32px ${hexToRgba(COLORS.black, 0.2)}`,
       },
       default: {
         elevation: 8,

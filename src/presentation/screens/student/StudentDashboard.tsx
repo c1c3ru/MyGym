@@ -35,6 +35,7 @@ import StudentDashboardSkeleton from '@components/skeletons/StudentDashboardSkel
 
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { getAuthGradient } from '@presentation/theme/authTheme';
+import { hexToRgba } from '@shared/utils/colorUtils';
 
 const AnimatedModernCard: React.FC<{
     children: React.ReactNode;
@@ -415,7 +416,7 @@ const styles = StyleSheet.create({
     },
     welcomeBackText: {
         fontSize: FONT_SIZE.sm,
-        color: COLORS.white + 'AA',
+        color: hexToRgba(COLORS.white, 0.67),
         marginTop: 2
     },
     cardHeader: {
@@ -437,7 +438,7 @@ const styles = StyleSheet.create({
         paddingVertical: SPACING.sm
     },
     beltChip: {
-        backgroundColor: 'rgba(211, 47, 47, 0.1)',
+        backgroundColor: hexToRgba(COLORS.primary[500], 0.1),
         borderColor: COLORS.primary[500],
         borderWidth: 1,
         marginBottom: SPACING.sm,
@@ -497,7 +498,7 @@ const styles = StyleSheet.create({
     },
     annDivider: {
         marginVertical: SPACING.md,
-        backgroundColor: 'rgba(255,255,255,0.08)'
+        backgroundColor: hexToRgba(COLORS.white, 0.08)
     },
     emptyState: {
         alignItems: 'center',

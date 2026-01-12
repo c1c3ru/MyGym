@@ -40,6 +40,7 @@ import formValidator, { commonSchemas } from '@utils/formValidation';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
 import { getString } from "@utils/theme";
+import { hexToRgba } from '@shared/utils/colorUtils';
 
 const AddStudentScreen = ({ navigation, route }: any) => {
   const { currentTheme } = useThemeToggle();
@@ -345,7 +346,7 @@ const AddStudentScreen = ({ navigation, route }: any) => {
         {/* Loading overlay */}
         {loading && (
           <View style={styles.loadingOverlay}>
-            <ActivityIndicator size="large" color="#6200ee" />
+            <ActivityIndicator size="large" color={COLORS.primary[500]} />
             <Text style={styles.loadingText}>Cadastrando aluno...</Text>
           </View>
         )}
@@ -826,7 +827,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: hexToRgba(COLORS.black, 0.5),
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: 1000,

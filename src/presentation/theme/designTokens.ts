@@ -800,6 +800,18 @@ export const useCurrentTheme = (isDark = true) => {
 export const getLightThemeTokens = () => getLightTheme();
 
 // ============================================
+// INPUT THEME - Tema reutilizável para TextInput
+// ============================================
+export const INPUT_THEME = {
+    colors: {
+        background: 'rgba(255, 255, 255, 0.5)',
+        onSurface: COLORS.gray[900],
+        onSurfaceVariant: COLORS.gray[600]
+    }
+};
+
+
+// ============================================
 // EXPORT DEFAULT - Objeto completo
 // ============================================
 export default {
@@ -822,9 +834,12 @@ export default {
     // Utilities
     getSpacing,
     getFontSize,
+    getGradient,
+    getBeltColor,
     getColor,
     getElevation,
     // Themes
+    INPUT_THEME,
     DARK_THEME,
     getTheme,
     useCurrentTheme,

@@ -22,8 +22,9 @@ import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
 import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
 
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, INPUT_THEME } from '@presentation/theme/designTokens';
 import { getAuthGradient } from '@presentation/theme/authTheme';
+import { hexToRgba } from '@shared/utils/colorUtils';
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
 
 interface EditStudentScreenProps {
@@ -284,7 +285,7 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
               mode="outlined"
               style={styles.input}
               error={!!(errors as any).name}
-              theme={{ colors: { background: 'rgba(255,255,255,0.5)', onSurface: COLORS.gray[900], onSurfaceVariant: COLORS.gray[600] } }}
+              theme={INPUT_THEME}
             />
             {(errors as any).name && <HelperText type="error">{(errors as any).name}</HelperText>}
 
@@ -297,7 +298,7 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
               autoCapitalize="none"
               style={styles.input}
               error={!!(errors as any).email}
-              theme={{ colors: { background: 'rgba(255,255,255,0.5)', onSurface: COLORS.gray[900], onSurfaceVariant: COLORS.gray[600] } }}
+              theme={INPUT_THEME}
             />
             {(errors as any).email && <HelperText type="error">{(errors as any).email}</HelperText>}
 
@@ -309,7 +310,7 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
               keyboardType="phone-pad"
               style={styles.input}
               error={!!(errors as any).phone}
-              theme={{ colors: { background: 'rgba(255,255,255,0.5)', onSurface: COLORS.gray[900], onSurfaceVariant: COLORS.gray[600] } }}
+              theme={INPUT_THEME}
             />
             {(errors as any).phone && <HelperText type="error">{(errors as any).phone}</HelperText>}
 
@@ -321,7 +322,7 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
               placeholder="01/01/1990"
               style={styles.input}
               error={!!(errors as any).birthDate}
-              theme={{ colors: { background: 'rgba(255,255,255,0.5)', onSurface: COLORS.gray[900], onSurfaceVariant: COLORS.gray[600] } }}
+              theme={INPUT_THEME}
             />
             {(errors as any).birthDate && <HelperText type="error">{(errors as any).birthDate}</HelperText>}
 
@@ -333,7 +334,7 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
               multiline
               numberOfLines={2}
               style={styles.input}
-              theme={{ colors: { background: 'rgba(255,255,255,0.5)', onSurface: COLORS.gray[900], onSurfaceVariant: COLORS.gray[600] } }}
+              theme={INPUT_THEME}
             />
 
             {/* Contato de Emergência */}
@@ -346,7 +347,7 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
               mode="outlined"
               style={styles.input}
               error={!!(errors as any).emergencyContact}
-              theme={{ colors: { background: 'rgba(255,255,255,0.5)', onSurface: COLORS.gray[900], onSurfaceVariant: COLORS.gray[600] } }}
+              theme={INPUT_THEME}
             />
             {(errors as any).emergencyContact && <HelperText type="error">{(errors as any).emergencyContact}</HelperText>}
 
@@ -358,7 +359,7 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
               keyboardType="phone-pad"
               style={styles.input}
               error={!!(errors as any).emergencyPhone}
-              theme={{ colors: { background: 'rgba(255,255,255,0.5)', onSurface: COLORS.gray[900], onSurfaceVariant: COLORS.gray[600] } }}
+              theme={INPUT_THEME}
             />
             {(errors as any).emergencyPhone && <HelperText type="error">{(errors as any).emergencyPhone}</HelperText>}
 
@@ -374,7 +375,7 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
               numberOfLines={3}
               placeholder={getString('medicalConditionsPlaceholder')}
               style={styles.input}
-              theme={{ colors: { background: 'rgba(255,255,255,0.5)', onSurface: COLORS.gray[900], onSurfaceVariant: COLORS.gray[600] } }}
+              theme={INPUT_THEME}
             />
 
             <TextInput
@@ -386,7 +387,7 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
               numberOfLines={2}
               placeholder={getString('goalsPlaceholder')}
               style={styles.input}
-              theme={{ colors: { background: 'rgba(255,255,255,0.5)', onSurface: COLORS.gray[900], onSurfaceVariant: COLORS.gray[600] } }}
+              theme={INPUT_THEME}
             />
 
             {/* Status */}
@@ -484,10 +485,10 @@ const styles = StyleSheet.create({
   },
   glassCard: {
     padding: SPACING.lg,
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    backgroundColor: hexToRgba(COLORS.white, 0.9),
     borderRadius: BORDER_RADIUS.lg,
     borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.5)',
+    borderColor: hexToRgba(COLORS.white, 0.5),
     ...Platform.select({
       ios: {
         shadowColor: COLORS.black,
@@ -499,7 +500,7 @@ const styles = StyleSheet.create({
         elevation: 4,
       },
       web: {
-        boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.15)',
+        boxShadow: `0 8px 32px 0 ${hexToRgba(COLORS.info[800], 0.15)}`,
         backdropFilter: 'blur(10px)',
       },
     }),
@@ -534,7 +535,7 @@ const styles = StyleSheet.create({
   radioContainer: {
     marginBottom: 20,
     marginTop: SPACING.md,
-    backgroundColor: 'rgba(255,255,255,0.5)',
+    backgroundColor: hexToRgba(COLORS.white, 0.5),
     padding: SPACING.md,
     borderRadius: BORDER_RADIUS.md,
   },

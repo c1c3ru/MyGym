@@ -18,7 +18,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '@contexts/AuthProvider';
 import { useTheme } from '@contexts/ThemeContext';
 import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, INPUT_THEME } from '@presentation/theme/designTokens';
+import { hexToRgba } from '@shared/utils/colorUtils';
 import { getAuthGradient } from '@presentation/theme/authTheme';
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
 
@@ -356,7 +357,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }: PhysicalEvaluationScree
                   style={styles.input}
                   outlineColor={COLORS.gray[400]}
                   activeOutlineColor={COLORS.primary[500]}
-                  theme={{ colors: { background: 'rgba(255,255,255,0.5)', onSurface: COLORS.gray[900], onSurfaceVariant: COLORS.gray[600] } }}
+                  theme={INPUT_THEME}
                   error={!!errors.weight}
                 />
                 {errors.weight && <HelperText type="error">{errors.weight}</HelperText>}
@@ -372,7 +373,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }: PhysicalEvaluationScree
                   style={styles.input}
                   outlineColor={COLORS.gray[400]}
                   activeOutlineColor={COLORS.primary[500]}
-                  theme={{ colors: { background: 'rgba(255,255,255,0.5)', onSurface: COLORS.gray[900], onSurfaceVariant: COLORS.gray[600] } }}
+                  theme={INPUT_THEME}
                   error={!!errors.height}
                 />
                 {errors.height && <HelperText type="error">{errors.height}</HelperText>}
@@ -388,7 +389,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }: PhysicalEvaluationScree
               style={styles.input}
               outlineColor={COLORS.gray[400]}
               activeOutlineColor={COLORS.primary[500]}
-              theme={{ colors: { background: 'rgba(255,255,255,0.5)', onSurface: COLORS.gray[900], onSurfaceVariant: COLORS.gray[600] } }}
+              theme={INPUT_THEME}
               error={!!errors.age}
             />
             {errors.age && <HelperText type="error">{errors.age}</HelperText>}
@@ -429,7 +430,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }: PhysicalEvaluationScree
                   style={styles.input}
                   outlineColor={COLORS.gray[400]}
                   activeOutlineColor={COLORS.primary[500]}
-                  theme={{ colors: { background: 'rgba(255,255,255,0.5)', onSurface: COLORS.gray[900], onSurfaceVariant: COLORS.gray[600] } }}
+                  theme={INPUT_THEME}
                   error={!!errors.bodyFat}
                 />
                 {errors.bodyFat && <HelperText type="error">{errors.bodyFat}</HelperText>}
@@ -445,7 +446,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }: PhysicalEvaluationScree
                   style={styles.input}
                   outlineColor={COLORS.gray[400]}
                   activeOutlineColor={COLORS.primary[500]}
-                  theme={{ colors: { background: 'rgba(255,255,255,0.5)', onSurface: COLORS.gray[900], onSurfaceVariant: COLORS.gray[600] } }}
+                  theme={INPUT_THEME}
                   error={!!errors.muscleMass}
                 />
                 {errors.muscleMass && <HelperText type="error">{errors.muscleMass}</HelperText>}
@@ -463,7 +464,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }: PhysicalEvaluationScree
                   style={styles.input}
                   outlineColor={COLORS.gray[400]}
                   activeOutlineColor={COLORS.primary[500]}
-                  theme={{ colors: { background: 'rgba(255,255,255,0.5)', onSurface: COLORS.gray[900], onSurfaceVariant: COLORS.gray[600] } }}
+                  theme={INPUT_THEME}
                 />
               </View>
 
@@ -477,7 +478,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }: PhysicalEvaluationScree
                   style={styles.input}
                   outlineColor={COLORS.gray[400]}
                   activeOutlineColor={COLORS.primary[500]}
-                  theme={{ colors: { background: 'rgba(255,255,255,0.5)', onSurface: COLORS.gray[900], onSurfaceVariant: COLORS.gray[600] } }}
+                  theme={INPUT_THEME}
                 />
               </View>
             </View>
@@ -493,7 +494,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }: PhysicalEvaluationScree
                   style={styles.input}
                   outlineColor={COLORS.gray[400]}
                   activeOutlineColor={COLORS.primary[500]}
-                  theme={{ colors: { background: 'rgba(255,255,255,0.5)', onSurface: COLORS.gray[900], onSurfaceVariant: COLORS.gray[600] } }}
+                  theme={INPUT_THEME}
                 />
               </View>
 
@@ -507,7 +508,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }: PhysicalEvaluationScree
                   style={styles.input}
                   outlineColor={COLORS.gray[400]}
                   activeOutlineColor={COLORS.primary[500]}
-                  theme={{ colors: { background: 'rgba(255,255,255,0.5)', onSurface: COLORS.gray[900], onSurfaceVariant: COLORS.gray[600] } }}
+                  theme={INPUT_THEME}
                   error={!!errors.bodyWater}
                 />
                 {errors.bodyWater && <HelperText type="error">{errors.bodyWater}</HelperText>}
@@ -527,7 +528,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }: PhysicalEvaluationScree
               placeholder={getString('observationsPlaceholder')}
               outlineColor={COLORS.gray[400]}
               activeOutlineColor={COLORS.primary[500]}
-              theme={{ colors: { background: 'rgba(255,255,255,0.5)', onSurface: COLORS.gray[900], onSurfaceVariant: COLORS.gray[600] } }}
+              theme={INPUT_THEME}
             />
 
             {/* Botões */}
@@ -595,10 +596,10 @@ const styles = StyleSheet.create({
   },
   glassCard: {
     padding: SPACING.md,
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    backgroundColor: hexToRgba(COLORS.white, 0.9),
     borderRadius: BORDER_RADIUS.lg,
     borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.5)',
+    borderColor: hexToRgba(COLORS.white, 0.5),
     ...Platform.select({
       ios: {
         shadowColor: COLORS.black,
@@ -610,7 +611,7 @@ const styles = StyleSheet.create({
         elevation: 4,
       },
       web: {
-        boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.15)',
+        boxShadow: `0 8px 32px 0 ${hexToRgba(COLORS.info[800], 0.15)}`,
         backdropFilter: 'blur(10px)',
       },
     }),
