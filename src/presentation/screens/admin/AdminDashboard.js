@@ -47,9 +47,10 @@ import {
 import { hexToRgba } from "@shared/utils/colorUtils";
 import { useOnboarding } from "@components/OnboardingTour";
 import { getString } from "@utils/theme";
+import { useProfileTheme } from "../../../contexts/ProfileThemeContext";
 
-  const { theme: profileTheme } = require("../../../contexts/ProfileThemeContext").useProfileTheme(); // 🎨 Tema Azul/Vermelho
 const AdminDashboard = ({ navigation }) => {
+  const { theme: profileTheme } = useProfileTheme(); // 🎨 Tema Azul/Vermelho
   const { user, userProfile, logout, academia } = useAuthFacade();
   const { animations, startEntryAnimation } = useAnimation();
   const scrollY = new Animated.Value(0);
@@ -884,50 +885,50 @@ const AdminDashboard = ({ navigation }) => {
             {/* Alertas e Notificações */}
             {(dashboardData.overduePayments > 0 ||
               dashboardData.pendingPayments > 5) && (
-              <AnimatedCard delay={500} style={[styles.card, styles.alertCard]}>
-                <Card.Content>
-                  <View style={styles.cardHeader}>
-                    <SafeIonicons
-                      name="warning-outline"
-                      size={24}
-                      color={COLORS.warning[400]}
-                    />
-                    <Text
-                      style={[
-                        styles.cardTitle,
-                        { fontSize: ResponsiveUtils.fontSize.medium },
-                      ]}
-                    >
-                      {getString("alerts")}
-                    </Text>
-                  </View>
+                <AnimatedCard delay={500} style={[styles.card, styles.alertCard]}>
+                  <Card.Content>
+                    <View style={styles.cardHeader}>
+                      <SafeIonicons
+                        name="warning-outline"
+                        size={24}
+                        color={COLORS.warning[400]}
+                      />
+                      <Text
+                        style={[
+                          styles.cardTitle,
+                          { fontSize: ResponsiveUtils.fontSize.medium },
+                        ]}
+                      >
+                        {getString("alerts")}
+                      </Text>
+                    </View>
 
-                  {dashboardData.overduePayments > 0 && (
-                    <Text
-                      style={[
-                        styles.alertText,
-                        { fontSize: ResponsiveUtils.fontSize.small },
-                      ]}
-                    >
-                      • {dashboardData.overduePayments}{" "}
-                      {getString("paymentsOverdue")}
-                    </Text>
-                  )}
+                    {dashboardData.overduePayments > 0 && (
+                      <Text
+                        style={[
+                          styles.alertText,
+                          { fontSize: ResponsiveUtils.fontSize.small },
+                        ]}
+                      >
+                        • {dashboardData.overduePayments}{" "}
+                        {getString("paymentsOverdue")}
+                      </Text>
+                    )}
 
-                  {dashboardData.pendingPayments > 5 && (
-                    <Text
-                      style={[
-                        styles.alertText,
-                        { fontSize: ResponsiveUtils.fontSize.small },
-                      ]}
-                    >
-                      • {getString("manyPendingPayments")} (
-                      {dashboardData.pendingPayments})
-                    </Text>
-                  )}
-                </Card.Content>
-              </AnimatedCard>
-            )}
+                    {dashboardData.pendingPayments > 5 && (
+                      <Text
+                        style={[
+                          styles.alertText,
+                          { fontSize: ResponsiveUtils.fontSize.small },
+                        ]}
+                      >
+                        • {getString("manyPendingPayments")} (
+                        {dashboardData.pendingPayments})
+                      </Text>
+                    )}
+                  </Card.Content>
+                </AnimatedCard>
+              )}
           </Animated.ScrollView>
         </SafeAreaView>
       </LinearGradient>

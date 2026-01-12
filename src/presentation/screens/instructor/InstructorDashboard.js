@@ -51,9 +51,10 @@ import {
 } from "@presentation/theme/designTokens";
 import { hexToRgba } from "@shared/utils/colorUtils";
 import { useOnboarding } from "@components/OnboardingTour";
+import { useProfileTheme } from "../../../contexts/ProfileThemeContext";
 
 const InstructorDashboard = ({ navigation }) => {
-  const { theme: profileTheme } = require("../../../contexts/ProfileThemeContext").useProfileTheme(); // 🎨 Tema Roxo/Verde
+  const { theme: profileTheme } = useProfileTheme(); // 🎨 Tema Roxo/Verde
   const { user, userProfile } = useAuthFacade();
   const { getString } = useTheme();
   const { animations, startEntryAnimation } = useAnimation();
@@ -842,7 +843,7 @@ const InstructorDashboard = ({ navigation }) => {
                         style={[
                           styles.announcementItem,
                           announcement.priority > 0 &&
-                            styles.highPriorityAnnouncement,
+                          styles.highPriorityAnnouncement,
                         ]}
                       >
                         {announcement.priority > 0 && (
@@ -1249,10 +1250,10 @@ const styles = StyleSheet.create({
     width: 12,
     height: 12,
     borderRadius: BORDER_RADIUS.full,
-    backgroundColor: profileTheme.primary[500],
+    backgroundColor: COLORS.primary[500],
     marginTop: 6,
     marginRight: ResponsiveUtils.spacing.md,
-    shadowColor: profileTheme.primary[500],
+    shadowColor: COLORS.primary[500],
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.5,
     shadowRadius: 8,

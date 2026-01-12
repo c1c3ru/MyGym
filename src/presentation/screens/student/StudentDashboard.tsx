@@ -228,7 +228,7 @@ const StudentDashboard: React.FC<{ navigation: any }> = ({ navigation }) => {
                             <RefreshControl
                                 refreshing={refreshing}
                                 onRefresh={onRefresh}
-                                tintColor={profileTheme.primary[500]}
+                                tintColor={COLORS.primary[500]}
                             />
                         }
                     >
@@ -257,13 +257,16 @@ const StudentDashboard: React.FC<{ navigation: any }> = ({ navigation }) => {
                             <View>
                                 <View style={styles.cardHeader}>
                                     <Ionicons name="trophy-outline" size={24} color={profileTheme.primary[500]} />
-                                    <Text style={styles.cardTitle}>{getString('graduationStatus')}</Text>
+                                    <Text style={[styles.cardTitle, { color: profileTheme.primary[500] }]}>{getString('graduationStatus')}</Text>
                                 </View>
                                 <View style={styles.graduationContent}>
                                     <Chip
                                         mode="flat"
-                                        style={styles.beltChip}
-                                        textStyle={styles.beltChipText}
+                                        style={[styles.beltChip, {
+                                            backgroundColor: hexToRgba(profileTheme.primary[500], 0.1),
+                                            borderColor: profileTheme.primary[500]
+                                        }]}
+                                        textStyle={[styles.beltChipText, { color: profileTheme.primary[500] }]}
                                     >
                                         {dashboardData.graduationStatus}
                                     </Chip>
@@ -399,7 +402,7 @@ const styles = StyleSheet.create({
         paddingVertical: SPACING.xs
     },
     avatar: {
-        backgroundColor: profileTheme.primary[500],
+        backgroundColor: COLORS.primary[500],
         elevation: 4
     },
     avatarLabel: {
@@ -430,7 +433,7 @@ const styles = StyleSheet.create({
     cardTitle: {
         fontSize: FONT_SIZE.md,
         fontWeight: '700',
-        color: profileTheme.primary[500],
+        color: COLORS.primary[500],
         textTransform: 'uppercase',
         letterSpacing: 1.5,
         flex: 1
@@ -440,14 +443,14 @@ const styles = StyleSheet.create({
         paddingVertical: SPACING.sm
     },
     beltChip: {
-        backgroundColor: hexToRgba(profileTheme.primary[500], 0.1),
-        borderColor: profileTheme.primary[500],
+        backgroundColor: hexToRgba(COLORS.primary[500], 0.1),
+        borderColor: COLORS.primary[500],
         borderWidth: 1,
         marginBottom: SPACING.sm,
         paddingHorizontal: SPACING.md
     },
     beltChipText: {
-        color: profileTheme.primary[500],
+        color: COLORS.primary[500],
         fontWeight: 'bold',
         fontSize: FONT_SIZE.md
     },
