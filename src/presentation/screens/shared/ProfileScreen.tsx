@@ -28,6 +28,7 @@ import PaymentDueDateEditor from '@components/PaymentDueDateEditor';
 import type { NavigationProp } from '@react-navigation/native';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, BORDER_WIDTH, GLASS, ANIMATION } from '@presentation/theme/designTokens';
 import { getAuthGradient } from '@presentation/theme/authTheme';
+import { hexToRgba } from '@shared/utils/colorUtils';
 
 interface ProfileScreenProps {
   navigation: NavigationProp<any>;
@@ -1057,7 +1058,7 @@ const styles = StyleSheet.create({
   warningCard: {
     marginHorizontal: SPACING.md,
     marginBottom: SPACING.md,
-    backgroundColor: COLORS.warning[500] + '1A', // 10% opacity warning yellow
+    backgroundColor: hexToRgba(COLORS.warning[500], 0.1), // 10% opacity warning yellow
     borderLeftWidth: 4,
     borderLeftColor: COLORS.warning[500],
   },
@@ -1123,8 +1124,8 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: BORDER_RADIUS.lg,
-    backgroundColor: 'rgba(255,255,255,0.05)',
-    borderColor: 'rgba(255,255,255,0.1)',
+    backgroundColor: hexToRgba(COLORS.white, 0.05),
+    borderColor: hexToRgba(COLORS.white, 0.1),
     borderWidth: BORDER_WIDTH.thin,
     justifyContent: 'center',
     alignItems: 'center',
@@ -1140,34 +1141,21 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
   },
   divider: {
-    backgroundColor: 'rgba(255,255,255,0.1)',
+    backgroundColor: hexToRgba(COLORS.white, 0.1),
   },
   // Estilos Modernizados com Glassmorphism
   modalCenteredContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.4)',
+    backgroundColor: hexToRgba(COLORS.black, 0.4),
   },
   glassModalContent: {
     width: width * 0.95,
     maxWidth: 500,
-    backgroundColor: 'rgba(30, 30, 30, 0.85)',
+    ...GLASS.modal,
     borderRadius: BORDER_RADIUS.xl,
     padding: SPACING.lg,
-    borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.1)',
-    ...Platform.select({
-      ios: {
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 10 },
-        shadowOpacity: 0.3,
-        shadowRadius: 20,
-      },
-      android: {
-        elevation: 10,
-      },
-    }),
   },
   modalHeader: {
     flexDirection: 'row',
@@ -1184,7 +1172,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 12,
-    backgroundColor: 'rgba(211, 47, 47, 0.15)',
+    backgroundColor: hexToRgba(COLORS.primary[500], 0.15),
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -1205,7 +1193,7 @@ const styles = StyleSheet.create({
   },
   yearNavButton: {
     padding: SPACING.sm,
-    backgroundColor: 'rgba(255,255,255,0.05)',
+    backgroundColor: hexToRgba(COLORS.white, 0.05),
     borderRadius: BORDER_RADIUS.full,
   },
   activeYearWrapper: {
@@ -1240,12 +1228,12 @@ const styles = StyleSheet.create({
   },
   monthCardGlassEffect: {
     width: '48%',
-    backgroundColor: 'rgba(200, 200, 200, 0.05)',
+    backgroundColor: hexToRgba(COLORS.gray[400], 0.05),
     borderRadius: 16,
     padding: SPACING.md,
     marginBottom: SPACING.md,
     borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.05)',
+    borderColor: hexToRgba(COLORS.white, 0.05),
   },
   monthHeader: {
     flexDirection: 'row',
@@ -1261,7 +1249,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
   monthCountBadgeContainer: {
-    backgroundColor: 'rgba(211, 47, 47, 0.2)',
+    backgroundColor: hexToRgba(COLORS.primary[500], 0.2),
     paddingHorizontal: 6,
     paddingVertical: 2,
     borderRadius: 8,
@@ -1288,7 +1276,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.6,
   },
   trainingDotEmpty: {
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    backgroundColor: hexToRgba(COLORS.white, 0.1),
   },
   modalFooterLegend: {
     flexDirection: 'row',
@@ -1297,7 +1285,7 @@ const styles = StyleSheet.create({
     marginTop: SPACING.lg,
     paddingTop: SPACING.md,
     borderTopWidth: 1,
-    borderTopColor: 'rgba(255,255,255,0.1)',
+    borderTopColor: hexToRgba(COLORS.white, 0.1),
   },
   legendItem: {
     flexDirection: 'row',

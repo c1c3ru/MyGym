@@ -19,6 +19,7 @@ import { useTheme } from '@contexts/ThemeContext';
 import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { getAuthGradient } from '@presentation/theme/authTheme';
+import { hexToRgba } from '@shared/utils/colorUtils';
 import type { NavigationProp } from '@react-navigation/native';
 
 interface PhysicalEvaluationHistoryScreenProps {
@@ -327,8 +328,8 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }: PhysicalEvaluationHisto
                 height={220}
                 chartConfig={{
                   backgroundColor: 'transparent',
-                  backgroundGradientFrom: '#ffffff',
-                  backgroundGradientTo: '#ffffff',
+                  backgroundGradientFrom: COLORS.white,
+                  backgroundGradientTo: COLORS.white,
                   backgroundGradientFromOpacity: 0.5,
                   backgroundGradientToOpacity: 0.5,
                   fillShadowGradientFrom: COLORS.primary[500],
@@ -415,10 +416,10 @@ const styles = StyleSheet.create({
   glassCard: {
     marginBottom: SPACING.md,
     padding: SPACING.md,
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    backgroundColor: hexToRgba(COLORS.white, 0.9),
     borderRadius: BORDER_RADIUS.lg,
     borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.5)',
+    borderColor: hexToRgba(COLORS.white, 0.5),
     ...Platform.select({
       ios: {
         shadowColor: COLORS.black,
@@ -430,7 +431,7 @@ const styles = StyleSheet.create({
         elevation: 4,
       },
       web: {
-        boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.15)',
+        boxShadow: `0 8px 32px 0 ${hexToRgba(COLORS.info[800], 0.15)}`,
         backdropFilter: 'blur(10px)',
       },
     }),

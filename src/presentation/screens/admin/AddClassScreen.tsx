@@ -20,6 +20,7 @@ import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, BORDER_WIDTH } 
 import { getAuthGradient } from '@presentation/theme/authTheme';
 import type { NavigationProp } from '@react-navigation/native';
 import { getString } from "@utils/theme";
+import { hexToRgba } from '@shared/utils/colorUtils';
 
 
 interface Instructor {
@@ -616,12 +617,12 @@ const styles = StyleSheet.create({
   card: {
     marginBottom: 20,
     // Glassmorphism: fundo translúcido
-    backgroundColor: 'rgba(255, 255, 255, 0.08)',
+    backgroundColor: hexToRgba(COLORS.white, 0.08),
     borderRadius: BORDER_RADIUS.lg,
     borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.12)',
+    borderColor: hexToRgba(COLORS.white, 0.12),
     // Elevação para simular backdrop-blur
-    shadowColor: '#000',
+    shadowColor: COLORS.black,
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.3,
     shadowRadius: 16,

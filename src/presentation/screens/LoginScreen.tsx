@@ -29,6 +29,7 @@ import { rateLimitService } from '@infrastructure/services/rateLimitService';
 import LoginSkeleton from '@components/skeletons/LoginSkeleton';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { getAuthGradient, getAuthCardColors } from '@presentation/theme/authTheme';
+import { hexToRgba } from '@shared/utils/colorUtils';
 import formValidator from '@shared/utils/formValidation';
 import type { AuthScreenProps, LoginFormErrors, SnackbarState } from './auth/types';
 import { getString } from "@utils/theme";
@@ -321,7 +322,7 @@ export default function LoginScreen({ navigation }: AuthScreenProps) {
             {/* Top Decorative Element */}
             <View style={styles.topDecoration}>
               <LinearGradient
-                colors={[COLORS.primary[500] + '44', 'transparent']}
+                colors={[hexToRgba(COLORS.primary[500], 0.27), 'transparent']}
                 style={styles.topOrb}
               />
             </View>
@@ -334,7 +335,7 @@ export default function LoginScreen({ navigation }: AuthScreenProps) {
                   onDismiss={() => setLanguageMenuVisible(false)}
                   anchor={
                     <TouchableRipple
-                      style={[styles.glassButton, { backgroundColor: isDarkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)' }]}
+                      style={[styles.glassButton, { backgroundColor: isDarkMode ? hexToRgba(COLORS.white, 0.05) : hexToRgba(COLORS.black, 0.03) }]}
                       onPress={() => setLanguageMenuVisible(true)}
                     >
                       <View style={styles.languageButtonContent}>
@@ -364,7 +365,7 @@ export default function LoginScreen({ navigation }: AuthScreenProps) {
               <View style={styles.settingItem}>
                 <TouchableRipple
                   onPress={toggleDarkMode}
-                  style={[styles.glassButton, { backgroundColor: isDarkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)' }]}
+                  style={[styles.glassButton, { backgroundColor: isDarkMode ? hexToRgba(COLORS.white, 0.05) : hexToRgba(COLORS.black, 0.03) }]}
                 >
                   <MaterialCommunityIcons
                     name={isDarkMode ? "weather-night" : "weather-sunny"}
@@ -448,31 +449,31 @@ export default function LoginScreen({ navigation }: AuthScreenProps) {
                 </View>
 
                 <View style={styles.dividerRow}>
-                  <View style={[styles.line, { backgroundColor: isDarkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }]} />
+                  <View style={[styles.line, { backgroundColor: isDarkMode ? hexToRgba(COLORS.white, 0.1) : hexToRgba(COLORS.black, 0.1) }]} />
                   <Text style={[styles.dividerText, { color: isDarkMode ? COLORS.gray[500] : COLORS.gray[400] }]}>
                     {getString('orLoginWith')}
                   </Text>
-                  <View style={[styles.line, { backgroundColor: isDarkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }]} />
+                  <View style={[styles.line, { backgroundColor: isDarkMode ? hexToRgba(COLORS.white, 0.1) : hexToRgba(COLORS.black, 0.1) }]} />
                 </View>
 
                 <View style={styles.socialRow}>
                   <TouchableRipple
                     onPress={handleGoogleLogin}
-                    style={[styles.socialIconBtn, { backgroundColor: isDarkMode ? 'rgba(255,255,255,0.05)' : COLORS.white, borderColor: isDarkMode ? 'rgba(255,255,255,0.1)' : COLORS.gray[200] }]}
+                    style={[styles.socialIconBtn, { backgroundColor: isDarkMode ? hexToRgba(COLORS.white, 0.05) : COLORS.white, borderColor: isDarkMode ? hexToRgba(COLORS.white, 0.1) : COLORS.gray[200] }]}
                   >
-                    <MaterialCommunityIcons name="google" size={24} color="#DB4437" />
+                    <MaterialCommunityIcons name="google" size={24} color={COLORS.social.google} />
                   </TouchableRipple>
 
                   <TouchableRipple
                     onPress={handleFacebookLogin}
-                    style={[styles.socialIconBtn, { backgroundColor: isDarkMode ? 'rgba(255,255,255,0.05)' : COLORS.white, borderColor: isDarkMode ? 'rgba(255,255,255,0.1)' : COLORS.gray[200] }]}
+                    style={[styles.socialIconBtn, { backgroundColor: isDarkMode ? hexToRgba(COLORS.white, 0.05) : COLORS.white, borderColor: isDarkMode ? hexToRgba(COLORS.white, 0.1) : COLORS.gray[200] }]}
                   >
-                    <MaterialCommunityIcons name="facebook" size={24} color="#4267B2" />
+                    <MaterialCommunityIcons name="facebook" size={24} color={COLORS.social.facebook} />
                   </TouchableRipple>
 
                   <TouchableRipple
                     onPress={handleAppleLogin}
-                    style={[styles.socialIconBtn, { backgroundColor: isDarkMode ? 'rgba(255,255,255,0.05)' : COLORS.white, borderColor: isDarkMode ? 'rgba(255,255,255,0.1)' : COLORS.gray[200] }]}
+                    style={[styles.socialIconBtn, { backgroundColor: isDarkMode ? hexToRgba(COLORS.white, 0.05) : COLORS.white, borderColor: isDarkMode ? hexToRgba(COLORS.white, 0.1) : COLORS.gray[200] }]}
                   >
                     <MaterialCommunityIcons name="apple" size={24} color={isDarkMode ? COLORS.white : COLORS.black} />
                   </TouchableRipple>
@@ -570,7 +571,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.1)',
+    borderColor: hexToRgba(COLORS.white, 0.1),
   },
   languageButtonContent: {
     flexDirection: 'row',

@@ -22,6 +22,7 @@ import { useTheme } from '@contexts/ThemeContext';
 import { NavigationProp, RouteProp } from '@react-navigation/native';
 import { UserType, UserProfile } from '@domain/auth/entities';
 import { getString } from "@utils/theme";
+import { hexToRgba } from '@shared/utils/colorUtils';
 
 interface UserTypeSelectionScreenProps {
   navigation: NavigationProp<any>;
@@ -136,7 +137,7 @@ const UserTypeSelectionScreen: React.FC<UserTypeSelectionScreenProps> = ({ navig
         selectedType === userType.id && {
           borderColor: userType.color,
           borderWidth: 3,
-          backgroundColor: `${userType.color}10`
+          backgroundColor: hexToRgba(userType.color, 0.06)
         }
       ]}
     >
@@ -314,7 +315,7 @@ const styles = StyleSheet.create({
         elevation: 4,
       },
       web: {
-        boxShadow: '0 2px 4px currentTheme.black + "80"',
+        boxShadow: `0 2px 4px ${hexToRgba(COLORS.black, 0.5)}`,
       },
     }),
   },
@@ -381,7 +382,7 @@ const styles = StyleSheet.create({
   },
   featureText: {
     fontSize: FONT_SIZE.base,
-    color: '#555',
+    color: COLORS.gray[600],
     marginLeft: SPACING.sm,
     flex: 1,
   },

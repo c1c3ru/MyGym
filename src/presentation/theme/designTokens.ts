@@ -582,6 +582,13 @@ export const COLORS = {
             red: '#F44336',         // Faixa vermelha (coral)
         },
     },
+
+    // 🌐 Cores de Redes Sociais
+    social: {
+        google: '#DB4437',
+        facebook: '#4267B2',
+        apple: '#000000',
+    },
 } as const;
 
 // ============================================
