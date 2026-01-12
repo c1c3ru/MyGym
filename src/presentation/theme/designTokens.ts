@@ -802,6 +802,8 @@ export const getLightThemeTokens = () => getLightTheme();
 // ============================================
 // INPUT THEME - Tema reutilizável para TextInput
 // ============================================
+
+// Tema estático para modo claro (compatibilidade)
 export const INPUT_THEME = {
     colors: {
         background: 'rgba(255, 255, 255, 0.5)',
@@ -809,6 +811,24 @@ export const INPUT_THEME = {
         onSurfaceVariant: COLORS.gray[600]
     }
 };
+
+// Tema dinâmico que se adapta ao modo claro/escuro
+export const getInputTheme = (isDark = false) => ({
+    colors: {
+        background: isDark
+            ? 'rgba(255, 255, 255, 0.1)'  // Mais sutil no dark mode
+            : 'rgba(255, 255, 255, 0.5)', // Mais visível no light mode
+        onSurface: isDark ? COLORS.gray[100] : COLORS.gray[900],
+        onSurfaceVariant: isDark ? COLORS.gray[400] : COLORS.gray[600]
+    }
+});
+
+// Tema para modo escuro
+export const INPUT_THEME_DARK = getInputTheme(true);
+
+// Tema para modo claro  
+export const INPUT_THEME_LIGHT = getInputTheme(false);
+
 
 
 // ============================================
@@ -840,6 +860,9 @@ export default {
     getElevation,
     // Themes
     INPUT_THEME,
+    getInputTheme,
+    INPUT_THEME_DARK,
+    INPUT_THEME_LIGHT,
     DARK_THEME,
     getTheme,
     useCurrentTheme,
