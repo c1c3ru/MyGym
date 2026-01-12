@@ -81,10 +81,7 @@ const FreeGymScheduler = ({
         if (!academiaId) return;
 
         // Carregar instrutores
-        const instructorsData = await academyFirestoreService.getAll('users', academiaId);
-        const instructorsList = instructorsData.filter(user =>
-          user.userType === 'instructor' || user.role === 'instructor'
-        );
+        const instructorsList = await academyFirestoreService.getAll('instructors', academiaId);
         setInstructors(instructorsList);
 
         // Carregar modalidades das turmas existentes

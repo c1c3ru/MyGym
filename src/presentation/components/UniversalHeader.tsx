@@ -203,7 +203,7 @@ const UniversalHeader: React.FC<UniversalHeaderProps> = ({
                             <Menu.Item
                                 onPress={() => {
                                     closeMenu();
-                                    navigation?.navigate('Profile');
+                                    navigation?.navigate('Settings');
                                 }}
                                 title={getString('settings')}
                                 leadingIcon={() => (

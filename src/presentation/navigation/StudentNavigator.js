@@ -10,6 +10,7 @@ import StudentDashboard from '@screens/student/StudentDashboard';
 import StudentPayments from '@screens/student/StudentPayments';
 import StudentEvolution from '@screens/student/StudentEvolution';
 import StudentCalendar from '@screens/student/StudentCalendar';
+import CheckInScreen from '@screens/student/CheckInScreen';
 
 // Telas Compartilhadas
 import ProfileScreen from '@screens/shared/ProfileScreen';
@@ -19,6 +20,7 @@ import PhysicalEvaluationHistoryScreen from '@screens/shared/PhysicalEvaluationH
 import NotificationSettingsScreen from '@screens/shared/NotificationSettingsScreen';
 import PrivacySettingsScreen from '@screens/shared/PrivacySettingsScreen';
 import { COLORS } from '@presentation/theme/designTokens';
+import SettingsScreen from '@screens/shared/SettingsScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -94,6 +96,22 @@ const StudentStackNavigator = () => {
         options={{ headerShown: false }}
       />
 
+      <Stack.Screen
+        name="CheckIn"
+        component={CheckInScreen}
+        options={{
+          headerShown: true,
+          header: ({ navigation }) => (
+            <UniversalHeader
+              title={getString('checkIn')}
+              navigation={navigation}
+              showBack={true}
+              backgroundColor={COLORS.info[500]}
+            />
+          ),
+        }}
+      />
+
       {/* Profile-related screens */}
       <Stack.Screen
         name="Profile"
@@ -103,6 +121,21 @@ const StudentStackNavigator = () => {
           header: ({ navigation }) => (
             <UniversalHeader
               title={getString('profile')}
+              navigation={navigation}
+              showBack={true}
+              backgroundColor={COLORS.info[500]}
+            />
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="Settings"
+        component={SettingsScreen}
+        options={{
+          headerShown: true,
+          header: ({ navigation }) => (
+            <UniversalHeader
+              title={getString('settings')}
               navigation={navigation}
               showBack={true}
               backgroundColor={COLORS.info[500]}

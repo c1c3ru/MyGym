@@ -201,24 +201,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
         // Address
         zipCode: userProfile.address?.zipCode || '',
         street: userProfile.address?.street || '',
-        number: userProfile.address?.number || '', // Note: 'number' might not be in UserProfile type strictly if it's optional? checked schema, it's not in Auth entities explicitly as 'number', just 'street'. usage of schema might be loose. Actually UserProfile in entities.ts has address: { street, city, state, zipCode, country }. It does NOT have number/neighborhood in common UserProfile interface provided in entities.ts line 43. But domain/students/entities.ts Student has Address with number. I will assume it might be part of street or needs to be generic. However, to be nice, I will add them to state but map them to street if necessary or just store them if the backend supports it. The backend update is passing Partial<UserProfile>. Let's check UpdateProfileData in entities.ts line 247. It matches UserProfile address structure. It does NOT have number. So 'street' must contain number and neighborhood if we want to save them, or we abuse 'street'.
-        // Wait, domain/students/entities.ts Address has number. domain/auth/entities.ts UserProfile address does not. This is a discrepancy.
-        // I will map street, number, neighborhood into 'street' field if necessary, or just use what I have.
-        // Actually, for a "Complete Data" form, users expect separate fields.
-        // I will use specific fields and concatenate them into street if I have to, or just save 'street' as the full line.
-        // BUT, the user said "according to the database". The Student entity has separate fields. The Auth UserProfile might be a simplified view.
-        // I should probably try to save them. The `updateUserProfile` takes Partial<UserProfile>.
-        // Let's assume 'street' in UserProfile holds the full address line if number is missing in schema.
-        // OR better: I will add number/neighborhood to formData, and if the schema allows custom claims or flexible objects (Firestore usually does), I will try to save them.
-        // However, typescript might block me.
-        // Let's stick to the schema in entities.ts for UserProfile: street, city, state, zipCode.
-        // I will put everything in 'street' for now? No, that's ugly.
-        // I'll check if I can just cast it.
-        // Let's look at `Address` interface in `domain/students/entites.ts` again. It has number.
-        // Maybe `UserProfile` in `domain/auth/entities.ts` is just for auth display?
-        // `updateProfile` calls `repository.updateUserProfile`.
-        // I'll assume I can save extra fields in Firestore even if TS complains (I can cast).
-        // For the Safety, I'll combine standard address fields into the formData and render them.
+        number: (userProfile.address as any)?.number || '',
 
         // Re-reading entities.ts: UserProfile address matches UpdateProfileData address.
         // I will implement separate fields in UI, but maybe concatenate for storage if I shouldn't change the model?
@@ -228,7 +211,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
         // I'll add the fields to formData.
 
         neighborhood: (userProfile.address as any)?.neighborhood || '',
-        number: (userProfile.address as any)?.number || '',
+        // number removed (duplicate)
 
         city: userProfile.address?.city || '',
         state: userProfile.address?.state || '',
@@ -268,13 +251,12 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
         gender: formData.gender as any,
         address: {
           street: formData.street,
-          // @ts-ignore - Adding fields that exist in Firestore/Student entity but maybe missing in strict Auth type
           number: formData.number,
           neighborhood: formData.neighborhood,
           city: formData.city,
           state: formData.state,
           zipCode: formData.zipCode
-        },
+        } as any,
         emergencyContact: {
           name: formData.emergencyName,
           phone: formData.emergencyPhone,
@@ -380,6 +362,8 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
           style={styles.scrollView}
           contentContainerStyle={styles.scrollViewContent}
           entering={FadeIn}
+          showsVerticalScrollIndicator={true}
+          persistentScrollbar={true}
         >
           {/* Header do Perfil */}
           <Animated.View entering={FadeInDown.delay(100).springify()}>
@@ -666,7 +650,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
                     <List.Item
                       title={getString('birthDate')}
                       description={userProfile?.dateOfBirth ?
-                        (userProfile.dateOfBirth.toDate ? userProfile.dateOfBirth.toDate().toLocaleDateString('pt-BR') : new Date(userProfile.dateOfBirth).toLocaleDateString('pt-BR')) :
+                        ((userProfile.dateOfBirth as any).toDate ? (userProfile.dateOfBirth as any).toDate().toLocaleDateString('pt-BR') : new Date(userProfile.dateOfBirth).toLocaleDateString('pt-BR')) :
                         getString('notInformed')}
                       left={() => <List.Icon icon="cake" color={COLORS.info[500]} />}
                       titleStyle={[styles.listItemTitle, { color: COLORS.text.primary }]}
@@ -677,15 +661,15 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
                     <List.Item
                       title={getString('address')}
                       description={userProfile?.address ?
-                        `${userProfile.address.street || ''}${userProfile.address.number ? ', ' + userProfile.address.number : ''}
-${userProfile.address.neighborhood ? userProfile.address.neighborhood + ' - ' : ''}${userProfile.address.city || ''}/${userProfile.address.state || ''}
+                        `${userProfile.address.street || ''}${(userProfile.address as any).number ? ', ' + (userProfile.address as any).number : ''}
+${(userProfile.address as any).neighborhood ? (userProfile.address as any).neighborhood + ' - ' : ''}${userProfile.address.city || ''}/${userProfile.address.state || ''}
 ${userProfile.address.zipCode || ''}` :
                         getString('notInformed')
                       }
                       left={() => <List.Icon icon="map-marker" color={COLORS.info[500]} />}
                       titleStyle={[styles.listItemTitle, { color: COLORS.text.primary }]}
                       descriptionStyle={[styles.listItemDescription, { color: COLORS.text.secondary }]}
-                      numberOfLines={3}
+                      descriptionNumberOfLines={3}
                     />
                     <Divider style={[styles.divider, { backgroundColor: COLORS.border.subtle }]} />
 
@@ -802,7 +786,7 @@ ${userProfile.emergencyContact.phone}` :
 
                 <Animated.View entering={FadeInDown.delay(700).springify()} style={{ flex: 1, marginLeft: SPACING.xs }}>
                   <ModernCard variant="medium" style={{ marginHorizontal: 0 }}>
-                    <TouchableOpacity onPress={() => { }} style={{ alignItems: 'center', padding: SPACING.sm }}>
+                    <TouchableOpacity onPress={() => navigation.navigate('CheckIn')} style={{ alignItems: 'center', padding: SPACING.sm }}>
                       <Ionicons name="checkmark-circle-outline" size={32} color={COLORS.success[500]} />
                       <Text style={{ color: COLORS.text.primary, fontWeight: 'bold', marginTop: SPACING.xs, fontSize: 12 }}>{getString('checkIns')}</Text>
                       <Text style={{ color: COLORS.text.secondary, fontSize: 10 }}>{checkInStats.thisWeek}/{checkInStats.total}</Text>

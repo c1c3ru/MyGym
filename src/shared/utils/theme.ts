@@ -400,6 +400,10 @@ export const languages: Record<LanguageCode, any> = {
       successCheck: 'Check-in realizado com sucesso',
       selectClassFirst: 'Selecione uma turma primeiro',
       startCheckIn: 'Iniciar Check-in',
+      manageCheckIns: 'Gerenciar Check-ins',
+      availableClasses: 'Aulas Disponíveis',
+      history: 'Histórico',
+      noCheckIns: 'Nenhum check-in registrado',
 
 
       // CLASS DETAILS
@@ -542,6 +546,21 @@ export const languages: Record<LanguageCode, any> = {
       selectModalityFirst: 'Selecione uma modalidade primeiro',
       invalidDate: 'Data inválida',
       selectDate: 'Selecionar data',
+      myEvolution: 'Minha Evolução',
+      daysInCurrent: 'Dias na Atual',
+      currentGraduationLabel: 'Graduação Atual:',
+      timelineGraduations: 'Timeline de Graduações',
+      instructorLabel: 'Professor:',
+      noGraduationRegisteredYet: 'Nenhuma graduação registrada ainda',
+      graduationsWillAppearHere: 'Suas graduações aparecerão aqui conforme você evolui',
+      nextGoals: 'Próximos Objetivos',
+      maintainFrequency: 'Manter Frequência',
+      maintainFrequencyDetails: 'Continue participando regularmente das aulas',
+      improveTechniques: 'Melhorar Técnicas',
+      improveTechniquesDetails: 'Foque no desenvolvimento técnico',
+      nextGraduation: 'Próxima Graduação',
+      nextGraduationDetails: 'Continue se dedicando para a próxima faixa',
+      dateNotInformed: 'Data não informada',
 
       // PHYSICAL EVALUATION
       physicalEvaluation: 'Avaliação Física',
@@ -1018,6 +1037,10 @@ export const languages: Record<LanguageCode, any> = {
       successCheck: 'Check-in successful',
       selectClassFirst: 'Select a class first',
       startCheckIn: 'Start Check-in',
+      manageCheckIns: 'Manage Check-ins',
+      availableClasses: 'Available Classes',
+      history: 'History',
+      noCheckIns: 'No check-ins registered',
 
 
       // CLASS DETAILS
@@ -1191,6 +1214,21 @@ export const languages: Record<LanguageCode, any> = {
       selectModalityFirst: 'Select a modality first',
       invalidDate: 'Invalid date',
       selectDate: 'Select date',
+      myEvolution: 'My Evolution',
+      daysInCurrent: 'Days in Current',
+      currentGraduationLabel: 'Current Graduation:',
+      timelineGraduations: 'Graduation Timeline',
+      instructorLabel: 'Instructor:',
+      noGraduationRegisteredYet: 'No graduation registered yet',
+      graduationsWillAppearHere: 'Your graduations will appear here as you evolve',
+      nextGoals: 'Next Goals',
+      maintainFrequency: 'Maintain Frequency',
+      maintainFrequencyDetails: 'Continue participating regularly in classes',
+      improveTechniques: 'Improve Techniques',
+      improveTechniquesDetails: 'Focus on technical development',
+      nextGraduation: 'Next Graduation',
+      nextGraduationDetails: 'Continue dedicating yourself for the next belt',
+      dateNotInformed: 'Date not informed',
 
       // PHYSICAL EVALUATION
       physicalEvaluation: 'Physical Evaluation',
@@ -1787,6 +1825,21 @@ export const languages: Record<LanguageCode, any> = {
       selectModalityFirst: 'Seleccione una modalidad primero',
       invalidDate: 'Fecha inválida',
       selectDate: 'Seleccionar fecha',
+      myEvolution: 'Mi Evolución',
+      daysInCurrent: 'Días en la Actual',
+      currentGraduationLabel: 'Graduación Actual:',
+      timelineGraduations: 'Línea de Tiempo de Graduaciones',
+      instructorLabel: 'Instructor:',
+      noGraduationRegisteredYet: 'Ninguna graduación registrada aún',
+      graduationsWillAppearHere: 'Tus graduaciones aparecerán aquí a medida que evoluciones',
+      nextGoals: 'Próximos Objetivos',
+      maintainFrequency: 'Mantener Frecuencia',
+      maintainFrequencyDetails: 'Continúa participando regularmente en las clases',
+      improveTechniques: 'Mejorar Técnicas',
+      improveTechniquesDetails: 'Enfócate en el desarrollo técnico',
+      nextGraduation: 'Próxima Graduación',
+      nextGraduationDetails: 'Continúa dedicándote para el próximo cinturón',
+      dateNotInformed: 'Fecha no informada',
 
       // PHYSICAL EVALUATION
       physicalEvaluation: 'Evaluación Física',

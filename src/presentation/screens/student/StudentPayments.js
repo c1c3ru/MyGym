@@ -13,7 +13,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
-import { paymentService } from '@infrastructure/services/firestoreService';
+import { paymentService, firestoreService } from '@infrastructure/services/firestoreService';
 import { Linking } from 'react-native';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, BORDER_WIDTH } from '@presentation/theme/designTokens';
 
@@ -60,31 +60,55 @@ const StudentPayments = ({ navigation }) => {
     );
   };
 
-  const handleContactWhatsApp = () => {
-    if (!academia?.telefone?.numero) {
-      Alert.alert(getString('error'), getString('whatsappNotFound'));
-      return;
-    }
+  const handleContactWhatsApp = async () => {
+    try {
+      let phoneNumber = academia?.phone;
 
-    const phoneNumber = academia.telefone.numero.replace(/\D/g, ''); // Remove caracteres não numéricos
-    const countryCode = academia.telefone.codigoPais === 'BR' ? '55' : '1'; // Default para Brasil
-    const message = encodeURIComponent(`Olá! Sou ${userProfile?.name || 'um aluno'} e gostaria de tirar dúvidas sobre pagamentos.`);
-
-    const whatsappUrl = `whatsapp://send?phone=${countryCode}${phoneNumber}&text=${message}`;
-    const whatsappWebUrl = `https://wa.me/${countryCode}${phoneNumber}?text=${message}`;
-
-    Linking.canOpenURL(whatsappUrl)
-      .then((supported) => {
-        if (supported) {
-          return Linking.openURL(whatsappUrl);
-        } else {
-          return Linking.openURL(whatsappWebUrl);
+      // Se não tiver telefone na academia, tentar buscar do dono (admin)
+      if (!phoneNumber && academia?.ownerId) {
+        try {
+          const adminProfile = await firestoreService.getById('users', academia.ownerId);
+          if (adminProfile?.phone) {
+            phoneNumber = adminProfile.phone;
+          }
+        } catch (err) {
+          console.log('Erro ao buscar telefone do admin:', err);
         }
-      })
-      .catch((err) => {
-        console.error('Erro ao abrir WhatsApp:', err);
-        Alert.alert(getString('error'), getString('cannotOpenWhatsapp'));
-      });
+      }
+
+      if (!phoneNumber) {
+        Alert.alert(getString('attention'), getString('whatsappNotFound') || 'Contato não cadastrado');
+        return;
+      }
+
+      const cleanPhone = phoneNumber.replace(/\D/g, ''); // Remove caracteres não numéricos
+      // Verifica se o número já tem código do país (assumindo BR +55 se > 11 dígitos ou começa com 55)
+      // Caso simples: Adiciona 55 se parecer um número local
+      const countryCode = cleanPhone.length <= 11 ? '55' : '';
+
+      const fullPhone = `${countryCode}${cleanPhone}`;
+
+      const message = encodeURIComponent(`Olá! Sou ${userProfile?.name || 'um aluno'} e gostaria de tirar dúvidas sobre pagamentos.`);
+
+      const appUrl = `whatsapp://send?phone=${fullPhone}&text=${message}`;
+      const webUrl = `https://wa.me/${fullPhone}?text=${message}`;
+
+      try {
+        const supported = await Linking.canOpenURL(appUrl);
+        if (supported) {
+          await Linking.openURL(appUrl);
+        } else {
+          await Linking.openURL(webUrl);
+        }
+      } catch (linkError) {
+        console.log('Erro ao verificar URL do WhatsApp, tentando link web:', linkError);
+        // Fallback garantido para web em caso de erro no check
+        await Linking.openURL(webUrl);
+      }
+    } catch (error) {
+      console.error('Erro ao abrir WhatsApp:', error);
+      Alert.alert(getString('error'), getString('cannotOpenWhatsapp') || 'Não foi possível abrir o WhatsApp');
+    }
   };
 
   const getStatusColor = (status) => {

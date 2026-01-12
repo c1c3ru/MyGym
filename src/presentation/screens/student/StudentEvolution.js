@@ -139,7 +139,7 @@ const StudentEvolution = ({ navigation }) => {
           <Card.Content>
             <View style={styles.cardHeader}>
               <Ionicons name="trophy-outline" size={24} color={COLORS.warning[300]} />
-              <Text style={[styles.cardTitle, styles.title]}>Minha Evolução</Text>
+              <Text style={[styles.cardTitle, styles.title]}>{getString('myEvolution')}</Text>
             </View>
 
             <View style={styles.statsGrid}>
@@ -155,12 +155,12 @@ const StudentEvolution = ({ navigation }) => {
 
               <Surface style={styles.statItem}>
                 <Text style={styles.statNumber}>{stats.timeInCurrentGraduation}</Text>
-                <Text style={styles.statLabel}>Dias na Atual</Text>
+                <Text style={styles.statLabel}>{getString('daysInCurrent')}</Text>
               </Surface>
             </View>
 
             <View style={styles.currentGraduation}>
-              <Text style={styles.currentLabel}>Graduação Atual:</Text>
+              <Text style={styles.currentLabel}>{getString('currentGraduationLabel')}</Text>
               <Chip
                 mode="outlined"
                 style={[
@@ -183,7 +183,7 @@ const StudentEvolution = ({ navigation }) => {
           <Card.Content>
             <View style={styles.cardHeader}>
               <Ionicons name="git-branch-outline" size={24} color={COLORS.info[500]} />
-              <Text style={[styles.cardTitle, styles.title]}>Timeline de Graduações</Text>
+              <Text style={[styles.cardTitle, styles.title]}>{getString('timelineGraduations')}</Text>
             </View>
 
             {graduations.length > 0 ? (
@@ -208,7 +208,7 @@ const StudentEvolution = ({ navigation }) => {
 
                     {graduation.instructor && (
                       <Text style={styles.instructorText}>
-                        Professor: {graduation.instructor}
+                        {getString('instructorLabel')} {graduation.instructor}
                       </Text>
                     )}
 
@@ -228,10 +228,10 @@ const StudentEvolution = ({ navigation }) => {
               <View style={styles.emptyState}>
                 <Ionicons name="medal-outline" size={48} color={COLORS.gray[300]} />
                 <Text style={[styles.emptyText, styles.paragraph]}>
-                  Nenhuma graduação registrada ainda
+                  {getString('noGraduationRegisteredYet')}
                 </Text>
                 <Text style={[styles.emptySubtext, styles.paragraph]}>
-                  Suas graduações aparecerão aqui conforme você evolui
+                  {getString('graduationsWillAppearHere')}
                 </Text>
               </View>
             )}
@@ -268,24 +268,24 @@ const StudentEvolution = ({ navigation }) => {
           <Card.Content>
             <View style={styles.cardHeader}>
               <Ionicons name="flag-outline" size={24} color={COLORS.warning[500]} />
-              <Text style={[styles.cardTitle, styles.title]}>Próximos Objetivos</Text>
+              <Text style={[styles.cardTitle, styles.title]}>{getString('nextGoals')}</Text>
             </View>
 
             <List.Item
               title={getString('maintainFrequency')}
-              description="Continue participando regularmente das aulas"
+              description={getString('maintainFrequencyDetails')}
               left={() => <List.Icon icon="check-circle-outline" color={COLORS.success[500]} />}
             />
 
             <List.Item
               title={getString('improveTechniques')}
-              description="Foque no desenvolvimento técnico"
+              description={getString('improveTechniquesDetails')}
               left={() => <List.Icon icon="trending-up" color={COLORS.info[500]} />}
             />
 
             <List.Item
               title={getString('nextGraduation')}
-              description="Continue se dedicando para a próxima faixa"
+              description={getString('nextGraduationDetails')}
               left={() => <List.Icon icon="trophy" color={COLORS.warning[300]} />}
             />
           </Card.Content>

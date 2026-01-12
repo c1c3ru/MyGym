@@ -1,16 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Text, Alert, Dimensions, ScrollView } from 'react-native';
-import { ActivityIndicator, Card, FAB, Surface, Avatar, Button, Chip } from 'react-native-paper';
+import React, { useState, useEffect, useRef } from 'react';
+import { View, StyleSheet, ScrollView, Alert, Platform, Animated } from 'react-native';
+import { ActivityIndicator, Avatar, Chip, Text, Button } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
+
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
-import { useCustomClaims } from '@hooks/useCustomClaims';
 import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
-import { COLORS, BORDER_RADIUS, FONT_SIZE, FONT_WEIGHT, SPACING } from '@presentation/theme/designTokens';
-import { useThemeToggle } from '@contexts/ThemeToggleContext';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { getAuthGradient } from '@presentation/theme/authTheme';
+import ModernCard from '@components/modern/ModernCard';
+import AnimatedButton from '@components/AnimatedButton';
+import EnhancedErrorBoundary from '@components/EnhancedErrorBoundary';
+
 import type { NavigationProp } from '@react-navigation/native';
-import { getString } from "@utils/theme";
 
 interface CheckInScreenProps {
   navigation: NavigationProp<any>;
@@ -24,18 +28,67 @@ interface CheckIn {
   studentId?: string;
 }
 
+interface ClassSchedule {
+  day: string;
+  startTime: string;
+  endTime: string;
+}
+
 interface ClassInfo {
   id: string;
   name: string;
   modality: string;
+  schedule?: ClassSchedule[];
+  days?: string[]; // Legacy support or simplified view
+  instructorName?: string;
 }
 
-const CheckInScreen: React.FC<CheckInScreenProps> = ({ navigation }) => {
-  const { theme: colors } = useTheme();
+const AnimatedModernCard = ({ children, delay = 0, variant = 'card', style = {} }: any) => {
+  const slideAnim = useRef(new Animated.Value(20)).current;
+  const opacityAnim = useRef(new Animated.Value(0)).current;
 
-  const { user, userProfile, academia } = useAuthFacade();
-  const { getUserTypeColor } = useCustomClaims();
+  useEffect(() => {
+    Animated.parallel([
+      Animated.timing(slideAnim, {
+        toValue: 0,
+        duration: 500,
+        delay,
+        useNativeDriver: Platform.OS !== 'web',
+      }),
+      Animated.timing(opacityAnim, {
+        toValue: 1,
+        duration: 500,
+        delay,
+        useNativeDriver: Platform.OS !== 'web',
+      }),
+    ]).start();
+  }, [delay, slideAnim, opacityAnim]);
+
+  return (
+    <Animated.View style={{ opacity: opacityAnim, transform: [{ translateY: slideAnim as any }] }}>
+      <ModernCard variant={variant as any} style={[styles.card, style]}>
+        {children}
+      </ModernCard>
+    </Animated.View>
+  );
+};
+
+const formatSchedule = (schedule?: ClassSchedule[], days?: string[]) => {
+  if (schedule && schedule.length > 0) {
+    return schedule.map(s => `${s.day.slice(0, 3)} ${s.startTime}-${s.endTime}`).join(' • ');
+  }
+  if (days && days.length > 0) {
+    return days.join(' • ');
+  }
+  return 'Horário não definido';
+};
+
+const CheckInScreen: React.FC<CheckInScreenProps> = ({ navigation }) => {
+  const { getString, isDarkMode } = useTheme();
+  const { user, academia } = useAuthFacade();
+
   const [loading, setLoading] = useState(false);
+  const [initialLoading, setInitialLoading] = useState(true);
   const [checkIns, setCheckIns] = useState<CheckIn[]>([]);
   const [availableClasses, setAvailableClasses] = useState<ClassInfo[]>([]);
 
@@ -47,7 +100,6 @@ const CheckInScreen: React.FC<CheckInScreenProps> = ({ navigation }) => {
           setCheckIns(history);
         }
 
-        // Se academiaId for fornecida, buscar aulas
         if (academia?.id) {
           const classes = await academyFirestoreService.getClasses(academia.id) as ClassInfo[];
           setAvailableClasses(classes);
@@ -55,7 +107,7 @@ const CheckInScreen: React.FC<CheckInScreenProps> = ({ navigation }) => {
       } catch (error) {
         console.error('Erro ao carregar dados de check-in:', error);
       } finally {
-        setLoading(false);
+        setInitialLoading(false);
       }
     };
 
@@ -77,7 +129,6 @@ const CheckInScreen: React.FC<CheckInScreenProps> = ({ navigation }) => {
 
       Alert.alert(getString('success'), getString('checkInSuccess'));
 
-      // Atualizar histórico
       if (user?.id) {
         const history = await academyFirestoreService.getCheckInHistory(user.id, academia?.id) as CheckIn[];
         setCheckIns(history);
@@ -90,223 +141,163 @@ const CheckInScreen: React.FC<CheckInScreenProps> = ({ navigation }) => {
     }
   };
 
+  if (initialLoading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color={COLORS.primary[500]} />
+      </View>
+    );
+  }
+
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        <View style={styles.header}>
-          <Text style={[styles.title, { color: colors.text }]}>
-            {getString('checkIn')}
-          </Text>
-          <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
-            {getString('manageCheckIns')}
-          </Text>
-        </View>
+    <EnhancedErrorBoundary errorContext={{ screen: 'CheckInScreen' }}>
+      <LinearGradient colors={getAuthGradient(isDarkMode) as any} style={styles.gradient}>
+        <SafeAreaView style={styles.container}>
+          <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
 
-        <Card style={styles.todayCard}>
-          <Card.Content style={styles.todayContent}>
-            <Avatar.Icon
-              size={48}
-              icon="calendar-check"
-              style={[styles.todayAvatar, { backgroundColor: COLORS.primary[500] }]}
-            />
-            <View style={styles.todayInfo}>
-              <Text style={[styles.todayTitle, { color: colors.text }]}>
-                {getString('today')}
-              </Text>
-              <Text style={[styles.todaySubtitle, { color: colors.textSecondary }]}>
-                {new Date().toLocaleDateString(getString('localeCode') || 'pt-BR')}
-              </Text>
+            <View style={styles.header}>
+              <Text style={styles.title}>{getString('checkIn')}</Text>
+              <Text style={styles.subtitle}>{getString('manageCheckIns')}</Text>
             </View>
-            <Button
-              mode="contained"
-              onPress={() => handleCheckIn()}
-              loading={loading}
-              disabled={loading}
-              buttonColor={COLORS.primary[500]}
-            >
-              Check-In
-            </Button>
-          </Card.Content>
-        </Card>
 
-        {availableClasses.length > 0 && (
-          <View style={styles.section}>
-            <View style={styles.sectionHeader}>
-              <Ionicons name={"time-outline" as any} size={24} color={COLORS.primary[500]} />
-              <Text style={[styles.sectionTitle, { color: colors.text }]}>
-                {getString('availableClasses')}
-              </Text>
-            </View>
-            {availableClasses.map((item) => (
-              <Card key={item.id} style={styles.classItem}>
-                <View style={styles.classInfo}>
-                  <View style={styles.classDetails}>
-                    <Text style={[styles.className, { color: colors.text }]}>{item.name}</Text>
-                    <Text style={[styles.classModality, { color: colors.textSecondary }]}>{item.modality}</Text>
+            {/* Card de Hoje / Ação Rápida */}
+            <AnimatedModernCard delay={0} variant="premium">
+              <View style={styles.todayContent}>
+                <View style={styles.todayHeader}>
+                  <Avatar.Icon size={48} icon="calendar-check" style={styles.todayAvatar} color={COLORS.white} />
+                  <View style={styles.todayInfo}>
+                    <Text style={styles.todayTitle}>{getString('today')}</Text>
+                    <Text style={styles.todaySubtitle}>{new Date().toLocaleDateString('pt-BR')}</Text>
                   </View>
-                  <Button
-                    mode="outlined"
-                    onPress={() => handleCheckIn(item)}
-                    textColor={COLORS.primary[500]}
-                    style={{ borderColor: COLORS.primary[500] }}
-                  >
-                    Check-In
-                  </Button>
                 </View>
-              </Card>
-            ))}
-          </View>
-        )}
 
-        <View style={styles.section}>
-          <View style={styles.sectionHeader}>
-            <Ionicons name={"history-outline" as any} size={24} color={COLORS.primary[500]} />
-            <Text style={[styles.sectionTitle, { color: colors.text }]}>
-              {getString('history')}
-            </Text>
-          </View>
-          {checkIns.length > 0 ? (
-            checkIns.map((item) => (
-              <Card key={item.id} style={styles.historyItem}>
-                <Card.Content style={styles.historyContent}>
-                  <View>
-                    <Text style={[styles.historyClass, { color: colors.text }]}>{item.className}</Text>
-                    <Text style={[styles.historyDate, { color: colors.textSecondary }]}>
-                      {item.date?.toDate ? item.date.toDate().toLocaleString() : new Date(item.date).toLocaleString()}
-                    </Text>
-                  </View>
-                  <Chip style={{ backgroundColor: COLORS.success[100] }} textStyle={{ color: COLORS.success[700] }}>
-                    {getString('completed')}
-                  </Chip>
-                </Card.Content>
-              </Card>
-            ))
-          ) : (
-            <Text style={[styles.emptyText, { color: colors.textSecondary }]}>
-              {getString('noCheckIns')}
-            </Text>
-          )}
-        </View>
-      </ScrollView>
+                <AnimatedButton
+                  mode="contained"
+                  onPress={() => handleCheckIn()}
+                  loading={loading}
+                  disabled={loading}
+                  style={styles.checkInButton}
+                  icon="check"
+                >
+                  {getString('manualCheckIn')}
+                </AnimatedButton>
+              </View>
+            </AnimatedModernCard>
 
-      <FAB
-        style={[styles.fab, { backgroundColor: COLORS.primary[500] }]}
-        icon="plus"
-        onPress={() => handleCheckIn()}
-        color={COLORS.white}
-      />
-    </SafeAreaView>
+            {/* Aulas Disponíveis */}
+            {availableClasses.length > 0 && (
+              <View style={styles.section}>
+                <View style={styles.sectionHeader}>
+                  <Ionicons name="time-outline" size={20} color={COLORS.primary[500]} />
+                  <Text style={styles.sectionTitle}>{getString('availableClasses')}</Text>
+                </View>
+
+                {availableClasses.map((item, index) => (
+                  <AnimatedModernCard key={item.id} delay={100 + (index * 50)} style={styles.classCard}>
+                    <View style={styles.classInfo}>
+                      <View style={styles.classDetails}>
+                        <Text style={styles.className}>{item.name}</Text>
+                        <Text style={styles.classModality}>{item.modality}</Text>
+
+                        <View style={styles.scheduleContainer}>
+                          <Ionicons name="calendar-outline" size={12} color={COLORS.gray[500]} />
+                          <Text style={styles.scheduleText} numberOfLines={1}>
+                            {formatSchedule(item.schedule, item.days)}
+                          </Text>
+                        </View>
+                      </View>
+                      <AnimatedButton
+                        mode="outlined"
+                        onPress={() => handleCheckIn(item)}
+                        style={styles.miniButton}
+                        labelStyle={styles.miniButtonLabel}
+                        compact
+                      >
+                        Check-In
+                      </AnimatedButton>
+                    </View>
+                  </AnimatedModernCard>
+                ))}
+              </View>
+            )}
+
+            {/* Histórico */}
+            <View style={styles.section}>
+              <View style={styles.sectionHeader}>
+                <Ionicons name="list-outline" size={20} color={COLORS.info[500]} />
+                <Text style={[styles.sectionTitle, { color: COLORS.info[500] }]}>{getString('history')}</Text>
+              </View>
+
+              {checkIns.length > 0 ? (
+                checkIns.map((item, index) => (
+                  <AnimatedModernCard key={item.id || index} delay={300 + (index * 50)} variant="subtle" style={styles.historyCard}>
+                    <View style={styles.historyContent}>
+                      <View>
+                        <Text style={styles.historyClass}>{item.className}</Text>
+                        <Text style={styles.historyDate}>
+                          {item.date?.toDate ? item.date.toDate().toLocaleString() : new Date(item.date).toLocaleString()}
+                        </Text>
+                      </View>
+                      <Chip
+                        style={{ backgroundColor: COLORS.success[500] + '20' }}
+                        textStyle={{ color: COLORS.success[500], fontSize: 10, fontWeight: 'bold' }}
+                      >
+                        {getString('present')}
+                      </Chip>
+                    </View>
+                  </AnimatedModernCard>
+                ))
+              ) : (
+                <Text style={styles.emptyText}>{getString('noCheckIns')}</Text>
+              )}
+            </View>
+
+          </ScrollView>
+        </SafeAreaView>
+      </LinearGradient>
+    </EnhancedErrorBoundary>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  scrollContent: {
-    padding: SPACING.lg,
-  },
-  header: {
-    marginBottom: SPACING.xl,
-  },
-  title: {
-    fontSize: FONT_SIZE.xxl,
-    fontWeight: FONT_WEIGHT.bold,
-  },
-  subtitle: {
-    fontSize: FONT_SIZE.md,
-    marginTop: SPACING.xs,
-  },
-  todayCard: {
-    marginBottom: SPACING.xl,
-    elevation: 4,
-    borderRadius: BORDER_RADIUS.lg,
-  },
-  todayContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: SPACING.md,
-  },
-  todayAvatar: {
-    marginRight: SPACING.md,
-  },
-  todayInfo: {
-    flex: 1,
-  },
-  todayTitle: {
-    fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.bold,
-    marginBottom: SPACING.xs,
-  },
-  todaySubtitle: {
-    fontSize: FONT_SIZE.base,
-    marginBottom: SPACING.sm,
-  },
-  section: {
-    marginBottom: SPACING.xl,
-  },
-  sectionHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: SPACING.md,
-  },
-  sectionTitle: {
-    fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.bold,
-    marginLeft: SPACING.sm,
-  },
-  classItem: {
-    padding: SPACING.md,
-    marginBottom: SPACING.sm,
-    borderRadius: BORDER_RADIUS.md,
-    elevation: 2,
-  },
-  classInfo: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  classDetails: {
-    flex: 1,
-  },
-  className: {
-    fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semibold,
-    marginBottom: SPACING.xs,
-  },
-  classModality: {
-    fontSize: FONT_SIZE.base,
-  },
-  historyItem: {
-    marginBottom: SPACING.sm,
-    borderRadius: BORDER_RADIUS.md,
-    elevation: 1,
-  },
-  historyContent: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  historyClass: {
-    fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.medium,
-  },
-  historyDate: {
-    fontSize: FONT_SIZE.sm,
-    marginTop: 2,
-  },
-  emptyText: {
-    textAlign: 'center',
-    marginTop: SPACING.lg,
-    fontSize: FONT_SIZE.base,
-    fontStyle: 'italic',
-  },
-  fab: {
-    position: 'absolute',
-    margin: 16,
-    right: 0,
-    bottom: 0,
-  },
+  gradient: { flex: 1 },
+  container: { flex: 1 },
+  loadingContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+  scrollContent: { padding: SPACING.lg, paddingBottom: 100 },
+  header: { marginBottom: SPACING.lg },
+  title: { fontSize: FONT_SIZE.xxl, fontWeight: 'bold', color: COLORS.white },
+  subtitle: { fontSize: FONT_SIZE.md, color: COLORS.gray[400], marginTop: SPACING.xs },
+  card: { marginBottom: SPACING.sm, borderRadius: BORDER_RADIUS.lg },
+
+  todayContent: { padding: SPACING.xs },
+  todayHeader: { flexDirection: 'row', alignItems: 'center', marginBottom: SPACING.md },
+  todayAvatar: { backgroundColor: COLORS.primary[500] },
+  todayInfo: { marginLeft: SPACING.md },
+  todayTitle: { fontSize: FONT_SIZE.lg, fontWeight: 'bold', color: COLORS.white },
+  todaySubtitle: { fontSize: FONT_SIZE.md, color: COLORS.gray[300] },
+  checkInButton: { width: '100%' },
+
+  section: { marginTop: SPACING.xl },
+  sectionHeader: { flexDirection: 'row', alignItems: 'center', marginBottom: SPACING.md, gap: SPACING.xs },
+  sectionTitle: { fontSize: FONT_SIZE.md, fontWeight: 'bold', color: COLORS.primary[500], textTransform: 'uppercase', letterSpacing: 1 },
+
+  classCard: { marginBottom: SPACING.sm },
+  classInfo: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  classDetails: { flex: 1, paddingRight: SPACING.sm },
+  className: { fontSize: FONT_SIZE.md, fontWeight: 'bold', color: COLORS.text.primary },
+  classModality: { fontSize: FONT_SIZE.sm, color: COLORS.text.secondary, marginBottom: 2 },
+  scheduleContainer: { flexDirection: 'row', alignItems: 'center', marginTop: 4, gap: 4 },
+  scheduleText: { fontSize: FONT_SIZE.sm, color: COLORS.gray[500] },
+
+  miniButton: { height: 36 },
+  miniButtonLabel: { fontSize: 12 },
+
+  historyCard: { marginBottom: SPACING.xs },
+  historyContent: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  historyClass: { fontSize: FONT_SIZE.md, fontWeight: '600', color: COLORS.text.primary },
+  historyDate: { fontSize: FONT_SIZE.sm, color: COLORS.text.secondary, marginTop: 2 },
+
+  emptyText: { textAlign: 'center', color: COLORS.gray[500], fontStyle: 'italic', marginTop: SPACING.md },
 });
 
 export default CheckInScreen;

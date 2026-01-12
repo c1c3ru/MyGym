@@ -27,6 +27,7 @@ import PhysicalEvaluationScreen from '@screens/shared/PhysicalEvaluationScreen';
 import PhysicalEvaluationHistoryScreen from '@screens/shared/PhysicalEvaluationHistoryScreen';
 import NotificationSettingsScreen from '@screens/shared/NotificationSettingsScreen';
 import PrivacySettingsScreen from '@screens/shared/PrivacySettingsScreen';
+import SettingsScreen from '@screens/shared/SettingsScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -253,6 +254,21 @@ const InstructorNavigator = () => {
           header: ({ navigation }) => (
             <UniversalHeader
               title="Profile"
+              navigation={navigation}
+              showBack={true}
+              backgroundColor={COLORS.secondary[500]}
+            />
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="Settings"
+        component={SettingsScreen}
+        options={{
+          headerShown: true,
+          header: ({ navigation }) => (
+            <UniversalHeader
+              title={getString('settings')}
               navigation={navigation}
               showBack={true}
               backgroundColor={COLORS.secondary[500]}
