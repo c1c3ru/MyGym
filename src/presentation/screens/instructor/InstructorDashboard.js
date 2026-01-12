@@ -53,6 +53,7 @@ import { hexToRgba } from "@shared/utils/colorUtils";
 import { useOnboarding } from "@components/OnboardingTour";
 
 const InstructorDashboard = ({ navigation }) => {
+  const { theme: profileTheme } = require("../../../contexts/ProfileThemeContext").useProfileTheme(); // 🎨 Tema Roxo/Verde
   const { user, userProfile } = useAuthFacade();
   const { getString } = useTheme();
   const { animations, startEntryAnimation } = useAnimation();
@@ -385,7 +386,7 @@ const InstructorDashboard = ({ navigation }) => {
       }}
     >
       <LinearGradient
-        colors={["#1E1E1E", "#121212", "#000000"]}
+        colors={profileTheme.gradients.hero}
         style={{ flex: 1 }}
       >
         <SafeAreaView
@@ -403,8 +404,8 @@ const InstructorDashboard = ({ navigation }) => {
               <RefreshControl
                 refreshing={refreshing}
                 onRefresh={onRefresh}
-                colors={[COLORS.primary[500]]}
-                tintColor={COLORS.primary[500]}
+                colors={[profileTheme.primary[500]]}
+                tintColor={profileTheme.primary[500]}
               />
             }
             contentContainerStyle={{ paddingBottom: SPACING.xl }}
@@ -414,9 +415,9 @@ const InstructorDashboard = ({ navigation }) => {
               <View style={styles.headerContainer}>
                 <LinearGradient
                   colors={[
-                    COLORS.primary[500],
-                    COLORS.primary[600],
-                    COLORS.primary[700],
+                    profileTheme.primary[500],
+                    profileTheme.primary[600],
+                    profileTheme.primary[700],
                   ]}
                   start={{ x: 0, y: 0 }}
                   end={{ x: 1, y: 1 }}
@@ -447,7 +448,7 @@ const InstructorDashboard = ({ navigation }) => {
                         <MaterialCommunityIcons
                           name="circle"
                           size={8}
-                          color={COLORS.primary[500]}
+                          color={profileTheme.primary[500]}
                         />
                         <Text style={styles.statusText}>
                           {getString("online")}
@@ -475,7 +476,7 @@ const InstructorDashboard = ({ navigation }) => {
                   <MaterialCommunityIcons
                     name="school-outline"
                     size={32}
-                    color={COLORS.primary[400]}
+                    color={profileTheme.primary[400]}
                   />
                   <Text style={styles.statNumber}>
                     {dashboardData.myClasses.length}
@@ -624,7 +625,7 @@ const InstructorDashboard = ({ navigation }) => {
                             }
                             style={styles.timelineButton}
                             compact
-                            buttonColor={COLORS.primary[600]}
+                            buttonColor={profileTheme.primary[600]}
                             textColor={COLORS.white}
                           >
                             {getString("manageClass")}
@@ -686,7 +687,7 @@ const InstructorDashboard = ({ navigation }) => {
                       <MaterialCommunityIcons
                         name="calendar-plus"
                         size={28}
-                        color={COLORS.primary[400]}
+                        color={profileTheme.primary[400]}
                       />
                       <Text style={styles.actionTitle}>
                         {getString("scheduleClasses")}
@@ -717,7 +718,7 @@ const InstructorDashboard = ({ navigation }) => {
                           }
                         }}
                         style={styles.modernActionButton}
-                        buttonColor={COLORS.primary[600]}
+                        buttonColor={profileTheme.primary[600]}
                         textColor={COLORS.white}
                         compact
                       >
@@ -817,7 +818,7 @@ const InstructorDashboard = ({ navigation }) => {
                     loading={loadingAnnouncements}
                     compact
                     style={styles.refreshButton}
-                    textColor={COLORS.primary[400]}
+                    textColor={profileTheme.primary[400]}
                   >
                     {loadingAnnouncements ? "" : getString("update")}
                   </AnimatedButton>
@@ -827,7 +828,7 @@ const InstructorDashboard = ({ navigation }) => {
                   <View style={styles.loadingContainer}>
                     <ActivityIndicator
                       size="small"
-                      color={COLORS.primary[400]}
+                      color={profileTheme.primary[400]}
                     />
                     <Text style={styles.loadingText}>
                       {getString("loadingAnnouncements")}
@@ -870,7 +871,7 @@ const InstructorDashboard = ({ navigation }) => {
                             <MaterialCommunityIcons
                               name="check-all"
                               size={16}
-                              color={COLORS.primary[400]}
+                              color={profileTheme.primary[400]}
                             />
                           )}
                         </View>
@@ -970,7 +971,7 @@ const InstructorDashboard = ({ navigation }) => {
                     /* Implementar histórico completo */
                   }}
                   style={styles.viewAllButton}
-                  textColor={COLORS.primary[400]}
+                  textColor={profileTheme.primary[400]}
                 >
                   {getString("viewAllGraduations")}
                 </AnimatedButton>
@@ -1248,10 +1249,10 @@ const styles = StyleSheet.create({
     width: 12,
     height: 12,
     borderRadius: BORDER_RADIUS.full,
-    backgroundColor: COLORS.primary[500],
+    backgroundColor: profileTheme.primary[500],
     marginTop: 6,
     marginRight: ResponsiveUtils.spacing.md,
-    shadowColor: COLORS.primary[500],
+    shadowColor: profileTheme.primary[500],
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.5,
     shadowRadius: 8,

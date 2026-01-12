@@ -1,11 +1,11 @@
-import React from 'react';
-import { Platform } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import React from "react";
+import { Platform } from "react-native";
+import { StatusBar } from "expo-status-bar";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 // Injetar estilos globais para Web para garantir altura total
-if (Platform.OS === 'web' && typeof document !== 'undefined') {
-  const style = document.createElement('style');
+if (Platform.OS === "web" && typeof document !== "undefined") {
+  const style = document.createElement("style");
   style.textContent = `
     html, body, #root {
       height: 100%;
@@ -17,16 +17,15 @@ if (Platform.OS === 'web' && typeof document !== 'undefined') {
   document.head.appendChild(style);
 }
 
-
-import { ThemeProvider } from './src/presentation/contexts/ThemeContext';
-import { ThemeToggleProvider } from './src/presentation/contexts/ThemeToggleContext';
-import { ProfileThemeProvider } from './src/contexts/ProfileThemeContext';
-import { AuthProvider } from './src/presentation/contexts/AuthProvider';
-import { NotificationProvider } from './src/presentation/contexts/NotificationContext';
-import { UndoProvider } from './src/presentation/components/UndoManager';
-import { OnboardingProvider } from './src/presentation/components/OnboardingTour';
-import EnhancedErrorBoundary from './src/presentation/components/ErrorBoundary';
-import AppNavigator from './src/presentation/navigation/AppNavigator';
+import { ThemeProvider } from "./src/presentation/contexts/ThemeContext";
+import { ThemeToggleProvider } from "./src/presentation/contexts/ThemeToggleContext";
+import { ProfileThemeProvider } from "./src/contexts/ProfileThemeContext";
+import { AuthProvider } from "./src/presentation/contexts/AuthProvider";
+import { NotificationProvider } from "./src/presentation/contexts/NotificationContext";
+import { UndoProvider } from "./src/presentation/components/UndoManager";
+import { OnboardingProvider } from "./src/presentation/components/OnboardingTour";
+import EnhancedErrorBoundary from "./src/presentation/components/ErrorBoundary";
+import AppNavigator from "./src/presentation/navigation/AppNavigator";
 
 export default function App() {
   return (
@@ -35,7 +34,6 @@ export default function App() {
         <ThemeToggleProvider>
           <ThemeProvider>
             <NotificationProvider>
-
               <AuthProvider>
                 <ProfileThemeProvider>
                   <UndoProvider>
@@ -46,7 +44,6 @@ export default function App() {
                   </UndoProvider>
                 </ProfileThemeProvider>
               </AuthProvider>
-
             </NotificationProvider>
           </ThemeProvider>
         </ThemeToggleProvider>

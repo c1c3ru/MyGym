@@ -48,6 +48,7 @@ import { hexToRgba } from "@shared/utils/colorUtils";
 import { useOnboarding } from "@components/OnboardingTour";
 import { getString } from "@utils/theme";
 
+  const { theme: profileTheme } = require("../../../contexts/ProfileThemeContext").useProfileTheme(); // 🎨 Tema Azul/Vermelho
 const AdminDashboard = ({ navigation }) => {
   const { user, userProfile, logout, academia } = useAuthFacade();
   const { animations, startEntryAnimation } = useAnimation();
@@ -267,11 +268,11 @@ const AdminDashboard = ({ navigation }) => {
 
   const getActivityColor = (type) => {
     const colors = {
-      new_student: COLORS.primary[500],
+      new_student: profileTheme.primary[500],
       payment: COLORS.info[500],
       graduation: COLORS.warning[300],
       class: COLORS.warning[500],
-      announcement: COLORS.secondary[500],
+      announcement: profileTheme.secondary[500],
     };
     return colors[type] || COLORS.gray[500];
   };
@@ -431,7 +432,7 @@ const AdminDashboard = ({ navigation }) => {
             <Animated.View style={[headerTransform]}>
               <View style={styles.headerContainer}>
                 <LinearGradient
-                  colors={[COLORS.primary[600], COLORS.primary[800]]}
+                  colors={[profileTheme.primary[600], COLORS.primary[800]]}
                   start={{ x: 0, y: 0 }}
                   end={{ x: 1, y: 1 }}
                   style={styles.headerGradient}
@@ -873,7 +874,7 @@ const AdminDashboard = ({ navigation }) => {
                     /* Implementar histórico completo */
                   }}
                   style={styles.viewAllButton}
-                  textColor={COLORS.primary[400]}
+                  textColor={profileTheme.primary[400]}
                 >
                   {getString("viewAllActivities")}
                 </AnimatedButton>
