@@ -54,7 +54,7 @@ const PhysicalEvaluationHistoryScreen = ({ navigation }: PhysicalEvaluationHisto
 
       const evaluationData = await academyFirestoreService.getWhere(
         'physicalEvaluations',
-        'userId',
+        'studentId',
         '==',
         user.id,
         academiaId

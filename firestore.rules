@@ -9,13 +9,28 @@ service cloud.firestore {
       // Usuário pode ler e escrever seus próprios dados
       allow read, write: if request.auth != null && request.auth.uid == userId;
       
-      // Admin pode ler usuários da mesma academia (para gerenciamento)
+      // Admin e instrutor podem ler usuários da mesma academia (para gerenciamento)
       allow read: if request.auth != null && 
-                     isAdmin() && 
+                     isAdminOrInstructor() && 
                      hasValidAcademia() &&
                      (resource == null || 
                       !exists(/databases/$(database)/documents/users/$(userId)) ||
                       resource.data.academiaId == getAcademiaId());
+    }
+    
+    // ============================================================================
+    // COLEÇÃO GLOBAL DE CONVITES
+    // ============================================================================
+    match /invites/{inviteId} {
+      // Qualquer um pode ler um convite se souber o ID/token
+      // (Validação lógica feita no backend/frontend)
+      allow read: if true;
+      
+      // Apenas admin pode criar e deletar convites
+      allow create, delete: if request.auth != null && isAdmin();
+      
+      // Usuário pode atualizar o convite para marcar como usado
+      allow update: if request.auth != null;
     }
     
     // ============================================================================
@@ -130,7 +145,7 @@ service cloud.firestore {
       allow read: if request.auth != null && 
                      hasValidAcademia() &&
                      gymId == getAcademiaId() && 
-                     isAdminOrInstructor();
+                     (isAdminOrInstructor() || (isStudent() && resource.data.studentId == request.auth.uid));
       
       // Instrutor pode criar check-ins para suas turmas
       allow create: if request.auth != null && 
@@ -223,12 +238,17 @@ service cloud.firestore {
                            gymId == getAcademiaId() && 
                            isAdmin();
       
-      // Instrutor pode ler APENAS seus próprios dados
+      // Instrutor e aluno podem ler instrutores da própria academia
       allow read: if request.auth != null && 
                      hasValidAcademia() &&
                      gymId == getAcademiaId() && 
-                     isInstructor() && 
-                     request.auth.uid == instructorId;
+                     (isInstructor() || isStudent());
+      
+      // Instrutor pode atualizar apenas seus próprios dados (geralmente via Admin)
+      allow write: if request.auth != null && 
+                      hasValidAcademia() &&
+                      gymId == getAcademiaId() && 
+                      isAdmin();
     }
     
     // Avaliações físicas da academia
@@ -254,6 +274,38 @@ service cloud.firestore {
                      (resource == null || resource.data.studentId == request.auth.uid);
     }
     
+    // Avaliações gerais da academia
+    match /gyms/{gymId}/evaluations/{evaluationId} {
+      allow read, write: if request.auth != null && 
+                            hasValidAcademia() &&
+                            gymId == getAcademiaId() && 
+                            isAdmin();
+      allow read: if request.auth != null && 
+                     hasValidAcademia() &&
+                     gymId == getAcademiaId() && 
+                     (isInstructor() || (isStudent() && resource.data.studentId == request.auth.uid));
+      allow create: if request.auth != null && 
+                       hasValidAcademia() &&
+                       gymId == getAcademiaId() && 
+                       isInstructor();
+    }
+    
+    // Agendamentos de avaliação
+    match /gyms/{gymId}/evaluation_schedules/{scheduleId} {
+      allow read: if request.auth != null && 
+                     hasValidAcademia() &&
+                     gymId == getAcademiaId() && 
+                     (isAdminOrInstructor() || resource.data.studentId == request.auth.uid);
+      allow create: if request.auth != null && 
+                       hasValidAcademia() &&
+                       gymId == getAcademiaId() && 
+                       isAdminOrInstructor();
+      allow update, delete: if request.auth != null && 
+                               hasValidAcademia() &&
+                               gymId == getAcademiaId() && 
+                               isAdminOrInstructor();
+    }
+
     // Lesões da academia
     match /gyms/{gymId}/injuries/{injuryId} {
       // Admin pode ler e escrever todas as lesões da própria academia
@@ -278,6 +330,33 @@ service cloud.firestore {
                             (request.resource == null || validateInjuryData());
     }
     
+    // Eventos da academia
+    match /gyms/{gymId}/events/{eventId} {
+      allow read: if request.auth != null && 
+                     hasValidAcademia() &&
+                     gymId == getAcademiaId();
+      allow write: if request.auth != null && 
+                      hasValidAcademia() &&
+                      gymId == getAcademiaId() && 
+                      isAdmin();
+    }
+    
+    // Inscrições em eventos
+    match /gyms/{gymId}/eventRegistrations/{regId} {
+      allow read: if request.auth != null && 
+                     hasValidAcademia() &&
+                     gymId == getAcademiaId() &&
+                     (isAdminOrInstructor() || resource.data.studentId == request.auth.uid);
+      allow create: if request.auth != null && 
+                       hasValidAcademia() &&
+                       gymId == getAcademiaId() &&
+                       request.resource.data.studentId == request.auth.uid;
+      allow delete: if request.auth != null && 
+                       hasValidAcademia() &&
+                       gymId == getAcademiaId() &&
+                       resource.data.studentId == request.auth.uid;
+    }
+
     // Notificações da academia
     match /gyms/{gymId}/notifications/{notificationId} {
       // Admin pode ler e escrever todas as notificações da própria academia

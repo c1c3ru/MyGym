@@ -32,7 +32,7 @@ const StudentPayments = ({ navigation }) => {
   const loadPayments = async () => {
     try {
       setLoading(true);
-      const userPayments = await paymentService.getPaymentsByStudent(user.id);
+      const userPayments = await paymentService.getPaymentsByStudent(user.id, academia?.id);
       setPayments(userPayments);
 
       // Encontrar pagamento atual (mais recente)

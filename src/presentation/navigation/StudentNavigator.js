@@ -84,6 +84,8 @@ const StudentNavigator = () => {
 
 // Stack Navigator para Student (para incluir telas modais e de perfil)
 const StudentStackNavigator = () => {
+  const { getString } = useTheme();
+
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -100,7 +102,7 @@ const StudentStackNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title="Profile"
+              title={getString('profile')}
               navigation={navigation}
               showBack={true}
               backgroundColor={COLORS.info[500]}
@@ -115,7 +117,7 @@ const StudentStackNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title="ChangePassword"
+              title={getString('changePassword')}
               navigation={navigation}
               showBack={true}
               backgroundColor={COLORS.info[500]}
@@ -130,7 +132,7 @@ const StudentStackNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title="Avaliação Física"
+              title={getString('physicalEvaluation')}
               navigation={navigation}
               showBack={true}
               backgroundColor={COLORS.info[500]}
@@ -145,7 +147,7 @@ const StudentStackNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title="evaluationHistory"
+              title={getString('evaluationHistory')}
               navigation={navigation}
               showBack={true}
               backgroundColor={COLORS.info[500]}
@@ -160,7 +162,7 @@ const StudentStackNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title="NotificationSettings"
+              title={getString('notificationSettings')}
               navigation={navigation}
               showBack={true}
               backgroundColor={COLORS.info[500]}
@@ -175,7 +177,7 @@ const StudentStackNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title="privacyAndSecurity"
+              title={getString('privacyAndSecurity')}
               navigation={navigation}
               showBack={true}
               backgroundColor={COLORS.info[500]}

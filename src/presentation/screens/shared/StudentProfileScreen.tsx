@@ -392,7 +392,7 @@ const styles = StyleSheet.create({
   container: { flex: 1 },
   loadingContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: COLORS.background.default },
   scrollView: { flex: 1 },
-  scrollContent: { padding: SPACING.base, paddingBottom: SPACING.xl * 2 },
+  scrollContent: { padding: SPACING.base, paddingBottom: 150, flexGrow: 1 },
   card: { marginBottom: SPACING.md, borderRadius: BORDER_RADIUS.xl },
   headerRow: { flexDirection: 'row', alignItems: 'center' },
   avatar: { backgroundColor: COLORS.primary[500] },

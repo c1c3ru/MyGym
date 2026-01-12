@@ -17,6 +17,12 @@ import { COLORS } from '@presentation/theme/designTokens';
 
 const Stack = createStackNavigator();
 
+const PROFILE_COLORS = {
+  admin: { primary: COLORS.primary[600] },
+  instructor: { primary: COLORS.secondary[600] },
+  student: { primary: COLORS.info[600] }
+};
+
 // Configurações de header baseadas no tipo de usuário
 const getHeaderColor = (userType) => {
   switch (userType) {

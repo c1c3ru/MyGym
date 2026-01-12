@@ -225,7 +225,7 @@ const PhysicalEvaluationScreen = ({ navigation, route }: PhysicalEvaluationScree
       setLoading(true);
 
       const evaluationData: any = {
-        userId: user.id,
+        studentId: user.id,
         weight: parseFloat(normalizeNumber(formData.weight)),
         height: parseFloat(normalizeNumber(formData.height)),
         age: parseInt(formData.age),

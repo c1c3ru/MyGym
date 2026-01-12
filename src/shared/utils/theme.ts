@@ -207,6 +207,7 @@ export const languages: Record<LanguageCode, any> = {
       configureAppNotifications: 'Configure as notificações do app',
       privacyAndSecurity: 'Privacidade e Segurança',
       privacyLGPDSettings: 'Configurações de privacidade e LGPD',
+      notificationSettings: 'Configurações de Notificação',
       user: 'Usuário',
       confirmLogout: 'Confirmar Saída',
       paymentNearDue: 'Pagamento Próximo do Vencimento',
@@ -263,6 +264,7 @@ export const languages: Record<LanguageCode, any> = {
       announcementPosted: 'Aviso publicado',
 
       // DASHBOARD
+      studentDashboard: 'Dashboard do Aluno',
       quickActions: 'Ações Rápidas',
       quickActionsSubtitle: 'Acesso direto às principais funcionalidades',
       checkIn: 'Check-in',
@@ -923,6 +925,7 @@ export const languages: Record<LanguageCode, any> = {
       configureAppNotifications: 'Configure app notifications',
       privacyAndSecurity: 'Privacy and Security',
       privacyLGPDSettings: 'Privacy and LGPD settings',
+      notificationSettings: 'Notification Settings',
       user: 'User',
       confirmLogout: 'Confirm Logout',
       paymentNearDue: 'Payment Near Due',
@@ -987,6 +990,7 @@ export const languages: Record<LanguageCode, any> = {
       viewGraduations: 'View Graduations',
       viewSchedule: 'View schedule',
       recentActivities: 'Recent Activities',
+      studentDashboard: 'Student Dashboard',
       viewAllActivities: 'View All Activities',
       calendar: 'Calendar',
       classSchedule: 'Class Schedule',
