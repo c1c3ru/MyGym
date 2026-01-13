@@ -608,7 +608,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.background.default,
   },
   scrollView: {
-    // Removed flex: 1 to allow scrolling
+    flex: 1,
   },
   scrollContent: {
     flexGrow: 1,
