@@ -345,13 +345,11 @@ const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <ScrollView
         style={styles.scrollView}
+        contentContainerStyle={{ paddingBottom: 100 }}
         showsVerticalScrollIndicator={true}
-        persistentScrollbar={true}
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={styles.scrollContent}
       >
         <Animated.View
           style={{
@@ -582,23 +580,7 @@ const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
           </Card>
         </Animated.View>
       </ScrollView>
-      <Snackbar
-        visible={snackbar.visible}
-        onDismiss={() => setSnackbar((s) => ({ ...s, visible: false }))}
-        duration={3000}
-        style={{
-          backgroundColor: snackbar.type === 'success' ? COLORS.primary[500] :
-            snackbar.type === 'error' ? COLORS.error[500] : COLORS.info[500]
-        }}
-        action={{
-          label: 'OK',
-          onPress: () => setSnackbar((s) => ({ ...s, visible: false })),
-          labelStyle: { color: COLORS.white }
-        }}
-      >
-        {snackbar.message}
-      </Snackbar>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -609,11 +591,6 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
-  },
-  scrollContent: {
-    flexGrow: 1,
-    padding: SPACING.md,
-    paddingBottom: 100,
   },
   card: {
     marginBottom: 20,
