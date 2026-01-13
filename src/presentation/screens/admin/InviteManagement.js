@@ -331,8 +331,6 @@ const renderInviteItem = (invite) => (
     </Card.Content>
   </Card>
 );
-
-return (
   <View style={styles.container}>
     <ScrollView style={styles.scrollView} contentContainerStyle={{ paddingBottom: 100 }}>
       {/* Header */}
