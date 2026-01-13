@@ -471,6 +471,7 @@ const AdminClasses = ({ navigation }) => {
             ListFooterComponent={renderStatsCard}
             emptyMessage="Nenhuma turma encontrada"
             contentContainerStyle={styles.listContainer}
+            showsVerticalScrollIndicator={true}
             accessible={true}
             accessibilityLabel={`Lista de ${filteredClasses.length} turmas`}
           />
@@ -666,7 +667,7 @@ const styles = StyleSheet.create({
     margin: SPACING.md,
     right: 0,
     bottom: 0,
-    backgroundColor: COLORS.primary[500],
+    backgroundColor: COLORS.success[500],
   },
   listContainer: {
     paddingHorizontal: 0,

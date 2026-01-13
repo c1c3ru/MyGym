@@ -82,7 +82,7 @@ function EnhancedFlashListInner<T>({
     estimatedItemSize = 120,
     numColumns = 1,
     horizontal = false,
-    showsVerticalScrollIndicator = false,
+    showsVerticalScrollIndicator = true,
     showsHorizontalScrollIndicator = false,
     contentContainerStyle,
     style,
