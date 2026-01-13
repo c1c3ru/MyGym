@@ -580,6 +580,23 @@ const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
           </Card>
         </Animated.View>
       </ScrollView>
+
+      <Snackbar
+        visible={snackbar.visible}
+        onDismiss={() => setSnackbar((s) => ({ ...s, visible: false }))}
+        duration={3000}
+        style={{
+          backgroundColor: snackbar.type === 'success' ? COLORS.primary[500] :
+            snackbar.type === 'error' ? COLORS.error[500] : COLORS.info[500]
+        }}
+        action={{
+          label: 'OK',
+          onPress: () => setSnackbar((s) => ({ ...s, visible: false })),
+          labelStyle: { color: COLORS.white }
+        }}
+      >
+        {snackbar.message}
+      </Snackbar>
     </View>
   );
 };
