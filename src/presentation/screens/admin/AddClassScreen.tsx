@@ -3,7 +3,8 @@ import {
   View,
   StyleSheet,
   Animated,
-  Platform
+  Platform,
+  useWindowDimensions
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Card, Text, Button, TextInput, HelperText, Chip, RadioButton, Snackbar } from 'react-native-paper';
@@ -17,7 +18,6 @@ import ImprovedScheduleSelector from '@components/ImprovedScheduleSelector';
 import { createEmptySchedule, isValidSchedule, scheduleToDisplayString } from '@utils/scheduleUtils';
 // import { notifyNewClass } from '@infrastructure/services/scheduleNotificationService';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, BORDER_WIDTH } from '@presentation/theme/designTokens';
-import { getAuthGradient } from '@presentation/theme/authTheme';
 import type { NavigationProp } from '@react-navigation/native';
 import { getString } from "@utils/theme";
 import { hexToRgba } from '@shared/utils/colorUtils';
@@ -40,6 +40,12 @@ interface AddClassScreenProps {
 }
 
 const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
+  const { height } = useWindowDimensions();
+  // Use View on web to avoid Safe Area conflicts, and enforce height
+  const Container = Platform.OS === 'web' ? View : SafeAreaView;
+  const containerStyle = Platform.OS === 'web'
+    ? [styles.container, { height: height, overflow: 'hidden' as const }]
+    : styles.container;
   const { user, userProfile, academia } = useAuthFacade();
   const { role, isInstructor } = useCustomClaims();
   const [loading, setLoading] = useState(false);
@@ -346,7 +352,7 @@ const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <Container style={containerStyle}>
       <ScrollView
         style={styles.scrollView}
         contentContainerStyle={{ paddingBottom: 100, flexGrow: 1 }}
@@ -591,7 +597,7 @@ const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
       >
         {snackbar.message}
       </Snackbar>
-    </SafeAreaView>
+    </Container>
   );
 };
 

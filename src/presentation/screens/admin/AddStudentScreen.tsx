@@ -3,7 +3,8 @@ import {
   View,
   StyleSheet,
   Alert,
-  Platform
+  Platform,
+  useWindowDimensions
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -39,6 +40,12 @@ import { getString } from "@utils/theme";
 import { hexToRgba } from '@shared/utils/colorUtils';
 
 const AddStudentScreen = ({ navigation, route }: any) => {
+  const { height } = useWindowDimensions();
+  const Container = Platform.OS === 'web' ? View : SafeAreaView;
+  const containerStyle = Platform.OS === 'web'
+    ? [styles.container, { height: height, overflow: 'hidden' as const }]
+    : styles.container;
+
   const { currentTheme } = useThemeToggle();
 
   const { user, userProfile, academia } = useAuthFacade();
@@ -323,7 +330,7 @@ const AddStudentScreen = ({ navigation, route }: any) => {
       }}
       errorContext={{ screen: 'AddStudentScreen', academiaId: userProfile?.academiaId }}
     >
-      <SafeAreaView style={styles.container}>
+      <Container style={containerStyle}>
         {/* Banner de validação */}
         <Banner
           visible={showValidationBanner}
@@ -631,7 +638,7 @@ const AddStudentScreen = ({ navigation, route }: any) => {
         >
           {snackbar.message}
         </Snackbar>
-      </SafeAreaView>
+      </Container>
     </EnhancedErrorBoundary>
   );
 };
