@@ -10,7 +10,8 @@ import {
   FAB,
   Modal,
   Portal,
-  Divider
+  Divider,
+  IconButton
 } from 'react-native-paper';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { InviteService } from '@infrastructure/services/inviteService';
