@@ -168,8 +168,10 @@ export default function InviteManagement({ navigation }) {
               console.log('📞 Chamando InviteService.deleteInvite...');
               await InviteService.deleteInvite(academia.id, inviteId);
 
-              console.log('✅ Convite excluído com sucesso, recarregando lista...');
+              console.log('✅ Convite excluído com sucesso no Firestore!');
+              console.log('🔄 Recarregando lista de convites...');
               await loadInvites();
+              console.log('✅ Lista recarregada. Total de convites:', invites.length);
 
               Alert.alert('Sucesso', 'Convite excluído com sucesso!');
             } catch (error) {
