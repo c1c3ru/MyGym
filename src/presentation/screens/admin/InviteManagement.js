@@ -212,7 +212,6 @@ export default function InviteManagement({ navigation }) {
     } finally {
       setDeletingInviteId(null);
     }
-  }
 };
 
 
