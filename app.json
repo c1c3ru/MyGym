@@ -11,21 +11,26 @@
       "resizeMode": "contain",
       "backgroundColor": "#2196F3"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "description": "Transforme seu corpo com o MyGym - seu personal trainer virtual para treinos, nutrição e acompanhamento de progresso.",
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.c1c3ru.academiaapp",
-      "newArchEnabled": true
+      "bundleIdentifier": "com.mygym.fitness",
+      "newArchEnabled": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "Este app precisa acessar a câmera para permitir que você tire fotos do seu progresso",
+        "NSPhotoLibraryUsageDescription": "Este app precisa acessar suas fotos para permitir que você selecione imagens do seu progresso",
+        "NSLocationWhenInUseUsageDescription": "Este app precisa acessar sua localização para encontrar academias próximas"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#2196F3"
       },
-      "package": "com.c1c3ru.academiaapp",
-      "newArchEnabled": true
+      "package": "com.mygym.fitness",
+      "newArchEnabled": true,
+      "permissions": ["CAMERA", "READ_EXTERNAL_STORAGE", "ACCESS_FINE_LOCATION"]
     },
     "web": {
       "favicon": "./assets/favicon.png",
@@ -33,12 +38,23 @@
     },
     "plugins": [
       "expo-dev-client",
-      "expo-router"
+      "expo-router",
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "useFrameworks": "static"
+          }
+        }
+      ]
     ],
     "extra": {
       "eas": {
         "projectId": "f3d7c8a4-700c-461b-b740-82bee97edf17"
       }
+    },
+    "runtimeVersion": {
+      "policy": "sdkVersion"
     },
     "owner": "c1c3ru"
   }

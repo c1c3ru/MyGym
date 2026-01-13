@@ -152,433 +152,431 @@ export default function InviteManagement({ navigation }) {
   const deleteInvite = async (inviteId, inviteEmail) => {
     console.log('🗑️ Iniciando exclusão de convite:', { inviteId, inviteEmail, academiaId: academia?.id });
 
-    Alert.alert(
-      'Confirmar Exclusão',
-      `Deseja realmente excluir o convite para ${inviteEmail}?`,
-      [
-        { text: 'Cancelar', style: 'cancel' },
-        {
-          text: 'Excluir',
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              console.log('✅ Usuário confirmou exclusão');
-              setDeletingInviteId(inviteId);
+    // Usar window.confirm para compatibilidade web
+    const confirmed = window.confirm(`Deseja realmente excluir o convite para ${inviteEmail}?`);
 
-              console.log('📞 Chamando InviteService.deleteInvite...');
-              await InviteService.deleteInvite(academia.id, inviteId);
+    if (!confirmed) {
+      console.log('❌ Usuário cancelou a exclusão');
+      return;
+    }
 
-              console.log('✅ Convite excluído com sucesso no Firestore!');
+    
+      try {
+        console.log('✅ Usuário confirmou exclusão');
+        setDeletingInviteId(inviteId);
 
-              // Remover imediatamente da lista local para feedback instantâneo
-              console.log('🔄 Removendo convite da lista local...');
-              setInvites(prevInvites => {
-                const updated = prevInvites.filter(inv => inv.id !== inviteId);
-                console.log('📊 Lista atualizada. Antes:', prevInvites.length, 'Depois:', updated.length);
-                return updated;
-              });
+        console.log('📞 Chamando InviteService.deleteInvite...');
+        await InviteService.deleteInvite(academia.id, inviteId);
 
-              console.log('🔄 Recarregando lista de convites do servidor...');
-              await loadInvites();
+        console.log('✅ Convite excluído com sucesso no Firestore!');
 
-              console.log('✅ Exclusão concluída!');
-              Alert.alert('Sucesso', 'Convite excluído com sucesso!');
-            } catch (error) {
-              console.error('❌ Erro ao excluir convite:', error);
-              console.error('❌ Error code:', error.code);
-              console.error('❌ Error message:', error.message);
-              console.error('❌ Full error:', JSON.stringify(error, null, 2));
-              console.error('❌ Detalhes da operação:', {
-                inviteId,
-                inviteEmail,
-                academiaId: academia?.id,
-                userRole: 'Verificar custom claims no console'
-              });
+        // Remover imediatamente da lista local para feedback instantâneo
+        console.log('🔄 Removendo convite da lista local...');
+        setInvites(prevInvites => {
+          const updated = prevInvites.filter(inv => inv.id !== inviteId);
+          console.log('📊 Lista atualizada. Antes:', prevInvites.length, 'Depois:', updated.length);
+          return updated;
+        });
 
-              let errorMessage = 'Não foi possível excluir o convite';
+        console.log('🔄 Recarregando lista de convites do servidor...');
+        await loadInvites();
 
-              if (error.code === 'permission-denied') {
-                errorMessage = '🔒 Permissão negada. Verifique se você é admin e se as regras do Firestore estão atualizadas.\n\nDetalhes técnicos: ' + error.message;
-                console.error('📋 ERRO DE PERMISSÃO - Verifique:', {
-                  'Custom Claims': 'Execute no console: firebase.auth().currentUser.getIdTokenResult().then(t => console.log(t.claims))',
-                  'Academia ID': academia?.id,
-                  'Invite ID': inviteId
-                });
-              } else if (error.message) {
-                errorMessage = `Erro: ${error.message}`;
-              }
+        console.log('✅ Exclusão concluída!');
+        window.alert('Convite excluído com sucesso!');
+      } catch (error) {
+        console.error('❌ Erro ao excluir convite:', error);
+        console.error('❌ Error code:', error.code);
+        console.error('❌ Error message:', error.message);
+        console.error('❌ Full error:', JSON.stringify(error, null, 2));
+        console.error('❌ Detalhes da operação:', {
+          inviteId,
+          inviteEmail,
+          academiaId: academia?.id,
+          userRole: 'Verificar custom claims no console'
+        });
 
-              Alert.alert('Erro ao Excluir', errorMessage);
-            } finally {
-              setDeletingInviteId(null);
-            }
+        let errorMessage = 'Não foi possível excluir o convite';
+
+        if (error.code === 'permission-denied') {
+          errorMessage = '🔒 Permissão negada. Verifique se você é admin e se as regras do Firestore estão atualizadas.\n\nDetalhes técnicos: ' + error.message;
+          console.error('📋 ERRO DE PERMISSÃO - Verifique:', {
+            'Custom Claims': 'Execute no console: firebase.auth().currentUser.getIdTokenResult().then(t => console.log(t.claims))',
+            'Academia ID': academia?.id,
+            'Invite ID': inviteId
+          });
+        } else if (error.message) {
+          errorMessage = `Erro: ${error.message}`;
+        }
+
+        window.alert('Erro ao Excluir: ' + errorMessage);
+      } finally {
+        setDeletingInviteId(null);
+      }
+    
+  }
+};
+
+const handleDeleteByStatus = async (status) => {
+  setShowDeleteModal(false);
+
+  const statusLabels = {
+    'pending': 'Pendentes',
+    'accepted': 'Aceitos',
+    'expired': 'Expirados',
+    'all': 'Todos'
+  };
+
+  const statusLabel = statusLabels[status] || status;
+
+  Alert.alert(
+    'Confirmar Exclusão',
+    `Deseja excluir ${status === 'all' ? 'TODOS os' : 'os convites'} ${statusLabel}?`,
+    [
+      { text: 'Cancelar', style: 'cancel' },
+      {
+        text: 'Excluir',
+        style: 'destructive',
+        onPress: async () => {
+          try {
+            setLoadingDelete(true);
+            const count = await InviteService.deleteAllInvites(academia.id, status);
+            Alert.alert('Sucesso', `${count} convite(s) excluído(s)!`);
+            loadInvites();
+          } catch (error) {
+            console.error('Erro ao excluir convites:', error);
+            Alert.alert(getString('error'), 'Não foi possível excluir os convites');
+          } finally {
+            setLoadingDelete(false);
           }
         }
-      ]
-    );
-  };
-
-  const handleDeleteByStatus = async (status) => {
-    setShowDeleteModal(false);
-
-    const statusLabels = {
-      'pending': 'Pendentes',
-      'accepted': 'Aceitos',
-      'expired': 'Expirados',
-      'all': 'Todos'
-    };
-
-    const statusLabel = statusLabels[status] || status;
-
-    Alert.alert(
-      'Confirmar Exclusão',
-      `Deseja excluir ${status === 'all' ? 'TODOS os' : 'os convites'} ${statusLabel}?`,
-      [
-        { text: 'Cancelar', style: 'cancel' },
-        {
-          text: 'Excluir',
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              setLoadingDelete(true);
-              const count = await InviteService.deleteAllInvites(academia.id, status);
-              Alert.alert('Sucesso', `${count} convite(s) excluído(s)!`);
-              loadInvites();
-            } catch (error) {
-              console.error('Erro ao excluir convites:', error);
-              Alert.alert(getString('error'), 'Não foi possível excluir os convites');
-            } finally {
-              setLoadingDelete(false);
-            }
-          }
-        }
-      ]
-    );
-  };
-
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'pending': return COLORS.warning[500];
-      case 'accepted': return COLORS.primary[500];
-      case 'expired': return COLORS.error[500];
-      default: return COLORS.gray[500];
-    }
-  };
-
-  const getStatusText = (status) => {
-    switch (status) {
-      case 'pending': return getString('paymentPending');
-      case 'accepted': return 'Aceito';
-      case 'expired': return getString('expired');
-      default: return 'Desconhecido';
-    }
-  };
-
-  const renderInviteItem = (invite) => (
-    <Card
-      key={invite.id}
-      style={[
-        styles.inviteCard,
-        deletingInviteId === invite.id && { opacity: 0.5 }
-      ]}
-    >
-      <Card.Content>
-        <View style={styles.inviteHeader}>
-          <View style={styles.inviteInfo}>
-            <Text variant="titleMedium" style={styles.inviteEmail}>
-              {invite.email}
-            </Text>
-            <Text variant="bodySmall" style={styles.inviteType}>
-              {invite.tipo === 'aluno' ? getString('student') : getString('instructor')}
-            </Text>
-            {invite.inviteToken && (
-              <Text variant="bodySmall" style={styles.inviteCode}>
-                Código: <Text style={{ fontWeight: 'bold', color: COLORS.primary[600] }}>{invite.inviteToken}</Text>
-              </Text>
-            )}
-          </View>
-          <Chip
-            style={[styles.statusChip, { backgroundColor: getStatusColor(invite.status) }]}
-            textStyle={{ color: COLORS.white }}
-          >
-            {getStatusText(invite.status)}
-          </Chip>
-        </View>
-
-        <Text variant="bodySmall" style={styles.inviteDate}>
-          Enviado em: {invite.createdAt?.toDate?.()?.toLocaleDateString() || getString('dataNotAvailable')}
-        </Text>
-
-        {invite.status === 'pending' && (
-          <Text variant="bodySmall" style={styles.expiryDate}>
-            Expira em: {invite.expiresAt?.toDate?.()?.toLocaleDateString() || getString('dataNotAvailable')}
-          </Text>
-        )}
-
-        {/* Botão de exclusão individual */}
-        <View style={styles.inviteActions}>
-          <ActionButton
-            mode="text"
-            onPress={() => deleteInvite(invite.id, invite.email)}
-            loading={deletingInviteId === invite.id}
-            disabled={deletingInviteId !== null}
-            icon="delete"
-            size="small"
-            variant="danger"
-            style={styles.deleteButton}
-          >
-            Excluir
-          </ActionButton>
-        </View>
-      </Card.Content>
-    </Card>
+      }
+    ]
   );
+};
 
-  return (
-    <View style={styles.container}>
-      <ScrollView style={styles.scrollView} contentContainerStyle={{ paddingBottom: 100 }}>
-        {/* Header */}
-        <Card style={styles.headerCard}>
-          <Card.Content>
-            <Text variant="headlineSmall" style={styles.title}>
-              Gerenciar Convites
+const getStatusColor = (status) => {
+  switch (status) {
+    case 'pending': return COLORS.warning[500];
+    case 'accepted': return COLORS.primary[500];
+    case 'expired': return COLORS.error[500];
+    default: return COLORS.gray[500];
+  }
+};
+
+const getStatusText = (status) => {
+  switch (status) {
+    case 'pending': return getString('paymentPending');
+    case 'accepted': return 'Aceito';
+    case 'expired': return getString('expired');
+    default: return 'Desconhecido';
+  }
+};
+
+const renderInviteItem = (invite) => (
+  <Card
+    key={invite.id}
+    style={[
+      styles.inviteCard,
+      deletingInviteId === invite.id && { opacity: 0.5 }
+    ]}
+  >
+    <Card.Content>
+      <View style={styles.inviteHeader}>
+        <View style={styles.inviteInfo}>
+          <Text variant="titleMedium" style={styles.inviteEmail}>
+            {invite.email}
+          </Text>
+          <Text variant="bodySmall" style={styles.inviteType}>
+            {invite.tipo === 'aluno' ? getString('student') : getString('instructor')}
+          </Text>
+          {invite.inviteToken && (
+            <Text variant="bodySmall" style={styles.inviteCode}>
+              Código: <Text style={{ fontWeight: 'bold', color: COLORS.primary[600] }}>{invite.inviteToken}</Text>
             </Text>
-            <Text variant="bodyMedium" style={styles.subtitle}>
-              Convide alunos e instrutores para sua academia
-            </Text>
-          </Card.Content>
-        </Card>
-
-        {/* Opções de Convite */}
-        <Card style={styles.optionsCard}>
-          <Card.Content>
-            <Text variant="titleMedium" style={styles.sectionTitle}>
-              Formas de Convite
-            </Text>
-
-            <ActionButtonGroup style={styles.optionButtons}>
-              <ActionButton
-                mode="contained"
-                onPress={() => setShowInviteModal(true)}
-                icon="email"
-                style={styles.optionButton}
-                variant="primary"
-                size="medium"
-              >
-                Convite por Email
-              </ActionButton>
-
-              <ActionButton
-                mode="outlined"
-                onPress={() => setShowQRModal(true)}
-                icon="qrcode"
-                style={styles.optionButton}
-                variant="secondary"
-                size="medium"
-              >
-                QR Code
-              </ActionButton>
-            </ActionButtonGroup>
-          </Card.Content>
-        </Card>
-
-        {/* Lista de Convites */}
-        <Card style={styles.listCard}>
-          <Card.Content>
-            <View style={styles.listHeader}>
-              <Text variant="titleMedium" style={styles.sectionTitle}>
-                Convites Enviados ({invites.length})
-              </Text>
-              <View style={styles.headerActions}>
-                <ActionButton
-                  mode="text"
-                  onPress={() => setShowDeleteModal(true)}
-                  loading={loadingDelete}
-                  disabled={loadingDelete}
-                  icon="delete-sweep"
-                  size="small"
-                  variant="secondary"
-                  style={styles.actionButton}
-                >
-                  Gerenciar Exclusão
-                </ActionButton>
-              </View>
-            </View>
-
-            {invites.length === 0 ? (
-              <Text variant="bodyMedium" style={styles.emptyText}>
-                Nenhum convite enviado ainda
-              </Text>
-            ) : (
-              invites.map(renderInviteItem)
-            )}
-          </Card.Content>
-        </Card>
-      </ScrollView>
-
-      {/* Modal de Convite por Email */}
-      <Portal>
-        <Modal
-          visible={showInviteModal}
-          onDismiss={() => setShowInviteModal(false)}
-          contentContainerStyle={styles.modal}
+          )}
+        </View>
+        <Chip
+          style={[styles.statusChip, { backgroundColor: getStatusColor(invite.status) }]}
+          textStyle={{ color: COLORS.white }}
         >
-          <Text variant="titleLarge" style={styles.modalTitle}>
-            Enviar Convite por Email
+          {getStatusText(invite.status)}
+        </Chip>
+      </View>
+
+      <Text variant="bodySmall" style={styles.inviteDate}>
+        Enviado em: {invite.createdAt?.toDate?.()?.toLocaleDateString() || getString('dataNotAvailable')}
+      </Text>
+
+      {invite.status === 'pending' && (
+        <Text variant="bodySmall" style={styles.expiryDate}>
+          Expira em: {invite.expiresAt?.toDate?.()?.toLocaleDateString() || getString('dataNotAvailable')}
+        </Text>
+      )}
+
+      {/* Botão de exclusão individual */}
+      <View style={styles.inviteActions}>
+        <ActionButton
+          mode="text"
+          onPress={() => deleteInvite(invite.id, invite.email)}
+          loading={deletingInviteId === invite.id}
+          disabled={deletingInviteId !== null}
+          icon="delete"
+          size="small"
+          variant="danger"
+          style={styles.deleteButton}
+        >
+          Excluir
+        </ActionButton>
+      </View>
+    </Card.Content>
+  </Card>
+);
+
+return (
+  <View style={styles.container}>
+    <ScrollView style={styles.scrollView} contentContainerStyle={{ paddingBottom: 100 }}>
+      {/* Header */}
+      <Card style={styles.headerCard}>
+        <Card.Content>
+          <Text variant="headlineSmall" style={styles.title}>
+            Gerenciar Convites
+          </Text>
+          <Text variant="bodyMedium" style={styles.subtitle}>
+            Convide alunos e instrutores para sua academia
+          </Text>
+        </Card.Content>
+      </Card>
+
+      {/* Opções de Convite */}
+      <Card style={styles.optionsCard}>
+        <Card.Content>
+          <Text variant="titleMedium" style={styles.sectionTitle}>
+            Formas de Convite
           </Text>
 
-          <TextInput
-            label="Email do convidado"
-            value={newInvite.email}
-            onChangeText={(text) => setNewInvite(prev => ({ ...prev, email: text }))}
-            mode="outlined"
-            keyboardType="email-address"
-            style={styles.input}
-          />
-
-          <Text variant="bodyMedium" style={styles.typeLabel}>
-            Tipo de usuário:
-          </Text>
-
-          <ActionButtonGroup style={styles.typeButtons}>
-            <ActionButton
-              mode={newInvite.tipo === 'aluno' ? 'contained' : 'outlined'}
-              onPress={() => setNewInvite(prev => ({ ...prev, tipo: 'aluno' }))}
-              style={styles.typeButton}
-              variant="primary"
-              size="small"
-            >{getString('student')}</ActionButton>
-            <ActionButton
-              mode={newInvite.tipo === 'instrutor' ? 'contained' : 'outlined'}
-              onPress={() => setNewInvite(prev => ({ ...prev, tipo: 'instrutor' }))}
-              style={styles.typeButton}
-              variant="success"
-              size="small"
-            >{getString('instructor')}</ActionButton>
-          </ActionButtonGroup>
-
-          <ActionButtonGroup style={styles.modalActions}>
-            <ActionButton
-              mode="outlined"
-              onPress={() => setShowInviteModal(false)}
-              style={styles.modalButton}
-              variant="secondary"
-            >{getString('cancel')}</ActionButton>
+          <ActionButtonGroup style={styles.optionButtons}>
             <ActionButton
               mode="contained"
-              onPress={sendInvite}
-              loading={loading}
-              disabled={loading}
-              style={styles.modalButton}
-              variant="success"
+              onPress={() => setShowInviteModal(true)}
+              icon="email"
+              style={styles.optionButton}
+              variant="primary"
+              size="medium"
             >
-              Enviar Convite
+              Convite por Email
+            </ActionButton>
+
+            <ActionButton
+              mode="outlined"
+              onPress={() => setShowQRModal(true)}
+              icon="qrcode"
+              style={styles.optionButton}
+              variant="secondary"
+              size="medium"
+            >
+              QR Code
             </ActionButton>
           </ActionButtonGroup>
-        </Modal>
-      </Portal>
+        </Card.Content>
+      </Card>
 
-      {/* Modal de QR Code */}
-      <Portal>
-        <Modal
-          visible={showQRModal}
-          onDismiss={() => setShowQRModal(false)}
-          contentContainerStyle={styles.qrModal}
-        >
-          <Text variant="titleLarge" style={styles.modalTitle}>
-            QR Code da Academia
-          </Text>
-
-          <QRCodeGenerator
-            size={250}
-            showActions={false}
-            academiaId={academia?.id}
-            academiaNome={academia?.nome}
-            academiaCodigo={academia?.codigo}
-          />
-
-          <Text variant="bodySmall" style={styles.qrInstructions}>
-            Compartilhe este QR Code para que alunos e instrutores possam se juntar à academia instantaneamente
-          </Text>
-
-          <View style={styles.modalActions}>
-            <Button
-              mode="outlined"
-              onPress={() => setShowQRModal(false)}
-              style={styles.modalButton}
-            >{getString('close')}</Button>
-            <Button
-              mode="contained"
-              onPress={shareQRCode}
-              icon="share"
-              style={styles.modalButton}
-            >
-              Compartilhar
-            </Button>
-          </View>
-        </Modal>
-      </Portal>
-
-      {/* Modal de Opções de Exclusão */}
-      <Portal>
-        <Modal
-          visible={showDeleteModal}
-          onDismiss={() => setShowDeleteModal(false)}
-          contentContainerStyle={styles.modal}
-        >
-          <Text variant="titleLarge" style={styles.modalTitle}>
-            Excluir Convites
-          </Text>
-          <Text variant="bodyMedium" style={{ marginBottom: 20, textAlign: 'center' }}>
-            Selecione o tipo de convite que deseja remover:
-          </Text>
-
-          <View style={{ gap: 10 }}>
-            <Button
-              mode="outlined"
-              onPress={() => handleDeleteByStatus('pending')}
-              textColor={COLORS.warning[600]}
-              style={{ borderColor: COLORS.warning[600] }}
-            >
-              Excluir Pendentes
-            </Button>
-            <Button
-              mode="outlined"
-              onPress={() => handleDeleteByStatus('accepted')}
-              textColor={COLORS.primary[600]}
-              style={{ borderColor: COLORS.primary[600] }}
-            >
-              Excluir Aceitos
-            </Button>
-            <Button
-              mode="outlined"
-              onPress={() => handleDeleteByStatus('expired')}
-              textColor={COLORS.error[600]}
-              style={{ borderColor: COLORS.error[600] }}
-            >
-              Excluir Expirados
-            </Button>
-            <Divider style={{ marginVertical: 10 }} />
-            <Button
-              mode="contained"
-              onPress={() => handleDeleteByStatus('all')}
-              buttonColor={COLORS.error[600]}
-            >
-              Excluir TODOS
-            </Button>
+      {/* Lista de Convites */}
+      <Card style={styles.listCard}>
+        <Card.Content>
+          <View style={styles.listHeader}>
+            <Text variant="titleMedium" style={styles.sectionTitle}>
+              Convites Enviados ({invites.length})
+            </Text>
+            <View style={styles.headerActions}>
+              <ActionButton
+                mode="text"
+                onPress={() => setShowDeleteModal(true)}
+                loading={loadingDelete}
+                disabled={loadingDelete}
+                icon="delete-sweep"
+                size="small"
+                variant="secondary"
+                style={styles.actionButton}
+              >
+                Gerenciar Exclusão
+              </ActionButton>
+            </View>
           </View>
 
-          <Button
-            mode="text"
-            onPress={() => setShowDeleteModal(false)}
-            style={{ marginTop: 20 }}
+          {invites.length === 0 ? (
+            <Text variant="bodyMedium" style={styles.emptyText}>
+              Nenhum convite enviado ainda
+            </Text>
+          ) : (
+            invites.map(renderInviteItem)
+          )}
+        </Card.Content>
+      </Card>
+    </ScrollView>
+
+    {/* Modal de Convite por Email */}
+    <Portal>
+      <Modal
+        visible={showInviteModal}
+        onDismiss={() => setShowInviteModal(false)}
+        contentContainerStyle={styles.modal}
+      >
+        <Text variant="titleLarge" style={styles.modalTitle}>
+          Enviar Convite por Email
+        </Text>
+
+        <TextInput
+          label="Email do convidado"
+          value={newInvite.email}
+          onChangeText={(text) => setNewInvite(prev => ({ ...prev, email: text }))}
+          mode="outlined"
+          keyboardType="email-address"
+          style={styles.input}
+        />
+
+        <Text variant="bodyMedium" style={styles.typeLabel}>
+          Tipo de usuário:
+        </Text>
+
+        <ActionButtonGroup style={styles.typeButtons}>
+          <ActionButton
+            mode={newInvite.tipo === 'aluno' ? 'contained' : 'outlined'}
+            onPress={() => setNewInvite(prev => ({ ...prev, tipo: 'aluno' }))}
+            style={styles.typeButton}
+            variant="primary"
+            size="small"
+          >{getString('student')}</ActionButton>
+          <ActionButton
+            mode={newInvite.tipo === 'instrutor' ? 'contained' : 'outlined'}
+            onPress={() => setNewInvite(prev => ({ ...prev, tipo: 'instrutor' }))}
+            style={styles.typeButton}
+            variant="success"
+            size="small"
+          >{getString('instructor')}</ActionButton>
+        </ActionButtonGroup>
+
+        <ActionButtonGroup style={styles.modalActions}>
+          <ActionButton
+            mode="outlined"
+            onPress={() => setShowInviteModal(false)}
+            style={styles.modalButton}
+            variant="secondary"
+          >{getString('cancel')}</ActionButton>
+          <ActionButton
+            mode="contained"
+            onPress={sendInvite}
+            loading={loading}
+            disabled={loading}
+            style={styles.modalButton}
+            variant="success"
           >
-            Cancelar
+            Enviar Convite
+          </ActionButton>
+        </ActionButtonGroup>
+      </Modal>
+    </Portal>
+
+    {/* Modal de QR Code */}
+    <Portal>
+      <Modal
+        visible={showQRModal}
+        onDismiss={() => setShowQRModal(false)}
+        contentContainerStyle={styles.qrModal}
+      >
+        <Text variant="titleLarge" style={styles.modalTitle}>
+          QR Code da Academia
+        </Text>
+
+        <QRCodeGenerator
+          size={250}
+          showActions={false}
+          academiaId={academia?.id}
+          academiaNome={academia?.nome}
+          academiaCodigo={academia?.codigo}
+        />
+
+        <Text variant="bodySmall" style={styles.qrInstructions}>
+          Compartilhe este QR Code para que alunos e instrutores possam se juntar à academia instantaneamente
+        </Text>
+
+        <View style={styles.modalActions}>
+          <Button
+            mode="outlined"
+            onPress={() => setShowQRModal(false)}
+            style={styles.modalButton}
+          >{getString('close')}</Button>
+          <Button
+            mode="contained"
+            onPress={shareQRCode}
+            icon="share"
+            style={styles.modalButton}
+          >
+            Compartilhar
           </Button>
-        </Modal>
-      </Portal>
-    </View>
-  );
+        </View>
+      </Modal>
+    </Portal>
+
+    {/* Modal de Opções de Exclusão */}
+    <Portal>
+      <Modal
+        visible={showDeleteModal}
+        onDismiss={() => setShowDeleteModal(false)}
+        contentContainerStyle={styles.modal}
+      >
+        <Text variant="titleLarge" style={styles.modalTitle}>
+          Excluir Convites
+        </Text>
+        <Text variant="bodyMedium" style={{ marginBottom: 20, textAlign: 'center' }}>
+          Selecione o tipo de convite que deseja remover:
+        </Text>
+
+        <View style={{ gap: 10 }}>
+          <Button
+            mode="outlined"
+            onPress={() => handleDeleteByStatus('pending')}
+            textColor={COLORS.warning[600]}
+            style={{ borderColor: COLORS.warning[600] }}
+          >
+            Excluir Pendentes
+          </Button>
+          <Button
+            mode="outlined"
+            onPress={() => handleDeleteByStatus('accepted')}
+            textColor={COLORS.primary[600]}
+            style={{ borderColor: COLORS.primary[600] }}
+          >
+            Excluir Aceitos
+          </Button>
+          <Button
+            mode="outlined"
+            onPress={() => handleDeleteByStatus('expired')}
+            textColor={COLORS.error[600]}
+            style={{ borderColor: COLORS.error[600] }}
+          >
+            Excluir Expirados
+          </Button>
+          <Divider style={{ marginVertical: 10 }} />
+          <Button
+            mode="contained"
+            onPress={() => handleDeleteByStatus('all')}
+            buttonColor={COLORS.error[600]}
+          >
+            Excluir TODOS
+          </Button>
+        </View>
+
+        <Button
+          mode="text"
+          onPress={() => setShowDeleteModal(false)}
+          style={{ marginTop: 20 }}
+        >
+          Cancelar
+        </Button>
+      </Modal>
+    </Portal>
+  </View>
+);
 }
 
 const styles = {

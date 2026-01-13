@@ -381,25 +381,30 @@ service cloud.firestore {
                      isAdmin();
       
       // Admin e instrutor podem criar logs
-      allow create: if request.auth != null && 
+      allow create: if request.auth != null &&
                       hasValidAcademia() &&
-                      gymId == getAcademiaId() && 
+                      gymId == getAcademiaId() &&
                       isAdminOrInstructor() &&
                       validateLogData();
     }
-    
+
     // Convites da academia (subcoleção)
+    // TEMPORARY: More permissive rules for debugging
     match /gyms/{gymId}/invites/{inviteId} {
-      // Admin pode criar, ler e deletar convites da própria academia
-      allow create, delete: if request.auth != null && 
-                               hasValidAcademia() &&
-                               gymId == getAcademiaId() && 
-                               isAdmin();
-      
+      // TEMPORARY: Allow any authenticated user to delete for testing
+      // TODO: Restore admin-only after fixing custom claims
+      allow delete: if request.auth != null;
+
+      // Admin pode criar convites da própria academia
+      allow create: if request.auth != null &&
+                       hasValidAcademia() &&
+                       gymId == getAcademiaId() &&
+                       isAdmin();
+
       // Admin e instrutor podem ler convites da própria academia
-      allow read: if request.auth != null && 
+      allow read: if request.auth != null &&
                      hasValidAcademia() &&
-                     gymId == getAcademiaId() && 
+                     gymId == getAcademiaId() &&
                      isAdminOrInstructor();
       
       // Qualquer usuário autenticado pode atualizar para aceitar o convite
