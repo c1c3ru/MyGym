@@ -388,6 +388,24 @@ service cloud.firestore {
                       validateLogData();
     }
     
+    // Convites da academia (subcoleção)
+    match /gyms/{gymId}/invites/{inviteId} {
+      // Admin pode criar, ler e deletar convites da própria academia
+      allow create, delete: if request.auth != null && 
+                               hasValidAcademia() &&
+                               gymId == getAcademiaId() && 
+                               isAdmin();
+      
+      // Admin e instrutor podem ler convites da própria academia
+      allow read: if request.auth != null && 
+                     hasValidAcademia() &&
+                     gymId == getAcademiaId() && 
+                     isAdminOrInstructor();
+      
+      // Qualquer usuário autenticado pode atualizar para aceitar o convite
+      allow update: if request.auth != null;
+    }
+    
     // ============================================================================
     // FUNÇÕES AUXILIARES - USANDO CUSTOM CLAIMS (SEM GET CALLS)
     // ============================================================================
