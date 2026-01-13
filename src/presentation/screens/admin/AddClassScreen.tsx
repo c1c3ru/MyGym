@@ -8,7 +8,6 @@ import {
 import { Card, Text, Button, TextInput, HelperText, Chip, RadioButton, Snackbar } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
-import * as FileSystem from 'expo-file-system'; // Removido - dependência não disponível
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
 import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
@@ -609,9 +608,10 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.background.default,
   },
   scrollView: {
-    flex: 1,
+    // Removed flex: 1 to allow scrolling
   },
   scrollContent: {
+    flexGrow: 1,
     padding: SPACING.md,
     paddingBottom: 100,
   },
