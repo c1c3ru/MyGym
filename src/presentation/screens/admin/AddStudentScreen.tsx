@@ -2,10 +2,11 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import {
   View,
   StyleSheet,
-  ScrollView,
   Alert,
   Platform
 } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   Card,
   Text,
@@ -322,7 +323,7 @@ const AddStudentScreen = ({ navigation, route }: any) => {
       }}
       errorContext={{ screen: 'AddStudentScreen', academiaId: userProfile?.academiaId }}
     >
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         {/* Banner de validação */}
         <Banner
           visible={showValidationBanner}
@@ -630,7 +631,7 @@ const AddStudentScreen = ({ navigation, route }: any) => {
         >
           {snackbar.message}
         </Snackbar>
-      </View>
+      </SafeAreaView>
     </EnhancedErrorBoundary>
   );
 };
@@ -639,7 +640,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.gray[100],
-    ...(Platform.OS === 'web' ? { height: '100%' } : {}),
   },
   scrollView: {
     flex: 1,

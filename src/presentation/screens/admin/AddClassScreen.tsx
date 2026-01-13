@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import {
   View,
   StyleSheet,
-  ScrollView,
   Animated,
   Platform
 } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import { Card, Text, Button, TextInput, HelperText, Chip, RadioButton, Snackbar } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -346,7 +346,7 @@ const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <ScrollView
         style={styles.scrollView}
         contentContainerStyle={{ paddingBottom: 100, flexGrow: 1 }}
@@ -591,7 +591,7 @@ const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
       >
         {snackbar.message}
       </Snackbar>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -599,7 +599,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.background.default,
-    ...(Platform.OS === 'web' ? { height: '100%' } : {}),
   },
   scrollView: {
     flex: 1,
