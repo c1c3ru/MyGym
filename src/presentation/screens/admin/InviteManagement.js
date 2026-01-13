@@ -174,21 +174,30 @@ export default function InviteManagement({ navigation }) {
               Alert.alert('Sucesso', 'Convite excluído com sucesso!');
             } catch (error) {
               console.error('❌ Erro ao excluir convite:', error);
-              console.error('❌ Detalhes do erro:', {
-                message: error.message,
-                code: error.code,
-                stack: error.stack
+              console.error('❌ Error code:', error.code);
+              console.error('❌ Error message:', error.message);
+              console.error('❌ Full error:', JSON.stringify(error, null, 2));
+              console.error('❌ Detalhes da operação:', {
+                inviteId,
+                inviteEmail,
+                academiaId: academia?.id,
+                userRole: 'Verificar custom claims no console'
               });
 
               let errorMessage = 'Não foi possível excluir o convite';
 
               if (error.code === 'permission-denied') {
-                errorMessage = 'Você não tem permissão para excluir este convite';
+                errorMessage = '🔒 Permissão negada. Verifique se você é admin e se as regras do Firestore estão atualizadas.\n\nDetalhes técnicos: ' + error.message;
+                console.error('📋 ERRO DE PERMISSÃO - Verifique:', {
+                  'Custom Claims': 'Execute no console: firebase.auth().currentUser.getIdTokenResult().then(t => console.log(t.claims))',
+                  'Academia ID': academia?.id,
+                  'Invite ID': inviteId
+                });
               } else if (error.message) {
                 errorMessage = `Erro: ${error.message}`;
               }
 
-              Alert.alert(getString('error'), errorMessage);
+              Alert.alert('Erro ao Excluir', errorMessage);
             } finally {
               setDeletingInviteId(null);
             }
@@ -255,7 +264,13 @@ export default function InviteManagement({ navigation }) {
   };
 
   const renderInviteItem = (invite) => (
-    <Card key={invite.id} style={styles.inviteCard}>
+    <Card
+      key={invite.id}
+      style={[
+        styles.inviteCard,
+        deletingInviteId === invite.id && { opacity: 0.5 }
+      ]}
+    >
       <Card.Content>
         <View style={styles.inviteHeader}>
           <View style={styles.inviteInfo}>
@@ -295,7 +310,7 @@ export default function InviteManagement({ navigation }) {
             mode="text"
             onPress={() => deleteInvite(invite.id, invite.email)}
             loading={deletingInviteId === invite.id}
-            disabled={deletingInviteId === invite.id}
+            disabled={deletingInviteId !== null}
             icon="delete"
             size="small"
             variant="danger"
