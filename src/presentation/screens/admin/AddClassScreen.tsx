@@ -351,12 +351,7 @@ const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
         contentContainerStyle={{ paddingBottom: 100 }}
         showsVerticalScrollIndicator={true}
       >
-        <Animated.View
-          style={{
-            opacity: fadeAnim,
-            transform: [{ translateY: slideAnim }],
-          }}
-        >
+        <View>
           <Card style={styles.card}>
             <Card.Content>
               <Text style={styles.title}>{getString('newClass')}</Text>
@@ -578,7 +573,7 @@ const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
               </View>
             </Card.Content>
           </Card>
-        </Animated.View>
+        </View>
       </ScrollView>
 
       <Snackbar

@@ -327,7 +327,7 @@ const AddStudentScreen = ({ navigation, route }: any) => {
       }}
       errorContext={{ screen: 'AddStudentScreen', academiaId: userProfile?.academiaId }}
     >
-      <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
         {/* Banner de validação */}
         <Banner
           visible={showValidationBanner}
@@ -353,7 +353,7 @@ const AddStudentScreen = ({ navigation, route }: any) => {
 
         <ScrollView
           style={styles.scrollView}
-          showsVerticalScrollIndicator={false}
+          showsVerticalScrollIndicator={true}
           keyboardShouldPersistTaps="handled"
           contentContainerStyle={styles.scrollContent}
         >
@@ -606,6 +606,7 @@ const AddStudentScreen = ({ navigation, route }: any) => {
                   mode="contained"
                   onPress={handleSubmit}
                   style={[styles.button, loading && styles.buttonLoading]}
+                  buttonColor={COLORS.success[500]}
                   loading={loading}
                   disabled={loading}
                   icon={loading ? undefined : "account-plus"}
@@ -634,7 +635,7 @@ const AddStudentScreen = ({ navigation, route }: any) => {
         >
           {snackbar.message}
         </Snackbar>
-      </SafeAreaView>
+      </View>
     </EnhancedErrorBoundary>
   );
 };
