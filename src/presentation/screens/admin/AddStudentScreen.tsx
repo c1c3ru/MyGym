@@ -4,9 +4,8 @@ import {
   StyleSheet,
   Alert,
   Platform,
-  useWindowDimensions
+  ScrollView
 } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   Card,
@@ -40,12 +39,6 @@ import { getString } from "@utils/theme";
 import { hexToRgba } from '@shared/utils/colorUtils';
 
 const AddStudentScreen = ({ navigation, route }: any) => {
-  const { height } = useWindowDimensions();
-  const Container = Platform.OS === 'web' ? View : SafeAreaView;
-  const containerStyle = Platform.OS === 'web'
-    ? [styles.container, { height: height, overflow: 'hidden' as const }]
-    : styles.container;
-
   const { currentTheme } = useThemeToggle();
 
   const { user, userProfile, academia } = useAuthFacade();
@@ -330,296 +323,298 @@ const AddStudentScreen = ({ navigation, route }: any) => {
       }}
       errorContext={{ screen: 'AddStudentScreen', academiaId: userProfile?.academiaId }}
     >
-      <Container style={containerStyle}>
-        {/* Banner de validação */}
-        <Banner
-          visible={showValidationBanner}
-          actions={[
-            {
-              label: 'OK',
-              onPress: () => setShowValidationBanner(false),
-            },
-          ]}
-          icon="alert-circle"
-          style={styles.validationBanner}
-        >
-          Preencha todos os campos obrigatórios marcados com *
-        </Banner>
+      <View style={styles.container}>
+        <SafeAreaView style={styles.safeArea}>
+          {/* Banner de validação */}
+          <Banner
+            visible={showValidationBanner}
+            actions={[
+              {
+                label: 'OK',
+                onPress: () => setShowValidationBanner(false),
+              },
+            ]}
+            icon="alert-circle"
+            style={styles.validationBanner}
+          >
+            Preencha todos os campos obrigatórios marcados com *
+          </Banner>
 
-        {/* Loading overlay */}
-        {loading && (
-          <View style={styles.loadingOverlay}>
-            <ActivityIndicator size="large" color={COLORS.primary[500]} />
-            <Text style={styles.loadingText}>Cadastrando aluno...</Text>
-          </View>
-        )}
+          {/* Loading overlay */}
+          {loading && (
+            <View style={styles.loadingOverlay}>
+              <ActivityIndicator size="large" color={COLORS.primary[500]} />
+              <Text style={styles.loadingText}>Cadastrando aluno...</Text>
+            </View>
+          )}
 
-        <ScrollView
-          style={styles.scrollView}
-          showsVerticalScrollIndicator={true}
-          keyboardShouldPersistTaps="handled"
-          contentContainerStyle={styles.scrollContent}
-        >
-          <Card style={styles.card}>
-            <Card.Content>
-              <Text style={[styles.title, styles.title]}>Novo Aluno</Text>
+          <ScrollView
+            style={styles.scrollView}
+            showsVerticalScrollIndicator={true}
+            keyboardShouldPersistTaps="handled"
+            contentContainerStyle={styles.scrollContent}
+          >
+            <Card style={styles.card}>
+              <Card.Content>
+                <Text style={[styles.title, styles.title]}>Novo Aluno</Text>
 
-              {/* Dados Pessoais */}
-              <Text style={styles.sectionTitle}>Dados Pessoais</Text>
+                {/* Dados Pessoais */}
+                <Text style={styles.sectionTitle}>Dados Pessoais</Text>
 
-              <TextInput
-                label="Nome Completo *"
-                {...getFieldProps('name')}
-                onChangeText={(value: any) => handleFieldChange('name', value)}
-                onBlur={() => handleFieldBlur('name')}
-                mode="outlined"
-                style={styles.input}
-                error={!!(touched.name && errors.name)}
-                left={<TextInput.Icon icon="account" />}
-              />
-              {touched.name && errors.name && <HelperText type="error">{errors.name}</HelperText>}
+                <TextInput
+                  label="Nome Completo *"
+                  {...getFieldProps('name')}
+                  onChangeText={(value: any) => handleFieldChange('name', value)}
+                  onBlur={() => handleFieldBlur('name')}
+                  mode="outlined"
+                  style={styles.input}
+                  error={!!(touched.name && errors.name)}
+                  left={<TextInput.Icon icon="account" />}
+                />
+                {touched.name && errors.name && <HelperText type="error">{errors.name}</HelperText>}
 
-              <TextInput
-                label="Email *"
-                {...getFieldProps('email')}
-                onChangeText={(value: any) => handleFieldChange('email', value)}
-                onBlur={() => handleFieldBlur('email')}
-                mode="outlined"
-                keyboardType="email-address"
-                autoCapitalize="none"
-                style={styles.input}
-                error={!!(touched.email && errors.email)}
-                left={<TextInput.Icon icon="email" />}
-              />
-              {touched.email && errors.email && <HelperText type="error">{errors.email}</HelperText>}
+                <TextInput
+                  label="Email *"
+                  {...getFieldProps('email')}
+                  onChangeText={(value: any) => handleFieldChange('email', value)}
+                  onBlur={() => handleFieldBlur('email')}
+                  mode="outlined"
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  style={styles.input}
+                  error={!!(touched.email && errors.email)}
+                  left={<TextInput.Icon icon="email" />}
+                />
+                {touched.email && errors.email && <HelperText type="error">{errors.email}</HelperText>}
 
-              <TextInput
-                label="Telefone *"
-                value={formData.phone}
-                onChangeText={(value: any) => updateFormData('phone', value)}
-                mode="outlined"
-                keyboardType="phone-pad"
-                style={styles.input}
-                error={!!errors.phone}
-                left={<TextInput.Icon icon="phone" />}
-              />
-              {errors.phone && <HelperText type="error">{errors.phone}</HelperText>}
+                <TextInput
+                  label="Telefone *"
+                  value={formData.phone}
+                  onChangeText={(value: any) => updateFormData('phone', value)}
+                  mode="outlined"
+                  keyboardType="phone-pad"
+                  style={styles.input}
+                  error={!!errors.phone}
+                  left={<TextInput.Icon icon="phone" />}
+                />
+                {errors.phone && <HelperText type="error">{errors.phone}</HelperText>}
 
-              <TextInput
-                label="Data de Nascimento (DD/MM/AAAA) *"
-                value={formData.birthDate}
-                onChangeText={(value: any) => updateFormData('birthDate', value)}
-                mode="outlined"
-                placeholder="01/01/1990"
-                style={styles.input}
-                error={!!errors.birthDate}
-                left={<TextInput.Icon icon="calendar" />}
-              />
-              {errors.birthDate && <HelperText type="error">{errors.birthDate}</HelperText>}
+                <TextInput
+                  label="Data de Nascimento (DD/MM/AAAA) *"
+                  value={formData.birthDate}
+                  onChangeText={(value: any) => updateFormData('birthDate', value)}
+                  mode="outlined"
+                  placeholder="01/01/1990"
+                  style={styles.input}
+                  error={!!errors.birthDate}
+                  left={<TextInput.Icon icon="calendar" />}
+                />
+                {errors.birthDate && <HelperText type="error">{errors.birthDate}</HelperText>}
 
-              {/* Campo Sexo */}
-              <Text style={styles.fieldLabel}>Sexo *</Text>
-              <RadioButton.Group
-                onValueChange={(value: any) => handleFieldChange('sexo', value)}
-                value={formData.sexo}
-              >
-                <View style={styles.radioContainer}>
-                  <View style={styles.radioItem}>
-                    <RadioButton value="masculino" />
-                    <Text style={styles.radioLabel}>Masculino</Text>
-                  </View>
-                  <View style={styles.radioItem}>
-                    <RadioButton value="feminino" />
-                    <Text style={styles.radioLabel}>Feminino</Text>
-                  </View>
-                  <View style={styles.radioItem}>
-                    <RadioButton value="outro" />
-                    <Text style={styles.radioLabel}>Outro</Text>
-                  </View>
-                </View>
-              </RadioButton.Group>
-              {touched.sexo && errors.sexo && <HelperText type="error">{errors.sexo}</HelperText>}
-
-              <TextInput
-                label="Endereço (opcional)"
-                value={formData.address}
-                onChangeText={(value: any) => updateFormData('address', value)}
-                mode="outlined"
-                multiline
-                numberOfLines={2}
-                style={styles.input}
-                left={<TextInput.Icon icon="home" />}
-              />
-
-              {/* Contato de Emergência */}
-              <Text style={styles.sectionTitle}>Contato de Emergência</Text>
-
-              <TextInput
-                label="Nome do Contato *"
-                value={formData.emergencyContact}
-                onChangeText={(value: any) => updateFormData('emergencyContact', value)}
-                mode="outlined"
-                style={styles.input}
-                error={!!errors.emergencyContact}
-                left={<TextInput.Icon icon="account-heart" />}
-              />
-              {errors.emergencyContact && <HelperText type="error">{errors.emergencyContact}</HelperText>}
-
-              <TextInput
-                label="Telefone de Emergência *"
-                value={formData.emergencyPhone}
-                onChangeText={(value: any) => updateFormData('emergencyPhone', value)}
-                mode="outlined"
-                keyboardType="phone-pad"
-                style={styles.input}
-                error={!!errors.emergencyPhone}
-                left={<TextInput.Icon icon="phone-alert" />}
-              />
-              {errors.emergencyPhone && <HelperText type="error">{errors.emergencyPhone}</HelperText>}
-
-              {/* Informações Médicas */}
-              <Text style={styles.sectionTitle}>Informações Médicas</Text>
-
-              <TextInput
-                label="Condições Médicas (opcional)"
-                value={formData.medicalConditions}
-                onChangeText={(value: any) => updateFormData('medicalConditions', value)}
-                mode="outlined"
-                multiline
-                numberOfLines={3}
-                placeholder="Informe alergias, lesões, medicamentos, etc."
-                style={styles.input}
-                left={<TextInput.Icon icon="medical-bag" />}
-              />
-
-              <TextInput
-                label="Objetivos (opcional)"
-                value={formData.goals}
-                onChangeText={(value: any) => updateFormData('goals', value)}
-                mode="outlined"
-                multiline
-                numberOfLines={2}
-                placeholder="Perda de peso, ganho de massa, condicionamento..."
-                style={styles.input}
-                left={<TextInput.Icon icon="target" />}
-              />
-
-              {/* Seleção de Turmas */}
-              <Divider style={styles.divider} />
-              <View style={styles.sectionHeader}>
-                <Text style={styles.sectionTitle}>🎯 Turmas</Text>
-                {loadingClasses && <ActivityIndicator size="small" color={COLORS.info[500]} />}
-              </View>
-              <Text style={styles.sectionSubtitle}>
-                Selecione as turmas que o aluno irá participar (opcional)
-              </Text>
-
-              {loadingClasses ? (
-                <View style={styles.loadingContainer}>
-                  <ActivityIndicator size="large" color={COLORS.info[500]} />
-                  <Text style={styles.loadingText}>Carregando turmas...</Text>
-                </View>
-              ) : availableClasses.length > 0 ? (
-                <>
-                  <View style={styles.classesContainer}>
-                    {availableClasses.map((classItem) => (
-                      <Chip
-                        key={classItem.id}
-                        selected={selectedClasses.includes(classItem.id)}
-                        onPress={() => toggleClassSelection(classItem.id)}
-                        style={[
-                          styles.classChip,
-                          selectedClasses.includes(classItem.id) && styles.selectedChip
-                        ]}
-                        textStyle={selectedClasses.includes(classItem.id) && styles.selectedChipText}
-                        icon={selectedClasses.includes(classItem.id) ? "check-circle" : "plus-circle"}
-                      >
-                        {classItem.name || `${classItem.modality} - ${classItem.instructorName}`}
-                      </Chip>
-                    ))}
-                  </View>
-
-                  {selectedClasses.length > 0 && (
-                    <View style={styles.selectedClassesContainer}>
-                      <Text style={styles.selectedClassesInfo}>
-                        ✅ {selectedClasses.length} turma{selectedClasses.length !== 1 ? 's' : ''} selecionada{selectedClasses.length !== 1 ? 's' : ''}
-                      </Text>
-                      <Button
-                        mode="text"
-                        onPress={() => {
-                          setSelectedClasses([]);
-                          showSnackbar('Todas as turmas foram desmarcadas', 'info');
-                        }}
-                        compact
-                        style={styles.clearButton}
-                      >
-                        Limpar seleção
-                      </Button>
-                    </View>
-                  )}
-                </>
-              ) : (
-                <View style={styles.emptyStateContainer}>
-                  <Text style={styles.emptyStateIcon}>📚</Text>
-                  <Text style={styles.noClassesText}>
-                    Nenhuma turma disponível
-                  </Text>
-                  <Text style={styles.noClassesSubtext}>
-                    Crie turmas primeiro para associar alunos
-                  </Text>
-                  <Button
-                    mode="outlined"
-                    onPress={loadAvailableClasses}
-                    style={styles.retryButton}
-                    icon="refresh"
-                    compact
-                  >
-                    Tentar novamente
-                  </Button>
-                </View>
-              )}
-
-              {/* Status */}
-              <View style={styles.radioContainer}>
-                <Text style={styles.label}>Status</Text>
+                {/* Campo Sexo */}
+                <Text style={styles.fieldLabel}>Sexo *</Text>
                 <RadioButton.Group
-                  onValueChange={(value: any) => updateFormData('status', value)}
-                  value={formData.status}
+                  onValueChange={(value: any) => handleFieldChange('sexo', value)}
+                  value={formData.sexo}
                 >
-                  <View style={styles.radioItem}>
-                    <RadioButton value="active" />
-                    <Text style={styles.radioLabel}>Ativo</Text>
-                  </View>
-                  <View style={styles.radioItem}>
-                    <RadioButton value="inactive" />
-                    <Text style={styles.radioLabel}>Inativo</Text>
+                  <View style={styles.radioContainer}>
+                    <View style={styles.radioItem}>
+                      <RadioButton value="masculino" />
+                      <Text style={styles.radioLabel}>Masculino</Text>
+                    </View>
+                    <View style={styles.radioItem}>
+                      <RadioButton value="feminino" />
+                      <Text style={styles.radioLabel}>Feminino</Text>
+                    </View>
+                    <View style={styles.radioItem}>
+                      <RadioButton value="outro" />
+                      <Text style={styles.radioLabel}>Outro</Text>
+                    </View>
                   </View>
                 </RadioButton.Group>
-              </View>
+                {touched.sexo && errors.sexo && <HelperText type="error">{errors.sexo}</HelperText>}
 
-              {/* Botões */}
-              <View style={styles.buttonContainer}>
-                <Button
+                <TextInput
+                  label="Endereço (opcional)"
+                  value={formData.address}
+                  onChangeText={(value: any) => updateFormData('address', value)}
                   mode="outlined"
-                  onPress={() => navigation.goBack()}
-                  style={styles.button}
-                  disabled={loading}
-                >Cancelar</Button>
-                <Button
-                  mode="contained"
-                  onPress={handleSubmit}
-                  style={[styles.button, loading && styles.buttonLoading]}
-                  buttonColor={COLORS.success[500]}
-                  loading={loading}
-                  disabled={loading}
-                  icon={loading ? undefined : "account-plus"}
-                >
-                  {loading ? 'Cadastrando...' : 'Cadastrar Aluno'}
-                </Button>
-              </View>
-            </Card.Content>
-          </Card>
-        </ScrollView>
+                  multiline
+                  numberOfLines={2}
+                  style={styles.input}
+                  left={<TextInput.Icon icon="home" />}
+                />
+
+                {/* Contato de Emergência */}
+                <Text style={styles.sectionTitle}>Contato de Emergência</Text>
+
+                <TextInput
+                  label="Nome do Contato *"
+                  value={formData.emergencyContact}
+                  onChangeText={(value: any) => updateFormData('emergencyContact', value)}
+                  mode="outlined"
+                  style={styles.input}
+                  error={!!errors.emergencyContact}
+                  left={<TextInput.Icon icon="account-heart" />}
+                />
+                {errors.emergencyContact && <HelperText type="error">{errors.emergencyContact}</HelperText>}
+
+                <TextInput
+                  label="Telefone de Emergência *"
+                  value={formData.emergencyPhone}
+                  onChangeText={(value: any) => updateFormData('emergencyPhone', value)}
+                  mode="outlined"
+                  keyboardType="phone-pad"
+                  style={styles.input}
+                  error={!!errors.emergencyPhone}
+                  left={<TextInput.Icon icon="phone-alert" />}
+                />
+                {errors.emergencyPhone && <HelperText type="error">{errors.emergencyPhone}</HelperText>}
+
+                {/* Informações Médicas */}
+                <Text style={styles.sectionTitle}>Informações Médicas</Text>
+
+                <TextInput
+                  label="Condições Médicas (opcional)"
+                  value={formData.medicalConditions}
+                  onChangeText={(value: any) => updateFormData('medicalConditions', value)}
+                  mode="outlined"
+                  multiline
+                  numberOfLines={3}
+                  placeholder="Informe alergias, lesões, medicamentos, etc."
+                  style={styles.input}
+                  left={<TextInput.Icon icon="medical-bag" />}
+                />
+
+                <TextInput
+                  label="Objetivos (opcional)"
+                  value={formData.goals}
+                  onChangeText={(value: any) => updateFormData('goals', value)}
+                  mode="outlined"
+                  multiline
+                  numberOfLines={2}
+                  placeholder="Perda de peso, ganho de massa, condicionamento..."
+                  style={styles.input}
+                  left={<TextInput.Icon icon="target" />}
+                />
+
+                {/* Seleção de Turmas */}
+                <Divider style={styles.divider} />
+                <View style={styles.sectionHeader}>
+                  <Text style={styles.sectionTitle}>🎯 Turmas</Text>
+                  {loadingClasses && <ActivityIndicator size="small" color={COLORS.info[500]} />}
+                </View>
+                <Text style={styles.sectionSubtitle}>
+                  Selecione as turmas que o aluno irá participar (opcional)
+                </Text>
+
+                {loadingClasses ? (
+                  <View style={styles.loadingContainer}>
+                    <ActivityIndicator size="large" color={COLORS.info[500]} />
+                    <Text style={styles.loadingText}>Carregando turmas...</Text>
+                  </View>
+                ) : availableClasses.length > 0 ? (
+                  <>
+                    <View style={styles.classesContainer}>
+                      {availableClasses.map((classItem) => (
+                        <Chip
+                          key={classItem.id}
+                          selected={selectedClasses.includes(classItem.id)}
+                          onPress={() => toggleClassSelection(classItem.id)}
+                          style={[
+                            styles.classChip,
+                            selectedClasses.includes(classItem.id) && styles.selectedChip
+                          ]}
+                          textStyle={selectedClasses.includes(classItem.id) && styles.selectedChipText}
+                          icon={selectedClasses.includes(classItem.id) ? "check-circle" : "plus-circle"}
+                        >
+                          {classItem.name || `${classItem.modality} - ${classItem.instructorName}`}
+                        </Chip>
+                      ))}
+                    </View>
+
+                    {selectedClasses.length > 0 && (
+                      <View style={styles.selectedClassesContainer}>
+                        <Text style={styles.selectedClassesInfo}>
+                          ✅ {selectedClasses.length} turma{selectedClasses.length !== 1 ? 's' : ''} selecionada{selectedClasses.length !== 1 ? 's' : ''}
+                        </Text>
+                        <Button
+                          mode="text"
+                          onPress={() => {
+                            setSelectedClasses([]);
+                            showSnackbar('Todas as turmas foram desmarcadas', 'info');
+                          }}
+                          compact
+                          style={styles.clearButton}
+                        >
+                          Limpar seleção
+                        </Button>
+                      </View>
+                    )}
+                  </>
+                ) : (
+                  <View style={styles.emptyStateContainer}>
+                    <Text style={styles.emptyStateIcon}>📚</Text>
+                    <Text style={styles.noClassesText}>
+                      Nenhuma turma disponível
+                    </Text>
+                    <Text style={styles.noClassesSubtext}>
+                      Crie turmas primeiro para associar alunos
+                    </Text>
+                    <Button
+                      mode="outlined"
+                      onPress={loadAvailableClasses}
+                      style={styles.retryButton}
+                      icon="refresh"
+                      compact
+                    >
+                      Tentar novamente
+                    </Button>
+                  </View>
+                )}
+
+                {/* Status */}
+                <View style={styles.radioContainer}>
+                  <Text style={styles.label}>Status</Text>
+                  <RadioButton.Group
+                    onValueChange={(value: any) => updateFormData('status', value)}
+                    value={formData.status}
+                  >
+                    <View style={styles.radioItem}>
+                      <RadioButton value="active" />
+                      <Text style={styles.radioLabel}>Ativo</Text>
+                    </View>
+                    <View style={styles.radioItem}>
+                      <RadioButton value="inactive" />
+                      <Text style={styles.radioLabel}>Inativo</Text>
+                    </View>
+                  </RadioButton.Group>
+                </View>
+
+                {/* Botões */}
+                <View style={styles.buttonContainer}>
+                  <Button
+                    mode="outlined"
+                    onPress={() => navigation.goBack()}
+                    style={styles.button}
+                    disabled={loading}
+                  >Cancelar</Button>
+                  <Button
+                    mode="contained"
+                    onPress={handleSubmit}
+                    style={[styles.button, loading && styles.buttonLoading]}
+                    buttonColor={COLORS.success[500]}
+                    loading={loading}
+                    disabled={loading}
+                    icon={loading ? undefined : "account-plus"}
+                  >
+                    {loading ? 'Cadastrando...' : 'Cadastrar Aluno'}
+                  </Button>
+                </View>
+              </Card.Content>
+            </Card>
+          </ScrollView>
+        </SafeAreaView>
 
         {/* Snackbar para feedback */}
         <Snackbar
@@ -638,7 +633,7 @@ const AddStudentScreen = ({ navigation, route }: any) => {
         >
           {snackbar.message}
         </Snackbar>
-      </Container>
+      </View>
     </EnhancedErrorBoundary>
   );
 };
@@ -646,7 +641,10 @@ const AddStudentScreen = ({ navigation, route }: any) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.gray[100],
+    backgroundColor: COLORS.background.default,
+  },
+  safeArea: {
+    flex: 1,
   },
   scrollView: {
     flex: 1,
