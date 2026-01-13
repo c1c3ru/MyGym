@@ -572,6 +572,7 @@ const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
                   mode="contained"
                   onPress={handleSubmit}
                   style={styles.button}
+                  buttonColor={COLORS.success[500]}
                   loading={loading}
                   disabled={loading || modalities.length === 0}
                 >
