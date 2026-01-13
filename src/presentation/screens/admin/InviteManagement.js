@@ -304,19 +304,14 @@ export default function InviteManagement({ navigation }) {
               {getStatusText(invite.status)}
             </Chip>
 
-            <ActionButton
-              mode="text"
-              onPress={() => deleteInvite(invite.id, invite.email)}
-              loading={deletingInviteId === invite.id}
-              disabled={deletingInviteId !== null}
+            <IconButton
               icon="delete"
-              size="small"
-              variant="danger"
-              style={{ margin: 0, minWidth: 0, paddingHorizontal: 0 }}
-              labelStyle={{ marginHorizontal: 0 }}
-            >
-              Excluir
-            </ActionButton>
+              iconColor={COLORS.error[500]}
+              size={20}
+              onPress={() => deleteInvite(invite.id, invite.email)}
+              disabled={deletingInviteId !== null}
+              style={{ margin: 0 }}
+            />
           </View>
         </View>
       </Card.Content>
