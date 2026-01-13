@@ -14,15 +14,15 @@ import {
 } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { 
+import {
   COLORS,
-  SPACING, 
-  FONT_SIZE, 
-  FONT_WEIGHT, 
+  SPACING,
+  FONT_SIZE,
+  FONT_WEIGHT,
   BORDER_RADIUS,
   BORDER_WIDTH,
-  Z_INDEX, 
-  OPACITY 
+  Z_INDEX,
+  OPACITY
 } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
 import { getString } from "@utils/theme";
@@ -177,7 +177,7 @@ export const OnboardingProvider = ({ children }) => {
    */
   const startTour = useCallback((tourIdOrObject) => {
     // Se for string, busca o tour pré-definido
-    const tour = typeof tourIdOrObject === 'string' 
+    const tour = typeof tourIdOrObject === 'string'
       ? ONBOARDING_TOURS[tourIdOrObject]
       : tourIdOrObject;
 
@@ -299,7 +299,7 @@ const OnboardingTooltip = ({
   onSkip,
 }) => {
   const { currentTheme } = useThemeToggle();
-  
+
   // Estilos dinâmicos baseados no tema atual
   const dynamicStyles = StyleSheet.create({
     tooltip: {
@@ -322,15 +322,15 @@ const OnboardingTooltip = ({
     },
     tooltipTitle: {
       ...styles.tooltipTitle,
-      color: COLORS.black,
+      color: currentTheme.text.primary,
     },
     tooltipProgress: {
       ...styles.tooltipProgress,
-      color: COLORS.black,
+      color: currentTheme.text.secondary,
     },
     tooltipMessage: {
       ...styles.tooltipMessage,
-      color: COLORS.black,
+      color: currentTheme.text.primary,
     },
     backdrop: {
       ...styles.backdrop,
@@ -352,7 +352,7 @@ const OnboardingTooltip = ({
       }),
     },
   });
-  
+
   return (
     <Modal
       visible={true}
@@ -536,7 +536,7 @@ const styles = StyleSheet.create({
     top: '50%',
     left: '50%',
     transform: [
-      { translateX: -(width * 0.45) }, 
+      { translateX: -(width * 0.45) },
       { translateY: width < 360 ? -120 : -150 }
     ],
     width: width < 360 ? '95%' : '90%',
@@ -556,18 +556,15 @@ const styles = StyleSheet.create({
   tooltipTitle: {
     fontSize: width < 360 ? FONT_SIZE.base : FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.black,  // Será sobrescrito pelos estilos dinâmicos
     marginBottom: SPACING.xxs,
   },
   tooltipProgress: {
     fontSize: width < 360 ? FONT_SIZE.xxs : FONT_SIZE.xs,
-    color: COLORS.gray[500],  // Será sobrescrito pelos estilos dinâmicos
   },
   tooltipMessage: {
     fontSize: width < 360 ? FONT_SIZE.sm : FONT_SIZE.base,
-    color: COLORS.black,  // Será sobrescrito pelos estilos dinâmicos
     lineHeight: (width < 360 ? FONT_SIZE.sm : FONT_SIZE.base) * 1.5,
-    marginBottom: width < 360 ? SPACING.md : SPACING.lg,
+    marginBottom: width < 360 ? FONT_SIZE.md : SPACING.lg,
   },
   tooltipActions: {
     flexDirection: 'row',
