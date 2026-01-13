@@ -389,11 +389,12 @@ service cloud.firestore {
     }
 
     // Convites da academia (subcoleção)
-    // TEMPORARY: More permissive rules for debugging
     match /gyms/{gymId}/invites/{inviteId} {
-      // TEMPORARY: Allow any authenticated user to delete for testing
-      // TODO: Restore admin-only after fixing custom claims
-      allow delete: if request.auth != null;
+      // Apenas admin pode excluir convites da própria academia
+      allow delete: if request.auth != null &&
+                       hasValidAcademia() &&
+                       gymId == getAcademiaId() &&
+                       isAdmin();
 
       // Admin pode criar convites da própria academia
       allow create: if request.auth != null &&
