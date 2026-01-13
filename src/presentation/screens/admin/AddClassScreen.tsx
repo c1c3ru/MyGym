@@ -349,7 +349,7 @@ const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
     <View style={styles.container}>
       <ScrollView
         style={styles.scrollView}
-        contentContainerStyle={{ paddingBottom: 100 }}
+        contentContainerStyle={{ paddingBottom: 100, flexGrow: 1 }}
         showsVerticalScrollIndicator={true}
       >
         <Card style={styles.card}>
@@ -599,7 +599,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.background.default,
-    ...(Platform.OS === 'web' ? { height: '100vh', overflow: 'hidden' } as any : {}),
+    ...(Platform.OS === 'web' ? { height: '100%' } : {}),
   },
   scrollView: {
     flex: 1,

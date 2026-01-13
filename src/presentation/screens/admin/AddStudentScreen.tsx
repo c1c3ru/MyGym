@@ -6,8 +6,6 @@ import {
   Alert,
   Platform
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { LinearGradient } from 'expo-linear-gradient';
 import {
   Card,
   Text,
@@ -22,10 +20,8 @@ import {
   Divider
 } from 'react-native-paper';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
-import { useTheme } from '@contexts/ThemeContext';
 import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
 import { refreshManager } from '@utils/refreshManager';
-import { getAuthGradient } from '@presentation/theme/authTheme';
 import type { NavigationProp } from '@react-navigation/native';
 
 interface AddStudentScreenProps {
@@ -36,7 +32,6 @@ import { useFormValidation } from '@hooks/useFormValidation';
 import { useStudentCreationRateLimit } from '@hooks/useRateLimit';
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import cacheService, { CACHE_KEYS } from '@infrastructure/services/cacheService';
-import formValidator, { commonSchemas } from '@utils/formValidation';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
 import { getString } from "@utils/theme";
@@ -644,6 +639,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.gray[100],
+    ...(Platform.OS === 'web' ? { height: '100%' } : {}),
   },
   scrollView: {
     flex: 1,
@@ -652,6 +648,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: '4%',
     paddingVertical: SPACING.md,
     paddingBottom: 100,
+    flexGrow: 1,
   },
   card: {
     marginBottom: SPACING.lg,
