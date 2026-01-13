@@ -160,61 +160,61 @@ export default function InviteManagement({ navigation }) {
       return;
     }
 
-    
-      try {
-        console.log('✅ Usuário confirmou exclusão');
-        setDeletingInviteId(inviteId);
 
-        console.log('📞 Chamando InviteService.deleteInvite...');
-        await InviteService.deleteInvite(academia.id, inviteId);
+    try {
+      console.log('✅ Usuário confirmou exclusão');
+      setDeletingInviteId(inviteId);
 
-        console.log('✅ Convite excluído com sucesso no Firestore!');
+      console.log('📞 Chamando InviteService.deleteInvite...');
+      await InviteService.deleteInvite(academia.id, inviteId);
 
-        // Remover imediatamente da lista local para feedback instantâneo
-        console.log('🔄 Removendo convite da lista local...');
-        setInvites(prevInvites => {
-          const updated = prevInvites.filter(inv => inv.id !== inviteId);
-          console.log('📊 Lista atualizada. Antes:', prevInvites.length, 'Depois:', updated.length);
-          return updated;
+      console.log('✅ Convite excluído com sucesso no Firestore!');
+
+      // Remover imediatamente da lista local para feedback instantâneo
+      console.log('🔄 Removendo convite da lista local...');
+      setInvites(prevInvites => {
+        const updated = prevInvites.filter(inv => inv.id !== inviteId);
+        console.log('📊 Lista atualizada. Antes:', prevInvites.length, 'Depois:', updated.length);
+        return updated;
+      });
+
+      console.log('🔄 Recarregando lista de convites do servidor...');
+      await loadInvites();
+
+      console.log('✅ Exclusão concluída!');
+      window.alert('Convite excluído com sucesso!');
+    } catch (error) {
+      console.error('❌ Erro ao excluir convite:', error);
+      console.error('❌ Error code:', error.code);
+      console.error('❌ Error message:', error.message);
+      console.error('❌ Full error:', JSON.stringify(error, null, 2));
+      console.error('❌ Detalhes da operação:', {
+        inviteId,
+        inviteEmail,
+        academiaId: academia?.id,
+        userRole: 'Verificar custom claims no console'
+      });
+
+      let errorMessage = 'Não foi possível excluir o convite';
+
+      if (error.code === 'permission-denied') {
+        errorMessage = '🔒 Permissão negada. Verifique se você é admin e se as regras do Firestore estão atualizadas.\n\nDetalhes técnicos: ' + error.message;
+        console.error('📋 ERRO DE PERMISSÃO - Verifique:', {
+          'Custom Claims': 'Execute no console: firebase.auth().currentUser.getIdTokenResult().then(t => console.log(t.claims))',
+          'Academia ID': academia?.id,
+          'Invite ID': inviteId
         });
-
-        console.log('🔄 Recarregando lista de convites do servidor...');
-        await loadInvites();
-
-        console.log('✅ Exclusão concluída!');
-        window.alert('Convite excluído com sucesso!');
-      } catch (error) {
-        console.error('❌ Erro ao excluir convite:', error);
-        console.error('❌ Error code:', error.code);
-        console.error('❌ Error message:', error.message);
-        console.error('❌ Full error:', JSON.stringify(error, null, 2));
-        console.error('❌ Detalhes da operação:', {
-          inviteId,
-          inviteEmail,
-          academiaId: academia?.id,
-          userRole: 'Verificar custom claims no console'
-        });
-
-        let errorMessage = 'Não foi possível excluir o convite';
-
-        if (error.code === 'permission-denied') {
-          errorMessage = '🔒 Permissão negada. Verifique se você é admin e se as regras do Firestore estão atualizadas.\n\nDetalhes técnicos: ' + error.message;
-          console.error('📋 ERRO DE PERMISSÃO - Verifique:', {
-            'Custom Claims': 'Execute no console: firebase.auth().currentUser.getIdTokenResult().then(t => console.log(t.claims))',
-            'Academia ID': academia?.id,
-            'Invite ID': inviteId
-          });
-        } else if (error.message) {
-          errorMessage = `Erro: ${error.message}`;
-        }
-
-        window.alert('Erro ao Excluir: ' + errorMessage);
-      } finally {
-        setDeletingInviteId(null);
+      } else if (error.message) {
+        errorMessage = `Erro: ${error.message}`;
       }
-    
+
+      window.alert('Erro ao Excluir: ' + errorMessage);
+    } finally {
+      setDeletingInviteId(null);
+    }
   }
 };
+
 
 const handleDeleteByStatus = async (status) => {
   setShowDeleteModal(false);
