@@ -142,6 +142,7 @@ const AdminNavigator = () => {
         component={AddClassScreen}
         options={{
           headerShown: true,
+          contentStyle: { flex: 1 },
           header: ({ navigation }) => (
             <UniversalHeader
               title={getString('newClass')}
@@ -217,6 +218,7 @@ const AdminNavigator = () => {
         component={AddStudentScreen}
         options={{
           headerShown: true,
+          contentStyle: { flex: 1 },
           header: ({ navigation }) => (
             <UniversalHeader
               title={getString('newStudent')}
