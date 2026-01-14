@@ -712,6 +712,15 @@ ${userProfile.emergencyContact.phone}` :
                     </View>
 
                     <List.Item
+                      title={getString('academy')}
+                      description={academia?.name || (userProfile as any)?.academiaName || getString('notInformed')}
+                      left={() => <List.Icon icon="office-building" color={COLORS.primary[500]} />}
+                      titleStyle={[styles.listItemTitle, { color: COLORS.text.primary }]}
+                      descriptionStyle={[styles.listItemDescription, { color: COLORS.text.secondary }]}
+                    />
+                    <Divider style={[styles.divider, { backgroundColor: COLORS.border.subtle }]} />
+
+                    <List.Item
                       title={getString('currentGraduation')}
                       description={userProfile?.currentGraduation || getString('beginner')}
                       left={() => <List.Icon icon="trophy" color={COLORS.warning[300]} />}

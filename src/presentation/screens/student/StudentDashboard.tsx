@@ -76,7 +76,7 @@ const AnimatedCard: React.FC<{
 };
 
 const StudentDashboard: React.FC<{ navigation: any }> = ({ navigation }) => {
-    const { user, userProfile } = useAuthFacade();
+    const { user, userProfile, academia } = useAuthFacade();
     const { getString, theme } = useTheme();
     const colors = theme.colors;
 
@@ -85,7 +85,7 @@ const StudentDashboard: React.FC<{ navigation: any }> = ({ navigation }) => {
     const [nextClasses, setNextClasses] = useState<any[]>([]);
     const [announcements, setAnnouncements] = useState<any[]>([]);
     const [dashboardData, setDashboardData] = useState<any>({
-        nextEvaluation: '2 ' + (getString('months') || 'meses'),
+        nextEvaluation: '2 ' + getString('months'),
         totalClasses: 0,
         attendanceRate: 0
     });
@@ -151,7 +151,7 @@ const StudentDashboard: React.FC<{ navigation: any }> = ({ navigation }) => {
 
                     const dashboardInfo = {
                         graduationStatus: studentProfile?.currentBelt || studentProfile?.currentGraduation || getString('whiteBelt'),
-                        nextEvaluation: studentProfile?.nextEvaluationDate || ('2 ' + (getString('months') || 'meses')),
+                        nextEvaluation: studentProfile?.nextEvaluationDate || ('2 ' + getString('months')),
                         totalClasses: userClasses.length,
                         attendanceRate: studentProfile?.attendanceRate || 0
                     };
@@ -239,6 +239,9 @@ const StudentDashboard: React.FC<{ navigation: any }> = ({ navigation }) => {
                             <View style={styles.welcomeInfo}>
                                 <Text style={styles.greetingText}>
                                     {getString('hello')}, {userProfile?.name?.split(' ')[0] || getString('student')}!
+                                </Text>
+                                <Text style={styles.academyNameText}>
+                                    🏛️ {(userProfile as any)?.academiaName || academia?.name || getString('academy')}
                                 </Text>
                                 <Text style={styles.welcomeBackText}>
                                     {getString('welcomeBackToAcademy')}
@@ -405,6 +408,12 @@ const createStyles = (colors: any) => StyleSheet.create({
     welcomeBackText: {
         fontSize: FONT_SIZE.sm,
         color: colors.onSurfaceVariant,
+        marginTop: 2
+    },
+    academyNameText: {
+        fontSize: FONT_SIZE.base,
+        color: colors.primary,
+        fontWeight: '600',
         marginTop: 2
     },
     cardHeader: {

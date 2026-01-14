@@ -26,6 +26,8 @@ export const languages: Record<LanguageCode, any> = {
       serverError: 'Erro no servidor. Tente novamente mais tarde.',
       validationError: 'Dados inválidos. Verifique os campos.',
       rateLimitExceeded: 'Muitas tentativas. Aguarde 5 minutos.',
+      userIdNotFound: 'ID do usuário não encontrado',
+      graduationStatus: 'Status da Graduação',
 
       // ACTIONS
       create: 'Criar',
@@ -298,6 +300,7 @@ export const languages: Record<LanguageCode, any> = {
       classesScheduled: 'aulas agendadas',
       manageClass: 'Gerenciar Turma',
       noClassesToday: 'Nenhuma aula hoje',
+      viewAll: 'Ver Todos',
       planNextClasses: 'Planeje suas próximas aulas',
       directAccessFunctionalities: 'Acesso direto às funcionalidades',
       reports: 'Relatórios',

@@ -29,8 +29,10 @@ const StudentEvolution = ({ navigation }) => {
     totalGraduations: 0,
     currentGraduation: '',
     timeInCurrentGraduation: 0,
-    modalities: []
+    modalities: [],
+    beltsByModality: {}
   });
+  const [selectedModality, setSelectedModality] = useState('All');
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -80,7 +82,12 @@ const StudentEvolution = ({ navigation }) => {
         totalGraduations: userGraduations.length,
         currentGraduation: currentGrad?.graduation || getString('beginner'),
         timeInCurrentGraduation: timeInCurrent,
-        modalities
+        modalities,
+        beltsByModality: modalities.reduce((acc, mod) => {
+          const modGrads = sortedGraduations.filter(g => g.modality === mod);
+          acc[mod] = modGrads[0]?.graduation || getString('beginner');
+          return acc;
+        }, {})
       });
 
     } catch (error) {
@@ -143,7 +150,12 @@ const StudentEvolution = ({ navigation }) => {
           <Card.Content>
             <View style={styles.cardHeader}>
               <Ionicons name="trophy-outline" size={24} color={colors.primary} />
-              <Text style={[styles.cardTitle, styles.title]}>{getString('myEvolution')}</Text>
+              <View style={{ marginLeft: SPACING.sm, flex: 1 }}>
+                <Text style={styles.cardTitle}>{getString('myEvolution')}</Text>
+                <Text style={styles.academyName}>
+                  🏛️ {academia?.name || userProfile?.academiaName || getString('academy')}
+                </Text>
+              </View>
             </View>
 
             <View style={styles.statsGrid}>
@@ -179,6 +191,23 @@ const StudentEvolution = ({ navigation }) => {
                 {stats.currentGraduation}
               </Chip>
             </View>
+
+            <Divider style={styles.divider} />
+            <Text style={styles.subTitle}>{getString('beltsByModality') || 'Faixas por Modalidade'}</Text>
+            <View style={styles.modalitiesGrid}>
+              {stats.modalities.map((mod, idx) => (
+                <View key={idx} style={styles.modalityBeltRow}>
+                  <Text style={styles.modalityName}>{mod}:</Text>
+                  <Chip
+                    compact
+                    style={[styles.smallChip, { borderColor: getGraduationColor(stats.beltsByModality[mod]) }]}
+                    textStyle={{ color: getGraduationColor(stats.beltsByModality[mod]), fontSize: 12 }}
+                  >
+                    {stats.beltsByModality[mod]}
+                  </Chip>
+                </View>
+              ))}
+            </View>
           </Card.Content>
         </Card>
 
@@ -190,44 +219,66 @@ const StudentEvolution = ({ navigation }) => {
               <Text style={[styles.cardTitle, styles.title]}>{getString('timelineGraduations')}</Text>
             </View>
 
-            {graduations.length > 0 ? (
-              graduations.map((graduation, index) => (
-                <View key={index} style={styles.timelineItem}>
-                  <View style={styles.timelineContent}>
-                    <View style={styles.timelineHeader}>
-                      <View style={styles.graduationInfo}>
-                        <Ionicons
-                          name={getGraduationIcon(graduation.modality)}
-                          size={20}
-                          color={getGraduationColor(graduation.graduation)}
-                        />
-                        <Text style={styles.graduationTitle}>
-                          {graduation.graduation} - {graduation.modality}
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.filterContainer}>
+              <Chip
+                selected={selectedModality === 'All'}
+                onPress={() => setSelectedModality('All')}
+                style={styles.filterChip}
+              >
+                {getString('all')}
+              </Chip>
+              {stats.modalities.map((mod, idx) => (
+                <Chip
+                  key={idx}
+                  selected={selectedModality === mod}
+                  onPress={() => setSelectedModality(mod)}
+                  style={styles.filterChip}
+                >
+                  {mod}
+                </Chip>
+              ))}
+            </ScrollView>
+
+            {graduations.filter(g => selectedModality === 'All' || g.modality === selectedModality).length > 0 ? (
+              graduations
+                .filter(g => selectedModality === 'All' || g.modality === selectedModality)
+                .map((graduation, index, filteredArray) => (
+                  <View key={index} style={styles.timelineItem}>
+                    <View style={styles.timelineContent}>
+                      <View style={styles.timelineHeader}>
+                        <View style={styles.graduationInfo}>
+                          <Ionicons
+                            name={getGraduationIcon(graduation.modality)}
+                            size={20}
+                            color={getGraduationColor(graduation.graduation)}
+                          />
+                          <Text style={styles.graduationTitle}>
+                            {graduation.graduation} - {graduation.modality}
+                          </Text>
+                        </View>
+                        <Text style={styles.graduationDate}>
+                          {formatDate(graduation.date)}
                         </Text>
                       </View>
-                      <Text style={styles.graduationDate}>
-                        {formatDate(graduation.date)}
-                      </Text>
+
+                      {graduation.instructor && (
+                        <Text style={styles.instructorText}>
+                          {getString('instructorLabel')} {graduation.instructor}
+                        </Text>
+                      )}
+
+                      {graduation.observations && (
+                        <Text style={styles.observationsText}>
+                          {graduation.observations}
+                        </Text>
+                      )}
                     </View>
 
-                    {graduation.instructor && (
-                      <Text style={styles.instructorText}>
-                        {getString('instructorLabel')} {graduation.instructor}
-                      </Text>
-                    )}
-
-                    {graduation.observations && (
-                      <Text style={styles.observationsText}>
-                        {graduation.observations}
-                      </Text>
+                    {index < filteredArray.length - 1 && (
+                      <View style={styles.timelineLine} />
                     )}
                   </View>
-
-                  {index < graduations.length - 1 && (
-                    <View style={styles.timelineLine} />
-                  )}
-                </View>
-              ))
+                ))
             ) : (
               <View style={styles.emptyState}>
                 <Ionicons name="medal-outline" size={48} color={colors.onSurfaceVariant} />
@@ -447,6 +498,47 @@ const createStyles = (colors) => StyleSheet.create({
     marginBottom: SPACING.sm,
     backgroundColor: colors.surfaceVariant
   },
+  academyName: {
+    fontSize: FONT_SIZE.sm,
+    color: colors.primary,
+    fontWeight: '600'
+  },
+  divider: {
+    marginVertical: SPACING.md,
+    backgroundColor: colors.outline
+  },
+  subTitle: {
+    fontSize: FONT_SIZE.md,
+    fontWeight: 'bold',
+    color: colors.onSurface,
+    marginBottom: SPACING.sm
+  },
+  modalitiesGrid: {
+    marginTop: SPACING.xs
+  },
+  modalityBeltRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: SPACING.xs
+  },
+  modalityName: {
+    fontSize: FONT_SIZE.base,
+    color: colors.onSurfaceVariant
+  },
+  smallChip: {
+    height: 24,
+    paddingHorizontal: 0,
+    backgroundColor: 'transparent'
+  },
+  filterContainer: {
+    flexDirection: 'row',
+    marginBottom: SPACING.md,
+    paddingBottom: SPACING.xs
+  },
+  filterChip: {
+    marginRight: SPACING.xs
+  }
 });
 
 export default StudentEvolution;
