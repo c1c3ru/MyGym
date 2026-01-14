@@ -8,7 +8,7 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
 import { Snackbar, Button } from 'react-native-paper';
 import { COLORS, SPACING } from '@presentation/theme/designTokens';
-import { getString } from "@utils/theme";
+import { useTheme } from '@contexts/ThemeContext';
 
 // ============================================
 // CONTEXT
@@ -96,7 +96,7 @@ export const UndoProvider = ({ children }) => {
 
       // Remove da pilha
       setUndoStack(prev => prev.filter(a => a.id !== actionId));
-      
+
       // Fecha o snackbar se for a ação atual
       if (currentAction && currentAction.id === actionId) {
         setSnackbarVisible(false);
@@ -133,7 +133,7 @@ export const UndoProvider = ({ children }) => {
   return (
     <UndoContext.Provider value={value}>
       {children}
-      
+
       {/* Snackbar de Undo */}
       <Snackbar
         visible={snackbarVisible}
@@ -178,14 +178,18 @@ export const DestructiveAction = ({
   onConfirm,
   onCancel,
   message,
-  confirmLabel = getString('confirm'),
-  cancelLabel = getString('cancel'),
+  confirmLabel: confirmLabelProp,
+  cancelLabel: cancelLabelProp,
   undoMessage,
   undoTimeout = 5000,
   children,
 }) => {
+  const { getString } = useTheme();
   const { registerUndo } = useUndo();
   const [showConfirm, setShowConfirm] = useState(false);
+
+  const confirmLabel = confirmLabelProp || getString('confirm');
+  const cancelLabel = cancelLabelProp || getString('cancel');
 
   const handleAction = async () => {
     setShowConfirm(false);

@@ -4,15 +4,15 @@ import { Card, Text, Chip, Divider, IconButton } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 import ActionButton, { ActionButtonGroup } from '@components/ActionButton';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getString } from "@utils/theme";
 
-const ClassListItem = memo(({ 
-  classItem, 
-  onPress, 
-  onEdit, 
+
+const ClassListItem = memo(({
+  classItem,
+  onPress,
+  onEdit,
   onView,
   getString,
-  index 
+  index
 }) => {
   const handlePress = useCallback(() => {
     onPress?.(classItem);
@@ -68,7 +68,7 @@ const ClassListItem = memo(({
               {classItem.modality}
             </Chip>
           </View>
-          
+
           <IconButton
             icon="dots-vertical"
             onPress={handlePress}
@@ -109,13 +109,13 @@ const ClassListItem = memo(({
         </View>
 
         <View style={styles.statusRow}>
-          <Chip 
+          <Chip
             mode="outlined"
             style={[
               styles.statusChip,
               { borderColor: classItem.isActive !== false ? COLORS.primary[500] : COLORS.error[500] }
             ]}
-            textStyle={{ 
+            textStyle={{
               color: classItem.isActive !== false ? COLORS.primary[500] : COLORS.error[500],
               fontSize: FONT_SIZE.sm
             }}
@@ -124,7 +124,7 @@ const ClassListItem = memo(({
           </Chip>
 
           {classItem.currentStudents >= (classItem.maxCapacity || 999) && (
-            <Chip 
+            <Chip
               mode="outlined"
               style={[styles.statusChip, { borderColor: COLORS.error[500] }]}
               textStyle={{ color: COLORS.error[500], fontSize: FONT_SIZE.sm }}
@@ -134,7 +134,7 @@ const ClassListItem = memo(({
           )}
 
           {!classItem.instructorId && (
-            <Chip 
+            <Chip
               mode="outlined"
               style={[styles.statusChip, { borderColor: COLORS.warning[500] }]}
               textStyle={{ color: COLORS.warning[500], fontSize: FONT_SIZE.sm }}
@@ -147,8 +147,8 @@ const ClassListItem = memo(({
         <Divider style={styles.divider} />
 
         <ActionButtonGroup style={styles.classActions}>
-          <ActionButton 
-            mode="outlined" 
+          <ActionButton
+            mode="outlined"
             onPress={handleView}
             style={styles.actionButton}
             icon="eye"
@@ -158,8 +158,8 @@ const ClassListItem = memo(({
             {getString('viewDetails')}
           </ActionButton>
 
-          <ActionButton 
-            mode="outlined" 
+          <ActionButton
+            mode="outlined"
             onPress={handleEdit}
             style={styles.actionButton}
             icon="pencil"
@@ -169,8 +169,8 @@ const ClassListItem = memo(({
             {getString('edit')}
           </ActionButton>
 
-          <ActionButton 
-            mode="outlined" 
+          <ActionButton
+            mode="outlined"
             onPress={handlePress}
             style={styles.actionButton}
             icon="account"

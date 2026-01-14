@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { collection, query, onSnapshot, doc, getDoc, addDoc, updateDoc, deleteDoc, where } from 'firebase/firestore';
 import { db } from '@infrastructure/services/firebase';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
-import { getString } from "@utils/theme";
+import { useTheme } from '@contexts/ThemeContext';
 
 /**
  * Hook personalizado para acessar dados de uma coleção específica da academia
@@ -11,6 +11,7 @@ import { getString } from "@utils/theme";
  * @returns {object} { data, loading, error, addItem, updateItem, deleteItem }
  */
 export function useAcademiaCollection(collectionName, options = {}) {
+  const { getString } = useTheme();
   const { userProfile, academia } = useAuthFacade();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);

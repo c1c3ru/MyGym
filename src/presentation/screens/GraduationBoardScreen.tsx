@@ -1,20 +1,24 @@
 import { useTheme } from "@contexts/ThemeContext";
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { View, StyleSheet, Alert, TextStyle } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { Text, FAB, Portal, Dialog, Button } from 'react-native-paper';
 import GraduationBoard from '@components/GraduationBoard';
 import LoadingSpinner from '@components/LoadingSpinner';
 import { useAuth } from '@contexts/AuthProvider';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 interface Props {
   navigation: any;
 }
 
 const GraduationBoardScreen = ({ navigation }: Props) => {
-  const { getString } = useTheme();
+  const { getString, theme } = useTheme();
+  const colors = theme.colors;
   const { user } = useAuth();
+
+  const styles = useMemo(() => createStyles(colors), [colors]);
+
   const [graduationBoard, setGraduationBoard] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -266,6 +270,8 @@ const GraduationBoardScreen = ({ navigation }: Props) => {
           label="Agendar Exame"
           style={styles.fab}
           onPress={() => setShowScheduleDialog(true)}
+          color={colors.onPrimary}
+          theme={{ colors: { primary: colors.primary } }}
         />
       )}
 
@@ -273,16 +279,17 @@ const GraduationBoardScreen = ({ navigation }: Props) => {
         <Dialog
           visible={showScheduleDialog}
           onDismiss={() => setShowScheduleDialog(false)}
+          style={{ backgroundColor: colors.surface }}
         >
-          <Dialog.Title>Agendar Exame de Graduação</Dialog.Title>
+          <Dialog.Title style={{ color: colors.onSurface }}>Agendar Exame de Graduação</Dialog.Title>
           <Dialog.Content>
-            <Text>
+            <Text style={{ color: colors.onSurfaceVariant }}>
               Deseja agendar um novo exame de graduação?
             </Text>
           </Dialog.Content>
           <Dialog.Actions>
-            <Button onPress={() => setShowScheduleDialog(false)}>{getString('cancel')}</Button>
-            <Button onPress={handleCreateNewExam}>
+            <Button onPress={() => setShowScheduleDialog(false)} textColor={colors.error}>{getString('cancel')}</Button>
+            <Button onPress={handleCreateNewExam} textColor={colors.primary}>
               Agendar
             </Button>
           </Dialog.Actions>
@@ -292,39 +299,39 @@ const GraduationBoardScreen = ({ navigation }: Props) => {
   );
 };
 
-const styles = StyleSheet.create({
+const createStyles = (colors: any) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.gray[100],
+    backgroundColor: colors.background,
   },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: COLORS.gray[100],
+    backgroundColor: colors.background,
   },
   loadingText: {
     marginTop: SPACING.md,
     fontSize: FONT_SIZE.md,
-    color: COLORS.gray[500],
+    color: colors.onSurfaceVariant,
   } as TextStyle,
   errorContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 32,
-    backgroundColor: COLORS.gray[100],
+    backgroundColor: colors.background,
   },
   errorText: {
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold as any,
-    color: COLORS.error[700],
+    color: colors.error,
     marginBottom: SPACING.sm,
     textAlign: 'center',
   },
   errorMessage: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.gray[500],
+    color: colors.onSurfaceVariant,
     textAlign: 'center',
     marginBottom: SPACING.lg,
   },
@@ -336,6 +343,7 @@ const styles = StyleSheet.create({
     margin: SPACING.md,
     right: 0,
     bottom: 0,
+    backgroundColor: colors.primary
   },
 });
 

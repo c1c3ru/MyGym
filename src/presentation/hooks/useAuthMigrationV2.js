@@ -1,5 +1,5 @@
 import { useAuthClean } from './useAuthClean';
-import { getString } from "@utils/theme";
+import { useTheme } from '@contexts/ThemeContext';
 
 /**
  * useAuthMigrationV2 - Compatibility Layer
@@ -10,6 +10,7 @@ import { getString } from "@utils/theme";
  * Este hook permite migração gradual sem quebrar o código existente.
  */
 export const useAuthMigrationV2 = () => {
+  const { getString } = useTheme();
   const authClean = useAuthClean();
 
   // Mapear interface antiga para nova implementação

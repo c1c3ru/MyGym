@@ -1,13 +1,13 @@
 import { academyFirestoreService } from './academyFirestoreService';
 import { academyUtils, validators } from '@utils/academyValidation';
 import notificationService from './notificationService';
-import { getString } from "@utils/theme";
+
 
 class AcademyPaymentService {
   constructor() {
     this.paymentProviders = {
       PIX: 'pix',
-      CREDIT_CARD: 'credit_card', 
+      CREDIT_CARD: 'credit_card',
       DEBIT_CARD: 'debit_card',
       BANK_SLIP: 'bank_slip',
       CASH: 'cash'
@@ -51,7 +51,7 @@ class AcademyPaymentService {
       };
 
       const paymentId = await academyFirestoreService.create('payments', paymentData, academiaId);
-      
+
       // Notificar aluno sobre nova cobrança
       await notificationService.notifyPaymentDue(studentId, amount, dueDate);
 
@@ -158,7 +158,7 @@ class AcademyPaymentService {
 
       // Buscar dados do pagamento para notificação
       const payment = await academyFirestoreService.getById('payments', paymentId, academiaId);
-      
+
       // Notificar confirmação de pagamento
       await notificationService.sendLocalNotification(
         'Pagamento Confirmado! ✅',
@@ -166,7 +166,7 @@ class AcademyPaymentService {
         {
           type: 'payment',
           paymentId,
-          screen: getString('payments')
+          screen: 'Pagamentos'
         }
       );
 
@@ -228,7 +228,7 @@ class AcademyPaymentService {
         queryFilters,
         { field: 'dueDate', direction: 'desc' }
       );
-      
+
       return payments;
     } catch (error) {
       console.error('❌ Erro ao buscar pagamentos do aluno:', error);
@@ -254,7 +254,7 @@ class AcademyPaymentService {
       );
 
       // Atualizar status para vencido
-      const updatePromises = overduePayments.map(payment => 
+      const updatePromises = overduePayments.map(payment =>
         academyFirestoreService.update('payments', payment.id, {
           status: this.paymentStatus.OVERDUE
         }, academiaId)
@@ -270,7 +270,7 @@ class AcademyPaymentService {
           {
             type: 'payment',
             paymentId: payment.id,
-            screen: getString('payments')
+            screen: 'Pagamentos'
           }
         );
       }
@@ -316,10 +316,10 @@ class AcademyPaymentService {
 
       payments.forEach(payment => {
         report.totalAmount += payment.amount;
-        
+
         // Por status
         report.byStatus[payment.status]++;
-        
+
         switch (payment.status) {
           case this.paymentStatus.PAID:
             report.paidAmount += payment.amount;
@@ -355,11 +355,11 @@ class AcademyPaymentService {
 
       const payments = [];
       const currentDate = new Date(startDate);
-      
+
       // Criar 12 mensalidades
       for (let i = 0; i < 12; i++) {
         const dueDate = new Date(currentDate);
-        
+
         if (frequency === 'monthly') {
           dueDate.setMonth(currentDate.getMonth() + i);
         }
@@ -393,7 +393,7 @@ class AcademyPaymentService {
       this._validateAcademiaId(academiaId, 'Calcular estatísticas de pagamento');
 
       const payments = await this.getStudentPayments(academiaId, studentId);
-      
+
       const stats = {
         academiaId,
         studentId,

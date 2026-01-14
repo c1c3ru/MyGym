@@ -1,4 +1,4 @@
-import { getString } from "@utils/theme";
+
 
 import { Platform, Dimensions, ScaledSize } from 'react-native';
 

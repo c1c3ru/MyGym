@@ -175,7 +175,7 @@ const AdminNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title="Check-ins"
+              title={getString('checkIns')}
               navigation={navigation}
               showBack={true}
               backgroundColor={COLORS.primary[500]}
@@ -296,7 +296,7 @@ const AdminNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title="Modalities"
+              title={getString('modalities')}
               navigation={navigation}
               showBack={true}
               backgroundColor={COLORS.primary[500]}
@@ -311,7 +311,7 @@ const AdminNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title="Perfil do Aluno"
+              title={`${getString('student')} - ${getString('profile')}`}
               navigation={navigation}
               showBack={true}
               backgroundColor={COLORS.primary[500]}
@@ -333,7 +333,7 @@ const AdminNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title="Profile"
+              title={getString('profile')}
               navigation={navigation}
               showBack={true}
               backgroundColor={COLORS.primary[500]}
@@ -350,7 +350,7 @@ const AdminNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title="ChangePassword"
+              title={getString('changePassword')}
               navigation={navigation}
               showBack={true}
               backgroundColor={COLORS.primary[500]}
@@ -365,7 +365,7 @@ const AdminNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title="PhysicalEvaluation"
+              title={getString('physicalEvaluation')}
               navigation={navigation}
               showBack={true}
               backgroundColor={COLORS.primary[500]}
@@ -380,7 +380,7 @@ const AdminNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title="evaluationHistory"
+              title={getString('evaluationHistory')}
               navigation={navigation}
               showBack={true}
               backgroundColor={COLORS.primary[500]}
@@ -395,7 +395,7 @@ const AdminNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title="NotificationSettings"
+              title={getString('notificationSettings')}
               navigation={navigation}
               showBack={true}
               backgroundColor={COLORS.primary[500]}
@@ -410,7 +410,7 @@ const AdminNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title="privacyAndSecurity"
+              title={getString('privacyAndSecurity')}
               navigation={navigation}
               showBack={true}
               backgroundColor={COLORS.primary[500]}
@@ -425,7 +425,7 @@ const AdminNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title="settings"
+              title={getString('settings')}
               navigation={navigation}
               showBack={true}
               backgroundColor={COLORS.primary[500]}
@@ -440,7 +440,7 @@ const AdminNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title="Demonstração de Temas"
+              title={getString('viewThemeDemo')}
               navigation={navigation}
               showBack={true}
               backgroundColor={COLORS.primary[500]}

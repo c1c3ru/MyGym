@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { View, StyleSheet, ScrollView, RefreshControl } from 'react-native';
 import {
   Card,
@@ -19,7 +19,11 @@ import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@present
 
 const StudentEvolution = ({ navigation }) => {
   const { user, userProfile, academia } = useAuthFacade();
-  const { getString } = useTheme();
+  const { getString, theme } = useTheme();
+  const colors = theme.colors;
+
+  const styles = useMemo(() => createStyles(colors), [colors]);
+
   const [graduations, setGraduations] = useState([]);
   const [stats, setStats] = useState({
     totalGraduations: 0,
@@ -98,8 +102,8 @@ const StudentEvolution = ({ navigation }) => {
   };
 
   const getGraduationColor = (graduation) => {
-    const colors = {
-      'Branca': COLORS.special.belt.white,
+    const beltColors = {
+      'Branca': COLORS.special.belt.white, // Keep static belt colors as they represent physical objects
       'Cinza': COLORS.gray[500],
       'Amarela': COLORS.special.belt.yellow,
       'Laranja': COLORS.special.belt.orange,
@@ -111,7 +115,7 @@ const StudentEvolution = ({ navigation }) => {
       'Coral': COLORS.special.belt.red,
       'Vermelha': COLORS.special.belt.red
     };
-    return colors[graduation] || COLORS.info[500];
+    return beltColors[graduation] || colors.primary;
   };
 
   const getGraduationIcon = (modality) => {
@@ -131,14 +135,14 @@ const StudentEvolution = ({ navigation }) => {
       <ScrollView
         style={styles.scrollView}
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[colors.primary]} tintColor={colors.primary} />
         }
       >
         {/* Estatísticas Gerais */}
         <Card style={styles.statsCard}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <Ionicons name="trophy-outline" size={24} color={COLORS.warning[300]} />
+              <Ionicons name="trophy-outline" size={24} color={colors.primary} />
               <Text style={[styles.cardTitle, styles.title]}>{getString('myEvolution')}</Text>
             </View>
 
@@ -182,7 +186,7 @@ const StudentEvolution = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <Ionicons name="git-branch-outline" size={24} color={COLORS.info[500]} />
+              <Ionicons name="git-branch-outline" size={24} color={colors.onSurfaceVariant} />
               <Text style={[styles.cardTitle, styles.title]}>{getString('timelineGraduations')}</Text>
             </View>
 
@@ -226,7 +230,7 @@ const StudentEvolution = ({ navigation }) => {
               ))
             ) : (
               <View style={styles.emptyState}>
-                <Ionicons name="medal-outline" size={48} color={COLORS.gray[300]} />
+                <Ionicons name="medal-outline" size={48} color={colors.onSurfaceVariant} />
                 <Text style={[styles.emptyText, styles.paragraph]}>
                   {getString('noGraduationRegisteredYet')}
                 </Text>
@@ -243,7 +247,7 @@ const StudentEvolution = ({ navigation }) => {
           <Card style={styles.card}>
             <Card.Content>
               <View style={styles.cardHeader}>
-                <Ionicons name="fitness-outline" size={24} color={COLORS.primary[500]} />
+                <Ionicons name="fitness-outline" size={24} color={colors.primary} />
                 <Text style={[styles.cardTitle, styles.title]}>{getString('modalities')}</Text>
               </View>
 
@@ -254,6 +258,7 @@ const StudentEvolution = ({ navigation }) => {
                     mode="outlined"
                     style={styles.modalityChip}
                     icon={getGraduationIcon(modality)}
+                    textStyle={{ color: colors.onSurface }}
                   >
                     {modality}
                   </Chip>
@@ -267,25 +272,31 @@ const StudentEvolution = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <Ionicons name="flag-outline" size={24} color={COLORS.warning[500]} />
+              <Ionicons name="flag-outline" size={24} color={colors.tertiary || colors.primary} />
               <Text style={[styles.cardTitle, styles.title]}>{getString('nextGoals')}</Text>
             </View>
 
             <List.Item
               title={getString('maintainFrequency')}
+              titleStyle={{ color: colors.onSurface }}
               description={getString('maintainFrequencyDetails')}
+              descriptionStyle={{ color: colors.onSurfaceVariant }}
               left={() => <List.Icon icon="check-circle-outline" color={COLORS.success[500]} />}
             />
 
             <List.Item
               title={getString('improveTechniques')}
+              titleStyle={{ color: colors.onSurface }}
               description={getString('improveTechniquesDetails')}
-              left={() => <List.Icon icon="trending-up" color={COLORS.info[500]} />}
+              descriptionStyle={{ color: colors.onSurfaceVariant }}
+              left={() => <List.Icon icon="trending-up" color={colors.secondary || COLORS.info[500]} />}
             />
 
             <List.Item
               title={getString('nextGraduation')}
+              titleStyle={{ color: colors.onSurface }}
               description={getString('nextGraduationDetails')}
+              descriptionStyle={{ color: colors.onSurfaceVariant }}
               left={() => <List.Icon icon="trophy" color={COLORS.warning[300]} />}
             />
           </Card.Content>
@@ -295,10 +306,10 @@ const StudentEvolution = ({ navigation }) => {
   );
 };
 
-const styles = StyleSheet.create({
+const createStyles = (colors) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.gray[100],
+    backgroundColor: colors.background,
   },
   scrollView: {
     flex: 1,
@@ -307,12 +318,13 @@ const styles = StyleSheet.create({
     margin: SPACING.md,
     marginBottom: SPACING.sm,
     elevation: 4,
-    backgroundColor: COLORS.primary[50],
+    backgroundColor: colors.surface,
   },
   card: {
     margin: SPACING.md,
     marginTop: SPACING.sm,
     elevation: 2,
+    backgroundColor: colors.surface,
   },
   cardHeader: {
     flexDirection: 'row',
@@ -322,7 +334,10 @@ const styles = StyleSheet.create({
   cardTitle: {
     marginLeft: SPACING.sm,
     fontSize: FONT_SIZE.lg,
+    color: colors.onSurface
   },
+  title: { color: colors.onSurface },
+  paragraph: { color: colors.onSurfaceVariant },
   statsGrid: {
     flexDirection: 'row',
     justifyContent: 'space-around',
@@ -333,16 +348,17 @@ const styles = StyleSheet.create({
     padding: SPACING.md,
     borderRadius: BORDER_RADIUS.md,
     elevation: 1,
-    backgroundColor: COLORS.white,
+    backgroundColor: colors.surfaceVariant, // Slightly different to stand out or same as surface
+    minWidth: 80
   },
   statNumber: {
     fontSize: FONT_SIZE.xxl,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.info[500],
+    color: colors.primary,
   },
   statLabel: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.gray[500],
+    color: colors.onSurfaceVariant,
     marginTop: SPACING.xs,
   },
   currentGraduation: {
@@ -353,18 +369,20 @@ const styles = StyleSheet.create({
   currentLabel: {
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.bold,
+    color: colors.onSurface
   },
   graduationChip: {
     borderWidth: 2,
+    backgroundColor: 'transparent'
   },
   timelineItem: {
     marginBottom: SPACING.md,
   },
   timelineContent: {
-    backgroundColor: COLORS.white,
+    backgroundColor: colors.surfaceVariant,
     padding: SPACING.md,
     borderRadius: BORDER_RADIUS.md,
-    elevation: 1,
+    elevation: 0,
   },
   timelineHeader: {
     flexDirection: 'row',
@@ -381,25 +399,26 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.bold,
     marginLeft: SPACING.sm,
+    color: colors.onSurface
   },
   graduationDate: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.gray[500],
+    color: colors.onSurfaceVariant,
   },
   instructorText: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.gray[500],
+    color: colors.onSurfaceVariant,
     marginBottom: SPACING.xs,
   },
   observationsText: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.black,
+    color: colors.onSurface,
     fontStyle: 'italic',
   },
   timelineLine: {
     width: 2,
     height: 16,
-    backgroundColor: COLORS.border.light,
+    backgroundColor: colors.outline,
     marginLeft: 20,
     marginTop: SPACING.sm,
   },
@@ -409,13 +428,13 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: FONT_SIZE.md,
-    color: COLORS.gray[500],
+    color: colors.onSurfaceVariant,
     marginTop: SPACING.md,
     textAlign: 'center',
   },
   emptySubtext: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.gray[500],
+    color: colors.onSurfaceVariant,
     textAlign: 'center',
     marginTop: SPACING.sm,
   },
@@ -426,6 +445,7 @@ const styles = StyleSheet.create({
   },
   modalityChip: {
     marginBottom: SPACING.sm,
+    backgroundColor: colors.surfaceVariant
   },
 });
 

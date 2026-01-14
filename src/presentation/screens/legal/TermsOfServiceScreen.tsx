@@ -7,7 +7,7 @@ import { COLORS, SPACING, FONT_SIZE, FONT_WEIGHT, BORDER_RADIUS } from '@present
 import { getAuthGradient } from '@presentation/theme/authTheme';
 import { useTheme } from '@contexts/ThemeContext';
 import type { NavigationProp } from '@react-navigation/native';
-import { getString } from "@utils/theme";
+
 
 
 interface TermsOfServiceScreenProps {
@@ -19,7 +19,7 @@ interface TermsOfServiceScreenProps {
  * Exibe termos e condições de uso do aplicativo
  */
 const TermsOfServiceScreen = ({ navigation }: TermsOfServiceScreenProps) => {
-  const { isDarkMode, getString } = useTheme();
+  const { isDarkMode } = useTheme();
 
   return (
     <LinearGradient

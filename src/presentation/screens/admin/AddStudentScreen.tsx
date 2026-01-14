@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import {
   View,
   StyleSheet,
@@ -32,6 +32,7 @@ import cacheService, { CACHE_KEYS } from '@infrastructure/services/cacheService'
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
 import { useTheme } from "@contexts/ThemeContext";
+import { LinearGradient } from 'expo-linear-gradient';
 
 interface AddStudentScreenProps {
   navigation: NavigationProp<any>;
@@ -39,8 +40,13 @@ interface AddStudentScreenProps {
 }
 
 const AddStudentScreen = ({ navigation, route }: AddStudentScreenProps) => {
-  const { getString } = useTheme();
+  const { getString, theme } = useTheme();
+  // Ensure we have access to colors from the theme object which should be dynamic
+  const colors = theme?.colors || theme || COLORS;
+
   const { currentTheme } = useThemeToggle();
+  // Don't memoize styles purely on colors if we want dynamic updates, but okay for now
+  const styles = useMemo(() => createStyles(colors), [colors]);
 
   const { user, userProfile, academia } = useAuthFacade();
   const [loading, setLoading] = useState(false);
@@ -321,327 +327,353 @@ const AddStudentScreen = ({ navigation, route }: AddStudentScreenProps) => {
       }}
       errorContext={{ screen: 'AddStudentScreen', academiaId: userProfile?.academiaId }}
     >
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.container}
-      >
-        <ScrollView
-          style={styles.scrollView}
-          contentContainerStyle={styles.scrollContent}
-          showsVerticalScrollIndicator={true}
-          keyboardShouldPersistTaps="handled"
-          nestedScrollEnabled={true}
+      <LinearGradient colors={theme?.gradients?.hero || [COLORS.background.default, COLORS.background.default]} style={{ flex: 1 }}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={styles.container}
         >
-          {/* Banner de validação */}
-          <Banner
-            visible={showValidationBanner}
-            actions={[
-              {
-                label: 'OK',
-                onPress: () => setShowValidationBanner(false),
-              },
-            ]}
-            icon="alert-circle"
-            style={styles.validationBanner}
+          <ScrollView
+            style={styles.scrollView}
+            contentContainerStyle={styles.scrollContent}
+            showsVerticalScrollIndicator={true}
+            keyboardShouldPersistTaps="handled"
+            nestedScrollEnabled={true}
           >
-            Preencha todos os campos obrigatórios marcados com *
-          </Banner>
+            {/* Banner de validação */}
+            <Banner
+              visible={showValidationBanner}
+              actions={[
+                {
+                  label: 'OK',
+                  onPress: () => setShowValidationBanner(false),
+                  textColor: colors?.primary || COLORS.primary[500],
+                },
+              ]}
+              icon="alert-circle"
+              style={styles.validationBanner}
+            >
+              Preencha todos os campos obrigatórios marcados com *
+            </Banner>
 
-          {/* Loading overlay */}
-          {loading && (
-            <View style={styles.loadingOverlay}>
-              <ActivityIndicator size="large" color={COLORS.primary[500]} />
-              <Text style={styles.loadingOverlayText}>Cadastrando aluno...</Text>
-            </View>
-          )}
-
-          <Card style={styles.card}>
-            <Card.Content>
-              <Text style={styles.title}>Novo Aluno</Text>
-
-              {/* Dados Pessoais */}
-              <Text style={styles.sectionTitle}>Dados Pessoais</Text>
-
-              <TextInput
-                label="Nome Completo *"
-                {...getFieldProps('name')}
-                onChangeText={(value: any) => handleFieldChange('name', value)}
-                onBlur={() => handleFieldBlur('name')}
-                mode="outlined"
-                style={styles.input}
-                error={!!(touched.name && errors.name)}
-                left={<TextInput.Icon icon="account" />}
-              />
-              {touched.name && errors.name && <HelperText type="error">{errors.name}</HelperText>}
-
-              <TextInput
-                label="Email *"
-                {...getFieldProps('email')}
-                onChangeText={(value: any) => handleFieldChange('email', value)}
-                onBlur={() => handleFieldBlur('email')}
-                mode="outlined"
-                keyboardType="email-address"
-                autoCapitalize="none"
-                style={styles.input}
-                error={!!(touched.email && errors.email)}
-                left={<TextInput.Icon icon="email" />}
-              />
-              {touched.email && errors.email && <HelperText type="error">{errors.email}</HelperText>}
-
-              <TextInput
-                label="Telefone *"
-                value={formData.phone}
-                onChangeText={(value: any) => updateFormData('phone', value)}
-                mode="outlined"
-                keyboardType="phone-pad"
-                style={styles.input}
-                error={!!errors.phone}
-                left={<TextInput.Icon icon="phone" />}
-              />
-              {errors.phone && <HelperText type="error">{errors.phone}</HelperText>}
-
-              <TextInput
-                label="Data de Nascimento (DD/MM/AAAA) *"
-                value={formData.birthDate}
-                onChangeText={(value: any) => updateFormData('birthDate', value)}
-                mode="outlined"
-                placeholder="01/01/1990"
-                style={styles.input}
-                error={!!errors.birthDate}
-                left={<TextInput.Icon icon="calendar" />}
-              />
-              {errors.birthDate && <HelperText type="error">{errors.birthDate}</HelperText>}
-
-              {/* Campo Sexo */}
-              <Text style={styles.fieldLabel}>Sexo *</Text>
-              <RadioButton.Group
-                onValueChange={(value: any) => handleFieldChange('sexo', value)}
-                value={formData.sexo}
-              >
-                <View style={styles.radioContainer}>
-                  <View style={styles.radioItem}>
-                    <RadioButton value="masculino" />
-                    <Text style={styles.radioLabel}>Masculino</Text>
-                  </View>
-                  <View style={styles.radioItem}>
-                    <RadioButton value="feminino" />
-                    <Text style={styles.radioLabel}>Feminino</Text>
-                  </View>
-                  <View style={styles.radioItem}>
-                    <RadioButton value="outro" />
-                    <Text style={styles.radioLabel}>Outro</Text>
-                  </View>
-                </View>
-              </RadioButton.Group>
-              {touched.sexo && errors.sexo && <HelperText type="error">{errors.sexo}</HelperText>}
-
-              <TextInput
-                label="Endereço (opcional)"
-                value={formData.address}
-                onChangeText={(value: any) => updateFormData('address', value)}
-                mode="outlined"
-                multiline
-                numberOfLines={2}
-                style={styles.input}
-                left={<TextInput.Icon icon="home" />}
-              />
-
-              {/* Contato de Emergência */}
-              <Text style={styles.sectionTitle}>Contato de Emergência</Text>
-
-              <TextInput
-                label="Nome do Contato *"
-                value={formData.emergencyContact}
-                onChangeText={(value: any) => updateFormData('emergencyContact', value)}
-                mode="outlined"
-                style={styles.input}
-                error={!!errors.emergencyContact}
-                left={<TextInput.Icon icon="account-heart" />}
-              />
-              {errors.emergencyContact && <HelperText type="error">{errors.emergencyContact}</HelperText>}
-
-              <TextInput
-                label="Telefone de Emergência *"
-                value={formData.emergencyPhone}
-                onChangeText={(value: any) => updateFormData('emergencyPhone', value)}
-                mode="outlined"
-                keyboardType="phone-pad"
-                style={styles.input}
-                error={!!errors.emergencyPhone}
-                left={<TextInput.Icon icon="phone-alert" />}
-              />
-              {errors.emergencyPhone && <HelperText type="error">{errors.emergencyPhone}</HelperText>}
-
-              {/* Informações Médicas */}
-              <Text style={styles.sectionTitle}>Informações Médicas</Text>
-
-              <TextInput
-                label="Condições Médicas (opcional)"
-                value={formData.medicalConditions}
-                onChangeText={(value: any) => updateFormData('medicalConditions', value)}
-                mode="outlined"
-                multiline
-                numberOfLines={3}
-                placeholder="Informe alergias, lesões, medicamentos, etc."
-                style={styles.input}
-                left={<TextInput.Icon icon="medical-bag" />}
-              />
-
-              <TextInput
-                label="Objetivos (opcional)"
-                value={formData.goals}
-                onChangeText={(value: any) => updateFormData('goals', value)}
-                mode="outlined"
-                multiline
-                numberOfLines={2}
-                placeholder="Perda de peso, ganho de massa, condicionamento..."
-                style={styles.input}
-                left={<TextInput.Icon icon="target" />}
-              />
-
-              {/* Seleção de Turmas */}
-              <Divider style={styles.divider} />
-              <View style={styles.sectionHeader}>
-                <Text style={styles.sectionTitle}>🎯 Turmas</Text>
-                {loadingClasses && <ActivityIndicator size="small" color={COLORS.info[500]} />}
+            {/* Loading overlay */}
+            {loading && (
+              <View style={styles.loadingOverlay}>
+                <ActivityIndicator size="large" color={colors?.primary || COLORS.primary[500]} />
+                <Text style={styles.loadingOverlayText}>Cadastrando aluno...</Text>
               </View>
-              <Text style={styles.sectionSubtitle}>
-                Selecione as turmas que o aluno irá participar (opcional)
-              </Text>
+            )}
 
-              {loadingClasses ? (
-                <View style={styles.loadingContainer}>
-                  <ActivityIndicator size="large" color={COLORS.info[500]} />
-                  <Text style={styles.loadingText}>Carregando turmas...</Text>
-                </View>
-              ) : availableClasses.length > 0 ? (
-                <>
-                  <View style={styles.classesContainer}>
-                    {availableClasses.map((classItem) => (
-                      <Chip
-                        key={classItem.id}
-                        selected={selectedClasses.includes(classItem.id)}
-                        onPress={() => toggleClassSelection(classItem.id)}
-                        style={[
-                          styles.classChip,
-                          selectedClasses.includes(classItem.id) && styles.selectedChip
-                        ]}
-                        textStyle={selectedClasses.includes(classItem.id) && styles.selectedChipText}
-                        icon={selectedClasses.includes(classItem.id) ? "check-circle" : "plus-circle"}
-                      >
-                        {classItem.name || `${classItem.modality} - ${classItem.instructorName}`}
-                      </Chip>
-                    ))}
-                  </View>
+            <Card style={styles.card}>
+              <Card.Content>
+                <Text style={styles.title}>Novo Aluno</Text>
 
-                  {selectedClasses.length > 0 && (
-                    <View style={styles.selectedClassesContainer}>
-                      <Text style={styles.selectedClassesInfo}>
-                        ✅ {selectedClasses.length} turma{selectedClasses.length !== 1 ? 's' : ''} selecionada{selectedClasses.length !== 1 ? 's' : ''}
-                      </Text>
-                      <Button
-                        mode="text"
-                        onPress={() => {
-                          setSelectedClasses([]);
-                          showSnackbar('Todas as turmas foram desmarcadas', 'info');
-                        }}
-                        compact
-                        style={styles.clearButton}
-                      >
-                        Limpar seleção
-                      </Button>
-                    </View>
-                  )}
-                </>
-              ) : (
-                <View style={styles.emptyStateContainer}>
-                  <Text style={styles.emptyStateIcon}>📚</Text>
-                  <Text style={styles.noClassesText}>
-                    Nenhuma turma disponível
-                  </Text>
-                  <Text style={styles.noClassesSubtext}>
-                    Crie turmas primeiro para associar alunos
-                  </Text>
-                  <Button
-                    mode="outlined"
-                    onPress={loadAvailableClasses}
-                    style={styles.retryButton}
-                    icon="refresh"
-                    compact
-                  >
-                    Tentar novamente
-                  </Button>
-                </View>
-              )}
+                {/* Dados Pessoais */}
+                <Text style={styles.sectionTitle}>Dados Pessoais</Text>
 
-              {/* Status */}
-              <View style={styles.radioContainer}>
-                <Text style={styles.fieldLabel}>Status</Text>
+                <TextInput
+                  label="Nome Completo *"
+                  {...getFieldProps('name')}
+                  onChangeText={(value: any) => handleFieldChange('name', value)}
+                  onBlur={() => handleFieldBlur('name')}
+                  mode="outlined"
+                  style={styles.input}
+                  error={!!(touched.name && errors.name)}
+                  left={<TextInput.Icon icon="account" color={colors?.onSurfaceVariant || COLORS.gray[500]} />}
+                  theme={{ colors: { primary: colors?.primary, text: colors?.text?.primary, placeholder: colors?.text?.hint, background: colors?.background?.default, outline: colors?.text?.disabled } }}
+                  textColor={colors?.text?.primary}
+                />
+                {touched.name && errors.name && <HelperText type="error">{errors.name}</HelperText>}
+
+                <TextInput
+                  label="Email *"
+                  {...getFieldProps('email')}
+                  onChangeText={(value: any) => handleFieldChange('email', value)}
+                  onBlur={() => handleFieldBlur('email')}
+                  mode="outlined"
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  style={styles.input}
+                  error={!!(touched.email && errors.email)}
+                  left={<TextInput.Icon icon="email" color={colors?.onSurfaceVariant || COLORS.gray[500]} />}
+                  textColor={colors?.text?.primary}
+                  theme={{ colors: { primary: colors?.primary, text: colors?.text?.primary, placeholder: colors?.text?.hint, background: colors?.background?.default, outline: colors?.text?.disabled } }}
+                />
+                {touched.email && errors.email && <HelperText type="error">{errors.email}</HelperText>}
+
+                <TextInput
+                  label="Telefone *"
+                  value={formData.phone}
+                  onChangeText={(value: any) => updateFormData('phone', value)}
+                  mode="outlined"
+                  keyboardType="phone-pad"
+                  style={styles.input}
+                  error={!!errors.phone}
+                  left={<TextInput.Icon icon="phone" color={colors?.onSurfaceVariant || COLORS.gray[500]} />}
+                  textColor={colors?.text?.primary}
+                  theme={{ colors: { primary: colors?.primary, text: colors?.text?.primary, placeholder: colors?.text?.hint, background: colors?.background?.default, outline: colors?.text?.disabled } }}
+                />
+                {errors.phone && <HelperText type="error">{errors.phone}</HelperText>}
+
+                <TextInput
+                  label="Data de Nascimento (DD/MM/AAAA) *"
+                  value={formData.birthDate}
+                  onChangeText={(value: any) => updateFormData('birthDate', value)}
+                  mode="outlined"
+                  placeholder="01/01/1990"
+                  style={styles.input}
+                  error={!!errors.birthDate}
+                  left={<TextInput.Icon icon="calendar" color={colors?.onSurfaceVariant || COLORS.gray[500]} />}
+                  textColor={colors?.text?.primary}
+                  theme={{ colors: { primary: colors?.primary, text: colors?.text?.primary, placeholder: colors?.text?.hint, background: colors?.background?.default, outline: colors?.text?.disabled } }}
+                />
+                {errors.birthDate && <HelperText type="error">{errors.birthDate}</HelperText>}
+
+                {/* Campo Sexo */}
+                <Text style={styles.fieldLabel}>Sexo *</Text>
                 <RadioButton.Group
-                  onValueChange={(value: any) => updateFormData('status', value)}
-                  value={formData.status}
+                  onValueChange={(value: any) => handleFieldChange('sexo', value)}
+                  value={formData.sexo}
                 >
-                  <View style={styles.radioItem}>
-                    <RadioButton value="active" />
-                    <Text style={styles.radioLabel}>Ativo</Text>
-                  </View>
-                  <View style={styles.radioItem}>
-                    <RadioButton value="inactive" />
-                    <Text style={styles.radioLabel}>Inativo</Text>
+                  <View style={styles.radioContainer}>
+                    <View style={styles.radioItem}>
+                      <RadioButton value="masculino" color={colors?.primary} uncheckedColor={colors?.onSurfaceVariant || COLORS.gray[500]} />
+                      <Text style={styles.radioLabel}>Masculino</Text>
+                    </View>
+                    <View style={styles.radioItem}>
+                      <RadioButton value="feminino" color={colors?.primary} uncheckedColor={colors?.onSurfaceVariant || COLORS.gray[500]} />
+                      <Text style={styles.radioLabel}>Feminino</Text>
+                    </View>
+                    <View style={styles.radioItem}>
+                      <RadioButton value="outro" color={colors?.primary} uncheckedColor={colors?.onSurfaceVariant || COLORS.gray[500]} />
+                      <Text style={styles.radioLabel}>Outro</Text>
+                    </View>
                   </View>
                 </RadioButton.Group>
-              </View>
+                {touched.sexo && errors.sexo && <HelperText type="error">{errors.sexo}</HelperText>}
 
-              {/* Botões */}
-              <View style={styles.buttonContainer}>
-                <Button
+                <TextInput
+                  label="Endereço (opcional)"
+                  value={formData.address}
+                  onChangeText={(value: any) => updateFormData('address', value)}
                   mode="outlined"
-                  onPress={() => navigation.goBack()}
-                  style={styles.button}
-                  disabled={loading}
-                >Cancelar</Button>
-                <Button
-                  mode="contained"
-                  onPress={handleSubmit}
-                  style={[styles.button, loading && styles.buttonLoading]}
-                  buttonColor={COLORS.success[500]}
-                  loading={loading}
-                  disabled={loading}
-                  icon={loading ? undefined : "account-plus"}
-                >
-                  {loading ? 'Cadastrando...' : 'Cadastrar Aluno'}
-                </Button>
-              </View>
-            </Card.Content>
-          </Card>
-        </ScrollView>
+                  multiline
+                  numberOfLines={2}
+                  style={styles.input}
+                  left={<TextInput.Icon icon="home" color={colors?.onSurfaceVariant || COLORS.gray[500]} />}
+                  textColor={colors?.text?.primary}
+                  theme={{ colors: { primary: colors?.primary, text: colors?.text?.primary, placeholder: colors?.text?.hint, background: colors?.background?.default, outline: colors?.text?.disabled } }}
+                />
 
-        {/* Snackbar para feedback */}
-        <Snackbar
-          visible={snackbar.visible}
-          onDismiss={hideSnackbar}
-          duration={snackbar.type === 'success' ? 2000 : 4000}
-          style={[
-            styles.snackbar,
-            snackbar.type === 'success' && styles.snackbarSuccess,
-            snackbar.type === 'error' && styles.snackbarError
-          ]}
-          action={{
-            label: 'Fechar',
-            onPress: hideSnackbar,
-          }}
-        >
-          {snackbar.message}
-        </Snackbar>
-      </KeyboardAvoidingView>
+                {/* Contato de Emergência */}
+                <Text style={styles.sectionTitle}>Contato de Emergência</Text>
+
+                <TextInput
+                  label="Nome do Contato *"
+                  value={formData.emergencyContact}
+                  onChangeText={(value: any) => updateFormData('emergencyContact', value)}
+                  mode="outlined"
+                  style={styles.input}
+                  error={!!errors.emergencyContact}
+                  left={<TextInput.Icon icon="account-heart" color={colors?.onSurfaceVariant || COLORS.gray[500]} />}
+                  textColor={colors?.text?.primary}
+                  theme={{ colors: { primary: colors?.primary, text: colors?.text?.primary, placeholder: colors?.text?.hint, background: colors?.background?.default, outline: colors?.text?.disabled } }}
+                />
+                {errors.emergencyContact && <HelperText type="error">{errors.emergencyContact}</HelperText>}
+
+                <TextInput
+                  label="Telefone de Emergência *"
+                  value={formData.emergencyPhone}
+                  onChangeText={(value: any) => updateFormData('emergencyPhone', value)}
+                  mode="outlined"
+                  keyboardType="phone-pad"
+                  style={styles.input}
+                  error={!!errors.emergencyPhone}
+                  left={<TextInput.Icon icon="phone-alert" color={colors?.onSurfaceVariant || COLORS.gray[500]} />}
+                  textColor={colors?.text?.primary}
+                  theme={{ colors: { primary: colors?.primary, text: colors?.text?.primary, placeholder: colors?.text?.hint, background: colors?.background?.default, outline: colors?.text?.disabled } }}
+                />
+                {errors.emergencyPhone && <HelperText type="error">{errors.emergencyPhone}</HelperText>}
+
+                {/* Informações Médicas */}
+                <Text style={styles.sectionTitle}>Informações Médicas</Text>
+
+                <TextInput
+                  label="Condições Médicas (opcional)"
+                  value={formData.medicalConditions}
+                  onChangeText={(value: any) => updateFormData('medicalConditions', value)}
+                  mode="outlined"
+                  multiline
+                  numberOfLines={3}
+                  placeholder="Informe alergias, lesões, medicamentos, etc."
+                  style={styles.input}
+                  left={<TextInput.Icon icon="medical-bag" color={colors?.onSurfaceVariant || COLORS.gray[500]} />}
+                  textColor={colors?.text?.primary}
+                  theme={{ colors: { primary: colors?.primary, text: colors?.text?.primary, placeholder: colors?.text?.hint, background: colors?.background?.default, outline: colors?.text?.disabled } }}
+                />
+
+                <TextInput
+                  label="Objetivos (opcional)"
+                  value={formData.goals}
+                  onChangeText={(value: any) => updateFormData('goals', value)}
+                  mode="outlined"
+                  multiline
+                  numberOfLines={2}
+                  placeholder="Perda de peso, ganho de massa, condicionamento..."
+                  style={styles.input}
+                  left={<TextInput.Icon icon="target" color={colors?.onSurfaceVariant || COLORS.gray[500]} />}
+                  textColor={colors?.text?.primary}
+                  theme={{ colors: { primary: colors?.primary, text: colors?.text?.primary, placeholder: colors?.text?.hint, background: colors?.background?.default, outline: colors?.text?.disabled } }}
+                />
+
+                {/* Seleção de Turmas */}
+                <Divider style={styles.divider} />
+                <View style={styles.sectionHeader}>
+                  <Text style={styles.sectionTitle}>🎯 Turmas</Text>
+                  {loadingClasses && <ActivityIndicator size="small" color={colors?.primary} />}
+                </View>
+                <Text style={styles.sectionSubtitle}>
+                  Selecione as turmas que o aluno irá participar (opcional)
+                </Text>
+
+                {loadingClasses ? (
+                  <View style={styles.loadingContainer}>
+                    <ActivityIndicator size="large" color={colors?.primary} />
+                    <Text style={styles.loadingText}>Carregando turmas...</Text>
+                  </View>
+                ) : availableClasses.length > 0 ? (
+                  <>
+                    <View style={styles.classesContainer}>
+                      {availableClasses.map((classItem) => (
+                        <Chip
+                          key={classItem.id}
+                          selected={selectedClasses.includes(classItem.id)}
+                          onPress={() => toggleClassSelection(classItem.id)}
+                          style={[
+                            styles.classChip,
+                            selectedClasses.includes(classItem.id) && styles.selectedChip
+                          ]}
+                          textStyle={selectedClasses.includes(classItem.id) ? styles.selectedChipText : { color: colors?.onSurfaceVariant }}
+                          icon={selectedClasses.includes(classItem.id) ? "check-circle" : "plus-circle"}
+                          showSelectedOverlay={true}
+                        >
+                          {classItem.name || `${classItem.modality} - ${classItem.instructorName}`}
+                        </Chip>
+                      ))}
+                    </View>
+
+                    {selectedClasses.length > 0 && (
+                      <View style={styles.selectedClassesContainer}>
+                        <Text style={styles.selectedClassesInfo}>
+                          ✅ {selectedClasses.length} turma{selectedClasses.length !== 1 ? 's' : ''} selecionada{selectedClasses.length !== 1 ? 's' : ''}
+                        </Text>
+                        <Button
+                          mode="text"
+                          onPress={() => {
+                            setSelectedClasses([]);
+                            showSnackbar('Todas as turmas foram desmarcadas', 'info');
+                          }}
+                          compact
+                          style={styles.clearButton}
+                          textColor={colors?.primary}
+                        >
+                          Limpar seleção
+                        </Button>
+                      </View>
+                    )}
+                  </>
+                ) : (
+                  <View style={styles.emptyStateContainer}>
+                    <Text style={styles.emptyStateIcon}>📚</Text>
+                    <Text style={styles.noClassesText}>
+                      Nenhuma turma disponível
+                    </Text>
+                    <Text style={styles.noClassesSubtext}>
+                      Crie turmas primeiro para associar alunos
+                    </Text>
+                    <Button
+                      mode="outlined"
+                      onPress={loadAvailableClasses}
+                      style={styles.retryButton}
+                      icon="refresh"
+                      compact
+                      textColor={colors?.primary}
+                    >
+                      Tentar novamente
+                    </Button>
+                  </View>
+                )}
+
+                {/* Status */}
+                <View style={styles.radioContainer}>
+                  <Text style={styles.fieldLabel}>Status</Text>
+                  <RadioButton.Group
+                    onValueChange={(value: any) => updateFormData('status', value)}
+                    value={formData.status}
+                  >
+                    <View style={styles.radioItem}>
+                      <RadioButton value="active" color={colors?.primary} uncheckedColor={colors?.onSurfaceVariant || COLORS.gray[500]} />
+                      <Text style={styles.radioLabel}>Ativo</Text>
+                    </View>
+                    <View style={styles.radioItem}>
+                      <RadioButton value="inactive" color={colors?.primary} uncheckedColor={colors?.onSurfaceVariant || COLORS.gray[500]} />
+                      <Text style={styles.radioLabel}>Inativo</Text>
+                    </View>
+                  </RadioButton.Group>
+                </View>
+
+                {/* Botões */}
+                <View style={styles.buttonContainer}>
+                  <Button
+                    mode="outlined"
+                    onPress={() => navigation.goBack()}
+                    style={styles.button}
+                    disabled={loading}
+                    textColor={colors?.text?.primary || COLORS.black}
+                  >Cancelar</Button>
+                  <Button
+                    mode="contained"
+                    onPress={handleSubmit}
+                    style={[styles.button, loading && styles.buttonLoading]}
+                    buttonColor={colors?.primary || COLORS.primary[500]}
+                    loading={loading}
+                    disabled={loading}
+                    icon={loading ? undefined : "account-plus"}
+                  >
+                    {loading ? 'Cadastrando...' : 'Cadastrar Aluno'}
+                  </Button>
+                </View>
+              </Card.Content>
+            </Card>
+          </ScrollView>
+
+          {/* Snackbar para feedback */}
+          <Snackbar
+            visible={snackbar.visible}
+            onDismiss={hideSnackbar}
+            duration={snackbar.type === 'success' ? 2000 : 4000}
+            style={[
+              styles.snackbar,
+              snackbar.type === 'success' && styles.snackbarSuccess,
+              snackbar.type === 'error' && styles.snackbarError
+            ]}
+            action={{
+              label: 'Fechar',
+              onPress: hideSnackbar,
+              textColor: colors?.surface || COLORS.white
+            }}
+          >
+            {snackbar.message}
+          </Snackbar>
+        </KeyboardAvoidingView>
+      </LinearGradient>
     </EnhancedErrorBoundary>
   );
 };
 
-const styles = StyleSheet.create({
+const createStyles = (colors: any) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background.default,
+    // Background color handled by LinearGradient
   },
   scrollView: {
     flex: 1,
@@ -656,23 +688,25 @@ const styles = StyleSheet.create({
   card: {
     marginBottom: SPACING.lg,
     width: '100%',
+    backgroundColor: colors?.background?.paper || COLORS.white, // Dynamic card background
   },
   title: {
     fontSize: FONT_SIZE.xxl,
     fontWeight: FONT_WEIGHT.bold,
     marginBottom: SPACING.lg,
     textAlign: 'center',
+    color: colors?.text?.primary || COLORS.text.primary, // Dynamic text color
   },
   sectionTitle: {
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
     marginTop: SPACING.lg,
     marginBottom: SPACING.md,
-    color: COLORS.black,
+    color: colors?.text?.primary || COLORS.text.primary, // Dynamic text color
   },
   sectionSubtitle: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.gray[500],
+    color: colors?.text?.secondary || COLORS.text.secondary, // Dynamic secondary text
     marginBottom: SPACING.md,
     fontStyle: 'italic',
   },
@@ -680,10 +714,11 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.medium,
     marginBottom: SPACING.sm,
-    color: COLORS.text.primary,
+    color: colors?.text?.primary || COLORS.text.primary, // Dynamic text color
   },
   divider: {
     marginVertical: SPACING.md,
+    backgroundColor: colors?.text?.disabled || COLORS.border.default,
   },
   input: {
     marginBottom: SPACING.md,
@@ -700,16 +735,20 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.sm,
     flexGrow: 0,
     flexShrink: 1,
+    backgroundColor: colors?.background?.default || COLORS.background.default,
+    borderColor: colors?.text?.disabled || COLORS.border.default,
+    borderWidth: 1,
   },
   selectedChip: {
-    backgroundColor: COLORS.info[500],
+    backgroundColor: colors?.primary?.[100] || COLORS.primary[100],
+    borderColor: colors?.primary || COLORS.primary[500],
   },
   selectedChipText: {
-    color: COLORS.white,
+    color: colors?.primary || COLORS.primary[900],
   },
   noClassesText: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.gray[500],
+    color: colors?.text?.secondary || COLORS.text.secondary,
     fontStyle: 'italic',
     textAlign: 'center',
     padding: SPACING.lg,
@@ -730,13 +769,13 @@ const styles = StyleSheet.create({
   loadingText: {
     marginTop: SPACING.md,
     fontSize: FONT_SIZE.base,
-    color: COLORS.gray[500],
+    color: colors?.text?.secondary || COLORS.text.secondary,
   },
   selectedClassesContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: COLORS.info[50],
+    backgroundColor: (colors?.primary?.[500] || COLORS.primary[500]) + '20', // Opacity 20%
     padding: SPACING.md,
     borderRadius: BORDER_RADIUS.md,
     marginTop: SPACING.sm,
@@ -744,7 +783,7 @@ const styles = StyleSheet.create({
   },
   selectedClassesInfo: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.info[700],
+    color: colors?.primary || COLORS.primary[500],
     fontWeight: FONT_WEIGHT.medium,
     flex: 1,
   },
@@ -754,81 +793,83 @@ const styles = StyleSheet.create({
   emptyStateContainer: {
     alignItems: 'center',
     padding: SPACING.xl,
-    backgroundColor: COLORS.gray[100],
+    backgroundColor: colors?.background?.default || COLORS.background.default,
     borderRadius: BORDER_RADIUS.md,
     marginVertical: SPACING.md,
     width: '100%',
+    borderColor: colors?.text?.disabled,
+    borderWidth: 1,
   },
   emptyStateIcon: {
     fontSize: FONT_SIZE.display,
     marginBottom: SPACING.md,
+    color: colors?.text?.secondary,
   },
   noClassesSubtext: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.gray[500],
+    color: colors?.text?.secondary,
     textAlign: 'center',
     marginTop: SPACING.xs,
     marginBottom: SPACING.md,
   },
-  retryButton: {
-    marginTop: SPACING.sm,
+  validationBanner: {
+    backgroundColor: (colors?.primary?.[50] || COLORS.primary[50]),
+    marginBottom: SPACING.md,
+    borderRadius: BORDER_RADIUS.md,
+  },
+  loadingOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 999,
+  },
+  loadingOverlayText: {
+    color: COLORS.white,
+    marginTop: SPACING.md,
+    fontSize: FONT_SIZE.lg,
+    fontWeight: FONT_WEIGHT.bold,
   },
   radioContainer: {
     marginBottom: SPACING.lg,
-    width: '100%',
-    flexDirection: 'row',
   },
   radioItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginRight: SPACING.md,
+    marginBottom: SPACING.sm,
   },
   radioLabel: {
-    marginLeft: SPACING.xs,
     fontSize: FONT_SIZE.md,
-    color: COLORS.text.secondary,
+    color: colors?.text?.secondary,
   },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: SPACING.lg,
-    width: '100%',
     gap: SPACING.md,
   },
   button: {
     flex: 1,
-    minWidth: 0,
   },
   buttonLoading: {
-    opacity: 0.8,
+    opacity: 0.7,
   },
-  validationBanner: {
-    marginBottom: SPACING.md,
-    borderRadius: BORDER_RADIUS.md,
-    overflow: 'hidden',
-  },
-  loadingOverlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(255,255,255,0.8)',
-    justifyContent: 'center',
-    alignItems: 'center',
-    zIndex: 1000,
-  },
-  loadingOverlayText: {
-    marginTop: SPACING.md,
-    fontSize: FONT_SIZE.lg,
-    color: COLORS.primary[500],
-    fontWeight: 'bold',
+  retryButton: {
+    marginTop: SPACING.sm,
   },
   snackbar: {
-    marginBottom: 20,
+    marginBottom: SPACING.lg,
   },
   snackbarSuccess: {
-    backgroundColor: COLORS.success[500],
+    backgroundColor: colors?.success || COLORS.success[500],
   },
   snackbarError: {
-    backgroundColor: COLORS.error[500],
-  }
+    backgroundColor: colors?.error || COLORS.error[500],
+  },
 });
 
 export default AddStudentScreen;

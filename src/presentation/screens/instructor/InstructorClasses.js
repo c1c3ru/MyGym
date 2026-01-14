@@ -12,12 +12,13 @@ import {
   Chip,
   Divider,
   Text,
-  List,
+  Paragraph,
   FAB,
   Searchbar,
 } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 import { useAuthFacade } from "@presentation/auth/AuthFacade";
 import {
   academyFirestoreService,
@@ -41,9 +42,11 @@ import {
 } from "@presentation/theme/designTokens";
 import { hexToRgba } from "@shared/utils/colorUtils";
 import { useTheme } from "@contexts/ThemeContext";
+import { useProfileTheme } from "../../../contexts/ProfileThemeContext";
 
 const InstructorClasses = ({ navigation }) => {
   const { getString } = useTheme();
+  const { theme: profileTheme } = useProfileTheme();
   const { user, userProfile } = useAuthFacade();
   const [classes, setClasses] = useState([]);
   const [filteredClasses, setFilteredClasses] = useState([]);
@@ -288,10 +291,10 @@ const InstructorClasses = ({ navigation }) => {
         studentCounts[classItem.id] || classItem.currentStudents || 0;
 
       return (
-        <Card key={classItem.id} style={styles.card}>
+        <Card key={classItem.id} style={[styles.card, { backgroundColor: profileTheme.background.paper }]}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <Text style={[styles.className, styles.title]}>
+              <Text style={[styles.className, { color: profileTheme.text.primary }]}>
                 {classItem.name}
               </Text>
               <Chip
@@ -300,7 +303,7 @@ const InstructorClasses = ({ navigation }) => {
                   {
                     backgroundColor:
                       classItem.status === "active"
-                        ? COLORS.primary[500]
+                        ? profileTheme.secondary[500]
                         : COLORS.warning[400],
                   },
                 ]}
@@ -310,40 +313,40 @@ const InstructorClasses = ({ navigation }) => {
               </Chip>
             </View>
 
-            <Paragraph style={styles.modalityText}>
+            <Paragraph style={[styles.modalityText, { color: profileTheme.text.secondary }]}>
               <Ionicons
                 name="fitness-outline"
                 size={16}
-                color={COLORS.gray[500]}
+                color={profileTheme.text.secondary}
               />{" "}
               {classItem.modality}
             </Paragraph>
 
             <View style={styles.classInfo}>
-              <Text style={styles.infoItem}>
+              <Text style={[styles.infoItem, { color: profileTheme.text.secondary }]}>
                 <Ionicons
                   name="time-outline"
                   size={16}
-                  color={COLORS.gray[500]}
+                  color={profileTheme.text.secondary}
                 />{" "}
                 {formatSchedule(classItem)}
               </Text>
 
-              <Text style={styles.infoItem}>
+              <Text style={[styles.infoItem, { color: profileTheme.text.secondary }]}>
                 <Ionicons
                   name="people-outline"
                   size={16}
-                  color={COLORS.gray[500]}
+                  color={profileTheme.text.secondary}
                 />{" "}
                 {studentCount}/{classItem.maxStudents || 0} alunos
               </Text>
 
               {classItem.price && (
-                <Text style={styles.infoItem}>
+                <Text style={[styles.infoItem, { color: profileTheme.text.secondary }]}>
                   <Ionicons
                     name="card-outline"
                     size={16}
-                    color={COLORS.gray[500]}
+                    color={profileTheme.text.secondary}
                   />{" "}
                   R$ {classItem.price.toFixed(2)}
                 </Text>
@@ -351,7 +354,7 @@ const InstructorClasses = ({ navigation }) => {
             </View>
 
             {classItem.description && (
-              <Text style={[styles.description, styles.paragraph]}>
+              <Text style={[styles.description, { color: profileTheme.text.hint }]}>
                 {classItem.description}
               </Text>
             )}
@@ -361,7 +364,8 @@ const InstructorClasses = ({ navigation }) => {
             <Button
               mode="outlined"
               onPress={() => handleClassPress(classItem)}
-              style={styles.actionButton}
+              style={[styles.actionButton, { borderColor: profileTheme.primary[500] }]}
+              textColor={profileTheme.primary[500]}
             >
               Detalhes
             </Button>
@@ -369,6 +373,7 @@ const InstructorClasses = ({ navigation }) => {
               mode="contained"
               onPress={() => handleCheckIns(classItem)}
               style={styles.actionButton}
+              buttonColor={profileTheme.primary[500]}
             >
               Check-ins
             </Button>
@@ -376,14 +381,16 @@ const InstructorClasses = ({ navigation }) => {
         </Card>
       );
     },
-    [studentCounts, formatSchedule, handleClassPress, handleCheckIns],
+    [studentCounts, formatSchedule, handleClassPress, handleCheckIns, profileTheme],
   );
 
   if (loading) {
     return (
-      <SafeAreaView style={styles.container}>
-        <InstructorClassesSkeleton />
-      </SafeAreaView>
+      <LinearGradient colors={profileTheme.gradients.hero} style={{ flex: 1 }}>
+        <SafeAreaView style={styles.container}>
+          <InstructorClassesSkeleton />
+        </SafeAreaView>
+      </LinearGradient>
     );
   }
 
@@ -402,55 +409,65 @@ const InstructorClasses = ({ navigation }) => {
         instructorId: user?.uid,
       }}
     >
-      <SafeAreaView style={styles.container}>
-        <Searchbar
-          placeholder="Buscar turmas..."
-          onChangeText={setSearchQuery}
-          value={searchQuery}
-          style={styles.searchbar}
-        />
+      <LinearGradient colors={profileTheme.gradients.hero} style={{ flex: 1 }}>
+        <SafeAreaView style={[styles.container, { backgroundColor: 'transparent' }]}>
+          <Searchbar
+            placeholder="Buscar turmas..."
+            onChangeText={setSearchQuery}
+            value={searchQuery}
+            style={[styles.searchbar, { backgroundColor: profileTheme.background.paper }]}
+            iconColor={profileTheme.text.secondary}
+            inputStyle={{ color: profileTheme.text.primary }}
+          />
 
-        <ScrollView
-          style={styles.scrollView}
-          contentContainerStyle={styles.scrollContent}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
-        >
-          {filteredClasses.length === 0 ? (
-            <View style={styles.emptyContainer}>
-              <Ionicons
-                name="school-outline"
-                size={64}
-                color={COLORS.gray[400]}
+          <ScrollView
+            style={styles.scrollView}
+            contentContainerStyle={styles.scrollContent}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+                tintColor={profileTheme.primary[500]}
+                colors={[profileTheme.primary[500]]}
               />
-              <Text style={styles.emptyText}>
-                {searchQuery ? "noClassesFound" : "Nenhuma turma cadastrada"}
-              </Text>
-              {!searchQuery && (
-                <Text style={styles.emptySubtext}>
-                  Entre em contato com o administrador para criar turmas
+            }
+          >
+            {filteredClasses.length === 0 ? (
+              <View style={styles.emptyContainer}>
+                <Ionicons
+                  name="school-outline"
+                  size={64}
+                  color={profileTheme.text.disabled}
+                />
+                <Text style={[styles.emptyText, { color: profileTheme.text.secondary }]}>
+                  {searchQuery ? "noClassesFound" : "Nenhuma turma cadastrada"}
                 </Text>
-              )}
-            </View>
-          ) : (
-            <EnhancedFlashList
-              data={filteredClasses}
-              renderItem={({ item }) => renderClassCard(item)}
-              keyExtractor={(item) => item.id}
-              estimatedItemSize={200}
-              contentContainerStyle={{ padding: SPACING.md }}
-            />
-          )}
-        </ScrollView>
+                {!searchQuery && (
+                  <Text style={[styles.emptySubtext, { color: profileTheme.text.hint }]}>
+                    Entre em contato com o administrador para criar turmas
+                  </Text>
+                )}
+              </View>
+            ) : (
+              <EnhancedFlashList
+                data={filteredClasses}
+                renderItem={({ item }) => renderClassCard(item)}
+                keyExtractor={(item) => item.id}
+                estimatedItemSize={200}
+                contentContainerStyle={{ padding: SPACING.md }}
+              />
+            )}
+          </ScrollView>
 
-        <FAB
-          style={styles.fab}
-          icon="plus"
-          label="Nova Turma"
-          onPress={handleAddClass}
-        />
-      </SafeAreaView>
+          <FAB
+            style={[styles.fab, { backgroundColor: profileTheme.secondary[500] }]}
+            icon="plus"
+            label="Nova Turma"
+            onPress={handleAddClass}
+            color={COLORS.white}
+          />
+        </SafeAreaView>
+      </LinearGradient>
     </EnhancedErrorBoundary>
   );
 };
@@ -458,7 +475,6 @@ const InstructorClasses = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.gray[100],
   },
   searchbar: {
     margin: SPACING.md,
@@ -497,7 +513,6 @@ const styles = StyleSheet.create({
   },
   modalityText: {
     fontSize: FONT_SIZE.md,
-    color: COLORS.gray[500],
     marginBottom: SPACING.md,
   },
   classInfo: {
@@ -505,14 +520,12 @@ const styles = StyleSheet.create({
   },
   infoItem: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.gray[600],
     marginBottom: SPACING.xs,
     flexDirection: "row",
     alignItems: "center",
   },
   description: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.gray[500],
     fontStyle: "italic",
   },
   cardActions: {
@@ -529,14 +542,12 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: FONT_SIZE.lg,
-    color: COLORS.gray[500],
     textAlign: "center",
     marginTop: SPACING.md,
     marginBottom: SPACING.sm,
   },
   emptySubtext: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.gray[500],
     textAlign: "center",
   },
   fab: {
@@ -544,7 +555,6 @@ const styles = StyleSheet.create({
     margin: SPACING.md,
     right: 0,
     bottom: 0,
-    backgroundColor: COLORS.primary[500],
   },
 });
 

@@ -4,7 +4,7 @@ import { Card, Text, Button } from 'react-native-paper';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useCustomClaims } from '@hooks/useCustomClaims';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getString } from "@utils/theme";
+import { useTheme } from '@contexts/ThemeContext';
 
 /**
  * Componente para proteger rotas que exigem autenticação e associação com academia
@@ -20,6 +20,7 @@ export function ProtectedRoute({
   redirectTo = null,
   ...props
 }) {
+  const { getString } = useTheme();
   const { user, userProfile, academia, loading } = useAuthFacade();
 
   // Mostrar loading enquanto carrega dados de autenticação

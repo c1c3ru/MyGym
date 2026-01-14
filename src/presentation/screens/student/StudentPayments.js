@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { View, StyleSheet, ScrollView, RefreshControl, Alert } from 'react-native';
 import {
   Card,
@@ -19,7 +19,10 @@ import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, BORDER_WIDTH } 
 
 const StudentPayments = ({ navigation }) => {
   const { user, userProfile, academia } = useAuthFacade();
-  const { getString } = useTheme();
+  const { getString, theme } = useTheme();
+  const colors = theme.colors;
+  const styles = useMemo(() => createStyles(colors), [colors]);
+
   const [payments, setPayments] = useState([]);
   const [currentPayment, setCurrentPayment] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -116,7 +119,7 @@ const StudentPayments = ({ navigation }) => {
       case 'paid': return COLORS.success[500];
       case 'pending': return COLORS.warning[500];
       case 'overdue': return COLORS.error[500];
-      default: return COLORS.gray[500];
+      default: return colors.onSurfaceVariant;
     }
   };
 
@@ -146,7 +149,7 @@ const StudentPayments = ({ navigation }) => {
       <ScrollView
         style={styles.scrollView}
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[colors.primary]} tintColor={colors.primary} />
         }
       >
         {/* Status Atual */}
@@ -154,7 +157,7 @@ const StudentPayments = ({ navigation }) => {
           <Card style={styles.currentCard}>
             <Card.Content>
               <View style={styles.cardHeader}>
-                <Ionicons name="card-outline" size={24} color={COLORS.info[500]} />
+                <Ionicons name="card-outline" size={24} color={colors.primary} />
                 <Text style={[styles.cardTitle, styles.title]}>Mensalidade Atual</Text>
               </View>
 
@@ -192,6 +195,8 @@ const StudentPayments = ({ navigation }) => {
                   onPress={handlePayWithPix}
                   style={styles.payButton}
                   icon="qrcode"
+                  buttonColor={colors.primary}
+                  textColor={colors.onPrimary}
                 >
                   Pagar com PIX
                 </Button>
@@ -204,7 +209,7 @@ const StudentPayments = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <Ionicons name="time-outline" size={24} color={COLORS.info[500]} />
+              <Ionicons name="time-outline" size={24} color={colors.onSurfaceVariant} />
               <Text style={[styles.cardTitle, styles.title]}>Histórico de Pagamentos</Text>
             </View>
 
@@ -213,7 +218,9 @@ const StudentPayments = ({ navigation }) => {
                 <View key={payment.id || index}>
                   <List.Item
                     title={`${payment.planName || getString('monthlyFee')} - ${formatCurrency(payment.amount)}`}
+                    titleStyle={{ color: colors.onSurface }}
                     description={`Vencimento: ${formatDate(payment.dueDate)}`}
+                    descriptionStyle={{ color: colors.onSurfaceVariant }}
                     left={() => (
                       <List.Icon
                         icon="receipt"
@@ -264,15 +271,17 @@ const StudentPayments = ({ navigation }) => {
         icon="whatsapp"
         label="Contato"
         onPress={handleContactWhatsApp}
+        color={colors.onTertiaryContainer}
+        theme={{ colors: { primary: colors.tertiaryContainer } }}
       />
     </SafeAreaView>
   );
 };
 
-const styles = StyleSheet.create({
+const createStyles = (colors) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.gray[100],
+    backgroundColor: colors.background,
   },
   scrollView: {
     flex: 1,
@@ -281,12 +290,13 @@ const styles = StyleSheet.create({
     margin: SPACING.md,
     marginBottom: SPACING.sm,
     elevation: 4,
-    backgroundColor: COLORS.info[50],
+    backgroundColor: colors.surface,
   },
   card: {
     margin: SPACING.md,
     marginTop: SPACING.sm,
     elevation: 2,
+    backgroundColor: colors.surface
   },
   cardHeader: {
     flexDirection: 'row',
@@ -296,7 +306,10 @@ const styles = StyleSheet.create({
   cardTitle: {
     marginLeft: SPACING.sm,
     fontSize: FONT_SIZE.lg,
+    color: colors.onSurface
   },
+  title: { color: colors.onSurface },
+  paragraph: { color: colors.onSurfaceVariant },
   currentPaymentInfo: {
     marginBottom: SPACING.md,
   },
@@ -308,38 +321,40 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: FONT_SIZE.md,
-    color: COLORS.gray[500],
+    color: colors.onSurfaceVariant,
   },
   value: {
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.bold,
+    color: colors.onSurface
   },
   statusChip: {
     borderWidth: BORDER_WIDTH.base,
+    backgroundColor: 'transparent'
   },
   listStatusChip: {
     borderWidth: BORDER_WIDTH.base,
     height: 24,
+    backgroundColor: 'transparent'
   },
   payButton: {
-    backgroundColor: COLORS.primary[500],
     marginTop: SPACING.sm,
   },
   emptyText: {
     textAlign: 'center',
-    color: COLORS.gray[500],
+    color: colors.onSurfaceVariant,
     fontStyle: 'italic',
   },
   infoText: {
     marginBottom: SPACING.sm,
-    color: COLORS.gray[500],
+    color: colors.onSurfaceVariant,
   },
   fab: {
     position: 'absolute',
     margin: SPACING.md,
     right: 0,
     bottom: 0,
-    backgroundColor: COLORS.info[500],
+    backgroundColor: colors.tertiary,
   },
 });
 

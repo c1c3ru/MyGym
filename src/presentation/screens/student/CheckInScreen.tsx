@@ -1,17 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { View, StyleSheet, ScrollView, Alert, Platform, Animated } from 'react-native';
-import { ActivityIndicator, Avatar, Chip, Text, Button } from 'react-native-paper';
+import { ActivityIndicator, Avatar, Chip, Text, Button, Card } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
 
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
 import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getAuthGradient } from '@presentation/theme/authTheme';
-import ModernCard from '@components/modern/ModernCard';
-import AnimatedButton from '@components/AnimatedButton';
+import { SPACING, FONT_SIZE, BORDER_RADIUS } from '@presentation/theme/designTokens';
 import EnhancedErrorBoundary from '@components/EnhancedErrorBoundary';
 
 import type { NavigationProp } from '@react-navigation/native';
@@ -43,7 +39,7 @@ interface ClassInfo {
   instructorName?: string;
 }
 
-const AnimatedModernCard = ({ children, delay = 0, variant = 'card', style = {} }: any) => {
+const AnimatedCard = ({ children, delay = 0, style, colors }: any) => {
   const slideAnim = useRef(new Animated.Value(20)).current;
   const opacityAnim = useRef(new Animated.Value(0)).current;
 
@@ -65,27 +61,31 @@ const AnimatedModernCard = ({ children, delay = 0, variant = 'card', style = {} 
   }, [delay, slideAnim, opacityAnim]);
 
   return (
-    <Animated.View style={{ opacity: opacityAnim, transform: [{ translateY: slideAnim as any }] }}>
-      <ModernCard variant={variant as any} style={[styles.card, style]}>
-        {children}
-      </ModernCard>
+    <Animated.View style={{ opacity: opacityAnim, transform: [{ translateY: slideAnim as any }], marginBottom: SPACING.sm }}>
+      <Card style={[{ borderRadius: BORDER_RADIUS.md, elevation: 2 }, { backgroundColor: colors.surface }, style]}>
+        <Card.Content>
+          {children}
+        </Card.Content>
+      </Card>
     </Animated.View>
   );
 };
 
-const formatSchedule = (schedule?: ClassSchedule[], days?: string[]) => {
+const formatSchedule = (schedule?: ClassSchedule[], days?: string[], getString?: any) => {
   if (schedule && schedule.length > 0) {
     return schedule.map(s => `${s.day.slice(0, 3)} ${s.startTime}-${s.endTime}`).join(' • ');
   }
   if (days && days.length > 0) {
     return days.join(' • ');
   }
-  return 'Horário não definido';
+  return getString ? getString('scheduleNotDefined') : 'Horário não definido';
 };
 
 const CheckInScreen: React.FC<CheckInScreenProps> = ({ navigation }) => {
-  const { getString, isDarkMode } = useTheme();
+  const { getString, theme } = useTheme();
+  const colors = theme.colors;
   const { user, academia } = useAuthFacade();
+  const styles = useMemo(() => createStyles(colors), [colors]);
 
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
@@ -122,7 +122,7 @@ const CheckInScreen: React.FC<CheckInScreenProps> = ({ navigation }) => {
         studentId: user.id,
         academiaId: academia?.id || '',
         classId: classInfo?.id || '',
-        className: classInfo?.name || 'Aula Avulsa',
+        className: classInfo?.name || getString('singleClass') || 'Aula Avulsa',
         date: new Date(),
         status: 'completed'
       }, academia?.id);
@@ -143,161 +143,161 @@ const CheckInScreen: React.FC<CheckInScreenProps> = ({ navigation }) => {
 
   if (initialLoading) {
     return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color={COLORS.primary[500]} />
+      <View style={[styles.loadingContainer, { backgroundColor: colors.background }]}>
+        <ActivityIndicator size="large" color={colors.primary} />
       </View>
     );
   }
 
   return (
     <EnhancedErrorBoundary errorContext={{ screen: 'CheckInScreen' }}>
-      <LinearGradient colors={getAuthGradient(isDarkMode) as any} style={styles.gradient}>
-        <SafeAreaView style={styles.container}>
-          <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+      <SafeAreaView style={styles.container}>
+        <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
 
-            <View style={styles.header}>
-              <Text style={styles.title}>{getString('checkIn')}</Text>
-              <Text style={styles.subtitle}>{getString('manageCheckIns')}</Text>
+          <View style={styles.header}>
+            <Text style={styles.title}>{getString('checkIn')}</Text>
+            <Text style={styles.subtitle}>{getString('manageCheckIns')}</Text>
+          </View>
+
+          {/* Card de Hoje / Ação Rápida */}
+          <AnimatedCard delay={0} colors={colors}>
+            <View style={styles.todayContent}>
+              <View style={styles.todayHeader}>
+                <Avatar.Icon size={48} icon="calendar-check" style={{ backgroundColor: colors.primary }} color={colors.onPrimary} />
+                <View style={styles.todayInfo}>
+                  <Text style={styles.todayTitle}>{getString('today')}</Text>
+                  <Text style={styles.todaySubtitle}>{new Date().toLocaleDateString('pt-BR')}</Text>
+                </View>
+              </View>
+
+              <Button
+                mode="contained"
+                onPress={() => handleCheckIn()}
+                loading={loading}
+                disabled={loading}
+                style={styles.checkInButton}
+                icon="check"
+                buttonColor={colors.primary}
+                textColor={colors.onPrimary}
+              >
+                {getString('manualCheckIn')}
+              </Button>
             </View>
+          </AnimatedCard>
 
-            {/* Card de Hoje / Ação Rápida */}
-            <AnimatedModernCard delay={0} variant="premium">
-              <View style={styles.todayContent}>
-                <View style={styles.todayHeader}>
-                  <Avatar.Icon size={48} icon="calendar-check" style={styles.todayAvatar} color={COLORS.white} />
-                  <View style={styles.todayInfo}>
-                    <Text style={styles.todayTitle}>{getString('today')}</Text>
-                    <Text style={styles.todaySubtitle}>{new Date().toLocaleDateString('pt-BR')}</Text>
-                  </View>
-                </View>
-
-                <AnimatedButton
-                  mode="contained"
-                  onPress={() => handleCheckIn()}
-                  loading={loading}
-                  disabled={loading}
-                  style={styles.checkInButton}
-                  icon="check"
-                >
-                  {getString('manualCheckIn')}
-                </AnimatedButton>
-              </View>
-            </AnimatedModernCard>
-
-            {/* Aulas Disponíveis */}
-            {availableClasses.length > 0 && (
-              <View style={styles.section}>
-                <View style={styles.sectionHeader}>
-                  <Ionicons name="time-outline" size={20} color={COLORS.primary[500]} />
-                  <Text style={styles.sectionTitle}>{getString('availableClasses')}</Text>
-                </View>
-
-                {availableClasses.map((item, index) => (
-                  <AnimatedModernCard key={item.id} delay={100 + (index * 50)} style={styles.classCard}>
-                    <View style={styles.classInfo}>
-                      <View style={styles.classDetails}>
-                        <Text style={styles.className}>{item.name}</Text>
-                        <Text style={styles.classModality}>{item.modality}</Text>
-
-                        <View style={styles.scheduleContainer}>
-                          <Ionicons name="calendar-outline" size={12} color={COLORS.gray[500]} />
-                          <Text style={styles.scheduleText} numberOfLines={1}>
-                            {formatSchedule(item.schedule, item.days)}
-                          </Text>
-                        </View>
-                      </View>
-                      <AnimatedButton
-                        mode="outlined"
-                        onPress={() => handleCheckIn(item)}
-                        style={styles.miniButton}
-                        labelStyle={styles.miniButtonLabel}
-                        compact
-                      >
-                        Check-In
-                      </AnimatedButton>
-                    </View>
-                  </AnimatedModernCard>
-                ))}
-              </View>
-            )}
-
-            {/* Histórico */}
+          {/* Aulas Disponíveis */}
+          {availableClasses.length > 0 && (
             <View style={styles.section}>
               <View style={styles.sectionHeader}>
-                <Ionicons name="list-outline" size={20} color={COLORS.info[500]} />
-                <Text style={[styles.sectionTitle, { color: COLORS.info[500] }]}>{getString('history')}</Text>
+                <Ionicons name="time-outline" size={20} color={colors.primary} />
+                <Text style={styles.sectionTitle}>{getString('availableClasses')}</Text>
               </View>
 
-              {checkIns.length > 0 ? (
-                checkIns.map((item, index) => (
-                  <AnimatedModernCard key={item.id || index} delay={300 + (index * 50)} variant="subtle" style={styles.historyCard}>
-                    <View style={styles.historyContent}>
-                      <View>
-                        <Text style={styles.historyClass}>{item.className}</Text>
-                        <Text style={styles.historyDate}>
-                          {item.date?.toDate ? item.date.toDate().toLocaleString() : new Date(item.date).toLocaleString()}
+              {availableClasses.map((item, index) => (
+                <AnimatedCard key={item.id} delay={100 + (index * 50)} colors={colors} style={styles.classCard}>
+                  <View style={styles.classInfo}>
+                    <View style={styles.classDetails}>
+                      <Text style={styles.className}>{item.name}</Text>
+                      <Text style={styles.classModality}>{item.modality}</Text>
+
+                      <View style={styles.scheduleContainer}>
+                        <Ionicons name="calendar-outline" size={14} color={colors.onSurfaceVariant} />
+                        <Text style={styles.scheduleText} numberOfLines={1}>
+                          {formatSchedule(item.schedule, item.days, getString)}
                         </Text>
                       </View>
-                      <Chip
-                        style={{ backgroundColor: COLORS.success[500] + '20' }}
-                        textStyle={{ color: COLORS.success[500], fontSize: 10, fontWeight: 'bold' }}
-                      >
-                        {getString('present')}
-                      </Chip>
                     </View>
-                  </AnimatedModernCard>
-                ))
-              ) : (
-                <Text style={styles.emptyText}>{getString('noCheckIns')}</Text>
-              )}
+                    <Button
+                      mode="outlined"
+                      onPress={() => handleCheckIn(item)}
+                      style={styles.miniButton}
+                      labelStyle={styles.miniButtonLabel}
+                      compact
+                      textColor={colors.primary}
+                      theme={{ colors: { outline: colors.primary } }}
+                    >
+                      Check-In
+                    </Button>
+                  </View>
+                </AnimatedCard>
+              ))}
+            </View>
+          )}
+
+          {/* Histórico */}
+          <View style={styles.section}>
+            <View style={styles.sectionHeader}>
+              <Ionicons name="list-outline" size={20} color={colors.onSurfaceVariant} />
+              <Text style={[styles.sectionTitle, { color: colors.onSurfaceVariant }]}>{getString('history')}</Text>
             </View>
 
-          </ScrollView>
-        </SafeAreaView>
-      </LinearGradient>
+            {checkIns.length > 0 ? (
+              checkIns.map((item, index) => (
+                <AnimatedCard key={item.id || index} delay={300 + (index * 50)} colors={colors} style={styles.historyCard}>
+                  <View style={styles.historyContent}>
+                    <View>
+                      <Text style={styles.historyClass}>{item.className}</Text>
+                      <Text style={styles.historyDate}>
+                        {item.date?.toDate ? item.date.toDate().toLocaleString() : new Date(item.date).toLocaleString()}
+                      </Text>
+                    </View>
+                    <Chip
+                      style={{ backgroundColor: colors.surfaceVariant }}
+                      textStyle={{ color: colors.primary, fontSize: 10, fontWeight: 'bold' }}
+                    >
+                      {getString('present')}
+                    </Chip>
+                  </View>
+                </AnimatedCard>
+              ))
+            ) : (
+              <Text style={styles.emptyText}>{getString('noCheckIns')}</Text>
+            )}
+          </View>
+
+        </ScrollView>
+      </SafeAreaView>
     </EnhancedErrorBoundary>
   );
 };
 
-const styles = StyleSheet.create({
+const createStyles = (colors: any) => StyleSheet.create({
   gradient: { flex: 1 },
-  container: { flex: 1 },
+  container: { flex: 1, backgroundColor: colors.background },
   loadingContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   scrollContent: { padding: SPACING.lg, paddingBottom: 100 },
   header: { marginBottom: SPACING.lg },
-  title: { fontSize: FONT_SIZE.xxl, fontWeight: 'bold', color: COLORS.white },
-  subtitle: { fontSize: FONT_SIZE.md, color: COLORS.gray[400], marginTop: SPACING.xs },
-  card: { marginBottom: SPACING.sm, borderRadius: BORDER_RADIUS.lg },
-
-  todayContent: { padding: SPACING.xs },
+  title: { fontSize: FONT_SIZE.xxl, fontWeight: 'bold', color: colors.onSurface },
+  subtitle: { fontSize: FONT_SIZE.md, color: colors.onSurfaceVariant, marginTop: SPACING.xs },
+  card: { borderRadius: BORDER_RADIUS.md, elevation: 2 },
+  todayContent: {},
   todayHeader: { flexDirection: 'row', alignItems: 'center', marginBottom: SPACING.md },
-  todayAvatar: { backgroundColor: COLORS.primary[500] },
   todayInfo: { marginLeft: SPACING.md },
-  todayTitle: { fontSize: FONT_SIZE.lg, fontWeight: 'bold', color: COLORS.white },
-  todaySubtitle: { fontSize: FONT_SIZE.md, color: COLORS.gray[300] },
+  todayTitle: { fontSize: FONT_SIZE.lg, fontWeight: 'bold', color: colors.onSurface },
+  todaySubtitle: { fontSize: FONT_SIZE.md, color: colors.onSurfaceVariant },
   checkInButton: { width: '100%' },
 
   section: { marginTop: SPACING.xl },
   sectionHeader: { flexDirection: 'row', alignItems: 'center', marginBottom: SPACING.md, gap: SPACING.xs },
-  sectionTitle: { fontSize: FONT_SIZE.md, fontWeight: 'bold', color: COLORS.primary[500], textTransform: 'uppercase', letterSpacing: 1 },
+  sectionTitle: { fontSize: FONT_SIZE.md, fontWeight: 'bold', color: colors.primary, textTransform: 'uppercase', letterSpacing: 1 },
 
-  classCard: { marginBottom: SPACING.sm },
+  classCard: {},
   classInfo: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   classDetails: { flex: 1, paddingRight: SPACING.sm },
-  className: { fontSize: FONT_SIZE.md, fontWeight: 'bold', color: COLORS.text.primary },
-  classModality: { fontSize: FONT_SIZE.sm, color: COLORS.text.secondary, marginBottom: 2 },
+  className: { fontSize: FONT_SIZE.md, fontWeight: 'bold', color: colors.onSurface },
+  classModality: { fontSize: FONT_SIZE.sm, color: colors.onSurfaceVariant, marginBottom: 2 },
   scheduleContainer: { flexDirection: 'row', alignItems: 'center', marginTop: 4, gap: 4 },
-  scheduleText: { fontSize: FONT_SIZE.sm, color: COLORS.gray[500] },
+  scheduleText: { fontSize: FONT_SIZE.sm, color: colors.onSurfaceVariant },
 
   miniButton: { height: 36 },
   miniButtonLabel: { fontSize: 12 },
 
-  historyCard: { marginBottom: SPACING.xs },
+  historyCard: {},
   historyContent: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  historyClass: { fontSize: FONT_SIZE.md, fontWeight: '600', color: COLORS.text.primary },
-  historyDate: { fontSize: FONT_SIZE.sm, color: COLORS.text.secondary, marginTop: 2 },
+  historyClass: { fontSize: FONT_SIZE.md, fontWeight: '600', color: colors.onSurface },
+  historyDate: { fontSize: FONT_SIZE.sm, color: colors.onSurfaceVariant, marginTop: 2 },
 
-  emptyText: { textAlign: 'center', color: COLORS.gray[500], fontStyle: 'italic', marginTop: SPACING.md },
+  emptyText: { textAlign: 'center', color: colors.onSurfaceVariant, fontStyle: 'italic', marginTop: SPACING.md },
 });
 
 export default CheckInScreen;

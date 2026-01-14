@@ -5,7 +5,7 @@ import { auth, db } from '@infrastructure/services/firebase';
 import useAuthStore from '@presentation/stores/AuthUIStore';
 import { normalizeUserProfile } from '@utils/userTypeHelpers';
 import { getUserClaims, refreshUserToken } from '@utils/customClaimsHelper';
-import { getString } from "@utils/theme";
+import { useTheme } from '@contexts/ThemeContext';
 
 // Variável global para controlar a inicialização do listener
 let authListenerInitialized = false;
@@ -13,6 +13,7 @@ let authUnsubscribe = null;
 
 // Hook para migrar dados do Context API para Zustand
 export const useAuthMigration = () => {
+  const { getString } = useTheme();
   const {
     setUser,
     setUserProfile,
@@ -41,7 +42,7 @@ export const useAuthMigration = () => {
       setCustomClaims(claims);
     } catch (error) {
       console.error('❌ loadCustomClaims: Erro ao carregar claims:', error);
-      
+
       // Se for erro de conectividade, tentar novamente
       if (error.code === 'unavailable' || error.message.includes('offline')) {
         console.log('🔄 loadCustomClaims: Cliente offline, tentando novamente em 3s...');
@@ -61,10 +62,10 @@ export const useAuthMigration = () => {
     try {
       console.log('🏢 fetchAcademiaData: Buscando dados da academia:', academiaId);
       console.log('🔍 fetchAcademiaData: Tentando buscar em /gyms/' + academiaId);
-      
+
       const academiaDoc = await getDoc(doc(db, 'gyms', academiaId));
       console.log('📄 fetchAcademiaData: Documento existe?', academiaDoc.exists());
-      
+
       if (academiaDoc.exists()) {
         const academiaData = academiaDoc.data();
         console.log('✅ fetchAcademiaData: Academia encontrada:', academiaData.name || 'Sem nome');
@@ -75,11 +76,11 @@ export const useAuthMigration = () => {
       } else {
         console.log('❌ fetchAcademiaData: Academia não encontrada na coleção gyms');
         console.log('🔍 fetchAcademiaData: Tentando buscar em /academias/' + academiaId);
-        
+
         // Tentar buscar na coleção alternativa 'academias'
         const academiaDocAlt = await getDoc(doc(db, 'academias', academiaId));
         console.log('📄 fetchAcademiaData: Documento existe em academias?', academiaDocAlt.exists());
-        
+
         if (academiaDocAlt.exists()) {
           const academiaData = academiaDocAlt.data();
           console.log('✅ fetchAcademiaData: Academia encontrada em academias:', academiaData.name || 'Sem nome');
@@ -90,7 +91,7 @@ export const useAuthMigration = () => {
         } else {
           console.log('❌ fetchAcademiaData: Academia não encontrada em nenhuma coleção');
           setGym(null);
-          
+
           // Se a academia não existe mais, limpar apenas o estado local
           if (userProfile?.academiaId) {
             console.log('⚠️ fetchAcademiaData: Limpando associação local da academia inexistente');
@@ -110,12 +111,12 @@ export const useAuthMigration = () => {
     try {
       console.log('🔍 fetchUserProfile: Buscando perfil do usuário:', userId);
       const userDoc = await getDoc(doc(db, 'users', userId));
-      
+
       if (userDoc.exists()) {
         console.log('✅ fetchUserProfile: Perfil encontrado');
         const profileData = { id: userId, ...userDoc.data() };
         setUserProfile(profileData);
-        
+
         // Buscar dados da academia se o usuário tiver uma associada no perfil
         // Os claims serão verificados separadamente após serem carregados
         if (profileData.academiaId) {
@@ -124,7 +125,8 @@ export const useAuthMigration = () => {
         }
       } else {
         console.log('❌ fetchUserProfile: Perfil não encontrado, criando perfil básico...');
-        
+
+        // Criar perfil básico se não existir
         // Criar perfil básico se não existir
         const basicProfile = {
           name: firebaseUser?.displayName || firebaseUser?.email?.split('@')[0] || getString('user'),
@@ -137,16 +139,16 @@ export const useAuthMigration = () => {
           createdAt: new Date(),
           updatedAt: new Date()
         };
-        
+
         await setDoc(doc(db, 'users', userId), basicProfile);
         console.log('✅ fetchUserProfile: Perfil básico criado');
-        
+
         const profileData = { id: userId, ...basicProfile };
         setUserProfile(profileData);
       }
     } catch (error) {
       console.error('❌ fetchUserProfile: Erro ao buscar perfil:', error);
-      
+
       // Se for erro de conectividade, tentar novamente após um delay
       if (error.code === 'unavailable' || error.message.includes('offline')) {
         console.log('🔄 fetchUserProfile: Cliente offline, tentando novamente em 5s...');
@@ -182,21 +184,21 @@ export const useAuthMigration = () => {
     authUnsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       console.log('🔄 Auth state changed:', firebaseUser ? 'Logado' : 'Deslogado');
       clearTimeout(loadingTimeout); // Cancelar timeout se auth resolver
-      
+
       try {
         setUser(firebaseUser);
-        
+
         if (firebaseUser) {
           // Carregar Custom Claims primeiro
           const claims = await loadCustomClaims(firebaseUser);
-          
+
           // Depois carregar perfil do usuário
           await fetchUserProfile(firebaseUser.uid, firebaseUser);
-          
+
           // Se claims têm academia mas perfil não tem, buscar dados da academia dos claims
           const currentProfile = useAuthStore.getState().userProfile;
           const currentGym = useAuthStore.getState().gym;
-          
+
           if (claims?.academiaId && !currentProfile?.academiaId && !currentGym) {
             console.log('🏢 Auth: Claims têm academia mas perfil não, buscando academia dos claims:', claims.academiaId);
             await fetchAcademiaData(claims.academiaId);
@@ -231,13 +233,13 @@ export const useAuthMigration = () => {
       const provider = new GoogleAuthProvider();
       provider.addScope('profile');
       provider.addScope('email');
-      
+
       const result = await signInWithPopup(auth, provider);
       const firebaseUser = result.user;
-      
+
       // Verificar se o usuário já existe no Firestore
       let userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
-      
+
       if (!userDoc.exists()) {
         // Criar perfil básico para usuário do Google
         await setDoc(doc(db, 'users', firebaseUser.uid), {
@@ -252,7 +254,7 @@ export const useAuthMigration = () => {
           updatedAt: new Date()
         });
       }
-      
+
       return firebaseUser;
     } catch (error) {
       console.error(getString('googleLoginError'), error);
@@ -265,13 +267,13 @@ export const useAuthMigration = () => {
       const provider = new FacebookAuthProvider();
       provider.addScope('email');
       provider.addScope('public_profile');
-      
+
       const result = await signInWithPopup(auth, provider);
       const firebaseUser = result.user;
-      
+
       // Verificar se o usuário já existe no Firestore
       let userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
-      
+
       if (!userDoc.exists()) {
         await setDoc(doc(db, 'users', firebaseUser.uid), {
           name: firebaseUser.displayName,
@@ -285,7 +287,7 @@ export const useAuthMigration = () => {
           updatedAt: new Date()
         });
       }
-      
+
       return firebaseUser;
     } catch (error) {
       console.error(getString('facebookLoginError'), error);
@@ -298,12 +300,12 @@ export const useAuthMigration = () => {
       const provider = new OAuthProvider('microsoft.com');
       provider.addScope('email');
       provider.addScope('profile');
-      
+
       const result = await signInWithPopup(auth, provider);
       const firebaseUser = result.user;
-      
+
       let userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
-      
+
       if (!userDoc.exists()) {
         await setDoc(doc(db, 'users', firebaseUser.uid), {
           name: firebaseUser.displayName,
@@ -317,7 +319,7 @@ export const useAuthMigration = () => {
           updatedAt: new Date()
         });
       }
-      
+
       return firebaseUser;
     } catch (error) {
       console.error(getString('microsoftLoginError'), error);
@@ -330,12 +332,12 @@ export const useAuthMigration = () => {
       const provider = new OAuthProvider('apple.com');
       provider.addScope('email');
       provider.addScope('name');
-      
+
       const result = await signInWithPopup(auth, provider);
       const firebaseUser = result.user;
-      
+
       let userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
-      
+
       if (!userDoc.exists()) {
         await setDoc(doc(db, 'users', firebaseUser.uid), {
           name: firebaseUser.displayName || 'Usuário Apple',
@@ -349,7 +351,7 @@ export const useAuthMigration = () => {
           updatedAt: new Date()
         });
       }
-      
+
       return firebaseUser;
     } catch (error) {
       console.error(getString('appleLoginError'), error);
@@ -363,19 +365,19 @@ export const useAuthMigration = () => {
       if (!user?.uid) {
         throw new Error(getString('userNotAuthenticated'));
       }
-      
+
       console.log('🔄 updateUserProfile: Atualizando perfil:', updates);
-      
+
       // Atualizar no Firestore
       await setDoc(doc(db, 'users', user.id), updates, { merge: true });
-      
+
       // Atualizar no Zustand store
       const currentProfile = userProfile || {};
       const updatedProfile = { ...currentProfile, ...updates };
       setUserProfile(updatedProfile);
-      
+
       console.log('✅ updateUserProfile: Perfil atualizado com sucesso');
-      
+
       return updatedProfile;
     } catch (error) {
       console.error('❌ updateUserProfile: Erro ao atualizar perfil:', error);
@@ -387,10 +389,10 @@ export const useAuthMigration = () => {
   const signIn = async (email, password) => {
     try {
       console.log('🔐 Iniciando login com email e senha...');
-      
+
       const result = await signInWithEmailAndPassword(auth, email, password);
       const firebaseUser = result.user;
-      
+
       console.log('✅ Login realizado com sucesso:', firebaseUser.email);
       return firebaseUser;
     } catch (error) {
@@ -405,19 +407,19 @@ export const useAuthMigration = () => {
       if (!user?.uid) {
         throw new Error(getString('userNotAuthenticated'));
       }
-      
+
       console.log('🏢 updateAcademiaAssociation: Associando usuário à academia:', academiaId);
-      
+
       // Atualizar perfil do usuário com a academia
       await setDoc(doc(db, 'users', user.id), {
         academiaId: academiaId,
         updatedAt: new Date()
       }, { merge: true });
-      
+
       // Atualizar estado local
       const updatedProfile = { ...userProfile, academiaId };
       setUserProfile(updatedProfile);
-      
+
       // Se dados da academia foram fornecidos, definir no estado
       if (academiaData) {
         setGym({ id: academiaId, ...academiaData });
@@ -425,9 +427,9 @@ export const useAuthMigration = () => {
         // Buscar dados da academia
         await fetchAcademiaData(academiaId);
       }
-      
+
       console.log('✅ updateAcademiaAssociation: Associação atualizada com sucesso');
-      
+
       return updatedProfile;
     } catch (error) {
       console.error('❌ updateAcademiaAssociation: Erro ao atualizar associação:', error);
@@ -439,21 +441,21 @@ export const useAuthMigration = () => {
   const refreshClaimsAndProfile = async () => {
     try {
       console.log('🔄 refreshClaimsAndProfile: Atualizando claims e perfil...');
-      
+
       if (!user) {
         console.log('⚠️ refreshClaimsAndProfile: Nenhum usuário logado');
         return;
       }
-      
+
       // Forçar refresh do token para obter claims atualizados
       await refreshUserToken();
-      
+
       // Recarregar claims
       await loadCustomClaims(user);
-      
+
       // Recarregar perfil do usuário
       await fetchUserProfile(user.id, user);
-      
+
       console.log('✅ refreshClaimsAndProfile: Claims e perfil atualizados');
     } catch (error) {
       console.error('❌ refreshClaimsAndProfile: Erro na atualização:', error);
@@ -465,9 +467,9 @@ export const useAuthMigration = () => {
   const signUp = async (email, password, userData) => {
     try {
       console.log('📝 Iniciando cadastro para:', email);
-      
+
       const { user: firebaseUser } = await createUserWithEmailAndPassword(auth, email, password);
-      
+
       // Criar perfil do usuário na coleção 'users'
       await setDoc(doc(db, 'users', firebaseUser.uid), {
         ...userData,
@@ -478,10 +480,10 @@ export const useAuthMigration = () => {
       });
 
       console.log('✅ Usuário criado com sucesso:', firebaseUser.uid);
-      
+
       // Carregar perfil do usuário
       await fetchUserProfile(firebaseUser.uid, firebaseUser);
-      
+
       return firebaseUser;
     } catch (error) {
       console.error('❌ Erro no cadastro:', error);
@@ -493,13 +495,13 @@ export const useAuthMigration = () => {
   const logoutUser = async () => {
     try {
       console.log('🚪 Iniciando logout...');
-      
+
       // Fazer signOut do Firebase
       await signOut(auth);
-      
+
       // Limpar estado do Zustand
       logout(); // Chama a função logout do store
-      
+
       console.log('✅ Logout realizado com sucesso');
     } catch (error) {
       console.error('❌ Erro ao fazer logout:', error);

@@ -1,12 +1,13 @@
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { COLORS } from '@presentation/theme/designTokens';
-import { getString } from "@utils/theme";
+import { useTheme } from '@contexts/ThemeContext';
 
 /**
  * Hook para acessar Custom Claims de forma consistente
  * Agora utiliza AuthFacade como fonte da verdade
  */
 export const useCustomClaims = () => {
+  const { getString } = useTheme();
   const { customClaims, user, loading: authLoading } = useAuthFacade();
 
   // Funções de verificação

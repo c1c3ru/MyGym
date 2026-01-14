@@ -1,11 +1,12 @@
 import { useCallback, useMemo } from 'react';
 import { Platform, AccessibilityInfo } from 'react-native';
-import { getString } from "@utils/theme";
+import { useTheme } from '@contexts/ThemeContext';
 
 /**
  * Hook customizado para melhorias de acessibilidade
  */
 export const useAccessibility = () => {
+  const { getString } = useTheme();
   // Verifica se o screen reader está ativo
   const announceForAccessibility = useCallback((message) => {
     if (Platform.OS === 'ios' || Platform.OS === 'android') {
@@ -93,7 +94,7 @@ export const useAccessibility = () => {
       hint: actions[action]?.hint || 'Toque duas vezes para executar a ação',
       role: 'button'
     });
-  }, [getAccessibilityProps]);
+  }, [getAccessibilityProps, getString]);
 
   // Props para formulários
   const getFormFieldAccessibilityProps = useCallback((fieldName, isRequired = false, errorMessage = null) => ({
@@ -113,7 +114,7 @@ export const useAccessibility = () => {
       active: getString('active'),
       inactive: getString('inactive'),
       paid: getString('paid'),
-      pending: getString('paymentPending'), 
+      pending: getString('paymentPending'),
       overdue: getString('overdue'),
       approved: getString('approved'),
       rejected: getString('rejected')
@@ -123,7 +124,7 @@ export const useAccessibility = () => {
       label: `${type}: ${statusMessages[status] || status}`,
       role: 'text'
     });
-  }, [getAccessibilityProps]);
+  }, [getAccessibilityProps, getString]);
 
   // Props para navegação
   const getNavigationAccessibilityProps = useCallback((screenName, params = {}) => ({

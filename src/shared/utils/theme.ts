@@ -2128,6 +2128,10 @@ export const lightTheme = {
     onSurfaceVariant: LIGHT_THEME.text.secondary,
     placeholder: LIGHT_THEME.text.secondary, // Explicit placeholder
     error: COLORS.error[500],
+    // Explicit overrides for contrast
+    onPrimary: COLORS.white,
+    onBackground: LIGHT_THEME.text.primary,
+    outline: COLORS.border.default, // Use darker border
   }
 };
 
@@ -2138,17 +2142,21 @@ export const darkTheme = {
     primary: COLORS.primary[400],
     primaryVariant: COLORS.primary[300],
     secondary: COLORS.secondary[400],
-    background: COLORS.gray[900],
-    surface: COLORS.gray[800],
-    card: COLORS.gray[800],
-    text: COLORS.white,
+    background: COLORS.background.default, // Premium Dark: #0B0B0B
+    surface: COLORS.background.paper,      // Card Dark: #1A1A1A
+    card: COLORS.background.paper,         // Card Dark: #1A1A1A
+    text: COLORS.text.primary,             // White
     accent: COLORS.info[400],
-    textSecondary: COLORS.gray[300],
-    textDisabled: COLORS.gray[500],
-    onSurface: COLORS.white,
-    onSurfaceVariant: COLORS.gray[300], // Visible light gray
-    placeholder: COLORS.gray[300], // Explicit placeholder
+    textSecondary: COLORS.text.secondary,  // High Contrast Off-White
+    textDisabled: COLORS.text.disabled,
+    onSurface: COLORS.text.primary,
+    onSurfaceVariant: COLORS.text.secondary,
+    placeholder: COLORS.text.hint,
     error: COLORS.error[400],
+    // Additional paper properties for better contrast
+    onBackground: COLORS.text.primary,
+    backdrop: COLORS.overlay.dark,
+    outline: COLORS.border.medium,
   }
 };
 

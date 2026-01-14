@@ -2,12 +2,13 @@ import { useState, useCallback, useEffect } from 'react';
 import { Alert } from 'react-native';
 import rateLimiter from '@utils/rateLimiter';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
-import { getString } from "@utils/theme";
+import { useTheme } from '@contexts/ThemeContext';
 
 /**
  * Hook para usar rate limiting em componentes
  */
 export const useRateLimit = (action, options = {}) => {
+  const { getString } = useTheme();
   const { user } = useAuthFacade();
   const {
     showAlert = true,
@@ -39,7 +40,7 @@ export const useRateLimit = (action, options = {}) => {
           [{ text: getString('ok') }]
         );
       }
-      
+
       if (onBlocked) {
         onBlocked(result);
       }
@@ -50,23 +51,23 @@ export const useRateLimit = (action, options = {}) => {
     }
 
     return result;
-  }, [action, identifier, showAlert, onBlocked, onAllowed, updateStatus]);
+  }, [action, identifier, showAlert, onBlocked, onAllowed, updateStatus, getString]);
 
   // Executar ação com rate limiting
   const executeWithLimit = useCallback(async (actionFunction, recordSuccess = true) => {
     const check = canExecute();
-    
+
     if (!check.allowed) {
       return { success: false, blocked: true, reason: check.reason };
     }
 
     try {
       const result = await actionFunction();
-      
+
       if (recordSuccess) {
         rateLimiter.recordAttempt(action, identifier, true);
       }
-      
+
       updateStatus();
       return { success: true, result };
     } catch (error) {

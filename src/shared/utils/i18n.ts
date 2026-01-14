@@ -1,4 +1,4 @@
-import { getString } from "@utils/theme";
+
 // Sistema de formatação internacionalizada para datas, números e moedas
 // Centraliza formatação por idioma escolhido pelo usuário
 
@@ -8,7 +8,7 @@ import { getString } from "@utils/theme";
 export type Language = 'pt' | 'en' | 'es';
 const LOCALE_MAP: Record<Language, string> = {
   pt: 'pt-BR',
-  en: 'en-US', 
+  en: 'en-US',
   es: 'es-ES'
 };
 
@@ -34,13 +34,13 @@ export const formatDate = (
   options: Intl.DateTimeFormatOptions = {}
 ): string => {
   if (!date) return '';
-  
+
   const locale = LOCALE_MAP[language] || 'pt-BR';
   const dateObj = date instanceof Date ? date : new Date(date);
-  
+
   const defaultOptions: Intl.DateTimeFormatOptions = {
     day: '2-digit',
-    month: '2-digit', 
+    month: '2-digit',
     year: 'numeric'
   };
 
@@ -55,10 +55,10 @@ export const formatDate = (
  */
 export const formatDateTime = (date: Date | string, language: Language = 'pt'): string => {
   if (!date) return '';
-  
+
   const locale = LOCALE_MAP[language] || 'pt-BR';
   const dateObj = date instanceof Date ? date : new Date(date);
-  
+
   return dateObj.toLocaleString(locale, {
     day: '2-digit',
     month: '2-digit',
@@ -76,10 +76,10 @@ export const formatDateTime = (date: Date | string, language: Language = 'pt'): 
  */
 export const formatTime = (date: Date | string, language: Language = 'pt'): string => {
   if (!date) return '';
-  
+
   const locale = LOCALE_MAP[language] || 'pt-BR';
   const dateObj = date instanceof Date ? date : new Date(date);
-  
+
   return dateObj.toLocaleTimeString(locale, {
     hour: '2-digit',
     minute: '2-digit'
@@ -95,10 +95,10 @@ export const formatTime = (date: Date | string, language: Language = 'pt'): stri
  */
 export const formatCurrency = (amount: number, language: Language = 'pt', currency: string | null = null): string => {
   if (amount === null || amount === undefined || isNaN(amount)) return '';
-  
+
   const locale = LOCALE_MAP[language] || 'pt-BR';
   const currencyCode = currency || CURRENCY_MAP[locale as keyof typeof CURRENCY_MAP] || 'BRL';
-  
+
   return new Intl.NumberFormat(locale, {
     style: 'currency',
     currency: currencyCode
@@ -114,9 +114,9 @@ export const formatCurrency = (amount: number, language: Language = 'pt', curren
  */
 export const formatNumber = (number: number, language: Language = 'pt', options: Intl.NumberFormatOptions = {}): string => {
   if (number === null || number === undefined || isNaN(number)) return '';
-  
+
   const locale = LOCALE_MAP[language] || 'pt-BR';
-  
+
   return new Intl.NumberFormat(locale, options).format(number);
 };
 
@@ -128,9 +128,9 @@ export const formatNumber = (number: number, language: Language = 'pt', options:
  */
 export const formatPercentage = (decimal: number, language: Language = 'pt'): string => {
   if (decimal === null || decimal === undefined || isNaN(decimal)) return '';
-  
+
   const locale = LOCALE_MAP[language] || 'pt-BR';
-  
+
   return new Intl.NumberFormat(locale, {
     style: 'percent',
     minimumFractionDigits: 1,
@@ -146,29 +146,29 @@ export const formatPercentage = (decimal: number, language: Language = 'pt'): st
  */
 export const formatRelativeDate = (date: Date | string, language: Language = 'pt'): string => {
   if (!date) return '';
-  
+
   const locale = LOCALE_MAP[language] || 'pt-BR';
   const dateObj = date instanceof Date ? date : new Date(date);
   const now = new Date();
-  
+
   try {
     // Use Intl.RelativeTimeFormat quando disponível
     if (typeof Intl.RelativeTimeFormat !== 'undefined') {
       const rtf = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' });
       const diffTime = dateObj.getTime() - now.getTime();
       const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-      
+
       if (Math.abs(diffDays) < 1) {
         const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
         return rtf.format(diffHours, 'hour');
       }
-      
+
       return rtf.format(diffDays, 'day');
     }
   } catch (e) {
     console.warn('Intl.RelativeTimeFormat não disponível, usando formatação simples');
   }
-  
+
   // Fallback para formatação simples
   return formatDate(date, language);
 };
@@ -181,7 +181,7 @@ export const formatRelativeDate = (date: Date | string, language: Language = 'pt
 export const getLocaleSettings = (language: Language = 'pt') => {
   const locale = LOCALE_MAP[language] || 'pt-BR';
   const currency = CURRENCY_MAP[locale as keyof typeof CURRENCY_MAP] || 'BRL';
-  
+
   return {
     locale,
     currency,
@@ -199,7 +199,7 @@ export const getLocaleSettings = (language: Language = 'pt') => {
 export const createI18nFormatters = (getString: (key: string) => string) => {
   // Detecta idioma atual baseado no contexto
   const currentLanguage = getString('language') || 'pt';
-  
+
   return {
     formatDate: (date: Date | string, options?: Intl.DateTimeFormatOptions) => formatDate(date, currentLanguage as Language, options),
     formatDateTime: (date: Date | string) => formatDateTime(date, currentLanguage as Language),

@@ -11,14 +11,18 @@ import {
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import { ResponsiveUtils } from '@utils/animations';
 import ImprovedScheduleSelector from '@components/ImprovedScheduleSelector';
 import { createEmptySchedule } from '@utils/scheduleUtils';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { useTheme } from "@contexts/ThemeContext";
+import { useProfileTheme } from "../../../contexts/ProfileThemeContext";
 
 const NovaAula = ({ navigation }) => {
   const { getString } = useTheme();
+  const { theme: profileTheme } = useProfileTheme();
+
   const [formData, setFormData] = useState({
     nome: '',
     modalidade: '',
@@ -36,94 +40,105 @@ const NovaAula = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.scrollView}>
-        <Card style={styles.card}>
-          <Card.Content>
-            <View style={styles.header}>
-              <MaterialCommunityIcons name="plus-circle" size={32} color={COLORS.primary[500]} />
-              <Text style={styles.title}>Nova Aula</Text>
-            </View>
+    <LinearGradient colors={profileTheme.gradients.hero} style={{ flex: 1 }}>
+      <SafeAreaView style={[styles.container, { backgroundColor: 'transparent' }]}>
+        <ScrollView style={styles.scrollView}>
+          <Card style={[styles.card, { backgroundColor: profileTheme.background.paper, borderColor: profileTheme.background.paper }]}>
+            <Card.Content>
+              <View style={styles.header}>
+                <MaterialCommunityIcons name="plus-circle" size={32} color={profileTheme.primary[500]} />
+                <Text style={[styles.title, { color: profileTheme.text.primary }]}>Nova Aula</Text>
+              </View>
 
-            <TextInput
-              label="Nome da Aula"
-              value={formData.nome}
-              onChangeText={(text) => setFormData({ ...formData, nome: text })}
-              style={styles.input}
-              mode="outlined"
-            />
-
-            <Text style={styles.sectionTitle}>{getString('modality')}</Text>
-            <View style={styles.chipContainer}>
-              {modalidades.map((modalidade) => (
-                <Chip
-                  key={modalidade}
-                  selected={formData.modalidade === modalidade}
-                  onPress={() => setFormData({ ...formData, modalidade })}
-                  style={styles.chip}
-                >
-                  {modalidade}
-                </Chip>
-              ))}
-            </View>
-
-            <TextInput
-              label="Capacidade Máxima"
-              value={formData.capacidade}
-              onChangeText={(text) => setFormData({ ...formData, capacidade: text })}
-              style={styles.input}
-              mode="outlined"
-              keyboardType="numeric"
-            />
-
-            <TextInput
-              label="Horário"
-              value={formData.horario}
-              onChangeText={(text) => setFormData({ ...formData, horario: text })}
-              style={styles.input}
-              mode="outlined"
-              placeholder="Ex: Segunda 19:00"
-            />
-
-            <TextInput
-              label={getString('description')}
-              value={formData.descricao}
-              onChangeText={(text) => setFormData({ ...formData, descricao: text })}
-              style={styles.input}
-              mode="outlined"
-              multiline
-              numberOfLines={3}
-            />
-
-            <Divider style={styles.divider} />
-
-            <View style={styles.buttonContainer}>
-              <Button
+              <TextInput
+                label="Nome da Aula"
+                value={formData.nome}
+                onChangeText={(text) => setFormData({ ...formData, nome: text })}
+                style={[styles.input, { backgroundColor: profileTheme.background.default }]}
                 mode="outlined"
-                onPress={() => navigation.goBack()}
-                style={styles.cancelButton}
-              >{getString('cancel')}</Button>
+                textColor={profileTheme.text.primary}
+                theme={{ colors: { primary: profileTheme.primary[500], outline: profileTheme.text.disabled } }}
+              />
 
-              <Button
-                mode="contained"
-                onPress={handleSubmit}
-                style={styles.submitButton}
-                buttonColor={COLORS.primary[500]}
-              >
-                Criar Aula
-              </Button>
-            </View>
-          </Card.Content>
-        </Card>
-      </ScrollView>
-    </SafeAreaView>
+              <Text style={[styles.sectionTitle, { color: profileTheme.text.primary }]}>{getString('modality')}</Text>
+              <View style={styles.chipContainer}>
+                {modalidades.map((modalidade) => (
+                  <Chip
+                    key={modalidade}
+                    selected={formData.modalidade === modalidade}
+                    onPress={() => setFormData({ ...formData, modalidade })}
+                    style={[styles.chip, { backgroundColor: formData.modalidade === modalidade ? profileTheme.secondary[100] : profileTheme.background.default }]}
+                    textStyle={{ color: formData.modalidade === modalidade ? profileTheme.secondary[900] : profileTheme.text.primary }}
+                    showSelectedOverlay={true}
+                  >
+                    {modalidade}
+                  </Chip>
+                ))}
+              </View>
+
+              <TextInput
+                label="Capacidade Máxima"
+                value={formData.capacidade}
+                onChangeText={(text) => setFormData({ ...formData, capacidade: text })}
+                style={[styles.input, { backgroundColor: profileTheme.background.default }]}
+                mode="outlined"
+                keyboardType="numeric"
+                textColor={profileTheme.text.primary}
+                theme={{ colors: { primary: profileTheme.primary[500], outline: profileTheme.text.disabled } }}
+              />
+
+              <TextInput
+                label="Horário"
+                value={formData.horario}
+                onChangeText={(text) => setFormData({ ...formData, horario: text })}
+                style={[styles.input, { backgroundColor: profileTheme.background.default }]}
+                mode="outlined"
+                placeholder="Ex: Segunda 19:00"
+                textColor={profileTheme.text.primary}
+                theme={{ colors: { primary: profileTheme.primary[500], outline: profileTheme.text.disabled } }}
+              />
+
+              <TextInput
+                label={getString('description')}
+                value={formData.descricao}
+                onChangeText={(text) => setFormData({ ...formData, descricao: text })}
+                style={[styles.input, { backgroundColor: profileTheme.background.default }]}
+                mode="outlined"
+                multiline
+                numberOfLines={3}
+                textColor={profileTheme.text.primary}
+                theme={{ colors: { primary: profileTheme.primary[500], outline: profileTheme.text.disabled } }}
+              />
+
+              <Divider style={[styles.divider, { backgroundColor: profileTheme.text.disabled }]} />
+
+              <View style={styles.buttonContainer}>
+                <Button
+                  mode="outlined"
+                  onPress={() => navigation.goBack()}
+                  style={[styles.cancelButton, { borderColor: profileTheme.text.disabled }]}
+                  textColor={profileTheme.text.secondary}
+                >{getString('cancel')}</Button>
+
+                <Button
+                  mode="contained"
+                  onPress={handleSubmit}
+                  style={[styles.submitButton, { backgroundColor: profileTheme.primary[500] }]}
+                >
+                  Criar Aula
+                </Button>
+              </View>
+            </Card.Content>
+          </Card>
+        </ScrollView>
+      </SafeAreaView>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.white,
   },
   scrollView: {
     flex: 1,
@@ -132,9 +147,7 @@ const styles = StyleSheet.create({
     margin: ResponsiveUtils.spacing.md,
     borderRadius: ResponsiveUtils.borderRadius.large,
     ...ResponsiveUtils.elevation,
-    backgroundColor: COLORS.card.default.background,
     borderWidth: 1,
-    borderColor: COLORS.border.subtle,
   },
   header: {
     flexDirection: 'row',
@@ -145,7 +158,6 @@ const styles = StyleSheet.create({
     marginLeft: ResponsiveUtils.spacing.md,
     fontSize: ResponsiveUtils.fontSize.large,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.black,
   },
   input: {
     marginBottom: ResponsiveUtils.spacing.md,
@@ -153,7 +165,6 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: ResponsiveUtils.fontSize.medium,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.black,
     marginBottom: ResponsiveUtils.spacing.sm,
     marginTop: ResponsiveUtils.spacing.sm,
   },
@@ -168,7 +179,6 @@ const styles = StyleSheet.create({
   },
   divider: {
     marginVertical: ResponsiveUtils.spacing.lg,
-    backgroundColor: COLORS.border.subtle,
   },
   buttonContainer: {
     flexDirection: 'row',

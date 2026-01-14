@@ -20,10 +20,12 @@ import {
   Portal,
   TextInput,
   Searchbar,
+  Checkbox,
 } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
+import { LinearGradient } from "expo-linear-gradient";
 import { useAuthFacade } from "@presentation/auth/AuthFacade";
 import {
   academyFirestoreService,
@@ -48,9 +50,11 @@ import {
 } from "@presentation/theme/designTokens";
 import { hexToRgba } from "@shared/utils/colorUtils";
 import { useTheme } from "@contexts/ThemeContext";
+import { useProfileTheme } from "../../../contexts/ProfileThemeContext";
 
 const CheckIn = ({ navigation }) => {
   const { getString } = useTheme();
+  const { theme: profileTheme } = useProfileTheme();
   const { user, userProfile } = useAuthFacade();
   const [classes, setClasses] = useState([]);
   const [activeCheckIns, setActiveCheckIns] = useState([]);
@@ -628,785 +632,510 @@ const CheckIn = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView
-        style={styles.scrollView}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-      >
-        {/* Minhas Turmas - Para iniciar check-in */}
-        <Card style={styles.card}>
-          <Card.Content>
-            <View style={styles.header}>
-              <MaterialCommunityIcons
-                name="school"
-                size={32}
-                color={COLORS.primary[500]}
-              />
-              <Text style={styles.title}>{getString("myClasses")}</Text>
-            </View>
-
-            {classes.length > 0 ? (
-              classes.map((classItem) => (
-                <Surface key={classItem.id} style={styles.checkInItem}>
-                  <View style={styles.checkInHeader}>
-                    <Text style={styles.aulaName}>
-                      {String(classItem.name || getString("unnamedClass"))}
-                    </Text>
-                    <Chip
-                      mode="flat"
-                      style={[
-                        styles.statusChip,
-                        { backgroundColor: COLORS.info[500] },
-                      ]}
-                      textStyle={{ color: COLORS.white }}
-                    >
-                      {typeof classItem.modality === "object" &&
-                      classItem.modality
-                        ? classItem.modality.name || "modality"
-                        : classItem.modality || getString("modality")}
-                    </Chip>
-                  </View>
-
-                  <View style={styles.checkInDetails}>
-                    <View style={styles.detailItem}>
-                      <MaterialCommunityIcons
-                        name="clock"
-                        size={16}
-                        color={COLORS.gray[500]}
-                      />
-                      <Text style={styles.detailText}>
-                        {(() => {
-                          if (
-                            typeof classItem.schedule === "object" &&
-                            classItem.schedule
-                          ) {
-                            const day = String(
-                              classItem.schedule.dayOfWeek || "",
-                            );
-                            const hour = String(
-                              classItem.schedule.hour || "00",
-                            ).padStart(2, "0");
-                            const minute = String(
-                              classItem.schedule.minute || 0,
-                            ).padStart(2, "0");
-                            return `${day} ${hour}:${minute}`;
-                          }
-                          return String(
-                            classItem.schedule ||
-                              getString("scheduleNotDefined"),
-                          );
-                        })()}
-                      </Text>
-                    </View>
-                    <View style={styles.detailItem}>
-                      <MaterialCommunityIcons
-                        name="account-group"
-                        size={16}
-                        color={COLORS.gray[500]}
-                      />
-                      <Text style={styles.detailText}>
-                        {String(classItem.currentStudents || 0)}/
-                        {String(classItem.maxStudents || 0)} alunos
-                      </Text>
-                    </View>
-                  </View>
-
-                  <View style={styles.actionButtons}>
-                    <Button
-                      mode="contained"
-                      onPress={() => handleStartCheckIn(classItem.id)}
-                      buttonColor={COLORS.primary[500]}
-                      compact
-                    >
-                      {getString("startCheckIn")}
-                    </Button>
-                  </View>
-                </Surface>
-              ))
-            ) : (
-              <View style={styles.emptyState}>
-                <MaterialCommunityIcons
-                  name="school-outline"
-                  size={48}
-                  color={COLORS.gray[400]}
-                />
-                <Text style={styles.emptyText}>
-                  {getString("noClassesFound")}
-                </Text>
-              </View>
-            )}
-          </Card.Content>
-        </Card>
-
-        {/* Check-ins Ativos */}
-        {activeCheckIns.length > 0 && (
-          <Card style={styles.card}>
+    <LinearGradient colors={profileTheme.gradients.hero} style={{ flex: 1 }}>
+      <SafeAreaView style={[styles.container, { backgroundColor: 'transparent' }]}>
+        <ScrollView
+          style={styles.scrollView}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              tintColor={profileTheme.primary[500]}
+              colors={[profileTheme.primary[500]]}
+            />
+          }
+        >
+          {/* Minhas Turmas - Para iniciar check-in */}
+          <Card style={[styles.card, { backgroundColor: profileTheme.background.paper }]}>
             <Card.Content>
               <View style={styles.header}>
                 <MaterialCommunityIcons
-                  name="qrcode-scan"
+                  name="school"
                   size={32}
-                  color={COLORS.info[500]}
+                  color={profileTheme.primary[500]}
                 />
-                <Text style={styles.title}>{getString("activeSessions")}</Text>
+                <Text style={[styles.title, { color: profileTheme.text.primary }]}>{getString("myClasses")}</Text>
               </View>
 
-              {activeCheckIns.map((session) => (
-                <Surface key={session.id} style={styles.checkInItem}>
-                  <View style={styles.checkInHeader}>
-                    <Text style={styles.aulaName}>{session.className}</Text>
-                    <Chip
-                      mode="flat"
-                      style={[
-                        styles.statusChip,
-                        { backgroundColor: COLORS.primary[500] },
-                      ]}
-                      textStyle={{ color: COLORS.white }}
-                    >
-                      {getString("active")}
-                    </Chip>
-                  </View>
-
-                  <View style={styles.checkInDetails}>
-                    <View style={styles.detailItem}>
-                      <MaterialCommunityIcons
-                        name="clock"
-                        size={16}
-                        color={COLORS.gray[500]}
-                      />
-                      <Text style={styles.detailText}>
-                        Iniciado:{" "}
-                        {session.startTime?.toDate?.()?.toLocaleTimeString() ||
-                          getString("now")}
+              {classes.length > 0 ? (
+                classes.map((classItem) => (
+                  <Surface key={classItem.id} style={[styles.checkInItem, { backgroundColor: profileTheme.background.default }]}>
+                    <View style={styles.checkInHeader}>
+                      <Text style={[styles.aulaName, { color: profileTheme.text.primary }]}>
+                        {String(classItem.name || getString("unnamedClass"))}
                       </Text>
+                      <Chip
+                        mode="flat"
+                        style={[
+                          styles.statusChip,
+                          { backgroundColor: profileTheme.info || COLORS.info[500] },
+                        ]}
+                        textStyle={{ color: COLORS.white }}
+                      >
+                        {typeof classItem.modality === "object" &&
+                          classItem.modality
+                          ? classItem.modality.name || "modality"
+                          : classItem.modality || getString("modality")}
+                      </Chip>
                     </View>
-                    <View style={styles.detailItem}>
-                      <MaterialCommunityIcons
-                        name="check-circle"
-                        size={16}
-                        color={COLORS.gray[500]}
-                      />
-                      <Text style={styles.detailText}>
-                        {session.checkInCount || 0} check-ins
-                      </Text>
-                    </View>
-                  </View>
 
-                  <View style={styles.actionButtons}>
-                    <Button
-                      mode="outlined"
-                      onPress={() => handleStopCheckIn(session.id)}
-                      buttonColor={COLORS.error[50]}
-                      textColor={COLORS.error[500]}
-                      compact
-                    >
-                      {getString("stopCheckIn")}
-                    </Button>
-                  </View>
-                </Surface>
-              ))}
+                    <View style={styles.checkInDetails}>
+                      <View style={styles.detailItem}>
+                        <MaterialCommunityIcons
+                          name="clock"
+                          size={16}
+                          color={profileTheme.text.secondary}
+                        />
+                        <Text style={[styles.detailText, { color: profileTheme.text.secondary }]}>
+                          {(() => {
+                            if (
+                              typeof classItem.schedule === "object" &&
+                              classItem.schedule
+                            ) {
+                              const day = String(
+                                classItem.schedule.dayOfWeek || "",
+                              );
+                              const hour = String(
+                                classItem.schedule.hour || "00",
+                              ).padStart(2, "0");
+                              const minute = String(
+                                classItem.schedule.minute || 0,
+                              ).padStart(2, "0");
+                              return `${day} ${hour}:${minute}`;
+                            }
+                            return String(
+                              classItem.schedule ||
+                              getString("scheduleNotDefined"),
+                            );
+                          })()}
+                        </Text>
+                      </View>
+                      <View style={styles.detailItem}>
+                        <MaterialCommunityIcons
+                          name="account-group"
+                          size={16}
+                          color={profileTheme.text.secondary}
+                        />
+                        <Text style={[styles.detailText, { color: profileTheme.text.secondary }]}>
+                          {String(classItem.currentStudents || 0)}/
+                          {String(classItem.maxStudents || 0)} alunos
+                        </Text>
+                      </View>
+                    </View>
+
+                    <View style={styles.actionButtons}>
+                      <Button
+                        mode="contained"
+                        onPress={() => handleStartCheckIn(classItem.id)}
+                        buttonColor={profileTheme.primary[500]}
+                        compact
+                      >
+                        {getString("startCheckIn")}
+                      </Button>
+                    </View>
+                  </Surface>
+                ))
+              ) : (
+                <View style={styles.emptyState}>
+                  <MaterialCommunityIcons
+                    name="school-outline"
+                    size={48}
+                    color={profileTheme.text.disabled}
+                  />
+                  <Text style={[styles.emptyText, { color: profileTheme.text.secondary }]}>
+                    {getString("noClassesFound")}
+                  </Text>
+                </View>
+              )}
             </Card.Content>
           </Card>
-        )}
 
-        {/* Check-ins Recentes */}
-        <Card style={styles.card}>
-          <Card.Content>
-            <View style={styles.header}>
-              <MaterialCommunityIcons
-                name="history"
-                size={32}
-                color={COLORS.warning[500]}
-              />
-              <Text style={styles.title}>{getString("todaysCheckIns")}</Text>
-            </View>
+          {/* Check-ins Ativos */}
+          {activeCheckIns.length > 0 && (
+            <Card style={[styles.card, { backgroundColor: profileTheme.background.paper }]}>
+              <Card.Content>
+                <View style={styles.header}>
+                  <MaterialCommunityIcons
+                    name="qrcode-scan"
+                    size={32}
+                    color={profileTheme.info || COLORS.info[500]}
+                  />
+                  <Text style={[styles.title, { color: profileTheme.text.primary }]}>{getString("activeSessions")}</Text>
+                </View>
 
-            {recentCheckIns.length > 0 ? (
-              recentCheckIns.map((checkIn) => (
-                <List.Item
-                  key={checkIn.id}
-                  title={checkIn.studentName}
-                  description={`${checkIn.className} • ${checkIn.date?.toDate?.()?.toLocaleTimeString() || getString("now")}`}
-                  left={() => (
-                    <List.Icon
-                      icon="check-circle"
-                      color={COLORS.primary[500]}
-                    />
-                  )}
-                  right={() => (
-                    <Chip
-                      mode="outlined"
-                      compact
-                      style={{ marginTop: SPACING.sm }}
-                    >
-                      {checkIn.type === "manual"
-                        ? getString("manual")
-                        : getString("qrCode")}
-                    </Chip>
-                  )}
-                />
-              ))
-            ) : (
-              <View style={styles.emptyState}>
+                {activeCheckIns.map((session) => (
+                  <Surface key={session.id} style={[styles.checkInItem, { backgroundColor: profileTheme.background.default }]}>
+                    <View style={styles.checkInHeader}>
+                      <Text style={[styles.aulaName, { color: profileTheme.text.primary }]}>{session.className}</Text>
+                      <Chip
+                        mode="flat"
+                        style={[
+                          styles.statusChip,
+                          { backgroundColor: profileTheme.primary[500] },
+                        ]}
+                        textStyle={{ color: COLORS.white }}
+                      >
+                        {getString("active")}
+                      </Chip>
+                    </View>
+
+                    <View style={styles.checkInDetails}>
+                      <View style={styles.detailItem}>
+                        <MaterialCommunityIcons
+                          name="clock"
+                          size={16}
+                          color={profileTheme.text.secondary}
+                        />
+                        <Text style={[styles.detailText, { color: profileTheme.text.secondary }]}>
+                          Iniciado:{" "}
+                          {session.startTime?.toDate?.()?.toLocaleTimeString() ||
+                            getString("now")}
+                        </Text>
+                      </View>
+                      <View style={styles.detailItem}>
+                        <MaterialCommunityIcons
+                          name="check-circle"
+                          size={16}
+                          color={profileTheme.text.secondary}
+                        />
+                        <Text style={[styles.detailText, { color: profileTheme.text.secondary }]}>
+                          {session.checkInCount || 0} check-ins
+                        </Text>
+                      </View>
+                    </View>
+
+                    <View style={styles.actionButtons}>
+                      <Button
+                        mode="outlined"
+                        onPress={() => handleStopCheckIn(session.id)}
+                        textColor={COLORS.error[500]}
+                        style={{ borderColor: COLORS.error[500] }}
+                        compact
+                      >
+                        {getString("stopCheckIn")}
+                      </Button>
+                      <Button
+                        mode="contained"
+                        onPress={() => {
+                          const classInfo = classes.find(
+                            (c) => c.id === session.classId,
+                          );
+                          setSelectedClass(classInfo);
+                          setManualCheckInVisible(true);
+                        }}
+                        buttonColor={profileTheme.secondary[500]}
+                        compact
+                      >
+                        {getString("manualCheckInShort")}
+                      </Button>
+                    </View>
+                  </Surface>
+                ))}
+              </Card.Content>
+            </Card>
+          )}
+
+          {/* Histórico Recente */}
+          <Card style={[styles.card, { backgroundColor: profileTheme.background.paper }]}>
+            <Card.Content>
+              <View style={styles.header}>
                 <MaterialCommunityIcons
                   name="history"
-                  size={48}
-                  color={COLORS.gray[400]}
+                  size={32}
+                  color={profileTheme.secondary[500]}
                 />
-                <Text style={styles.emptyText}>
-                  {getString("noCheckInsToday")}
-                </Text>
+                <Text style={[styles.title, { color: profileTheme.text.primary }]}>{getString("recentHistory")}</Text>
               </View>
-            )}
-          </Card.Content>
-        </Card>
-      </ScrollView>
 
-      {/* Modal para Check-in Manual */}
-      <Portal>
-        <Modal
-          visible={manualCheckInVisible}
-          onDismiss={() => setManualCheckInVisible(false)}
-          contentContainerStyle={styles.modalContainer}
-        >
-          <Text style={styles.modalTitle}>{getString("manualCheckIn")}</Text>
+              {recentCheckIns.length > 0 ? (
+                recentCheckIns.map((checkIn) => (
+                  <View key={checkIn.id} style={[styles.historyItem, { borderBottomColor: profileTheme.text.disabled }]}>
+                    <View style={styles.historyInfo}>
+                      <Text style={[styles.studentName, { color: profileTheme.text.primary }]}>
+                        {checkIn.studentName || getString("unknownStudent")}
+                      </Text>
+                      <Text style={[styles.className, { color: profileTheme.text.secondary }]}>
+                        {checkIn.className || getString("unknownClass")}
+                      </Text>
+                      <Text style={[styles.checkInTime, { color: profileTheme.text.hint }]}>
+                        {checkIn.timestamp?.toDate
+                          ? checkIn.timestamp.toDate().toLocaleTimeString()
+                          : new Date(checkIn.timestamp).toLocaleTimeString()}
+                      </Text>
+                    </View>
+                    <Chip mode="outlined" style={{ borderColor: profileTheme.secondary[500] }} textStyle={{ color: profileTheme.secondary[500] }} compact>
+                      {checkIn.type === "manual" ? "Manual" : "QR Code"}
+                    </Chip>
+                  </View>
+                ))
+              ) : (
+                <Text style={[styles.emptyText, { color: profileTheme.text.secondary }]}>
+                  {getString("noRecentCheckIns")}
+                </Text>
+              )}
+            </Card.Content>
+          </Card>
+        </ScrollView>
 
-          {/* Seleção de Turma */}
-          <View style={styles.classSelectionContainer}>
-            <Text style={styles.modalSubtitle}>
-              {getString("selectClass")}:
+        <Portal>
+          <Modal
+            visible={manualCheckInVisible}
+            onDismiss={() => setManualCheckInVisible(false)}
+            contentContainerStyle={[styles.modalContent, { backgroundColor: profileTheme.background.paper }]}
+          >
+            <Text style={[styles.modalTitle, { color: profileTheme.text.primary }]}>
+              {getString("manualCheckInFor")} {selectedClass?.name}
             </Text>
-            <View style={styles.classGrid}>
-              {classes.map((classItem) => (
-                <Button
-                  key={classItem.id}
-                  mode={
-                    selectedClass?.id === classItem.id
-                      ? "contained"
-                      : "outlined"
-                  }
-                  onPress={() => {
-                    setSelectedClass(classItem);
-                    // Limpar seleções anteriores ao trocar de turma
-                    setSelectedStudents(new Set());
-                    setStudentsWithCheckIn(new Set());
-                    // Carregar check-ins da nova turma
-                    setTimeout(() => loadTodayCheckIns(), 100);
-                  }}
-                  style={[
-                    styles.classButton,
-                    selectedClass?.id === classItem.id &&
-                      styles.classButtonSelected,
-                  ]}
-                  labelStyle={styles.classButtonLabel}
-                  icon={
-                    selectedClass?.id === classItem.id
-                      ? "check-circle"
-                      : "account-group"
-                  }
-                >
-                  {classItem.name}
-                </Button>
-              ))}
-            </View>
-          </View>
 
-          {/* Busca de Alunos */}
-          <Searchbar
-            placeholder={getString("searchStudent")}
-            onChangeText={filterStudents}
-            value={searchQuery}
-            style={styles.searchbar}
-          />
+            <Searchbar
+              placeholder={getString("searchStudent")}
+              onChangeText={filterStudents}
+              value={searchQuery}
+              style={[styles.searchbar, { backgroundColor: profileTheme.background.default }]}
+              inputStyle={{ color: profileTheme.text.primary }}
+              iconColor={profileTheme.text.secondary}
+            />
 
-          {/* Controles de Seleção em Lote */}
-          {filteredStudents.length > 0 && (
-            <View style={styles.batchControls}>
-              <Text style={styles.selectionCount}>
-                {selectedStudents.size} de {filteredStudents.length}{" "}
-                {getString("selected")}
-              </Text>
-              <View style={styles.batchButtons}>
+            {/* Batch Selection Controls */}
+            {filteredStudents.length > 0 && (
+              <View style={[styles.batchControls, { backgroundColor: profileTheme.primary[50], borderColor: profileTheme.primary[100] }]}>
+                <View style={styles.batchInfo}>
+                  <Text style={[styles.batchText, { color: profileTheme.primary[700] }]}>
+                    {selectedStudents.size} alunos selecionados
+                  </Text>
+                  {selectedStudents.size > 0 && (
+                    <Button
+                      mode="text"
+                      compact
+                      onPress={clearSelection}
+                      textColor={profileTheme.primary[700]}
+                    >
+                      Limpar
+                    </Button>
+                  )}
+                </View>
                 <Button
                   mode="outlined"
                   compact
                   onPress={selectAllStudents}
-                  style={styles.batchButton}
+                  textColor={profileTheme.primary[500]}
+                  style={{ borderColor: profileTheme.primary[500] }}
                 >
-                  {getString("selectAll")}
-                </Button>
-                <Button
-                  mode="outlined"
-                  compact
-                  onPress={clearSelection}
-                  style={styles.batchButton}
-                >
-                  {getString("clear")}
+                  Selecionar Todos
                 </Button>
               </View>
-            </View>
-          )}
+            )}
 
-          {/* Lista de Alunos */}
-          <ScrollView style={styles.studentsList}>
-            {filteredStudents.length > 0 ? (
-              filteredStudents.map((student) => {
+            <ScrollView style={styles.studentList}>
+              {filteredStudents.map((student) => {
                 const hasCheckIn = studentsWithCheckIn.has(student.id);
                 const isSelected = selectedStudents.has(student.id);
 
                 return (
                   <List.Item
                     key={student.id}
-                    title={student.name || getString("nameNotInformed")}
-                    description={
-                      <View style={styles.studentDescription}>
-                        <Text style={styles.studentEmail}>
-                          {student.email || getString("emailNotInformed")}
-                        </Text>
-                        {hasCheckIn && (
-                          <Chip
-                            icon="check-circle"
-                            mode="flat"
-                            style={styles.checkInChip}
-                            textStyle={styles.checkInChipText}
-                          >
-                            {getString("present")}
-                          </Chip>
-                        )}
-                      </View>
-                    }
-                    left={() => (
-                      <View style={styles.studentLeftSection}>
-                        <Button
-                          mode={isSelected ? "contained" : "outlined"}
-                          compact
-                          onPress={() => toggleStudentSelection(student.id)}
-                          style={[
-                            styles.selectButton,
-                            hasCheckIn && styles.selectButtonDisabled,
-                          ]}
-                          disabled={hasCheckIn}
-                        >
-                          {isSelected ? "✓" : "+"}
-                        </Button>
-                        {hasCheckIn && (
-                          <MaterialCommunityIcons
-                            name="check-circle"
-                            size={24}
-                            color={COLORS.primary[500]}
-                            style={styles.checkInIcon}
+                    title={student.name}
+                    description={student.email}
+                    titleStyle={{ color: profileTheme.text.primary }}
+                    descriptionStyle={{ color: profileTheme.text.secondary }}
+                    left={(props) => (
+                      <View style={{ justifyContent: 'center' }}>
+                        {hasCheckIn ? (
+                          <MaterialCommunityIcons name="check-circle" size={24} color={COLORS.success[500]} style={{ marginHorizontal: 8 }} />
+                        ) : (
+                          <Checkbox
+                            status={isSelected ? 'checked' : 'unchecked'}
+                            onPress={() => toggleStudentSelection(student.id)}
+                            color={profileTheme.primary[500]}
+                            uncheckedColor={profileTheme.text.disabled}
                           />
                         )}
                       </View>
                     )}
-                    right={() => (
-                      <Button
-                        mode={hasCheckIn ? "outlined" : "contained"}
-                        compact
-                        onPress={() =>
-                          handleManualCheckIn(student.id, student.name)
-                        }
-                        disabled={!selectedClass || hasCheckIn}
-                        style={[
-                          styles.individualCheckInButton,
-                          hasCheckIn && styles.alreadyCheckedInButton,
-                        ]}
-                      >
-                        {hasCheckIn ? "Presente" : "Check-in"}
-                      </Button>
+                    right={(props) => (
+                      hasCheckIn ? (
+                        <Chip compact style={{ backgroundColor: COLORS.success[100] }} textStyle={{ color: COLORS.success[700] }}>Check-in OK</Chip>
+                      ) : (
+                        <Button
+                          compact
+                          onPress={() => handleManualCheckIn(student.id, student.name)}
+                          textColor={profileTheme.primary[500]}
+                        >
+                          Check-in
+                        </Button>
+                      )
                     )}
+                    onPress={() => !hasCheckIn && toggleStudentSelection(student.id)}
                     style={[
                       styles.studentItem,
-                      hasCheckIn && styles.studentItemCheckedIn,
+                      hasCheckIn && { opacity: 0.7, backgroundColor: COLORS.success[50] },
+                      isSelected && { backgroundColor: profileTheme.primary[50] }
                     ]}
                   />
                 );
-              })
-            ) : (
-              <View style={styles.emptyState}>
-                <MaterialCommunityIcons
-                  name="account-off"
-                  size={48}
-                  color={COLORS.gray[400]}
-                />
-                <Text style={styles.emptyText}>
-                  {searchQuery
-                    ? "Nenhum aluno encontrado na busca"
-                    : "Nenhum aluno cadastrado"}
-                </Text>
-                <Text style={styles.emptySubtext}>
-                  Total de alunos: {students.length}
-                </Text>
-              </View>
-            )}
-          </ScrollView>
+              })}
+            </ScrollView>
 
-          <View style={styles.modalActions}>
-            <Button
-              mode="outlined"
-              onPress={() => {
-                setManualCheckInVisible(false);
-                setSelectedStudents(new Set());
-                setSearchQuery("");
-              }}
-              style={styles.modalButton}
-              icon="close"
-            >
-              {getString("cancel")}
-            </Button>
-            <Button
-              mode="contained"
-              onPress={async () => {
-                if (!selectedClass) {
-                  Alert.alert(
-                    getString("attention"),
-                    getString("selectClassFirst"),
-                  );
-                  return;
-                }
-                if (selectedStudents.size === 0) {
-                  Alert.alert(
-                    getString("attention"),
-                    "Selecione pelo menos um aluno para fazer check-in",
-                  );
-                  return;
-                }
-                await handleBatchCheckIn();
-                setManualCheckInVisible(false);
-              }}
-              loading={batchProcessing}
-              disabled={batchProcessing}
-              style={[styles.modalButton, styles.batchCheckInButton]}
-              icon="account-multiple-check"
-            >
-              {selectedStudents.size > 0
-                ? `Confirmar Check-in (${selectedStudents.size})`
-                : "Selecione Alunos"}
-            </Button>
-          </View>
-        </Modal>
-      </Portal>
-
-      <FAB
-        icon="qrcode-plus"
-        style={styles.fab}
-        onPress={() => {
-          console.log("🔍 Debug - Abrindo check-in manual");
-          console.log("🔍 Debug - Turmas disponíveis:", classes.length);
-          console.log("🔍 Debug - Alunos carregados:", students.length);
-
-          if (classes.length === 0) {
-            Alert.alert(
-              getString("warning"),
-              "Você precisa ter pelo menos uma turma para fazer check-in manual",
-            );
-            return;
-          }
-
-          // Pré-selecionar primeira turma se houver
-          if (classes.length > 0 && !selectedClass) {
-            setSelectedClass(classes[0]);
-          }
-
-          setManualCheckInVisible(true);
-        }}
-        label="manualCheckIn"
-      />
-    </SafeAreaView>
+            <View style={styles.modalActions}>
+              <Button
+                mode="contained"
+                onPress={handleBatchCheckIn}
+                loading={batchProcessing}
+                disabled={batchProcessing || selectedStudents.size === 0}
+                style={[styles.batchCheckInButton, { backgroundColor: profileTheme.primary[500] }]}
+              >
+                Confirmar ({selectedStudents.size})
+              </Button>
+              <Button
+                mode="outlined"
+                onPress={() => setManualCheckInVisible(false)}
+                textColor={profileTheme.text.secondary}
+                style={{ borderColor: profileTheme.text.disabled }}
+              >
+                {getString("close")}
+              </Button>
+            </View>
+          </Modal>
+        </Portal>
+      </SafeAreaView>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.white,
   },
   scrollView: {
     flex: 1,
   },
   card: {
-    margin: ResponsiveUtils.spacing.md,
-    borderRadius: ResponsiveUtils.borderRadius.large,
-    ...ResponsiveUtils.elevation,
+    margin: SPACING.md,
+    borderRadius: BORDER_RADIUS.lg,
   },
   header: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: ResponsiveUtils.spacing.lg,
+    marginBottom: SPACING.md,
   },
   title: {
-    marginLeft: ResponsiveUtils.spacing.md,
-    fontSize: ResponsiveUtils.fontSize.large,
+    fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.black,
+    marginLeft: SPACING.sm,
   },
   checkInItem: {
-    padding: ResponsiveUtils.spacing.md,
-    marginBottom: ResponsiveUtils.spacing.sm,
-    borderRadius: ResponsiveUtils.borderRadius.medium,
-    // Glassmorphism
-    backgroundColor: GLASS.premium.backgroundColor,
-    borderColor: GLASS.premium.borderColor,
-    borderWidth: 1,
-    ...Platform.select({
-      ios: {
-        shadowColor: GLASS.premium.shadowColor,
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.3,
-        shadowRadius: 8,
-      },
-      android: {
-        elevation: 4,
-      },
-      web: {
-        boxShadow: `0 4px 16px 0 ${GLASS.premium.shadowColor}`,
-        backdropFilter: GLASS.premium.backdropFilter,
-      },
-    }),
+    padding: SPACING.md,
+    marginBottom: SPACING.sm,
+    borderRadius: BORDER_RADIUS.md,
   },
   checkInHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: ResponsiveUtils.spacing.sm,
+    marginBottom: SPACING.xs,
   },
   aulaName: {
-    fontSize: ResponsiveUtils.fontSize.medium,
+    fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.black,
     flex: 1,
   },
   statusChip: {
-    borderRadius: BORDER_RADIUS.md,
+    height: 24,
   },
   checkInDetails: {
-    flexDirection: "row",
-    marginBottom: ResponsiveUtils.spacing.md,
+    marginBottom: SPACING.md,
   },
   detailItem: {
     flexDirection: "row",
     alignItems: "center",
-    marginRight: ResponsiveUtils.spacing.lg,
+    marginTop: 4,
   },
   detailText: {
-    marginLeft: SPACING.xs,
-    fontSize: ResponsiveUtils.fontSize.small,
-    color: COLORS.gray[500],
+    fontSize: FONT_SIZE.sm,
+    marginLeft: 4,
   },
   actionButtons: {
-    alignItems: "flex-end",
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    gap: SPACING.sm,
   },
   emptyState: {
     alignItems: "center",
-    padding: ResponsiveUtils.spacing.xl,
+    padding: SPACING.xl,
   },
   emptyText: {
-    fontSize: ResponsiveUtils.fontSize.medium,
-    color: COLORS.gray[500],
-    marginTop: ResponsiveUtils.spacing.sm,
+    fontSize: FONT_SIZE.base,
+    marginTop: SPACING.md,
+    textAlign: "center",
   },
-  emptySubtext: {
-    fontSize: ResponsiveUtils.fontSize.small,
-    color: COLORS.gray[500],
-    marginTop: SPACING.xs,
+  historyItem: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical: SPACING.sm,
+    borderBottomWidth: 1,
   },
-  fab: {
-    position: "absolute",
+  historyInfo: {
+    flex: 1,
+  },
+  studentName: {
+    fontSize: FONT_SIZE.md,
+    fontWeight: FONT_WEIGHT.bold,
+  },
+  className: {
+    fontSize: FONT_SIZE.xs,
+  },
+  checkInTime: {
+    fontSize: FONT_SIZE.xs,
+  },
+  modalContent: {
+    padding: SPACING.md,
     margin: SPACING.md,
-    right: 0,
-    bottom: 0,
-    backgroundColor: COLORS.info[500],
-  },
-  // Modal styles
-  modalContainer: {
-    backgroundColor: COLORS.white,
-    padding: SPACING.lg,
-    margin: SPACING.lg,
-    borderRadius: BORDER_RADIUS.md,
+    borderRadius: BORDER_RADIUS.lg,
     maxHeight: "80%",
   },
   modalTitle: {
-    fontSize: FONT_SIZE.xl,
-    fontWeight: FONT_WEIGHT.bold,
-    marginBottom: SPACING.md,
-    textAlign: "center",
-  },
-  modalSubtitle: {
-    fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semibold,
-    marginBottom: SPACING.sm,
-    color: COLORS.black,
-  },
-  classSelection: {
-    maxHeight: 60,
-    marginBottom: SPACING.md,
-  },
-  classChip: {
-    marginRight: SPACING.sm,
-  },
-  searchbar: {
-    marginBottom: SPACING.md,
-  },
-  batchControls: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingVertical: SPACING.md,
-    paddingHorizontal: SPACING.md,
-    backgroundColor: COLORS.gray[100],
-    borderRadius: BORDER_RADIUS.md,
-    marginBottom: SPACING.md,
-  },
-  selectionCount: {
-    fontSize: FONT_SIZE.base,
-    fontWeight: FONT_WEIGHT.semibold,
-    color: COLORS.info[500],
-  },
-  batchButtons: {
-    flexDirection: "row",
-    gap: SPACING.sm,
-  },
-  batchButton: {
-    minWidth: 80,
-  },
-  studentsList: {
-    maxHeight: 300,
-    marginBottom: SPACING.md,
-  },
-  selectButton: {
-    width: 40,
-    height: 40,
-    borderRadius: BORDER_RADIUS.lg,
-    marginRight: SPACING.sm,
-  },
-  individualCheckInButton: {
-    minWidth: 80,
-  },
-  modalActions: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    gap: SPACING.md,
-  },
-  modalButton: {
-    flex: 1,
-  },
-  batchCheckInButton: {
-    backgroundColor: COLORS.primary[500],
-  },
-  // Estilos para indicadores visuais de check-in
-  studentDescription: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    flex: 1,
-  },
-  studentEmail: {
-    fontSize: FONT_SIZE.base,
-    color: COLORS.gray[500],
-    flex: 1,
-  },
-  checkInChip: {
-    backgroundColor: COLORS.primary[50],
-    marginLeft: SPACING.sm,
-  },
-  checkInChipText: {
-    color: COLORS.primary[500],
-    fontSize: FONT_SIZE.sm,
-    fontWeight: FONT_WEIGHT.semibold,
-  },
-  studentLeftSection: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  checkInIcon: {
-    marginLeft: SPACING.sm,
-  },
-  studentItem: {
-    borderRadius: BORDER_RADIUS.md,
-    marginVertical: 2,
-    backgroundColor: COLORS.white,
-  },
-  studentItemCheckedIn: {
-    backgroundColor: COLORS.white,
-    borderLeftWidth: 4,
-    borderLeftColor: COLORS.primary[500],
-  },
-  selectButtonDisabled: {
-    opacity: 0.5,
-  },
-  alreadyCheckedInButton: {
-    backgroundColor: COLORS.primary[50],
-    borderColor: COLORS.primary[500],
-  },
-  modalSubtitle: {
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
     marginBottom: SPACING.md,
-    color: COLORS.black,
     textAlign: "center",
-  },
-  classSelectionContainer: {
-    marginBottom: 20,
-  },
-  classGrid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-    gap: SPACING.md,
-  },
-  classButton: {
-    flex: 1,
-    minWidth: "45%",
-    marginBottom: SPACING.sm,
-    paddingVertical: SPACING.md,
-    borderRadius: BORDER_RADIUS.md,
-    elevation: 2,
-    ...Platform.select({
-      web: {
-        boxShadow: '0 2px 4px currentTheme.black + "1A"',
-      },
-    }),
-  },
-  classButtonSelected: {
-    backgroundColor: COLORS.primary[500],
-    elevation: 4,
-    ...Platform.select({
-      web: {
-        boxShadow: `0 4px 8px ${hexToRgba(COLORS.success[500], 0.3)}`,
-      },
-    }),
-  },
-  classButtonLabel: {
-    fontSize: FONT_SIZE.base,
-    fontWeight: FONT_WEIGHT.semibold,
   },
   searchbar: {
     marginBottom: SPACING.md,
+    elevation: 0,
+    borderWidth: 1,
+    borderColor: "transparent",
   },
-  studentsList: {
+  studentList: {
     maxHeight: 300,
-    marginBottom: SPACING.md,
+  },
+  studentItem: {
+    paddingVertical: 0,
+  },
+  batchControls: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: SPACING.sm,
+    marginBottom: SPACING.sm,
+    borderRadius: BORDER_RADIUS.sm,
+    borderWidth: 1,
+  },
+  batchInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  batchText: {
+    fontSize: FONT_SIZE.sm,
+    fontWeight: FONT_WEIGHT.semibold,
   },
   modalActions: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    gap: SPACING.md,
-    paddingTop: SPACING.md,
-    borderTopWidth: 1,
-    borderTopColor: COLORS.gray[300],
+    marginTop: SPACING.md,
+    gap: SPACING.sm
   },
-  modalButton: {
-    flex: 1,
-    paddingVertical: SPACING.md,
-    borderRadius: BORDER_RADIUS.md,
-  },
-  closeButton: {
-    backgroundColor: COLORS.info[500],
-  },
+  batchCheckInButton: {
+    marginBottom: SPACING.xs
+  }
 });
 
 export default CheckIn;

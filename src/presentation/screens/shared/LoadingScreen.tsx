@@ -6,7 +6,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { getAuthGradient } from '@presentation/theme/authTheme';
 import { useTheme } from '@contexts/ThemeContext';
-import { getString } from "@utils/theme";
+
 
 
 /**

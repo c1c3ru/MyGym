@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { View, StyleSheet, ScrollView, Alert, RefreshControl } from 'react-native';
 import {
   Card,
@@ -14,7 +14,6 @@ import {
   RadioButton
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
@@ -22,10 +21,8 @@ import { useTheme } from '@contexts/ThemeContext';
 import { useCustomClaims } from '@hooks/useCustomClaims';
 import { firestoreService } from '@infrastructure/services/firestoreService';
 import paymentService from '@infrastructure/services/paymentService';
-import { getThemeColors } from '@presentation/theme/professionalTheme';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
-import { getAuthGradient } from '@presentation/theme/authTheme';
 import type { NavigationProp } from '@react-navigation/native';
 
 interface PaymentManagementScreenProps {
@@ -56,9 +53,12 @@ interface Plan {
 
 const PaymentManagementScreen: React.FC<PaymentManagementScreenProps> = ({ navigation }) => {
   const { currentTheme } = useThemeToggle();
-  const { getString } = useTheme();
+  const { getString, theme } = useTheme();
+  const colors = theme.colors;
   const { user, userProfile, academia } = useAuthFacade();
   const { role } = useCustomClaims();
+
+  const styles = useMemo(() => createStyles(colors), [colors]);
 
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -82,8 +82,6 @@ const PaymentManagementScreen: React.FC<PaymentManagementScreenProps> = ({ navig
     { id: 'bank_slip', label: 'Boleto Bancário', icon: 'barcode-outline' },
     { id: 'cash', label: 'Dinheiro', icon: 'cash-outline' },
   ];
-
-  const themeColors = getThemeColors((role as 'admin' | 'instructor' | 'student') || 'student');
 
   useEffect(() => {
     loadPaymentData();
@@ -230,13 +228,13 @@ const PaymentManagementScreen: React.FC<PaymentManagementScreenProps> = ({ navig
   };
 
   const getPaymentStatusColor = (status: string) => {
-    const colors: { [key: string]: string } = {
+    const statusColors: { [key: string]: string } = {
       'paid': COLORS.success[500],
       'pending': COLORS.warning[500],
       'overdue': COLORS.error[500],
-      'active': themeColors.primary
+      'active': colors.primary
     };
-    return colors[status] || COLORS.gray[500];
+    return statusColors[status] || colors.onSurfaceVariant;
   };
 
   const getPaymentStatusText = (status: string) => {
@@ -259,11 +257,11 @@ const PaymentManagementScreen: React.FC<PaymentManagementScreenProps> = ({ navig
   };
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: themeColors.background }]}>
+    <SafeAreaView style={styles.container}>
       <ScrollView
         style={styles.scrollView}
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[colors.primary]} tintColor={colors.primary} />
         }
       >
         {/* Plano Atual */}
@@ -271,8 +269,8 @@ const PaymentManagementScreen: React.FC<PaymentManagementScreenProps> = ({ navig
           <Card style={[styles.card, styles.currentPlanCard]}>
             <Card.Content>
               <View style={styles.cardHeader}>
-                <Ionicons name="card" size={24} color={themeColors.primary} />
-                <Text style={styles.cardTitle}>Plano Atual</Text>
+                <Ionicons name="card" size={24} color={colors.primary} />
+                <Text style={styles.cardTitle}>{getString('currentPlan') || 'Plano Atual'}</Text>
                 <Chip
                   mode="flat"
                   style={[styles.statusChip, { backgroundColor: getPaymentStatusColor(currentPlan.status) }]}
@@ -291,7 +289,7 @@ const PaymentManagementScreen: React.FC<PaymentManagementScreenProps> = ({ navig
                     <Text style={styles.dueDateLabel}>Próximo vencimento:</Text>
                     <Text style={[
                       styles.dueDateValue,
-                      { color: getDaysUntilDue(currentPlan.dueDate) <= 3 ? COLORS.error[500] : COLORS.gray[500] }
+                      { color: getDaysUntilDue(currentPlan.dueDate) <= 3 ? COLORS.error[500] : colors.onSurfaceVariant }
                     ]}>
                       {formatDate(currentPlan.dueDate)}
                       {getDaysUntilDue(currentPlan.dueDate) !== null && (
@@ -348,7 +346,7 @@ const PaymentManagementScreen: React.FC<PaymentManagementScreenProps> = ({ navig
         <Card style={styles.card}>
           <Card.Content>
             <View style={styles.cardHeader}>
-              <Ionicons name="time" size={24} color={themeColors.secondary} />
+              <Ionicons name="time" size={24} color={colors.secondary} />
               <Text style={styles.cardTitle}>Histórico de Pagamentos</Text>
             </View>
 
@@ -376,7 +374,7 @@ const PaymentManagementScreen: React.FC<PaymentManagementScreenProps> = ({ navig
               ))
             ) : (
               <View style={styles.emptyState}>
-                <Ionicons name="card-outline" size={48} color={COLORS.gray[300]} />
+                <Ionicons name="card-outline" size={48} color={colors.onSurfaceVariant} />
                 <Text style={styles.emptyText}>Nenhum pagamento registrado</Text>
                 <Text style={styles.emptySubtext}>Selecione um plano para começar</Text>
               </View>
@@ -387,7 +385,7 @@ const PaymentManagementScreen: React.FC<PaymentManagementScreenProps> = ({ navig
 
       {/* FAB para Selecionar Plano */}
       <FAB
-        style={[styles.fab, { backgroundColor: themeColors.primary }]}
+        style={[styles.fab, { backgroundColor: colors.primary }]}
         icon="plus"
         label="Selecionar Plano"
         onPress={() => setShowPlanModal(true)}
@@ -413,7 +411,7 @@ const PaymentManagementScreen: React.FC<PaymentManagementScreenProps> = ({ navig
               {plans.map((plan) => (
                 <Surface key={plan.id} style={styles.planOption} elevation={1}>
                   <View style={styles.planOptionContent}>
-                    <RadioButton value={plan.id} />
+                    <RadioButton value={plan.id} color={colors.primary} />
                     <View style={styles.planOptionInfo}>
                       <Text style={styles.planOptionName}>{plan.name}</Text>
                       <Text style={styles.planOptionValue}>{formatCurrency(plan.value)}</Text>
@@ -434,6 +432,7 @@ const PaymentManagementScreen: React.FC<PaymentManagementScreenProps> = ({ navig
                   onPress={() => setShowDatePicker(true)}
                   icon="calendar"
                   style={styles.dateButton}
+                  textColor={colors.primary}
                 >
                   {customDueDate.toLocaleDateString('pt-BR')}
                 </Button>
@@ -446,11 +445,12 @@ const PaymentManagementScreen: React.FC<PaymentManagementScreenProps> = ({ navig
               mode="outlined"
               onPress={() => setShowPlanModal(false)}
               style={styles.modalButton}
+              textColor={colors.error}
             >{getString('cancel')}</Button>
             <Button
               mode="contained"
               onPress={handleSelectPlan}
-              style={[styles.modalButton, { backgroundColor: themeColors.primary }]}
+              style={[styles.modalButton, { backgroundColor: colors.primary }]}
               disabled={!selectedPlan}
             >{getString('confirm')}</Button>
           </View>
@@ -484,8 +484,8 @@ const PaymentManagementScreen: React.FC<PaymentManagementScreenProps> = ({ navig
               {paymentMethods.map((method) => (
                 <Surface key={method.id} style={styles.methodOption} elevation={1}>
                   <View style={styles.methodContent}>
-                    <RadioButton value={method.id} color={themeColors.primary} />
-                    <Ionicons name={method.icon as any} size={24} color={COLORS.gray[600]} style={styles.methodIcon} />
+                    <RadioButton value={method.id} color={colors.primary} />
+                    <Ionicons name={method.icon as any} size={24} color={colors.onSurfaceVariant} style={styles.methodIcon} />
                     <Text style={styles.methodLabel}>{method.label}</Text>
                   </View>
                 </Surface>
@@ -498,6 +498,7 @@ const PaymentManagementScreen: React.FC<PaymentManagementScreenProps> = ({ navig
               mode="outlined"
               onPress={() => setShowPaymentMethodModal(false)}
               style={styles.modalButton}
+              textColor={colors.error}
             >
               {getString('cancel')}
             </Button>
@@ -535,9 +536,10 @@ const PaymentManagementScreen: React.FC<PaymentManagementScreenProps> = ({ navig
   );
 };
 
-const styles = StyleSheet.create({
+const createStyles = (colors: any) => StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: colors.background,
   },
   scrollView: {
     flex: 1,
@@ -546,10 +548,11 @@ const styles = StyleSheet.create({
   card: {
     marginBottom: SPACING.md,
     elevation: 4,
+    backgroundColor: colors.surface
   },
   currentPlanCard: {
     borderLeftWidth: 4,
-    borderLeftColor: COLORS.primary[500],
+    borderLeftColor: colors.primary,
   },
   cardHeader: {
     flexDirection: 'row',
@@ -561,6 +564,7 @@ const styles = StyleSheet.create({
     fontWeight: FONT_WEIGHT.bold,
     marginLeft: SPACING.sm,
     flex: 1,
+    color: colors.onSurface
   },
   statusChip: {
     elevation: 2,
@@ -572,21 +576,22 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.xl,
     fontWeight: FONT_WEIGHT.bold,
     marginBottom: SPACING.xs,
+    color: colors.onSurface
   },
   planValue: {
     fontSize: FONT_SIZE.xxl,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.primary[500],
+    color: colors.primary,
     marginBottom: SPACING.md,
   },
   dueDateContainer: {
-    backgroundColor: COLORS.white,
+    backgroundColor: colors.surfaceVariant,
     padding: SPACING.md,
     borderRadius: BORDER_RADIUS.md,
   },
   dueDateLabel: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.gray[500],
+    color: colors.onSurfaceVariant,
     marginBottom: SPACING.xs,
   },
   dueDateValue: {
@@ -601,6 +606,7 @@ const styles = StyleSheet.create({
     padding: SPACING.md,
     marginBottom: SPACING.sm,
     borderRadius: BORDER_RADIUS.md,
+    backgroundColor: colors.surfaceVariant
   },
   paymentInfo: {
     flexDirection: 'row',
@@ -614,6 +620,7 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.semibold,
     marginBottom: SPACING.xs,
+    color: colors.onSurface
   },
   paymentAmount: {
     fontSize: FONT_SIZE.lg,
@@ -623,7 +630,7 @@ const styles = StyleSheet.create({
   },
   paymentDue: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.gray[500],
+    color: colors.onSurfaceVariant
   },
   payButton: {
     borderRadius: BORDER_RADIUS.lg,
@@ -641,18 +648,21 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.medium,
     marginBottom: SPACING.xs,
+    color: colors.onSurface
   },
   historyAmount: {
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.bold,
     marginBottom: SPACING.xs,
+    color: colors.onSurface
   },
   historyDate: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.gray[500],
+    color: colors.onSurfaceVariant,
   },
   historyStatus: {
     marginLeft: SPACING.md,
+    backgroundColor: 'transparent'
   },
   emptyState: {
     alignItems: 'center',
@@ -661,12 +671,12 @@ const styles = StyleSheet.create({
   emptyText: {
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.semibold,
-    color: COLORS.gray[500],
+    color: colors.onSurfaceVariant,
     marginTop: SPACING.md,
   },
   emptySubtext: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.gray[400],
+    color: colors.onSurfaceVariant,
     marginTop: SPACING.xs,
   },
   fab: {
@@ -676,7 +686,7 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
   modal: {
-    backgroundColor: COLORS.white,
+    backgroundColor: colors.surface,
     margin: SPACING.lg,
     borderRadius: BORDER_RADIUS.md,
     maxHeight: '80%',
@@ -687,7 +697,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     padding: SPACING.lg,
     borderBottomWidth: 1,
-    borderBottomColor: COLORS.gray[100],
+    borderBottomColor: colors.outline,
+    color: colors.onSurface
   },
   modalContent: {
     padding: SPACING.lg,
@@ -696,6 +707,7 @@ const styles = StyleSheet.create({
   planOption: {
     marginBottom: SPACING.md,
     borderRadius: BORDER_RADIUS.md,
+    backgroundColor: colors.surfaceVariant
   },
   planOptionContent: {
     flexDirection: 'row',
@@ -710,44 +722,47 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.semibold,
     marginBottom: SPACING.xs,
+    color: colors.onSurface
   },
   planOptionValue: {
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.primary[500],
+    color: colors.primary,
     marginBottom: SPACING.xs,
   },
   planOptionDescription: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.gray[500],
+    color: colors.onSurfaceVariant,
   },
   dueDateSection: {
     marginTop: 20,
     padding: SPACING.md,
-    backgroundColor: COLORS.white,
+    backgroundColor: colors.surface,
     borderRadius: BORDER_RADIUS.md,
+    elevation: 2
   },
   dueDateSectionTitle: {
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.semibold,
     marginBottom: SPACING.md,
+    color: colors.onSurface
   },
   dateButton: {
-    borderColor: COLORS.info[500],
+    borderColor: colors.primary,
   },
   modalActions: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: SPACING.lg,
     borderTopWidth: 1,
-    borderTopColor: COLORS.gray[100],
+    borderTopColor: colors.outline,
   },
   modalButton: {
     flex: 1,
     marginHorizontal: 8,
   },
   paymentSummary: {
-    backgroundColor: COLORS.gray[50],
+    backgroundColor: colors.surfaceVariant,
     padding: SPACING.md,
     borderRadius: BORDER_RADIUS.md,
     marginBottom: SPACING.lg,
@@ -755,30 +770,30 @@ const styles = StyleSheet.create({
   },
   paymentSummaryTitle: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.gray[500],
+    color: colors.onSurfaceVariant,
     marginBottom: SPACING.xs,
   },
   paymentSummaryText: {
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.semibold,
-    color: COLORS.gray[700],
+    color: colors.onSurface,
     marginBottom: SPACING.xs,
   },
   paymentSummaryValue: {
     fontSize: FONT_SIZE.xxl,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.primary[500],
+    color: colors.primary,
   },
   sectionTitle: {
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.semibold,
     marginBottom: SPACING.md,
-    color: COLORS.gray[700],
+    color: colors.onSurfaceVariant,
   },
   methodOption: {
     marginBottom: SPACING.sm,
     borderRadius: BORDER_RADIUS.md,
-    backgroundColor: COLORS.white,
+    backgroundColor: colors.surface,
   },
   methodContent: {
     flexDirection: 'row',
@@ -791,7 +806,7 @@ const styles = StyleSheet.create({
   methodLabel: {
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.medium,
-    color: COLORS.gray[800],
+    color: colors.onSurface,
   },
 });
 

@@ -4,13 +4,14 @@ import { useNotification } from '@components/NotificationManager';
 import graduationBoardService from '@infrastructure/services/graduationBoardService';
 import graduationCalculationService from '@infrastructure/services/graduationCalculationService';
 import graduationNotificationService from '@infrastructure/services/graduationNotificationService';
-import { getString } from "@utils/theme";
+import { useTheme } from '@contexts/ThemeContext';
 
 /**
  * Hook para gerenciar funcionalidades de graduação
  */
 export const useGraduation = () => {
   const { user, userProfile, academia } = useAuthFacade();
+  const { getString } = useTheme();
   const { showSuccess, showError, showWarning } = useNotification();
 
   const [graduationBoard, setGraduationBoard] = useState(null);
@@ -87,7 +88,7 @@ export const useGraduation = () => {
       showError('Erro ao agendar exame de graduação');
       return false;
     }
-  }, [academia?.id, user?.id, showSuccess, showError, loadGraduationBoard]);
+  }, [academia?.id, user?.id, showSuccess, showError, loadGraduationBoard, getString]);
 
   /**
    * Processa resultados de um exame
@@ -111,7 +112,7 @@ export const useGraduation = () => {
       showError('Erro ao processar resultados do exame');
       return false;
     }
-  }, [academia?.id, showSuccess, showError, loadGraduationBoard]);
+  }, [academia?.id, showSuccess, showError, loadGraduationBoard, getString]);
 
   /**
    * Executa verificação automática de graduações

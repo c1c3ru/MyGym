@@ -1,4 +1,4 @@
-import { getString } from "@utils/theme";
+
 // Selectors for auth presentation layer
 
 import { AuthSession, User, UserProfile, Claims, Academia, UserType } from '@domain/auth/entities';
@@ -39,7 +39,7 @@ export class AuthSelectors {
 
   static getUserType(state: AuthState): UserType {
     if (!state.userProfile) return 'student';
-    
+
     return state.userProfile.userType || 'student';
   }
 
@@ -47,7 +47,7 @@ export class AuthSelectors {
     const hasUser = !!state.user;
     const hasProfile = !!state.userProfile;
     const hasAcademiaAssociation = !!state.academia || !!state.customClaims?.academiaId;
-    
+
     return hasUser && hasProfile && hasAcademiaAssociation;
   }
 
@@ -73,7 +73,7 @@ export class AuthSelectors {
   }
 
   static getDisplayName(state: AuthState): string {
-    return state.userProfile?.name || state.user?.email || getString('user');
+    return state.userProfile?.name || state.user?.email || 'Usuário';
   }
 
   static getEmail(state: AuthState): string {
@@ -85,6 +85,6 @@ export class AuthSelectors {
   }
 
   static getAcademiaName(state: AuthState): string {
-    return state.academia?.name || getString('academy');
+    return state.academia?.name || 'Academia';
   }
 }

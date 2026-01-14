@@ -25,7 +25,8 @@ import {
   OPACITY
 } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
-import { getString } from "@utils/theme";
+import { useTheme } from '@contexts/ThemeContext';
+
 
 const { width, height } = Dimensions.get('window');
 
@@ -299,6 +300,7 @@ const OnboardingTooltip = ({
   onSkip,
 }) => {
   const { currentTheme } = useThemeToggle();
+  const { getString } = useTheme();
 
   // Estilos dinâmicos baseados no tema atual
   const dynamicStyles = StyleSheet.create({

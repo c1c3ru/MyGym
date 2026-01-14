@@ -21,7 +21,7 @@ import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@present
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
 import { getAuthGradient } from '@presentation/theme/authTheme';
 import type { NavigationProp } from '@react-navigation/native';
-import { getString } from "@utils/theme";
+
 
 interface InjuryHistoryScreenProps {
   navigation: NavigationProp<any>;
@@ -29,6 +29,7 @@ interface InjuryHistoryScreenProps {
 
 const InjuryHistoryScreen = ({ navigation }: InjuryHistoryScreenProps) => {
   const { currentTheme } = useThemeToggle();
+  const { getString } = useTheme();
 
   const { user, academia } = useAuth();
 

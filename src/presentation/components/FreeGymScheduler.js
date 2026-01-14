@@ -16,7 +16,7 @@ import { useCustomClaims } from '@hooks/useCustomClaims';
 import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
 import { DAY_NAMES } from '@utils/scheduleUtils';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getString } from "@utils/theme";
+
 
 const { width } = Dimensions.get('window');
 
@@ -39,7 +39,7 @@ const FreeGymScheduler = ({
   navigation,
   refreshControl
 }) => {
-  const { colors } = useTheme();
+  const { colors, getString } = useTheme();
 
   // Usa useAuthFacade para autenticação
   const { user, userProfile, academia } = useAuthFacade();
@@ -219,7 +219,7 @@ const FreeGymScheduler = ({
     });
 
     return marked;
-  }, [allEvents, colors]);
+  }, [allEvents, colors, getString]);
 
   // Detectar conflitos de horário
   const getConflicts = useCallback((date) => {

@@ -1,7 +1,7 @@
 import { firestoreService } from './firestoreService';
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
-import { getString } from "@utils/theme";
+
 
 class ReportService {
   constructor() {
@@ -64,8 +64,8 @@ class ReportService {
 
       // Calcular taxa de presença
       Object.values(studentStats).forEach(student => {
-        student.attendanceRate = student.totalCheckins > 0 
-          ? (student.presentCount / student.totalCheckins) * 100 
+        student.attendanceRate = student.totalCheckins > 0
+          ? (student.presentCount / student.totalCheckins) * 100
           : 0;
       });
 
@@ -87,7 +87,7 @@ class ReportService {
       if (!academiaId) {
         throw new Error('Academia ID é obrigatório');
       }
-      
+
       const payments = await firestoreService.getDocumentsWithFilters(`gyms/${academiaId}/payments`, [
         { field: 'dueDate', operator: '>=', value: startDate },
         { field: 'dueDate', operator: '<=', value: endDate }
@@ -205,7 +205,7 @@ class ReportService {
       if (!academiaId) {
         throw new Error('Academia ID é obrigatório');
       }
-      
+
       const graduations = await firestoreService.getDocumentsWithFilters(`gyms/${academiaId}/graduations`, [
         { field: 'date', operator: '>=', value: startDate },
         { field: 'date', operator: '<=', value: endDate }
@@ -295,7 +295,7 @@ class ReportService {
   // Gerar CSV de frequência
   generateAttendanceCSV(reportData) {
     let csv = 'Nome do Aluno,Total Check-ins,Presenças,Atrasos,Faltas,Taxa de Presença (%)\n';
-    
+
     reportData.studentsData.forEach(student => {
       csv += `${student.studentName},${student.totalCheckins},${student.presentCount},${student.lateCount},${student.absentCount},${student.attendanceRate.toFixed(2)}\n`;
     });
@@ -306,7 +306,7 @@ class ReportService {
   // Gerar CSV financeiro
   generateFinancialCSV(reportData) {
     let csv = 'Mês,Valor Total,Valor Pago,Valor Pendente,Valor Vencido\n';
-    
+
     Object.values(reportData.monthlyBreakdown).forEach(month => {
       csv += `${month.month},${month.totalAmount.toFixed(2)},${month.paidAmount.toFixed(2)},${month.pendingAmount.toFixed(2)},${month.overdueAmount.toFixed(2)}\n`;
     });
@@ -317,9 +317,9 @@ class ReportService {
   // Gerar CSV de alunos
   generateStudentsCSV(reportData) {
     let csv = 'Nome,Email,Telefone,Graduação,Status,Número de Turmas\n';
-    
+
     reportData.studentsData.forEach(student => {
-      csv += `${student.name},${student.email},${student.phone || ''},${student.currentGraduation || ''},${student.isActive ? getString('active') : getString('inactive')},${student.classesCount}\n`;
+      csv += `${student.name},${student.email},${student.phone || ''},${student.currentGraduation || ''},${student.isActive ? 'Ativo' : 'Inativo'},${student.classesCount}\n`;
     });
 
     return csv;
@@ -328,7 +328,7 @@ class ReportService {
   // Gerar CSV de graduações
   generateGraduationsCSV(reportData) {
     let csv = 'Data,Aluno,Modalidade,De,Para,Instrutor\n';
-    
+
     reportData.graduationsData.forEach(graduation => {
       const date = new Date(graduation.date.toDate()).toLocaleDateString();
       csv += `${date},${graduation.studentName},${graduation.modalityName},${graduation.fromLevel},${graduation.toLevel},${graduation.instructorId}\n`;

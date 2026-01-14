@@ -8,11 +8,13 @@ import {
   ActivityIndicator
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useTheme } from '@contexts/ThemeContext';
 import { useAuth } from '@contexts/AuthProvider';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getString } from "@utils/theme";
+
 
 const LoginScreenDebug = ({ navigation }) => {
+  const { getString } = useTheme();
   const [email, setEmail] = useState('cicero.silva@ifce.edu.br');
   const [password, setPassword] = useState('123456');
   const [loading, setLoading] = useState(false);
@@ -26,7 +28,7 @@ const LoginScreenDebug = ({ navigation }) => {
 
   const handleLogin = async () => {
     setDebugInfo('=== INÍCIO DO DEBUG ===\n');
-    
+
     if (!email || !password) {
       addDebugInfo('❌ Email ou senha vazios');
       Alert.alert(getString('error'), 'Por favor, preencha todos os campos');
@@ -50,7 +52,7 @@ const LoginScreenDebug = ({ navigation }) => {
       addDebugInfo(`❌ Erro: ${error.code}`);
       addDebugInfo(`📝 Mensagem: ${error.message}`);
       addDebugInfo(`🔍 Stack: ${error.stack}`);
-      
+
       if (error.code === 'auth/invalid-credential') {
         addDebugInfo('💡 Análise do erro:');
         addDebugInfo('   - Verificar se o email está correto');
@@ -58,7 +60,7 @@ const LoginScreenDebug = ({ navigation }) => {
         addDebugInfo('   - Verificar se há espaços extras');
         addDebugInfo('   - Verificar configuração do Firebase');
       }
-      
+
       Alert.alert(getString('error'), `Erro no login: ${error.code}`);
     } finally {
       setLoading(false);
@@ -71,13 +73,13 @@ const LoginScreenDebug = ({ navigation }) => {
 
   const testWithCleanData = async () => {
     setDebugInfo('=== TESTE COM DADOS LIMPOS ===\n');
-    
+
     const cleanEmail = email.trim().toLowerCase();
     const cleanPassword = password.trim();
-    
+
     addDebugInfo(`🧹 Email limpo: ${cleanEmail}`);
     addDebugInfo(`🧹 Senha limpa: ${cleanPassword ? '***' : 'undefined'}`);
-    
+
     setLoading(true);
     try {
       addDebugInfo('🚀 Tentando login com dados limpos...');
@@ -106,7 +108,7 @@ const LoginScreenDebug = ({ navigation }) => {
         <Card style={styles.card}>
           <Card.Content>
             <Text style={[styles.cardTitle, styles.title]}>Credenciais</Text>
-            
+
             <TextInput
               label="email"
               value={email}

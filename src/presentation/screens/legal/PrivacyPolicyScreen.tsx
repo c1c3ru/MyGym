@@ -7,7 +7,7 @@ import { COLORS, SPACING, FONT_SIZE, FONT_WEIGHT, BORDER_RADIUS } from '@present
 import { getAuthGradient } from '@presentation/theme/authTheme';
 import { useTheme } from '@contexts/ThemeContext';
 import type { NavigationProp } from '@react-navigation/native';
-import { getString } from "@utils/theme";
+
 
 
 interface PrivacyPolicyScreenProps {
@@ -19,7 +19,7 @@ interface PrivacyPolicyScreenProps {
  * Exibe termos de privacidade e proteção de dados
  */
 const PrivacyPolicyScreen = ({ navigation }: PrivacyPolicyScreenProps) => {
-  const { isDarkMode, getString } = useTheme();
+  const { isDarkMode } = useTheme();
 
   return (
     <LinearGradient

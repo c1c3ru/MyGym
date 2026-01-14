@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { useAuthUI } from './useAuthUI';
-import { 
+import {
   SignInWithEmailUseCase,
   SignUpWithEmailUseCase,
   SignOutUseCase,
@@ -9,7 +9,7 @@ import {
 } from '@domain/auth/usecases';
 import { FirebaseAuthRepository } from '@data/auth/FirebaseAuthRepository';
 import { auth, db } from '@infrastructure/services/firebase';
-import { getString } from "@utils/theme";
+import { useTheme } from '@contexts/ThemeContext';
 
 /**
  * useAuthActions - Presentation Layer
@@ -17,6 +17,7 @@ import { getString } from "@utils/theme";
  * Separação clara entre lógica de negócio (Use Cases) e estado de UI
  */
 export const useAuthActions = () => {
+  const { getString } = useTheme();
   const authUI = useAuthUI();
 
   // Dependências (Clean Architecture)

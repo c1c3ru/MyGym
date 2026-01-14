@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { 
-  signInWithEmailAndPassword, 
-  createUserWithEmailAndPassword, 
-  signOut, 
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signOut,
   onAuthStateChanged,
   GoogleAuthProvider,
   FacebookAuthProvider,
@@ -13,7 +13,7 @@ import {
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { auth, db } from '@infrastructure/services/firebase';
 import { getUserClaims, refreshUserToken, needsOnboarding } from '@utils/customClaimsHelper';
-import { getString } from "@utils/theme";
+
 
 const AuthContext = createContext();
 
@@ -54,17 +54,17 @@ export const AuthProvider = ({ children }) => {
   const fetchUserProfile = async (userId) => {
     try {
       console.log('🔍 fetchUserProfile: Buscando perfil para userId:', userId);
-      
+
       // Buscar na coleção 'users'
       console.log('🔍 fetchUserProfile: Buscando em users...');
       let userDoc = await getDoc(doc(db, 'users', userId));
       let foundIn = null;
-      
+
       if (userDoc.exists()) {
         foundIn = 'users';
         console.log('✅ fetchUserProfile: Encontrado em users');
       }
-      
+
       if (userDoc.exists()) {
         const userData = userDoc.data();
         console.log('📊 fetchUserProfile: Dados do usuário carregados:', {
@@ -75,9 +75,9 @@ export const AuthProvider = ({ children }) => {
           foundIn: foundIn,
           hasAcademiaId: !!userData.academiaId
         });
-        
+
         setUserProfile(userData);
-        
+
         // Se o usuário tem academiaId, buscar dados da academia
         if (userData.academiaId) {
           console.log('🏢 fetchUserProfile: Usuário tem academiaId, buscando dados da academia...');
@@ -107,13 +107,13 @@ export const AuthProvider = ({ children }) => {
       console.log('🔍 loadCustomClaims: Carregando claims para:', firebaseUser.email);
       const claims = await getUserClaims();
       setCustomClaims(claims);
-      
+
       console.log('📋 loadCustomClaims: Claims carregados:', {
         role: claims?.role,
         academiaId: claims?.academiaId,
         hasValidClaims: !!(claims?.role && claims?.academiaId)
       });
-      
+
       return claims;
     } catch (error) {
       console.error('❌ loadCustomClaims: Erro ao carregar claims:', error);
@@ -125,17 +125,17 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       console.log('🔐 AuthStateChanged: Firebase user mudou:', firebaseUser?.email || 'null');
-      
+
       if (firebaseUser) {
         console.log('🔐 AuthStateChanged: Usuário logado, definindo user state');
         setUser(firebaseUser);
-        
+
         // Carregar Custom Claims primeiro
         await loadCustomClaims(firebaseUser);
-        
+
         // Buscar perfil do usuário no Firestore
         console.log('🔐 AuthStateChanged: Chamando fetchUserProfile para UID:', firebaseUser.uid);
-        
+
         try {
           await fetchUserProfile(firebaseUser.uid);
           console.log('🔐 AuthStateChanged: fetchUserProfile concluído');
@@ -158,7 +158,7 @@ export const AuthProvider = ({ children }) => {
   const signUp = async (email, password, userData) => {
     try {
       const { user: firebaseUser } = await createUserWithEmailAndPassword(auth, email, password);
-      
+
       // Criar perfil do usuário na coleção 'users'
       await setDoc(doc(db, 'users', firebaseUser.uid), {
         ...userData,
@@ -177,8 +177,8 @@ export const AuthProvider = ({ children }) => {
 
   const signIn = async (email, password) => {
     try {
-      console.log('🔐 Tentando login com:', { 
-        email: email, 
+      console.log('🔐 Tentando login com:', {
+        email: email,
         emailType: typeof email,
         emailLength: email ? email.length : 0,
         password: password ? '***' : 'undefined',
@@ -188,23 +188,23 @@ export const AuthProvider = ({ children }) => {
       console.log('📧 Email válido:', email && email.includes('@'));
       console.log('📧 Email trim:', email ? email.trim() : 'undefined');
       console.log('🔑 Senha trim:', password ? password.trim() : 'undefined');
-      
+
       // Limpar e validar dados
       const cleanEmail = email ? email.trim().toLowerCase() : '';
       const cleanPassword = password ? password.trim() : '';
-      
+
       console.log('🧹 Dados limpos:', {
         email: cleanEmail,
         password: cleanPassword ? '***' : 'undefined'
       });
-      
+
       if (!cleanEmail || !cleanPassword) {
         throw new Error('Email e senha são obrigatórios');
       }
-      
+
       const { user: firebaseUser } = await signInWithEmailAndPassword(auth, cleanEmail, cleanPassword);
       console.log('✅ Login bem-sucedido:', firebaseUser.email);
-      
+
       await fetchUserProfile(firebaseUser.uid);
       return firebaseUser;
     } catch (error) {
@@ -226,13 +226,13 @@ export const AuthProvider = ({ children }) => {
       const provider = new GoogleAuthProvider();
       provider.addScope('profile');
       provider.addScope('email');
-      
+
       const result = await signInWithPopup(auth, provider);
       const firebaseUser = result.user;
-      
+
       // Verificar se o usuário já existe no Firestore
       let userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
-      
+
       if (!userDoc.exists()) {
         // Criar perfil básico para usuário do Google
         await setDoc(doc(db, 'users', firebaseUser.uid), {
@@ -247,11 +247,11 @@ export const AuthProvider = ({ children }) => {
           updatedAt: new Date()
         });
       }
-      
+
       await fetchUserProfile(firebaseUser.uid);
       return firebaseUser;
     } catch (error) {
-      console.error(getString('googleLoginError'), error);
+      console.error('Erro no login com Google', error);
       throw error;
     }
   };
@@ -261,13 +261,13 @@ export const AuthProvider = ({ children }) => {
       const provider = new FacebookAuthProvider();
       provider.addScope('email');
       provider.addScope('public_profile');
-      
+
       const result = await signInWithPopup(auth, provider);
       const firebaseUser = result.user;
-      
+
       // Verificar se o usuário já existe no Firestore
       let userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
-      
+
       if (!userDoc.exists()) {
         await setDoc(doc(db, 'users', firebaseUser.uid), {
           name: firebaseUser.displayName,
@@ -281,11 +281,11 @@ export const AuthProvider = ({ children }) => {
           updatedAt: new Date()
         });
       }
-      
+
       await fetchUserProfile(firebaseUser.uid);
       return firebaseUser;
     } catch (error) {
-      console.error(getString('facebookLoginError'), error);
+      console.error('Erro no login com Facebook', error);
       throw error;
     }
   };
@@ -295,16 +295,16 @@ export const AuthProvider = ({ children }) => {
       const provider = new OAuthProvider('microsoft.com');
       provider.addScope('email');
       provider.addScope('profile');
-      
+
       const result = await signInWithPopup(auth, provider);
       const firebaseUser = result.user;
-      
+
       let userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
-      
+
       if (!userDoc.exists()) {
         userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
       }
-      
+
       if (!userDoc.exists()) {
         await setDoc(doc(db, 'users', firebaseUser.uid), {
           name: firebaseUser.displayName,
@@ -318,11 +318,11 @@ export const AuthProvider = ({ children }) => {
           updatedAt: new Date()
         });
       }
-      
+
       await fetchUserProfile(firebaseUser.uid);
       return firebaseUser;
     } catch (error) {
-      console.error(getString('microsoftLoginError'), error);
+      console.error('Erro no login com Microsoft', error);
       throw error;
     }
   };
@@ -332,16 +332,16 @@ export const AuthProvider = ({ children }) => {
       const provider = new OAuthProvider('apple.com');
       provider.addScope('email');
       provider.addScope('name');
-      
+
       const result = await signInWithPopup(auth, provider);
       const firebaseUser = result.user;
-      
+
       let userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
-      
+
       if (!userDoc.exists()) {
         userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
       }
-      
+
       if (!userDoc.exists()) {
         await setDoc(doc(db, 'users', firebaseUser.uid), {
           name: firebaseUser.displayName || 'Usuário Apple',
@@ -355,11 +355,11 @@ export const AuthProvider = ({ children }) => {
           updatedAt: new Date()
         });
       }
-      
+
       await fetchUserProfile(firebaseUser.uid);
       return firebaseUser;
     } catch (error) {
-      console.error(getString('appleLoginError'), error);
+      console.error('Erro no login com Apple', error);
       throw error;
     }
   };
@@ -368,21 +368,21 @@ export const AuthProvider = ({ children }) => {
   const refreshClaimsAndProfile = async () => {
     try {
       console.log('🔄 refreshClaimsAndProfile: Atualizando claims e perfil...');
-      
+
       if (!user) {
         console.log('⚠️ refreshClaimsAndProfile: Nenhum usuário logado');
         return;
       }
-      
+
       // Forçar refresh do token para obter claims atualizados
       await refreshUserToken();
-      
+
       // Recarregar claims
       await loadCustomClaims(user);
-      
+
       // Recarregar perfil do usuário
       await fetchUserProfile(user.id);
-      
+
       console.log('✅ refreshClaimsAndProfile: Claims e perfil atualizados');
     } catch (error) {
       console.error('❌ refreshClaimsAndProfile: Erro na atualização:', error);
@@ -394,16 +394,16 @@ export const AuthProvider = ({ children }) => {
     try {
       console.log('🔐 AuthContext: Iniciando signOut do Firebase...');
       console.log('🔐 AuthContext: User atual antes do logout:', user?.email);
-      
+
       await signOut(auth);
       console.log('🔐 AuthContext: SignOut executado com sucesso');
-      
+
       console.log('🔐 AuthContext: Limpando estados locais...');
       setUser(null);
       setUserProfile(null);
       setGym(null);
       setCustomClaims(null);
-      
+
       console.log('🔐 AuthContext: Logout completo - estados limpos');
     } catch (error) {
       console.error('🔐 AuthContext: Erro no signOut:', error);
@@ -426,26 +426,26 @@ export const AuthProvider = ({ children }) => {
         academiaId: userProfile?.academiaId,
         tipo: userProfile?.tipo
       });
-      
+
       if (user) {
         const updateData = {
           ...userProfile,
           ...updates,
           updatedAt: new Date()
         };
-        
+
         console.log('📝 updateUserProfile: Dados finais para salvar:', {
           email: updateData.email,
           academiaId: updateData.academiaId,
           tipo: updateData.tipo,
           updatedAt: updateData.updatedAt
         });
-        
+
         // Atualizar na coleção 'users'
         console.log('📝 updateUserProfile: Salvando em users...');
         await setDoc(doc(db, 'users', user.id), updateData, { merge: true });
         console.log('✅ updateUserProfile: Salvo com sucesso em users');
-        
+
         console.log('📝 updateUserProfile: Recarregando perfil...');
         await fetchUserProfile(user.id);
         console.log('✅ updateUserProfile: Perfil recarregado');
@@ -469,12 +469,12 @@ export const AuthProvider = ({ children }) => {
       console.log('🔗 updateAcademiaAssociation: Iniciando associação com academia:', academiaId);
       console.log('🔗 updateAcademiaAssociation: User UID:', user?.uid);
       console.log('🔗 updateAcademiaAssociation: User email:', user?.email);
-      
+
       if (user) {
         console.log('🔗 updateAcademiaAssociation: Atualizando perfil do usuário...');
         await updateUserProfile({ academiaId });
         console.log('✅ updateAcademiaAssociation: Perfil atualizado com sucesso');
-        
+
         console.log('🔗 updateAcademiaAssociation: Buscando dados da academia...');
         await fetchAcademiaData(academiaId);
         console.log('✅ updateAcademiaAssociation: Associação completa!');

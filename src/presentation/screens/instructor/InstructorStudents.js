@@ -17,6 +17,7 @@ import {
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
 import { academyFirestoreService, academyStudentService } from '@infrastructure/services/academyFirestoreService';
@@ -27,9 +28,11 @@ import InstructorStudentsSkeleton from '@components/skeletons/InstructorStudents
 import { EnhancedFlashList } from '@components/EnhancedFlashList';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, BORDER_WIDTH } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
+import { useProfileTheme } from '../../../contexts/ProfileThemeContext';
 
 const InstructorStudents = ({ navigation }) => {
   const { currentTheme } = useThemeToggle();
+  const { theme: profileTheme } = useProfileTheme();
 
   const { user, userProfile, academia } = useAuthFacade();
   const { getString } = useTheme();
@@ -269,10 +272,10 @@ const InstructorStudents = ({ navigation }) => {
 
   const getPaymentStatusColor = (status) => {
     switch (status) {
-      case 'paid': return COLORS.primary[500];
+      case 'paid': return profileTheme.primary[500];
       case 'pending': return COLORS.warning[500];
       case 'overdue': return COLORS.error[500];
-      default: return COLORS.gray[500];
+      default: return profileTheme.text.disabled;
     }
   };
 
@@ -319,18 +322,30 @@ const InstructorStudents = ({ navigation }) => {
     setModalityMenuVisible(false);
   };
 
-  return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Searchbar
-          placeholder={getString('searchStudents')}
-          onChangeText={setSearchQuery}
-          value={searchQuery}
-          style={styles.searchbar}
-        />
+  if (loading) {
+    return (
+      <LinearGradient colors={profileTheme.gradients.hero} style={{ flex: 1 }}>
+        <SafeAreaView style={styles.container}>
+          <InstructorStudentsSkeleton />
+        </SafeAreaView>
+      </LinearGradient>
+    );
+  }
 
-        {/* Filtros Avançados - Linha 1 */}
-        <View style={styles.filtersRow}>
+  return (
+    <LinearGradient colors={profileTheme.gradients.hero} style={{ flex: 1 }}>
+      <SafeAreaView style={[styles.container, { backgroundColor: 'transparent' }]}>
+        <View style={[styles.header, { backgroundColor: profileTheme.background.paper }]}>
+          <Searchbar
+            placeholder={getString('searchStudents')}
+            onChangeText={setSearchQuery}
+            value={searchQuery}
+            style={[styles.searchbar, { backgroundColor: profileTheme.background.default }]}
+            iconColor={profileTheme.text.secondary}
+            inputStyle={{ color: profileTheme.text.primary }}
+          />
+
+          {/* Filtros Avançados - Linha 1 */}
           <View style={styles.filtersContainer}>
             <Menu
               visible={filterVisible}
@@ -342,9 +357,9 @@ const InstructorStudents = ({ navigation }) => {
                   icon="filter"
                   style={[
                     styles.filterButtonImproved,
-                    selectedFilter !== 'all' && styles.filterButtonActive
+                    selectedFilter !== 'all' ? { backgroundColor: profileTheme.primary[500] } : { borderColor: profileTheme.primary[500] }
                   ]}
-                  labelStyle={styles.filterButtonLabel}
+                  labelStyle={[styles.filterButtonLabel, selectedFilter !== 'all' ? { color: COLORS.white } : { color: profileTheme.primary[500] }]}
                   contentStyle={styles.filterButtonContent}
                 >
                   {getFilterText(selectedFilter)}
@@ -367,9 +382,9 @@ const InstructorStudents = ({ navigation }) => {
                   icon="human-male-female"
                   style={[
                     styles.filterButtonImproved,
-                    selectedGender && styles.filterButtonActive
+                    selectedGender ? { backgroundColor: profileTheme.primary[500] } : { borderColor: profileTheme.primary[500] }
                   ]}
-                  labelStyle={styles.filterButtonLabel}
+                  labelStyle={[styles.filterButtonLabel, selectedGender ? { color: COLORS.white } : { color: profileTheme.primary[500] }]}
                   contentStyle={styles.filterButtonContent}
                 >
                   {genderLabel(selectedGender)}
@@ -389,309 +404,324 @@ const InstructorStudents = ({ navigation }) => {
                 icon="dumbbell"
                 style={[
                   styles.filterButtonImproved,
-                  selectedModalityId && styles.filterButtonActive
+                  selectedModalityId ? { backgroundColor: profileTheme.primary[500] } : { borderColor: profileTheme.primary[500] }
                 ]}
-                labelStyle={styles.filterButtonLabel}
+                labelStyle={[styles.filterButtonLabel, selectedModalityId ? { color: COLORS.white } : { color: profileTheme.primary[500] }]}
                 contentStyle={styles.filterButtonContent}
               >
                 {getModalityNameById(selectedModalityId) || getString('modality')}
               </Button>
             </View>
           </View>
+
+          {/* Botões de Ação dos Filtros */}
+          <View style={styles.filterActionsRow}>
+            <Button
+              mode="outlined"
+              onPress={clearFilters}
+              style={[styles.clearButtonImproved, { borderColor: COLORS.error[500] }]}
+              icon="filter-remove"
+              labelStyle={[styles.actionButtonLabel, { color: COLORS.error[500] }]}
+            >
+              {getString('clearFilters')}
+            </Button>
+            <Button
+              mode="contained"
+              onPress={applyFilters}
+              style={[styles.applyButtonImproved, { backgroundColor: profileTheme.primary[500] }]}
+              icon="check"
+              labelStyle={[styles.actionButtonLabel, { color: COLORS.white }]}
+            >
+              {getString('applyFilters')}
+            </Button>
+          </View>
+
+          <View style={styles.advancedFiltersRow}>
+            <TextInput
+              placeholder={getString('minAge')}
+              value={ageMin}
+              onChangeText={setAgeMin}
+              mode="outlined"
+              keyboardType="numeric"
+              style={[styles.advancedFilterInput, { backgroundColor: profileTheme.background.default }]}
+              textColor={profileTheme.text.primary}
+              theme={{ colors: { primary: profileTheme.primary[500], outline: profileTheme.text.disabled } }}
+            />
+            <TextInput
+              placeholder={getString('maxAge')}
+              value={ageMax}
+              onChangeText={setAgeMax}
+              mode="outlined"
+              keyboardType="numeric"
+              style={[styles.advancedFilterInput, { backgroundColor: profileTheme.background.default }]}
+              textColor={profileTheme.text.primary}
+              theme={{ colors: { primary: profileTheme.primary[500], outline: profileTheme.text.disabled } }}
+            />
+            <TextInput
+              label={getString('sinceDate')}
+              value={enrollmentStart}
+              onChangeText={setEnrollmentStart}
+              mode="outlined"
+              style={[styles.advancedFilterLong, { backgroundColor: profileTheme.background.default }]}
+              textColor={profileTheme.text.primary}
+              theme={{ colors: { primary: profileTheme.primary[500], outline: profileTheme.text.disabled } }}
+            />
+            <TextInput
+              placeholder={getString('enrollmentEnd')}
+              value={enrollmentEnd}
+              onChangeText={setEnrollmentEnd}
+              mode="outlined"
+              style={[styles.advancedFilterLong, { backgroundColor: profileTheme.background.default }]}
+              textColor={profileTheme.text.primary}
+              theme={{ colors: { primary: profileTheme.primary[500], outline: profileTheme.text.disabled } }}
+            />
+          </View>
         </View>
 
-        {/* Botões de Ação dos Filtros */}
-        <View style={styles.filterActionsRow}>
-          <Button
-            mode="outlined"
-            onPress={clearFilters}
-            style={styles.clearButtonImproved}
-            icon="filter-remove"
-            labelStyle={styles.actionButtonLabel}
-          >
-            {getString('clearFilters')}
-          </Button>
-          <Button
-            mode="contained"
-            onPress={applyFilters}
-            style={styles.applyButtonImproved}
-            icon="check"
-            labelStyle={styles.actionButtonLabel}
-          >
-            {getString('applyFilters')}
-          </Button>
-        </View>
+        <ScrollView
+          style={styles.scrollView}
+          contentContainerStyle={{ flexGrow: 1, paddingBottom: 100 }}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              tintColor={profileTheme.primary[500]}
+              colors={[profileTheme.primary[500]]}
+            />
+          }
+        >
+          {filteredStudents.length > 0 ? (
+            filteredStudents.map((student, index) => (
+              <Card key={student.id || index} style={[styles.studentCard, { backgroundColor: profileTheme.background.paper }]}>
+                <Card.Content>
+                  <View style={styles.studentHeader}>
+                    <View style={styles.studentInfo}>
+                      <Avatar.Text
+                        size={50}
+                        label={student.name?.charAt(0) || 'A'}
+                        style={[styles.avatar, { backgroundColor: profileTheme.primary[100] }]}
+                        color={profileTheme.primary[700]}
+                      />
+                      <View style={styles.studentDetails}>
+                        <Text style={[styles.studentName, { color: profileTheme.text.primary }]}>{student.name}</Text>
+                        <Text style={[styles.studentEmail, { color: profileTheme.text.secondary }]}>{student.email}</Text>
+                        {student.currentGraduation && (
+                          <Chip
+                            mode="outlined"
+                            style={[styles.graduationChip, { borderColor: profileTheme.secondary[500] }]}
+                            textStyle={[styles.graduationText, { color: profileTheme.secondary[500] }]}
+                          >
+                            {student.currentGraduation}
+                          </Chip>
+                        )}
+                      </View>
+                    </View>
 
-        <View style={styles.advancedFiltersRow}>
-          <TextInput
-            placeholder={getString('minAge')}
-            value={ageMin}
-            onChangeText={setAgeMin}
-            mode="outlined"
-            keyboardType="numeric"
-            style={styles.advancedFilterInput}
-          />
-          <TextInput
-            placeholder={getString('maxAge')}
-            value={ageMax}
-            onChangeText={setAgeMax}
-            mode="outlined"
-            keyboardType="numeric"
-            style={styles.advancedFilterInput}
-          />
-          <TextInput
-            label={getString('sinceDate')}
-            value={enrollmentStart}
-            onChangeText={setEnrollmentStart}
-            mode="outlined"
-            style={styles.advancedFilterLong}
-          />
-          <TextInput
-            placeholder={getString('enrollmentEnd')}
-            value={enrollmentEnd}
-            onChangeText={setEnrollmentEnd}
-            mode="outlined"
-            style={styles.advancedFilterLong}
-          />
-        </View>
-      </View>
-
-      <ScrollView
-        style={styles.scrollView}
-        contentContainerStyle={{ flexGrow: 1, paddingBottom: 100 }}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-      >
-        {filteredStudents.length > 0 ? (
-          filteredStudents.map((student, index) => (
-            <Card key={student.id || index} style={styles.studentCard}>
-              <Card.Content>
-                <View style={styles.studentHeader}>
-                  <View style={styles.studentInfo}>
-                    <Avatar.Text
-                      size={50}
-                      label={student.name?.charAt(0) || 'A'}
-                      style={styles.avatar}
+                    <IconButton
+                      icon="dots-vertical"
+                      iconColor={profileTheme.text.secondary}
+                      onPress={() => handleStudentPress(student)}
                     />
-                    <View style={styles.studentDetails}>
-                      <Text style={[styles.studentName, styles.title]}>{student.name}</Text>
-                      <Text style={styles.studentEmail}>{student.email}</Text>
-                      {student.currentGraduation && (
-                        <Chip
-                          mode="outlined"
-                          style={styles.graduationChip}
-                          textStyle={styles.graduationText}
-                        >
-                          {student.currentGraduation}
-                        </Chip>
-                      )}
+                  </View>
+
+                  <View style={styles.studentStats}>
+                    <View style={styles.statItem}>
+                      <Text style={[styles.statLabel, { color: profileTheme.text.secondary }]}>{getString('status')}</Text>
+                      <Chip
+                        mode="outlined"
+                        style={[
+                          styles.statusChip,
+                          { borderColor: student.isActive !== false ? profileTheme.secondary[500] : COLORS.error[500] }
+                        ]}
+                        textStyle={{
+                          color: student.isActive !== false ? profileTheme.secondary[500] : COLORS.error[500],
+                          fontSize: FONT_SIZE.sm
+                        }}
+                      >
+                        {student.isActive !== false ? getString('active') : getString('inactive')}
+                      </Chip>
+                    </View>
+
+                    <View style={styles.statItem}>
+                      <Text style={[styles.statLabel, { color: profileTheme.text.secondary }]}>{getString('payment')}</Text>
+                      <Chip
+                        mode="outlined"
+                        style={[
+                          styles.statusChip,
+                          { borderColor: getPaymentStatusColor(student.paymentStatus) }
+                        ]}
+                        textStyle={{
+                          color: getPaymentStatusColor(student.paymentStatus),
+                          fontSize: FONT_SIZE.sm
+                        }}
+                      >
+                        {getPaymentStatusText(student.paymentStatus)}
+                      </Chip>
                     </View>
                   </View>
 
-                  <IconButton
-                    icon="dots-vertical"
-                    onPress={() => handleStudentPress(student)}
-                  />
-                </View>
+                  {student.graduations && student.graduations.length > 0 && (
+                    <View style={styles.graduationsInfo}>
+                      <Text style={[styles.graduationsTitle, { color: profileTheme.text.primary }]}>{getString('lastGraduation')}</Text>
+                      <Text style={[styles.lastGraduation, { color: profileTheme.text.secondary }]}>
+                        {student.graduations[0]?.graduation} - {student.graduations[0]?.modality}
+                      </Text>
+                      <Text style={[styles.graduationDate, { color: profileTheme.text.hint }]}>
+                        {new Date(student.graduations[0]?.date).toLocaleDateString('pt-BR')}
+                      </Text>
+                    </View>
+                  )}
 
-                <View style={styles.studentStats}>
-                  <View style={styles.statItem}>
-                    <Text style={styles.statLabel}>{getString('status')}</Text>
-                    <Chip
+                  <Divider style={[styles.divider, { backgroundColor: profileTheme.text.disabled }]} />
+
+                  <View style={styles.studentActions}>
+                    <Button
                       mode="outlined"
-                      style={[
-                        styles.statusChip,
-                        { borderColor: student.isActive !== false ? COLORS.primary[500] : COLORS.error[500] }
-                      ]}
-                      textStyle={{
-                        color: student.isActive !== false ? COLORS.primary[500] : COLORS.error[500],
-                        fontSize: FONT_SIZE.sm
-                      }}
+                      onPress={() => handleStudentPress(student)}
+                      style={[styles.actionButton, { borderColor: profileTheme.primary[500] }]}
+                      textColor={profileTheme.primary[500]}
                     >
-                      {student.isActive !== false ? getString('active') : getString('inactive')}
-                    </Chip>
+                      {getString('viewProfile')}
+                    </Button>
+
+                    <Button
+                      mode="contained"
+                      onPress={() => handleAddGraduation(student)}
+                      style={styles.actionButton}
+                      buttonColor={profileTheme.primary[500]}
+                    >
+                      {getString('graduation')}
+                    </Button>
+                  </View>
+                </Card.Content>
+              </Card>
+            ))
+          ) : (
+            <Card style={[styles.emptyCard, { backgroundColor: profileTheme.background.paper }]}>
+              <Card.Content style={styles.emptyContent}>
+                <Ionicons name="people-outline" size={48} color={profileTheme.text.disabled} />
+                <Text style={[styles.noStudentsText, { color: profileTheme.text.secondary }]}>{getString('noStudentsFound')}</Text>
+                <Text style={[styles.noStudentsSubtext, { color: profileTheme.text.hint }]}>
+                  {getString('noStudentsMessage')}
+                </Text>
+              </Card.Content>
+            </Card>
+          )}
+
+          {/* Estatísticas gerais */}
+          {students.length > 0 && (
+            <Card style={[styles.statsCard, { backgroundColor: profileTheme.background.paper }]}>
+              <Card.Content>
+                <Text style={[styles.statsTitle, { color: profileTheme.text.primary }]}>{getString('studentsSummary')}</Text>
+
+                <View style={styles.statsRow}>
+                  <View style={styles.statItem}>
+                    <Text style={[styles.statNumber, { color: profileTheme.primary[500] }]}>{students.length}</Text>
+                    <Text style={[styles.statLabel, { color: profileTheme.text.secondary }]}>{getString('total')}</Text>
                   </View>
 
                   <View style={styles.statItem}>
-                    <Text style={styles.statLabel}>{getString('payment')}</Text>
-                    <Chip
-                      mode="outlined"
-                      style={[
-                        styles.statusChip,
-                        { borderColor: getPaymentStatusColor(student.paymentStatus) }
-                      ]}
-                      textStyle={{
-                        color: getPaymentStatusColor(student.paymentStatus),
-                        fontSize: FONT_SIZE.sm
-                      }}
-                    >
-                      {getPaymentStatusText(student.paymentStatus)}
-                    </Chip>
-                  </View>
-                </View>
-
-                {student.graduations && student.graduations.length > 0 && (
-                  <View style={styles.graduationsInfo}>
-                    <Text style={styles.graduationsTitle}>{getString('lastGraduation')}</Text>
-                    <Text style={styles.lastGraduation}>
-                      {student.graduations[0]?.graduation} - {student.graduations[0]?.modality}
+                    <Text style={[styles.statNumber, { color: profileTheme.secondary[500] }]}>
+                      {students.filter(s => s.isActive !== false).length}
                     </Text>
-                    <Text style={styles.graduationDate}>
-                      {new Date(student.graduations[0]?.date).toLocaleDateString('pt-BR')}
-                    </Text>
+                    <Text style={[styles.statLabel, { color: profileTheme.text.secondary }]}>{getString('activeCount')}</Text>
                   </View>
-                )}
 
-                <Divider style={styles.divider} />
+                  <View style={styles.statItem}>
+                    <Text style={[styles.statNumber, { color: profileTheme.primary[500] }]}>
+                      {students.filter(s => s.paymentStatus === 'paid').length}
+                    </Text>
+                    <Text style={[styles.statLabel, { color: profileTheme.text.secondary }]}>{getString('upToDate')}</Text>
+                  </View>
 
-                <View style={styles.studentActions}>
-                  <Button
-                    mode="outlined"
-                    onPress={() => handleStudentPress(student)}
-                    style={styles.actionButton}
-                  >
-                    {getString('viewProfile')}
-                  </Button>
-
-                  <Button
-                    mode="contained"
-                    onPress={() => handleAddGraduation(student)}
-                    style={styles.actionButton}
-                  >
-                    {getString('graduation')}
-                  </Button>
+                  <View style={styles.statItem}>
+                    <Text style={[styles.statNumber, { color: profileTheme.secondary[500] }]}>
+                      {students.filter(s => s.graduations && s.graduations.length > 0).length}
+                    </Text>
+                    <Text style={[styles.statLabel, { color: profileTheme.text.secondary }]}>{getString('withGraduation')}</Text>
+                  </View>
                 </View>
               </Card.Content>
             </Card>
-          ))
-        ) : (
-          <Card style={styles.emptyCard}>
-            <Card.Content style={styles.emptyContent}>
-              <Ionicons name="people-outline" size={48} color="currentTheme.gray[300]" />
-              <Text style={styles.noStudentsText}>{getString('noStudentsFound')}</Text>
-              <Text style={styles.noStudentsSubtext}>
-                {getString('noStudentsMessage')}
-              </Text>
-            </Card.Content>
-          </Card>
-        )}
+          )}
+        </ScrollView>
 
-        {/* Estatísticas gerais */}
-        {students.length > 0 && (
-          <Card style={styles.statsCard}>
-            <Card.Content>
-              <Text style={[styles.statsTitle, styles.title]}>{getString('studentsSummary')}</Text>
+        <FAB
+          style={[styles.fab, { backgroundColor: profileTheme.secondary[500] }]}
+          icon="account-plus"
+          label={getString('newStudent')}
+          onPress={() => navigation.navigate('AddStudent')}
+          color={COLORS.white}
+        />
 
-              <View style={styles.statsRow}>
-                <View style={styles.statItem}>
-                  <Text style={styles.statNumber}>{students.length}</Text>
-                  <Text style={styles.statLabel}>{getString('total')}</Text>
-                </View>
-
-                <View style={styles.statItem}>
-                  <Text style={styles.statNumber}>
-                    {students.filter(s => s.isActive !== false).length}
-                  </Text>
-                  <Text style={styles.statLabel}>{getString('activeCount')}</Text>
-                </View>
-
-                <View style={styles.statItem}>
-                  <Text style={styles.statNumber}>
-                    {students.filter(s => s.paymentStatus === 'paid').length}
-                  </Text>
-                  <Text style={styles.statLabel}>{getString('upToDate')}</Text>
-                </View>
-
-                <View style={styles.statItem}>
-                  <Text style={styles.statNumber}>
-                    {students.filter(s => s.graduations && s.graduations.length > 0).length}
-                  </Text>
-                  <Text style={styles.statLabel}>{getString('withGraduation')}</Text>
-                </View>
-              </View>
-            </Card.Content>
-          </Card>
-        )}
-      </ScrollView>
-
-      <FAB
-        style={styles.fab}
-        icon="account-plus"
-        label={getString('newStudent')}
-        onPress={() => navigation.navigate('AddStudent')}
-      />
-
-      {/* Modal para Dropdown de Modalidade */}
-      <Modal
-        visible={modalityMenuVisible}
-        transparent={true}
-        animationType="fade"
-        onRequestClose={() => setModalityMenuVisible(false)}
-      >
-        <TouchableOpacity
-          style={styles.modalOverlay}
-          activeOpacity={1}
-          onPress={() => setModalityMenuVisible(false)}
+        {/* Modal para Dropdown de Modalidade */}
+        <Modal
+          visible={modalityMenuVisible}
+          transparent={true}
+          animationType="fade"
+          onRequestClose={() => setModalityMenuVisible(false)}
         >
-          <View style={styles.modalDropdownContainer}>
-            <View style={styles.modalDropdownList}>
-              <ScrollView style={styles.dropdownScroll} nestedScrollEnabled={true}>
-                <TouchableOpacity
-                  style={styles.dropdownItem}
-                  onPress={() => {
-                    setSelectedModalityId('');
-                    setModalityMenuVisible(false);
-                  }}
-                >
-                  <Text style={styles.dropdownItemText}>{getString('allModalities')}</Text>
-                </TouchableOpacity>
-
-                {modalities.map(m => (
+          <TouchableOpacity
+            style={styles.modalOverlay}
+            activeOpacity={1}
+            onPress={() => setModalityMenuVisible(false)}
+          >
+            <View style={[styles.modalDropdownContainer, { backgroundColor: profileTheme.background.paper }]}>
+              <View style={styles.modalDropdownList}>
+                <ScrollView style={styles.dropdownScroll} nestedScrollEnabled={true}>
                   <TouchableOpacity
-                    key={m.id}
-                    style={[
-                      styles.dropdownItem,
-                      selectedModalityId === m.id && styles.dropdownItemSelected
-                    ]}
+                    style={styles.dropdownItem}
                     onPress={() => {
-                      setSelectedModalityId(m.id);
+                      setSelectedModalityId('');
                       setModalityMenuVisible(false);
                     }}
                   >
-                    <Text style={[
-                      styles.dropdownItemText,
-                      selectedModalityId === m.id && styles.dropdownItemTextSelected
-                    ]}>
-                      {m.name}
-                    </Text>
+                    <Text style={[styles.dropdownItemText, { color: profileTheme.text.primary }]}>{getString('allModalities')}</Text>
                   </TouchableOpacity>
-                ))}
-              </ScrollView>
+
+                  {modalities.map(m => (
+                    <TouchableOpacity
+                      key={m.id}
+                      style={[
+                        styles.dropdownItem,
+                        selectedModalityId === m.id && { backgroundColor: profileTheme.primary[100] }
+                      ]}
+                      onPress={() => {
+                        setSelectedModalityId(m.id);
+                        setModalityMenuVisible(false);
+                      }}
+                    >
+                      <Text style={[
+                        styles.dropdownItemText,
+                        { color: profileTheme.text.primary },
+                        selectedModalityId === m.id && { color: profileTheme.primary[700], fontWeight: 'bold' }
+                      ]}>
+                        {m.name}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+                </ScrollView>
+              </View>
             </View>
-          </View>
-        </TouchableOpacity>
-      </Modal>
-    </SafeAreaView>
+          </TouchableOpacity>
+        </Modal>
+      </SafeAreaView>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.white,
   },
   header: {
     padding: SPACING.md,
-    backgroundColor: COLORS.background.paper,
     elevation: 2,
   },
   searchbar: {
     elevation: 0,
-    backgroundColor: COLORS.white,
     marginBottom: SPACING.sm,
   },
-  // Novos estilos para filtros melhorados
   filtersContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -700,28 +730,17 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.sm,
     gap: SPACING.sm,
   },
-  filtersGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    gap: SPACING.sm,
-    marginBottom: SPACING.md,
-  },
   filterButtonImproved: {
     flex: 1,
     minWidth: 100,
     maxWidth: 140,
     borderRadius: BORDER_RADIUS.lg,
     elevation: 2,
-    shadowColor: COLORS.black,
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.2,
     shadowRadius: 2,
     marginHorizontal: 2,
-  },
-  filterButtonActive: {
-    backgroundColor: COLORS.primary[500],
-    borderColor: COLORS.primary[500],
   },
   filterButtonLabel: {
     fontSize: FONT_SIZE.sm,
@@ -730,14 +749,6 @@ const styles = StyleSheet.create({
   filterButtonContent: {
     paddingHorizontal: SPACING.sm,
     paddingVertical: SPACING.xs,
-  },
-  // Estilos antigos mantidos para compatibilidade
-  filterRow: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-  },
-  filterButton: {
-    borderColor: COLORS.primary[500],
   },
   advancedFilterRow: {
     flexDirection: 'row',
@@ -754,182 +765,129 @@ const styles = StyleSheet.create({
   clearButtonImproved: {
     flex: 1,
     borderRadius: BORDER_RADIUS.lg,
-    borderColor: COLORS.error[500],
     borderWidth: 2,
   },
   applyButtonImproved: {
     flex: 1,
     borderRadius: BORDER_RADIUS.lg,
-    backgroundColor: COLORS.primary[500],
     elevation: 3,
   },
   actionButtonLabel: {
     fontSize: 13,
     fontWeight: FONT_WEIGHT.semibold,
   },
-  menuContent: {
-    maxHeight: 300,
-    backgroundColor: COLORS.card.elevated.background,
-    borderRadius: BORDER_RADIUS.md,
-    elevation: 8,
-    shadowColor: COLORS.black,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-  },
-  filterButtonDisabled: {
-    opacity: 0.6,
-  },
   dropdownContainer: {
     flex: 1,
   },
   modalOverlay: {
     flex: 1,
-    backgroundColor: COLORS.black + "80",
+    backgroundColor: 'rgba(0,0,0,0.5)',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    paddingTop: SPACING.md0,
+    paddingTop: 100,
     paddingBottom: 50,
     paddingHorizontal: 20,
   },
   modalDropdownContainer: {
     width: '80%',
     maxWidth: 300,
-    marginTop: SPACING.xs0,
-    marginBottom: 20,
+    borderRadius: BORDER_RADIUS.md,
+    overflow: 'hidden',
   },
   modalDropdownList: {
-    backgroundColor: COLORS.card.elevated.background,
-    borderRadius: BORDER_RADIUS.md,
-    elevation: 10,
-    shadowColor: COLORS.black,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
     maxHeight: 300,
-    borderWidth: BORDER_WIDTH.base,
-    borderColor: COLORS.gray[300],
   },
   dropdownScroll: {
     maxHeight: 300,
   },
   dropdownItem: {
-    paddingVertical: SPACING.md,
-    paddingHorizontal: SPACING.md,
+    padding: SPACING.md,
     borderBottomWidth: 1,
-    borderBottomColor: COLORS.gray[100],
-  },
-  dropdownItemSelected: {
-    backgroundColor: COLORS.info[50],
+    borderBottomColor: '#eee',
   },
   dropdownItemText: {
-    fontSize: FONT_SIZE.base,
-    color: COLORS.black,
-  },
-  dropdownItemTextSelected: {
-    color: COLORS.info[700],
-    fontWeight: FONT_WEIGHT.semibold,
-  },
-  advancedFilterInput: {
-    flexGrow: 1,
-    minWidth: 110,
-    marginRight: SPACING.sm,
-    marginBottom: SPACING.sm,
-  },
-  advancedFilterLong: {
-    flexGrow: 2,
-    minWidth: 160,
-    marginRight: SPACING.sm,
-    marginBottom: SPACING.sm,
-  },
-  scrollView: {
-    flex: 1,
+    fontSize: FONT_SIZE.md,
   },
   studentCard: {
-    margin: SPACING.md,
-    marginBottom: SPACING.sm,
+    marginBottom: SPACING.md,
+    marginHorizontal: SPACING.md,
     elevation: 2,
   },
   studentHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: SPACING.md,
+    alignItems: 'flex-start',
   },
   studentInfo: {
     flexDirection: 'row',
-    alignItems: 'center',
     flex: 1,
   },
   avatar: {
-    backgroundColor: COLORS.primary[500],
+    marginRight: SPACING.md,
   },
   studentDetails: {
-    marginLeft: SPACING.md,
     flex: 1,
   },
   studentName: {
-    fontSize: FONT_SIZE.md,
-    marginBottom: 2,
+    fontSize: FONT_SIZE.lg,
+    fontWeight: FONT_WEIGHT.bold,
   },
   studentEmail: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.gray[500],
     marginBottom: SPACING.xs,
   },
   graduationChip: {
     alignSelf: 'flex-start',
+    height: 24,
   },
   graduationText: {
-    fontSize: FONT_SIZE.xxs,
+    fontSize: FONT_SIZE.xs,
+    marginVertical: 0,
+    marginHorizontal: 4,
   },
   studentStats: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginBottom: SPACING.md,
+    marginTop: SPACING.md,
+    gap: SPACING.md,
   },
   statItem: {
-    alignItems: 'center',
+    flex: 1,
   },
   statLabel: {
-    fontSize: FONT_SIZE.sm,
-    color: COLORS.gray[500],
-    marginBottom: SPACING.xs,
+    fontSize: FONT_SIZE.xs,
+    marginBottom: 4,
   },
   statusChip: {
-    borderWidth: 2,
+    height: 24,
   },
   graduationsInfo: {
-    backgroundColor: COLORS.card.default.background,
+    marginTop: SPACING.md,
     padding: SPACING.sm,
     borderRadius: BORDER_RADIUS.sm,
-    marginBottom: SPACING.md,
-    borderWidth: 1,
-    borderColor: COLORS.border.subtle,
+    backgroundColor: 'rgba(0,0,0,0.02)',
   },
   graduationsTitle: {
     fontSize: FONT_SIZE.sm,
-    fontWeight: FONT_WEIGHT.bold,
+    fontWeight: 'bold',
     marginBottom: 2,
   },
   lastGraduation: {
-    fontSize: FONT_SIZE.base,
-    marginBottom: 2,
+    fontSize: FONT_SIZE.md,
   },
   graduationDate: {
-    fontSize: FONT_SIZE.sm,
-    color: COLORS.gray[500],
+    fontSize: FONT_SIZE.xs,
+    marginTop: 2,
   },
   divider: {
-    marginVertical: 12,
+    marginVertical: SPACING.md,
   },
   studentActions: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
+    gap: SPACING.sm,
   },
   actionButton: {
-    flex: 1,
-    marginHorizontal: 4,
+    minWidth: 100,
   },
   emptyCard: {
     margin: SPACING.md,
@@ -937,25 +895,28 @@ const styles = StyleSheet.create({
   },
   emptyContent: {
     alignItems: 'center',
-    padding: 32,
+    padding: SPACING.xl,
   },
-  emptyTitle: {
+  noStudentsText: {
+    fontSize: FONT_SIZE.lg,
     marginTop: SPACING.md,
-    textAlign: 'center',
+    fontWeight: 'bold',
   },
-  emptyText: {
+  noStudentsSubtext: {
+    fontSize: FONT_SIZE.sm,
     textAlign: 'center',
-    color: COLORS.gray[500],
+    marginTop: SPACING.xs,
   },
   statsCard: {
     margin: SPACING.md,
-    marginTop: SPACING.sm,
+    marginTop: 0,
     elevation: 2,
-    backgroundColor: COLORS.primary[50],
   },
   statsTitle: {
-    textAlign: 'center',
+    fontSize: FONT_SIZE.md,
+    fontWeight: 'bold',
     marginBottom: SPACING.md,
+    textAlign: 'center',
   },
   statsRow: {
     flexDirection: 'row',
@@ -963,15 +924,21 @@ const styles = StyleSheet.create({
   },
   statNumber: {
     fontSize: FONT_SIZE.xl,
-    fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.primary[500],
+    fontWeight: 'bold',
   },
   fab: {
     position: 'absolute',
     margin: SPACING.md,
     right: 0,
     bottom: 0,
-    backgroundColor: COLORS.primary[500],
+  },
+  advancedFilterInput: {
+    flex: 1,
+    minWidth: '45%',
+  },
+  advancedFilterLong: {
+    flex: 1,
+    minWidth: '100%',
   },
 });
 

@@ -13,7 +13,7 @@ import { SignUpData, AuthSession, UserProfile } from '@domain/auth/entities';
 import { FirebaseAuthRepository } from '@data/auth';
 import { initializeFirebaseServices } from '@infrastructure/firebase';
 import crashlyticsService from '@infrastructure/services/crashlyticsService';
-import { getString } from "@utils/theme";
+import { useTheme } from '@contexts/ThemeContext';
 
 // Helper function para verificar se um erro é uma instância de Error
 function isError(error: unknown): error is Error {
@@ -71,6 +71,7 @@ function initializeCleanArchitecture() {
 }
 
 export function useAuthFacade() {
+  const { getString } = useTheme();
   const { showError } = useNotification();
 
   const {
@@ -624,7 +625,8 @@ export function useAuthFacade() {
                   errorName === 'userProfileNotFoundError' ||
                   errorMessage.toLowerCase().includes('profile not found') ||
                   errorMessage.toLowerCase().includes('perfil não encontrado') ||
-                  (typeof getString === 'function' && errorName === getString('userProfileNotFoundError'));
+                  errorMessage.toLowerCase().includes('perfil não encontrado') ||
+                  (errorName === getString('userProfileNotFoundError'));
 
                 if (isProfileNotFound) {
                   console.log('👤 [AuthFacade] Perfil não encontrado confirmado. Mantendo usuário para cadastro.');

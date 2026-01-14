@@ -3,14 +3,14 @@ import { View, StyleSheet, ScrollView } from 'react-native';
 import { Card, Button, Chip, Divider, Text } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getString } from "@utils/theme";
+import { useTheme } from "@contexts/ThemeContext";
 
-class EnhancedErrorBoundary extends React.Component {
+class ErrorBoundaryInner extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { 
-      hasError: false, 
-      error: null, 
+    this.state = {
+      hasError: false,
+      error: null,
       errorInfo: null,
       errorId: null,
       showDetails: false
@@ -19,8 +19,8 @@ class EnhancedErrorBoundary extends React.Component {
 
   static getDerivedStateFromError(error) {
     const errorId = `error_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    return { 
-      hasError: true, 
+    return {
+      hasError: true,
       error,
       errorId
     };
@@ -28,9 +28,9 @@ class EnhancedErrorBoundary extends React.Component {
 
   componentDidCatch(error, errorInfo) {
     const { onError, reportError = true } = this.props;
-    
+
     this.setState({ errorInfo });
-    
+
     // Log detalhado do erro
     console.error('🚨 ErrorBoundary caught an error:', {
       error: error.message,
@@ -69,7 +69,7 @@ class EnhancedErrorBoundary extends React.Component {
 
       // Exemplo de integração com serviço de monitoramento
       console.log('📊 Error report:', errorReport);
-      
+
       // TODO: Implementar integração real com serviço de monitoramento
       // await analyticsService.reportError(errorReport);
     } catch (reportingError) {
@@ -79,10 +79,10 @@ class EnhancedErrorBoundary extends React.Component {
 
   handleRetry = () => {
     const { onRetry } = this.props;
-    
-    this.setState({ 
-      hasError: false, 
-      error: null, 
+
+    this.setState({
+      hasError: false,
+      error: null,
       errorInfo: null,
       errorId: null,
       showDetails: false
@@ -94,8 +94,8 @@ class EnhancedErrorBoundary extends React.Component {
   };
 
   toggleDetails = () => {
-    this.setState(prevState => ({ 
-      showDetails: !prevState.showDetails 
+    this.setState(prevState => ({
+      showDetails: !prevState.showDetails
     }));
   };
 
@@ -120,7 +120,7 @@ class EnhancedErrorBoundary extends React.Component {
 
   render() {
     if (this.state.hasError) {
-      const { fallback, showErrorDetails = false } = this.props;
+      const { fallback, showErrorDetails = false, getString } = this.props;
       const errorType = this.getErrorType(this.state.error);
       const errorMessage = this.getErrorMessage(errorType);
 
@@ -133,14 +133,14 @@ class EnhancedErrorBoundary extends React.Component {
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
           <Card style={styles.card}>
             <Card.Content style={styles.content}>
-              <Ionicons 
-                name={errorType === 'network' ? 'wifi-outline' : 'alert-circle-outline'} 
-                size={64} 
-                color={COLORS.error[500]} 
+              <Ionicons
+                name={errorType === 'network' ? 'wifi-outline' : 'alert-circle-outline'}
+                size={64}
+                color={COLORS.error[500]}
               />
-              
+
               <Text style={styles.title}>Ops! Algo deu errado</Text>
-              
+
               <Text style={styles.message}>
                 {errorMessage}
               </Text>
@@ -155,8 +155,8 @@ class EnhancedErrorBoundary extends React.Component {
               </View>
 
               <View style={styles.buttonContainer}>
-                <Button 
-                  mode="contained" 
+                <Button
+                  mode="contained"
                   onPress={this.handleRetry}
                   style={styles.retryButton}
                   icon="refresh"
@@ -165,8 +165,8 @@ class EnhancedErrorBoundary extends React.Component {
                 </Button>
 
                 {showErrorDetails && (
-                  <Button 
-                    mode="outlined" 
+                  <Button
+                    mode="outlined"
                     onPress={this.toggleDetails}
                     style={styles.detailsButton}
                     icon={this.state.showDetails ? "chevron-up" : "chevron-down"}
@@ -202,6 +202,11 @@ class EnhancedErrorBoundary extends React.Component {
     return this.props.children;
   }
 }
+
+const EnhancedErrorBoundary = (props) => {
+  const { getString } = useTheme();
+  return <ErrorBoundaryInner {...props} getString={getString} />;
+};
 
 const styles = StyleSheet.create({
   container: {

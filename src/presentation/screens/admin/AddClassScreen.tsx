@@ -17,6 +17,7 @@ import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, BORDER_WIDTH } 
 import type { NavigationProp } from '@react-navigation/native';
 import { useTheme } from "@contexts/ThemeContext";
 import { hexToRgba } from '@shared/utils/colorUtils';
+import { LinearGradient } from 'expo-linear-gradient';
 
 interface Instructor {
   id: string;
@@ -35,7 +36,7 @@ interface AddClassScreenProps {
 }
 
 const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
-  const { getString } = useTheme();
+  const { getString, theme } = useTheme();
 
   const { user, userProfile, academia } = useAuthFacade();
   const { role, isInstructor } = useCustomClaims();
@@ -313,259 +314,331 @@ const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
     updateFormData('instructorName', instructor ? instructor.name : '');
   };
 
+  // Dynamically created styles based on theme
+  const dynamicStyles = StyleSheet.create({
+    card: {
+      marginBottom: 20,
+      backgroundColor: theme?.background?.paper || COLORS.white,
+      borderRadius: BORDER_RADIUS.lg,
+      borderWidth: 1,
+      borderColor: theme?.text?.disabled || hexToRgba(COLORS.white, 0.12),
+      shadowColor: COLORS.black,
+      shadowOffset: { width: 0, height: 8 },
+      shadowOpacity: 0.3,
+      shadowRadius: 16,
+      elevation: 8,
+      width: '100%',
+    },
+    title: {
+      fontSize: FONT_SIZE.xxl,
+      fontWeight: FONT_WEIGHT.bold,
+      marginBottom: SPACING.lg,
+      textAlign: 'center',
+      color: theme?.text?.primary || COLORS.text.primary,
+    },
+    label: {
+      fontSize: FONT_SIZE.md,
+      fontWeight: FONT_WEIGHT.medium,
+      marginBottom: SPACING.sm,
+      color: theme?.text?.primary || COLORS.text.primary,
+    },
+    chip: {
+      marginBottom: SPACING.sm,
+      flexGrow: 0,
+      flexShrink: 1,
+      backgroundColor: theme?.background?.default || COLORS.background.default,
+      borderColor: theme?.text?.disabled,
+    },
+    chipSelected: {
+      backgroundColor: theme?.secondary && theme.secondary[100] ? theme.secondary[100] : COLORS.primary[100],
+    },
+    chipText: {
+      color: theme?.text?.primary || COLORS.black,
+    },
+    chipSelectedText: {
+      color: theme?.secondary && theme.secondary[900] ? theme.secondary[900] : COLORS.primary[900],
+    },
+    radioLabel: {
+      marginLeft: SPACING.sm,
+      fontSize: FONT_SIZE.md,
+      flex: 1,
+      color: theme?.text?.secondary || COLORS.text.secondary,
+    }
+  });
+
+  const getGradient = () => {
+    if (theme?.gradients?.hero) {
+      return theme.gradients.hero;
+    }
+    // Fallback if no hero gradient
+    return [COLORS.background.default, COLORS.background.default];
+  };
+
   return (
     <EnhancedErrorBoundary errorContext={{ screen: 'AddClassScreen', academiaId: userProfile?.academiaId }}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.container}
-      >
-        <ScrollView
-          style={styles.scrollView}
-          contentContainerStyle={styles.scrollContent}
-          keyboardShouldPersistTaps="handled"
-          showsVerticalScrollIndicator={true}
-          nestedScrollEnabled={true}
+      <LinearGradient colors={getGradient()} style={{ flex: 1 }}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={styles.container}
         >
-          <Card style={styles.card}>
-            <Card.Content>
-              <Text style={styles.title}>{getString('newClass')}</Text>
+          <ScrollView
+            style={styles.scrollView}
+            contentContainerStyle={styles.scrollContent}
+            keyboardShouldPersistTaps="handled"
+            showsVerticalScrollIndicator={true}
+            nestedScrollEnabled={true}
+          >
+            <Card style={dynamicStyles.card}>
+              <Card.Content>
+                <Text style={dynamicStyles.title}>{getString('newClass')}</Text>
 
-              {/* Nome da Turma */}
-              <TextInput
-                label={getString('className')}
-                value={formData.name}
-                onChangeText={(value: string) => updateFormData('name', value)}
-                mode="outlined"
-                style={styles.input}
-                error={!!errors.name}
-                theme={{ colors: { onSurface: COLORS.text.primary, onSurfaceVariant: COLORS.text.secondary } }}
-              />
-              {errors.name && <HelperText type="error">{errors.name}</HelperText>}
-
-              {/* Modalidade */}
-              <View style={styles.pickerContainer}>
-                <Text style={styles.label}>{getString('modality')}</Text>
-                <View style={styles.chipContainer}>
-                  {modalities.length === 0 && (
-                    <Text style={{ color: COLORS.gray[500] }}>{getString('noModalitiesRegistered')}</Text>
-                  )}
-                  {modalities.map((m) => (
-                    <Chip
-                      key={m.id}
-                      selected={formData.modality === m.name}
-                      onPress={() => updateFormData('modality', m.name)}
-                      style={styles.chip}
-                      mode={formData.modality === m.name ? 'flat' : 'outlined'}
-                    >
-                      {m.name}
-                    </Chip>
-                  ))}
-                </View>
-                {errors.modality && <HelperText type="error">{errors.modality}</HelperText>}
-              </View>
-
-              {/* Categoria por Idade */}
-              <View style={styles.pickerContainer}>
-                <Text style={styles.label}>{getString('ageCategory')}</Text>
-                <View style={styles.chipContainer}>
-                  {ageCategories.map((category) => (
-                    <Chip
-                      key={category.id}
-                      selected={formData.ageCategory === category.value}
-                      onPress={() => updateFormData('ageCategory', category.value)}
-                      style={styles.chip}
-                      mode={formData.ageCategory === category.value ? 'flat' : 'outlined'}
-                    >
-                      {category.label}
-                    </Chip>
-                  ))}
-                </View>
-                {errors.ageCategory && <HelperText type="error">{errors.ageCategory}</HelperText>}
-              </View>
-
-              {/* Descrição */}
-              <TextInput
-                label={getString('description') + " (" + getString('optional') + ")"}
-                value={formData.description}
-                onChangeText={(value: string) => updateFormData('description', value)}
-                mode="outlined"
-                multiline
-                numberOfLines={3}
-                style={styles.input}
-                theme={{ colors: { onSurface: COLORS.text.primary, onSurfaceVariant: COLORS.text.secondary } }}
-              />
-
-              {/* Máximo de Alunos */}
-              <TextInput
-                label={getString('maxStudents')}
-                value={formData.maxStudents}
-                onChangeText={(value: string) => updateFormData('maxStudents', value)}
-                mode="outlined"
-                keyboardType="numeric"
-                style={styles.input}
-                error={!!errors.maxStudents}
-                theme={{ colors: { onSurface: COLORS.text.primary, onSurfaceVariant: COLORS.text.secondary } }}
-              />
-              {errors.maxStudents && <HelperText type="error">{errors.maxStudents}</HelperText>}
-
-              {/* Instrutor */}
-              <View style={styles.pickerContainer}>
-                <Text style={styles.label}>{getString('instructor')}</Text>
-
-                {/* Opção "Eu serei o instrutor" sempre visível */}
-                <View style={styles.chipContainer}>
-                  <Chip
-                    selected={!formData.instructorId}
-                    onPress={() => {
-                      updateFormData('instructorId', '');
-                      updateFormData('instructorName', '');
-                    }}
-                    style={[styles.chip, { backgroundColor: !formData.instructorId ? COLORS.success[50] : 'transparent' }]}
-                    mode={!formData.instructorId ? 'flat' : 'outlined'}
-                    icon={!formData.instructorId ? 'check' : 'account'}
-                  >
-                    👤 {getString('iWillBeInstructor')}
-                  </Chip>
-                </View>
-
-                {/* Mostrar nome do usuário atual quando selecionado */}
-                {!formData.instructorId && (
-                  <View style={{ backgroundColor: COLORS.success[50], padding: SPACING.sm, borderRadius: BORDER_RADIUS.sm, marginBottom: SPACING.sm }}>
-                    <Text style={{ color: COLORS.success[800], fontSize: FONT_SIZE.sm }}>
-                      ✅ {getString('instructor')}: {userProfile?.name || user?.displayName || user?.email}
-                    </Text>
-                  </View>
-                )}
-
-                {/* Lista de outros instrutores */}
-                {instructors.length > 0 && (
-                  <>
-                    <Text style={[styles.label, { fontSize: FONT_SIZE.base, marginTop: SPACING.md, marginBottom: SPACING.sm }]}>
-                      {getString('orChooseOtherInstructor')}:
-                    </Text>
-                    <View style={styles.chipContainer}>
-                      {instructors.map((instructor) => (
-                        <Chip
-                          key={instructor.id}
-                          selected={formData.instructorId === instructor.id}
-                          onPress={() => handleInstructorChange(instructor.id)}
-                          style={styles.chip}
-                          mode={formData.instructorId === instructor.id ? 'flat' : 'outlined'}
-                        >
-                          {instructor.name}
-                        </Chip>
-                      ))}
-                    </View>
-                  </>
-                )}
-
-                {instructors.length === 0 && (
-                  <Text style={{ color: COLORS.gray[500], fontSize: FONT_SIZE.sm, marginTop: SPACING.sm }}>
-                    {getString('noOtherInstructors')}
-                  </Text>
-                )}
-
-                {errors.instructorId && <HelperText type="error">{errors.instructorId}</HelperText>}
-
-                {/* Entrada manual do nome do instrutor como fallback */}
+                {/* Nome da Turma */}
                 <TextInput
-                  label={getString('instructorNameManual')}
-                  value={formData.instructorName}
-                  onChangeText={(value: string) => updateFormData('instructorName', value)}
+                  label={getString('className')}
+                  value={formData.name}
+                  onChangeText={(value: string) => updateFormData('name', value)}
                   mode="outlined"
-                  placeholder={instructors.length === 0 ? 'Ex: Cícero Silva' : getString('optionalIfSelectedAbove')}
                   style={styles.input}
-                  theme={{ colors: { onSurface: COLORS.text.primary, onSurfaceVariant: COLORS.text.secondary } }}
+                  error={!!errors.name}
+                  theme={{ colors: { primary: theme?.primary?.[500], onSurface: theme?.text?.primary, surface: theme?.background?.default, placeholder: theme?.text?.hint, background: theme?.background?.default, outline: theme?.text?.disabled } }}
+                  textColor={theme?.text?.primary}
                 />
-              </View>
+                {errors.name && <HelperText type="error">{errors.name}</HelperText>}
 
-              {/* Horário */}
-              <ImprovedScheduleSelector
-                value={formData.schedule}
-                onScheduleChange={(schedule: any) => updateFormData('schedule', schedule)}
-                duration={60}
-                timezone="timezone"
-                startHour={6}
-                endHour={22}
-                required={true}
-                label={getString('schedules')}
-                style={styles.input}
-                instructorId={formData.instructorId || user?.id}
-                enableConflictValidation={true}
-              />
-              {errors.schedule && <HelperText type="error">{errors.schedule}</HelperText>}
-
-              {/* Preço */}
-              <TextInput
-                label={getString('monthlyPrice')}
-                value={formData.price}
-                onChangeText={(value: string) => updateFormData('price', value)}
-                mode="outlined"
-                keyboardType="numeric"
-                style={styles.input}
-                error={!!errors.price}
-                theme={{ colors: { onSurface: COLORS.text.primary, onSurfaceVariant: COLORS.text.secondary } }}
-              />
-              {errors.price && <HelperText type="error">{errors.price}</HelperText>}
-
-              {/* Status */}
-              <View style={styles.radioContainer}>
-                <Text style={styles.label}>{getString('status')}</Text>
-                <RadioButton.Group
-                  onValueChange={(value: string) => updateFormData('status', value)}
-                  value={formData.status}
-                >
-                  <View style={styles.radioItem}>
-                    <RadioButton value="active" />
-                    <Text style={styles.radioLabel}>{getString('active')}</Text>
+                {/* Modalidade */}
+                <View style={styles.pickerContainer}>
+                  <Text style={dynamicStyles.label}>{getString('modality')}</Text>
+                  <View style={styles.chipContainer}>
+                    {modalities.length === 0 && (
+                      <Text style={{ color: theme?.text?.secondary || COLORS.gray[500] }}>{getString('noModalitiesRegistered')}</Text>
+                    )}
+                    {modalities.map((m) => (
+                      <Chip
+                        key={m.id}
+                        selected={formData.modality === m.name}
+                        onPress={() => updateFormData('modality', m.name)}
+                        style={[dynamicStyles.chip, formData.modality === m.name && dynamicStyles.chipSelected]}
+                        textStyle={formData.modality === m.name ? dynamicStyles.chipSelectedText : dynamicStyles.chipText}
+                        mode={formData.modality === m.name ? 'flat' : 'outlined'}
+                      >
+                        {m.name}
+                      </Chip>
+                    ))}
                   </View>
-                  <View style={styles.radioItem}>
-                    <RadioButton value="inactive" />
-                    <Text style={styles.radioLabel}>{getString('inactive')}</Text>
-                  </View>
-                </RadioButton.Group>
-              </View>
+                  {errors.modality && <HelperText type="error">{errors.modality}</HelperText>}
+                </View>
 
-              {/* Botões */}
-              <View style={styles.buttonContainer}>
-                <Button
+                {/* Categoria por Idade */}
+                <View style={styles.pickerContainer}>
+                  <Text style={dynamicStyles.label}>{getString('ageCategory')}</Text>
+                  <View style={styles.chipContainer}>
+                    {ageCategories.map((category) => (
+                      <Chip
+                        key={category.id}
+                        selected={formData.ageCategory === category.value}
+                        onPress={() => updateFormData('ageCategory', category.value)}
+                        style={[dynamicStyles.chip, formData.ageCategory === category.value && dynamicStyles.chipSelected]}
+                        textStyle={formData.ageCategory === category.value ? dynamicStyles.chipSelectedText : dynamicStyles.chipText}
+                        mode={formData.ageCategory === category.value ? 'flat' : 'outlined'}
+                      >
+                        {category.label}
+                      </Chip>
+                    ))}
+                  </View>
+                  {errors.ageCategory && <HelperText type="error">{errors.ageCategory}</HelperText>}
+                </View>
+
+                {/* Descrição */}
+                <TextInput
+                  label={getString('description') + " (" + getString('optional') + ")"}
+                  value={formData.description}
+                  onChangeText={(value: string) => updateFormData('description', value)}
                   mode="outlined"
-                  onPress={() => navigation.goBack()}
-                  style={styles.button}
-                  disabled={loading}
-                >{getString('cancel')}</Button>
-                <Button
-                  mode="contained"
-                  onPress={handleSubmit}
-                  style={styles.button}
-                  buttonColor={COLORS.success[500]}
-                  loading={loading}
-                  disabled={loading || modalities.length === 0}
-                >
-                  {getString('createClass')}
-                </Button>
-              </View>
-            </Card.Content>
-          </Card>
-        </ScrollView>
+                  multiline
+                  numberOfLines={3}
+                  style={styles.input}
+                  theme={{ colors: { primary: theme?.primary?.[500], onSurface: theme?.text?.primary, surface: theme?.background?.default, placeholder: theme?.text?.hint, background: theme?.background?.default, outline: theme?.text?.disabled } }}
+                  textColor={theme?.text?.primary}
+                />
 
-        <Snackbar
-          visible={snackbar.visible}
-          onDismiss={() => setSnackbar((s) => ({ ...s, visible: false }))}
-          duration={3000}
-          style={{
-            backgroundColor: snackbar.type === 'success' ? COLORS.primary[500] :
-              snackbar.type === 'error' ? COLORS.error[500] : COLORS.info[500]
-          }}
-          action={{
-            label: 'OK',
-            onPress: () => setSnackbar((s) => ({ ...s, visible: false })),
-            labelStyle: { color: COLORS.white }
-          }}
-        >
-          {snackbar.message}
-        </Snackbar>
-      </KeyboardAvoidingView>
+                {/* Máximo de Alunos */}
+                <TextInput
+                  label={getString('maxStudents')}
+                  value={formData.maxStudents}
+                  onChangeText={(value: string) => updateFormData('maxStudents', value)}
+                  mode="outlined"
+                  keyboardType="numeric"
+                  style={styles.input}
+                  error={!!errors.maxStudents}
+                  theme={{ colors: { primary: theme?.primary?.[500], onSurface: theme?.text?.primary, surface: theme?.background?.default, placeholder: theme?.text?.hint, background: theme?.background?.default, outline: theme?.text?.disabled } }}
+                  textColor={theme?.text?.primary}
+                />
+                {errors.maxStudents && <HelperText type="error">{errors.maxStudents}</HelperText>}
+
+                {/* Instrutor */}
+                <View style={styles.pickerContainer}>
+                  <Text style={dynamicStyles.label}>{getString('instructor')}</Text>
+
+                  {/* Opção "Eu serei o instrutor" sempre visível */}
+                  <View style={styles.chipContainer}>
+                    <Chip
+                      selected={!formData.instructorId}
+                      onPress={() => {
+                        updateFormData('instructorId', '');
+                        updateFormData('instructorName', '');
+                      }}
+                      style={[dynamicStyles.chip, !formData.instructorId && { backgroundColor: theme?.success || COLORS.success[50] }]}
+                      mode={!formData.instructorId ? 'flat' : 'outlined'}
+                      icon={!formData.instructorId ? 'check' : 'account'}
+                      textStyle={{ color: !formData.instructorId ? (theme?.secondary?.[900] || COLORS.success[900]) : (theme?.text?.primary || COLORS.black) }}
+                    >
+                      👤 {getString('iWillBeInstructor')}
+                    </Chip>
+                  </View>
+
+                  {/* Mostrar nome do usuário atual quando selecionado */}
+                  {!formData.instructorId && (
+                    <View style={{ backgroundColor: theme?.success ? hexToRgba(theme.success, 0.1) : COLORS.success[50], padding: SPACING.sm, borderRadius: BORDER_RADIUS.sm, marginBottom: SPACING.sm }}>
+                      <Text style={{ color: theme?.success || COLORS.success[800], fontSize: FONT_SIZE.sm }}>
+                        ✅ {getString('instructor')}: {userProfile?.name || user?.displayName || user?.email}
+                      </Text>
+                    </View>
+                  )}
+
+                  {/* Lista de outros instrutores */}
+                  {instructors.length > 0 && (
+                    <>
+                      <Text style={[dynamicStyles.label, { fontSize: FONT_SIZE.base, marginTop: SPACING.md, marginBottom: SPACING.sm }]}>
+                        {getString('orChooseOtherInstructor')}:
+                      </Text>
+                      <View style={styles.chipContainer}>
+                        {instructors.map((instructor) => (
+                          <Chip
+                            key={instructor.id}
+                            selected={formData.instructorId === instructor.id}
+                            onPress={() => handleInstructorChange(instructor.id)}
+                            style={[dynamicStyles.chip, formData.instructorId === instructor.id && dynamicStyles.chipSelected]}
+                            textStyle={formData.instructorId === instructor.id ? dynamicStyles.chipSelectedText : dynamicStyles.chipText}
+                            mode={formData.instructorId === instructor.id ? 'flat' : 'outlined'}
+                          >
+                            {instructor.name}
+                          </Chip>
+                        ))}
+                      </View>
+                    </>
+                  )}
+
+                  {instructors.length === 0 && (
+                    <Text style={{ color: theme?.text?.secondary || COLORS.gray[500], fontSize: FONT_SIZE.sm, marginTop: SPACING.sm }}>
+                      {getString('noOtherInstructors')}
+                    </Text>
+                  )}
+
+                  {errors.instructorId && <HelperText type="error">{errors.instructorId}</HelperText>}
+
+                  {/* Entrada manual do nome do instrutor como fallback */}
+                  <TextInput
+                    label={getString('instructorNameManual')}
+                    value={formData.instructorName}
+                    onChangeText={(value: string) => updateFormData('instructorName', value)}
+                    mode="outlined"
+                    placeholder={instructors.length === 0 ? 'Ex: Cícero Silva' : getString('optionalIfSelectedAbove')}
+                    style={styles.input}
+                    theme={{ colors: { primary: theme?.primary?.[500], onSurface: theme?.text?.primary, surface: theme?.background?.default, placeholder: theme?.text?.hint, background: theme?.background?.default, outline: theme?.text?.disabled } }}
+                    textColor={theme?.text?.primary}
+                  />
+                </View>
+
+                {/* Horário */}
+                <ImprovedScheduleSelector
+                  value={formData.schedule}
+                  onScheduleChange={(schedule: any) => updateFormData('schedule', schedule)}
+                  duration={60}
+                  timezone="timezone"
+                  startHour={6}
+                  endHour={22}
+                  required={true}
+                  label={getString('schedules')}
+                  style={styles.input}
+                  instructorId={formData.instructorId || user?.id}
+                  enableConflictValidation={true}
+                />
+                {errors.schedule && <HelperText type="error">{errors.schedule}</HelperText>}
+
+                {/* Preço */}
+                <TextInput
+                  label={getString('monthlyPrice')}
+                  value={formData.price}
+                  onChangeText={(value: string) => updateFormData('price', value)}
+                  mode="outlined"
+                  keyboardType="numeric"
+                  style={styles.input}
+                  error={!!errors.price}
+                  theme={{ colors: { primary: theme?.primary?.[500], onSurface: theme?.text?.primary, surface: theme?.background?.default, placeholder: theme?.text?.hint, background: theme?.background?.default, outline: theme?.text?.disabled } }}
+                  textColor={theme?.text?.primary}
+                />
+                {errors.price && <HelperText type="error">{errors.price}</HelperText>}
+
+                {/* Status */}
+                <View style={styles.radioContainer}>
+                  <Text style={dynamicStyles.label}>{getString('status')}</Text>
+                  <RadioButton.Group
+                    onValueChange={(value: string) => updateFormData('status', value)}
+                    value={formData.status}
+                  >
+                    <View style={styles.radioItem}>
+                      <RadioButton value="active" color={theme?.primary?.[500]} uncheckedColor={theme?.text?.disabled} />
+                      <Text style={dynamicStyles.radioLabel}>{getString('active')}</Text>
+                    </View>
+                    <View style={styles.radioItem}>
+                      <RadioButton value="inactive" color={theme?.primary?.[500]} uncheckedColor={theme?.text?.disabled} />
+                      <Text style={dynamicStyles.radioLabel}>{getString('inactive')}</Text>
+                    </View>
+                  </RadioButton.Group>
+                </View>
+
+                {/* Botões */}
+                <View style={styles.buttonContainer}>
+                  <Button
+                    mode="outlined"
+                    onPress={() => navigation.goBack()}
+                    style={[styles.button, { borderColor: theme?.text?.disabled }]}
+                    textColor={theme?.text?.secondary}
+                    disabled={loading}
+                  >{getString('cancel')}</Button>
+                  <Button
+                    mode="contained"
+                    onPress={handleSubmit}
+                    style={styles.button}
+                    buttonColor={theme?.primary?.[500] || COLORS.success[500]}
+                    loading={loading}
+                    disabled={loading || modalities.length === 0}
+                  >
+                    {getString('createClass')}
+                  </Button>
+                </View>
+              </Card.Content>
+            </Card>
+          </ScrollView>
+
+          <Snackbar
+            visible={snackbar.visible}
+            onDismiss={() => setSnackbar((s) => ({ ...s, visible: false }))}
+            duration={3000}
+            style={{
+              backgroundColor: snackbar.type === 'success' ? (theme?.success || COLORS.primary[500]) :
+                snackbar.type === 'error' ? (theme?.error || COLORS.error[500]) : (theme?.info || COLORS.info[500])
+            }}
+            action={{
+              label: 'OK',
+              onPress: () => setSnackbar((s) => ({ ...s, visible: false })),
+              labelStyle: { color: COLORS.white }
+            }}
+          >
+            {snackbar.message}
+          </Snackbar>
+        </KeyboardAvoidingView>
+      </LinearGradient>
     </EnhancedErrorBoundary>
   );
 };
@@ -573,7 +646,6 @@ const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background.default,
   },
   scrollView: {
     flex: 1,
@@ -584,36 +656,10 @@ const styles = StyleSheet.create({
     paddingBottom: SPACING.xl * 4, // Espaço extra no fim
     flexGrow: 1,
   },
-  card: {
-    marginBottom: 20,
-    backgroundColor: hexToRgba(COLORS.white, 0.08),
-    borderRadius: BORDER_RADIUS.lg,
-    borderWidth: 1,
-    borderColor: hexToRgba(COLORS.white, 0.12),
-    shadowColor: COLORS.black,
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.3,
-    shadowRadius: 16,
-    elevation: 8,
-    width: '100%',
-  },
-  title: {
-    fontSize: FONT_SIZE.xxl,
-    fontWeight: FONT_WEIGHT.bold,
-    marginBottom: SPACING.lg,
-    textAlign: 'center',
-    color: COLORS.text.primary,
-  },
   input: {
     marginBottom: SPACING.md,
     width: '100%',
     backgroundColor: 'transparent',
-  },
-  label: {
-    fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.medium,
-    marginBottom: SPACING.sm,
-    color: COLORS.text.primary,
   },
   pickerContainer: {
     marginBottom: SPACING.md,
@@ -625,11 +671,6 @@ const styles = StyleSheet.create({
     gap: SPACING.sm,
     width: '100%',
   },
-  chip: {
-    marginBottom: SPACING.sm,
-    flexGrow: 0,
-    flexShrink: 1,
-  },
   radioContainer: {
     marginBottom: SPACING.lg,
     width: '100%',
@@ -639,12 +680,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: SPACING.sm,
     flex: 1,
-  },
-  radioLabel: {
-    marginLeft: SPACING.sm,
-    fontSize: FONT_SIZE.md,
-    flex: 1,
-    color: COLORS.text.secondary,
   },
   buttonContainer: {
     flexDirection: 'row',

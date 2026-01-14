@@ -41,7 +41,7 @@ import {
   BORDER_WIDTH,
 } from "@presentation/theme/designTokens";
 import { hexToRgba } from "@shared/utils/colorUtils";
-import { getAuthGradient } from "@presentation/theme/authTheme";
+// import { getAuthGradient } from "@presentation/theme/authTheme"; // Removed in favor of theme.gradients
 import type { NavigationProp, RouteProp } from "@react-navigation/native";
 
 interface StudentData {
@@ -130,7 +130,7 @@ const AnimatedModernCard = ({
         transform: [{ translateY: slideAnim as any }],
       }}
     >
-      <ModernCard variant={variant as any} style={[styles.card, style]}>
+      <ModernCard variant={variant as any} style={[style]}>
         {children}
       </ModernCard>
     </Animated.View>
@@ -141,7 +141,7 @@ const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({
   route,
   navigation,
 }) => {
-  const { getString, isDarkMode } = useTheme();
+  const { getString, isDarkMode, theme } = useTheme();
   const { studentId } = route.params;
   const { userProfile, academia } = useAuthFacade();
 
@@ -235,13 +235,13 @@ const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({
   const getPaymentStatusColor = (status: string) => {
     switch (status) {
       case "paid":
-        return COLORS.success[500];
+        return theme?.success || COLORS.success[500];
       case "pending":
-        return COLORS.warning[500];
+        return theme?.warning || COLORS.warning[500];
       case "overdue":
-        return COLORS.error[500];
+        return theme?.error || COLORS.error[500];
       default:
-        return COLORS.gray[500];
+        return theme?.text?.disabled || COLORS.gray[500];
     }
   };
 
@@ -274,21 +274,79 @@ const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({
 
   if (loading && !studentInfo) {
     return (
-      <SafeAreaView style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color={COLORS.primary[500]} />
-        <Text style={{ marginTop: 10, color: COLORS.gray[400] }}>
-          {getString("loadingStudentProfile")}
-        </Text>
-      </SafeAreaView>
+      <LinearGradient colors={theme?.gradients?.hero || [COLORS.background.default, COLORS.background.default]} style={{ flex: 1 }}>
+        <SafeAreaView style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color={theme?.primary?.[500] || COLORS.primary[500]} />
+          <Text style={{ marginTop: 10, color: theme?.text?.secondary || COLORS.gray[400] }}>
+            {getString("loadingStudentProfile")}
+          </Text>
+        </SafeAreaView>
+      </LinearGradient>
     );
   }
+
+  // Define styles dynamically based on theme
+  const dynamicStyles = StyleSheet.create({
+    card: {
+      marginBottom: SPACING.md,
+      borderRadius: BORDER_RADIUS.xl,
+      backgroundColor: theme?.background?.paper
+    },
+    studentName: {
+      fontSize: FONT_SIZE.xl,
+      fontWeight: "bold",
+      color: theme?.text?.primary || COLORS.white,
+    },
+    studentEmail: {
+      fontSize: FONT_SIZE.sm,
+      color: theme?.text?.secondary || COLORS.gray[400],
+      marginBottom: SPACING.sm,
+    },
+    statValue: {
+      fontSize: FONT_SIZE.lg,
+      fontWeight: "bold",
+      color: theme?.primary?.[500] || COLORS.white,
+    },
+    statLabel: {
+      fontSize: 10,
+      color: theme?.text?.secondary || COLORS.gray[500],
+      textTransform: "uppercase",
+    },
+    sectionTitle: {
+      fontSize: FONT_SIZE.md,
+      fontWeight: "bold",
+      color: theme?.primary?.[500] || COLORS.primary[500],
+      marginBottom: SPACING.md,
+      textTransform: "uppercase",
+    },
+    subTitle: {
+      fontSize: FONT_SIZE.sm,
+      fontWeight: "bold",
+      color: theme?.text?.secondary || COLORS.gray[400],
+      marginVertical: SPACING.sm,
+    },
+    emptyText: {
+      textAlign: "center",
+      color: theme?.text?.hint || COLORS.gray[600],
+      padding: SPACING.lg,
+    },
+    finAmount: {
+      fontSize: FONT_SIZE.md,
+      fontWeight: "bold",
+      color: theme?.text?.primary || COLORS.white,
+    },
+    finLabel: { fontSize: 10, color: theme?.text?.secondary || COLORS.gray[500] },
+    iconColor: {
+      color: theme?.text?.secondary || COLORS.gray[500]
+    }
+  });
 
   return (
     <EnhancedErrorBoundary
       errorContext={{ screen: "StudentProfile", studentId }}
     >
       <LinearGradient
-        colors={getAuthGradient(isDarkMode) as any}
+        colors={theme?.gradients?.hero || [COLORS.background.default, COLORS.background.default]}
         style={styles.gradient}
       >
         <SafeAreaView style={styles.container}>
@@ -299,7 +357,7 @@ const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({
               <RefreshControl
                 refreshing={refreshing}
                 onRefresh={onRefresh}
-                tintColor={COLORS.primary[500]}
+                tintColor={theme?.primary?.[500] || COLORS.primary[500]}
               />
             }
           >
@@ -309,18 +367,18 @@ const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({
                 <Avatar.Text
                   size={80}
                   label={studentInfo?.name?.charAt(0) || "U"}
-                  style={styles.avatar}
+                  style={{ backgroundColor: theme?.primary?.[500] || COLORS.primary[500] }}
                 />
                 <View style={styles.headerTextContainer}>
-                  <Text style={styles.studentName}>{studentInfo?.name}</Text>
-                  <Text style={styles.studentEmail}>{studentInfo?.email}</Text>
+                  <Text style={dynamicStyles.studentName}>{studentInfo?.name}</Text>
+                  <Text style={dynamicStyles.studentEmail}>{studentInfo?.email}</Text>
                   <View style={styles.badgeRow}>
-                    <Chip style={styles.ageChip}>
+                    <Chip style={styles.ageChip} textStyle={{ color: theme?.text?.primary }}>
                       {calculateAge(studentInfo?.birthDate)}{" "}
                       {getString("years")}
                     </Chip>
                     {studentInfo?.currentGraduation && (
-                      <Chip icon="trophy" style={styles.beltChip}>
+                      <Chip icon="trophy" style={styles.beltChip} textStyle={{ color: theme?.warning || COLORS.warning[500] }}>
                         {studentInfo.currentGraduation}
                       </Chip>
                     )}
@@ -332,43 +390,47 @@ const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({
             {/* Quick Stats */}
             <View style={styles.statsRow}>
               <AnimatedModernCard delay={100} style={styles.statCard}>
-                <Text style={styles.statValue}>{studentClasses.length}</Text>
-                <Text style={styles.statLabel}>{getString("classes")}</Text>
+                <Text style={dynamicStyles.statValue}>{studentClasses.length}</Text>
+                <Text style={dynamicStyles.statLabel}>{getString("classes")}</Text>
               </AnimatedModernCard>
               <AnimatedModernCard delay={150} style={styles.statCard}>
-                <Text style={styles.statValue}>{graduations.length}</Text>
-                <Text style={styles.statLabel}>{getString("graduations")}</Text>
+                <Text style={dynamicStyles.statValue}>{graduations.length}</Text>
+                <Text style={dynamicStyles.statLabel}>{getString("graduations")}</Text>
               </AnimatedModernCard>
               <AnimatedModernCard delay={200} style={styles.statCard}>
-                <Text style={styles.statValue}>
+                <Text style={dynamicStyles.statValue}>
                   {payments.filter((p) => p.status === "paid").length}
                 </Text>
-                <Text style={styles.statLabel}>{getString("paid")}</Text>
+                <Text style={dynamicStyles.statLabel}>{getString("paid")}</Text>
               </AnimatedModernCard>
             </View>
 
             {/* Personal Info */}
             <AnimatedModernCard delay={250}>
               <View>
-                <Text style={styles.sectionTitle}>
+                <Text style={dynamicStyles.sectionTitle}>
                   {getString("personalInformation")}
                 </Text>
                 <List.Item
                   title={getString("phone")}
                   description={studentInfo?.phone || getString("notInformed")}
+                  titleStyle={{ color: theme?.text?.primary }}
+                  descriptionStyle={{ color: theme?.text?.secondary }}
                   left={(p) => (
-                    <List.Icon {...p} icon="phone" color={COLORS.info[500]} />
+                    <List.Icon {...p} icon="phone" color={theme?.info || COLORS.info[500]} />
                   )}
                 />
                 <Divider style={styles.divider} />
                 <List.Item
                   title={getString("address")}
                   description={studentInfo?.address || getString("notInformed")}
+                  titleStyle={{ color: theme?.text?.primary }}
+                  descriptionStyle={{ color: theme?.text?.secondary }}
                   left={(p) => (
                     <List.Icon
                       {...p}
                       icon="map-marker"
-                      color={COLORS.error[500]}
+                      color={theme?.error || COLORS.error[500]}
                     />
                   )}
                 />
@@ -376,11 +438,13 @@ const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({
                 <List.Item
                   title={getString("birthDate")}
                   description={formatDate(studentInfo?.birthDate)}
+                  titleStyle={{ color: theme?.text?.primary }}
+                  descriptionStyle={{ color: theme?.text?.secondary }}
                   left={(p) => (
                     <List.Icon
                       {...p}
                       icon="calendar-heart"
-                      color={COLORS.primary[500]}
+                      color={theme?.primary?.[500] || COLORS.primary[500]}
                     />
                   )}
                 />
@@ -390,7 +454,7 @@ const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({
             {/* Classes */}
             <AnimatedModernCard delay={300}>
               <View>
-                <Text style={styles.sectionTitle}>
+                <Text style={dynamicStyles.sectionTitle}>
                   {getString("enrolledClasses")}
                 </Text>
                 {studentClasses.length > 0 ? (
@@ -399,16 +463,19 @@ const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({
                       key={cls.id}
                       title={cls.name}
                       description={cls.modality}
+                      titleStyle={{ color: theme?.text?.primary }}
+                      descriptionStyle={{ color: theme?.text?.secondary }}
                       left={(p) => (
                         <List.Icon
                           {...p}
                           icon="school"
-                          color={COLORS.primary[500]}
+                          color={theme?.primary?.[500] || COLORS.primary[500]}
                         />
                       )}
                       right={(p) => (
                         <IconButton
                           icon="chevron-right"
+                          iconColor={theme?.text?.secondary}
                           onPress={() =>
                             navigation.navigate("ClassDetails", {
                               classId: cls.id,
@@ -419,7 +486,7 @@ const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({
                     />
                   ))
                 ) : (
-                  <Text style={styles.emptyText}>
+                  <Text style={dynamicStyles.emptyText}>
                     {getString("noClassesEnrolled")}
                   </Text>
                 )}
@@ -429,7 +496,7 @@ const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({
             {/* Graduation Timeline */}
             <AnimatedModernCard delay={350}>
               <View>
-                <Text style={styles.sectionTitle}>
+                <Text style={dynamicStyles.sectionTitle}>
                   {getString("graduationTimeline")}
                 </Text>
                 {graduations.length > 0 ? (
@@ -438,17 +505,19 @@ const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({
                       key={grad.id}
                       title={grad.graduation}
                       description={`${grad.modality} • ${formatDate(grad.date)}`}
+                      titleStyle={{ color: theme?.text?.primary }}
+                      descriptionStyle={{ color: theme?.text?.secondary }}
                       left={(p) => (
                         <List.Icon
                           {...p}
                           icon="trophy-variant"
-                          color={COLORS.warning[500]}
+                          color={theme?.warning || COLORS.warning[500]}
                         />
                       )}
                     />
                   ))
                 ) : (
-                  <Text style={styles.emptyText}>
+                  <Text style={dynamicStyles.emptyText}>
                     {getString("noGraduationsRegistered")}
                   </Text>
                 )}
@@ -460,7 +529,9 @@ const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({
                       studentName: studentInfo?.name,
                     })
                   }
-                  style={styles.addGradBtn}
+                  style={[styles.addGradBtn, { borderColor: theme?.primary?.[500] }]}
+                  textColor={theme?.primary?.[500]}
+                  buttonColor="transparent"
                 >
                   {getString("newGraduation")}
                 </AnimatedButton>
@@ -470,12 +541,12 @@ const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({
             {/* Financial Summary */}
             <AnimatedModernCard delay={400}>
               <View>
-                <Text style={styles.sectionTitle}>
+                <Text style={dynamicStyles.sectionTitle}>
                   {getString("financialSummary")}
                 </Text>
                 <View style={styles.financialIndicators}>
                   <View style={styles.finBox}>
-                    <Text style={styles.finAmount}>
+                    <Text style={dynamicStyles.finAmount}>
                       {formatCurrency(
                         payments.reduce(
                           (sum, p) =>
@@ -484,12 +555,12 @@ const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({
                         ),
                       )}
                     </Text>
-                    <Text style={styles.finLabel}>
+                    <Text style={dynamicStyles.finLabel}>
                       {getString("totalPaid")}
                     </Text>
                   </View>
                   <View style={styles.finBox}>
-                    <Text style={styles.finAmount}>
+                    <Text style={dynamicStyles.finAmount}>
                       {formatCurrency(
                         payments.reduce(
                           (sum, p) =>
@@ -498,11 +569,11 @@ const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({
                         ),
                       )}
                     </Text>
-                    <Text style={styles.finLabel}>{getString("pending")}</Text>
+                    <Text style={dynamicStyles.finLabel}>{getString("pending")}</Text>
                   </View>
                 </View>
                 <Divider style={styles.divider} />
-                <Text style={styles.subTitle}>
+                <Text style={dynamicStyles.subTitle}>
                   {getString("recentPayments")}
                 </Text>
                 {payments.slice(0, 3).map((p) => (
@@ -510,6 +581,8 @@ const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({
                     key={p.id}
                     title={formatCurrency(p.amount)}
                     description={formatDate(p.createdAt)}
+                    titleStyle={{ color: theme?.text?.primary }}
+                    descriptionStyle={{ color: theme?.text?.secondary }}
                     right={() => (
                       <Badge
                         style={{
@@ -527,6 +600,7 @@ const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({
                   onPress={() =>
                     navigation.navigate("StudentPayments", { studentId })
                   }
+                  textColor={theme?.primary?.[500]}
                 >
                   {getString("viewAllPayments")}
                 </AnimatedButton>
@@ -544,6 +618,7 @@ const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({
                   })
                 }
                 style={{ flex: 1 }}
+                buttonColor={theme?.primary?.[500]}
               >
                 {getString("editProfile")}
               </AnimatedButton>
@@ -562,24 +637,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: COLORS.background.default,
+    backgroundColor: 'transparent',
   },
   scrollView: { flex: 1 },
   scrollContent: { padding: SPACING.base, paddingBottom: 150, flexGrow: 1 },
-  card: { marginBottom: SPACING.md, borderRadius: BORDER_RADIUS.xl },
   headerRow: { flexDirection: "row", alignItems: "center" },
-  avatar: { backgroundColor: COLORS.primary[500] },
   headerTextContainer: { marginLeft: SPACING.lg, flex: 1 },
-  studentName: {
-    fontSize: FONT_SIZE.xl,
-    fontWeight: "bold",
-    color: COLORS.white,
-  },
-  studentEmail: {
-    fontSize: FONT_SIZE.sm,
-    color: COLORS.gray[400],
-    marginBottom: SPACING.sm,
-  },
   badgeRow: { flexDirection: "row", gap: SPACING.xs },
   ageChip: { height: 28, backgroundColor: hexToRgba(COLORS.white, 0.1) },
   beltChip: {
@@ -593,37 +656,9 @@ const styles = StyleSheet.create({
     paddingVertical: SPACING.md,
     marginBottom: 0,
   },
-  statValue: {
-    fontSize: FONT_SIZE.lg,
-    fontWeight: "bold",
-    color: COLORS.white,
-  },
-  statLabel: {
-    fontSize: 10,
-    color: COLORS.gray[500],
-    textTransform: "uppercase",
-  },
-  sectionTitle: {
-    fontSize: FONT_SIZE.md,
-    fontWeight: "bold",
-    color: COLORS.primary[500],
-    marginBottom: SPACING.md,
-    textTransform: "uppercase",
-  },
-  subTitle: {
-    fontSize: FONT_SIZE.sm,
-    fontWeight: "bold",
-    color: COLORS.gray[400],
-    marginVertical: SPACING.sm,
-  },
   divider: {
     marginVertical: SPACING.sm,
     backgroundColor: hexToRgba(COLORS.white, 0.05),
-  },
-  emptyText: {
-    textAlign: "center",
-    color: COLORS.gray[600],
-    padding: SPACING.lg,
   },
   addGradBtn: { marginTop: SPACING.md },
   financialIndicators: {
@@ -632,12 +667,6 @@ const styles = StyleSheet.create({
     paddingVertical: SPACING.sm,
   },
   finBox: { alignItems: "center" },
-  finAmount: {
-    fontSize: FONT_SIZE.md,
-    fontWeight: "bold",
-    color: COLORS.white,
-  },
-  finLabel: { fontSize: 10, color: COLORS.gray[500] },
   footerActions: {
     flexDirection: "row",
     gap: SPACING.md,

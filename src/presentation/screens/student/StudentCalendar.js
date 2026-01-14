@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
@@ -6,7 +6,6 @@ import { useTheme } from '@contexts/ThemeContext';
 import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
 import FreeGymScheduler from '@components/FreeGymScheduler';
 import { useCustomClaims } from '@hooks/useCustomClaims';
-import { COLORS } from '@presentation/theme/designTokens';
 
 /**
  * Calendário do Aluno usando FreeGymScheduler
@@ -14,11 +13,13 @@ import { COLORS } from '@presentation/theme/designTokens';
  */
 const StudentCalendar = ({ navigation }) => {
   const { user, userProfile } = useAuthFacade();
-  const { getString } = useTheme();
+  const { getString, theme } = useTheme();
   const { isStudent } = useCustomClaims();
   const [classes, setClasses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+
+  const styles = useMemo(() => createStyles(theme.colors), [theme.colors]);
 
   // Carregar turmas do aluno
   const loadClasses = useCallback(async () => {
@@ -81,15 +82,16 @@ const StudentCalendar = ({ navigation }) => {
         onDatePress={handleDatePress}
         onCreateClass={null} // Alunos não podem criar turmas
         navigation={navigation}
+        theme={theme} // Pass theme if FreeGymScheduler supports it, otherwise reliance on context or defaults
       />
     </SafeAreaView>
   );
 };
 
-const styles = StyleSheet.create({
+const createStyles = (colors) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.gray[100]
+    backgroundColor: colors.background
   }
 });
 

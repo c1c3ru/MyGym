@@ -15,20 +15,20 @@ import {
 import { useScheduleConflictValidator } from '@utils/scheduleConflictValidator';
 import ConflictWarning from './ConflictWarning';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getString } from "@utils/theme";
+
 
 const ScheduleSelector = ({
   value = null,
   onScheduleChange,
   duration = 60,
-  timezone = getString('timezone'),
+  timezone: timezoneProp,
   startHour = 6,
   endHour = 22,
   interval = 60,
   style,
   disabled = false,
   required = false,
-  label = getString('classSchedules'),
+  label: labelProp,
   // Validação de conflitos
   enableConflictValidation = false,
   instructorId = null,
@@ -36,6 +36,10 @@ const ScheduleSelector = ({
   onConflictDetected = null
 }) => {
   const { colors, getString } = useTheme();
+
+  const timezone = timezoneProp || getString('timezone');
+  const label = labelProp || getString('classSchedules');
+
   const { userProfile } = useAuthFacade();
   const [schedule, setSchedule] = useState(() =>
     value && isValidSchedule(value) ? value : createEmptySchedule()

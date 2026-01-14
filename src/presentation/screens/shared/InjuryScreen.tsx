@@ -24,7 +24,7 @@ import { firestoreService } from '@infrastructure/services/firestoreService';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { getAuthGradient } from '@presentation/theme/authTheme';
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
-import { getString } from "@utils/theme";
+
 
 interface Injury {
   id?: string;
@@ -64,6 +64,7 @@ interface InjuryScreenProps {
 
 const InjuryScreen = ({ navigation, route }: InjuryScreenProps) => {
   const { user, academia } = useAuth();
+  const { getString } = useTheme();
   const { injury, isEditing = false } = route.params || {};
 
   const [loading, setLoading] = useState(false);

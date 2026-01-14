@@ -1,6 +1,6 @@
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from '@infrastructure/services/firebase';
-import { getString } from "@utils/theme";
+
 
 // Dados padrão para inicialização de academias
 const defaultModalities = [
@@ -21,7 +21,7 @@ const defaultModalities = [
     {
         name: "Muay Thai",
         description: "Arte marcial tailandesa conhecida como 'a arte dos oito membros'",
-        graduationLevels: ["Iniciante", "Básico", "Intermediário", "Avançado", getString('instructor'), "Professor"],
+        graduationLevels: ["Iniciante", "Básico", "Intermediário", "Avançado", "Instrutor", "Professor"],
         monthlyPrice: 130.00,
         isActive: true
     }
@@ -90,7 +90,7 @@ export const initializeAcademySubcollections = async (academiaId) => {
                 createdAt: new Date(),
                 updatedAt: new Date()
             };
-            
+
             await addDoc(collection(db, `gyms/${academiaId}/modalities`), modalityData);
         }
 
@@ -102,7 +102,7 @@ export const initializeAcademySubcollections = async (academiaId) => {
                 createdAt: new Date(),
                 updatedAt: new Date()
             };
-            
+
             await addDoc(collection(db, `gyms/${academiaId}/plans`), planData);
         }
 
@@ -114,12 +114,12 @@ export const initializeAcademySubcollections = async (academiaId) => {
                 createdAt: new Date(),
                 updatedAt: new Date()
             };
-            
+
             await addDoc(collection(db, `gyms/${academiaId}/announcements`), announcementData);
         }
 
         console.log('✅ Subcoleções inicializadas com sucesso!');
-        
+
     } catch (error) {
         console.error('❌ Erro ao inicializar subcoleções:', error);
         throw error;
@@ -162,12 +162,12 @@ export const createSampleData = async (academiaId) => {
                 createdAt: new Date(),
                 updatedAt: new Date()
             };
-            
+
             await addDoc(collection(db, `gyms/${academiaId}/instructors`), instructorData);
         }
 
         console.log('✅ Dados de exemplo criados com sucesso!');
-        
+
     } catch (error) {
         console.error('❌ Erro ao criar dados de exemplo:', error);
         throw error;

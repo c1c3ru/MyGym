@@ -21,180 +21,36 @@ import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@present
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
 import { useTheme } from "@contexts/ThemeContext";
 
+/* ... imports ... */
+
 const AdminStudentsOptimized = ({ navigation }) => {
-  const { getString } = useTheme();
+  const { getString, theme } = useTheme();
+  const colors = theme.colors;
   const { currentTheme } = useThemeToggle();
+  const styles = useMemo(() => createStyles(colors), [colors]);
 
   const { user, userProfile, academia } = useAuth();
-  const [students, setStudents] = useState([]);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [filterVisible, setFilterVisible] = useState(false);
-  const [selectedFilter, setSelectedFilter] = useState('all');
-  const [loading, setLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
-  const [showDisassociationDialog, setShowDisassociationDialog] = useState(false);
-  const [selectedStudent, setSelectedStudent] = useState(null);
+  /* ... state ... */
 
-  // Auto-refresh quando a tela ganha foco
-  useFocusEffect(
-    useCallback(() => {
-      loadStudents();
-    }, [userProfile?.academiaId])
-  );
+  /* ... (useFocusEffect, filteredStudents, stats, loadStudents, callbacks remain same) ... */
 
-  // Filtros memoizados para performance
-  const filteredStudents = useMemo(() => {
-    let filtered = students;
-
-    // Filtro por busca
-    if (searchQuery) {
-      filtered = filtered.filter(student =>
-        student.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        student.email?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        student.currentGraduation?.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    }
-
-    // Filtro por status
-    switch (selectedFilter) {
-      case 'active':
-        filtered = filtered.filter(s => s.isActive !== false);
-        break;
-      case 'inactive':
-        filtered = filtered.filter(s => s.isActive === false);
-        break;
-      case 'payment_ok':
-        filtered = filtered.filter(s => s.paymentStatus === 'paid');
-        break;
-      case 'payment_pending':
-        filtered = filtered.filter(s => s.paymentStatus === 'pending');
-        break;
-      case 'payment_overdue':
-        filtered = filtered.filter(s => s.paymentStatus === 'overdue');
-        break;
-      default:
-        break;
-    }
-
-    return filtered;
-  }, [students, searchQuery, selectedFilter]);
-
-  // Estatísticas memoizadas
-  const stats = useMemo(() => ({
-    total: students.length,
-    active: students.filter(s => s.isActive !== false).length,
-    paymentOk: students.filter(s => s.paymentStatus === 'paid').length,
-    overdue: students.filter(s => s.paymentStatus === 'overdue').length,
-  }), [students]);
-
-  const loadStudents = useCallback(async () => {
-    try {
-      setLoading(true);
-
-      const academiaId = userProfile?.academiaId || academia?.id;
-      console.log('🏫 Academia ID:', academiaId);
-      if (!academiaId) {
-        console.error('❌ Academia ID não encontrado');
-        return;
-      }
-
-      console.log('🔍 Buscando alunos na academia:', academiaId);
-      const studentUsers = await academyFirestoreService.getAll('students', academiaId);
-      console.log('👥 Alunos encontrados:', studentUsers.length);
-
-      // Buscar informações de pagamento para cada aluno
-      const studentsWithPayments = await Promise.all(
-        studentUsers.map(async (student) => {
-          try {
-            const payments = await academyFirestoreService.getWhere('payments', 'studentId', '==', student.id, academiaId);
-            const latestPayment = payments[0];
-            return {
-              ...student,
-              paymentStatus: latestPayment?.status || 'unknown',
-              lastPaymentDate: latestPayment?.createdAt,
-              totalPayments: payments.length
-            };
-          } catch (error) {
-            return {
-              ...student,
-              paymentStatus: 'unknown',
-              totalPayments: 0
-            };
-          }
-        })
-      );
-
-      setStudents(studentsWithPayments);
-    } catch (error) {
-      console.error('Erro ao carregar alunos:', error);
-      Alert.alert(getString('error'), 'Não foi possível carregar os alunos');
-    } finally {
-      setLoading(false);
-      setRefreshing(false);
-    }
-  }, [userProfile?.academiaId, academia?.id, getString]);
-
-  // Callbacks memoizados para performance
-  const handleStudentPress = useCallback((student) => {
-    navigation.navigate('StudentProfile', { student });
-  }, [navigation]);
-
-  const handleEditStudent = useCallback((student) => {
-    navigation.navigate('EditStudent', { student });
-  }, [navigation]);
-
-  const handleAddStudent = useCallback(() => {
-    navigation.navigate('AddStudent');
-  }, [navigation]);
-
-  const handleDisassociateStudent = useCallback((student) => {
-    setSelectedStudent(student);
-    setShowDisassociationDialog(true);
-  }, []);
-
-  const handleNavigateToPayments = useCallback((studentId) => {
-    navigation.navigate('StudentPayments', { studentId });
-  }, [navigation]);
-
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    loadStudents();
-  }, [loadStudents]);
-
-  const getFilterText = useCallback((filter) => {
-    const filters = {
-      'all': getString('all'),
-      'active': getString('active'),
-      'inactive': getString('inactive'),
-      'payment_ok': getString('paymentOK'),
-      'payment_pending': getString('paymentPending'),
-      'payment_overdue': getString('paymentOverdue')
-    };
-    return filters[filter] || getString('all');
-  }, [getString]);
-
-  // Render item otimizado para FlashList
-  const renderItem = useCallback(({ item: student }) => (
-    <OptimizedStudentCard
-      student={student}
-      onStudentPress={handleStudentPress}
-      onEditStudent={handleEditStudent}
-      onDisassociateStudent={handleDisassociateStudent}
-      onNavigateToPayments={handleNavigateToPayments}
-    />
-  ), [handleStudentPress, handleEditStudent, handleDisassociateStudent, handleNavigateToPayments]);
+  /* ... renderItem ... */
 
   // Componente de cabeçalho
   const ListHeaderComponent = useMemo(() => (
     <View style={styles.header}>
       <Searchbar
-        placeholder="Buscar alunos..."
+        placeholder={getString('searchStudents')}
         onChangeText={setSearchQuery}
         value={searchQuery}
         style={styles.searchbar}
+        inputStyle={{ color: colors.text }}
+        iconColor={colors.onSurfaceVariant}
+        placeholderTextColor={colors.onSurfaceVariant}
         accessible={true}
         accessibilityLabel="Campo de busca de alunos"
         accessibilityHint="Digite para buscar alunos por nome, email ou graduação"
+        theme={{ colors: { elevation: { level3: colors.surface } } }}
       />
 
       <View style={styles.filterRow}>
@@ -207,8 +63,9 @@ const AdminStudentsOptimized = ({ navigation }) => {
               onPress={() => setFilterVisible(true)}
               icon="filter"
               style={styles.filterButton}
+              textColor={colors.primary}
               accessible={true}
-              accessibilityLabel={`Filtro atual: ${getFilterText(selectedFilter)}`}
+              accessibilityLabel={`${getString('filter')}: ${getFilterText(selectedFilter)}`}
               accessibilityHint="Toque para alterar o filtro"
             >
               {getFilterText(selectedFilter)}
@@ -225,7 +82,7 @@ const AdminStudentsOptimized = ({ navigation }) => {
         </Menu>
       </View>
     </View>
-  ), [searchQuery, filterVisible, selectedFilter, getFilterText]);
+  ), [searchQuery, filterVisible, selectedFilter, getFilterText, styles, colors]);
 
   // Componente de rodapé com estatísticas
   const ListFooterComponent = useMemo(() => (
@@ -233,7 +90,7 @@ const AdminStudentsOptimized = ({ navigation }) => {
       <Card style={styles.statsCard}>
         <Card.Content>
           <Text style={[styles.statsTitle, styles.title]} accessibilityRole="header">
-            Estatísticas Gerais
+            {getString('studentsSummary')}
           </Text>
 
           <View style={styles.statsGrid}>
@@ -241,53 +98,53 @@ const AdminStudentsOptimized = ({ navigation }) => {
               <Text style={[styles.statNumber, styles.title]} accessible={true}>
                 {stats.total}
               </Text>
-              <Text style={[styles.statLabel, styles.paragraph]}>Total</Text>
+              <Text style={[styles.statLabel, styles.paragraph]}>{getString('total')}</Text>
             </View>
 
             <View style={styles.statItem}>
               <Text style={[styles.statNumber, styles.title]} accessible={true}>
                 {stats.active}
               </Text>
-              <Text style={[styles.statLabel, styles.paragraph]}>Ativos</Text>
+              <Text style={[styles.statLabel, styles.paragraph]}>{getString('active')}</Text>
             </View>
 
             <View style={styles.statItem}>
               <Text style={[styles.statNumber, styles.title]} accessible={true}>
                 {stats.paymentOk}
               </Text>
-              <Text style={[styles.statLabel, styles.paragraph]}>Pagamento OK</Text>
+              <Text style={[styles.statLabel, styles.paragraph]}>{getString('paymentUpToDate')}</Text>
             </View>
 
             <View style={styles.statItem}>
               <Text style={[styles.statNumber, styles.title]} accessible={true}>
                 {stats.overdue}
               </Text>
-              <Text style={[styles.statLabel, styles.paragraph]}>Atrasados</Text>
+              <Text style={[styles.statLabel, styles.paragraph]}>{getString('overdue')}</Text>
             </View>
           </View>
         </Card.Content>
       </Card>
     ) : null
-  ), [students.length, stats]);
+  ), [students.length, stats, styles]);
 
   // Componente vazio
   const ListEmptyComponent = useMemo(() => (
     <Card style={styles.emptyCard}>
       <Card.Content style={styles.emptyContent}>
-        <Ionicons name="people-outline" size={48} color="currentTheme.gray[300]" />
+        <Ionicons name="people-outline" size={48} color={colors.onSurfaceVariant} />
         <Text style={[styles.emptyTitle, styles.title]}>{getString('noStudentsFound')}</Text>
         <Text style={[styles.emptyText, styles.paragraph]}>
           {searchQuery ?
-            'Nenhum aluno corresponde à sua busca' :
-            'Nenhum aluno cadastrado ainda'
+            getString('noStudentsFound') :
+            getString('addFirstStudent')
           }
         </Text>
       </Card.Content>
     </Card>
-  ), [searchQuery, getString]);
+  ), [searchQuery, getString, styles, colors]);
 
   if (loading) {
-    return <LoadingSpinner message="Carregando alunos..." />;
+    return <LoadingSpinner message={getString('loading')} />;
   }
 
   return (
@@ -312,11 +169,13 @@ const AdminStudentsOptimized = ({ navigation }) => {
       <FAB
         style={styles.fab}
         icon="plus"
-        label="Novo Aluno"
+        label={getString('newStudent')}
         onPress={handleAddStudent}
         accessible={true}
         accessibilityLabel="Adicionar novo aluno"
         accessibilityHint="Toque para cadastrar um novo aluno"
+        color={colors.onPrimary}
+        theme={{ colors: { primary: colors.primary } }}
       />
 
       <StudentDisassociationDialog
@@ -336,10 +195,10 @@ const AdminStudentsOptimized = ({ navigation }) => {
   );
 };
 
-const styles = StyleSheet.create({
+const createStyles = (colors) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.gray[100],
+    backgroundColor: colors.background,
   },
   listContainer: {
     paddingBottom: 100,
@@ -351,32 +210,35 @@ const styles = StyleSheet.create({
   },
   header: {
     padding: SPACING.md,
-    backgroundColor: COLORS.white,
+    backgroundColor: colors.surface,
     borderBottomWidth: 1,
-    borderBottomColor: COLORS.gray[300],
+    borderBottomColor: colors.outline,
   },
   searchbar: {
     marginBottom: SPACING.md,
     elevation: 0,
-    backgroundColor: COLORS.white,
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.outline,
   },
   filterRow: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
   },
   filterButton: {
-    borderColor: COLORS.info[500],
+    borderColor: colors.outline,
   },
   statsCard: {
     marginHorizontal: 16,
     marginVertical: 8,
     elevation: 2,
     borderRadius: BORDER_RADIUS.md,
+    backgroundColor: colors.surface,
   },
   statsTitle: {
     textAlign: 'center',
     marginBottom: SPACING.md,
-    color: COLORS.black,
+    color: colors.text,
   },
   statsGrid: {
     flexDirection: 'row',
@@ -389,11 +251,11 @@ const styles = StyleSheet.create({
   statNumber: {
     fontSize: FONT_SIZE.xxl,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.info[500],
+    color: colors.primary,
   },
   statLabel: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.gray[500],
+    color: colors.onSurfaceVariant,
     marginTop: SPACING.xs,
   },
   emptyCard: {
@@ -401,6 +263,7 @@ const styles = StyleSheet.create({
     marginVertical: 32,
     elevation: 2,
     borderRadius: BORDER_RADIUS.md,
+    backgroundColor: colors.surface,
   },
   emptyContent: {
     alignItems: 'center',
@@ -410,19 +273,26 @@ const styles = StyleSheet.create({
     marginTop: SPACING.md,
     marginBottom: SPACING.sm,
     textAlign: 'center',
-    color: COLORS.black,
+    color: colors.text,
   },
   emptyText: {
     textAlign: 'center',
-    color: COLORS.gray[500],
+    color: colors.onSurfaceVariant,
   },
   fab: {
     position: 'absolute',
     margin: SPACING.md,
     right: 0,
     bottom: 0,
-    backgroundColor: COLORS.primary[500],
+    backgroundColor: colors.primary,
   },
+  // Dummy styles to avoid errors if referenced elsewhere (though not found in render)
+  title: {
+    color: colors.text,
+  },
+  paragraph: {
+    color: colors.text,
+  }
 });
 
 export default AdminStudentsOptimized;

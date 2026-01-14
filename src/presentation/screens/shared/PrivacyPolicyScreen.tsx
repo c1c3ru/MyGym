@@ -5,10 +5,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import ActionButton from '@components/ActionButton';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
-import { getString } from "@utils/theme";
+import { useTheme } from "@contexts/ThemeContext";
 
 const PrivacyPolicyScreen = ({ navigation }: any) => {
   const { currentTheme } = useThemeToggle();
+  const { getString } = useTheme();
 
   const lastUpdated = new Date().toLocaleDateString('pt-BR');
 

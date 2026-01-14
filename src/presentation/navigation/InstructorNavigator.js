@@ -116,7 +116,7 @@ const InstructorNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title="Agendar Aulas"
+              title={getString('scheduleClasses')}
               navigation={navigation}
               showBack={true}
               backgroundColor={COLORS.secondary[500]}
@@ -221,7 +221,7 @@ const InstructorNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title="Perfil do Aluno"
+              title={getString('studentDetails')}
               navigation={navigation}
               showBack={true}
               backgroundColor={COLORS.secondary[500]}
@@ -236,7 +236,7 @@ const InstructorNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title="Nova Graduação"
+              title={getString('newGraduation')}
               navigation={navigation}
               showBack={true}
               backgroundColor={COLORS.secondary[500]}
@@ -253,7 +253,7 @@ const InstructorNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title="Profile"
+              title={getString('profile')}
               navigation={navigation}
               showBack={true}
               backgroundColor={COLORS.secondary[500]}
@@ -283,7 +283,7 @@ const InstructorNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title="ChangePassword"
+              title={getString('changePassword')}
               navigation={navigation}
               showBack={true}
               backgroundColor={COLORS.secondary[500]}
@@ -298,7 +298,7 @@ const InstructorNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title="Avaliação Física"
+              title={getString('physicalEvaluation')}
               navigation={navigation}
               showBack={true}
               backgroundColor={COLORS.secondary[500]}
@@ -313,7 +313,7 @@ const InstructorNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title="evaluationHistory"
+              title={getString('evaluationHistory')}
               navigation={navigation}
               showBack={true}
               backgroundColor={COLORS.secondary[500]}
@@ -328,7 +328,7 @@ const InstructorNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title="NotificationSettings"
+              title={getString('notificationSettings')}
               navigation={navigation}
               showBack={true}
               backgroundColor={COLORS.secondary[500]}
@@ -343,7 +343,7 @@ const InstructorNavigator = () => {
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
-              title="privacyAndSecurity"
+              title={getString('privacyAndSecurity')}
               navigation={navigation}
               showBack={true}
               backgroundColor={COLORS.secondary[500]}

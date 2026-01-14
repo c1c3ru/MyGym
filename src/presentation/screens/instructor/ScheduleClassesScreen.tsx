@@ -27,6 +27,7 @@ import { COLORS, SPACING, FONT_SIZE, FONT_WEIGHT, BORDER_RADIUS } from '@present
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
 // import { getAuthGradient } from '@presentation/theme/authTheme';
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
+import { useProfileTheme } from '../../../contexts/ProfileThemeContext';
 
 interface ScheduleClassesScreenProps {
   navigation: NavigationProp<any>;
@@ -35,6 +36,7 @@ interface ScheduleClassesScreenProps {
 
 const ScheduleClassesScreen = ({ navigation, route }: ScheduleClassesScreenProps) => {
   const { getString } = useTheme();
+  const { theme: profileTheme } = useProfileTheme();
 
   const { user, userProfile } = useAuthFacade();
   const { classes: initialClasses = [] } = (route.params as any) || {};
@@ -170,200 +172,224 @@ const ScheduleClassesScreen = ({ navigation, route }: ScheduleClassesScreenProps
   };
 
   return (
-    <SafeAreaView style={styles.container} edges={['bottom']}>
-      <ScrollView style={styles.scrollView}>
-        {/* Seleção de Turmas */}
-        <Card style={styles.card}>
-          <Card.Content>
-            <View style={styles.header}>
-              <MaterialCommunityIcons name="school" size={28} color={COLORS.primary[500]} />
-              <Text style={styles.title}>Selecione as Turmas</Text>
-            </View>
-            <Text style={styles.subtitle}>
-              {selectedClasses.size} turma(s) selecionada(s)
-            </Text>
-
-            {classes.length > 0 ? (
-              classes.map((classItem: any) => (
-                <List.Item
-                  key={classItem.id}
-                  title={classItem.name}
-                  description={`${classItem.modality || getString('modality')} • ${classItem.students?.length || 0} alunos`}
-                  left={() => (
-                    <Checkbox
-                      status={selectedClasses.has(classItem.id) ? 'checked' : 'unchecked'}
-                      onPress={() => toggleClassSelection(classItem.id)}
-                    />
-                  )}
-                  onPress={() => toggleClassSelection(classItem.id)}
-                  style={[
-                    styles.classItem,
-                    selectedClasses.has(classItem.id) && styles.classItemSelected
-                  ]}
-                />
-              ))
-            ) : (
-              <View style={styles.emptyState}>
-                <MaterialCommunityIcons name="school" size={48} color={COLORS.gray[300]} />
-                <Text style={styles.emptyText}>{getString('noClassesFound')}</Text>
-                <Button
-                  mode="contained"
-                  onPress={() => navigation.navigate('addClassScreen')}
-                  style={styles.createButton}
-                >
-                  Criar Turma
-                </Button>
-              </View>
-            )}
-          </Card.Content>
-        </Card>
-
-        {/* Detalhes da Aula */}
-        <Card style={styles.card}>
-          <Card.Content>
-            <View style={styles.header}>
-              <MaterialCommunityIcons name="calendar-clock" size={28} color={COLORS.secondary[500]} />
-              <Text style={styles.title}>Detalhes da Aula</Text>
-            </View>
-
-            {/* Data */}
-            <Text style={styles.label}>Data da Aula *</Text>
-            <Button
-              mode="outlined"
-              onPress={() => setShowDatePicker(true)}
-              icon="calendar"
-              style={styles.dateButton}
-            >
-              {formatDate(classDate)}
-            </Button>
-
-            {showDatePicker && (
-              <DateTimePicker
-                value={classDate}
-                mode="date"
-                display="default"
-                onChange={(event, selectedDate) => {
-                  setShowDatePicker(false);
-                  if (selectedDate) setClassDate(selectedDate);
-                }}
-                minimumDate={new Date()}
-              />
-            )}
-
-            {/* Hora */}
-            <Text style={styles.label}>Horário *</Text>
-            <Button
-              mode="outlined"
-              onPress={() => setShowTimePicker(true)}
-              icon="clock-outline"
-              style={styles.dateButton}
-            >
-              {formatTime(classTime)}
-            </Button>
-
-            {showTimePicker && (
-              <DateTimePicker
-                value={classTime}
-                mode="time"
-                display="default"
-                onChange={(event, selectedTime) => {
-                  setShowTimePicker(false);
-                  if (selectedTime) setClassTime(selectedTime);
-                }}
-              />
-            )}
-
-            {/* Duração */}
-            <Text style={styles.label}>Duração (minutos) *</Text>
-            <View style={styles.durationChips}>
-              {['30', '45', '60', '90', '120'].map((min) => (
-                <Chip
-                  key={min}
-                  selected={duration === min}
-                  onPress={() => setDuration(min)}
-                  style={styles.chip}
-                >
-                  {min} min
-                </Chip>
-              ))}
-            </View>
-
-            {/* Tema */}
-            <TextInput
-              label="Tema da Aula *"
-              value={topic}
-              onChangeText={setTopic}
-              mode="outlined"
-              style={styles.input}
-              placeholder="Ex: Fundamentos de Defesa"
-            />
-
-            {/* Observações */}
-            <TextInput
-              label="optionalObservations"
-              value={notes}
-              onChangeText={setNotes}
-              mode="outlined"
-              multiline
-              numberOfLines={3}
-              style={styles.input}
-              placeholder="Materiais necessários, avisos, etc."
-            />
-          </Card.Content>
-        </Card>
-
-        {/* Resumo */}
-        {selectedClasses.size > 0 && (
-          <Card style={styles.card}>
+    <LinearGradient colors={profileTheme.gradients.hero as [string, string, ...string[]]} style={{ flex: 1 }}>
+      <SafeAreaView style={[styles.container, { backgroundColor: 'transparent' }]} edges={['bottom']}>
+        <ScrollView style={styles.scrollView}>
+          {/* Seleção de Turmas */}
+          <Card style={[styles.card, { backgroundColor: profileTheme.background.paper }]}>
             <Card.Content>
               <View style={styles.header}>
-                <MaterialCommunityIcons name="information" size={28} color={COLORS.info[500]} />
-                <Text style={styles.title}>Resumo</Text>
+                <MaterialCommunityIcons name="school" size={28} color={profileTheme.primary[500]} />
+                <Text style={[styles.title, { color: profileTheme.text.primary }]}>Selecione as Turmas</Text>
               </View>
-              <Text style={styles.summaryText}>
-                📅 {formatDate(classDate)} às {formatTime(classTime)}
+              <Text style={[styles.subtitle, { color: profileTheme.text.secondary }]}>
+                {selectedClasses.size} turma(s) selecionada(s)
               </Text>
-              <Text style={styles.summaryText}>
-                ⏱️ Duração: {duration} minutos
-              </Text>
-              <Text style={styles.summaryText}>
-                🏫 {selectedClasses.size} turma(s) selecionada(s)
-              </Text>
-              {topic && (
-                <Text style={styles.summaryText}>
-                  📚 Tema: {topic}
-                </Text>
+
+              {classes.length > 0 ? (
+                classes.map((classItem: any) => (
+                  <List.Item
+                    key={classItem.id}
+                    title={classItem.name}
+                    description={`${classItem.modality || getString('modality')} • ${classItem.students?.length || 0} alunos`}
+                    titleStyle={{ color: profileTheme.text.primary }}
+                    descriptionStyle={{ color: profileTheme.text.secondary }}
+                    left={() => (
+                      <Checkbox
+                        status={selectedClasses.has(classItem.id) ? 'checked' : 'unchecked'}
+                        onPress={() => toggleClassSelection(classItem.id)}
+                        color={profileTheme.primary[500]}
+                        uncheckedColor={profileTheme.text.disabled}
+                      />
+                    )}
+                    onPress={() => toggleClassSelection(classItem.id)}
+                    style={[
+                      styles.classItem,
+                      { backgroundColor: profileTheme.background.default },
+                      selectedClasses.has(classItem.id) && {
+                        backgroundColor: profileTheme.primary[100],
+                        borderColor: profileTheme.primary[500],
+                        borderWidth: 1
+                      }
+                    ]}
+                  />
+                ))
+              ) : (
+                <View style={styles.emptyState}>
+                  <MaterialCommunityIcons name="school" size={48} color={profileTheme.text.disabled} />
+                  <Text style={[styles.emptyText, { color: profileTheme.text.secondary }]}>{getString('noClassesFound')}</Text>
+                  <Button
+                    mode="contained"
+                    onPress={() => navigation.navigate('addClassScreen')}
+                    style={[styles.createButton, { backgroundColor: profileTheme.primary[500] }]}
+                    labelStyle={{ color: COLORS.white }}
+                  >
+                    Criar Turma
+                  </Button>
+                </View>
               )}
             </Card.Content>
           </Card>
-        )}
-      </ScrollView>
 
-      {/* Botões de Ação */}
-      <View style={styles.actions}>
-        <Button
-          mode="outlined"
-          onPress={() => navigation.goBack()}
-          style={styles.button}
-        >{getString('cancel')}</Button>
-        <Button
-          mode="contained"
-          onPress={handleSchedule}
-          loading={loading}
-          disabled={loading || selectedClasses.size === 0}
-          style={[styles.button, styles.scheduleButton]}
-        >
-          Agendar Aula
-        </Button>
-      </View>
-    </SafeAreaView>
+          {/* Detalhes da Aula */}
+          <Card style={[styles.card, { backgroundColor: profileTheme.background.paper }]}>
+            <Card.Content>
+              <View style={styles.header}>
+                <MaterialCommunityIcons name="calendar-clock" size={28} color={profileTheme.secondary[500]} />
+                <Text style={[styles.title, { color: profileTheme.text.primary }]}>Detalhes da Aula</Text>
+              </View>
+
+              {/* Data */}
+              <Text style={[styles.label, { color: profileTheme.text.primary }]}>Data da Aula *</Text>
+              <Button
+                mode="outlined"
+                onPress={() => setShowDatePicker(true)}
+                icon="calendar"
+                style={[styles.dateButton, { borderColor: profileTheme.primary[500] }]}
+                textColor={profileTheme.primary[500]}
+              >
+                {formatDate(classDate)}
+              </Button>
+
+              {showDatePicker && (
+                <DateTimePicker
+                  value={classDate}
+                  mode="date"
+                  display="default"
+                  onChange={(event, selectedDate) => {
+                    setShowDatePicker(false);
+                    if (selectedDate) setClassDate(selectedDate);
+                  }}
+                  minimumDate={new Date()}
+                />
+              )}
+
+              {/* Hora */}
+              <Text style={[styles.label, { color: profileTheme.text.primary }]}>Horário *</Text>
+              <Button
+                mode="outlined"
+                onPress={() => setShowTimePicker(true)}
+                icon="clock-outline"
+                style={[styles.dateButton, { borderColor: profileTheme.primary[500] }]}
+                textColor={profileTheme.primary[500]}
+              >
+                {formatTime(classTime)}
+              </Button>
+
+              {showTimePicker && (
+                <DateTimePicker
+                  value={classTime}
+                  mode="time"
+                  display="default"
+                  onChange={(event, selectedTime) => {
+                    setShowTimePicker(false);
+                    if (selectedTime) setClassTime(selectedTime);
+                  }}
+                />
+              )}
+
+              {/* Duração */}
+              <Text style={[styles.label, { color: profileTheme.text.primary }]}>Duração (minutos) *</Text>
+              <View style={styles.durationChips}>
+                {['30', '45', '60', '90', '120'].map((min) => (
+                  <Chip
+                    key={min}
+                    selected={duration === min}
+                    onPress={() => setDuration(min)}
+                    style={[
+                      styles.chip,
+                      duration === min ? { backgroundColor: profileTheme.secondary[500] } : { backgroundColor: profileTheme.background.default, borderColor: profileTheme.text.disabled, borderWidth: 1 }
+                    ]}
+                    textStyle={duration === min ? { color: COLORS.white } : { color: profileTheme.text.primary }}
+                    showSelectedOverlay={true}
+                  >
+                    {min} min
+                  </Chip>
+                ))}
+              </View>
+
+              {/* Tema */}
+              <TextInput
+                label="Tema da Aula *"
+                value={topic}
+                onChangeText={setTopic}
+                mode="outlined"
+                style={[styles.input, { backgroundColor: profileTheme.background.default }]}
+                placeholder="Ex: Fundamentos de Defesa"
+                textColor={profileTheme.text.primary}
+                theme={{ colors: { primary: profileTheme.primary[500], outline: profileTheme.text.disabled } }}
+              />
+
+              {/* Observações */}
+              <TextInput
+                label="optionalObservations"
+                value={notes}
+                onChangeText={setNotes}
+                mode="outlined"
+                multiline
+                numberOfLines={3}
+                style={[styles.input, { backgroundColor: profileTheme.background.default }]}
+                placeholder="Materiais necessários, avisos, etc."
+                textColor={profileTheme.text.primary}
+                theme={{ colors: { primary: profileTheme.primary[500], outline: profileTheme.text.disabled } }}
+              />
+            </Card.Content>
+          </Card>
+
+          {/* Resumo */}
+          {selectedClasses.size > 0 && (
+            <Card style={[styles.card, { backgroundColor: profileTheme.background.paper }]}>
+              <Card.Content>
+                <View style={styles.header}>
+                  <MaterialCommunityIcons name="information" size={28} color={profileTheme.info || COLORS.info[500]} />
+                  <Text style={[styles.title, { color: profileTheme.text.primary }]}>Resumo</Text>
+                </View>
+                <Text style={[styles.summaryText, { color: profileTheme.text.primary }]}>
+                  📅 {formatDate(classDate)} às {formatTime(classTime)}
+                </Text>
+                <Text style={[styles.summaryText, { color: profileTheme.text.primary }]}>
+                  ⏱️ Duração: {duration} minutos
+                </Text>
+                <Text style={[styles.summaryText, { color: profileTheme.text.primary }]}>
+                  🏫 {selectedClasses.size} turma(s) selecionada(s)
+                </Text>
+                {topic && (
+                  <Text style={[styles.summaryText, { color: profileTheme.text.primary }]}>
+                    📚 Tema: {topic}
+                  </Text>
+                )}
+              </Card.Content>
+            </Card>
+          )}
+        </ScrollView>
+
+        {/* Botões de Ação */}
+        <View style={[styles.actions, { backgroundColor: profileTheme.background.paper, borderTopColor: profileTheme.text.disabled }]}>
+          <Button
+            mode="outlined"
+            onPress={() => navigation.goBack()}
+            style={[styles.button, { borderColor: profileTheme.text.disabled }]}
+            textColor={profileTheme.text.secondary}
+          >{getString('cancel')}</Button>
+          <Button
+            mode="contained"
+            onPress={handleSchedule}
+            loading={loading}
+            disabled={loading || selectedClasses.size === 0}
+            style={[styles.button, styles.scheduleButton, { backgroundColor: profileTheme.primary[500] }]}
+            labelStyle={{ color: COLORS.white }}
+          >
+            Agendar Aula
+          </Button>
+        </View>
+      </SafeAreaView>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.white,
   },
   scrollView: {
     flex: 1,
@@ -381,20 +407,17 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
     marginLeft: SPACING.sm,
-    color: COLORS.black,
   },
   subtitle: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.gray[500],
     marginBottom: SPACING.md,
   },
   classItem: {
     borderRadius: BORDER_RADIUS.sm,
     marginVertical: SPACING.xs,
-    backgroundColor: COLORS.white,
   },
   classItemSelected: {
-    backgroundColor: COLORS.primary[50],
+    // handled in inline styles
   },
   emptyState: {
     alignItems: 'center',
@@ -402,7 +425,6 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.gray[500],
     marginTop: SPACING.md,
     marginBottom: SPACING.md,
   },
@@ -412,7 +434,6 @@ const styles = StyleSheet.create({
   label: {
     fontSize: FONT_SIZE.sm,
     fontWeight: FONT_WEIGHT.semibold,
-    color: COLORS.black,
     marginTop: SPACING.md,
     marginBottom: SPACING.xs,
   },
@@ -434,22 +455,18 @@ const styles = StyleSheet.create({
   },
   summaryText: {
     fontSize: FONT_SIZE.base,
-    color: COLORS.black,
     marginVertical: SPACING.xs,
   },
   actions: {
     flexDirection: 'row',
     padding: SPACING.md,
     gap: SPACING.sm,
-    backgroundColor: COLORS.white,
     borderTopWidth: 1,
-    borderTopColor: COLORS.border.light,
   },
   button: {
     flex: 1,
   },
   scheduleButton: {
-    backgroundColor: COLORS.primary[500],
   },
 });
 
