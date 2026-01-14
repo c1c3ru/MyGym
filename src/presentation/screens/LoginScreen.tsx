@@ -32,11 +32,19 @@ import { getAuthGradient, getAuthCardColors } from '@presentation/theme/authThem
 import { hexToRgba } from '@shared/utils/colorUtils';
 import formValidator from '@shared/utils/formValidation';
 import type { AuthScreenProps, LoginFormErrors, SnackbarState } from './auth/types';
-import { getString } from "@utils/theme";
 
 // Mapear erros de autenticação para códigos do EnhancedErrorMessage
 const mapAuthErrorToCode = (error: any): string => {
   const errorCode = error.code || error.name || '';
+  const errorMessage = error.message || '';
+
+  // Log detalhado para debugging
+  console.log('🔍 [LoginScreen] Mapeando erro:', {
+    code: errorCode,
+    name: error.name,
+    message: errorMessage,
+    fullError: error
+  });
 
   // Mapear erros específicos do Firebase Auth
   if (errorCode.includes('auth/user-not-found')) return 'auth/user-not-found';
@@ -50,8 +58,12 @@ const mapAuthErrorToCode = (error: any): string => {
 
   // Mapear erros customizados do domain
   if (errorCode.includes('UserProfileNotFoundError')) return 'data/not-found';
-  if (errorCode.includes('UnauthorizedError')) return 'permission/denied';
+  if (errorCode.includes('UnauthorizedError') || errorCode.includes('UNAUTHORIZED')) return 'auth/wrong-password';
   if (errorCode.includes('NetworkError')) return 'network/offline';
+  if (errorCode.includes('InvalidCredentialsError')) return 'auth/wrong-password';
+
+  // Log quando erro não é mapeado
+  console.warn('⚠️ [LoginScreen] Erro não mapeado:', errorCode, errorMessage);
 
   // Fallback para erro genérico
   return 'unknown';
@@ -62,7 +74,8 @@ const handleErrorAction = (
   action: string,
   navigation: any,
   setEmail: (email: string) => void,
-  setPassword: (password: string) => void
+  setPassword: (password: string) => void,
+  handleGoogleLogin?: () => void
 ): void => {
   switch (action) {
     case 'focus-email':
@@ -79,6 +92,11 @@ const handleErrorAction = (
     case 'register':
       if (navigation) {
         navigation.navigate('Register');
+      }
+      break;
+    case 'google-login':
+      if (handleGoogleLogin) {
+        handleGoogleLogin();
       }
       break;
     case 'retry':
@@ -127,7 +145,7 @@ export default function LoginScreen({ navigation }: AuthScreenProps) {
   const { trackButtonClick, trackFeatureUsage } = useUserActionTracking();
 
   const { signIn, signInWithGoogle, signInWithFacebook, signInWithMicrosoft, signInWithApple } = useAuthFacade();
-  const { isDarkMode, currentLanguage, languages, theme, toggleDarkMode, changeLanguage } = useTheme();
+  const { isDarkMode, currentLanguage, languages, theme, toggleDarkMode, changeLanguage, getString } = useTheme();
 
   const showSnackbar = useCallback((message: string, type: SnackbarState['type'] = 'info'): void => {
     setSnackbar({
@@ -205,7 +223,17 @@ export default function LoginScreen({ navigation }: AuthScreenProps) {
         errorType: error?.code?.split('/')[1] || error?.name || 'unknown'
       });
 
+      // Verificar se é erro de senha/credenciais inválidas
+      const errorName = error?.code || error?.name || '';
+      const isCredentialError = errorName.includes('wrong-password') ||
+        errorName.includes('invalid-credential') ||
+        errorName.includes('UNAUTHORIZED') ||
+        errorName.includes('UnauthorizedError');
+
+      console.log('🔍 [LoginScreen] É erro de credencial?', isCredentialError, 'ErrorName:', errorName);
+
       // Mapear erro para código do EnhancedErrorMessage
+      // A mensagem de erro já inclui dica para tentar com Google
       const errorCode = mapAuthErrorToCode(error);
       showEnhancedError(errorCode);
     } finally {
@@ -502,7 +530,7 @@ export default function LoginScreen({ navigation }: AuthScreenProps) {
                 errorCode={enhancedError.errorCode}
                 customMessage={enhancedError.customMessage || undefined}
                 customTitle={enhancedError.customTitle || undefined}
-                onAction={(action) => handleErrorAction(action, navigation, setEmail, setPassword)}
+                onAction={(action) => handleErrorAction(action, navigation, setEmail, setPassword, handleGoogleLogin)}
                 onDismiss={clearEnhancedError}
                 compact={false}
               />

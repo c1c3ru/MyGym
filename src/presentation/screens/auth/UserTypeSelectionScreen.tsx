@@ -21,7 +21,6 @@ import { useThemeToggle } from '@contexts/ThemeToggleContext';
 import { useTheme } from '@contexts/ThemeContext';
 import { NavigationProp, RouteProp } from '@react-navigation/native';
 import { UserType, UserProfile } from '@domain/auth/entities';
-import { getString } from "@utils/theme";
 import { hexToRgba } from '@shared/utils/colorUtils';
 
 interface UserTypeSelectionScreenProps {

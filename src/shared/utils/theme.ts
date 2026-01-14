@@ -737,6 +737,25 @@ export const languages: Record<LanguageCode, any> = {
       weakPassword: 'Senha muito fraca. Use pelo menos 6 caracteres.',
       invalidEmailFormat: 'Email inválido. Verifique o formato.',
 
+      // ERROR MESSAGES
+      wrongPassword: 'Senha incorreta',
+      wrongPasswordMessage: 'A senha digitada está incorreta. Tente novamente ou redefina sua senha.',
+      userNotFound: 'Usuário não encontrado',
+      userNotFoundMessage: 'Não existe uma conta com este email. Verifique o email ou crie uma nova conta.',
+      invalidEmailMessage: 'O formato do email está incorreto. Verifique se digitou corretamente (ex: usuario@exemplo.com).',
+      tooManyRequestsMessage: 'Você fez muitas tentativas de login. Por segurança, aguarde alguns minutos antes de tentar novamente.',
+      emailAlreadyInUseMessage: 'Já existe uma conta com este email. Faça login ou use outro email.',
+      weakPasswordMessage: 'Sua senha deve ter pelo menos 6 caracteres. Use letras, números e símbolos para maior segurança.',
+      somethingWentWrong: 'Algo deu errado',
+      somethingWentWrongMessage: 'Ocorreu um erro inesperado. Tente novamente ou entre em contato com o suporte.',
+      tryAgain: 'Tentar Novamente',
+      correctEmail: 'Corrigir Email',
+      tryAnotherEmail: 'Tentar Outro Email',
+      forgotMyPassword: 'Esqueci Minha Senha',
+      makeLogin: 'Fazer Login',
+      useAnotherEmail: 'Usar Outro Email',
+      createStrongPassword: 'Criar Senha Forte',
+
       // PASSWORD RECOVERY
       recoverPassword: 'Recuperar senha',
       enterEmailForInstructions: 'Digite seu e-mail para receber as instruções',

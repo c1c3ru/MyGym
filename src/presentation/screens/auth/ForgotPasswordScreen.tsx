@@ -43,7 +43,6 @@ import type {
   ForgotPasswordFormErrors,
   SnackbarState,
 } from "./types";
-import { getString } from "@utils/theme";
 
 /**
  * Tela de recuperação de senha

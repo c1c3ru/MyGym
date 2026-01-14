@@ -44,7 +44,6 @@ import type {
   RegisterFormErrors,
   SnackbarState,
 } from "./types";
-import { getString } from "@utils/theme";
 
 const { width } = Dimensions.get("window");
 

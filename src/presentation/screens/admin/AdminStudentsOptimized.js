@@ -19,9 +19,10 @@ import StudentDisassociationDialog from '@components/StudentDisassociationDialog
 import { useFocusEffect } from '@react-navigation/native';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
-import { getString } from "@utils/theme";
+import { useTheme } from "@contexts/ThemeContext";
 
 const AdminStudentsOptimized = ({ navigation }) => {
+  const { getString } = useTheme();
   const { currentTheme } = useThemeToggle();
 
   const { user, userProfile, academia } = useAuth();
@@ -131,7 +132,7 @@ const AdminStudentsOptimized = ({ navigation }) => {
       setLoading(false);
       setRefreshing(false);
     }
-  }, [userProfile?.academiaId, academia?.id]);
+  }, [userProfile?.academiaId, academia?.id, getString]);
 
   // Callbacks memoizados para performance
   const handleStudentPress = useCallback((student) => {
@@ -170,7 +171,7 @@ const AdminStudentsOptimized = ({ navigation }) => {
       'payment_overdue': getString('paymentOverdue')
     };
     return filters[filter] || getString('all');
-  }, []);
+  }, [getString]);
 
   // Render item otimizado para FlashList
   const renderItem = useCallback(({ item: student }) => (
@@ -283,7 +284,7 @@ const AdminStudentsOptimized = ({ navigation }) => {
         </Text>
       </Card.Content>
     </Card>
-  ), [searchQuery]);
+  ), [searchQuery, getString]);
 
   if (loading) {
     return <LoadingSpinner message="Carregando alunos..." />;

@@ -190,6 +190,12 @@ class FormValidator {
   ): Promise<string[]> {
     const errors: string[] = [];
 
+    // Verificar se rules é um array válido
+    if (!rules || !Array.isArray(rules)) {
+      console.warn(`Regras de validação inválidas para campo '${fieldName}':`, rules);
+      return errors;
+    }
+
     for (const rule of rules) {
       let ruleName: string | undefined, ruleParams: any[] = [];
 
@@ -208,7 +214,7 @@ class FormValidator {
 
       try {
         const isValid = await validator(value, ...ruleParams, formData);
-        
+
         if (!isValid) {
           const safeRuleName = ruleName || 'unknown';
           const message = this.getErrorMessage(safeRuleName, ruleParams, fieldName);
@@ -235,11 +241,11 @@ class FormValidator {
 
     for (const [fieldName, fieldRules] of Object.entries(validationSchema)) {
       const fieldValue = (formData as any)[fieldName];
-      
+
       const validationPromise = this.validateField(
-        fieldValue, 
-        fieldRules, 
-        formData, 
+        fieldValue,
+        fieldRules,
+        formData,
         fieldName
       ).then((fieldErrors) => {
         if (fieldErrors.length > 0) {
@@ -263,7 +269,7 @@ class FormValidator {
    */
   getErrorMessage(ruleName: string, params: any[] = [], fieldName: string = ''): string {
     let message = this.messages.get(ruleName) || `Erro de validação: ${ruleName}`;
-    
+
     // Substituir placeholders na mensagem
     params.forEach((param, index) => {
       const placeholder = `{${Object.keys(params)[index] || index}}`;
@@ -278,7 +284,7 @@ class FormValidator {
    */
   validateCPF(cpf: string): boolean {
     cpf = cpf.replace(/[^\d]/g, '');
-    
+
     if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) {
       return false;
     }
@@ -287,7 +293,7 @@ class FormValidator {
     for (let i = 0; i < 9; i++) {
       sum += parseInt(cpf.charAt(i)) * (10 - i);
     }
-    
+
     let remainder = (sum * 10) % 11;
     if (remainder === 10 || remainder === 11) remainder = 0;
     if (remainder !== parseInt(cpf.charAt(9))) return false;
@@ -296,10 +302,10 @@ class FormValidator {
     for (let i = 0; i < 10; i++) {
       sum += parseInt(cpf.charAt(i)) * (11 - i);
     }
-    
+
     remainder = (sum * 10) % 11;
     if (remainder === 10 || remainder === 11) remainder = 0;
-    
+
     return remainder === parseInt(cpf.charAt(10));
   }
 
@@ -308,7 +314,7 @@ class FormValidator {
    */
   validateCNPJ(cnpj: string): boolean {
     cnpj = cnpj.replace(/[^\d]/g, '');
-    
+
     if (cnpj.length !== 14 || /^(\d)\1{13}$/.test(cnpj)) {
       return false;
     }
@@ -320,20 +326,20 @@ class FormValidator {
     for (let i = 0; i < 12; i++) {
       sum += parseInt(cnpj.charAt(i)) * weights1[i];
     }
-    
+
     let remainder = sum % 11;
     const digit1 = remainder < 2 ? 0 : 11 - remainder;
-    
+
     if (digit1 !== parseInt(cnpj.charAt(12))) return false;
 
     sum = 0;
     for (let i = 0; i < 13; i++) {
       sum += parseInt(cnpj.charAt(i)) * weights2[i];
     }
-    
+
     remainder = sum % 11;
     const digit2 = remainder < 2 ? 0 : 11 - remainder;
-    
+
     return digit2 === parseInt(cnpj.charAt(13));
   }
 
@@ -346,7 +352,7 @@ class FormValidator {
       data: initialData as Record<string, any>,
       errors: {} as Record<string, string[]>,
       isValidating: false,
-      
+
       async validateField(fieldName: string, value: any): Promise<string[]> {
         if (!validationSchema[fieldName]) return [];
         const fieldErrors = await self.validateField(
@@ -358,7 +364,7 @@ class FormValidator {
         this.errors[fieldName] = fieldErrors;
         return fieldErrors;
       },
-      
+
       async validateAll(): Promise<{ isValid: boolean; errors: Record<string, string[]> }> {
         this.isValidating = true;
         const result = await self.validateForm(this.data, validationSchema);
@@ -366,21 +372,21 @@ class FormValidator {
         this.isValidating = false;
         return result;
       },
-      
+
       setFieldValue(fieldName: string, value: any): void {
         this.data[fieldName] = value;
         // Validar campo em tempo real (debounced)
         this.validateField(fieldName, value);
       },
-      
+
       getFieldError(fieldName: string): string {
         return (this.errors[fieldName]?.[0] as string) || '';
       },
-      
+
       hasErrors(): boolean {
         return Object.keys(this.errors).some((key) => this.errors[key] && this.errors[key].length > 0);
       },
-      
+
       clearErrors(): void {
         this.errors = {} as Record<string, string[]>;
       }
@@ -399,7 +405,7 @@ export const commonSchemas = {
     phone: ['phone'],
     cpf: ['cpf']
   },
-  
+
   student: {
     name: ['required', { rule: 'minLength', params: [2] }],
     email: ['required', 'email'],
@@ -407,7 +413,7 @@ export const commonSchemas = {
     birthDate: ['required', 'date'],
     emergencyContact: ['required', 'phone']
   },
-  
+
   class: {
     name: ['required', { rule: 'minLength', params: [3] }],
     instructorId: ['required'],
@@ -416,26 +422,26 @@ export const commonSchemas = {
     endTime: ['required'],
     maxStudents: ['required', 'numeric', { rule: 'min', params: [1] }]
   },
-  
+
   payment: {
     studentId: ['required'],
     amount: ['required', 'numeric', { rule: 'min', params: [0.01] }],
     dueDate: ['required', 'date'],
     method: ['required']
   },
-  
+
   login: {
     email: ['required', 'email'],
     password: ['required', { rule: 'minLength', params: [6] }]
   },
-  
+
   register: {
     name: ['required', { rule: 'minLength', params: [2] }],
     email: ['required', 'email'],
     password: ['required', 'password'],
     confirmPassword: ['required', { rule: 'confirmed', params: ['password'] }]
   },
-  
+
   academy: {
     name: ['required', { rule: 'minLength', params: [3] }],
     cnpj: ['cnpj'],

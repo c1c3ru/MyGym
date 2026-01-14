@@ -46,10 +46,11 @@ import {
 } from "@presentation/theme/designTokens";
 import { hexToRgba } from "@shared/utils/colorUtils";
 import { useOnboarding } from "@components/OnboardingTour";
-import { getString } from "@utils/theme";
+import { useTheme } from "@contexts/ThemeContext";
 import { useProfileTheme } from "../../../contexts/ProfileThemeContext";
 
 const AdminDashboard = ({ navigation }) => {
+  const { getString } = useTheme();
   const { theme: profileTheme } = useProfileTheme(); // 🎨 Tema Azul/Vermelho
   const { user, userProfile, logout, academia } = useAuthFacade();
   const { animations, startEntryAnimation } = useAnimation();

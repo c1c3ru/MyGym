@@ -18,13 +18,14 @@ import { functions } from '@infrastructure/services/firebase';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { hexToRgba } from '@shared/utils/colorUtils';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
-import { getString } from "@utils/theme";
+import { useTheme } from "@contexts/ThemeContext";
 
 import { useNavigation } from '@react-navigation/native';
 
 const AcademyOnboardingScreen = () => {
   const navigation = useNavigation();
   const { currentTheme } = useThemeToggle();
+  const { getString } = useTheme();
 
   const { refreshClaimsAndProfile, signOut: logout } = useAuthFacade();
 

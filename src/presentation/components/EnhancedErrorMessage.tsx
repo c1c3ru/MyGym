@@ -65,59 +65,60 @@ const ERROR_CATALOG: Record<string, ErrorCatalogEntry> = {
   // Erros de Autenticação
   'auth/invalid-email': {
     title: getString('invalidEmail'),
-    message: 'O formato do email está incorreto. Verifique se digitou corretamente (ex: usuario@exemplo.com).',
+    message: getString('invalidEmailMessage'),
     icon: 'email-alert-outline',
     color: 'error',
     actions: [
-      { label: 'Corrigir Email', action: 'focus-email' }
+      { label: getString('correctEmail'), action: 'focus-email' }
     ],
   },
   'auth/user-not-found': {
     title: getString('userNotFound'),
-    message: 'Não existe uma conta com este email. Verifique o email ou crie uma nova conta.',
+    message: getString('userNotFoundMessage'),
     icon: 'account-question-outline',
     color: 'error',
     actions: [
-      { label: 'Criar Conta', action: 'register' },
-      { label: 'Tentar Outro Email', action: 'focus-email' }
+      { label: getString('createAccount'), action: 'register' },
+      { label: getString('tryAnotherEmail'), action: 'focus-email' }
     ],
   },
   'auth/wrong-password': {
     title: getString('wrongPassword'),
-    message: 'A senha digitada está incorreta. Tente novamente ou redefina sua senha.',
+    message: getString('wrongPasswordMessage') + '\n\n💡 Dica: Se você criou esta conta com Google, use o botão "Entrar com Google" abaixo.',
     icon: 'lock-alert-outline',
     color: 'error',
     actions: [
       { label: getString('tryAgain'), action: 'focus-password' },
-      { label: 'Esqueci Minha Senha', action: 'reset-password' }
+      { label: getString('forgotMyPassword'), action: 'reset-password' },
+      { label: 'Tentar com Google', action: 'google-login' }
     ],
   },
   'auth/too-many-requests': {
-    title: 'Muitas tentativas',
-    message: 'Você fez muitas tentativas de login. Por segurança, aguarde alguns minutos antes de tentar novamente.',
+    title: getString('tooManyRequests'),
+    message: getString('tooManyRequestsMessage'),
     icon: 'shield-alert-outline',
     color: 'warning',
     actions: [
-      { label: 'Redefinir Senha', action: 'reset-password' }
+      { label: getString('forgotPassword'), action: 'reset-password' }
     ],
   },
   'auth/email-already-in-use': {
-    title: 'Email já cadastrado',
-    message: 'Já existe uma conta com este email. Faça login ou use outro email.',
+    title: getString('emailAlreadyInUse'),
+    message: getString('emailAlreadyInUseMessage'),
     icon: 'email-check-outline',
     color: 'error',
     actions: [
-      { label: 'Fazer Login', action: 'login' },
-      { label: 'Usar Outro Email', action: 'focus-email' }
+      { label: getString('makeLogin'), action: 'login' },
+      { label: getString('useAnotherEmail'), action: 'focus-email' }
     ],
   },
   'auth/weak-password': {
     title: getString('weakPassword'),
-    message: 'Sua senha deve ter pelo menos 6 caracteres. Use letras, números e símbolos para maior segurança.',
+    message: getString('weakPasswordMessage'),
     icon: 'shield-lock-outline',
     color: 'warning',
     actions: [
-      { label: 'Criar Senha Forte', action: 'focus-password' }
+      { label: getString('createStrongPassword'), action: 'focus-password' }
     ],
   },
 
@@ -176,12 +177,12 @@ const ERROR_CATALOG: Record<string, ErrorCatalogEntry> = {
   // Erro genérico
   'unknown': {
     title: getString('somethingWentWrong'),
-    message: 'Ocorreu um erro inesperado. Tente novamente ou entre em contato com o suporte.',
+    message: getString('somethingWentWrongMessage'),
     icon: 'alert-octagon-outline',
     color: 'error',
     actions: [
       { label: getString('tryAgain'), action: 'retry' },
-      { label: 'Contatar Suporte', action: 'support' }
+      { label: getString('contactSupport'), action: 'support' }
     ],
   },
 };
@@ -210,7 +211,7 @@ const EnhancedErrorMessage: React.FC<EnhancedErrorMessageProps> = ({
 }) => {
   const code = (errorCode && ERROR_CATALOG[errorCode]) ? errorCode : 'unknown';
   const errorInfo = ERROR_CATALOG[code];
-  
+
   const title = customTitle || errorInfo.title;
   const message = customMessage || errorInfo.message;
   const iconName = errorInfo.icon;
@@ -250,7 +251,7 @@ const EnhancedErrorMessage: React.FC<EnhancedErrorMessageProps> = ({
   }
 
   return (
-    <Card 
+    <Card
       style={[styles.container, style]}
       accessible={true}
       accessibilityRole="alert"
