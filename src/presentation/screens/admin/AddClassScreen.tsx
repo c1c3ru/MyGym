@@ -15,7 +15,7 @@ import { createEmptySchedule, isValidSchedule, scheduleToDisplayString } from '@
 import EnhancedErrorBoundary from '@components/EnhancedErrorBoundary';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, BORDER_WIDTH } from '@presentation/theme/designTokens';
 import type { NavigationProp } from '@react-navigation/native';
-import { getString } from "@utils/theme";
+import { useTheme } from "@contexts/ThemeContext";
 import { hexToRgba } from '@shared/utils/colorUtils';
 
 interface Instructor {
@@ -35,6 +35,7 @@ interface AddClassScreenProps {
 }
 
 const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
+  const { getString } = useTheme();
 
   const { user, userProfile, academia } = useAuthFacade();
   const { role, isInstructor } = useCustomClaims();

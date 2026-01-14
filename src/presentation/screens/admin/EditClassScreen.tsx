@@ -19,7 +19,6 @@ import { createEmptySchedule, isValidSchedule, scheduleToDisplayString } from '@
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, BORDER_WIDTH } from '@presentation/theme/designTokens';
 import { getAuthGradient } from '@presentation/theme/authTheme';
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
-import { getString } from "@utils/theme";
 
 interface EditClassScreenProps {
   navigation: NavigationProp<any>;
@@ -27,6 +26,7 @@ interface EditClassScreenProps {
 }
 
 const EditClassScreen = ({ route, navigation }: EditClassScreenProps) => {
+  const { getString } = useTheme();
   const { classId } = (route.params as any);
   const { user, userProfile, academia } = useAuthFacade();
   const [loading, setLoading] = useState(false);

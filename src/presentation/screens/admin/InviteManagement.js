@@ -18,9 +18,10 @@ import { InviteService } from '@infrastructure/services/inviteService';
 import QRCodeGenerator from '@components/QRCodeGenerator';
 import ActionButton, { ActionButtonGroup } from '@components/ActionButton';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getString } from "@utils/theme";
+import { useTheme } from "@contexts/ThemeContext";
 
 export default function InviteManagement({ navigation }) {
+  const { getString } = useTheme();
   const { user, userProfile, academia } = useAuthFacade();
   const [invites, setInvites] = useState([]);
   const [loading, setLoading] = useState(false);

@@ -28,7 +28,6 @@ import { useAuth } from '@contexts/AuthProvider';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
 import GraduationAlertCard, { GraduationAlert } from '@components/GraduationAlertCard';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getString } from "@utils/theme";
 
 interface SummaryStats {
   totalStudents: number;
