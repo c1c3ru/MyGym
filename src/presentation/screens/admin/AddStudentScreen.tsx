@@ -648,6 +648,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
+    ...(Platform.OS === 'web' && { overflow: 'auto' as any }),
   },
   scrollContent: {
     paddingHorizontal: '4%',
