@@ -349,7 +349,10 @@ const AddStudentScreen = ({ navigation, route }: any) => {
           )}
 
           <ScrollView
-            style={styles.scrollView}
+            style={[
+              styles.scrollView,
+              Platform.OS === 'web' && { overflow: 'auto' as any, WebkitOverflowScrolling: 'touch' as any }
+            ]}
             showsVerticalScrollIndicator={true}
             keyboardShouldPersistTaps="handled"
             contentContainerStyle={styles.scrollContent}

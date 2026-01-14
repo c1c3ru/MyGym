@@ -351,7 +351,10 @@ const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
       <View style={styles.container}>
         <SafeAreaView style={styles.safeArea}>
           <ScrollView
-            style={styles.scrollView}
+            style={[
+              styles.scrollView,
+              Platform.OS === 'web' && { overflow: 'auto' as any, WebkitOverflowScrolling: 'touch' as any }
+            ]}
             contentContainerStyle={styles.scrollContent}
             showsVerticalScrollIndicator={true}
           >
