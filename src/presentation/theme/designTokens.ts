@@ -378,25 +378,25 @@ export const COLORS = {
     // Cores de texto (Dark Theme Premium)
     text: {
         primary: '#FFFFFF',      // Branco puro (títulos)
-        secondary: '#E0E0E0',    // Cinza muito claro (subtítulos) - Melhor contraste
-        tertiary: '#BDBDBD',     // Cinza claro (texto auxiliar)
-        disabled: '#757575',     // Cinza médio (desabilitado)
-        hint: '#616161',         // Cinza escuro (hints/placeholders)
+        secondary: '#F5F5F5',    // Branco suave (subtítulos) - Contraste Aumentado
+        tertiary: '#E0E0E0',     // Cinza muito claro (texto auxiliar) - Contraste Aumentado
+        disabled: '#9E9E9E',     // Cinza claro (desabilitado) - Melhor Visibilidade
+        hint: '#BDBDBD',         // Cinza claro (hints/placeholders) - Melhor Leitura
         inverse: '#0B0B0B',      // Preto (para fundos claros)
-        accent: '#D32F2F',       // Texto de destaque (vermelho coral WCAG AA)
-        muted: '#9E9E9E',        // Texto esmaecido
+        accent: '#FF5252',       // Vermelho mais vibrante para texto escuro
+        muted: '#B0B0B0',        // Texto esmaecido mais claro
     },
 
     // Cores de borda (Dark Theme Premium - Bordas refinadas)
     border: {
-        light: '#1A1A1A',        // Cinza muito escuro (bordas sutis)
-        default: '#2A2A2A',      // Cinza escuro (bordas padrão)
-        medium: '#424242',       // Cinza médio (bordas destacadas)
-        dark: '#616161',         // Cinza (bordas visíveis)
+        light: '#2A2A2A',        // Cinza escuro (bordas sutis)
+        default: '#404040',      // Cinza médio (bordas padrão) - Mais visível
+        medium: '#616161',       // Cinza claro (bordas destacadas)
+        dark: '#757575',         // Cinza mais claro (bordas fortes)
         // Neutros refinados
         subtle: '#333333',       // Borda sutil premium
-        separator: '#424242',    // Separador visível
-        accent: '#D32F2F',       // Borda de destaque (vermelho coral WCAG AA)
+        separator: '#505050',    // Separador visível
+        accent: '#FF5252',       // Borda de destaque vibrante
     },
 
     // Cores de overlay (WCAG AA compliant)

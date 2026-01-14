@@ -4,7 +4,7 @@ import { Text, Chip, Card, ActivityIndicator } from 'react-native-paper';
 import useAuthMigration from '@hooks/useAuthMigration';
 import academyCollectionsService from '@infrastructure/services/academyCollectionsService';
 import { COLORS, SPACING, FONT_SIZE, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getString } from "@utils/theme";
+import { useTheme } from "@contexts/ThemeContext";
 
 /**
  * Interface para representar uma modalidade (ex: Jiu-Jitsu, Muay Thai)
@@ -35,6 +35,7 @@ const ModalityPicker: React.FC<ModalityPickerProps> = ({
     onModalitiesChange,
     label = "Modalidades Oferecidas"
 }) => {
+    const { getString } = useTheme();
     const [availableModalities, setAvailableModalities] = useState<Modality[]>([]);
     const [loading, setLoading] = useState(true);
     const { userProfile } = useAuthMigration() as any;

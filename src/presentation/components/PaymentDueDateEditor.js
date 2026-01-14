@@ -13,9 +13,10 @@ import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useNotification } from '@contexts/NotificationContext';
 import { firestoreService } from '@infrastructure/services/firestoreService';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getString } from "@utils/theme";
+import { useTheme } from "@contexts/ThemeContext";
 
 const PaymentDueDateEditor = ({ visible, onDismiss, currentPayment, onUpdate }) => {
+  const { getString } = useTheme();
   const { user, userProfile, academia } = useAuthFacade();
   const { showSuccess, showError } = useNotification();
   const [newDueDate, setNewDueDate] = useState('');

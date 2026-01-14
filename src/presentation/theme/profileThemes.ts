@@ -54,10 +54,10 @@ export const STUDENT_THEME = {
     },
 
     text: {
-        primary: '#212121',     // Preto suave
-        secondary: '#757575',   // Cinza médio
-        disabled: '#BDBDBD',    // Cinza claro
-        hint: '#9E9E9E',        // Cinza hint
+        primary: '#111827',     // Preto profundo
+        secondary: '#374151',   // Cinza escuro
+        disabled: '#9CA3AF',    // Cinza visível
+        hint: '#6B7280',        // Cinza hint
     },
 
     gradients: {
@@ -210,9 +210,9 @@ export const STUDENT_THEME_DARK = {
 
     text: {
         primary: '#FFFFFF',     // Branco puro
-        secondary: '#B0B0B0',   // Cinza claro
-        disabled: '#6B6B6B',    // Cinza escuro
-        hint: '#8B8B8B',        // Cinza hint
+        secondary: '#F5F5F5',   // Branco suave
+        disabled: '#9E9E9E',    // Cinza claro
+        hint: '#BDBDBD',        // Cinza hint
     },
 
     gradients: {

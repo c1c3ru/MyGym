@@ -19,9 +19,10 @@ import cacheService, { CACHE_KEYS, CACHE_TTL } from '@infrastructure/services/ca
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import ReportsSkeleton from '@components/skeletons/ReportsSkeleton';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getString } from "@utils/theme";
+import { useTheme } from "@contexts/ThemeContext";
 
 const Relatorios = ({ navigation }) => {
+  const { getString, currentLanguage } = useTheme();
   const { user, userProfile } = useAuthFacade();
   const [selectedPeriod, setSelectedPeriod] = useState('mes');
   const [reportData, setReportData] = useState({
@@ -57,7 +58,8 @@ const Relatorios = ({ navigation }) => {
       }
 
       // Usar cache inteligente para dados dos relatórios
-      const cacheKey = CACHE_KEYS.INSTRUCTOR_REPORTS(userProfile.academiaId, user.id, selectedPeriod);
+      // Usar cache inteligente para dados dos relatórios
+      const cacheKey = `${CACHE_KEYS.INSTRUCTOR_REPORTS(userProfile.academiaId, user.id, selectedPeriod)}:${currentLanguage}`;
 
       const reportsData = await cacheService.getOrSet(
         cacheKey,
@@ -103,7 +105,7 @@ const Relatorios = ({ navigation }) => {
       setLoading(false);
       setRefreshing(false);
     }
-  }, [user.id, userProfile?.academiaId, selectedPeriod, trackFeatureUsage]);
+  }, [user.id, userProfile?.academiaId, selectedPeriod, trackFeatureUsage, getString, currentLanguage]);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);

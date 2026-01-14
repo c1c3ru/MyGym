@@ -21,7 +21,7 @@ export const APP_COLORS = {
   darkGray: COLORS.secondary[800],    // '#1A1A1A' - Cinza muito escuro
   white: COLORS.white,                // '#FFFFFF'
   vibrantRed: COLORS.primary[500],    // '#FF4757' - Vermelho coral (NOVO)
-  
+
   gray: {
     50: COLORS.gray[50],              // '#FAFAFA'
     100: COLORS.gray[100],            // '#F5F5F5'
@@ -50,7 +50,7 @@ export const PROFILE_COLORS = {
     surface: COLORS.background.paper,     // '#1A1A1A' - Card escuro
     background: COLORS.white, // '#0D0D0D' - Fundo escuro
   },
-  
+
   instructor: {
     primary: COLORS.primary[500],         // '#FF4757' - Vermelho coral
     primaryLight: COLORS.primary[400],    // '#FF6B7A'
@@ -59,14 +59,14 @@ export const PROFILE_COLORS = {
     surface: COLORS.background.paper,     // '#1A1A1A' - Card escuro
     background: COLORS.white, // '#0D0D0D' - Fundo escuro
   },
-  
+
   admin: {
     primary: COLORS.primary[500],         // '#FF4757' - Vermelho coral
     primaryLight: COLORS.primary[400],    // '#FF6B7A'
     primaryDark: COLORS.primary[700],     // '#DC2F3F'
     gradient: COLORS.gradients.intense,   // ['#FF4757', '#DC2F3F', '#A01F2E'] - Mais intenso para admin
     surface: COLORS.background.paper,     // '#1A1A1A' - Card escuro
-    background: COLORS.white, // '#0D0D0D' - Fundo escuro
+    background: COLORS.background.default, // '#0B0B0B' - Fundo escuro (CORRIGIDO)
   },
 };
 
@@ -80,17 +80,17 @@ export const STATUS_COLORS = {
   successLight: COLORS.success[400],     // '#66BB6A'
   successDark: COLORS.success[700],      // '#388E3C'
   successGradient: [COLORS.success[500], COLORS.success[700]],
-  
+
   warning: COLORS.warning[500],          // '#FFC107'
   warningLight: COLORS.warning[400],     // '#FFCA28'
   warningDark: COLORS.warning[700],      // '#FFA000'
   warningGradient: [COLORS.warning[500], COLORS.warning[700]],
-  
+
   error: COLORS.error[500],              // '#F44336'
   errorLight: COLORS.error[400],         // '#EF5350'
   errorDark: COLORS.error[700],          // '#D32F2F'
   errorGradient: [COLORS.error[500], COLORS.error[700]],
-  
+
   info: COLORS.info[500],                // '#2196F3'
   infoLight: COLORS.info[400],           // '#42A5F5'
   infoDark: COLORS.info[700],            // '#1976D2'
@@ -103,14 +103,14 @@ export const STATUS_COLORS = {
 // ============================================
 
 export const TEXT_COLORS = {
-  primary: COLORS.black,         // '#FFFFFF' - Branco para dark theme
-  secondary: COLORS.gray[500],     // '#E0E0E0' - Cinza claro
-  disabled: COLORS.gray[300],       // '#9E9E9E' - Cinza médio
-  hint: COLORS.text.hint,               // '#757575' - Cinza para hints
-  inverse: COLORS.text.inverse,         // '#0D0D0D' - Preto (para fundos claros)
+  primary: COLORS.white,         // '#FFFFFF' - Branco para dark theme (CORRIGIDO)
+  secondary: COLORS.gray[200],     // '#EEEEEE' - Cinza claro (CORRIGIDO)
+  disabled: COLORS.gray[500],       // '#9E9E9E' - Cinza médio (CORRIGIDO)
+  hint: COLORS.gray[400],               // '#BDBDBD' - Cinza para hints (CORRIGIDO)
+  inverse: COLORS.black,         // '#000000' - Preto (para fundos claros)
   onPrimary: COLORS.white,              // '#FFFFFF' - Texto em botões coral
-  onBackground: COLORS.black,    // '#FFFFFF' - Texto em fundo escuro
-  onSurface: COLORS.black,       // '#FFFFFF' - Texto em cards escuros
+  onBackground: COLORS.white,    // '#FFFFFF' - Texto em fundo escuro
+  onSurface: COLORS.white,       // '#FFFFFF' - Texto em cards escuros
 };
 
 // ============================================
@@ -147,13 +147,13 @@ export const LIGHT_THEME = {
 };
 
 export const DARK_THEME = {
-  background: COLORS.white,   // '#0D0D0D' - Preto profundo (PADRÃO)
+  background: COLORS.background.default,   // '#0B0B0B' - Preto profundo (CORRIGIDO)
   surface: COLORS.background.paper,        // '#1A1A1A' - Cinza muito escuro
   card: COLORS.background.paper,           // '#1A1A1A' - Cards escuros
-  border: COLORS.border.light,             // '#424242' - Bordas sutis
-  text: COLORS.black,               // '#FFFFFF' - Texto branco
-  textSecondary: COLORS.gray[500],    // '#E0E0E0' - Cinza claro
-  disabled: COLORS.gray[300],          // '#9E9E9E'
+  border: COLORS.border.light,             // '#2A2A2A' - Bordas sutis
+  text: COLORS.white,               // '#FFFFFF' - Texto branco (CORRIGIDO)
+  textSecondary: COLORS.gray[300],    // '#E0E0E0' - Cinza claro
+  disabled: COLORS.gray[500],          // '#9E9E9E'
 };
 
 // ============================================
@@ -168,19 +168,19 @@ export const DARK_THEME = {
  */
 export const getProfileColors = (userType) => {
   const normalized = userType?.toLowerCase();
-  
+
   if (normalized === 'student' || normalized === 'aluno') {
     return PROFILE_COLORS.student;
   }
-  
+
   if (normalized === 'instructor' || normalized === 'instrutor') {
     return PROFILE_COLORS.instructor;
   }
-  
+
   if (normalized === 'admin' || normalized === 'administrador') {
     return PROFILE_COLORS.admin;
   }
-  
+
   return PROFILE_COLORS.student;
 };
 

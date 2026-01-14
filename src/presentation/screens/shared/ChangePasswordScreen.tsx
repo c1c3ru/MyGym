@@ -18,7 +18,7 @@ import SafeCardContent from '@components/SafeCardContent';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { getAuthGradient } from '@presentation/theme/authTheme';
 import type { NavigationProp } from '@react-navigation/native';
-import { getString } from "@utils/theme";
+
 
 interface ChangePasswordFormData {
   currentPassword: string;

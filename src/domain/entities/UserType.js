@@ -1,10 +1,10 @@
-import { getString } from "@utils/theme";
+
 /**
  * UserType Enum
  */
 export const UserType = {
   ADMIN: 'admin',
-  INSTRUCTOR: 'instructor', 
+  INSTRUCTOR: 'instructor',
   STUDENT: 'student'
 };
 
@@ -29,11 +29,12 @@ export class UserTypeUtils {
   /**
    * Gets user type display name
    */
-  static getDisplayName(userType) {
+  static getDisplayName(userType, getStringFn) {
+    const t = getStringFn || ((key) => key);
     const displayNames = {
-      [UserType.ADMIN]: 'Administrador',
-      [UserType.INSTRUCTOR]: getString('instructor'),
-      [UserType.STUDENT]: getString('student')
+      [UserType.ADMIN]: t('administrator'),
+      [UserType.INSTRUCTOR]: t('instructor'),
+      [UserType.STUDENT]: t('student')
     };
     return displayNames[userType] || userType;
   }

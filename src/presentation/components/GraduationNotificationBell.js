@@ -15,9 +15,10 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { useGraduation } from '@hooks/useGraduation';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getString } from "@utils/theme";
+import { useTheme } from "@contexts/ThemeContext";
 
 const GraduationNotificationBell = ({ onNotificationPress }) => {
+  const { getString } = useTheme();
   const {
     getNotifications,
     markNotificationAsRead,
@@ -36,7 +37,7 @@ const GraduationNotificationBell = ({ onNotificationPress }) => {
       setLoading(true);
       const notifs = await getNotifications(20);
       setNotifications(notifs);
-      
+
       const unread = notifs.filter(n => !n.read).length;
       setUnreadCount(unread);
     } catch (error) {
@@ -48,10 +49,10 @@ const GraduationNotificationBell = ({ onNotificationPress }) => {
 
   useEffect(() => {
     loadNotifications();
-    
+
     // Recarregar notificações a cada 5 minutos
     const interval = setInterval(loadNotifications, 5 * 60 * 1000);
-    
+
     return () => clearInterval(interval);
   }, [loadNotifications]);
 
@@ -60,10 +61,10 @@ const GraduationNotificationBell = ({ onNotificationPress }) => {
       if (!notification.read) {
         await markNotificationAsRead(notification.id);
         setUnreadCount(prev => Math.max(0, prev - 1));
-        
+
         // Atualizar localmente
-        setNotifications(prev => 
-          prev.map(n => 
+        setNotifications(prev =>
+          prev.map(n =>
             n.id === notification.id ? { ...n, read: true } : n
           )
         );
@@ -111,7 +112,7 @@ const GraduationNotificationBell = ({ onNotificationPress }) => {
     if (diffMins < 60) return `${diffMins}m`;
     if (diffHours < 24) return `${diffHours}h`;
     if (diffDays < 7) return `${diffDays}d`;
-    
+
     return notifDate.toLocaleDateString('pt-BR', {
       day: '2-digit',
       month: '2-digit'
@@ -119,7 +120,7 @@ const GraduationNotificationBell = ({ onNotificationPress }) => {
   };
 
   const renderNotificationItem = ({ item: notification }) => (
-    <Card 
+    <Card
       style={[
         styles.notificationCard,
         !notification.read && styles.unreadCard
@@ -129,13 +130,13 @@ const GraduationNotificationBell = ({ onNotificationPress }) => {
       <Card.Content style={styles.notificationContent}>
         <View style={styles.notificationHeader}>
           <View style={styles.notificationIcon}>
-            <Ionicons 
-              name={getNotificationIcon(notification.type)} 
-              size={20} 
-              color={getNotificationColor(notification.type)} 
+            <Ionicons
+              name={getNotificationIcon(notification.type)}
+              size={20}
+              color={getNotificationColor(notification.type)}
             />
           </View>
-          
+
           <View style={styles.notificationInfo}>
             <Text style={[
               styles.notificationTitle,
@@ -158,7 +159,7 @@ const GraduationNotificationBell = ({ onNotificationPress }) => {
         </Text>
 
         {notification.data?.modality && (
-          <Chip 
+          <Chip
             style={styles.modalityChip}
             compact
           >

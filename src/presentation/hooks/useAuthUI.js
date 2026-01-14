@@ -1,13 +1,14 @@
 import { useCallback } from 'react';
 import useAuthUIStore from '@presentation/stores/AuthUIStore';
 import useAppUIStore from '@presentation/stores/AppUIStore';
-import { getString } from "@utils/theme";
+import { useTheme } from "@contexts/ThemeContext";
 
 /**
  * useAuthUI - Presentation Layer
  * Hook para gerenciar estado de UI relacionado à autenticação
  */
 export const useAuthUI = () => {
+  const { getString } = useTheme();
   const {
     isLoading,
     isSigningIn,
@@ -45,10 +46,10 @@ export const useAuthUI = () => {
     getFieldError
   } = useAuthUIStore();
 
-  const { 
-    showToastMessage, 
+  const {
+    showToastMessage,
     setErrorDialog,
-    setSuccessDialog 
+    setSuccessDialog
   } = useAppUIStore();
 
   // Handlers otimizados

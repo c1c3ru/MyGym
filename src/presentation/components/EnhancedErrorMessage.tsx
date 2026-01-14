@@ -15,7 +15,7 @@ import {
 } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getString } from "@utils/theme";
+import { useTheme } from "@contexts/ThemeContext";
 
 // ============================================
 // CATÁLOGO DE ERROS MELHORADOS
@@ -30,7 +30,7 @@ type ErrorCatalogEntry = {
   helpLink?: string | null;
 };
 
-const ERROR_CATALOG: Record<string, ErrorCatalogEntry> = {
+const getErrorCatalog = (getString: (key: string) => string): Record<string, ErrorCatalogEntry> => ({
   // Erros de Rede
   'network/offline': {
     title: 'Sem conexão com a internet',
@@ -185,7 +185,7 @@ const ERROR_CATALOG: Record<string, ErrorCatalogEntry> = {
       { label: getString('contactSupport'), action: 'support' }
     ],
   },
-};
+});
 
 // ============================================
 // COMPONENTE PRINCIPAL
@@ -209,6 +209,9 @@ const EnhancedErrorMessage: React.FC<EnhancedErrorMessageProps> = ({
   style,
   compact = false,
 }) => {
+  const { getString } = useTheme();
+  const ERROR_CATALOG = React.useMemo(() => getErrorCatalog(getString), [getString]);
+
   const code = (errorCode && ERROR_CATALOG[errorCode]) ? errorCode : 'unknown';
   const errorInfo = ERROR_CATALOG[code];
 
@@ -384,6 +387,7 @@ const styles = StyleSheet.create({
 // HOOK PERSONALIZADO
 // ============================================
 export const useEnhancedError = () => {
+  const { getString } = useTheme();
   type ErrorState = { errorCode: string; customMessage?: string | null; customTitle?: string | null } | null;
   const [error, setError] = React.useState<ErrorState>(null);
 
@@ -396,6 +400,7 @@ export const useEnhancedError = () => {
   };
 
   const getErrorMessage = (errorCode: string): string => {
+    const ERROR_CATALOG = getErrorCatalog(getString);
     const code = (errorCode && ERROR_CATALOG[errorCode]) ? errorCode : 'unknown';
     const errorInfo = ERROR_CATALOG[code];
     return errorInfo.message;
@@ -409,5 +414,5 @@ export const useEnhancedError = () => {
   };
 };
 
-export { ERROR_CATALOG };
+export { getErrorCatalog };
 export default EnhancedErrorMessage;

@@ -5,7 +5,7 @@ import QRCode from 'react-native-qrcode-svg';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { COLORS, SPACING, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
-import { getString } from "@utils/theme";
+import { useTheme } from "@contexts/ThemeContext";
 
 // Import do logo usando alias
 const logoIcon = require('@assets/icon.png');
@@ -17,7 +17,7 @@ function QRCodeGenerator({ size = 200, showActions = true, academiaId, academiaN
   } catch (error) {
     console.log('QRCodeGenerator usado fora do AuthProvider, usando apenas props');
   }
-
+  const { getString } = useTheme();
 
   // Hook do tema (com fallback)
   let currentTheme = null;

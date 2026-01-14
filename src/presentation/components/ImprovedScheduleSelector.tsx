@@ -12,7 +12,7 @@ import {
 import { Calendar } from 'react-native-calendars';
 import { useTheme } from '@contexts/ThemeContext';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getString } from "@utils/theme";
+
 import {
     createEmptySchedule,
     DAY_NAMES,
@@ -84,19 +84,23 @@ const ImprovedScheduleSelector: React.FC<ImprovedScheduleSelectorProps> = ({
     value = null,
     onScheduleChange,
     duration = 60,
-    timezone = getString('timezone'),
+    timezone,
     startHour = 6,
     endHour = 22,
     interval = 60,
     style,
     disabled = false,
     required = false,
-    label = getString('classSchedules'),
+    label,
     enableConflictValidation = true,
     instructorId,
     excludeClassId
 }) => {
-    const { theme: contextTheme } = useTheme() as any;
+    const { theme: contextTheme, getString } = useTheme() as any;
+
+    // Default values handling
+    const finalTimezone = timezone || getString('timezone');
+    const finalLabel = label || getString('classSchedules');
     const colors = contextTheme?.colors;
 
     const [schedule, setSchedule] = useState<Schedule>(value || createEmptySchedule() as Schedule);
@@ -142,7 +146,7 @@ const ImprovedScheduleSelector: React.FC<ImprovedScheduleSelectorProps> = ({
             onScheduleChange({
                 ...newSchedule,
                 duration,
-                timezone
+                timezone: finalTimezone
             });
         }
     }, [selectedDay, schedule, onScheduleChange, duration, timezone]);
@@ -244,7 +248,7 @@ const ImprovedScheduleSelector: React.FC<ImprovedScheduleSelectorProps> = ({
     return (
         <View style={[styles.container, style]}>
             <Text style={[styles.label, { color: colors?.onSurface || COLORS.black }]}>
-                {label}
+                {finalLabel}
                 {required && <Text style={{ color: colors?.error || COLORS.error[500] }}> *</Text>}
             </Text>
 

@@ -3,7 +3,7 @@ import { COLORS } from '@presentation/theme/designTokens';
 import * as Device from 'expo-device';
 import { Platform } from 'react-native';
 import { firestoreService } from './firestoreService';
-import { getString } from "@utils/theme";
+
 
 // Configurar comportamento das notificações
 Notifications.setNotificationHandler({
@@ -29,7 +29,7 @@ class NotificationService {
         console.log('Notificações push desabilitadas na web');
         return true;
       }
-      
+
       await this.registerForPushNotificationsAsync();
       this.setupNotificationListeners();
       return true;
@@ -60,17 +60,17 @@ class NotificationService {
     if (Device.isDevice) {
       const { status: existingStatus } = await Notifications.getPermissionsAsync();
       let finalStatus = existingStatus;
-      
+
       if (existingStatus !== 'granted') {
         const { status } = await Notifications.requestPermissionsAsync();
         finalStatus = status;
       }
-      
+
       if (finalStatus !== 'granted') {
         console.log('Permissão para notificações negada');
         return;
       }
-      
+
       token = (await Notifications.getExpoPushTokenAsync()).data;
       this.expoPushToken = token;
     } else {
@@ -98,7 +98,7 @@ class NotificationService {
   // Manipular notificação recebida
   handleNotificationReceived(notification) {
     const { data } = notification.request.content;
-    
+
     // Salvar notificação no Firestore
     if (data.userId) {
       this.saveNotificationToFirestore({
@@ -116,7 +116,7 @@ class NotificationService {
   // Manipular resposta da notificação
   handleNotificationResponse(response) {
     const { data } = response.notification.request.content;
-    
+
     // Navegar para tela específica baseada no tipo
     if (data.screen) {
       // Implementar navegação aqui
@@ -154,7 +154,7 @@ class NotificationService {
   async scheduleNotification(title, body, triggerDate, data = {}) {
     try {
       const trigger = new Date(triggerDate);
-      
+
       await Notifications.scheduleNotificationAsync({
         content: {
           title,
@@ -197,7 +197,7 @@ class NotificationService {
   async notifyPaymentDue(userId, amount, dueDate) {
     const title = 'Pagamento Pendente';
     const body = `Sua mensalidade de R$ ${amount.toFixed(2)} vence em ${new Date(dueDate).toLocaleDateString()}`;
-    
+
     await this.saveNotificationToFirestore({
       userId,
       title,
@@ -211,14 +211,14 @@ class NotificationService {
     await this.sendLocalNotification(title, body, {
       type: 'payment',
       userId,
-      screen: getString('payments')
+      screen: 'Pagamentos'
     });
   }
 
   async notifyClassReminder(userId, className, classTime, reminderMinutes = 30) {
     const title = 'Lembrete de Aula';
     const body = `Sua aula de ${className} começa em ${reminderMinutes} minutos (${classTime})`;
-    
+
     await this.saveNotificationToFirestore({
       userId,
       title,
@@ -240,10 +240,10 @@ class NotificationService {
   async scheduleClassReminders(userId, className, classDateTime, reminderSettings = [30, 15, 10]) {
     try {
       const classDate = new Date(classDateTime);
-      
+
       for (const minutes of reminderSettings) {
         const reminderTime = new Date(classDate.getTime() - (minutes * 60 * 1000));
-        
+
         // Só agendar se o horário for no futuro
         if (reminderTime > new Date()) {
           await this.scheduleNotification(
@@ -270,7 +270,7 @@ class NotificationService {
   async cancelClassReminders(className, classDateTime) {
     try {
       const scheduledNotifications = await Notifications.getAllScheduledNotificationsAsync();
-      
+
       for (const notification of scheduledNotifications) {
         const { data } = notification.content;
         if (data.type === 'class' && data.className === className) {
@@ -285,7 +285,7 @@ class NotificationService {
   async notifyGraduation(userId, fromLevel, toLevel, modalityName) {
     const title = 'Parabéns! Nova Graduação';
     const body = `Você foi promovido de ${fromLevel} para ${toLevel} em ${modalityName}!`;
-    
+
     await this.saveNotificationToFirestore({
       userId,
       title,
@@ -306,7 +306,7 @@ class NotificationService {
   async notifyAnnouncement(userId, announcementTitle, announcementContent) {
     const title = 'Novo Anúncio';
     const body = announcementTitle;
-    
+
     await this.saveNotificationToFirestore({
       userId,
       title,
@@ -320,7 +320,7 @@ class NotificationService {
     await this.sendLocalNotification(title, body, {
       type: 'general',
       userId,
-      screen: getString('dashboard')
+      screen: 'Dashboard'
     });
   }
 }

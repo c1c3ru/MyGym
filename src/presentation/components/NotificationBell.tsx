@@ -12,7 +12,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { useNotification } from '@contexts/NotificationContext';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getString } from "@utils/theme";
+import { useTheme } from "@contexts/ThemeContext";
 
 /**
  * Propriedades para o componente NotificationBell
@@ -43,6 +43,7 @@ const NotificationBell: React.FC<NotificationBellProps> = ({
     color = COLORS.white,
     size = 24
 }) => {
+    const { getString } = useTheme();
     const {
         unreadNotifications,
         unreadCount,

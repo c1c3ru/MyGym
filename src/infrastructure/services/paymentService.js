@@ -1,6 +1,6 @@
 import { firestoreService } from './firestoreService';
 import notificationService from './notificationService';
-import { getString } from "@utils/theme";
+
 
 class PaymentService {
   constructor() {
@@ -41,7 +41,7 @@ class PaymentService {
       };
 
       const paymentId = await firestoreService.addDocument('payments', paymentData);
-      
+
       // Notificar aluno sobre nova cobrança
       await notificationService.notifyPaymentDue(studentId, amount, dueDate);
 
@@ -146,7 +146,7 @@ class PaymentService {
 
       // Buscar dados do pagamento para notificação
       const payment = await firestoreService.getDocument(`gyms/${academiaId}/payments`, paymentId);
-      
+
       // Notificar confirmação de pagamento
       await notificationService.sendLocalNotification(
         'Pagamento Confirmado! ✅',
@@ -154,7 +154,7 @@ class PaymentService {
         {
           type: 'payment',
           paymentId,
-          screen: getString('payments')
+          screen: 'Pagamentos'
         }
       );
 
@@ -206,9 +206,9 @@ class PaymentService {
       if (!academiaId) {
         throw new Error('Academia ID é obrigatório para buscar pagamentos');
       }
-      
+
       const payments = await firestoreService.getDocumentsWithFilters(`gyms/${academiaId}/payments`, queryFilters);
-      
+
       return payments.sort((a, b) => b.dueDate.toDate() - a.dueDate.toDate());
     } catch (error) {
       console.error('Erro ao buscar pagamentos do aluno:', error);
@@ -236,7 +236,7 @@ class PaymentService {
       );
 
       // Atualizar status para vencido
-      const updatePromises = overduePayments.map(payment => 
+      const updatePromises = overduePayments.map(payment =>
         firestoreService.updateDocument(`gyms/${academiaId}/payments`, payment.id, {
           status: this.paymentStatus.OVERDUE,
           updatedAt: new Date()
@@ -253,7 +253,7 @@ class PaymentService {
           {
             type: 'payment',
             paymentId: payment.id,
-            screen: getString('payments')
+            screen: 'Pagamentos'
           }
         );
       }
@@ -289,10 +289,10 @@ class PaymentService {
 
       payments.forEach(payment => {
         report.totalAmount += payment.amount;
-        
+
         // Por status
         report.byStatus[payment.status]++;
-        
+
         switch (payment.status) {
           case this.paymentStatus.PAID:
             report.paidAmount += payment.amount;
@@ -326,11 +326,11 @@ class PaymentService {
     try {
       const payments = [];
       const currentDate = new Date(startDate);
-      
+
       // Criar 12 mensalidades
       for (let i = 0; i < 12; i++) {
         const dueDate = new Date(currentDate);
-        
+
         if (frequency === 'monthly') {
           dueDate.setMonth(currentDate.getMonth() + i);
         }
@@ -363,7 +363,7 @@ class PaymentService {
   async getPaymentStats(studentId) {
     try {
       const payments = await this.getStudentPayments(studentId);
-      
+
       const stats = {
         total: payments.length,
         paid: payments.filter(p => p.status === this.paymentStatus.PAID).length,

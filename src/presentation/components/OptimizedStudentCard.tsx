@@ -1,4 +1,4 @@
-import { getString } from "@utils/theme";
+import { useTheme } from "@contexts/ThemeContext";
 import React, { memo } from 'react';
 import { View, StyleSheet } from 'react-native';
 import {
@@ -39,6 +39,7 @@ const OptimizedStudentCard = memo<OptimizedStudentCardProps>(({
     onDisassociateStudent,
     onNavigateToPayments
 }) => {
+    const { getString } = useTheme();
     const getPaymentStatusColor = (status?: string) => {
         switch (status) {
             case 'paid': return COLORS.primary[500];

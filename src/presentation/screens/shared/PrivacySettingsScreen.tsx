@@ -18,7 +18,6 @@ import { firestoreService } from '@infrastructure/services/firestoreService';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
 import { getAuthGradient } from '@presentation/theme/authTheme';
-import { getString } from "@utils/theme";
 
 interface PrivacySettings {
   dataProcessingConsent: boolean;

@@ -1,4 +1,4 @@
-import { getString } from "@utils/theme";
+import { useTheme } from "@contexts/ThemeContext";
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, StyleSheet, Alert, TextStyle } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
@@ -13,6 +13,7 @@ interface Props {
 }
 
 const GraduationBoardScreen = ({ navigation }: Props) => {
+  const { getString } = useTheme();
   const { user } = useAuth();
   const [graduationBoard, setGraduationBoard] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -169,7 +170,7 @@ const GraduationBoardScreen = ({ navigation }: Props) => {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [getString]);
 
   useFocusEffect(
     useCallback(() => {

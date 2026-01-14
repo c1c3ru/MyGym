@@ -26,13 +26,14 @@ import { useUndo, useDeleteWithUndo } from '@components/UndoManager';
 import { useOnboarding, ONBOARDING_TOURS } from '@components/OnboardingTour';
 import { useTheme } from '@contexts/ThemeContext';
 import type { NavigationProp } from '@react-navigation/native';
-import { getString } from "@utils/theme";
+
 
 interface UIUXExampleScreenProps {
   navigation: NavigationProp<any>;
 }
 
 const UIUXExampleScreen = ({ navigation }) => {
+  const { getString } = useTheme();
   // ============================================
   // HOOKS
   // ============================================

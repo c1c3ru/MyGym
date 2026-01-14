@@ -16,7 +16,7 @@ import { useNotification } from '@contexts/NotificationContext';
 import { firestoreService } from '@infrastructure/services/firestoreService';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { Student } from '@presentation/types/student';
-import { getString } from "@utils/theme";
+
 
 /**
  * Propriedades para o componente StudentDisassociationDialog
@@ -44,7 +44,7 @@ const StudentDisassociationDialog: React.FC<StudentDisassociationDialogProps> = 
     const { user, userProfile, academia } = useAuthFacade();
     const { isAdminOrInstructor } = useCustomClaims() as any;
     const { showSuccess, showError } = useNotification() as any;
-    const { getString: themeGetString } = useThemeContext() as any;
+    const { getString } = useThemeContext() as any;
     const [reason, setReason] = useState('');
     const [loading, setLoading] = useState(false);
 

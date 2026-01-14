@@ -40,9 +40,10 @@ import {
   FONT_WEIGHT,
 } from "@presentation/theme/designTokens";
 import { hexToRgba } from "@shared/utils/colorUtils";
-import { getString } from "@utils/theme";
+import { useTheme } from "@contexts/ThemeContext";
 
 const InstructorClasses = ({ navigation }) => {
+  const { getString } = useTheme();
   const { user, userProfile } = useAuthFacade();
   const [classes, setClasses] = useState([]);
   const [filteredClasses, setFilteredClasses] = useState([]);
@@ -126,7 +127,7 @@ const InstructorClasses = ({ navigation }) => {
       setLoading(false);
       setRefreshing(false);
     }
-  }, [user.id, userProfile?.academiaId, user?.email, trackFeatureUsage]);
+  }, [user.id, userProfile?.academiaId, user?.email, trackFeatureUsage, getString]);
 
   const loadStudentCounts = useCallback(
     async (classes) => {
@@ -279,7 +280,7 @@ const InstructorClasses = ({ navigation }) => {
     } catch (e) {
       return getString("scheduleNotDefined");
     }
-  }, []);
+  }, [getString]);
 
   const renderClassCard = useCallback(
     (classItem) => {

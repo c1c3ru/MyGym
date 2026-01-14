@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet, type StyleProp, type ViewStyle } from 'react-native';
 import { ActivityIndicator, Text } from 'react-native-paper';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getString } from "@utils/theme";
+import { useTheme } from "@contexts/ThemeContext";
 
 type LoadingSpinnerProps = {
   size?: 'small' | 'large' | number;
@@ -11,22 +11,24 @@ type LoadingSpinnerProps = {
   style?: StyleProp<ViewStyle>;
 };
 
-const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({ 
-  size = 'large', 
-  color = COLORS.info[500], 
-  message = getString('loadingState'), 
-  style 
+const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
+  size = 'large',
+  color = COLORS.info[500],
+  message,
+  style
 }) => {
+  const { getString } = useTheme();
+  const displayMessage = message !== undefined ? message : getString('loadingState');
   return (
-    <View style={[styles.container, style]} accessible={true} accessibilityLabel={message}>
-      <ActivityIndicator 
-        size={size} 
-        color={color} 
+    <View style={[styles.container, style]} accessible={true} accessibilityLabel={displayMessage}>
+      <ActivityIndicator
+        size={size}
+        color={color}
         accessibilityHint="Aguarde enquanto os dados são carregados"
       />
-      {message && (
+      {displayMessage && (
         <Text style={styles.message} accessible={true}>
-          {message}
+          {displayMessage}
         </Text>
       )}
     </View>

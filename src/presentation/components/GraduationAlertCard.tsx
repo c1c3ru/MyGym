@@ -11,7 +11,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { getBeltColor } from '@shared/constants/colors';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getString } from "@utils/theme";
+import { useTheme } from "@contexts/ThemeContext";
 
 /**
  * Interface para um alerta de graduação
@@ -58,6 +58,7 @@ const GraduationAlertCard: React.FC<GraduationAlertCardProps> = ({
     showActions = true,
     compact = false
 }) => {
+    const { getString } = useTheme();
     const getAlertLevelColor = (level: string) => {
         switch (level) {
             case 'ready':

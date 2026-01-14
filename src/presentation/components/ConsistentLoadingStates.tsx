@@ -1,9 +1,9 @@
 import React, { memo } from 'react';
-import { View, StyleSheet, Text, Dimensions, StyleProp, ViewStyle } from 'react-native';
+import { View, StyleSheet, Text, StyleProp, ViewStyle } from 'react-native';
 import { Card, Button, ActivityIndicator, ButtonProps } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, SPACING, FONT_SIZE, FONT_WEIGHT, BORDER_RADIUS } from '@presentation/theme/designTokens';
-import { getString } from "@utils/theme";
+import { useTheme } from "@contexts/ThemeContext";
 
 /**
  * Propriedades para FullScreenLoading
@@ -19,17 +19,22 @@ interface FullScreenLoadingProps {
  * Loading state para tela completa
  */
 export const FullScreenLoading = memo<FullScreenLoadingProps>(({
-    message = getString('loadingState'),
+    message,
     showLogo = false
-}) => (
-    <View style={styles.fullScreenContainer}>
-        {showLogo && (
-            <Ionicons name="fitness-outline" size={48} color={COLORS.info[500]} style={styles.logo} />
-        )}
-        <ActivityIndicator size="large" color={COLORS.info[500]} />
-        <Text style={styles.loadingText}>{message}</Text>
-    </View>
-));
+}) => {
+    const { getString } = useTheme();
+    const displayMessage = message || getString('loadingState');
+
+    return (
+        <View style={styles.fullScreenContainer}>
+            {showLogo && (
+                <Ionicons name="fitness-outline" size={48} color={COLORS.info[500]} style={styles.logo} />
+            )}
+            <ActivityIndicator size="large" color={COLORS.info[500]} />
+            <Text style={styles.loadingText}>{displayMessage}</Text>
+        </View>
+    );
+});
 
 /**
  * Propriedades para SectionLoading
@@ -47,15 +52,20 @@ interface SectionLoadingProps {
  * Loading state para seções
  */
 export const SectionLoading = memo<SectionLoadingProps>(({
-    message = getString('loadingState'),
+    message,
     size = 'medium',
     style
-}) => (
-    <View style={[styles.sectionContainer, style]}>
-        <ActivityIndicator size={size as any} color={COLORS.info[500]} />
-        <Text style={styles.sectionText}>{message}</Text>
-    </View>
-));
+}) => {
+    const { getString } = useTheme();
+    const displayMessage = message || getString('loadingState');
+
+    return (
+        <View style={[styles.sectionContainer, style]}>
+            <ActivityIndicator size={size as any} color={COLORS.info[500]} />
+            <Text style={styles.sectionText}>{displayMessage}</Text>
+        </View>
+    );
+});
 
 /**
  * Loading state para listas (skeleton)
@@ -89,12 +99,17 @@ interface FormLoadingProps {
 /**
  * Loading state para formulários
  */
-export const FormLoading = memo<FormLoadingProps>(({ message = getString('saving') }) => (
-    <View style={styles.formLoadingContainer}>
-        <ActivityIndicator size="small" color={COLORS.info[500]} />
-        <Text style={styles.formLoadingText}>{message}</Text>
-    </View>
-));
+export const FormLoading = memo<FormLoadingProps>(({ message }) => {
+    const { getString } = useTheme();
+    const displayMessage = message || getString('saving');
+
+    return (
+        <View style={styles.formLoadingContainer}>
+            <ActivityIndicator size="small" color={COLORS.info[500]} />
+            <Text style={styles.formLoadingText}>{displayMessage}</Text>
+        </View>
+    );
+});
 
 /**
  * Propriedades para ErrorState
@@ -115,29 +130,34 @@ interface ErrorStateProps {
  */
 export const ErrorState = memo<ErrorStateProps>(({
     title = 'Ops! Algo deu errado',
-    message = getString('dataLoadError'),
+    message,
     onRetry,
     showIcon = true
-}) => (
-    <View style={styles.errorContainer}>
-        {showIcon && (
-            <Ionicons name="alert-circle-outline" size={48} color={COLORS.error[500]} style={styles.errorIcon} />
-        )}
-        <Text style={styles.errorTitle}>{title}</Text>
-        <Text style={styles.errorMessage}>{message}</Text>
-        {onRetry && (
-            <Button
-                mode="outlined"
-                onPress={onRetry}
-                style={styles.retryButton}
-                icon="refresh"
-                textColor={COLORS.info[500]}
-            >
-                Tentar Novamente
-            </Button>
-        )}
-    </View>
-));
+}) => {
+    const { getString } = useTheme();
+    const displayMessage = message || getString('dataLoadError');
+
+    return (
+        <View style={styles.errorContainer}>
+            {showIcon && (
+                <Ionicons name="alert-circle-outline" size={48} color={COLORS.error[500]} style={styles.errorIcon} />
+            )}
+            <Text style={styles.errorTitle}>{title}</Text>
+            <Text style={styles.errorMessage}>{displayMessage}</Text>
+            {onRetry && (
+                <Button
+                    mode="outlined"
+                    onPress={onRetry}
+                    style={styles.retryButton}
+                    icon="refresh"
+                    textColor={COLORS.info[500]}
+                >
+                    Tentar Novamente
+                </Button>
+            )}
+        </View>
+    );
+});
 
 /**
  * Propriedades para EmptyState
@@ -165,25 +185,30 @@ export const EmptyState = memo<EmptyStateProps>(({
     message = 'Não há dados para exibir no momento.',
     icon = 'folder-open-outline',
     action,
-    actionLabel = getString('add'),
+    actionLabel,
     onAction
-}) => (
-    <View style={styles.emptyContainer}>
-        <Ionicons name={icon as any} size={48} color={COLORS.gray[500]} style={styles.emptyIcon} />
-        <Text style={styles.emptyTitle}>{title}</Text>
-        <Text style={styles.emptyMessage}>{message}</Text>
-        {action && onAction && (
-            <Button
-                mode="contained"
-                onPress={onAction}
-                style={styles.actionButton}
-                icon="plus"
-            >
-                {actionLabel}
-            </Button>
-        )}
-    </View>
-));
+}) => {
+    const { getString } = useTheme();
+    const displayActionLabel = actionLabel || getString('add');
+
+    return (
+        <View style={styles.emptyContainer}>
+            <Ionicons name={icon as any} size={48} color={COLORS.gray[500]} style={styles.emptyIcon} />
+            <Text style={styles.emptyTitle}>{title}</Text>
+            <Text style={styles.emptyMessage}>{message}</Text>
+            {action && onAction && (
+                <Button
+                    mode="contained"
+                    onPress={onAction}
+                    style={styles.actionButton}
+                    icon="plus"
+                >
+                    {displayActionLabel}
+                </Button>
+            )}
+        </View>
+    );
+});
 
 /**
  * Propriedades para ButtonLoading

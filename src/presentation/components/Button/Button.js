@@ -3,7 +3,7 @@ import { TouchableOpacity } from 'react-native';
 import { Button as PaperButton, Text } from 'react-native-paper';
 import { Logger } from '@utils/logger';
 import styles from './Button.styles';
-import { getString } from "@utils/theme";
+import { useTheme } from "@contexts/ThemeContext";
 
 /**
  * Componente Button reutilizável seguindo melhores práticas
@@ -26,9 +26,10 @@ const Button = memo(({
   testID,
   ...props
 }) => {
+  const { getString } = useTheme();
   const handlePress = () => {
     if (disabled || loading) return;
-    
+
     Logger.debug(`Button pressed: ${title || 'Unnamed button'}`);
     onPress?.();
   };

@@ -75,12 +75,12 @@ export const LIGHT_THEME = {
     section: '#F0F2F5',        // Seções bem definidas
   },
 
-  // Texto com hierarquia clara
+  // Texto com hierarquia clara e alto contraste
   text: {
-    primary: '#2C3E50',        // Texto principal - azul escuro sóbrio
-    secondary: '#5D6D7E',      // Texto secundário - cinza azulado
-    tertiary: '#85929E',       // Texto terciário
-    disabled: '#BDC3C7',       // Texto desabilitado
+    primary: '#111827',        // Preto suave (quase preto) - Melhor Leitura
+    secondary: '#374151',      // Cinza escuro - Melhor contraste que o anterior
+    tertiary: '#4B5563',       // Cinza médio para informações auxiliares
+    disabled: '#9CA3AF',       // Cinza claro mas visível
     inverse: '#FFFFFF',        // Texto em fundos escuros
   },
 
@@ -219,13 +219,13 @@ export const LIGHT_THEME = {
   white: '#FFFFFF',
   black: '#000000',
 
-  // Borders e divisores sóbrios
+  // Borders e divisores
   border: {
-    light: '#F0F2F5',
-    default: '#E5E7EB',
-    dark: '#D1D5DB',
-    primary: '#90CAF9',
-    secondary: '#B0BEC5',
+    light: '#E5E7EB',
+    default: '#CBD5E1',        // Cinza mais visível para bordas padrão
+    dark: '#94A3B8',           // Cinza escuro para destaque
+    primary: '#64B5F6',        // Azul mais visível
+    secondary: '#90A4AE',
   },
 
   // Overlays para modais e tooltips

@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
-import { 
-  Card, 
-  Text, 
-  TextInput, 
-  Button, 
-  Chip, 
+import {
+  Card,
+  Text,
+  TextInput,
+  Button,
+  Chip,
   Surface,
-  Divider 
+  Divider
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -15,9 +15,10 @@ import { ResponsiveUtils } from '@utils/animations';
 import ImprovedScheduleSelector from '@components/ImprovedScheduleSelector';
 import { createEmptySchedule } from '@utils/scheduleUtils';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getString } from "@utils/theme";
+import { useTheme } from "@contexts/ThemeContext";
 
 const NovaAula = ({ navigation }) => {
+  const { getString } = useTheme();
   const [formData, setFormData] = useState({
     nome: '',
     modalidade: '',
@@ -43,66 +44,66 @@ const NovaAula = ({ navigation }) => {
               <MaterialCommunityIcons name="plus-circle" size={32} color={COLORS.primary[500]} />
               <Text style={styles.title}>Nova Aula</Text>
             </View>
-            
+
             <TextInput
               label="Nome da Aula"
               value={formData.nome}
-              onChangeText={(text) => setFormData({...formData, nome: text})}
+              onChangeText={(text) => setFormData({ ...formData, nome: text })}
               style={styles.input}
               mode="outlined"
             />
-            
+
             <Text style={styles.sectionTitle}>{getString('modality')}</Text>
             <View style={styles.chipContainer}>
               {modalidades.map((modalidade) => (
                 <Chip
                   key={modalidade}
                   selected={formData.modalidade === modalidade}
-                  onPress={() => setFormData({...formData, modalidade})}
+                  onPress={() => setFormData({ ...formData, modalidade })}
                   style={styles.chip}
                 >
                   {modalidade}
                 </Chip>
               ))}
             </View>
-            
+
             <TextInput
               label="Capacidade Máxima"
               value={formData.capacidade}
-              onChangeText={(text) => setFormData({...formData, capacidade: text})}
+              onChangeText={(text) => setFormData({ ...formData, capacidade: text })}
               style={styles.input}
               mode="outlined"
               keyboardType="numeric"
             />
-            
+
             <TextInput
               label="Horário"
               value={formData.horario}
-              onChangeText={(text) => setFormData({...formData, horario: text})}
+              onChangeText={(text) => setFormData({ ...formData, horario: text })}
               style={styles.input}
               mode="outlined"
               placeholder="Ex: Segunda 19:00"
             />
-            
+
             <TextInput
               label={getString('description')}
               value={formData.descricao}
-              onChangeText={(text) => setFormData({...formData, descricao: text})}
+              onChangeText={(text) => setFormData({ ...formData, descricao: text })}
               style={styles.input}
               mode="outlined"
               multiline
               numberOfLines={3}
             />
-            
+
             <Divider style={styles.divider} />
-            
+
             <View style={styles.buttonContainer}>
               <Button
                 mode="outlined"
                 onPress={() => navigation.goBack()}
                 style={styles.cancelButton}
               >{getString('cancel')}</Button>
-              
+
               <Button
                 mode="contained"
                 onPress={handleSubmit}

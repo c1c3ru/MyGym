@@ -10,7 +10,7 @@ import { View, StyleSheet, ScrollView, TouchableOpacity, StyleProp, ViewStyle } 
 import { Text } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getString } from "@utils/theme";
+import { useTheme } from "@contexts/ThemeContext";
 
 // ============================================
 // BREADCRUMB ITEM
@@ -110,6 +110,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
     style,
     containerStyle,
 }) => {
+    const { getString } = useTheme();
     // Adiciona item Home se configurado
     const allItems: BreadcrumbData[] = showHome
         ? [{ label: getString('home'), icon: 'home', onPress: onHomePress }, ...items]
