@@ -357,6 +357,7 @@ const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
             ]}
             contentContainerStyle={styles.scrollContent}
             showsVerticalScrollIndicator={true}
+            nestedScrollEnabled={true}
           >
             <Card style={styles.card}>
               <Card.Content>

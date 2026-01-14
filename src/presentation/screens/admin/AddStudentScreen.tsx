@@ -356,6 +356,7 @@ const AddStudentScreen = ({ navigation, route }: any) => {
             showsVerticalScrollIndicator={true}
             keyboardShouldPersistTaps="handled"
             contentContainerStyle={styles.scrollContent}
+            nestedScrollEnabled={true}
           >
             <Card style={styles.card}>
               <Card.Content>
