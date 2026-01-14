@@ -64,10 +64,11 @@ export class AuthMappers {
   static toDomainClaims(firebaseClaims: FirebaseClaimsData): Claims {
     return {
       role: firebaseClaims.role || 'student',
-      academiaId: firebaseClaims.academiaId,
+      academiaId: firebaseClaims.academiaId || undefined,
       permissions: firebaseClaims.permissions || []
     };
   }
+
 
   static toDomainAcademia(firestoreData: FirestoreAcademiaData): Academia {
     return {

@@ -11,11 +11,13 @@ import { getString } from "@utils/theme";
 const logoIcon = require('@assets/icon.png');
 
 function QRCodeGenerator({ size = 200, showActions = true, academiaId, academiaNome, academiaCodigo }) {
+  let authContext = null;
   try {
     authContext = useAuthFacade();
   } catch (error) {
     console.log('QRCodeGenerator usado fora do AuthProvider, usando apenas props');
   }
+
 
   // Hook do tema (com fallback)
   let currentTheme = null;
@@ -202,13 +204,11 @@ MyGym`;
           {finalAcademiaNome}
         </Text>
 
-        <Text variant="bodySmall" style={styles.academyCode}>
-          {academiaCodigo || academia?.codigo ? (
-            <>Código da Academia: <Text style={{ fontWeight: 'bold' }}>{academiaCodigo || academia?.codigo}</Text></>
-          ) : (
-            <>ID da Academia: <Text style={{ fontSize: 10 }}>{finalAcademiaId}</Text></>
-          )}
-        </Text>
+        {(academiaCodigo || academia?.codigo) && (
+          <Text variant="bodySmall" style={styles.academyCode}>
+            Código da Academia: <Text style={{ fontWeight: 'bold' }}>{academiaCodigo || academia?.codigo}</Text>
+          </Text>
+        )}
 
         <View style={styles.qrContainer}>
           <QRCode

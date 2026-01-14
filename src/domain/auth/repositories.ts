@@ -10,32 +10,36 @@ export interface AuthRepository {
   signUpWithEmailAndPassword(data: SignUpData): Promise<User>;
   signOut(): Promise<void>;
   getCurrentUser(): Promise<User | null>;
-  
+
   // User profile methods
   createUserProfile(userId: string, data: Partial<UserProfile>): Promise<UserProfile>;
   getUserProfile(userId: string): Promise<UserProfile | null>;
   updateUserProfile(userId: string, data: Partial<UserProfile>): Promise<UserProfile>;
-  
+
   // Claims methods
   getUserClaims(user: User): Promise<Claims | null>;
   getCustomClaims(): Promise<Claims | null>;
   refreshUserToken(user: User): Promise<void>;
   refreshToken(): Promise<void>;
-  
+
   // Academia methods
   getAcademia(academiaId: string): Promise<Academia | null>;
-  
+
   // Social authentication
   signInWithGoogle(): Promise<User>;
   signInWithFacebook(): Promise<User>;
   signInWithMicrosoft(): Promise<User>;
   signInWithApple(): Promise<User>;
-  
+
   // Password recovery
   sendPasswordResetEmail(email: string): Promise<void>;
-  
+
   // Auth state monitoring
   onAuthStateChanged(callback: (user: User | null) => void): () => void;
+
+  // Helper methods for unified login flow
+  getSignInMethodsForEmail(email: string): Promise<string[]>;
+  getUserProfileByEmail(email: string): Promise<UserProfile | null>;
 }
 
 export interface UserRepository {

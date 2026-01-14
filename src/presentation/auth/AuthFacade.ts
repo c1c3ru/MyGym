@@ -145,6 +145,31 @@ export function useAuthFacade() {
         throw profileError;
       }
 
+      // Verificar se é erro de credenciais inválidas
+      if (errorName === 'InvalidCredentialsError' || errorName === 'auth/wrong-password' || errorName === 'auth/invalid-credential') {
+        // Tentar verificar se a conta existe com outro provedor
+        try {
+          const signInMethods = await repository!.getSignInMethodsForEmail(email);
+
+          if (signInMethods && signInMethods.length > 0) {
+            // Conta existe mas com outro provedor
+            const providerMap: Record<string, string> = {
+              'google.com': 'Google',
+              'facebook.com': 'Facebook',
+              'apple.com': 'Apple',
+              'microsoft.com': 'Microsoft',
+              'password': 'email e senha'
+            };
+
+            const providers = signInMethods.map(method => providerMap[method] || method).join(', ');
+            showError(`Esta conta foi criada com ${providers}. Use o método de login correto.`);
+            throw error;
+          }
+        } catch (checkError) {
+          console.error('Erro ao verificar métodos de login:', checkError);
+        }
+      }
+
       // Para outros erros, fazer log e tratamento normal
       crashlyticsService.logAuthError(error, { method: 'signIn' });
       console.error('🔐 Erro no login:', { errorName, errorMessage });
@@ -206,25 +231,80 @@ export function useAuthFacade() {
 
       console.error('📝 Erro no registro:', { errorName, errorMessage });
 
-      switch (errorName) {
-        case 'EmailAlreadyInUseError':
+      // Tratamento especial para email já em uso
+      if (errorName === 'EmailAlreadyInUseError' || errorMessage?.includes('email-already-in-use')) {
+        try {
+          // Verificar se existe perfil para este email
+          const existingProfile = await repository!.getUserProfileByEmail(email);
+
+          if (existingProfile) {
+            // Perfil já existe - usuário deve fazer login
+            showError('Este email já está cadastrado com um perfil completo. Por favor, faça login.');
+          } else {
+            // Email existe mas sem perfil - permitir completar cadastro
+            console.log('📝 Email existe no Auth mas sem perfil. Permitindo completar cadastro...');
+
+            try {
+              // Fazer login com as credenciais fornecidas para obter o usuário
+              const user = await repository!.signInWithEmail({ email, password });
+
+              // Criar perfil com os dados fornecidos
+              const userProfile = await repository!.createUserProfile(user.id, {
+                id: user.id,
+                name: userData.name || '',
+                email: email,
+                phone: userData.phone || '',
+                userType: userData.userType || 'student',
+                isActive: true,
+                currentGraduation: userData.userType === 'student' ? 'Iniciante' : undefined,
+                graduations: [],
+                classIds: [],
+                createdAt: new Date(),
+                updatedAt: new Date()
+              });
+
+              // Criar claims padrão
+              const claims = {
+                role: userData.userType || 'student',
+                academiaId: undefined,
+                permissions: []
+              };
+
+              // Atualizar estado
+              setUser(user);
+              setUserProfile(userProfile);
+              setCustomClaims(claims);
+
+              showError('Perfil criado com sucesso! Bem-vindo!');
+              return user;
+            } catch (completeError) {
+              console.error('Erro ao completar cadastro:', completeError);
+              showError('Não foi possível completar o cadastro. Tente fazer login com o provedor social usado anteriormente.');
+            }
+          }
+        } catch (checkError) {
+          console.error('Erro ao verificar perfil existente:', checkError);
           showError('Este email já está sendo usado. Tente fazer login ou use outro email.');
-          break;
-        case 'WeakPasswordError':
-          showError('Senha muito fraca. Use pelo menos 6 caracteres com letras e números.');
-          break;
-        case 'InvalidEmailError':
-          showError('Email inválido. Verifique o formato do email.');
-          break;
-        case 'networkError':
-          showError(getString('networkError'));
-          break;
-        case 'ValidationError':
-          showError('Dados inválidos. Verifique as informações e tente novamente.');
-          break;
-        default:
-          showError(`Erro no registro: ${errorMessage || 'Tente novamente ou entre em contato com o suporte.'}`);
-          break;
+        }
+      } else {
+        // Outros erros
+        switch (errorName) {
+          case 'WeakPasswordError':
+            showError('Senha muito fraca. Use pelo menos 6 caracteres com letras e números.');
+            break;
+          case 'InvalidEmailError':
+            showError('Email inválido. Verifique o formato do email.');
+            break;
+          case 'networkError':
+            showError(getString('networkError'));
+            break;
+          case 'ValidationError':
+            showError('Dados inválidos. Verifique as informações e tente novamente.');
+            break;
+          default:
+            showError(`Erro no registro: ${errorMessage || 'Tente novamente ou entre em contato com o suporte.'}`);
+            break;
+        }
       }
 
       throw error;

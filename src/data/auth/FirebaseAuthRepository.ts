@@ -327,7 +327,44 @@ export class FirebaseAuthRepository implements AuthRepository {
     }
   }
 
+  async getSignInMethodsForEmail(email: string): Promise<string[]> {
+    try {
+      // Import fetchSignInMethodsForEmail dynamically
+      const { fetchSignInMethodsForEmail } = await import('firebase/auth');
+      const methods = await fetchSignInMethodsForEmail(this.auth, email);
+      return methods;
+    } catch (error: any) {
+      console.error('Error getting sign-in methods:', error);
+      throw mapFirebaseError(error);
+    }
+  }
+
+  async getUserProfileByEmail(email: string): Promise<UserProfile | null> {
+    try {
+      // Import query functions
+      const { collection, query, where, getDocs } = await import('firebase/firestore');
+
+      const usersRef = collection(this.db, 'users');
+      const q = query(usersRef, where('email', '==', email));
+      const querySnapshot = await getDocs(q);
+
+      if (querySnapshot.empty) {
+        return null;
+      }
+
+      const userDoc = querySnapshot.docs[0];
+      const userData = { id: userDoc.id, ...userDoc.data() };
+      const validatedProfile = AuthValidators.validateFirestoreUserProfile(userData);
+
+      return AuthMappers.toDomainUserProfile(validatedProfile);
+    } catch (error: any) {
+      console.error('Error getting user profile by email:', error);
+      return null;
+    }
+  }
+
   onAuthStateChanged(callback: (user: User | null) => void): () => void {
+
     return onAuthStateChanged(this.auth, (firebaseUser: FirebaseUser | null) => {
       try {
         if (firebaseUser) {
