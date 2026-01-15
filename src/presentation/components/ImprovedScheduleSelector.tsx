@@ -246,7 +246,12 @@ const ImprovedScheduleSelector: React.FC<ImprovedScheduleSelectorProps> = ({
     };
 
     return (
-        <View style={[styles.container, style]}>
+        <View
+            style={[styles.container, style]}
+            pointerEvents="box-none"
+            onStartShouldSetResponderCapture={() => false}
+            onMoveShouldSetResponderCapture={() => false}
+        >
             <Text style={[styles.label, { color: colors?.onSurface || COLORS.black }]}>
                 {finalLabel}
                 {required && <Text style={{ color: colors?.error || COLORS.error[500] }}> *</Text>}
@@ -286,7 +291,12 @@ const ImprovedScheduleSelector: React.FC<ImprovedScheduleSelectorProps> = ({
             </View>
 
             {/* Cards dos dias da semana */}
-            <ScrollView style={styles.daysContainer} showsVerticalScrollIndicator={false}>
+            <ScrollView
+                style={styles.daysContainer}
+                showsVerticalScrollIndicator={false}
+                nestedScrollEnabled={true}
+                scrollEnabled={false}
+            >
                 {Object.keys(DAY_NAMES).map(renderDayCard)}
             </ScrollView>
 
