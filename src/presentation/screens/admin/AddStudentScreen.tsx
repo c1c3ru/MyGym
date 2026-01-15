@@ -343,10 +343,7 @@ const AddStudentScreen = ({ navigation, route }: AddStudentScreenProps) => {
         colors={backgroundGradient as any}
         style={{
           flex: 1,
-          width: '100%',
-          minHeight: 0,
-          height: Platform.OS === 'web' ? '100vh' : '100%',
-          overflow: 'hidden'
+          width: '100%'
         } as any}
       >
         <SafeAreaView style={{ flex: 1 }}>
@@ -360,12 +357,12 @@ const AddStudentScreen = ({ navigation, route }: AddStudentScreenProps) => {
               contentContainerStyle={{
                 padding: SPACING.md,
                 paddingBottom: 100,
-                flexGrow: 1,
-                minHeight: '101%'
+                ...(Platform.OS === 'web' ? {} : { flexGrow: 1 })
               }}
-              showsVerticalScrollIndicator={false}
+              showsVerticalScrollIndicator={true}
               keyboardShouldPersistTaps="handled"
-              alwaysBounceVertical={true}
+              nestedScrollEnabled={true}
+              scrollEnabled={true}
             >
               <View style={{ marginBottom: SPACING.lg, marginTop: SPACING.sm }}>
                 <Text style={{
