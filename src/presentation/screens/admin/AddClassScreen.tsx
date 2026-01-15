@@ -346,17 +346,19 @@ const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
       marginBottom: SPACING.sm,
       flexGrow: 0,
       flexShrink: 1,
-      backgroundColor: theme?.background?.default || COLORS.background.default,
-      borderColor: theme?.text?.disabled,
+      backgroundColor: 'transparent',
+      borderColor: theme?.text?.disabled || COLORS.gray[400],
+      borderWidth: 1,
     },
     chipSelected: {
-      backgroundColor: theme?.secondary && theme.secondary[100] ? theme.secondary[100] : COLORS.primary[100],
+      backgroundColor: theme?.primary?.[100] || COLORS.primary[100],
+      borderColor: theme?.primary?.[500] || COLORS.primary[500],
     },
     chipText: {
-      color: theme?.text?.primary || COLORS.black,
+      color: theme?.text?.secondary || COLORS.gray[700],
     },
     chipSelectedText: {
-      color: theme?.secondary && theme.secondary[900] ? theme.secondary[900] : COLORS.primary[900],
+      color: theme?.primary?.[900] || COLORS.primary[900],
     },
     radioLabel: {
       marginLeft: SPACING.sm,
@@ -376,10 +378,11 @@ const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
 
   return (
     <EnhancedErrorBoundary errorContext={{ screen: 'AddClassScreen', academiaId: userProfile?.academiaId }}>
-      <LinearGradient colors={getGradient()} style={{ flex: 1 }}>
+      <LinearGradient colors={getGradient()} style={{ flex: 1, width: '100%', minHeight: 0 }}>
         <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          behavior={Platform.OS === "ios" ? "padding" : Platform.OS === "android" ? "height" : undefined}
           style={styles.container}
+          enabled={Platform.OS !== 'web'}
         >
           <ScrollView
             style={styles.scrollView}
@@ -646,6 +649,7 @@ const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    minHeight: 0,
   },
   scrollView: {
     flex: 1,

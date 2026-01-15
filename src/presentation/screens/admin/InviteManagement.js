@@ -17,12 +17,24 @@ import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { InviteService } from '@infrastructure/services/inviteService';
 import QRCodeGenerator from '@components/QRCodeGenerator';
 import ActionButton, { ActionButtonGroup } from '@components/ActionButton';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, GLASS } from '@presentation/theme/designTokens';
+import { getAuthGradient } from '@presentation/theme/authTheme';
 import { useTheme } from "@contexts/ThemeContext";
+import { LinearGradient } from 'expo-linear-gradient';
 
 export default function InviteManagement({ navigation }) {
-  const { getString } = useTheme();
+  const { getString, isDarkMode, theme } = useTheme();
   const { user, userProfile, academia } = useAuthFacade();
+
+  // Dynamic Styles
+  const backgroundGradient = isDarkMode
+    ? [COLORS.gray[800], COLORS.gray[900], COLORS.black]
+    : [COLORS.gray[100], COLORS.gray[50], COLORS.white];
+
+  const textColor = theme.colors.text;
+  const secondaryTextColor = theme.colors.textSecondary;
+  const glassStyle = isDarkMode ? GLASS.premium : GLASS.light;
+
   const [invites, setInvites] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingDelete, setLoadingDelete] = useState(false);
@@ -270,24 +282,25 @@ export default function InviteManagement({ navigation }) {
       key={invite.id}
       style={[
         styles.inviteCard,
-        deletingInviteId === invite.id && { opacity: 0.5 }
+        deletingInviteId === invite.id && { opacity: 0.5 },
+        { backgroundColor: glassStyle.backgroundColor, borderColor: glassStyle.borderColor, borderWidth: 1 }
       ]}
     >
       <Card.Content>
         <View style={styles.inviteHeader}>
           <View style={styles.inviteInfo}>
-            <Text variant="titleMedium" style={styles.inviteEmail}>
+            <Text variant="titleMedium" style={[styles.inviteEmail, { color: textColor }]}>
               {invite.email}
             </Text>
-            <Text variant="bodySmall" style={styles.inviteType}>
+            <Text variant="bodySmall" style={[styles.inviteType, { color: secondaryTextColor }]}>
               {invite.tipo === 'aluno' ? getString('student') : getString('instructor')}
             </Text>
             {invite.inviteToken && (
-              <Text variant="bodySmall" style={styles.inviteCode}>
+              <Text variant="bodySmall" style={[styles.inviteCode, { color: secondaryTextColor }]}>
                 Código: <Text style={{ fontWeight: 'bold', color: COLORS.primary[600] }}>{invite.inviteToken}</Text>
               </Text>
             )}
-            <Text variant="bodySmall" style={styles.inviteDate}>
+            <Text variant="bodySmall" style={[styles.inviteDate, { color: secondaryTextColor }]}>
               Enviado em: {invite.createdAt?.toDate?.()?.toLocaleDateString() || getString('dataNotAvailable')}
             </Text>
             {invite.status === 'pending' && (
@@ -320,24 +333,27 @@ export default function InviteManagement({ navigation }) {
     </Card>
   );
   return (
-    <View style={styles.container}>
+    <LinearGradient
+      colors={backgroundGradient}
+      style={styles.container}
+    >
       <ScrollView style={styles.scrollView} contentContainerStyle={{ paddingBottom: 100 }}>
         {/* Header */}
-        <Card style={styles.headerCard}>
+        <Card style={[styles.headerCard, { backgroundColor: glassStyle.backgroundColor, borderColor: glassStyle.borderColor, borderWidth: 1 }]}>
           <Card.Content>
-            <Text variant="headlineSmall" style={styles.title}>
+            <Text variant="headlineSmall" style={[styles.title, { color: textColor }]}>
               Gerenciar Convites
             </Text>
-            <Text variant="bodyMedium" style={styles.subtitle}>
+            <Text variant="bodyMedium" style={[styles.subtitle, { color: secondaryTextColor }]}>
               Convide alunos e instrutores para sua academia
             </Text>
           </Card.Content>
         </Card>
 
         {/* Opções de Convite */}
-        <Card style={styles.optionsCard}>
+        <Card style={[styles.optionsCard, { backgroundColor: glassStyle.backgroundColor, borderColor: glassStyle.borderColor, borderWidth: 1 }]}>
           <Card.Content>
-            <Text variant="titleMedium" style={styles.sectionTitle}>
+            <Text variant="titleMedium" style={[styles.sectionTitle, { color: textColor }]}>
               Formas de Convite
             </Text>
 
@@ -368,10 +384,10 @@ export default function InviteManagement({ navigation }) {
         </Card>
 
         {/* Lista de Convites */}
-        <Card style={styles.listCard}>
+        <Card style={[styles.listCard, { backgroundColor: glassStyle.backgroundColor, borderColor: glassStyle.borderColor, borderWidth: 1 }]}>
           <Card.Content>
             <View style={styles.listHeader}>
-              <Text variant="titleMedium" style={styles.sectionTitle}>
+              <Text variant="titleMedium" style={[styles.sectionTitle, { color: textColor }]}>
                 Convites Enviados ({invites.length})
               </Text>
               <View style={styles.headerActions}>
@@ -391,7 +407,7 @@ export default function InviteManagement({ navigation }) {
             </View>
 
             {invites.length === 0 ? (
-              <Text variant="bodyMedium" style={styles.emptyText}>
+              <Text variant="bodyMedium" style={[styles.emptyText, { color: secondaryTextColor }]}>
                 Nenhum convite enviado ainda
               </Text>
             ) : (
@@ -562,14 +578,14 @@ export default function InviteManagement({ navigation }) {
           </Button>
         </Modal>
       </Portal>
-    </View>
+    </LinearGradient>
   );
 }
 
 const styles = {
   container: {
     flex: 1,
-    backgroundColor: COLORS.gray[100],
+    // backgroundColor: COLORS.gray[100], // Removed hardcoded color
   },
   scrollView: {
     flex: 1,

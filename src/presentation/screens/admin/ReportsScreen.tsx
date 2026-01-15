@@ -57,7 +57,16 @@ interface Payment {
 
 const ReportsScreen: React.FC<ReportsScreenProps> = ({ navigation }) => {
   const { userProfile, academia } = useAuthFacade();
-  const { getString } = useTheme();
+  const { getString, isDarkMode, theme } = useTheme();
+
+  // Dynamic Styles
+  const backgroundGradient = isDarkMode
+    ? [COLORS.gray[800], COLORS.gray[900], COLORS.black]
+    : [COLORS.gray[100], COLORS.gray[50], COLORS.white];
+
+  const textColor = theme.colors.text;
+  const secondaryTextColor = theme.colors.textSecondary;
+  const glassVariant = isDarkMode ? 'premium' : 'card';
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [stats, setStats] = useState({
@@ -233,7 +242,7 @@ const ReportsScreen: React.FC<ReportsScreenProps> = ({ navigation }) => {
       <View style={styles.container}>
         {/* Background Gradient Principal */}
         <LinearGradient
-          colors={[COLORS.background.default, COLORS.secondary[800]]}
+          colors={backgroundGradient as any}
           style={StyleSheet.absoluteFill}
         />
 
@@ -253,14 +262,14 @@ const ReportsScreen: React.FC<ReportsScreenProps> = ({ navigation }) => {
           >
             {/* Header */}
             <View style={styles.header}>
-              <Text style={styles.title}>Relatórios Gerenciais</Text>
-              <Text style={styles.subtitle}>Visão geral do desempenho da academia</Text>
+              <Text style={[styles.title, { color: textColor }]}>Relatórios Gerenciais</Text>
+              <Text style={[styles.subtitle, { color: secondaryTextColor }]}>Visão geral do desempenho da academia</Text>
             </View>
 
             {/* Estatísticas Principais */}
-            <GlassCard style={styles.card}>
-              <View style={styles.cardHeader}>
-                <Text style={styles.cardTitle}>Estatísticas Principais</Text>
+            <GlassCard style={styles.card} variant={glassVariant}>
+              <View style={[styles.cardHeader, { borderBottomColor: isDarkMode ? hexToRgba(COLORS.white, 0.05) : hexToRgba(COLORS.black, 0.05) }]}>
+                <Text style={[styles.cardTitle, { color: textColor }]}>Estatísticas Principais</Text>
               </View>
 
               <View style={styles.statsGrid}>
@@ -300,9 +309,9 @@ const ReportsScreen: React.FC<ReportsScreenProps> = ({ navigation }) => {
                     <Ionicons name="card" size={24} color={COLORS.white} />
                   </LinearGradient>
                   <View style={styles.statContent}>
-                    <Text style={styles.statNumber}>{formatCurrency(stats.monthlyRevenue)}</Text>
-                    <Text style={styles.statLabel}>Receita Mensal</Text>
-                    <Text style={styles.statSubtext}>Total: {formatCurrency(stats.totalRevenue)}</Text>
+                    <Text style={[styles.statNumber, { color: textColor }]}>{formatCurrency(stats.monthlyRevenue)}</Text>
+                    <Text style={[styles.statLabel, { color: secondaryTextColor }]}>Receita Mensal</Text>
+                    <Text style={[styles.statSubtext, { color: secondaryTextColor }]}>Total: {formatCurrency(stats.totalRevenue)}</Text>
                   </View>
                 </View>
 
@@ -323,15 +332,15 @@ const ReportsScreen: React.FC<ReportsScreenProps> = ({ navigation }) => {
             </GlassCard>
 
             {/* Taxa de Ocupação */}
-            <GlassCard style={styles.card}>
-              <View style={styles.cardHeader}>
-                <Text style={styles.cardTitle}>Taxa de Ocupação</Text>
+            <GlassCard style={styles.card} variant={glassVariant}>
+              <View style={[styles.cardHeader, { borderBottomColor: isDarkMode ? hexToRgba(COLORS.white, 0.05) : hexToRgba(COLORS.black, 0.05) }]}>
+                <Text style={[styles.cardTitle, { color: textColor }]}>Taxa de Ocupação</Text>
               </View>
 
               <View style={styles.occupancyContainer}>
                 <View style={styles.occupancyHeader}>
-                  <Text style={styles.occupancyLabel}>Alunos Ativos</Text>
-                  <Text style={styles.occupancyValue}>{stats.activeStudents} / {stats.totalStudents}</Text>
+                  <Text style={[styles.occupancyLabel, { color: secondaryTextColor }]}>Alunos Ativos</Text>
+                  <Text style={[styles.occupancyValue, { color: textColor }]}>{stats.activeStudents} / {stats.totalStudents}</Text>
                 </View>
                 <ProgressBar
                   progress={stats.totalStudents > 0 ? stats.activeStudents / stats.totalStudents : 0}
@@ -345,8 +354,8 @@ const ReportsScreen: React.FC<ReportsScreenProps> = ({ navigation }) => {
 
               <View style={styles.occupancyContainer}>
                 <View style={styles.occupancyHeader}>
-                  <Text style={styles.occupancyLabel}>Turmas Ativas</Text>
-                  <Text style={styles.occupancyValue}>{stats.activeClasses} / {stats.totalClasses}</Text>
+                  <Text style={[styles.occupancyLabel, { color: secondaryTextColor }]}>Turmas Ativas</Text>
+                  <Text style={[styles.occupancyValue, { color: textColor }]}>{stats.activeClasses} / {stats.totalClasses}</Text>
                 </View>
                 <ProgressBar
                   progress={stats.totalClasses > 0 ? stats.activeClasses / stats.totalClasses : 0}
@@ -360,23 +369,23 @@ const ReportsScreen: React.FC<ReportsScreenProps> = ({ navigation }) => {
             </GlassCard>
 
             {/* Turmas Mais Populares */}
-            <GlassCard style={styles.card}>
-              <View style={styles.cardHeader}>
-                <Text style={styles.cardTitle}>Turmas Mais Populares</Text>
+            <GlassCard style={styles.card} variant={glassVariant}>
+              <View style={[styles.cardHeader, { borderBottomColor: isDarkMode ? hexToRgba(COLORS.white, 0.05) : hexToRgba(COLORS.black, 0.05) }]}>
+                <Text style={[styles.cardTitle, { color: textColor }]}>Turmas Mais Populares</Text>
               </View>
 
               <DataTable>
-                <DataTable.Header style={styles.tableHeader}>
-                  <DataTable.Title textStyle={styles.tableTitle}>Turma</DataTable.Title>
-                  <DataTable.Title textStyle={styles.tableTitle}>Modalidade</DataTable.Title>
-                  <DataTable.Title numeric textStyle={styles.tableTitle}>Alunos</DataTable.Title>
+                <DataTable.Header style={[styles.tableHeader, { borderBottomColor: isDarkMode ? hexToRgba(COLORS.white, 0.1) : hexToRgba(COLORS.black, 0.1) }]}>
+                  <DataTable.Title textStyle={{ color: secondaryTextColor }}>Turma</DataTable.Title>
+                  <DataTable.Title textStyle={{ color: secondaryTextColor }}>Modalidade</DataTable.Title>
+                  <DataTable.Title numeric textStyle={{ color: secondaryTextColor }}>Alunos</DataTable.Title>
                 </DataTable.Header>
 
                 {topClasses.map((classItem, index) => (
-                  <DataTable.Row key={classItem.id || index} style={styles.tableRow}>
-                    <DataTable.Cell textStyle={styles.tableCell}>{classItem.name}</DataTable.Cell>
-                    <DataTable.Cell textStyle={styles.tableCell}>{classItem.modality}</DataTable.Cell>
-                    <DataTable.Cell numeric textStyle={styles.tableCell}>{classItem.studentCount}</DataTable.Cell>
+                  <DataTable.Row key={classItem.id || index} style={[styles.tableRow, { borderBottomColor: isDarkMode ? hexToRgba(COLORS.white, 0.05) : hexToRgba(COLORS.black, 0.05) }]}>
+                    <DataTable.Cell textStyle={{ color: textColor }}>{classItem.name}</DataTable.Cell>
+                    <DataTable.Cell textStyle={{ color: textColor }}>{classItem.modality}</DataTable.Cell>
+                    <DataTable.Cell numeric textStyle={{ color: textColor }}>{classItem.studentCount}</DataTable.Cell>
                   </DataTable.Row>
                 ))}
               </DataTable>
@@ -387,9 +396,9 @@ const ReportsScreen: React.FC<ReportsScreenProps> = ({ navigation }) => {
             </GlassCard>
 
             {/* Atividades Recentes */}
-            <GlassCard style={styles.card}>
-              <View style={styles.cardHeader}>
-                <Text style={styles.cardTitle}>Atividades Recentes</Text>
+            <GlassCard style={styles.card} variant={glassVariant}>
+              <View style={[styles.cardHeader, { borderBottomColor: isDarkMode ? hexToRgba(COLORS.white, 0.05) : hexToRgba(COLORS.black, 0.05) }]}>
+                <Text style={[styles.cardTitle, { color: textColor }]}>Atividades Recentes</Text>
               </View>
 
               {recentActivities.map((activity, index) => (
@@ -398,17 +407,17 @@ const ReportsScreen: React.FC<ReportsScreenProps> = ({ navigation }) => {
                     <Ionicons name={getActivityIcon(activity.type)} size={18} color={getActivityColor(activity.type)} />
                   </View>
                   <View style={styles.activityContent}>
-                    <Text style={styles.activityAction}>{activity.action}</Text>
-                    <Text style={styles.activityTime}>{activity.time}</Text>
+                    <Text style={[styles.activityAction, { color: textColor }]}>{activity.action}</Text>
+                    <Text style={[styles.activityTime, { color: secondaryTextColor }]}>{activity.time}</Text>
                   </View>
                 </View>
               ))}
             </GlassCard>
 
             {/* Ações Rápidas */}
-            <GlassCard style={styles.card}>
-              <View style={styles.cardHeader}>
-                <Text style={styles.cardTitle}>Ações Rápidas</Text>
+            <GlassCard style={styles.card} variant={glassVariant}>
+              <View style={[styles.cardHeader, { borderBottomColor: isDarkMode ? hexToRgba(COLORS.white, 0.05) : hexToRgba(COLORS.black, 0.05) }]}>
+                <Text style={[styles.cardTitle, { color: textColor }]}>Ações Rápidas</Text>
               </View>
 
               <View style={styles.actionsContainer}>

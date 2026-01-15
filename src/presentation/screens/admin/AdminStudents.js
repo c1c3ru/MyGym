@@ -27,7 +27,16 @@ import { useTheme } from '@contexts/ThemeContext';
 import { getAuthGradient } from '@presentation/theme/authTheme';
 
 const AdminStudents = ({ navigation }) => {
-  const { getString, isDarkMode } = useTheme();
+  const { getString, isDarkMode, theme } = useTheme();
+
+  // Dynamic Styles
+  const backgroundGradient = isDarkMode
+    ? [COLORS.gray[800], COLORS.gray[900], COLORS.black]
+    : [COLORS.gray[100], COLORS.gray[50], COLORS.white];
+
+  const textColor = theme.colors.text;
+  const secondaryTextColor = theme.colors.textSecondary;
+  const glassStyle = isDarkMode ? GLASS.premium : GLASS.light;
 
   const { user, userProfile, academia } = useAuthFacade();
   const [students, setStudents] = useState([]);
@@ -236,13 +245,13 @@ const AdminStudents = ({ navigation }) => {
   // Empty list component
   const renderEmptyList = useCallback(() => (
     <View style={styles.emptyContainer}>
-      <Ionicons name="people-outline" size={64} color={COLORS.text.tertiary} />
-      <Text style={styles.emptyText}>{getString('noStudentsFound')}</Text>
-      <Text style={styles.emptySubtext}>
+      <Ionicons name="people-outline" size={64} color={secondaryTextColor} />
+      <Text style={[styles.emptyText, { color: textColor }]}>{getString('noStudentsFound')}</Text>
+      <Text style={[styles.emptySubtext, { color: secondaryTextColor }]}>
         {searchQuery ? getString('adjustSearchFilters') : getString('addFirstStudent')}
       </Text>
     </View>
-  ), [searchQuery, getString]);
+  ), [searchQuery, getString, textColor, secondaryTextColor]);
 
   // Carregar dados quando o componente montar
   useEffect(() => {
@@ -315,7 +324,7 @@ const AdminStudents = ({ navigation }) => {
       errorContext={{ screen: 'AdminStudents', academiaId: userProfile?.academiaId }}
     >
       <LinearGradient
-        colors={getAuthGradient(isDarkMode)}
+        colors={backgroundGradient}
         style={styles.container}
       >
         <SafeAreaView style={styles.safeArea}>
@@ -324,10 +333,13 @@ const AdminStudents = ({ navigation }) => {
               placeholder={getString('searchStudents')}
               onChangeText={setSearchQuery}
               value={searchQuery}
-              style={styles.searchbar}
-              inputStyle={styles.searchInput}
-              iconColor={COLORS.text.secondary}
-              placeholderTextColor={COLORS.text.tertiary}
+              style={[styles.searchbar, {
+                backgroundColor: glassStyle.backgroundColor,
+                borderColor: glassStyle.borderColor
+              }]}
+              inputStyle={{ color: textColor }}
+              iconColor={secondaryTextColor}
+              placeholderTextColor={isDarkMode ? COLORS.gray[500] : COLORS.gray[400]}
             />
 
             <View style={styles.filterRow}>
@@ -339,8 +351,11 @@ const AdminStudents = ({ navigation }) => {
                     mode="outlined"
                     onPress={() => setFilterVisible(true)}
                     icon="filter"
-                    style={styles.filterButton}
-                    textColor={COLORS.primary[500]}
+                    style={[styles.filterButton, {
+                      backgroundColor: glassStyle.backgroundColor,
+                      borderColor: glassStyle.borderColor
+                    }]}
+                    textColor={isDarkMode ? COLORS.primary[400] : COLORS.primary[600]}
                   >
                     {getFilterText(selectedFilter)}
                   </Button>

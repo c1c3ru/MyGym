@@ -28,7 +28,7 @@ interface SettingsScreenProps {
  */
 const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
   const { user, userProfile, logout } = useAuthFacade();
-  const { isDarkMode, getString } = useTheme();
+  const { isDarkMode, getString, theme } = useTheme();
   const [notifications, setNotifications] = useState<boolean>(true);
   const [autoBackup, setAutoBackup] = useState<boolean>(true);
 
@@ -81,20 +81,20 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
   return (
     <LinearGradient
       colors={getAuthGradient(isDarkMode) as any}
-      style={styles.gradient}
+      style={[styles.gradient, { minHeight: 0 }]}
     >
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={[styles.container, { minHeight: 0 }]}>
         <ScrollView
           style={styles.scrollView}
           contentContainerStyle={styles.scrollContent}
-          showsVerticalScrollIndicator={false}
+          showsVerticalScrollIndicator={true}
         >
           {/* Informações da Conta */}
           <ModernCard variant="card" style={styles.card}>
             <View>
               <View style={styles.cardHeader}>
                 <Ionicons name="person-circle" size={24} color={COLORS.info[500]} />
-                <Text variant="headlineSmall" style={[styles.cardTitle, { color: isDarkMode ? COLORS.white : COLORS.black }]}>
+                <Text variant="headlineSmall" style={[styles.cardTitle, { color: theme.colors.text }]}>
                   {getString('account')}
                 </Text>
               </View>
@@ -103,16 +103,16 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
                 title={getString('name')}
                 description={userProfile?.name || getString('notInformed')}
                 left={() => <Ionicons name="person" size={20} color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
-                titleStyle={{ color: isDarkMode ? COLORS.white : COLORS.black }}
-                descriptionStyle={{ color: isDarkMode ? COLORS.gray[300] : COLORS.gray[600] }}
+                titleStyle={{ color: theme.colors.text }}
+                descriptionStyle={{ color: theme.colors.textSecondary }}
               />
 
               <List.Item
                 title={getString('email')}
                 description={user?.email}
                 left={() => <Ionicons name="mail" size={20} color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
-                titleStyle={{ color: isDarkMode ? COLORS.white : COLORS.black }}
-                descriptionStyle={{ color: isDarkMode ? COLORS.gray[300] : COLORS.gray[600] }}
+                titleStyle={{ color: theme.colors.text }}
+                descriptionStyle={{ color: theme.colors.textSecondary }}
               />
 
               <List.Item
@@ -120,7 +120,7 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
                 left={() => <Ionicons name="create" size={20} color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
                 right={() => <List.Icon icon="chevron-right" color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
                 onPress={() => navigation.navigate('Profile')}
-                titleStyle={{ color: isDarkMode ? COLORS.white : COLORS.black }}
+                titleStyle={{ color: theme.colors.text }}
               />
 
               <List.Item
@@ -128,7 +128,7 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
                 left={() => <Ionicons name="lock-closed" size={20} color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
                 right={() => <List.Icon icon="chevron-right" color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
                 onPress={handleChangePassword}
-                titleStyle={{ color: isDarkMode ? COLORS.white : COLORS.black }}
+                titleStyle={{ color: theme.colors.text }}
               />
             </View>
           </ModernCard>
@@ -136,34 +136,14 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
           {/* Alternância de Temas */}
           <ThemeToggleSwitch />
 
-          {/* Botão para Ver Demonstração */}
-          <ModernCard variant="card" style={styles.card}>
-            <View>
-              <View style={styles.cardHeader}>
-                <Ionicons name="color-palette" size={24} color={COLORS.secondary[500]} />
-                <Text variant="headlineSmall" style={[styles.cardTitle, { color: isDarkMode ? COLORS.white : COLORS.black }]}>
-                  {getString('demonstration')}
-                </Text>
-              </View>
 
-              <List.Item
-                title={getString('viewThemeDemo')}
-                description={getString('viewAvailableThemes')}
-                left={() => <Ionicons name="eye" size={20} color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
-                right={() => <List.Icon icon="chevron-right" color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
-                onPress={() => navigation.navigate('ThemeDemo')}
-                titleStyle={{ color: isDarkMode ? COLORS.white : COLORS.black }}
-                descriptionStyle={{ color: isDarkMode ? COLORS.gray[300] : COLORS.gray[600] }}
-              />
-            </View>
-          </ModernCard>
 
           {/* Preferências */}
           <ModernCard variant="card" style={styles.card}>
             <View>
               <View style={styles.cardHeader}>
                 <Ionicons name="settings" size={24} color={COLORS.primary[500]} />
-                <Text variant="headlineSmall" style={[styles.cardTitle, { color: isDarkMode ? COLORS.white : COLORS.black }]}>
+                <Text variant="headlineSmall" style={[styles.cardTitle, { color: theme.colors.text }]}>
                   {getString('preferences')}
                 </Text>
               </View>
@@ -179,8 +159,8 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
                     trackColor={{ false: COLORS.gray[600], true: COLORS.info[500] }}
                   />
                 )}
-                titleStyle={{ color: isDarkMode ? COLORS.white : COLORS.black }}
-                descriptionStyle={{ color: isDarkMode ? COLORS.gray[300] : COLORS.gray[600] }}
+                titleStyle={{ color: theme.colors.text }}
+                descriptionStyle={{ color: theme.colors.textSecondary }}
               />
 
               <List.Item
@@ -194,8 +174,8 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
                     trackColor={{ false: COLORS.gray[600], true: COLORS.info[500] }}
                   />
                 )}
-                titleStyle={{ color: isDarkMode ? COLORS.white : COLORS.black }}
-                descriptionStyle={{ color: isDarkMode ? COLORS.gray[300] : COLORS.gray[600] }}
+                titleStyle={{ color: theme.colors.text }}
+                descriptionStyle={{ color: theme.colors.textSecondary }}
               />
             </View>
           </ModernCard>
@@ -205,7 +185,7 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
             <View>
               <View style={styles.cardHeader}>
                 <Ionicons name="shield-checkmark" size={24} color={COLORS.warning[500]} />
-                <Text variant="headlineSmall" style={[styles.cardTitle, { color: isDarkMode ? COLORS.white : COLORS.black }]}>
+                <Text variant="headlineSmall" style={[styles.cardTitle, { color: theme.colors.text }]}>
                   {getString('dataAndPrivacy')}
                 </Text>
               </View>
@@ -216,22 +196,22 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
                 left={() => <Ionicons name="download" size={20} color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
                 right={() => <List.Icon icon="chevron-right" color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
                 onPress={handleDataExport}
-                titleStyle={{ color: isDarkMode ? COLORS.white : COLORS.black }}
-                descriptionStyle={{ color: isDarkMode ? COLORS.gray[300] : COLORS.gray[600] }}
+                titleStyle={{ color: theme.colors.text }}
+                descriptionStyle={{ color: theme.colors.textSecondary }}
               />
 
               <List.Item
                 title={getString('privacyPolicy')}
                 left={() => <Ionicons name="document-text" size={20} color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
                 right={() => <List.Icon icon="chevron-right" color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
-                titleStyle={{ color: isDarkMode ? COLORS.white : COLORS.black }}
+                titleStyle={{ color: theme.colors.text }}
               />
 
               <List.Item
                 title={getString('termsOfUse')}
                 left={() => <Ionicons name="library" size={20} color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
                 right={() => <List.Icon icon="chevron-right" color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
-                titleStyle={{ color: isDarkMode ? COLORS.white : COLORS.black }}
+                titleStyle={{ color: theme.colors.text }}
               />
             </View>
           </ModernCard>
@@ -241,7 +221,7 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
             <View>
               <View style={styles.cardHeader}>
                 <Ionicons name="information-circle" size={24} color={COLORS.secondary[500]} />
-                <Text variant="headlineSmall" style={[styles.cardTitle, { color: isDarkMode ? COLORS.white : COLORS.black }]}>
+                <Text variant="headlineSmall" style={[styles.cardTitle, { color: theme.colors.text }]}>
                   {getString('about')}
                 </Text>
               </View>
@@ -250,22 +230,22 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
                 title={getString('appVersion')}
                 description="1.0.0"
                 left={() => <Ionicons name="apps" size={20} color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
-                titleStyle={{ color: isDarkMode ? COLORS.white : COLORS.black }}
-                descriptionStyle={{ color: isDarkMode ? COLORS.gray[300] : COLORS.gray[600] }}
+                titleStyle={{ color: theme.colors.text }}
+                descriptionStyle={{ color: theme.colors.textSecondary }}
               />
 
               <List.Item
                 title={getString('helpCenter')}
                 left={() => <Ionicons name="help-circle" size={20} color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
                 right={() => <List.Icon icon="chevron-right" color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
-                titleStyle={{ color: isDarkMode ? COLORS.white : COLORS.black }}
+                titleStyle={{ color: theme.colors.text }}
               />
 
               <List.Item
                 title={getString('sendFeedback')}
                 left={() => <Ionicons name="chatbubble-ellipses" size={20} color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
                 right={() => <List.Icon icon="chevron-right" color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
-                titleStyle={{ color: isDarkMode ? COLORS.white : COLORS.black }}
+                titleStyle={{ color: theme.colors.text }}
               />
             </View>
           </ModernCard>
@@ -312,16 +292,20 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
 const styles = StyleSheet.create({
   gradient: {
     flex: 1,
+    height: '100%',
+    width: '100%',
   },
   container: {
     flex: 1,
   },
   scrollView: {
     flex: 1,
+    width: '100%',
   },
   scrollContent: {
     paddingBottom: SPACING.xxl,
     paddingHorizontal: SPACING.md,
+    flexGrow: 1,
   },
   card: {
     marginTop: SPACING.md,

@@ -327,10 +327,14 @@ const AddStudentScreen = ({ navigation, route }: AddStudentScreenProps) => {
       }}
       errorContext={{ screen: 'AddStudentScreen', academiaId: userProfile?.academiaId }}
     >
-      <LinearGradient colors={theme?.gradients?.hero || [COLORS.background.default, COLORS.background.default]} style={{ flex: 1 }}>
+      <LinearGradient
+        colors={theme?.gradients?.hero || [COLORS.background.default, COLORS.background.default]}
+        style={{ flex: 1, width: '100%', minHeight: 0 }}
+      >
         <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          behavior={Platform.OS === "ios" ? "padding" : Platform.OS === "android" ? "height" : undefined}
           style={styles.container}
+          enabled={Platform.OS !== 'web'}
         >
           <ScrollView
             style={styles.scrollView}
@@ -673,6 +677,7 @@ const AddStudentScreen = ({ navigation, route }: AddStudentScreenProps) => {
 const createStyles = (colors: any) => StyleSheet.create({
   container: {
     flex: 1,
+    minHeight: 0,
     // Background color handled by LinearGradient
   },
   scrollView: {
@@ -735,7 +740,7 @@ const createStyles = (colors: any) => StyleSheet.create({
     marginBottom: SPACING.sm,
     flexGrow: 0,
     flexShrink: 1,
-    backgroundColor: colors?.background?.default || COLORS.background.default,
+    backgroundColor: 'transparent',
     borderColor: colors?.text?.disabled || COLORS.border.default,
     borderWidth: 1,
   },

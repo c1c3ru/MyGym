@@ -12,6 +12,7 @@ import {
   Text
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
@@ -25,14 +26,25 @@ import batchFirestoreService from '@infrastructure/services/batchFirestoreServic
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import { useClassCreationRateLimit } from '@hooks/useRateLimit';
 import FreeGymScheduler from '@components/FreeGymScheduler';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, BORDER_WIDTH } from '@presentation/theme/designTokens';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, BORDER_WIDTH, GLASS } from '@presentation/theme/designTokens';
+import { getAuthGradient } from '@presentation/theme/authTheme';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
 
 const AdminClasses = ({ navigation }) => {
   const { currentTheme } = useThemeToggle();
 
   const { user, userProfile, academia } = useAuthFacade();
-  const { getString } = useTheme();
+  const { getString, isDarkMode, theme } = useTheme();
+
+  // Dynamic Styles
+  const backgroundGradient = isDarkMode
+    ? [COLORS.gray[800], COLORS.gray[900], COLORS.black]
+    : [COLORS.gray[100], COLORS.gray[50], COLORS.white];
+
+  const textColor = theme.colors.text;
+  const secondaryTextColor = theme.colors.textSecondary;
+  const glassStyle = isDarkMode ? GLASS.premium : GLASS.light;
+
   const [classes, setClasses] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [filterVisible, setFilterVisible] = useState(false);
@@ -288,11 +300,11 @@ const AdminClasses = ({ navigation }) => {
   const keyExtractor = useCallback((item, index) => item.id || `class-${index}`, []);
 
   const renderEmptyList = useCallback(() => (
-    <Card style={styles.emptyCard}>
+    <Card style={[styles.emptyCard, { backgroundColor: glassStyle.backgroundColor, borderColor: glassStyle.borderColor, borderWidth: 1 }]}>
       <Card.Content style={styles.emptyContent}>
-        <Ionicons name="school-outline" size={48} color="currentTheme.gray[300]" />
-        <Text style={[styles.emptyTitle, styles.title]}>Nenhuma turma encontrada</Text>
-        <Text style={[styles.emptyText, styles.paragraph]}>
+        <Ionicons name="school-outline" size={48} color={secondaryTextColor} />
+        <Text style={[styles.emptyTitle, styles.title, { color: textColor }]}>Nenhuma turma encontrada</Text>
+        <Text style={[styles.emptyText, styles.paragraph, { color: secondaryTextColor }]}>
           {searchQuery ?
             'noMatchingClasses' :
             'Nenhuma turma registrada'
@@ -306,35 +318,35 @@ const AdminClasses = ({ navigation }) => {
     if (classes.length === 0) return null;
 
     return (
-      <Card style={styles.statsCard}>
+      <Card style={[styles.statsCard, { backgroundColor: glassStyle.backgroundColor, borderColor: glassStyle.borderColor, borderWidth: 1 }]}>
         <Card.Content>
-          <Text style={[styles.statsTitle, styles.title]}>Estatísticas das Turmas</Text>
+          <Text style={[styles.statsTitle, styles.title, { color: textColor }]}>Estatísticas das Turmas</Text>
 
           <View style={styles.statsGrid}>
             <View style={styles.statItem}>
               <Text style={styles.statNumber}>{classes.length}</Text>
-              <Text style={styles.statLabel}>Total</Text>
+              <Text style={[styles.statLabel, { color: secondaryTextColor }]}>Total</Text>
             </View>
 
             <View style={styles.statItem}>
               <Text style={styles.statNumber}>
                 {classes.filter(c => c.isActive !== false).length}
               </Text>
-              <Text style={styles.statLabel}>Turmas Ativas</Text>
+              <Text style={[styles.statLabel, { color: secondaryTextColor }]}>Turmas Ativas</Text>
             </View>
 
             <View style={styles.statItem}>
               <Text style={styles.statNumber}>
                 {classes.reduce((sum, c) => sum + (c.currentStudents || 0), 0)}
               </Text>
-              <Text style={styles.statLabel}>Total de Alunos</Text>
+              <Text style={[styles.statLabel, { color: secondaryTextColor }]}>Total de Alunos</Text>
             </View>
 
             <View style={styles.statItem}>
               <Text style={styles.statNumber}>
                 {[...new Set(classes.map(c => c.modality))].length}
               </Text>
-              <Text style={styles.statLabel}>{getString('modalities')}</Text>
+              <Text style={[styles.statLabel, { color: secondaryTextColor }]}>{getString('modalities')}</Text>
             </View>
           </View>
         </Card.Content>
@@ -423,107 +435,122 @@ const AdminClasses = ({ navigation }) => {
       }}
       errorContext={{ screen: 'AdminClasses', academiaId: userProfile?.academiaId }}
     >
-      <SafeAreaView style={styles.container}>
-        <View style={styles.header}>
-          <Searchbar
-            placeholder="Buscar turmas"
-            onChangeText={setSearchQuery}
-            value={searchQuery}
-            style={styles.searchbar}
-          />
+      <LinearGradient
+        colors={backgroundGradient}
+        style={styles.container}
+      >
+        <SafeAreaView style={styles.safeArea}>
+          <View style={styles.header}>
+            <Searchbar
+              placeholder="Buscar turmas"
+              onChangeText={setSearchQuery}
+              value={searchQuery}
+              style={[styles.searchbar, {
+                backgroundColor: glassStyle.backgroundColor,
+                borderColor: glassStyle.borderColor
+              }]}
+              inputStyle={{ color: textColor }}
+              iconColor={secondaryTextColor}
+              placeholderTextColor={isDarkMode ? COLORS.gray[500] : COLORS.gray[400]}
+            />
 
-          <View style={styles.filterRow}>
-            <Menu
-              visible={filterVisible}
-              onDismiss={() => setFilterVisible(false)}
-              anchor={
-                <Button
-                  mode="outlined"
-                  onPress={() => setFilterVisible(true)}
-                  icon="filter"
-                  style={styles.filterButton}
-                >
-                  {getFilterText(selectedFilter)}
-                </Button>
-              }
-            >
-              <Menu.Item onPress={() => { setSelectedFilter('all'); setFilterVisible(false); }} title="Todas as Turmas" />
-              <Menu.Item onPress={() => { setSelectedFilter('active'); setFilterVisible(false); }} title="Turmas Ativas" />
-              <Menu.Item onPress={() => { setSelectedFilter('inactive'); setFilterVisible(false); }} title="Turmas Inativas" />
-              <Menu.Item onPress={() => { setSelectedFilter('full'); setFilterVisible(false); }} title="Turmas Cheias" />
-              <Menu.Item onPress={() => { setSelectedFilter('empty'); setFilterVisible(false); }} title="Turmas Vazias" />
-              <Menu.Item onPress={() => { setSelectedFilter('no_instructor'); setFilterVisible(false); }} title="Sem Instrutor" />
-            </Menu>
+            <View style={styles.filterRow}>
+              <Menu
+                visible={filterVisible}
+                onDismiss={() => setFilterVisible(false)}
+                anchor={
+                  <Button
+                    mode="outlined"
+                    onPress={() => setFilterVisible(true)}
+                    icon="filter"
+                    style={[styles.filterButton, {
+                      backgroundColor: glassStyle.backgroundColor,
+                      borderColor: glassStyle.borderColor
+                    }]}
+                    textColor={isDarkMode ? COLORS.warning[400] : COLORS.warning[600]}
+                  >
+                    {getFilterText(selectedFilter)}
+                  </Button>
+                }
+              >
+                <Menu.Item onPress={() => { setSelectedFilter('all'); setFilterVisible(false); }} title="Todas as Turmas" />
+                <Menu.Item onPress={() => { setSelectedFilter('active'); setFilterVisible(false); }} title="Turmas Ativas" />
+                <Menu.Item onPress={() => { setSelectedFilter('inactive'); setFilterVisible(false); }} title="Turmas Inativas" />
+                <Menu.Item onPress={() => { setSelectedFilter('full'); setFilterVisible(false); }} title="Turmas Cheias" />
+                <Menu.Item onPress={() => { setSelectedFilter('empty'); setFilterVisible(false); }} title="Turmas Vazias" />
+                <Menu.Item onPress={() => { setSelectedFilter('no_instructor'); setFilterVisible(false); }} title="Sem Instrutor" />
+              </Menu>
+            </View>
           </View>
-        </View>
 
-        {loading ? (
-          <ClassListSkeleton count={4} />
-        ) : (
-          <EnhancedFlashList
-            data={filteredClasses}
-            renderItem={renderClassItem}
-            keyExtractor={keyExtractor}
-            estimatedItemSize={250}
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-            ListEmptyComponent={renderEmptyList}
-            ListFooterComponent={renderStatsCard}
-            emptyMessage="Nenhuma turma encontrada"
-            contentContainerStyle={styles.listContainer}
-            showsVerticalScrollIndicator={true}
-            accessible={true}
-            accessibilityLabel={`Lista de ${filteredClasses.length} turmas`}
+          {loading ? (
+            <ClassListSkeleton count={4} />
+          ) : (
+            <EnhancedFlashList
+              data={filteredClasses}
+              renderItem={renderClassItem}
+              keyExtractor={keyExtractor}
+              estimatedItemSize={250}
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              ListEmptyComponent={renderEmptyList}
+              ListFooterComponent={renderStatsCard}
+              emptyMessage="Nenhuma turma encontrada"
+              contentContainerStyle={styles.listContainer}
+              showsVerticalScrollIndicator={true}
+              accessible={true}
+              accessibilityLabel={`Lista de ${filteredClasses.length} turmas`}
+            />
+          )}
+
+          <FAB
+            style={styles.fab}
+            icon="plus"
+            label="Nova Turma"
+            onPress={handleAddClass}
           />
-        )}
 
-        <FAB
-          style={styles.fab}
-          icon="plus"
-          label="Nova Turma"
-          onPress={handleAddClass}
-        />
+          <FAB
+            style={styles.calendarFab}
+            icon="calendar-month"
+            onPress={() => setShowCalendarModal(true)}
+          />
 
-        <FAB
-          style={styles.calendarFab}
-          icon="calendar-month"
-          onPress={() => setShowCalendarModal(true)}
-        />
-
-        {/* Modal do Calendário */}
-        <Portal>
-          <Modal
-            visible={showCalendarModal}
-            onDismiss={() => setShowCalendarModal(false)}
-            contentContainerStyle={styles.calendarModalContainer}
-            dismissable={true}
-          >
-            <View style={styles.calendarModalHeader}>
-              <Text style={styles.calendarModalTitle}>Cronograma das Turmas</Text>
-              <Button onPress={() => setShowCalendarModal(false)}>Fechar</Button>
-            </View>
-            <View style={styles.calendarContainer}>
-              <FreeGymScheduler
-                classes={classes}
-                onClassPress={(event) => {
-                  setShowCalendarModal(false);
-                  navigation.navigate('ClassDetails', {
-                    classId: event.classId,
-                    className: event.title
-                  });
-                }}
-                onCreateClass={() => {
-                  console.log('🚀 Botão criar turma clicado no AdminClasses');
-                  setShowCalendarModal(false);
-                  console.log('📱 Navegando para AddClass...');
-                  navigation.navigate('AddClass');
-                }}
-                navigation={navigation}
-              />
-            </View>
-          </Modal>
-        </Portal>
-      </SafeAreaView>
+          {/* Modal do Calendário */}
+          <Portal>
+            <Modal
+              visible={showCalendarModal}
+              onDismiss={() => setShowCalendarModal(false)}
+              contentContainerStyle={styles.calendarModalContainer}
+              dismissable={true}
+            >
+              <View style={styles.calendarModalHeader}>
+                <Text style={styles.calendarModalTitle}>Cronograma das Turmas</Text>
+                <Button onPress={() => setShowCalendarModal(false)}>Fechar</Button>
+              </View>
+              <View style={styles.calendarContainer}>
+                <FreeGymScheduler
+                  classes={classes}
+                  onClassPress={(event) => {
+                    setShowCalendarModal(false);
+                    navigation.navigate('ClassDetails', {
+                      classId: event.classId,
+                      className: event.title
+                    });
+                  }}
+                  onCreateClass={() => {
+                    console.log('🚀 Botão criar turma clicado no AdminClasses');
+                    setShowCalendarModal(false);
+                    console.log('📱 Navegando para AddClass...');
+                    navigation.navigate('AddClass');
+                  }}
+                  navigation={navigation}
+                />
+              </View>
+            </Modal>
+          </Portal>
+        </SafeAreaView>
+      </LinearGradient>
     </EnhancedErrorBoundary>
   );
 };
@@ -531,13 +558,16 @@ const AdminClasses = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.white,
+    // backgroundColor: COLORS.white, // Removed hardcoded color
+  },
+  safeArea: {
+    flex: 1,
   },
   header: {
     paddingHorizontal: '4%',
     paddingVertical: SPACING.md,
-    backgroundColor: COLORS.background.paper,
-    elevation: 2,
+    backgroundColor: 'transparent', // Make transparent
+    elevation: 0, // Remove elevation to blend
   },
   searchbar: {
     elevation: 0,

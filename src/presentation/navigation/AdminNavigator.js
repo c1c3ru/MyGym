@@ -17,8 +17,6 @@ import EditStudentScreen from '@screens/admin/EditStudentScreen';
 import ReportsScreen from '@screens/admin/ReportsScreen';
 import InviteManagement from '@screens/admin/InviteManagement';
 
-// Telas de Exemplo e Demonstração
-import LightThemeExampleScreen from '@screens/examples/LightThemeExampleScreen';
 
 // Telas Compartilhadas
 import ClassDetailsScreen from '@screens/shared/ClassDetailsScreen';
@@ -426,21 +424,6 @@ const AdminNavigator = () => {
           header: ({ navigation }) => (
             <UniversalHeader
               title={getString('settings')}
-              navigation={navigation}
-              showBack={true}
-              backgroundColor={COLORS.primary[500]}
-            />
-          ),
-        }}
-      />
-      <Stack.Screen
-        name="ThemeDemo"
-        component={LightThemeExampleScreen}
-        options={{
-          headerShown: true,
-          header: ({ navigation }) => (
-            <UniversalHeader
-              title={getString('viewThemeDemo')}
               navigation={navigation}
               showBack={true}
               backgroundColor={COLORS.primary[500]}

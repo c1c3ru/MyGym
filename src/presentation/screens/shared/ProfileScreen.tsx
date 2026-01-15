@@ -42,7 +42,7 @@ const { width } = Dimensions.get('window');
  */
 const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
   const { user, userProfile, logout: signOut, updateUserProfile: updateProfile, academia } = useAuthFacade();
-  const { getString, isDarkMode } = useTheme();
+  const { getString, isDarkMode, theme } = useTheme();
   const { getUserTypeColor: getClaimsTypeColor, getUserTypeText: getClaimsTypeText, isStudent } = useCustomClaims();
   const [editing, setEditing] = useState(false);
   const [formData, setFormData] = useState({
@@ -368,7 +368,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
         >
           {/* Header do Perfil */}
           <Animated.View entering={FadeInDown.delay(100).springify()}>
-            <ModernCard variant="premium" style={styles.headerCard}>
+            <ModernCard variant={isDarkMode ? "premium" : "light"} style={styles.headerCard}>
               <View style={styles.headerContent}>
                 <Avatar.Text
                   size={80}
@@ -376,10 +376,10 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
                   style={[styles.avatar, { backgroundColor: getClaimsTypeColor() }]}
                 />
                 <View style={styles.headerText}>
-                  <Text style={[styles.userName, styles.title, { color: COLORS.text.primary }]}>
+                  <Text style={[styles.userName, styles.title, { color: theme.colors.text }]}>
                     {userProfile?.name || getString('user')}
                   </Text>
-                  <Text style={[styles.userEmail, { color: COLORS.text.secondary }]}>{user?.email}</Text>
+                  <Text style={[styles.userEmail, { color: theme.colors.textSecondary }]}>{user?.email}</Text>
                   <Chip
                     mode="outlined"
                     style={[styles.userTypeChip, { borderColor: getClaimsTypeColor() }]}
@@ -395,7 +395,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
           {/* Notificação de Vencimento */}
           {paymentDueNotification && (
             <Animated.View entering={FadeInDown.delay(200).springify()}>
-              <ModernCard variant="premium" style={styles.warningCard}>
+              <ModernCard variant={isDarkMode ? "premium" : "light"} style={styles.warningCard}>
                 <View>
                   <View style={styles.cardHeader}>
                     <Ionicons name="warning-outline" size={24} color={COLORS.error[400]} />
@@ -403,14 +403,14 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
                   </View>
 
                   <View style={styles.paymentWarning}>
-                    <Text style={[styles.warningText, { color: COLORS.text.primary }]}>
+                    <Text style={[styles.warningText, { color: theme.colors.text }]}>
                       {getString('paymentDueText').replace('{planName}', paymentDueNotification?.planName || '').replace('{days}',
                         paymentDueNotification?.daysUntilDue === 0 ? getString('paymentDueToday') :
                           paymentDueNotification?.daysUntilDue === 1 ? getString('paymentDueTomorrow') :
                             `${paymentDueNotification?.daysUntilDue} ${getString('paymentDueInDays')}`
                       )}
                     </Text>
-                    <Text style={[styles.warningDetails, { color: COLORS.text.secondary }]}>
+                    <Text style={[styles.warningDetails, { color: theme.colors.textSecondary }]}>
                       {getString('dateLabel')}: {paymentDueNotification.dueDate} | {getString('valueLabel')}: {getString('currency') === 'BRL' ? 'R$' : getString('currency')} {paymentDueNotification.amount?.toFixed(2)}
                     </Text>
 
@@ -441,11 +441,11 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
 
           {/* Informações Pessoais */}
           <Animated.View entering={FadeInDown.delay(300).springify()}>
-            <ModernCard variant="medium">
+            <ModernCard variant={isDarkMode ? "card" : "medium"}>
               <View>
                 <View style={styles.cardHeader}>
                   <Ionicons name="person-outline" size={24} color={COLORS.info[500]} />
-                  <Text style={[styles.cardTitle, styles.title, { color: COLORS.text.primary }]}>{getString('personalInformation')}</Text>
+                  <Text style={[styles.cardTitle, styles.title, { color: theme.colors.text }]}>{getString('personalInformation')}</Text>
                   <AnimatedButton
                     mode="text"
                     onPress={() => setEditing(!editing)}
@@ -464,7 +464,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
                       onChangeText={(text) => setFormData({ ...formData, name: text })}
                       mode="outlined"
                       style={styles.input}
-                      textColor={COLORS.text.primary}
+                      textColor={theme.colors.text}
                     />
 
                     <TextInput
@@ -482,12 +482,12 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
                       keyboardType="numeric"
                       mode="outlined"
                       style={styles.input}
-                      textColor={COLORS.text.primary}
+                      textColor={theme.colors.text}
                       maxLength={10}
                     />
 
                     <View style={styles.inputGroup}>
-                      <Text style={[styles.inputLabel, { color: COLORS.text.secondary }]}>{getString('gender')}</Text>
+                      <Text style={[styles.inputLabel, { color: theme.colors.textSecondary }]}>{getString('gender')}</Text>
                       <SegmentedButtons
                         value={formData.gender}
                         onValueChange={(value) => setFormData({ ...formData, gender: value })}
@@ -507,7 +507,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
                       mode="outlined"
                       keyboardType="phone-pad"
                       style={styles.input}
-                      textColor={COLORS.text.primary}
+                      textColor={theme.colors.text}
                     />
 
                     <Divider style={[styles.divider, { marginVertical: SPACING.md }]} />
@@ -521,7 +521,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
                         mode="outlined"
                         keyboardType="numeric"
                         style={[styles.input, { flex: 1 }]}
-                        textColor={COLORS.text.primary}
+                        textColor={theme.colors.text}
                       />
                       <TextInput
                         label={getString('state') || 'UF'}
@@ -529,7 +529,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
                         onChangeText={(text) => setFormData({ ...formData, state: text })}
                         mode="outlined"
                         style={[styles.input, { width: 80 }]}
-                        textColor={COLORS.text.primary}
+                        textColor={theme.colors.text}
                       />
                     </View>
 
@@ -540,7 +540,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
                         onChangeText={(text) => setFormData({ ...formData, street: text })}
                         mode="outlined"
                         style={[styles.input, { flex: 2 }]}
-                        textColor={COLORS.text.primary}
+                        textColor={theme.colors.text}
                       />
                       <TextInput
                         label={getString('number') || 'Nº'}
@@ -548,7 +548,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
                         onChangeText={(text) => setFormData({ ...formData, number: text })}
                         mode="outlined"
                         style={[styles.input, { flex: 0.8 }]}
-                        textColor={COLORS.text.primary}
+                        textColor={theme.colors.text}
                       />
                     </View>
 
@@ -559,7 +559,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
                         onChangeText={(text) => setFormData({ ...formData, neighborhood: text })}
                         mode="outlined"
                         style={[styles.input, { flex: 1 }]}
-                        textColor={COLORS.text.primary}
+                        textColor={theme.colors.text}
                       />
                       <TextInput
                         label={getString('city') || 'Cidade'}
@@ -567,7 +567,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
                         onChangeText={(text) => setFormData({ ...formData, city: text })}
                         mode="outlined"
                         style={[styles.input, { flex: 1 }]}
-                        textColor={COLORS.text.primary}
+                        textColor={theme.colors.text}
                       />
                     </View>
 
@@ -580,7 +580,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
                       onChangeText={(text) => setFormData({ ...formData, emergencyName: text })}
                       mode="outlined"
                       style={styles.input}
-                      textColor={COLORS.text.primary}
+                      textColor={theme.colors.text}
                     />
 
                     <View style={{ flexDirection: 'row', gap: SPACING.sm }}>
@@ -591,7 +591,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
                         mode="outlined"
                         keyboardType="phone-pad"
                         style={[styles.input, { flex: 1.5 }]}
-                        textColor={COLORS.text.primary}
+                        textColor={theme.colors.text}
                       />
                       <TextInput
                         label={getString('relationship') || 'Parentesco'}
@@ -599,7 +599,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
                         onChangeText={(text) => setFormData({ ...formData, emergencyRelationship: text })}
                         mode="outlined"
                         style={[styles.input, { flex: 1 }]}
-                        textColor={COLORS.text.primary}
+                        textColor={theme.colors.text}
                       />
                     </View>
 
@@ -615,7 +615,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
                       numberOfLines={3}
                       style={styles.input}
                       placeholder={getString('allergiesMedicationsConditions')}
-                      textColor={COLORS.text.primary}
+                      textColor={theme.colors.text}
                     />
 
                     <AnimatedButton
@@ -634,8 +634,8 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
                       title={getString('name')}
                       description={userProfile?.name || getString('notInformed')}
                       left={() => <List.Icon icon="account" color={COLORS.info[500]} />}
-                      titleStyle={[styles.listItemTitle, { color: COLORS.text.primary }]}
-                      descriptionStyle={[styles.listItemDescription, { color: COLORS.text.secondary }]}
+                      titleStyle={[styles.listItemTitle, { color: theme.colors.text }]}
+                      descriptionStyle={[styles.listItemDescription, { color: theme.colors.textSecondary }]}
                     />
                     <Divider style={[styles.divider, { backgroundColor: COLORS.border.subtle }]} />
 
@@ -643,8 +643,8 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
                       title={getString('phone')}
                       description={userProfile?.phone || getString('notInformed')}
                       left={() => <List.Icon icon="phone" color={COLORS.info[500]} />}
-                      titleStyle={[styles.listItemTitle, { color: COLORS.text.primary }]}
-                      descriptionStyle={[styles.listItemDescription, { color: COLORS.text.secondary }]}
+                      titleStyle={[styles.listItemTitle, { color: theme.colors.text }]}
+                      descriptionStyle={[styles.listItemDescription, { color: theme.colors.textSecondary }]}
                     />
                     <Divider style={[styles.divider, { backgroundColor: COLORS.border.subtle }]} />
 
@@ -654,8 +654,8 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
                         ((userProfile.dateOfBirth as any).toDate ? (userProfile.dateOfBirth as any).toDate().toLocaleDateString('pt-BR') : new Date(userProfile.dateOfBirth).toLocaleDateString('pt-BR')) :
                         getString('notInformed')}
                       left={() => <List.Icon icon="cake" color={COLORS.info[500]} />}
-                      titleStyle={[styles.listItemTitle, { color: COLORS.text.primary }]}
-                      descriptionStyle={[styles.listItemDescription, { color: COLORS.text.secondary }]}
+                      titleStyle={[styles.listItemTitle, { color: theme.colors.text }]}
+                      descriptionStyle={[styles.listItemDescription, { color: theme.colors.textSecondary }]}
                     />
                     <Divider style={[styles.divider, { backgroundColor: COLORS.border.subtle }]} />
 
@@ -668,8 +668,8 @@ ${userProfile.address.zipCode || ''}` :
                         getString('notInformed')
                       }
                       left={() => <List.Icon icon="map-marker" color={COLORS.info[500]} />}
-                      titleStyle={[styles.listItemTitle, { color: COLORS.text.primary }]}
-                      descriptionStyle={[styles.listItemDescription, { color: COLORS.text.secondary }]}
+                      titleStyle={[styles.listItemTitle, { color: theme.colors.text }]}
+                      descriptionStyle={[styles.listItemDescription, { color: theme.colors.textSecondary }]}
                       descriptionNumberOfLines={3}
                     />
                     <Divider style={[styles.divider, { backgroundColor: COLORS.border.subtle }]} />
@@ -682,8 +682,8 @@ ${userProfile.emergencyContact.phone}` :
                         getString('notInformed')
                       }
                       left={() => <List.Icon icon="phone-alert" color={COLORS.error[400]} />}
-                      titleStyle={[styles.listItemTitle, { color: COLORS.text.primary }]}
-                      descriptionStyle={[styles.listItemDescription, { color: COLORS.text.secondary }]}
+                      titleStyle={[styles.listItemTitle, { color: theme.colors.text }]}
+                      descriptionStyle={[styles.listItemDescription, { color: theme.colors.textSecondary }]}
                     />
                     <Divider style={[styles.divider, { backgroundColor: COLORS.border.subtle }]} />
 
@@ -691,8 +691,8 @@ ${userProfile.emergencyContact.phone}` :
                       title={getString('medicalInformation')}
                       description={userProfile?.medicalInfo?.notes || getString('notInformed')}
                       left={() => <List.Icon icon="medical-bag" color={COLORS.info[400]} />}
-                      titleStyle={[styles.listItemTitle, { color: COLORS.text.primary }]}
-                      descriptionStyle={[styles.listItemDescription, { color: COLORS.text.secondary }]}
+                      titleStyle={[styles.listItemTitle, { color: theme.colors.text }]}
+                      descriptionStyle={[styles.listItemDescription, { color: theme.colors.textSecondary }]}
                     />
                   </View>
                 )}
@@ -708,15 +708,15 @@ ${userProfile.emergencyContact.phone}` :
                   <View>
                     <View style={styles.cardHeader}>
                       <Ionicons name="school-outline" size={24} color={COLORS.primary[500]} />
-                      <Text style={[styles.cardTitle, styles.title, { color: COLORS.text.primary }]}>{getString('academyInformation')}</Text>
+                      <Text style={[styles.cardTitle, styles.title, { color: theme.colors.text }]}>{getString('academyInformation')}</Text>
                     </View>
 
                     <List.Item
                       title={getString('academy')}
                       description={academia?.name || (userProfile as any)?.academiaName || getString('notInformed')}
                       left={() => <List.Icon icon="office-building" color={COLORS.primary[500]} />}
-                      titleStyle={[styles.listItemTitle, { color: COLORS.text.primary }]}
-                      descriptionStyle={[styles.listItemDescription, { color: COLORS.text.secondary }]}
+                      titleStyle={[styles.listItemTitle, { color: theme.colors.text }]}
+                      descriptionStyle={[styles.listItemDescription, { color: theme.colors.textSecondary }]}
                     />
                     <Divider style={[styles.divider, { backgroundColor: COLORS.border.subtle }]} />
 
@@ -724,8 +724,8 @@ ${userProfile.emergencyContact.phone}` :
                       title={getString('currentGraduation')}
                       description={userProfile?.currentGraduation || getString('beginner')}
                       left={() => <List.Icon icon="trophy" color={COLORS.warning[300]} />}
-                      titleStyle={[styles.listItemTitle, { color: COLORS.text.primary }]}
-                      descriptionStyle={[styles.listItemDescription, { color: COLORS.text.secondary }]}
+                      titleStyle={[styles.listItemTitle, { color: theme.colors.text }]}
+                      descriptionStyle={[styles.listItemDescription, { color: theme.colors.textSecondary }]}
                     />
                     <Divider style={[styles.divider, { backgroundColor: COLORS.border.subtle }]} />
 
@@ -733,8 +733,8 @@ ${userProfile.emergencyContact.phone}` :
                       title={getString('currentPlan')}
                       description={(userProfile as any)?.currentPlan || getString('notDefined')}
                       left={() => <List.Icon icon="card" color={COLORS.primary[500]} />}
-                      titleStyle={[styles.listItemTitle, { color: COLORS.text.primary }]}
-                      descriptionStyle={[styles.listItemDescription, { color: COLORS.text.secondary }]}
+                      titleStyle={[styles.listItemTitle, { color: theme.colors.text }]}
+                      descriptionStyle={[styles.listItemDescription, { color: theme.colors.textSecondary }]}
                     />
                     <Divider style={[styles.divider, { backgroundColor: COLORS.border.subtle }]} />
 
@@ -745,8 +745,8 @@ ${userProfile.emergencyContact.phone}` :
                         getString('notInformed')
                       }
                       left={() => <List.Icon icon="calendar-start" color={COLORS.primary[500]} />}
-                      titleStyle={[styles.listItemTitle, { color: COLORS.text.primary }]}
-                      descriptionStyle={[styles.listItemDescription, { color: COLORS.text.secondary }]}
+                      titleStyle={[styles.listItemTitle, { color: theme.colors.text }]}
+                      descriptionStyle={[styles.listItemDescription, { color: theme.colors.textSecondary }]}
                     />
                   </View>
                 </ModernCard>
@@ -758,7 +758,7 @@ ${userProfile.emergencyContact.phone}` :
                   <View>
                     <View style={styles.cardHeader}>
                       <Ionicons name="calendar-outline" size={24} color={COLORS.info[500]} />
-                      <Text style={[styles.cardTitle, styles.title, { color: COLORS.text.primary }]}>{getString('trainingsThisWeek')}</Text>
+                      <Text style={[styles.cardTitle, styles.title, { color: theme.colors.text }]}>{getString('trainingsThisWeek')}</Text>
                       <AnimatedButton
                         mode="text"
                         onPress={() => setShowYearModal(true)}
@@ -772,12 +772,12 @@ ${userProfile.emergencyContact.phone}` :
                     <View style={styles.weekDays}>
                       {getDaysOfWeek().map((day: string, index: number) => (
                         <View key={index} style={styles.dayCircle}>
-                          <Text style={[styles.dayText, { color: COLORS.text.primary }]}>{day}</Text>
+                          <Text style={[styles.dayText, { color: theme.colors.text }]}>{day}</Text>
                         </View>
                       ))}
                     </View>
 
-                    <Text style={[styles.noTrainingText, { color: COLORS.text.tertiary }]}>{getString('noTrainingThisWeek')}</Text>
+                    <Text style={[styles.noTrainingText, { color: theme.colors.textSecondary }]}>{getString('noTrainingThisWeek')}</Text>
                   </View>
                 </ModernCard>
               </Animated.View>
@@ -788,8 +788,8 @@ ${userProfile.emergencyContact.phone}` :
                   <ModernCard variant="medium" style={{ marginHorizontal: 0 }}>
                     <TouchableOpacity onPress={() => { }} style={{ alignItems: 'center', padding: SPACING.sm }}>
                       <Ionicons name="document-outline" size={32} color={COLORS.primary[500]} />
-                      <Text style={{ color: COLORS.text.primary, fontWeight: 'bold', marginTop: SPACING.xs, fontSize: 12 }}>{getString('contracts')}</Text>
-                      <Text style={{ color: COLORS.text.secondary, fontSize: 10 }}>{checkInStats.nextPayment}</Text>
+                      <Text style={{ color: theme.colors.text, fontWeight: 'bold', marginTop: SPACING.xs, fontSize: 12 }}>{getString('contracts')}</Text>
+                      <Text style={{ color: theme.colors.textSecondary, fontSize: 10 }}>{checkInStats.nextPayment}</Text>
                     </TouchableOpacity>
                   </ModernCard>
                 </Animated.View>
@@ -798,8 +798,8 @@ ${userProfile.emergencyContact.phone}` :
                   <ModernCard variant="medium" style={{ marginHorizontal: 0 }}>
                     <TouchableOpacity onPress={() => navigation.navigate('CheckIn')} style={{ alignItems: 'center', padding: SPACING.sm }}>
                       <Ionicons name="checkmark-circle-outline" size={32} color={COLORS.success[500]} />
-                      <Text style={{ color: COLORS.text.primary, fontWeight: 'bold', marginTop: SPACING.xs, fontSize: 12 }}>{getString('checkIns')}</Text>
-                      <Text style={{ color: COLORS.text.secondary, fontSize: 10 }}>{checkInStats.thisWeek}/{checkInStats.total}</Text>
+                      <Text style={{ color: theme.colors.text, fontWeight: 'bold', marginTop: SPACING.xs, fontSize: 12 }}>{getString('checkIns')}</Text>
+                      <Text style={{ color: theme.colors.textSecondary, fontSize: 10 }}>{checkInStats.thisWeek}/{checkInStats.total}</Text>
                     </TouchableOpacity>
                   </ModernCard>
                 </Animated.View>
@@ -817,8 +817,8 @@ ${userProfile.emergencyContact.phone}` :
                       }
                       left={() => <List.Icon icon="clipboard-pulse-outline" color={COLORS.info[500]} />}
                       right={() => <List.Icon icon="chevron-right" color={COLORS.text.tertiary} />}
-                      titleStyle={[styles.listItemTitle, { color: COLORS.text.primary }]}
-                      descriptionStyle={[styles.listItemDescription, { color: COLORS.text.secondary }]}
+                      titleStyle={[styles.listItemTitle, { color: theme.colors.text }]}
+                      descriptionStyle={[styles.listItemDescription, { color: theme.colors.textSecondary }]}
                       onPress={() => navigation.navigate('SharedScreens', { screen: 'PhysicalEvaluationHistory' })}
                     />
                   </View>
@@ -838,8 +838,8 @@ ${userProfile.emergencyContact.phone}` :
                       left={() => <List.Icon icon="bandage" color={COLORS.error[400]} />}
                       right={() => <List.Icon icon="chevron-right" color={COLORS.text.tertiary} />}
                       onPress={() => navigation.navigate('SharedScreens', { screen: 'InjuryHistory' })}
-                      titleStyle={[styles.listItemTitle, { color: COLORS.text.primary }]}
-                      descriptionStyle={[styles.listItemDescription, { color: COLORS.text.secondary }]}
+                      titleStyle={[styles.listItemTitle, { color: theme.colors.text }]}
+                      descriptionStyle={[styles.listItemDescription, { color: theme.colors.textSecondary }]}
                     />
                   </View>
                 </ModernCard>
@@ -849,11 +849,11 @@ ${userProfile.emergencyContact.phone}` :
 
           {/* Configurações da Conta */}
           <Animated.View entering={FadeInDown.delay(1000).springify()}>
-            <ModernCard variant="medium">
+            <ModernCard variant={isDarkMode ? "card" : "medium"}>
               <View>
                 <View style={styles.cardHeader}>
                   <Ionicons name="settings-outline" size={24} color={COLORS.text.secondary} />
-                  <Text style={[styles.cardTitle, styles.title, { color: COLORS.text.primary }]}>{getString('accountSettings')}</Text>
+                  <Text style={[styles.cardTitle, styles.title, { color: theme.colors.text }]}>{getString('accountSettings')}</Text>
                 </View>
 
                 <List.Item
@@ -862,19 +862,19 @@ ${userProfile.emergencyContact.phone}` :
                   left={() => <List.Icon icon="lock" color={COLORS.text.secondary} />}
                   right={() => <List.Icon icon="chevron-right" color={COLORS.text.tertiary} />}
                   onPress={() => navigation.navigate('SharedScreens', { screen: 'ChangePassword' })}
-                  titleStyle={[styles.listItemTitle, { color: COLORS.text.primary }]}
-                  descriptionStyle={[styles.listItemDescription, { color: COLORS.text.secondary }]}
+                  titleStyle={[styles.listItemTitle, { color: theme.colors.text }]}
+                  descriptionStyle={[styles.listItemDescription, { color: theme.colors.textSecondary }]}
                 />
                 <Divider style={[styles.divider, { backgroundColor: COLORS.border.subtle }]} />
 
                 <List.Item
                   title={getString('physicalEvaluations')}
                   description={getString('trackPhysicalProgress')}
-                  left={() => <List.Icon icon="scale" color={COLORS.text.secondary} />}
+                  left={() => <List.Icon icon="scale" color={theme.colors.textSecondary} />}
                   right={() => <List.Icon icon="chevron-right" color={COLORS.text.tertiary} />}
                   onPress={() => navigation.navigate('SharedScreens', { screen: 'PhysicalEvaluation' })}
-                  titleStyle={[styles.listItemTitle, { color: COLORS.text.primary }]}
-                  descriptionStyle={[styles.listItemDescription, { color: COLORS.text.secondary }]}
+                  titleStyle={[styles.listItemTitle, { color: theme.colors.text }]}
+                  descriptionStyle={[styles.listItemDescription, { color: theme.colors.textSecondary }]}
                 />
                 <Divider style={[styles.divider, { backgroundColor: COLORS.border.subtle }]} />
 
@@ -884,8 +884,8 @@ ${userProfile.emergencyContact.phone}` :
                   left={() => <List.Icon icon="history" color={COLORS.text.secondary} />}
                   right={() => <List.Icon icon="chevron-right" color={COLORS.text.tertiary} />}
                   onPress={() => navigation.navigate('SharedScreens', { screen: 'PhysicalEvaluationHistory' })}
-                  titleStyle={[styles.listItemTitle, { color: COLORS.text.primary }]}
-                  descriptionStyle={[styles.listItemDescription, { color: COLORS.text.secondary }]}
+                  titleStyle={[styles.listItemTitle, { color: theme.colors.text }]}
+                  descriptionStyle={[styles.listItemDescription, { color: theme.colors.textSecondary }]}
                 />
                 <Divider style={[styles.divider, { backgroundColor: COLORS.border.subtle }]} />
 
@@ -895,8 +895,8 @@ ${userProfile.emergencyContact.phone}` :
                   left={() => <List.Icon icon="bell" color={COLORS.text.secondary} />}
                   right={() => <List.Icon icon="chevron-right" color={COLORS.text.tertiary} />}
                   onPress={() => navigation.navigate('SharedScreens', { screen: 'NotificationSettings' })}
-                  titleStyle={[styles.listItemTitle, { color: COLORS.text.primary }]}
-                  descriptionStyle={[styles.listItemDescription, { color: COLORS.text.secondary }]}
+                  titleStyle={[styles.listItemTitle, { color: theme.colors.text }]}
+                  descriptionStyle={[styles.listItemDescription, { color: theme.colors.textSecondary }]}
                 />
                 <Divider style={[styles.divider, { backgroundColor: COLORS.border.subtle }]} />
 
@@ -906,8 +906,8 @@ ${userProfile.emergencyContact.phone}` :
                   left={() => <List.Icon icon="shield" color={COLORS.text.secondary} />}
                   right={() => <List.Icon icon="chevron-right" color={COLORS.text.tertiary} />}
                   onPress={() => navigation.navigate('SharedScreens', { screen: 'PrivacySettings' })}
-                  titleStyle={[styles.listItemTitle, { color: COLORS.text.primary }]}
-                  descriptionStyle={[styles.listItemDescription, { color: COLORS.text.secondary }]}
+                  titleStyle={[styles.listItemTitle, { color: theme.colors.text }]}
+                  descriptionStyle={[styles.listItemDescription, { color: theme.colors.textSecondary }]}
                 />
               </View>
             </ModernCard>
@@ -1146,7 +1146,7 @@ const styles = StyleSheet.create({
   },
   noTrainingText: {
     textAlign: 'center',
-    color: COLORS.text.tertiary,
+    color: COLORS.text.secondary,
     fontStyle: 'italic',
   },
   divider: {
@@ -1303,7 +1303,7 @@ const styles = StyleSheet.create({
   },
   legendLabelText: {
     fontSize: 10,
-    color: COLORS.text.tertiary,
+    color: COLORS.text.secondary,
   },
   listItemTitle: {
     color: COLORS.text.primary,

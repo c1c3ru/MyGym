@@ -20,8 +20,10 @@ import {
   TextInput,
   Dialog,
   Portal,
+  ActivityIndicator,
 } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 import { useAuthFacade } from "@presentation/auth/AuthFacade";
 import { useTheme } from "@contexts/ThemeContext";
@@ -32,6 +34,7 @@ import {
   FONT_SIZE,
   BORDER_RADIUS,
   FONT_WEIGHT,
+  GLASS
 } from "@presentation/theme/designTokens";
 import { hexToRgba } from "@shared/utils/colorUtils";
 import { useThemeToggle } from "@contexts/ThemeToggleContext";
@@ -40,7 +43,18 @@ const AdminModalities = ({ navigation }) => {
   const { currentTheme } = useThemeToggle();
 
   const { user, userProfile } = useAuthFacade();
-  const { getString } = useTheme();
+  const { getString, isDarkMode, theme } = useTheme();
+
+  // Dynamic Styles
+
+  const backgroundGradient = isDarkMode
+    ? [COLORS.gray[800], COLORS.gray[900], COLORS.black]
+    : [COLORS.gray[100], COLORS.gray[50], COLORS.white];
+
+  const textColor = theme.colors.text;
+  const secondaryTextColor = theme.colors.textSecondary;
+  const glassStyle = isDarkMode ? GLASS.premium : GLASS.light;
+
   const [modalities, setModalities] = useState([]);
   const [plans, setPlans] = useState([]);
   const [announcements, setAnnouncements] = useState([]);
@@ -707,533 +721,546 @@ const AdminModalities = ({ navigation }) => {
 
   if (loading) {
     return (
-      <SafeAreaView style={styles.container}>
-        <View style={styles.loadingContainer}>
-          <Text style={styles.loadingText}>Carregando modalidades...</Text>
-        </View>
-      </SafeAreaView>
+      <LinearGradient
+        colors={backgroundGradient}
+        style={styles.container}
+      >
+        <SafeAreaView style={[styles.container, { backgroundColor: 'transparent' }]}>
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator size="large" color={COLORS.primary[500]} />
+            <Text style={[styles.loadingText, { color: secondaryTextColor }]}>Carregando dados...</Text>
+          </View>
+        </SafeAreaView>
+      </LinearGradient>
     );
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView
-        style={styles.scrollView}
-        contentContainerStyle={{ paddingBottom: 100 }}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-      >
-        {/* Modalidades de Luta */}
-        <Card style={styles.card}>
-          <Card.Content>
-            <View style={styles.cardHeader}>
-              <Ionicons
-                name="fitness-outline"
-                size={24}
-                color={COLORS.primary[500]}
-              />
-              <Text style={[styles.cardTitle, styles.title]}>
-                {getString("fightModalities")}
-              </Text>
-              <Button
-                mode="contained"
-                onPress={() => setModalityDialogVisible(true)}
-                icon="plus"
-                style={styles.addButton}
-              >
-                {getString("add")}
-              </Button>
-            </View>
-
-            {modalities.length > 0 ? (
-              modalities.map((modality, index) => (
-                <View key={modality.id || index}>
-                  <List.Item
-                    title={modality.name}
-                    description={
-                      modality.description || getString("noDescription")
-                    }
-                    left={() => (
-                      <List.Icon icon="dumbbell" color={COLORS.primary[500]} />
-                    )}
-                    right={() => (
-                      <View style={styles.actionButtons}>
-                        <Button
-                          mode="text"
-                          onPress={() => handleEditModality(modality)}
-                          textColor={COLORS.info[500]}
-                          icon="pencil"
-                          compact
-                        >
-                          {getString("edit")}
-                        </Button>
-                        <Button
-                          mode="text"
-                          onPress={() => {
-                            console.log(
-                              "🔴 Botão Excluir clicado para modalidade:",
-                              modality,
-                            );
-                            handleDeleteModality(modality);
-                          }}
-                          textColor={
-                            deletingIds.has(modality.id)
-                              ? COLORS.gray[500]
-                              : COLORS.error[500]
-                          }
-                          icon={
-                            deletingIds.has(modality.id) ? "loading" : "delete"
-                          }
-                          compact
-                          disabled={deletingIds.has(modality.id)}
-                          loading={deletingIds.has(modality.id)}
-                        >
-                          {deletingIds.has(modality.id)
-                            ? getString("deleting")
-                            : getString("delete")}
-                        </Button>
-                      </View>
-                    )}
-                  />
-                  {index < modalities.length - 1 && <Divider />}
-                </View>
-              ))
-            ) : (
-              <Text style={[styles.emptyText, styles.paragraph]}>
-                {getString("noModalitiesRegistered")}
-              </Text>
-            )}
-          </Card.Content>
-        </Card>
-
-        {/* Planos de Pagamento */}
-        <Card style={styles.card}>
-          <Card.Content>
-            <View style={styles.cardHeader}>
-              <Ionicons
-                name="card-outline"
-                size={24}
-                color={COLORS.info[500]}
-              />
-              <Text style={[styles.cardTitle, styles.title]}>
-                {getString("paymentPlans")}
-              </Text>
-              <Button
-                mode="contained"
-                onPress={() => setPlanDialogVisible(true)}
-                icon="plus"
-                style={styles.addButton}
-              >
-                {getString("add")}
-              </Button>
-            </View>
-
-            {plans.length > 0 ? (
-              plans.map((plan, index) => (
-                <View key={plan.id || index}>
-                  <List.Item
-                    title={`${plan.name} - ${formatCurrency(plan.value)}`}
-                    description={`${plan.duration || 1} ${getString("months")} • ${plan.description || getString("noDescription")}`}
-                    left={() => (
-                      <List.Icon icon="cash" color={COLORS.info[500]} />
-                    )}
-                    right={() => (
-                      <View style={styles.actionButtons}>
-                        <Button
-                          mode="text"
-                          onPress={() => handleEditPlan(plan)}
-                          textColor={COLORS.info[500]}
-                          icon="pencil"
-                          compact
-                        >
-                          {getString("edit")}
-                        </Button>
-                        <Button
-                          mode="text"
-                          onPress={() => handleDeletePlan(plan)}
-                          textColor={
-                            deletingPlanIds.has(plan.id)
-                              ? COLORS.gray[500]
-                              : COLORS.error[500]
-                          }
-                          icon={
-                            deletingPlanIds.has(plan.id) ? "loading" : "delete"
-                          }
-                          compact
-                          disabled={deletingPlanIds.has(plan.id)}
-                          loading={deletingPlanIds.has(plan.id)}
-                        >
-                          {deletingPlanIds.has(plan.id)
-                            ? getString("deleting")
-                            : getString("delete")}
-                        </Button>
-                      </View>
-                    )}
-                  />
-                  {index < plans.length - 1 && <Divider />}
-                </View>
-              ))
-            ) : (
-              <Text style={[styles.emptyText, styles.paragraph]}>
-                {getString("noPlansRegistered")}
-              </Text>
-            )}
-          </Card.Content>
-        </Card>
-
-        {/* Avisos do Mural */}
-        <Card style={styles.card}>
-          <Card.Content>
-            <View style={styles.cardHeader}>
-              <Ionicons
-                name="megaphone-outline"
-                size={24}
-                color={COLORS.warning[500]}
-              />
-              <Text style={[styles.cardTitle, styles.title]}>
-                {getString("announcementBoard")}
-              </Text>
-              <Button
-                mode="contained"
-                onPress={() => setAnnouncementDialogVisible(true)}
-                icon="plus"
-                style={styles.addButton}
-              >
-                {getString("publish")}
-              </Button>
-            </View>
-
-            {announcements.length > 0 ? (
-              announcements.map((announcement, index) => (
-                <View key={announcement.id || index}>
-                  <List.Item
-                    title={announcement.title}
-                    description={`${announcement.content.substring(0, 100)}${announcement.content.length > 100 ? "..." : ""}`}
-                    left={() => (
-                      <List.Icon icon="bullhorn" color={COLORS.warning[500]} />
-                    )}
-                    right={() => (
-                      <View style={styles.actionButtons}>
-                        <Button
-                          mode="text"
-                          onPress={() => handleEditAnnouncement(announcement)}
-                          textColor={COLORS.info[500]}
-                          icon="pencil"
-                          compact
-                        >
-                          {getString("edit")}
-                        </Button>
-                        <Button
-                          mode="text"
-                          onPress={() => handleDeleteAnnouncement(announcement)}
-                          textColor={
-                            deletingAnnouncementIds.has(announcement.id)
-                              ? COLORS.gray[500]
-                              : COLORS.error[500]
-                          }
-                          icon={
-                            deletingAnnouncementIds.has(announcement.id)
-                              ? "loading"
-                              : "delete"
-                          }
-                          compact
-                          disabled={deletingAnnouncementIds.has(
-                            announcement.id,
-                          )}
-                          loading={deletingAnnouncementIds.has(announcement.id)}
-                        >
-                          {deletingAnnouncementIds.has(announcement.id)
-                            ? getString("deleting")
-                            : getString("delete")}
-                        </Button>
-                      </View>
-                    )}
-                  />
-                  <Text style={styles.announcementDate}>
-                    {getString("expiresOn")}{" "}
-                    {formatDate(announcement.expirationDate)}
-                  </Text>
-                  {index < announcements.length - 1 && <Divider />}
-                </View>
-              ))
-            ) : (
-              <Text style={[styles.emptyText, styles.paragraph]}>
-                {getString("noAnnouncementsPublished")}
-              </Text>
-            )}
-          </Card.Content>
-        </Card>
-
-        {/* Estatísticas */}
-        <Card style={styles.statsCard}>
-          <Card.Content>
-            <Text style={[styles.statsTitle, styles.title]}>
-              {getString("summary")}
-            </Text>
-
-            <View style={styles.statsRow}>
-              <View style={styles.statItem}>
-                <Text style={styles.statNumber}>{modalities.length}</Text>
-                <Text style={styles.statLabel}>{getString("modalities")}</Text>
-              </View>
-
-              <View style={styles.statItem}>
-                <Text style={styles.statNumber}>{plans.length}</Text>
-                <Text style={styles.statLabel}>{getString("plans")}</Text>
-              </View>
-
-              <View style={styles.statItem}>
-                <Text style={styles.statNumber}>{announcements.length}</Text>
-                <Text style={styles.statLabel}>
-                  {getString("activeAnnouncements")}
+    <LinearGradient
+      colors={backgroundGradient}
+      style={styles.container}
+    >
+      <SafeAreaView style={[styles.container, { backgroundColor: 'transparent' }]}>
+        <ScrollView
+          style={styles.scrollView}
+          contentContainerStyle={{ paddingBottom: 100 }}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={COLORS.primary[500]} />
+          }
+        >
+          {/* Modalidades de Luta */}
+          <Card style={[styles.card, { backgroundColor: glassStyle.backgroundColor, borderColor: glassStyle.borderColor, borderWidth: 1 }]}>
+            <Card.Content>
+              <View style={styles.cardHeader}>
+                <Ionicons
+                  name="fitness-outline"
+                  size={24}
+                  color={COLORS.primary[500]}
+                />
+                <Text style={[styles.cardTitle, styles.title, { color: textColor }]}>
+                  {getString("fightModalities")}
                 </Text>
+                <Button
+                  mode="contained"
+                  onPress={() => setModalityDialogVisible(true)}
+                  icon="plus"
+                  style={styles.addButton}
+                >
+                  {getString("add")}
+                </Button>
               </View>
-            </View>
-          </Card.Content>
-        </Card>
-      </ScrollView>
 
-      {/* Diálogos */}
-      <Portal>
-        {/* Diálogo para adicionar modalidade */}
-        <Dialog
-          visible={modalityDialogVisible}
-          onDismiss={() => {
-            setModalityDialogVisible(false);
-            setEditingModality(null);
-            setNewModality({ name: "", description: "" });
-          }}
-        >
-          <Dialog.Title>
-            {editingModality
-              ? getString("editModality")
-              : getString("newModality")}
-          </Dialog.Title>
-          <Dialog.Content>
-            <TextInput
-              label={getString("modalityName")}
-              value={newModality.name}
-              onChangeText={(text) =>
-                setNewModality({ ...newModality, name: text })
-              }
-              mode="outlined"
-              style={styles.dialogInput}
-            />
-            <TextInput
-              label={getString("optionalDescription")}
-              value={newModality.description}
-              onChangeText={(text) =>
-                setNewModality({ ...newModality, description: text })
-              }
-              mode="outlined"
-              multiline
-              numberOfLines={3}
-              style={styles.dialogInput}
-            />
-          </Dialog.Content>
-          <Dialog.Actions>
-            <Button
-              onPress={() => {
-                setModalityDialogVisible(false);
-                setEditingModality(null);
-                setNewModality({ name: "", description: "" });
-              }}
-            >
-              {getString("cancel")}
-            </Button>
-            <Button onPress={handleAddModality}>
-              {editingModality ? getString("update") : getString("create")}
-            </Button>
-          </Dialog.Actions>
-        </Dialog>
+              {modalities.length > 0 ? (
+                modalities.map((modality, index) => (
+                  <View key={modality.id || index}>
+                    <List.Item
+                      title={modality.name}
+                      description={
+                        modality.description || getString("noDescription")
+                      }
+                      titleStyle={{ color: textColor }}
+                      descriptionStyle={{ color: secondaryTextColor }}
+                      left={() => (
+                        <List.Icon icon="dumbbell" color={COLORS.primary[500]} />
+                      )}
+                      right={() => (
+                        <View style={styles.actionButtons}>
+                          <Button
+                            mode="text"
+                            onPress={() => handleEditModality(modality)}
+                            textColor={COLORS.info[500]}
+                            icon="pencil"
+                            compact
+                          >
+                            {getString("edit")}
+                          </Button>
+                          <Button
+                            mode="text"
+                            onPress={() => {
+                              console.log(
+                                "🔴 Botão Excluir clicado para modalidade:",
+                                modality,
+                              );
+                              handleDeleteModality(modality);
+                            }}
+                            textColor={
+                              deletingIds.has(modality.id)
+                                ? COLORS.gray[500]
+                                : COLORS.error[500]
+                            }
+                            icon={
+                              deletingIds.has(modality.id) ? "loading" : "delete"
+                            }
+                            compact
+                            disabled={deletingIds.has(modality.id)}
+                            loading={deletingIds.has(modality.id)}
+                          >
+                            {deletingIds.has(modality.id)
+                              ? getString("deleting")
+                              : getString("delete")}
+                          </Button>
+                        </View>
+                      )}
+                    />
+                    {index < modalities.length - 1 && <Divider />}
+                  </View>
+                ))
+              ) : (
+                <Text style={[styles.emptyText, styles.paragraph]}>
+                  {getString("noModalitiesRegistered")}
+                </Text>
+              )}
+            </Card.Content>
+          </Card>
 
-        {/* Diálogo para adicionar plano */}
-        <Dialog
-          visible={planDialogVisible}
-          onDismiss={() => {
-            setPlanDialogVisible(false);
-            setEditingPlan(null);
-            setNewPlan({ name: "", value: "", duration: "", description: "" });
-          }}
-        >
-          <Dialog.Title>
-            {editingPlan ? getString("editPlan") : getString("newPlan")}
-          </Dialog.Title>
-          <Dialog.Content>
-            <TextInput
-              label={getString("planName")}
-              value={newPlan.name}
-              onChangeText={(text) => setNewPlan({ ...newPlan, name: text })}
-              mode="outlined"
-              style={styles.dialogInput}
-            />
-            <TextInput
-              label={getString("valueInReais")}
-              value={newPlan.value}
-              onChangeText={(text) => setNewPlan({ ...newPlan, value: text })}
-              mode="outlined"
-              keyboardType="numeric"
-              style={styles.dialogInput}
-            />
-            <TextInput
-              label={getString("durationMonths")}
-              value={newPlan.duration}
-              onChangeText={(text) =>
-                setNewPlan({ ...newPlan, duration: text })
-              }
-              mode="outlined"
-              keyboardType="numeric"
-              style={styles.dialogInput}
-            />
-            <TextInput
-              label={getString("optionalDescription")}
-              value={newPlan.description}
-              onChangeText={(text) =>
-                setNewPlan({ ...newPlan, description: text })
-              }
-              mode="outlined"
-              multiline
-              numberOfLines={2}
-              style={styles.dialogInput}
-            />
-          </Dialog.Content>
-          <Dialog.Actions>
-            <Button
-              onPress={() => {
-                setPlanDialogVisible(false);
-                setEditingPlan(null);
-                setNewPlan({
-                  name: "",
-                  value: "",
-                  duration: "",
-                  description: "",
-                });
-              }}
-            >
-              {getString("cancel")}
-            </Button>
-            <Button onPress={handleAddPlan}>
-              {editingPlan ? getString("update") : getString("create")}
-            </Button>
-          </Dialog.Actions>
-        </Dialog>
+          {/* Planos de Pagamento */}
+          <Card style={[styles.card, { backgroundColor: glassStyle.backgroundColor, borderColor: glassStyle.borderColor, borderWidth: 1 }]}>
+            <Card.Content>
+              <View style={styles.cardHeader}>
+                <Ionicons
+                  name="card-outline"
+                  size={24}
+                  color={COLORS.success[500]}
+                />
+                <Text style={[styles.cardTitle, styles.title, { color: textColor }]}>
+                  {getString("paymentPlans")}
+                </Text>
+                <Button
+                  mode="contained"
+                  onPress={() => setPlanDialogVisible(true)}
+                  icon="plus"
+                  style={styles.addButton}
+                >
+                  {getString("add")}
+                </Button>
+              </View>
 
-        {/* Diálogo para adicionar aviso */}
-        <Dialog
-          visible={announcementDialogVisible}
-          onDismiss={() => {
-            setAnnouncementDialogVisible(false);
-            setEditingAnnouncement(null);
-            setNewAnnouncement({
-              title: "",
-              content: "",
-              expirationDate: "",
-              targetAudience: "all",
-            });
-          }}
-        >
-          <Dialog.Title>
-            {editingAnnouncement
-              ? getString("editAnnouncement")
-              : getString("newAnnouncement")}
-          </Dialog.Title>
-          <Dialog.Content>
-            <TextInput
-              label={getString("announcementTitle")}
-              value={newAnnouncement.title}
-              onChangeText={(text) =>
-                setNewAnnouncement({ ...newAnnouncement, title: text })
-              }
-              mode="outlined"
-              style={styles.dialogInput}
-            />
-            <TextInput
-              label={getString("content")}
-              value={newAnnouncement.content}
-              onChangeText={(text) =>
-                setNewAnnouncement({ ...newAnnouncement, content: text })
-              }
-              mode="outlined"
-              multiline
-              numberOfLines={4}
-              style={styles.dialogInput}
-            />
-            <TextInput
-              label={getString("optionalExpirationDate")}
-              value={newAnnouncement.expirationDate}
-              onChangeText={(text) =>
-                setNewAnnouncement({ ...newAnnouncement, expirationDate: text })
-              }
-              mode="outlined"
-              placeholder={getString("dateFormat")}
-              style={styles.dialogInput}
-            />
+              {plans.length > 0 ? (
+                plans.map((plan, index) => (
+                  <View key={plan.id || index}>
+                    <List.Item
+                      title={plan.name}
+                      description={`${formatCurrency(plan.value)} - ${plan.duration} ${getString("months")} ${plan.description ? `\n${plan.description}` : ""}`}
+                      titleStyle={{ color: textColor }}
+                      descriptionStyle={{ color: secondaryTextColor }}
+                      left={() => (
+                        <List.Icon icon="cash" color={COLORS.success[500]} />
+                      )}
+                      right={() => (
+                        <View style={styles.actionButtons}>
+                          <Button
+                            mode="text"
+                            onPress={() => handleEditPlan(plan)}
+                            textColor={COLORS.info[500]}
+                            icon="pencil"
+                            compact
+                          >
+                            {getString("edit")}
+                          </Button>
+                          <Button
+                            mode="text"
+                            onPress={() => handleDeletePlan(plan)}
+                            textColor={
+                              deletingPlanIds.has(plan.id)
+                                ? COLORS.gray[500]
+                                : COLORS.error[500]
+                            }
+                            icon={
+                              deletingPlanIds.has(plan.id) ? "loading" : "delete"
+                            }
+                            compact
+                            disabled={deletingPlanIds.has(plan.id)}
+                            loading={deletingPlanIds.has(plan.id)}
+                          >
+                            {deletingPlanIds.has(plan.id)
+                              ? getString("deleting")
+                              : getString("delete")}
+                          </Button>
+                        </View>
+                      )}
+                    />
+                    {index < plans.length - 1 && <Divider />}
+                  </View>
+                ))
+              ) : (
+                <Text style={[styles.emptyText, styles.paragraph, { color: secondaryTextColor }]}>
+                  {getString("noPlansRegistered")}
+                </Text>
+              )}
+            </Card.Content>
+          </Card>
 
-            <Text style={styles.sectionLabel}>
-              {getString("targetAudience")}
-            </Text>
-            <View style={styles.audienceContainer}>
-              <Chip
-                selected={newAnnouncement.targetAudience === "all"}
-                onPress={() =>
+          {/* Avisos do Mural */}
+          <Card style={[styles.card, { backgroundColor: glassStyle.backgroundColor, borderColor: glassStyle.borderColor, borderWidth: 1 }]}>
+            <Card.Content>
+              <View style={styles.cardHeader}>
+                <Ionicons
+                  name="megaphone-outline"
+                  size={24}
+                  color={COLORS.warning[500]}
+                />
+                <Text style={[styles.cardTitle, styles.title, { color: textColor }]}>
+                  {getString("announcementBoard")}
+                </Text>
+                <Button
+                  mode="contained"
+                  onPress={() => setAnnouncementDialogVisible(true)}
+                  icon="plus"
+                  style={styles.addButton}
+                >
+                  {getString("publish")}
+                </Button>
+              </View>
+
+              {announcements.length > 0 ? (
+                announcements.map((announcement, index) => (
+                  <View key={announcement.id || index}>
+                    <List.Item
+                      title={announcement.title}
+                      description={`${announcement.content}\n${getString("expiresOn")}: ${formatDate(announcement.expirationDate)}`}
+                      titleStyle={{ color: textColor }}
+                      descriptionStyle={{ color: secondaryTextColor }}
+                      left={() => (
+                        <List.Icon icon="bullhorn" color={COLORS.warning[500]} />
+                      )}
+                      right={() => (
+                        <View style={styles.actionButtons}>
+                          <Button
+                            mode="text"
+                            onPress={() => handleEditAnnouncement(announcement)}
+                            textColor={COLORS.info[500]}
+                            icon="pencil"
+                            compact
+                          >
+                            {getString("edit")}
+                          </Button>
+                          <Button
+                            mode="text"
+                            onPress={() => handleDeleteAnnouncement(announcement)}
+                            textColor={
+                              deletingAnnouncementIds.has(announcement.id)
+                                ? COLORS.gray[500]
+                                : COLORS.error[500]
+                            }
+                            icon={
+                              deletingAnnouncementIds.has(announcement.id)
+                                ? "loading"
+                                : "delete"
+                            }
+                            compact
+                            disabled={deletingAnnouncementIds.has(
+                              announcement.id,
+                            )}
+                            loading={deletingAnnouncementIds.has(announcement.id)}
+                          >
+                            {deletingAnnouncementIds.has(announcement.id)
+                              ? getString("deleting")
+                              : getString("delete")}
+                          </Button>
+                        </View>
+                      )}
+                    />
+                    {index < announcements.length - 1 && <Divider />}
+                  </View>
+                ))
+              ) : (
+                <Text style={[styles.emptyText, styles.paragraph, { color: secondaryTextColor }]}>
+                  {getString("noAnnouncementsPublished")}
+                </Text>
+              )}
+            </Card.Content>
+          </Card>
+
+          {/* Estatísticas */}
+          <Card style={styles.statsCard}>
+            <Card.Content>
+              <Text style={[styles.statsTitle, styles.title]}>
+                {getString("summary")}
+              </Text>
+
+              <View style={styles.statsRow}>
+                <View style={styles.statItem}>
+                  <Text style={styles.statNumber}>{modalities.length}</Text>
+                  <Text style={styles.statLabel}>{getString("modalities")}</Text>
+                </View>
+
+                <View style={styles.statItem}>
+                  <Text style={styles.statNumber}>{plans.length}</Text>
+                  <Text style={styles.statLabel}>{getString("plans")}</Text>
+                </View>
+
+                <View style={styles.statItem}>
+                  <Text style={styles.statNumber}>{announcements.length}</Text>
+                  <Text style={styles.statLabel}>
+                    {getString("activeAnnouncements")}
+                  </Text>
+                </View>
+              </View>
+            </Card.Content>
+          </Card>
+        </ScrollView>
+
+        {/* Diálogos */}
+        <Portal>
+          {/* Diálogo para adicionar modalidade */}
+          <Dialog
+            visible={modalityDialogVisible}
+            onDismiss={() => {
+              setModalityDialogVisible(false);
+              setEditingModality(null);
+              setNewModality({ name: "", description: "" });
+            }}
+          >
+            <Dialog.Title>
+              {editingModality
+                ? getString("editModality")
+                : getString("newModality")}
+            </Dialog.Title>
+            <Dialog.Content>
+              <TextInput
+                label={getString("modalityName")}
+                value={newModality.name}
+                onChangeText={(text) =>
+                  setNewModality({ ...newModality, name: text })
+                }
+                mode="outlined"
+                style={styles.dialogInput}
+              />
+              <TextInput
+                label={getString("optionalDescription")}
+                value={newModality.description}
+                onChangeText={(text) =>
+                  setNewModality({ ...newModality, description: text })
+                }
+                mode="outlined"
+                multiline
+                numberOfLines={3}
+                style={styles.dialogInput}
+              />
+            </Dialog.Content>
+            <Dialog.Actions>
+              <Button
+                onPress={() => {
+                  setModalityDialogVisible(false);
+                  setEditingModality(null);
+                  setNewModality({ name: "", description: "" });
+                }}
+              >
+                {getString("cancel")}
+              </Button>
+              <Button onPress={handleAddModality}>
+                {editingModality ? getString("update") : getString("create")}
+              </Button>
+            </Dialog.Actions>
+          </Dialog>
+
+          {/* Diálogo para adicionar plano */}
+          <Dialog
+            visible={planDialogVisible}
+            onDismiss={() => {
+              setPlanDialogVisible(false);
+              setEditingPlan(null);
+              setNewPlan({ name: "", value: "", duration: "", description: "" });
+            }}
+          >
+            <Dialog.Title>
+              {editingPlan ? getString("editPlan") : getString("newPlan")}
+            </Dialog.Title>
+            <Dialog.Content>
+              <TextInput
+                label={getString("planName")}
+                value={newPlan.name}
+                onChangeText={(text) => setNewPlan({ ...newPlan, name: text })}
+                mode="outlined"
+                style={styles.dialogInput}
+              />
+              <TextInput
+                label={getString("valueInReais")}
+                value={newPlan.value}
+                onChangeText={(text) => setNewPlan({ ...newPlan, value: text })}
+                mode="outlined"
+                keyboardType="numeric"
+                style={styles.dialogInput}
+              />
+              <TextInput
+                label={getString("durationMonths")}
+                value={newPlan.duration}
+                onChangeText={(text) =>
+                  setNewPlan({ ...newPlan, duration: text })
+                }
+                mode="outlined"
+                keyboardType="numeric"
+                style={styles.dialogInput}
+              />
+              <TextInput
+                label={getString("optionalDescription")}
+                value={newPlan.description}
+                onChangeText={(text) =>
+                  setNewPlan({ ...newPlan, description: text })
+                }
+                mode="outlined"
+                multiline
+                numberOfLines={2}
+                style={styles.dialogInput}
+              />
+            </Dialog.Content>
+            <Dialog.Actions>
+              <Button
+                onPress={() => {
+                  setPlanDialogVisible(false);
+                  setEditingPlan(null);
+                  setNewPlan({
+                    name: "",
+                    value: "",
+                    duration: "",
+                    description: "",
+                  });
+                }}
+              >
+                {getString("cancel")}
+              </Button>
+              <Button onPress={handleAddPlan}>
+                {editingPlan ? getString("update") : getString("create")}
+              </Button>
+            </Dialog.Actions>
+          </Dialog>
+
+          {/* Diálogo para adicionar aviso */}
+          <Dialog
+            visible={announcementDialogVisible}
+            onDismiss={() => {
+              setAnnouncementDialogVisible(false);
+              setEditingAnnouncement(null);
+              setNewAnnouncement({
+                title: "",
+                content: "",
+                expirationDate: "",
+                targetAudience: "all",
+              });
+            }}
+          >
+            <Dialog.Title>
+              {editingAnnouncement
+                ? getString("editAnnouncement")
+                : getString("newAnnouncement")}
+            </Dialog.Title>
+            <Dialog.Content>
+              <TextInput
+                label={getString("announcementTitle")}
+                value={newAnnouncement.title}
+                onChangeText={(text) =>
+                  setNewAnnouncement({ ...newAnnouncement, title: text })
+                }
+                mode="outlined"
+                style={styles.dialogInput}
+              />
+              <TextInput
+                label={getString("content")}
+                value={newAnnouncement.content}
+                onChangeText={(text) =>
+                  setNewAnnouncement({ ...newAnnouncement, content: text })
+                }
+                mode="outlined"
+                multiline
+                numberOfLines={4}
+                style={styles.dialogInput}
+              />
+              <TextInput
+                label={getString("optionalExpirationDate")}
+                value={newAnnouncement.expirationDate}
+                onChangeText={(text) =>
+                  setNewAnnouncement({ ...newAnnouncement, expirationDate: text })
+                }
+                mode="outlined"
+                placeholder={getString("dateFormat")}
+                style={styles.dialogInput}
+              />
+
+              <Text style={styles.sectionLabel}>
+                {getString("targetAudience")}
+              </Text>
+              <View style={styles.audienceContainer}>
+                <Chip
+                  selected={newAnnouncement.targetAudience === "all"}
+                  onPress={() =>
+                    setNewAnnouncement({
+                      ...newAnnouncement,
+                      targetAudience: "all",
+                    })
+                  }
+                  style={styles.audienceChip}
+                >
+                  {getString("all")}
+                </Chip>
+                <Chip
+                  selected={newAnnouncement.targetAudience === "students"}
+                  onPress={() =>
+                    setNewAnnouncement({
+                      ...newAnnouncement,
+                      targetAudience: "students",
+                    })
+                  }
+                  style={styles.audienceChip}
+                >
+                  {getString("students")}
+                </Chip>
+                <Chip
+                  selected={newAnnouncement.targetAudience === "instructors"}
+                  onPress={() =>
+                    setNewAnnouncement({
+                      ...newAnnouncement,
+                      targetAudience: "instructors",
+                    })
+                  }
+                  style={styles.audienceChip}
+                >
+                  {getString("instructors")}
+                </Chip>
+              </View>
+            </Dialog.Content>
+            <Dialog.Actions>
+              <Button
+                onPress={() => {
+                  setAnnouncementDialogVisible(false);
+                  setEditingAnnouncement(null);
                   setNewAnnouncement({
-                    ...newAnnouncement,
+                    title: "",
+                    content: "",
+                    expirationDate: "",
                     targetAudience: "all",
-                  })
-                }
-                style={styles.audienceChip}
+                  });
+                }}
               >
-                {getString("all")}
-              </Chip>
-              <Chip
-                selected={newAnnouncement.targetAudience === "students"}
-                onPress={() =>
-                  setNewAnnouncement({
-                    ...newAnnouncement,
-                    targetAudience: "students",
-                  })
-                }
-                style={styles.audienceChip}
-              >
-                {getString("students")}
-              </Chip>
-              <Chip
-                selected={newAnnouncement.targetAudience === "instructors"}
-                onPress={() =>
-                  setNewAnnouncement({
-                    ...newAnnouncement,
-                    targetAudience: "instructors",
-                  })
-                }
-                style={styles.audienceChip}
-              >
-                {getString("instructors")}
-              </Chip>
-            </View>
-          </Dialog.Content>
-          <Dialog.Actions>
-            <Button
-              onPress={() => {
-                setAnnouncementDialogVisible(false);
-                setEditingAnnouncement(null);
-                setNewAnnouncement({
-                  title: "",
-                  content: "",
-                  expirationDate: "",
-                  targetAudience: "all",
-                });
-              }}
-            >
-              {getString("cancel")}
-            </Button>
-            <Button onPress={handleAddAnnouncement}>
-              {editingAnnouncement ? getString("update") : getString("publish")}
-            </Button>
-          </Dialog.Actions>
-        </Dialog>
-      </Portal>
-    </SafeAreaView>
+                {getString("cancel")}
+              </Button>
+              <Button onPress={handleAddAnnouncement}>
+                {editingAnnouncement ? getString("update") : getString("publish")}
+              </Button>
+            </Dialog.Actions>
+          </Dialog>
+        </Portal>
+      </SafeAreaView>
+    </LinearGradient>
   );
 };
 

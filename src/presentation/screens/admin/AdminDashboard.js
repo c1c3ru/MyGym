@@ -50,11 +50,20 @@ import { useTheme } from "@contexts/ThemeContext";
 import { useProfileTheme } from "../../../contexts/ProfileThemeContext";
 
 const AdminDashboard = ({ navigation }) => {
-  const { getString } = useTheme();
-  const { theme: profileTheme } = useProfileTheme(); // 🎨 Tema Azul/Vermelho
+  const { getString, isDarkMode, theme } = useTheme();
+  // Ensure profileTheme is correctly typed or handled if it comes from a context that doesn't strictly match the global theme
+  const { theme: profileTheme } = useProfileTheme();
   const { user, userProfile, logout, academia } = useAuthFacade();
   const { animations, startEntryAnimation } = useAnimation();
   const scrollY = new Animated.Value(0);
+
+  // Dynamic Styles
+  const glassStyle = isDarkMode ? GLASS.premium : GLASS.light;
+  const textColor = isDarkMode ? COLORS.white : COLORS.black;
+  const secondaryTextColor = isDarkMode ? "rgba(255, 255, 255, 0.7)" : "rgba(0, 0, 0, 0.6)";
+  const backgroundGradient = isDarkMode
+    ? [COLORS.gray[800], COLORS.gray[900], COLORS.black]
+    : [COLORS.gray[100], COLORS.gray[50], COLORS.white];
 
   // Analytics tracking
   useScreenTracking("AdminDashboard", {
@@ -139,11 +148,12 @@ const AdminDashboard = ({ navigation }) => {
           );
 
           // Usar batch processing para carregar múltiplas coleções
-          const [students, classes, payments, instructors] = await Promise.all([
+          const [students, classes, payments, instructors, graduations] = await Promise.all([
             academyFirestoreService.getAll("students", academiaId),
             academyFirestoreService.getAll("classes", academiaId),
             academyFirestoreService.getAll("payments", academiaId),
             academyFirestoreService.getAll("instructors", academiaId),
+            academyFirestoreService.getAll("graduations", academiaId),
           ]);
 
           // Salvar classes no estado para o calendário
@@ -175,27 +185,110 @@ const AdminDashboard = ({ navigation }) => {
             .filter((p) => p.status === "paid")
             .reduce((sum, p) => sum + (p.amount || 0), 0);
 
-          // Buscar atividades recentes (simulado - em produção viria do Firestore)
-          const recentActivities = [
-            {
+          // Função auxiliar para formatar tempo relativo
+          const getRelativeTime = (timestamp) => {
+            if (!timestamp) return "";
+            const date = new Date(
+              timestamp.seconds ? timestamp.seconds * 1000 : timestamp,
+            );
+            const now = new Date();
+            const diffInSeconds = Math.floor((now - date) / 1000);
+            const diffInMinutes = Math.floor(diffInSeconds / 60);
+            const diffInHours = Math.floor(diffInMinutes / 60);
+            const diffInDays = Math.floor(diffInHours / 24);
+
+            if (diffInDays > 0) return `${diffInDays} ${getString("daysAgo")}`;
+            if (diffInHours > 0) return `${diffInHours} ${getString("hoursAgo")}`;
+            if (diffInMinutes > 0) return `${diffInMinutes} ${getString("minutesAgo") || "min atrás"}`;
+            return getString("justNow") || "Agora mesmo";
+          };
+
+          // Buscar atividades recentes reais
+          const recentActivities = [];
+
+          // 1. Último aluno cadastrado
+          const sortedStudents = [...students].sort((a, b) => {
+            const timeA = a.createdAt?.seconds
+              ? a.createdAt.seconds * 1000
+              : new Date(a.createdAt || 0).getTime();
+            const timeB = b.createdAt?.seconds
+              ? b.createdAt.seconds * 1000
+              : new Date(b.createdAt || 0).getTime();
+            return timeB - timeA;
+          });
+
+          if (sortedStudents.length > 0) {
+            recentActivities.push({
               type: "new_student",
-              message: getString("newStudentRegistered"),
-              time: `2 ${getString("hoursAgo")}`,
-              icon: "person-add",
-            },
-            {
+              message: `${getString("newStudentRegistered")}: ${sortedStudents[0].name.split(" ")[0]}`,
+              time: getRelativeTime(sortedStudents[0].createdAt),
+              icon: "account-plus",
+            });
+          } else {
+            recentActivities.push({
+              type: "new_student_empty",
+              message: getString("noStudentsRegistered") || "Nenhum aluno cadastrado",
+              time: "-",
+              icon: "account-off",
+            });
+          }
+
+          // 2. Último pagamento
+          const sortedPayments = [...payments].sort((a, b) => {
+            const timeA = a.createdAt?.seconds
+              ? a.createdAt.seconds * 1000
+              : new Date(a.createdAt || 0).getTime();
+            const timeB = b.createdAt?.seconds
+              ? b.createdAt.seconds * 1000
+              : new Date(b.createdAt || 0).getTime();
+            return timeB - timeA;
+          });
+
+          if (sortedPayments.length > 0) {
+            recentActivities.push({
               type: "payment",
               message: getString("paymentReceived"),
-              time: `4 ${getString("hoursAgo")}`,
-              icon: "card",
-            },
-            {
+              time: getRelativeTime(sortedPayments[0].createdAt),
+              icon: "cash-check",
+            });
+          } else {
+            recentActivities.push({
+              type: "payment_empty",
+              message: getString("noPaymentAtTheMoment") || "Sem pagamento no momento",
+              time: "-",
+              icon: "cash-remove",
+            });
+          }
+
+          // 3. Última graduação
+          const sortedGraduations = [...graduations].sort((a, b) => {
+            const timeA = a.createdAt?.seconds
+              ? a.createdAt.seconds * 1000
+              : new Date(a.createdAt || 0).getTime();
+            const timeB = b.createdAt?.seconds
+              ? b.createdAt.seconds * 1000
+              : new Date(b.createdAt || 0).getTime();
+            return timeB - timeA;
+          });
+
+          if (sortedGraduations.length > 0) {
+            const gradStudent = students.find(s => s.id === sortedGraduations[0].studentId);
+            const studentName = gradStudent ? gradStudent.name.split(" ")[0] : "";
+
+            recentActivities.push({
               type: "graduation",
-              message: getString("graduationRegistered"),
-              time: `1 ${getString("daysAgo")}`,
+              message: `${getString("graduationRegistered")} ${studentName ? `(${studentName})` : ""}`,
+              time: getRelativeTime(sortedGraduations[0].createdAt),
               icon: "trophy",
-            },
-          ];
+            });
+          } else {
+            recentActivities.push({
+              type: "graduation_empty",
+              message: getString("noGraduationRegistered") || "Nenhuma graduação registrada",
+              time: "-",
+              icon: "medal-outline",
+            });
+          }
 
           return {
             totalStudents: students.length,
@@ -343,7 +436,7 @@ const AdminDashboard = ({ navigation }) => {
       }}
     >
       <LinearGradient
-        colors={[COLORS.gray[800], COLORS.gray[900], COLORS.black]}
+        colors={backgroundGradient}
         style={{ flex: 1 }}
       >
         <SafeAreaView
@@ -503,7 +596,14 @@ const AdminDashboard = ({ navigation }) => {
             {/* Estatísticas principais em cards com gradiente */}
             <View style={styles.statsContainer}>
               <Animated.View
-                style={[styles.statCard, { opacity: animations.fadeAnim }]}
+                style={[
+                  styles.statCard,
+                  {
+                    opacity: animations.fadeAnim,
+                    backgroundColor: glassStyle.backgroundColor,
+                    borderColor: glassStyle.borderColor,
+                  },
+                ]}
               >
                 <LinearGradient
                   colors={[
@@ -527,7 +627,14 @@ const AdminDashboard = ({ navigation }) => {
               </Animated.View>
 
               <Animated.View
-                style={[styles.statCard, { opacity: animations.fadeAnim }]}
+                style={[
+                  styles.statCard,
+                  {
+                    opacity: animations.fadeAnim,
+                    backgroundColor: glassStyle.backgroundColor,
+                    borderColor: glassStyle.borderColor,
+                  },
+                ]}
               >
                 <LinearGradient
                   colors={[
@@ -551,7 +658,14 @@ const AdminDashboard = ({ navigation }) => {
               </Animated.View>
 
               <Animated.View
-                style={[styles.statCard, { opacity: animations.fadeAnim }]}
+                style={[
+                  styles.statCard,
+                  {
+                    opacity: animations.fadeAnim,
+                    backgroundColor: glassStyle.backgroundColor,
+                    borderColor: glassStyle.borderColor,
+                  },
+                ]}
               >
                 <LinearGradient
                   colors={[
@@ -575,7 +689,14 @@ const AdminDashboard = ({ navigation }) => {
               </Animated.View>
 
               <Animated.View
-                style={[styles.statCard, { opacity: animations.fadeAnim }]}
+                style={[
+                  styles.statCard,
+                  {
+                    opacity: animations.fadeAnim,
+                    backgroundColor: glassStyle.backgroundColor,
+                    borderColor: glassStyle.borderColor,
+                  },
+                ]}
               >
                 <LinearGradient
                   colors={[
@@ -600,7 +721,16 @@ const AdminDashboard = ({ navigation }) => {
             </View>
 
             {/* Financeiro */}
-            <AnimatedCard delay={200} style={styles.card}>
+            <AnimatedCard
+              delay={200}
+              style={[
+                styles.card,
+                {
+                  backgroundColor: glassStyle.backgroundColor,
+                  borderColor: glassStyle.borderColor,
+                },
+              ]}
+            >
               <Card.Content>
                 <View style={styles.cardHeader}>
                   <SafeIonicons
@@ -611,7 +741,10 @@ const AdminDashboard = ({ navigation }) => {
                   <Text
                     style={[
                       styles.cardTitle,
-                      { fontSize: ResponsiveUtils.fontSize.medium },
+                      {
+                        fontSize: ResponsiveUtils.fontSize.medium,
+                        color: textColor,
+                      },
                     ]}
                   >
                     {getString("monthlyFinancials")}
@@ -631,7 +764,10 @@ const AdminDashboard = ({ navigation }) => {
                     <Text
                       style={[
                         styles.revenueLabel,
-                        { fontSize: ResponsiveUtils.fontSize.medium },
+                        {
+                          fontSize: ResponsiveUtils.fontSize.medium,
+                          color: secondaryTextColor,
+                        },
                       ]}
                     >
                       {getString("monthlyRevenue")}
@@ -639,21 +775,27 @@ const AdminDashboard = ({ navigation }) => {
                     <Text
                       style={[
                         styles.revenueValue,
-                        { fontSize: ResponsiveUtils.fontSize.extraLarge },
+                        {
+                          fontSize: ResponsiveUtils.fontSize.extraLarge,
+                          color: textColor,
+                        },
                       ]}
                     >
                       {formatCurrency(dashboardData.monthlyRevenue)}
                     </Text>
                   </Animated.View>
 
-                  <Divider style={styles.divider} />
+                  <Divider style={[styles.divider, { backgroundColor: isDarkMode ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)" }]} />
 
                   <View style={styles.paymentsRow}>
                     <View style={styles.paymentItem}>
                       <Text
                         style={[
                           styles.paymentNumber,
-                          { fontSize: ResponsiveUtils.fontSize.large },
+                          {
+                            fontSize: ResponsiveUtils.fontSize.large,
+                            color: textColor,
+                          },
                         ]}
                       >
                         {dashboardData.pendingPayments}
@@ -661,7 +803,10 @@ const AdminDashboard = ({ navigation }) => {
                       <Text
                         style={[
                           styles.paymentLabel,
-                          { fontSize: ResponsiveUtils.fontSize.small },
+                          {
+                            fontSize: ResponsiveUtils.fontSize.small,
+                            color: secondaryTextColor,
+                          },
                         ]}
                       >
                         {getString("pendingCount")}
@@ -683,7 +828,10 @@ const AdminDashboard = ({ navigation }) => {
                       <Text
                         style={[
                           styles.paymentLabel,
-                          { fontSize: ResponsiveUtils.fontSize.small },
+                          {
+                            fontSize: ResponsiveUtils.fontSize.small,
+                            color: secondaryTextColor,
+                          },
                         ]}
                       >
                         {getString("overdueCount")}
@@ -695,9 +843,12 @@ const AdminDashboard = ({ navigation }) => {
                 <AnimatedButton
                   mode="outlined"
                   onPress={handleNavigateToManagement}
-                  style={styles.viewReportsButton}
+                  style={[
+                    styles.viewReportsButton,
+                    { borderColor: isDarkMode ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.2)" }
+                  ]}
                   icon="chart-line"
-                  textColor={COLORS.white}
+                  textColor={textColor}
                 >
                   {getString("accessManagementReports")}
                 </AnimatedButton>
@@ -705,7 +856,16 @@ const AdminDashboard = ({ navigation }) => {
             </AnimatedCard>
 
             {/* Ações Rápidas modernas */}
-            <AnimatedCard delay={300} style={styles.modernCard}>
+            <AnimatedCard
+              delay={300}
+              style={[
+                styles.modernCard,
+                {
+                  backgroundColor: glassStyle.backgroundColor,
+                  borderColor: glassStyle.borderColor,
+                },
+              ]}
+            >
               <Card.Content>
                 <View style={styles.modernCardHeader}>
                   <View style={styles.headerIconContainer}>
@@ -716,10 +876,10 @@ const AdminDashboard = ({ navigation }) => {
                     />
                   </View>
                   <View>
-                    <Text style={styles.modernCardTitle}>
+                    <Text style={[styles.modernCardTitle, { color: textColor }]}>
                       {getString("quickActions")}
                     </Text>
-                    <Text style={styles.modernCardSubtitle}>
+                    <Text style={[styles.modernCardSubtitle, { color: secondaryTextColor }]}>
                       {getString("quickActionsSubtitle")}
                     </Text>
                   </View>
@@ -813,7 +973,16 @@ const AdminDashboard = ({ navigation }) => {
             </AnimatedCard>
 
             {/* Atividades Recentes */}
-            <AnimatedCard delay={400} style={styles.card}>
+            <AnimatedCard
+              delay={400}
+              style={[
+                styles.card,
+                {
+                  backgroundColor: glassStyle.backgroundColor,
+                  borderColor: glassStyle.borderColor,
+                },
+              ]}
+            >
               <Card.Content>
                 <View style={styles.cardHeader}>
                   <SafeIonicons
@@ -824,7 +993,10 @@ const AdminDashboard = ({ navigation }) => {
                   <Text
                     style={[
                       styles.cardTitle,
-                      { fontSize: ResponsiveUtils.fontSize.medium },
+                      {
+                        fontSize: ResponsiveUtils.fontSize.medium,
+                        color: textColor,
+                      },
                     ]}
                   >
                     {getString("recentActivities")}
@@ -851,21 +1023,23 @@ const AdminDashboard = ({ navigation }) => {
                       description={activity.time}
                       titleStyle={{
                         fontSize: ResponsiveUtils.fontSize.medium,
-                        color: COLORS.white,
+                        color: textColor,
                       }}
                       descriptionStyle={{
                         fontSize: ResponsiveUtils.fontSize.small,
-                        color: COLORS.gray[400],
+                        color: secondaryTextColor,
                       }}
                       left={() => (
                         <List.Icon
-                          icon={getActivityIcon(activity.type)}
-                          color={getActivityColor(activity.type)}
+                          icon={activity.icon || getActivityIcon(activity.type)}
+                          color={
+                            activity.color || getActivityColor(activity.type)
+                          }
                         />
                       )}
                     />
                     {index < dashboardData.recentActivities.length - 1 && (
-                      <Divider style={styles.divider} />
+                      <Divider style={[styles.divider, { backgroundColor: isDarkMode ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)" }]} />
                     )}
                   </Animated.View>
                 ))}
@@ -876,7 +1050,11 @@ const AdminDashboard = ({ navigation }) => {
                     /* Implementar histórico completo */
                   }}
                   style={styles.viewAllButton}
-                  textColor={profileTheme.primary[400]}
+                  textColor={
+                    isDarkMode
+                      ? profileTheme.primary[400]
+                      : profileTheme.primary[600]
+                  }
                 >
                   {getString("viewAllActivities")}
                 </AnimatedButton>
@@ -897,7 +1075,10 @@ const AdminDashboard = ({ navigation }) => {
                       <Text
                         style={[
                           styles.cardTitle,
-                          { fontSize: ResponsiveUtils.fontSize.medium },
+                          {
+                            fontSize: ResponsiveUtils.fontSize.medium,
+                            color: textColor,
+                          },
                         ]}
                       >
                         {getString("alerts")}
@@ -908,7 +1089,10 @@ const AdminDashboard = ({ navigation }) => {
                       <Text
                         style={[
                           styles.alertText,
-                          { fontSize: ResponsiveUtils.fontSize.small },
+                          {
+                            fontSize: ResponsiveUtils.fontSize.small,
+                            color: textColor,
+                          },
                         ]}
                       >
                         • {dashboardData.overduePayments}{" "}
@@ -920,7 +1104,10 @@ const AdminDashboard = ({ navigation }) => {
                       <Text
                         style={[
                           styles.alertText,
-                          { fontSize: ResponsiveUtils.fontSize.small },
+                          {
+                            fontSize: ResponsiveUtils.fontSize.small,
+                            color: textColor,
+                          },
                         ]}
                       >
                         • {getString("manyPendingPayments")} (
