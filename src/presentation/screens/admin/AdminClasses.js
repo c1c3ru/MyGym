@@ -230,41 +230,17 @@ const AdminClasses = ({ navigation }) => {
     navigation.navigate('ClassDetails', { classId: classItem.id, classData: classItem });
   }, [navigation, trackButtonClick]);
 
-  const handleAddClass = useCallback(async () => {
+  const handleAddClass = useCallback(() => {
     trackButtonClick('add_class');
 
-    const result = await executeClassAction(async () => {
-      // Invalidar cache de turmas
-      const academiaId = userProfile?.academiaId || academia?.id;
-      if (academiaId) {
-        await cacheService.invalidatePattern(`classes:${academiaId}`);
-      }
-
-      // Navegação simplificada - busca o AdminStack navigator
-      const adminStackNav = navigation.getParent('AdminStack');
-      if (adminStackNav) {
-        adminStackNav.navigate('AddClass');
-        return;
-      }
-
-      // Fallback: tenta através do parent
-      const parentNav = navigation.getParent();
-      if (parentNav) {
-        const grandParentNav = parentNav.getParent();
-        if (grandParentNav) {
-          grandParentNav.navigate('AddClass');
-          return;
-        }
-      }
-
-      // Último fallback: navegação direta
-      navigation.navigate('AddClass');
-    });
-
-    if (!result.success) {
-      console.error('❌ Erro ao navegar para AddClass:', result.error);
+    // Invalidar cache de turmas
+    const academiaId = userProfile?.academiaId || academia?.id;
+    if (academiaId) {
+      cacheService.invalidatePattern(`classes:${academiaId}`);
     }
-  }, [navigation, trackButtonClick, executeClassAction, userProfile, academia, cacheService]);
+
+    navigation.navigate('AddClass');
+  }, [navigation, trackButtonClick, userProfile?.academiaId, academia?.id]);
 
   const handleEditClass = useCallback((classItem) => {
     trackButtonClick('edit_class', { classId: classItem.id });
@@ -543,7 +519,7 @@ const AdminClasses = ({ navigation }) => {
                     console.log('🚀 Botão criar turma clicado no AdminClasses');
                     setShowCalendarModal(false);
                     console.log('📱 Navegando para AddClass...');
-                    navigation.getParent()?.navigate('AddClass');
+                    navigation.navigate('AddClass');
                   }}
                   navigation={navigation}
                 />
