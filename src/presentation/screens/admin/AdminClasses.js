@@ -543,7 +543,7 @@ const AdminClasses = ({ navigation }) => {
                     console.log('🚀 Botão criar turma clicado no AdminClasses');
                     setShowCalendarModal(false);
                     console.log('📱 Navegando para AddClass...');
-                    navigation.navigate('AddClass');
+                    navigation.getParent()?.navigate('AddClass');
                   }}
                   navigation={navigation}
                 />
