@@ -328,12 +328,12 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
             style={{ flex: 1 }}
             contentContainerStyle={{
               padding: SPACING.md,
-              paddingBottom: 100,
-              ...(Platform.OS === 'web' ? {} : { flexGrow: 1 })
+              paddingBottom: 100
             }}
             showsVerticalScrollIndicator={true}
+            keyboardShouldPersistTaps="handled"
             nestedScrollEnabled={true}
-            scrollEnabled={true}
+            overScrollMode="always"
             refreshControl={
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colors?.primary} />
             }

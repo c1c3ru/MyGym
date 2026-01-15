@@ -316,13 +316,12 @@ const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
               style={{ flex: 1 }}
               contentContainerStyle={{
                 padding: SPACING.md,
-                paddingBottom: 100,
-                ...(Platform.OS === 'web' ? {} : { flexGrow: 1 })
+                paddingBottom: 100
               }}
               showsVerticalScrollIndicator={true}
               keyboardShouldPersistTaps="handled"
               nestedScrollEnabled={true}
-              scrollEnabled={true}
+              overScrollMode="always"
             >
               <View style={{ marginBottom: SPACING.lg, marginTop: SPACING.sm }}>
                 <Text style={{
@@ -690,10 +689,11 @@ const createStyles = (colors: any, textColor: string) => StyleSheet.create({
   loadingOverlay: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: 'rgba(255, 255, 255, 0.7)',
-    zIndex: 100,
+    zIndex: 10,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: BORDER_RADIUS.lg,
+    pointerEvents: 'box-none',
   },
   loadingOverlayText: {
     marginTop: SPACING.md,
