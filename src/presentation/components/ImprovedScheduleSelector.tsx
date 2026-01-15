@@ -227,6 +227,8 @@ const ImprovedScheduleSelector: React.FC<ImprovedScheduleSelectorProps> = ({
                                     compact
                                     style={[styles.hourChip, { backgroundColor: colors?.primary || COLORS.primary[500] }]}
                                     textStyle={{ color: colors?.onPrimary || COLORS.white, fontSize: FONT_SIZE.xs }}
+                                    onPressIn={() => { }}
+                                    onPressOut={() => { }}
                                 >
                                     {hour}
                                 </Chip>
@@ -291,14 +293,9 @@ const ImprovedScheduleSelector: React.FC<ImprovedScheduleSelectorProps> = ({
             </View>
 
             {/* Cards dos dias da semana */}
-            <ScrollView
-                style={styles.daysContainer}
-                showsVerticalScrollIndicator={false}
-                nestedScrollEnabled={true}
-                scrollEnabled={false}
-            >
+            <View style={styles.daysContainer}>
                 {Object.keys(DAY_NAMES).map(renderDayCard)}
-            </ScrollView>
+            </View>
 
             {/* Modal de Preview do Calendário */}
             <Portal>
@@ -353,7 +350,11 @@ const ImprovedScheduleSelector: React.FC<ImprovedScheduleSelectorProps> = ({
 
                     <Divider style={{ marginVertical: SPACING.md }} />
 
-                    <ScrollView style={styles.timeSlotsContainer}>
+                    <ScrollView
+                        style={styles.timeSlotsContainer}
+                        keyboardShouldPersistTaps="handled"
+                        nestedScrollEnabled={true}
+                    >
                         <View style={styles.timeSlotsGrid}>
                             {availableSlots.map((time) => {
                                 const isSelected = selectedDay && schedule.hours[selectedDay].includes(time);
@@ -362,6 +363,8 @@ const ImprovedScheduleSelector: React.FC<ImprovedScheduleSelectorProps> = ({
                                         key={time}
                                         selected={isSelected || false}
                                         onPress={() => toggleTimeSlot(time)}
+                                        onPressIn={() => { }}
+                                        onPressOut={() => { }}
                                         style={[
                                             styles.timeSlot,
                                             isSelected && { backgroundColor: (colors?.primary || COLORS.primary[500]) }
