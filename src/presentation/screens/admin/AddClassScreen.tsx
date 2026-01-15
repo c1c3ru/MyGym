@@ -378,7 +378,13 @@ const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
 
   return (
     <EnhancedErrorBoundary errorContext={{ screen: 'AddClassScreen', academiaId: userProfile?.academiaId }}>
-      <LinearGradient colors={getGradient()} style={{ flex: 1, width: '100%', minHeight: 0 }}>
+      <LinearGradient colors={getGradient()} style={{
+        flex: 1,
+        width: '100%',
+        minHeight: 0,
+        height: Platform.OS === 'web' ? '100vh' : '100%',
+        overflow: 'hidden'
+      } as any}>
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : Platform.OS === "android" ? "height" : undefined}
           style={styles.container}
@@ -386,10 +392,11 @@ const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
         >
           <ScrollView
             style={styles.scrollView}
-            contentContainerStyle={styles.scrollContent}
+            contentContainerStyle={[styles.scrollContent, { minHeight: '101%' }]}
             keyboardShouldPersistTaps="handled"
             showsVerticalScrollIndicator={true}
             nestedScrollEnabled={true}
+            alwaysBounceVertical={true}
           >
             <Card style={dynamicStyles.card}>
               <Card.Content>

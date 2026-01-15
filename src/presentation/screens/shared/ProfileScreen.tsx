@@ -356,15 +356,23 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
   return (
     <LinearGradient
       colors={getAuthGradient(isDarkMode) as any}
-      style={styles.gradient}
+      style={[
+        styles.gradient,
+        {
+          minHeight: 0,
+          height: Platform.OS === 'web' ? '100vh' : '100%',
+          overflow: 'hidden'
+        } as any
+      ]}
     >
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={[styles.container, { minHeight: 0 }]}>
         <Animated.ScrollView
           style={styles.scrollView}
-          contentContainerStyle={styles.scrollViewContent}
+          contentContainerStyle={[styles.scrollViewContent, { minHeight: '101%' }]}
           entering={FadeIn}
           showsVerticalScrollIndicator={true}
           persistentScrollbar={true}
+          alwaysBounceVertical={true}
         >
           {/* Header do Perfil */}
           <Animated.View entering={FadeInDown.delay(100).springify()}>

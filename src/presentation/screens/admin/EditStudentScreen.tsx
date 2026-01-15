@@ -263,14 +263,22 @@ const EditStudentScreen: React.FC<EditStudentScreenProps> = ({ navigation, route
   return (
     <LinearGradient
       colors={getAuthGradient(isDarkMode) as any}
-      style={styles.container}
+      style={[
+        styles.container,
+        {
+          minHeight: 0,
+          height: Platform.OS === 'web' ? '100vh' : '100%',
+          overflow: 'hidden'
+        } as any
+      ]}
     >
-      <SafeAreaView style={styles.safeArea}>
+      <SafeAreaView style={[styles.safeArea, { minHeight: 0 }]}>
         <ScrollView
           style={styles.scrollView}
-          showsVerticalScrollIndicator={false}
+          showsVerticalScrollIndicator={true}
           keyboardShouldPersistTaps="handled"
-          contentContainerStyle={styles.scrollContent}
+          contentContainerStyle={[styles.scrollContent, { minHeight: '101%' }]}
+          alwaysBounceVertical={true}
         >
           <View style={styles.glassCard}>
             <Text style={styles.title}>{getString('editStudent')}</Text>

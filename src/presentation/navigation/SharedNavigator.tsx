@@ -2,6 +2,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useTheme } from '@contexts/ThemeContext';
 import UniversalHeader from '@components/UniversalHeader';
+import { SharedStackParamList, UserType } from '@types';
 
 // Telas Compartilhadas
 import ProfileScreen from '@screens/shared/ProfileScreen';
@@ -15,7 +16,7 @@ import NotificationSettingsScreen from '@screens/shared/NotificationSettingsScre
 import PrivacySettingsScreen from '@screens/shared/PrivacySettingsScreen';
 import { COLORS } from '@presentation/theme/designTokens';
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<SharedStackParamList>();
 
 const PROFILE_COLORS = {
   admin: { primary: COLORS.primary[600] },
@@ -24,7 +25,7 @@ const PROFILE_COLORS = {
 };
 
 // Configurações de header baseadas no tipo de usuário
-const getHeaderColor = (userType) => {
+const getHeaderColor = (userType: UserType) => {
   switch (userType) {
     case 'admin':
       return PROFILE_COLORS.admin.primary;
@@ -36,8 +37,12 @@ const getHeaderColor = (userType) => {
   }
 };
 
+interface SharedNavigatorProps {
+  userType: UserType;
+}
+
 // Navegador para telas compartilhadas
-const SharedNavigator = ({ userType }) => {
+const SharedNavigator = ({ userType }: SharedNavigatorProps) => {
   const { getString } = useTheme();
   const headerColor = getHeaderColor(userType);
 

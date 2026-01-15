@@ -352,7 +352,8 @@ const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({
         <SafeAreaView style={styles.container}>
           <ScrollView
             style={styles.scrollView}
-            contentContainerStyle={styles.scrollContent}
+            contentContainerStyle={[styles.scrollContent, { minHeight: '101%' }]}
+            alwaysBounceVertical={true}
             refreshControl={
               <RefreshControl
                 refreshing={refreshing}
@@ -631,8 +632,13 @@ const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({
 };
 
 const styles = StyleSheet.create({
-  gradient: { flex: 1 },
-  container: { flex: 1 },
+  gradient: {
+    flex: 1,
+    minHeight: 0,
+    height: Platform.OS === 'web' ? '100vh' : '100%',
+    overflow: 'hidden'
+  } as any,
+  container: { flex: 1, minHeight: 0 },
   loadingContainer: {
     flex: 1,
     justifyContent: "center",

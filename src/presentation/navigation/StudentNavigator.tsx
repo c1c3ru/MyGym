@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '@contexts/ThemeContext';
 import UniversalHeader from '@components/UniversalHeader';
+import { StudentTabParamList, StudentStackParamList } from '@types';
 
 // Telas do Aluno
 import StudentDashboard from '@screens/student/StudentDashboard';
@@ -22,8 +23,8 @@ import PrivacySettingsScreen from '@screens/shared/PrivacySettingsScreen';
 import { COLORS } from '@presentation/theme/designTokens';
 import SettingsScreen from '@screens/shared/SettingsScreen';
 
-const Tab = createBottomTabNavigator();
-const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator<StudentTabParamList>();
+const Stack = createStackNavigator<StudentStackParamList>();
 
 // Navegação para Alunos
 const StudentNavigator = () => {
@@ -40,7 +41,7 @@ const StudentNavigator = () => {
           />
         ),
         tabBarIcon: ({ focused, color, size }) => {
-          let iconName;
+          let iconName: keyof typeof Ionicons.glyphMap | undefined;
 
           if (route.name === 'Dashboard') {
             iconName = focused ? 'home' : 'home-outline';
@@ -51,7 +52,7 @@ const StudentNavigator = () => {
           } else if (route.name === 'Calendar') {
             iconName = focused ? 'calendar' : 'calendar-outline';
           }
-          return <Ionicons name={iconName} size={size} color={color} />;
+          return <Ionicons name={iconName as any} size={size} color={color} />;
         },
         tabBarActiveTintColor: COLORS.primary[500],
         tabBarInactiveTintColor: COLORS.gray[300],

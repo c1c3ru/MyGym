@@ -67,6 +67,9 @@ export type RootStackParamList = {
   Auth: undefined;
   Main: { userType: UserType };
   Loading: undefined;
+  UserTypeSelection: undefined;
+  AcademyOnboarding: undefined;
+  SharedScreens: { userType: UserType };
 };
 
 export type AuthStackParamList = {
@@ -74,6 +77,100 @@ export type AuthStackParamList = {
   Register: undefined;
   ForgotPassword: undefined;
   AcademiaSelection: undefined;
+  TermsOfService: undefined;
+  PrivacyPolicy: undefined;
+};
+
+export type SharedStackParamList = {
+  Profile: undefined;
+  ChangePassword: undefined;
+  PhysicalEvaluation: undefined;
+  PhysicalEvaluationHistory: undefined;
+  Injury: undefined;
+  InjuryHistory: undefined;
+  PrivacyPolicy: undefined;
+  NotificationSettings: undefined;
+  PrivacySettings: undefined;
+};
+
+export type StudentTabParamList = {
+  Dashboard: undefined;
+  Payments: undefined;
+  Evolution: undefined;
+  Calendar: undefined;
+};
+
+export type StudentStackParamList = {
+  StudentTabs: undefined;
+  CheckIn: undefined;
+  Profile: undefined;
+  Settings: undefined;
+  ChangePassword: undefined;
+  PhysicalEvaluation: undefined;
+  PhysicalEvaluationHistory: undefined;
+  NotificationSettings: undefined;
+  PrivacySettings: undefined;
+};
+
+export type InstructorTabParamList = {
+  Dashboard: undefined;
+  Classes: undefined;
+  Students: undefined;
+};
+
+export type InstructorStackParamList = {
+  InstructorTabs: undefined;
+  NovaAula: undefined;
+  ScheduleClasses: undefined;
+  checkIn: undefined;
+  Relatorios: undefined;
+  classDetailsScreen: { classId: string };
+  CheckIns: undefined;
+  addClassScreen: undefined;
+  AddStudent: undefined;
+  StudentProfile: { studentId: string };
+  AddGraduation: { studentId: string; studentName?: string };
+  Profile: undefined;
+  Settings: undefined;
+  ChangePassword: undefined;
+  PhysicalEvaluation: undefined;
+  PhysicalEvaluationHistory: undefined;
+  NotificationSettings: undefined;
+  PrivacySettings: undefined;
+};
+
+export type AdminTabParamList = {
+  Dashboard: undefined;
+  Students: undefined;
+  Classes: undefined;
+  Modalities: undefined;
+  Management: undefined;
+  Invitations: undefined;
+};
+
+export type AdminStackParamList = {
+  AdminTabs: undefined;
+  AddClass: undefined;
+  addClassScreen: undefined;
+  ClassStudents: { classId: string };
+  CheckIns: undefined;
+  EditClass: { classId: string; classData?: any };
+  ClassDetails: { classId: string };
+  AddStudent: undefined;
+  EditStudent: { studentId: string; studentData?: any };
+  StudentDetails: { studentId: string };
+  StudentPayments: { studentId: string };
+  Reports: undefined;
+  Modalities: undefined;
+  StudentProfile: { studentId: string };
+  AddGraduation: { studentId: string; studentName?: string };
+  Profile: undefined;
+  ChangePassword: undefined;
+  PhysicalEvaluation: undefined;
+  PhysicalEvaluationHistory: undefined;
+  NotificationSettings: undefined;
+  PrivacySettings: undefined;
+  Settings: undefined;
 };
 
 // Tipos para formulários

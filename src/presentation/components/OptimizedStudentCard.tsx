@@ -240,7 +240,7 @@ const styles = StyleSheet.create({
     },
     studentName: {
         fontSize: FONT_SIZE.lg,
-        fontWeight: FONT_WEIGHT.bold as any,
+        fontWeight: FONT_WEIGHT.bold,
         marginBottom: SPACING.xs,
         color: COLORS.black,
     },

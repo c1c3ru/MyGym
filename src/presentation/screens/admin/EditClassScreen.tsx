@@ -282,12 +282,22 @@ const EditClassScreen = ({ route, navigation }: EditClassScreenProps) => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[
+        styles.container,
+        {
+          minHeight: 0,
+          height: Platform.OS === 'web' ? '100vh' : '100%',
+          overflow: 'hidden'
+        } as any
+      ]}
+    >
       <ScrollView
         style={styles.scrollView}
-        showsVerticalScrollIndicator={false}
+        showsVerticalScrollIndicator={true}
         keyboardShouldPersistTaps="handled"
-        contentContainerStyle={styles.scrollContent}
+        contentContainerStyle={[styles.scrollContent, { minHeight: '101%' }]}
+        alwaysBounceVertical={true}
       >
         <Card style={styles.card}>
           <Card.Content>

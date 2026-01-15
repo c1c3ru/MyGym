@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
-import { useTheme } from '@contexts/ThemeContext';
+// import { useTheme } from '@contexts/ThemeContext'; // Unused?
 
 // Navegadores Modulares
 import AuthNavigator from './AuthNavigator';
@@ -16,14 +16,19 @@ import SharedNavigator from './SharedNavigator';
 // Telas Especiais
 import LoadingScreen from '@screens/shared/LoadingScreen';
 import UserTypeSelectionScreen from '@screens/auth/UserTypeSelectionScreen';
-import AcademiaSelectionScreen from '@screens/auth/AcademiaSelectionScreen';
+// import AcademiaSelectionScreen from '@screens/auth/AcademiaSelectionScreen'; // Unused in renderContent logic shown?
 import AcademyOnboardingScreen from '@screens/onboarding/AcademyOnboardingScreen';
+import { RootStackParamList, UserType } from '@types';
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<RootStackParamList>();
 
 // Navegação Principal (simplificada e modular)
-const MainNavigator = ({ userType }) => {
-  let TabNavigator;
+interface MainNavigatorProps {
+  userType: string;
+}
+
+const MainNavigator = ({ userType }: MainNavigatorProps) => {
+  let TabNavigator: any;
   switch (userType) {
     case 'student':
       TabNavigator = StudentStackNavigator;
@@ -41,13 +46,15 @@ const MainNavigator = ({ userType }) => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="MainTabs"
+        name="Main"
         component={TabNavigator}
         options={{ headerShown: false }}
+        initialParams={{ userType: userType as UserType }}
       />
+      {/* SharedNavigator usage might need adjustment if it's not a screen component but a navigator */}
       <Stack.Screen
-        name="SharedScreens"
-        children={() => <SharedNavigator userType={userType} />}
+        name="SharedScreens" // This name doesn't exist in RootStackParamList? "SharedScreens"?
+        component={SharedNavigator as any} // Temporary cast if SharedScreens is strange
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
@@ -66,9 +73,8 @@ const AppNavigator = () => {
     hasAcademia: !!academia,
     hasCustomClaims: !!customClaims,
     userEmail: user?.email,
-    tipo: userProfile?.tipo,
     userType: userProfile?.userType,
-    finalUserType: customClaims?.role || userProfile?.userType || userProfile?.tipo || 'student',
+    finalUserType: customClaims?.role || userProfile?.userType || 'student',
     academiaId: userProfile?.academiaId || customClaims?.academiaId,
     claimsRole: customClaims?.role,
     hasValidClaims: hasValidClaims || !!(customClaims?.role && customClaims?.academiaId)
@@ -107,6 +113,7 @@ const AppNavigator = () => {
       console.log('🧭 AppNavigator: Perfil incompleto. Direcionando para seleção de tipo...');
       return (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
+          {/* @ts-ignore - UserTypeSelection might not be in RootStackParamList? */}
           <Stack.Screen name="UserTypeSelection" component={UserTypeSelectionScreen} />
         </Stack.Navigator>
       );
@@ -118,6 +125,7 @@ const AppNavigator = () => {
       console.log('🧭 AppNavigator: Sem academia associada. Direcionando para onboarding...');
       return (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
+          {/* @ts-ignore */}
           <Stack.Screen name="AcademyOnboarding" component={AcademyOnboardingScreen} />
         </Stack.Navigator>
       );

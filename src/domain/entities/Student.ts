@@ -1,7 +1,35 @@
+export interface StudentProps {
+  id: string;
+  name: string;
+  email: string;
+  phone?: string;
+  birthDate?: string | Date;
+  academiaId: string;
+  modality?: string;
+  belt?: string;
+  graduationDate?: string | Date;
+  isActive?: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
 /**
  * Student Entity
  */
 export class Student {
+  id: string;
+  name: string;
+  email: string;
+  phone?: string;
+  birthDate?: string | Date;
+  academiaId: string;
+  modality?: string;
+  belt?: string;
+  graduationDate?: string | Date;
+  isActive: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+
   constructor({
     id,
     name,
@@ -15,7 +43,7 @@ export class Student {
     isActive = true,
     createdAt = new Date(),
     updatedAt = new Date()
-  }) {
+  }: StudentProps) {
     this.id = id;
     this.name = name;
     this.email = email;
@@ -33,7 +61,7 @@ export class Student {
   /**
    * Validates student data
    */
-  validate() {
+  validate(): boolean {
     if (!this.name || this.name.trim().length === 0) {
       throw new Error('Student name is required');
     }
@@ -49,7 +77,7 @@ export class Student {
   /**
    * Converts to plain object
    */
-  toObject() {
+  toObject(): StudentProps {
     return {
       id: this.id,
       name: this.name,
@@ -71,6 +99,15 @@ export class Student {
  * Data structure for creating a new student
  */
 export class CreateStudentData {
+  name: string;
+  email: string;
+  phone?: string;
+  birthDate?: string | Date;
+  academiaId: string;
+  modality?: string;
+  belt: string;
+  isActive: boolean;
+
   constructor({
     name,
     email,
@@ -80,7 +117,7 @@ export class CreateStudentData {
     modality,
     belt = 'Branca',
     isActive = true
-  }) {
+  }: Omit<StudentProps, 'id' | 'createdAt' | 'updatedAt'> & { belt?: string }) {
     this.name = name;
     this.email = email;
     this.phone = phone;

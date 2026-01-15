@@ -333,9 +333,16 @@ const AddGraduationScreen = ({ route, navigation }: any) => {
   return (
     <LinearGradient
       colors={getAuthGradient(isDarkMode) as any}
-      style={styles.container}
+      style={[
+        styles.container,
+        {
+          minHeight: 0,
+          height: Platform.OS === 'web' ? '100vh' : '100%',
+          overflow: 'hidden'
+        } as any
+      ]}
     >
-      <SafeAreaView style={styles.safeArea}>
+      <SafeAreaView style={[styles.safeArea, { minHeight: 0 }]}>
         {/* Header Transparente */}
         <View style={styles.header}>
           <View style={styles.headerContent}>
@@ -354,8 +361,9 @@ const AddGraduationScreen = ({ route, navigation }: any) => {
 
         <ScrollView
           style={styles.scrollContainer}
-          contentContainerStyle={styles.contentContainer}
-          showsVerticalScrollIndicator={false}
+          contentContainerStyle={[styles.contentContainer, { minHeight: '101%' }]}
+          showsVerticalScrollIndicator={true}
+          alwaysBounceVertical={true}
         >
           {/* Card de graduação atual */}
           {formData.previousGraduation ? (

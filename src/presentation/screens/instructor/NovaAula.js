@@ -40,9 +40,18 @@ const NovaAula = ({ navigation }) => {
   };
 
   return (
-    <LinearGradient colors={profileTheme.gradients.hero} style={{ flex: 1 }}>
-      <SafeAreaView style={[styles.container, { backgroundColor: 'transparent' }]}>
-        <ScrollView style={styles.scrollView}>
+    <LinearGradient colors={profileTheme.gradients.hero} style={{
+      flex: 1,
+      minHeight: 0,
+      height: Platform.OS === 'web' ? '100vh' : '100%',
+      overflow: 'hidden'
+    }}>
+      <SafeAreaView style={[styles.container, { backgroundColor: 'transparent', minHeight: 0 }]}>
+        <ScrollView
+          style={styles.scrollView}
+          contentContainerStyle={{ minHeight: '101%' }}
+          alwaysBounceVertical={true}
+        >
           <Card style={[styles.card, { backgroundColor: profileTheme.background.paper, borderColor: profileTheme.background.paper }]}>
             <Card.Content>
               <View style={styles.header}>

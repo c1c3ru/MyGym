@@ -4,6 +4,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '@contexts/ThemeContext';
 import UniversalHeader from '@components/UniversalHeader';
+import { COLORS } from '@presentation/theme/designTokens';
+import { AdminTabParamList, AdminStackParamList } from '@types';
 
 // Telas do Admin
 import AdminDashboard from '@screens/admin/AdminDashboard';
@@ -16,7 +18,6 @@ import AddStudentScreen from '@screens/admin/AddStudentScreen';
 import EditStudentScreen from '@screens/admin/EditStudentScreen';
 import ReportsScreen from '@screens/admin/ReportsScreen';
 import InviteManagement from '@screens/admin/InviteManagement';
-
 
 // Telas Compartilhadas
 import ClassDetailsScreen from '@screens/shared/ClassDetailsScreen';
@@ -32,10 +33,9 @@ import PrivacySettingsScreen from '@screens/shared/PrivacySettingsScreen';
 import SettingsScreen from '@screens/shared/SettingsScreen';
 import StudentPayments from '@screens/student/StudentPayments';
 import CheckIn from '@screens/instructor/CheckIn';
-import { COLORS } from '@presentation/theme/designTokens';
 
-const Stack = createStackNavigator();
-const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator<AdminStackParamList>();
+const Tab = createBottomTabNavigator<AdminTabParamList>();
 
 // Navegação para Administradores
 const AdminTabNavigator = () => {
@@ -52,7 +52,7 @@ const AdminTabNavigator = () => {
           />
         ),
         tabBarIcon: ({ focused, color, size }) => {
-          let iconName;
+          let iconName: keyof typeof Ionicons.glyphMap | undefined;
 
           if (route.name === 'Dashboard') {
             iconName = focused ? 'home' : 'home-outline';
@@ -67,7 +67,7 @@ const AdminTabNavigator = () => {
           } else if (route.name === 'Invitations') {
             iconName = focused ? 'mail' : 'mail-outline';
           }
-          return <Ionicons name={iconName} size={size} color={color} />;
+          return <Ionicons name={iconName as any} size={size} color={color} />;
         },
         tabBarActiveTintColor: COLORS.primary[500],
         tabBarInactiveTintColor: COLORS.gray[300],
@@ -118,7 +118,7 @@ const AdminNavigator = () => {
   const { getString } = useTheme();
 
   return (
-    <Stack.Navigator id="AdminStack" screenOptions={{ headerShown: false }}>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="AdminTabs" component={AdminTabNavigator} />
       <Stack.Screen
         name="AddClass"
@@ -140,7 +140,6 @@ const AdminNavigator = () => {
         component={AddClassScreen}
         options={{
           headerShown: true,
-          contentStyle: { flex: 1 },
           header: ({ navigation }) => (
             <UniversalHeader
               title={getString('newClass')}
@@ -216,7 +215,6 @@ const AdminNavigator = () => {
         component={AddStudentScreen}
         options={{
           headerShown: true,
-          contentStyle: { flex: 1 },
           header: ({ navigation }) => (
             <UniversalHeader
               title={getString('newStudent')}

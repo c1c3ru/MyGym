@@ -329,7 +329,13 @@ const AddStudentScreen = ({ navigation, route }: AddStudentScreenProps) => {
     >
       <LinearGradient
         colors={theme?.gradients?.hero || [COLORS.background.default, COLORS.background.default]}
-        style={{ flex: 1, width: '100%', minHeight: 0 }}
+        style={{
+          flex: 1,
+          width: '100%',
+          minHeight: 0,
+          height: Platform.OS === 'web' ? '100vh' : '100%',
+          overflow: 'hidden'
+        } as any}
       >
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : Platform.OS === "android" ? "height" : undefined}
@@ -338,10 +344,11 @@ const AddStudentScreen = ({ navigation, route }: AddStudentScreenProps) => {
         >
           <ScrollView
             style={styles.scrollView}
-            contentContainerStyle={styles.scrollContent}
+            contentContainerStyle={[styles.scrollContent, { minHeight: '101%' }]}
             showsVerticalScrollIndicator={true}
             keyboardShouldPersistTaps="handled"
             nestedScrollEnabled={true}
+            alwaysBounceVertical={true}
           >
             {/* Banner de validação */}
             <Banner

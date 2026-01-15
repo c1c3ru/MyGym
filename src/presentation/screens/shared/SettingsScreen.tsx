@@ -81,13 +81,21 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
   return (
     <LinearGradient
       colors={getAuthGradient(isDarkMode) as any}
-      style={[styles.gradient, { minHeight: 0 }]}
+      style={[
+        styles.gradient,
+        {
+          minHeight: 0,
+          height: Platform.OS === 'web' ? '100vh' : '100%',
+          overflow: 'hidden'
+        } as any
+      ]}
     >
       <SafeAreaView style={[styles.container, { minHeight: 0 }]}>
         <ScrollView
           style={styles.scrollView}
-          contentContainerStyle={styles.scrollContent}
+          contentContainerStyle={[styles.scrollContent, { minHeight: '101%' }]}
           showsVerticalScrollIndicator={true}
+          alwaysBounceVertical={true}
         >
           {/* Informações da Conta */}
           <ModernCard variant="card" style={styles.card}>

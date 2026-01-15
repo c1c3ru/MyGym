@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '@contexts/ThemeContext';
 import UniversalHeader from '@components/UniversalHeader';
 import { COLORS } from '@presentation/theme/designTokens';
+import { InstructorTabParamList, InstructorStackParamList } from '@types';
 
 // Telas do Professor
 import InstructorDashboard from '@screens/instructor/InstructorDashboard';
@@ -29,8 +30,8 @@ import NotificationSettingsScreen from '@screens/shared/NotificationSettingsScre
 import PrivacySettingsScreen from '@screens/shared/PrivacySettingsScreen';
 import SettingsScreen from '@screens/shared/SettingsScreen';
 
-const Stack = createStackNavigator();
-const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator<InstructorStackParamList>();
+const Tab = createBottomTabNavigator<InstructorTabParamList>();
 
 // Navegação para Professores
 const InstructorTabNavigator = () => {
@@ -47,7 +48,7 @@ const InstructorTabNavigator = () => {
           />
         ),
         tabBarIcon: ({ focused, color, size }) => {
-          let iconName;
+          let iconName: keyof typeof Ionicons.glyphMap | undefined;
 
           if (route.name === 'Dashboard') {
             iconName = focused ? 'home' : 'home-outline';
@@ -56,7 +57,7 @@ const InstructorTabNavigator = () => {
           } else if (route.name === 'Students') {
             iconName = focused ? 'people' : 'people-outline';
           }
-          return <Ionicons name={iconName} size={size} color={color} />;
+          return <Ionicons name={iconName as any} size={size} color={color} />;
         },
         tabBarActiveTintColor: COLORS.primary[500],
         tabBarInactiveTintColor: COLORS.gray[300],
