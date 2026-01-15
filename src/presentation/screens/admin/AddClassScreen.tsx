@@ -334,13 +334,6 @@ const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
 
             <GlassCard variant={glassVariant} style={{ padding: SPACING.md }}>
 
-              {loading && (
-                <View style={styles.loadingOverlay}>
-                  <ActivityIndicator size="large" color={colors?.primary || COLORS.primary[500]} />
-                  <Text style={styles.loadingOverlayText}>{getString('creatingClass')}...</Text>
-                </View>
-              )}
-
               <View>
                 <Text style={[styles.sectionTitle, { color: textColor }]}>Informações Básicas</Text>
 
@@ -588,6 +581,14 @@ const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
             </GlassCard>
           </KeyboardAwareScrollView>
 
+          {/* Loading overlay global */}
+          {loading && (
+            <View style={styles.globalLoadingOverlay}>
+              <ActivityIndicator size="large" color={colors?.primary || COLORS.primary[500]} />
+              <Text style={styles.loadingOverlayText}>{getString('creatingClass')}...</Text>
+            </View>
+          )}
+
           <Snackbar
             visible={snackbar.visible}
             onDismiss={() => setSnackbar((s) => ({ ...s, visible: false }))}
@@ -690,6 +691,14 @@ const createStyles = (colors: any, textColor: string) => StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: BORDER_RADIUS.lg,
+    pointerEvents: 'none',
+  },
+  globalLoadingOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    zIndex: 1000,
+    justifyContent: 'center',
+    alignItems: 'center',
     pointerEvents: 'none',
   },
   loadingOverlayText: {

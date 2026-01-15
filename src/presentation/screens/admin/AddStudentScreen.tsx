@@ -397,14 +397,6 @@ const AddStudentScreen = ({ navigation, route }: AddStudentScreenProps) => {
 
             <GlassCard variant={glassVariant} style={{ padding: SPACING.md }}>
 
-              {/* Loading overlay */}
-              {loading && (
-                <View style={styles.loadingOverlay}>
-                  <ActivityIndicator size="large" color={colors?.primary || COLORS.primary[500]} />
-                  <Text style={styles.loadingOverlayText}>Cadastrando aluno...</Text>
-                </View>
-              )}
-
               <View>
                 <Text style={[styles.sectionTitle, { color: textColor }]}>Dados Pessoais</Text>
 
@@ -684,6 +676,14 @@ const AddStudentScreen = ({ navigation, route }: AddStudentScreenProps) => {
             </GlassCard>
           </KeyboardAwareScrollView>
 
+          {/* Loading overlay global */}
+          {loading && (
+            <View style={styles.globalLoadingOverlay}>
+              <ActivityIndicator size="large" color={colors?.primary || COLORS.primary[500]} />
+              <Text style={styles.loadingOverlayText}>Cadastrando aluno...</Text>
+            </View>
+          )}
+
           {/* Snackbar para feedback */}
           <Snackbar
             visible={snackbar.visible}
@@ -849,6 +849,14 @@ const createStyles = (colors: any) => StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: BORDER_RADIUS.lg,
+    pointerEvents: 'none',
+  },
+  globalLoadingOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    zIndex: 1000,
+    justifyContent: 'center',
+    alignItems: 'center',
     pointerEvents: 'none',
   },
   loadingOverlayText: {
