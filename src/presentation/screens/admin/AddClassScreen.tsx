@@ -345,7 +345,7 @@ const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
                 )}
 
                 <View>
-                  <Text style={styles.sectionTitle}>{getString('basicInfo')}</Text>
+                  <Text style={[styles.sectionTitle, { color: textColor }]}>Informações Básicas</Text>
 
                   {/* Nome da Turma */}
                   <TextInput

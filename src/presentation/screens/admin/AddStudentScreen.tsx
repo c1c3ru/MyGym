@@ -478,15 +478,15 @@ const AddStudentScreen = ({ navigation, route }: AddStudentScreenProps) => {
                     <View style={styles.radioContainer}>
                       <View style={styles.radioItem}>
                         <RadioButton value="masculino" color={colors?.primary} uncheckedColor={colors?.onSurfaceVariant || COLORS.gray[500]} />
-                        <Text style={[styles.radioLabel, { color: textColor }]}>Masculino</Text>
+                        <Text style={styles.radioLabel}>Masculino</Text>
                       </View>
                       <View style={styles.radioItem}>
                         <RadioButton value="feminino" color={colors?.primary} uncheckedColor={colors?.onSurfaceVariant || COLORS.gray[500]} />
-                        <Text style={[styles.radioLabel, { color: textColor }]}>Feminino</Text>
+                        <Text style={styles.radioLabel}>Feminino</Text>
                       </View>
                       <View style={styles.radioItem}>
                         <RadioButton value="outro" color={colors?.primary} uncheckedColor={colors?.onSurfaceVariant || COLORS.gray[500]} />
-                        <Text style={[styles.radioLabel, { color: textColor }]}>Outro</Text>
+                        <Text style={styles.radioLabel}>Outro</Text>
                       </View>
                     </View>
                   </RadioButton.Group>
@@ -653,11 +653,11 @@ const AddStudentScreen = ({ navigation, route }: AddStudentScreenProps) => {
                     >
                       <View style={styles.radioItem}>
                         <RadioButton value="active" color={colors?.primary} uncheckedColor={colors?.onSurfaceVariant || COLORS.gray[500]} />
-                        <Text style={[styles.radioLabel, { color: textColor }]}>Ativo</Text>
+                        <Text style={styles.radioLabel}>Ativo</Text>
                       </View>
                       <View style={styles.radioItem}>
                         <RadioButton value="inactive" color={colors?.primary} uncheckedColor={colors?.onSurfaceVariant || COLORS.gray[500]} />
-                        <Text style={[styles.radioLabel, { color: textColor }]}>Inativo</Text>
+                        <Text style={styles.radioLabel}>Inativo</Text>
                       </View>
                     </RadioButton.Group>
                   </View>
@@ -874,7 +874,8 @@ const createStyles = (colors: any) => StyleSheet.create({
   },
   radioLabel: {
     fontSize: FONT_SIZE.md,
-    color: colors?.text?.primary,
+    color: colors?.text?.primary || COLORS.text.primary,
+    marginLeft: 4,
   },
   buttonContainer: {
     flexDirection: 'row',
