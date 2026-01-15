@@ -186,7 +186,7 @@ const InstructorNavigator = () => {
         }}
       />
       <Stack.Screen
-        name="addClassScreen"
+        name="AddClass"
         component={AddClassScreen}
         options={{
           headerShown: true,

@@ -126,7 +126,7 @@ export type InstructorStackParamList = {
   Relatorios: undefined;
   classDetailsScreen: { classId: string };
   CheckIns: undefined;
-  addClassScreen: undefined;
+  AddClass: undefined;
   AddStudent: undefined;
   StudentProfile: { studentId: string };
   AddGraduation: { studentId: string; studentName?: string };
@@ -151,7 +151,6 @@ export type AdminTabParamList = {
 export type AdminStackParamList = {
   AdminTabs: undefined;
   AddClass: undefined;
-  addClassScreen: undefined;
   ClassStudents: { classId: string };
   CheckIns: undefined;
   EditClass: { classId: string; classData?: any };

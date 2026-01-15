@@ -135,21 +135,7 @@ const AdminNavigator = () => {
           ),
         }}
       />
-      <Stack.Screen
-        name="addClassScreen"
-        component={AddClassScreen}
-        options={{
-          headerShown: true,
-          header: ({ navigation }) => (
-            <UniversalHeader
-              title={getString('newClass')}
-              navigation={navigation}
-              showBack={true}
-              backgroundColor={COLORS.primary[500]}
-            />
-          ),
-        }}
-      />
+
       <Stack.Screen
         name="ClassStudents"
         component={AdminStudents}
