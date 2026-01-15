@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Alert, ScrollView, Text } from 'react-native';
+import { View, StyleSheet, Alert, ScrollView, Text, Platform } from 'react-native';
 import {
   TextInput,
   Button,
@@ -96,8 +96,16 @@ const LoginScreenDebug = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
+    <SafeAreaView style={[styles.container, {
+      minHeight: 0,
+      height: Platform.OS === 'web' ? '100vh' : '100%',
+      overflow: 'hidden'
+    }]}>
+      <ScrollView
+        contentContainerStyle={[styles.scrollContainer, { minHeight: '101%' }]}
+        showsVerticalScrollIndicator={true}
+        alwaysBounceVertical={true}
+      >
         <View style={styles.header}>
           <Text style={[styles.title, styles.title]}>Debug de Login</Text>
           <Text style={[styles.subtitle, styles.paragraph]}>

@@ -5,7 +5,8 @@ import {
   StyleSheet,
   RefreshControl,
   SafeAreaView,
-  Alert
+  Alert,
+  Platform
 } from 'react-native';
 import {
   Card,
@@ -400,7 +401,11 @@ const GraduationManagementScreen: React.FC<{ navigation: any }> = ({ navigation 
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, {
+      minHeight: 0,
+      height: Platform.OS === 'web' ? '100vh' : '100%',
+      overflow: 'hidden'
+    } as any]}>
       <LinearGradient
         colors={[COLORS.info[500], COLORS.info[700]]}
         style={styles.header}
@@ -413,10 +418,12 @@ const GraduationManagementScreen: React.FC<{ navigation: any }> = ({ navigation 
 
       <ScrollView
         style={styles.content}
-        contentContainerStyle={{ paddingBottom: 100 }}
+        contentContainerStyle={{ paddingBottom: 100, minHeight: '101%' }}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={refreshGraduationBoard} />
         }
+        showsVerticalScrollIndicator={true}
+        alwaysBounceVertical={true}
       >
         {renderSummaryCards()}
         {renderModalityFilter()}
