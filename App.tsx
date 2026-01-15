@@ -32,8 +32,8 @@ export default function App() {
     <EnhancedErrorBoundary>
       <SafeAreaProvider style={{ flex: 1 }}>
         <ThemeToggleProvider>
-          <ThemeProvider>
-            <NotificationProvider>
+          <NotificationProvider>
+            <ThemeProvider>
               <AuthProvider>
                 <ProfileThemeProvider>
                   <UndoProvider>
@@ -44,8 +44,8 @@ export default function App() {
                   </UndoProvider>
                 </ProfileThemeProvider>
               </AuthProvider>
-            </NotificationProvider>
-          </ThemeProvider>
+            </ThemeProvider>
+          </NotificationProvider>
         </ThemeToggleProvider>
       </SafeAreaProvider>
     </EnhancedErrorBoundary>
