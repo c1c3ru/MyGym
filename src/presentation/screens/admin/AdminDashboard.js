@@ -474,7 +474,7 @@ const AdminDashboard = ({ navigation }) => {
                     );
                     setShowCalendarModal(false);
                     console.log("📱 Navegando para AddClass...");
-                    navigation.navigate("addClassScreen");
+                    navigation.navigate("AddClass");
                   }}
                   navigation={navigation}
                 />

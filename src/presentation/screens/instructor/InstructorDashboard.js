@@ -712,7 +712,7 @@ const InstructorDashboard = ({ navigation }) => {
                                 {
                                   text: getString("createClassAction"),
                                   onPress: () =>
-                                    navigation.navigate("addClassScreen"),
+                                    navigation.navigate("AddClass"),
                                 },
                               ],
                             );

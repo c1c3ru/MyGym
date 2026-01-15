@@ -23,6 +23,7 @@ import ClassListSkeleton from '@components/skeletons/ClassListSkeleton';
 import EnhancedErrorBoundary from '@components/EnhancedErrorBoundary';
 import cacheService, { CACHE_KEYS, CACHE_TTL } from '@infrastructure/services/cacheService';
 import batchFirestoreService from '@infrastructure/services/batchFirestoreService';
+import { firestoreService } from '@infrastructure/services/firestoreService';
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import { useClassCreationRateLimit } from '@hooks/useRateLimit';
 import FreeGymScheduler from '@components/FreeGymScheduler';

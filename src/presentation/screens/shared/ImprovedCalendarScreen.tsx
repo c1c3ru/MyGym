@@ -180,8 +180,8 @@ const ImprovedCalendarScreen: React.FC<ImprovedCalendarScreenProps> = ({ navigat
       console.log('📱 Navegando para AddClass (admin)');
       navigation.navigate('AddClass');
     } else if (isInstructor() || userType === 'instructor') {
-      console.log('📱 Navegando para addClassScreen (instrutor)');
-      navigation.navigate('addClassScreen', { instructorId: user.id });
+      console.log('📱 Navegando para AddClass (instrutor)');
+      navigation.navigate('AddClass', { instructorId: user.id });
     } else {
       console.warn('⚠️ Usuário sem permissão para criar turma:', { role, userType });
     }

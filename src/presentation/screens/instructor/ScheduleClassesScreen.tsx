@@ -220,7 +220,7 @@ const ScheduleClassesScreen = ({ navigation, route }: ScheduleClassesScreenProps
                   <Text style={[styles.emptyText, { color: profileTheme.text.secondary }]}>{getString('noClassesFound')}</Text>
                   <Button
                     mode="contained"
-                    onPress={() => navigation.navigate('addClassScreen')}
+                    onPress={() => navigation.navigate('AddClass')}
                     style={[styles.createButton, { backgroundColor: profileTheme.primary[500] }]}
                     labelStyle={{ color: COLORS.white }}
                   >
