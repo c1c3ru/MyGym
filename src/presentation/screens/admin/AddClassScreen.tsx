@@ -301,7 +301,7 @@ const AddClassScreen = ({ navigation }: AddClassScreenProps) => {
       <LinearGradient
         colors={backgroundGradient as any}
         style={{
-          flex: 1,
+          flexGrow: 1,
           width: '100%'
         } as any}
       >
