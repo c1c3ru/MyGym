@@ -5,7 +5,8 @@ import {
     ScrollView,
     RefreshControl,
     Animated,
-    Platform
+    Platform,
+    TouchableOpacity
 } from 'react-native';
 import {
     Chip,
@@ -15,7 +16,10 @@ import {
     Text,
     Card,
     Button,
-    ActivityIndicator
+    ActivityIndicator,
+    Modal,
+    Portal,
+    IconButton
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -26,9 +30,11 @@ import cacheService, { CACHE_KEYS, CACHE_TTL } from '@infrastructure/services/ca
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import { useOnboarding } from '@components/OnboardingTour';
 import { useTheme } from '@contexts/ThemeContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import EnhancedErrorBoundary from '@components/EnhancedErrorBoundary';
 import StudentDashboardSkeleton from '@components/skeletons/StudentDashboardSkeleton';
+import CheckInModalContent from '@screens/student/CheckInModalContent';
 
 import { SPACING, BORDER_RADIUS, FONT_SIZE, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
@@ -94,6 +100,10 @@ const StudentDashboard: React.FC<{ navigation: any }> = ({ navigation }) => {
     const [loadingAnnouncements, setLoadingAnnouncements] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
 
+    // Modal States
+    const [showCheckInModal, setShowCheckInModal] = useState(false);
+    const [selectedAnnouncement, setSelectedAnnouncement] = useState<any>(null);
+
     // Analytics
     useScreenTracking('StudentDashboard', {
         academiaId: userProfile?.academiaId,
@@ -149,6 +159,12 @@ const StudentDashboard: React.FC<{ navigation: any }> = ({ navigation }) => {
                         priority: ann.priority || 0
                     }));
 
+                    // Filtrar avisos lidos localmente
+                    const readAnnouncementsJson = await AsyncStorage.getItem(`read_announcements_${user.id}`);
+                    const readAnnouncements = readAnnouncementsJson ? JSON.parse(readAnnouncementsJson) : [];
+
+                    const filteredAnnouncements = formattedAnnouncements.filter((ann: any) => !readAnnouncements.includes(ann.id));
+
                     const dashboardInfo = {
                         graduationStatus: studentProfile?.currentBelt || studentProfile?.currentGraduation || getString('whiteBelt'),
                         nextEvaluation: studentProfile?.nextEvaluationDate || ('2 ' + getString('months')),
@@ -156,7 +172,7 @@ const StudentDashboard: React.FC<{ navigation: any }> = ({ navigation }) => {
                         attendanceRate: studentProfile?.attendanceRate || 0
                     };
 
-                    return { nextClasses, announcements: formattedAnnouncements, dashboardData: dashboardInfo };
+                    return { nextClasses, announcements: filteredAnnouncements, dashboardData: dashboardInfo };
                 },
                 CACHE_TTL.SHORT
             );
@@ -206,6 +222,27 @@ const StudentDashboard: React.FC<{ navigation: any }> = ({ navigation }) => {
     useEffect(() => {
         loadDashboardData();
     }, [loadDashboardData]);
+
+    const handleCloseAnnouncement = async () => {
+        if (selectedAnnouncement && user?.id) {
+            try {
+                // Marcar como lido localmente
+                const readAnnouncementsJson = await AsyncStorage.getItem(`read_announcements_${user.id}`);
+                const readAnnouncements = readAnnouncementsJson ? JSON.parse(readAnnouncementsJson) : [];
+
+                if (!readAnnouncements.includes(selectedAnnouncement.id)) {
+                    const newReadAnnouncements = [...readAnnouncements, selectedAnnouncement.id];
+                    await AsyncStorage.setItem(`read_announcements_${user.id}`, JSON.stringify(newReadAnnouncements));
+
+                    // Atualizar lista removendo o item lido
+                    setAnnouncements(prev => prev.filter(a => a.id !== selectedAnnouncement.id));
+                }
+            } catch (error) {
+                console.error('Error marking announcement as read:', error);
+            }
+        }
+        setSelectedAnnouncement(null);
+    };
 
     if (loading) {
         return <SafeAreaView style={styles.skeletonContainer}><StudentDashboardSkeleton /></SafeAreaView>;
@@ -320,14 +357,20 @@ const StudentDashboard: React.FC<{ navigation: any }> = ({ navigation }) => {
 
                         {announcements.length > 0 ? (
                             announcements.map((ann, idx) => (
-                                <View key={ann.id} style={styles.announcementBox}>
-                                    <View style={styles.announcementHeader}>
-                                        <Text style={styles.annTitle}>{ann.title}</Text>
-                                        <Text style={styles.annDate}>{ann.date}</Text>
+                                <TouchableOpacity
+                                    key={ann.id}
+                                    onPress={() => setSelectedAnnouncement(ann)}
+                                    activeOpacity={0.7}
+                                >
+                                    <View style={styles.announcementBox}>
+                                        <View style={styles.announcementHeader}>
+                                            <Text style={styles.annTitle}>{ann.title}</Text>
+                                            <Text style={styles.annDate}>{ann.date}</Text>
+                                        </View>
+                                        <Text style={styles.annMsg} numberOfLines={2}>{ann.message}</Text>
+                                        {idx < announcements.length - 1 && <Divider style={styles.annDivider} />}
                                     </View>
-                                    <Text style={styles.annMsg}>{ann.message}</Text>
-                                    {idx < announcements.length - 1 && <Divider style={styles.annDivider} />}
-                                </View>
+                                </TouchableOpacity>
                             ))
                         ) : (
                             <View style={styles.emptyState}>
@@ -347,7 +390,7 @@ const StudentDashboard: React.FC<{ navigation: any }> = ({ navigation }) => {
                             <Button
                                 mode="contained"
                                 icon="qrcode-scan"
-                                onPress={() => navigation.navigate('CheckIn')}
+                                onPress={() => setShowCheckInModal(true)}
                                 style={styles.actionButton}
                                 buttonColor={colors.primary}
                                 textColor={colors.onPrimary}
@@ -368,6 +411,74 @@ const StudentDashboard: React.FC<{ navigation: any }> = ({ navigation }) => {
                     </AnimatedCard>
                 </ScrollView>
             </SafeAreaView>
+
+            {/* Modais */}
+            <Portal>
+                {/* Modal de Check-In */}
+                <Modal
+                    visible={showCheckInModal}
+                    onDismiss={() => setShowCheckInModal(false)}
+                    contentContainerStyle={{
+                        backgroundColor: 'transparent', // O CheckInModalContent tem seu próprio background/container
+                        padding: 20,
+                        margin: 20,
+                    }}
+                >
+                    <CheckInModalContent onClose={() => setShowCheckInModal(false)} />
+                </Modal>
+
+                {/* Modal de Detalhes do Aviso */}
+                <Modal
+                    visible={!!selectedAnnouncement}
+                    onDismiss={handleCloseAnnouncement}
+                    contentContainerStyle={{
+                        backgroundColor: colors.surface,
+                        padding: 20,
+                        margin: 20,
+                        borderRadius: BORDER_RADIUS.md,
+                        maxWidth: 500,
+                        alignSelf: 'center',
+                        width: '90%',
+                        elevation: 5,
+                        zIndex: 9999
+                    }}
+                >
+                    {selectedAnnouncement && (
+                        <View>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: SPACING.md }}>
+                                <Text style={{ fontSize: FONT_SIZE.xl, fontWeight: 'bold', flex: 1, color: colors.onSurface }}>
+                                    {selectedAnnouncement.title}
+                                </Text>
+                                <IconButton
+                                    icon="close"
+                                    size={20}
+                                    onPress={handleCloseAnnouncement}
+                                    style={{ margin: 0, marginTop: -5, marginRight: -10 }}
+                                />
+                            </View>
+
+                            <Text style={{ color: colors.onSurfaceVariant, fontSize: FONT_SIZE.sm, marginBottom: SPACING.lg }}>
+                                {selectedAnnouncement.date}
+                            </Text>
+
+                            <ScrollView style={{ maxHeight: 300 }}>
+                                <Text style={{ fontSize: FONT_SIZE.md, lineHeight: 24, color: colors.onSurface }}>
+                                    {selectedAnnouncement.message}
+                                </Text>
+                            </ScrollView>
+
+                            <Button
+                                mode="contained"
+                                onPress={handleCloseAnnouncement}
+                                style={{ marginTop: SPACING.lg, alignSelf: 'flex-end' }}
+                            >
+                                {getString('close')}
+                            </Button>
+                        </View>
+                    )}
+                </Modal>
+            </Portal>
+
         </EnhancedErrorBoundary>
     );
 };
