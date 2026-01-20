@@ -185,7 +185,7 @@ const InstructorNavigator = () => {
           ),
         }}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="AddClass"
         component={AddClassScreen}
         options={{
@@ -199,8 +199,8 @@ const InstructorNavigator = () => {
             />
           ),
         }}
-      />
-      <Stack.Screen
+      /> */}
+      {/* <Stack.Screen
         name="AddStudent"
         component={AddStudentScreen}
         options={{
@@ -214,7 +214,7 @@ const InstructorNavigator = () => {
             />
           ),
         }}
-      />
+      /> */}
       <Stack.Screen
         name="StudentProfile"
         component={StudentProfileScreen}
@@ -277,7 +277,7 @@ const InstructorNavigator = () => {
           ),
         }}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="ChangePassword"
         component={ChangePasswordScreen}
         options={{
@@ -291,7 +291,7 @@ const InstructorNavigator = () => {
             />
           ),
         }}
-      />
+      /> */}
       <Stack.Screen
         name="PhysicalEvaluation"
         component={PhysicalEvaluationScreen}

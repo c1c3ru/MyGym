@@ -325,7 +325,7 @@ const AdminNavigator = () => {
       />
 
       {/* Nested SharedNavigator screens */}
-      <Stack.Screen
+      {/* <Stack.Screen
         name="ChangePassword"
         component={ChangePasswordScreen}
         options={{
@@ -339,7 +339,7 @@ const AdminNavigator = () => {
             />
           ),
         }}
-      />
+      /> */}
       <Stack.Screen
         name="PhysicalEvaluation"
         component={PhysicalEvaluationScreen}

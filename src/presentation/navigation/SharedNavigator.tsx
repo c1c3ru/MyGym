@@ -63,7 +63,7 @@ const SharedNavigator = ({ userType }: SharedNavigatorProps) => {
           ),
         })}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="ChangePassword"
         component={ChangePasswordScreen}
         options={({ navigation }) => ({
@@ -77,7 +77,7 @@ const SharedNavigator = ({ userType }: SharedNavigatorProps) => {
             />
           ),
         })}
-      />
+      /> */}
       <Stack.Screen
         name="PhysicalEvaluation"
         component={PhysicalEvaluationScreen}

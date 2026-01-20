@@ -5,9 +5,12 @@ import {
   Button,
   List,
   Switch,
-  Divider
+  Divider,
+  Portal,
+  Modal
 } from 'react-native-paper';
 import ModernCard from '@components/modern/ModernCard';
+import ChangePasswordForm from './ChangePasswordScreen';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -31,6 +34,7 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
   const { isDarkMode, getString, theme } = useTheme();
   const [notifications, setNotifications] = useState<boolean>(true);
   const [autoBackup, setAutoBackup] = useState<boolean>(true);
+  const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
 
   const handleLogout = (): void => {
     Alert.alert(
@@ -54,7 +58,7 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
   };
 
   const handleChangePassword = () => {
-    navigation.navigate('ChangePassword');
+    setShowChangePasswordModal(true);
   };
 
   const handleDataExport = () => {
@@ -292,6 +296,33 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
             </View>
           </ModernCard>
         </ScrollView>
+
+        {/* Modal de Alterar Senha */}
+        <Portal>
+          <Modal
+            visible={showChangePasswordModal}
+            onDismiss={() => setShowChangePasswordModal(false)}
+            contentContainerStyle={{
+              backgroundColor: theme.colors.background,
+              margin: '2%',
+              maxHeight: '96%',
+              borderRadius: 12,
+              overflow: 'hidden',
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 4 },
+              shadowOpacity: 0.3,
+              shadowRadius: 8,
+              elevation: 8,
+            }}
+          >
+            <ChangePasswordForm
+              onClose={() => setShowChangePasswordModal(false)}
+              onSuccess={() => {
+                setShowChangePasswordModal(false);
+              }}
+            />
+          </Modal>
+        </Portal>
       </SafeAreaView>
     </LinearGradient>
   );

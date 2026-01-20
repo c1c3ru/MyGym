@@ -144,7 +144,7 @@ const StudentStackNavigator = () => {
           ),
         }}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="ChangePassword"
         component={ChangePasswordScreen}
         options={{
@@ -158,7 +158,7 @@ const StudentStackNavigator = () => {
             />
           ),
         }}
-      />
+      /> */}
       <Stack.Screen
         name="PhysicalEvaluation"
         component={PhysicalEvaluationScreen}
