@@ -9,7 +9,7 @@ import { useThemeToggle } from '@contexts/ThemeToggleContext';
 /**
  * Variantes de cores suportadas pelo ActionButton
  */
-export type ActionButtonVariant = 'primary' | 'success' | 'warning' | 'danger' | 'secondary' | 'outline' | 'info';
+export type ActionButtonVariant = 'primary' | 'success' | 'warning' | 'danger' | 'secondary' | 'outline' | 'info' | 'ghost';
 
 /**
  * Tamanhos suportados pelo ActionButton
@@ -90,6 +90,12 @@ const ActionButton: React.FC<ActionButtonProps> = ({
                     contained: [COLORS.info[500], COLORS.info[700]],
                     outlined: COLORS.info[600],
                     text: mode === 'contained' ? COLORS.white : COLORS.info[700]
+                };
+            case 'ghost':
+                return {
+                    contained: ['transparent', 'transparent'],
+                    outlined: 'transparent',
+                    text: COLORS.gray[800]
                 };
             default:
                 return {

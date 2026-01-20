@@ -1,10 +1,9 @@
-import React, { memo, useCallback } from 'react';
+import React, { memo, useCallback, useMemo } from 'react';
 import { View, StyleSheet, Platform } from 'react-native';
-import { Card, Text, Avatar, Chip, Divider, IconButton } from 'react-native-paper';
+import { Card, Text, Avatar, Chip, Divider, IconButton, useTheme } from 'react-native-paper';
 import ActionButton, { ActionButtonGroup } from '../ActionButton';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, GLASS } from '@presentation/theme/designTokens';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { Student } from '../../types/student';
-import { useTheme } from '@contexts/ThemeContext';
 
 /**
  * Propriedades para o componente StudentListItem
@@ -32,7 +31,37 @@ const StudentListItem = memo<StudentListItemProps>(({
     onView,
     index
 }) => {
-    const { getString } = useTheme();
+    const theme = useTheme();
+    const { colors, getString } = theme as any; // Cast to any to access getString if not in types
+
+    // Dynamic styles based on theme
+    const dynamicStyles = useMemo(() => ({
+        card: {
+            backgroundColor: colors.surface,
+            borderColor: colors.outlineVariant || colors.onSurfaceDisabled,
+            borderWidth: 1,
+            elevation: 2,
+            borderRadius: BORDER_RADIUS.lg
+        },
+        title: {
+            color: colors.onSurface,
+            fontWeight: 'bold' as 'bold',
+            fontSize: FONT_SIZE.md
+        },
+        textSecondary: {
+            color: colors.onSurfaceVariant || colors.backdrop
+        },
+        avatar: {
+            backgroundColor: colors.primaryContainer,
+            borderWidth: 1,
+            borderColor: colors.primary
+        },
+        avatarText: {
+            color: colors.onPrimaryContainer,
+            fontWeight: 'bold' as 'bold'
+        }
+    }), [colors]);
+
 
     const handlePress = useCallback(() => {
         onPress?.(student);
@@ -50,22 +79,42 @@ const StudentListItem = memo<StudentListItemProps>(({
         onView?.(student);
     }, [student, onView]);
 
+    // Helpers para status
+    const isSuspended = student.status === 'suspended';
+    const isInactive = student.status === 'inactive' || (!student.status && !student.isActive);
+    const isActive = !isSuspended && !isInactive;
+
+    const statusLabel = isSuspended ? (getString?.('suspended') || 'Suspenso') :
+        isInactive ? (getString?.('inactive') || 'Inativo') :
+            (getString?.('active') || 'Ativo');
+
+    const statusColor = isSuspended ? COLORS.error[500] :
+        isInactive ? COLORS.gray[500] :
+            COLORS.success[500];
+
+    const statusBg = isSuspended ? COLORS.error[50] :
+        isInactive ? COLORS.gray[50] :
+            COLORS.success[50];
+
+    // Graduação
+    const graduationLabel = student.currentGraduation ? (getString?.(student.currentGraduation) || student.currentGraduation) : (getString?.('beginner') || 'Iniciante');
+
     return (
-        <View style={styles.glassCard}>
-            <View style={styles.cardContent}>
-                <View style={styles.studentHeader}>
-                    <View style={styles.studentInfo}>
+        <Card style={[styles.card, dynamicStyles.card]}>
+            <Card.Content style={{ paddingBottom: 8 }}>
+                <View style={styles.header}>
+                    <View style={styles.infoRow}>
                         <Avatar.Text
-                            size={50}
+                            size={44}
                             label={student.name?.charAt(0) || 'A'}
-                            style={styles.avatar}
-                            labelStyle={{ color: COLORS.white, fontWeight: 'bold' }}
+                            style={dynamicStyles.avatar}
+                            labelStyle={dynamicStyles.avatarText}
                         />
-                        <View style={styles.studentDetails}>
-                            <Text style={styles.studentName}>{student.name}</Text>
-                            <Text style={styles.studentEmail}>{student.email}</Text>
-                            <Text style={styles.studentPhone}>
-                                {student.phone || getString('phoneNotInformed')}
+                        <View style={styles.details}>
+                            <Text style={dynamicStyles.title} numberOfLines={1}>{student.name}</Text>
+                            <Text style={[styles.email, { color: dynamicStyles.textSecondary.color }]} numberOfLines={1}>{student.email}</Text>
+                            <Text style={[styles.phone, { color: dynamicStyles.textSecondary.color }]} numberOfLines={1}>
+                                {student.phone || (getString?.('phoneNotInformed') || 'Telefone não informado')}
                             </Text>
                         </View>
                     </View>
@@ -73,104 +122,89 @@ const StudentListItem = memo<StudentListItemProps>(({
                     <IconButton
                         icon="dots-vertical"
                         onPress={handlePress}
-                        iconColor={COLORS.text.secondary}
+                        size={20}
+                        iconColor={colors.onSurface}
                     />
                 </View>
 
-                <View style={styles.studentStats}>
-                    <View style={styles.statColumn}>
-                        <Text style={styles.statLabel}>{getString('status')}</Text>
-                        <Chip
-                            mode="outlined"
-                            style={[
-                                styles.statusChip,
-                                {
-                                    backgroundColor:
-                                        student.status === 'suspended' ? 'rgba(211, 47, 47, 0.1)' : // Error with opacity
-                                            (student.status === 'inactive' || (!student.status && !student.isActive)) ? 'rgba(117, 117, 117, 0.1)' : // Gray with opacity
-                                                'rgba(76, 175, 80, 0.1)', // Success with opacity
-                                    borderColor:
-                                        student.status === 'suspended' ? COLORS.error[500] :
-                                            (student.status === 'inactive' || (!student.status && !student.isActive)) ? COLORS.gray[500] :
-                                                COLORS.success[500]
-                                }
-                            ]}
-                            textStyle={{
-                                color:
-                                    student.status === 'suspended' ? COLORS.error[300] :
-                                        (student.status === 'inactive' || (!student.status && !student.isActive)) ? COLORS.gray[400] :
-                                            COLORS.success[300],
-                                fontSize: FONT_SIZE.sm
-                            }}
-                        >
-                            {
-                                student.status === 'suspended' ? getString('suspended') :
-                                    (student.status === 'inactive' || (!student.status && !student.isActive)) ? getString('inactive') :
-                                        getString('active')
-                            }
-                        </Chip>
+                {/* Stats Row Compact */}
+                <View style={styles.statsRow}>
+                    <Chip
+                        compact
+                        style={[styles.statusChip, { backgroundColor: statusBg, borderColor: statusColor }]}
+                        textStyle={{ color: statusColor, fontSize: 10, fontWeight: 'bold' }}
+                    >
+                        {statusLabel}
+                    </Chip>
+
+                    <View style={{ width: 1, backgroundColor: colors.outlineVariant, height: 20 }} />
+
+                    <View style={styles.miniStat}>
+                        <Text style={{ fontSize: 10, color: dynamicStyles.textSecondary.color }}>Graduação</Text>
+                        <Text style={{ fontSize: 12, fontWeight: 'bold', color: colors.onSurface }}>{graduationLabel}</Text>
                     </View>
 
-                    <View style={styles.statColumn}>
-                        <Text style={styles.statLabel}>{getString('graduation')}</Text>
-                        <Text style={styles.statValue}>
-                            {student.currentGraduation ? getString(student.currentGraduation) : getString('beginner')}
-                        </Text>
-                    </View>
+                    <View style={{ width: 1, backgroundColor: colors.outlineVariant, height: 20 }} />
 
-                    <View style={styles.statColumn}>
-                        <Text style={styles.statLabel}>{getString('modalities')}</Text>
-                        <Text style={styles.statValue}>
-                            {student.modalities?.length || 0}
-                        </Text>
+                    <View style={styles.miniStat}>
+                        <Text style={{ fontSize: 10, color: dynamicStyles.textSecondary.color }}>Modalidades</Text>
+                        <Text style={{ fontSize: 12, fontWeight: 'bold', color: colors.onSurface }}>{student.modalities?.length || 0}</Text>
                     </View>
                 </View>
 
-                <Divider style={styles.divider} />
+                {/* Info about plan (New) */}
+                {student.currentPlan && (
+                    <View style={{ marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>
+                        <Text style={{ fontSize: 11, color: dynamicStyles.textSecondary.color, marginRight: 4 }}>Plano:</Text>
+                        <Text style={{ fontSize: 11, fontWeight: 'bold', color: colors.primary }}>{student.currentPlan}</Text>
+                    </View>
+                )}
 
-                <ActionButtonGroup style={styles.actionButtonsContainer}>
+
+                <Divider style={{ marginVertical: 12, backgroundColor: colors.outlineVariant }} />
+
+                <View style={styles.actionsContainer}>
                     <ActionButton
-                        icon="eye"
                         onPress={handleView}
-                        variant="outline"
-                        mode="outlined"
-                        size="small"
                         style={styles.actionButton}
+                        icon="eye"
+                        variant="ghost"
+                        size="small"
                     >
-                        {getString('viewDetails')}
+                        {getString?.('viewDetails') || 'Detalhes'}
                     </ActionButton>
                     <ActionButton
-                        icon="pencil"
                         onPress={handleEdit}
-                        variant="primary"
-                        mode="outlined"
-                        size="small"
                         style={styles.actionButton}
+                        icon="pencil"
+                        variant="ghost"
+                        size="small"
                     >
-                        {getString('edit')}
+                        {getString?.('edit') || 'Editar'}
                     </ActionButton>
                     <ActionButton
-                        icon="account-remove"
                         onPress={handleDelete}
-                        variant="danger"
-                        mode="outlined"
-                        size="small"
                         style={styles.actionButton}
+                        icon="account-remove"
+                        variant="danger"
+                        mode="text"
+                        size="small"
                     >
-                        {getString('disassociate')}
+                        {getString?.('disassociate') || 'Remover'}
                     </ActionButton>
-                </ActionButtonGroup>
-            </View>
-        </View>
+                </View>
+            </Card.Content>
+        </Card>
     );
 }, (prevProps, nextProps) => {
-    // Custom comparison function for better performance
     return (
         prevProps.student.id === nextProps.student.id &&
         prevProps.student.name === nextProps.student.name &&
         prevProps.student.email === nextProps.student.email &&
         prevProps.student.phone === nextProps.student.phone &&
         prevProps.student.isActive === nextProps.student.isActive &&
+        prevProps.student.status === nextProps.student.status &&
+        prevProps.student.currentPlan === nextProps.student.currentPlan &&
         prevProps.student.currentGraduation === nextProps.student.currentGraduation &&
         prevProps.student.modalities?.length === nextProps.student.modalities?.length &&
         prevProps.index === nextProps.index
@@ -180,99 +214,54 @@ const StudentListItem = memo<StudentListItemProps>(({
 StudentListItem.displayName = 'StudentListItem';
 
 const styles = StyleSheet.create({
-    glassCard: {
-        marginVertical: 8,
-        backgroundColor: GLASS.premium.backgroundColor,
-        borderRadius: BORDER_RADIUS.lg,
-        borderWidth: 1,
-        borderColor: GLASS.premium.borderColor,
-        ...Platform.select({
-            ios: {
-                shadowColor: GLASS.premium.shadowColor,
-                shadowOffset: { width: 0, height: 4 },
-                shadowOpacity: 0.3,
-                shadowRadius: 8,
-            },
-            android: {
-                elevation: 4,
-            },
-            web: {
-                boxShadow: `0 8px 32px 0 ${GLASS.premium.shadowColor}`,
-                backdropFilter: GLASS.premium.backdropFilter,
-            },
-        }),
+    card: {
+        marginVertical: 4,
+        marginHorizontal: SPACING.md,
     },
-    cardContent: {
-        padding: SPACING.md,
-    },
-    studentHeader: {
+    header: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: SPACING.md,
+        alignItems: 'flex-start',
     },
-    studentInfo: {
+    infoRow: {
         flexDirection: 'row',
         alignItems: 'center',
         flex: 1,
+        paddingTop: 4
     },
-    avatar: {
-        backgroundColor: COLORS.primary[700],
-        borderWidth: 2,
-        borderColor: COLORS.border.accent,
-    },
-    studentDetails: {
+    details: {
         marginLeft: SPACING.md,
         flex: 1,
     },
-    studentName: {
-        fontSize: FONT_SIZE.md,
-        marginBottom: 2,
-        color: COLORS.text.primary,
-        fontWeight: FONT_WEIGHT.bold as any,
-    },
-    studentEmail: {
+    email: {
         fontSize: FONT_SIZE.sm,
-        color: COLORS.text.secondary,
         marginBottom: 2,
     },
-    studentPhone: {
-        fontSize: FONT_SIZE.sm,
-        color: COLORS.text.tertiary,
+    phone: {
+        fontSize: FONT_SIZE.xs,
     },
-    studentStats: {
+    statsRow: {
         flexDirection: 'row',
-        justifyContent: 'space-around',
-        marginVertical: 12,
-    },
-    statColumn: {
         alignItems: 'center',
-        flex: 1,
-    },
-    statLabel: {
-        fontSize: FONT_SIZE.sm,
-        color: COLORS.text.tertiary,
-        marginBottom: SPACING.xs,
-    },
-    statValue: {
-        fontSize: FONT_SIZE.base,
-        fontWeight: FONT_WEIGHT.bold as any,
-        color: COLORS.text.primary,
+        marginTop: 12,
+        gap: 12
     },
     statusChip: {
+        borderWidth: 1,
         height: 24,
+        alignItems: 'center'
     },
-    divider: {
-        marginVertical: SPACING.md,
-        backgroundColor: COLORS.border.subtle,
+    miniStat: {
+        alignItems: 'flex-start'
     },
-    actionButtonsContainer: {
-        marginTop: SPACING.sm,
+    actionsContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        gap: 8
     },
     actionButton: {
         flex: 1,
-        minWidth: 0,
-    },
+    }
 });
 
 export default StudentListItem;

@@ -397,6 +397,7 @@ const AdminStudents = ({ navigation }) => {
           <FAB
             style={styles.fab}
             icon="plus"
+            label={getString('newStudent') || 'Novo Aluno'}
             onPress={handleAddStudent}
             color={COLORS.white}
           />

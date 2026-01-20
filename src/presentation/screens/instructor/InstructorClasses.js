@@ -90,21 +90,14 @@ const InstructorClasses = ({ navigation }) => {
         return;
       }
 
-      // Usar cache inteligente para turmas do instrutor
-      const cacheKey = CACHE_KEYS.INSTRUCTOR_CLASSES(
-        userProfile.academiaId,
-        user.id,
-      );
+      // Usar cache de todas as turmas da academia
+      const cacheKey = CACHE_KEYS.CLASSES(userProfile.academiaId);
 
       const classesData = await cacheService.getOrSet(
         cacheKey,
         async () => {
-          console.log("🔍 Buscando turmas do instrutor (cache miss):", user.id);
-          return await academyClassService.getClassesByInstructor(
-            user.id,
-            userProfile.academiaId,
-            user?.email,
-          );
+          console.log("🔍 Buscando todas as turmas da academia para instrutor:", user.id);
+          return await academyFirestoreService.getAll('classes', userProfile.academiaId);
         },
         CACHE_TTL.MEDIUM, // Cache por 5 minutos
       );
@@ -137,11 +130,8 @@ const InstructorClasses = ({ navigation }) => {
       try {
         if (!userProfile?.academiaId) return;
 
-        // Usar cache para contagens de alunos
-        const cacheKey = CACHE_KEYS.CLASS_STUDENT_COUNTS(
-          userProfile.academiaId,
-          user.id,
-        );
+        // Usar cache para contagens de alunos (global da academia)
+        const cacheKey = `class_student_counts:${userProfile.academiaId}`;
 
         const counts = await cacheService.getOrSet(
           cacheKey,

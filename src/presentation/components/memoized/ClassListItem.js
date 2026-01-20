@@ -1,10 +1,9 @@
-import React, { memo, useCallback } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Card, Text, Chip, Divider, IconButton } from 'react-native-paper';
+import React, { memo, useCallback, useMemo } from 'react';
+import { View, StyleSheet, Dimensions } from 'react-native';
+import { Card, Text, Chip, Divider, IconButton, useTheme } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 import ActionButton, { ActionButtonGroup } from '@components/ActionButton';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-
 
 const ClassListItem = memo(({
   classItem,
@@ -14,6 +13,29 @@ const ClassListItem = memo(({
   getString,
   index
 }) => {
+  const theme = useTheme();
+  const { colors } = theme;
+
+  // Dynamic styles based on theme
+  const dynamicStyles = useMemo(() => ({
+    card: {
+      backgroundColor: colors.surface,
+      borderColor: colors.outlineVariant || colors.onSurfaceDisabled,
+      borderWidth: 1,
+      elevation: 2,
+      borderRadius: BORDER_RADIUS.lg
+    },
+    title: {
+      color: colors.onSurface,
+      fontWeight: 'bold',
+      fontSize: FONT_SIZE.lg
+    },
+    textSecondary: {
+      color: colors.onSurfaceVariant || colors.backdrop
+    },
+    iconColor: colors.primary
+  }), [colors]);
+
   const handlePress = useCallback(() => {
     onPress?.(classItem);
   }, [classItem, onPress]);
@@ -30,9 +52,10 @@ const ClassListItem = memo(({
     try {
       const schedule = classData?.schedule;
       if (Array.isArray(schedule) && schedule.length > 0) {
-        const days = [getString('sunday'), getString('monday'), getString('tuesday'), getString('wednesday'), getString('thursday'), getString('friday'), getString('saturday')];
+        // Simple abbreviations
+        const days = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
         return schedule.map((s) => {
-          const day = typeof s.dayOfWeek === 'number' ? days[s.dayOfWeek] : getString('day');
+          const day = typeof s.dayOfWeek === 'number' ? days[s.dayOfWeek] : 'Dia';
           const hour = (s.hour ?? '').toString().padStart(2, '0');
           const minute = (s.minute ?? 0).toString().padStart(2, '0');
           return `${day} ${hour}:${minute}`;
@@ -44,27 +67,31 @@ const ClassListItem = memo(({
       if (typeof classData?.scheduleText === 'string' && classData.scheduleText.trim()) {
         return classData.scheduleText.trim();
       }
-      return getString('scheduleNotDefined');
+      return 'Horário a definir';
     } catch (e) {
-      return getString('scheduleNotDefined');
+      return 'Horário a definir';
     }
-  }, [getString]);
+  }, []);
 
   const getCapacityColor = useCallback((current, max) => {
-    if (!max) return COLORS.gray[500];
+    if (!max) return colors.primary;
     const percentage = (current / max) * 100;
     if (percentage >= 90) return COLORS.error[500];
     if (percentage >= 70) return COLORS.warning[500];
-    return COLORS.primary[500];
-  }, []);
+    return colors.primary;
+  }, [colors]);
 
   return (
-    <Card style={styles.classCard}>
-      <Card.Content>
+    <Card style={[styles.classCard, dynamicStyles.card]}>
+      <Card.Content style={{ paddingBottom: 8 }}>
         <View style={styles.classHeader}>
           <View style={styles.classInfo}>
-            <Text style={styles.className}>{classItem.name}</Text>
-            <Chip mode="outlined" style={styles.modalityChip}>
+            <Text style={dynamicStyles.title} numberOfLines={1}>{classItem.name}</Text>
+            <Chip
+              mode="outlined"
+              style={[styles.modalityChip, { borderColor: colors.primary, height: 28 }]}
+              textStyle={{ color: colors.primary, fontSize: 11, marginVertical: 0, marginHorizontal: 8 }}
+            >
               {classItem.modality}
             </Chip>
           </View>
@@ -72,119 +99,107 @@ const ClassListItem = memo(({
           <IconButton
             icon="dots-vertical"
             onPress={handlePress}
+            size={20}
+            iconColor={colors.onSurface}
           />
         </View>
 
         <View style={styles.classDetails}>
           <View style={styles.detailRow}>
-            <Ionicons name="person-outline" size={18} color={COLORS.gray[500]} />
-            <Text style={styles.detailText}>
-              {getString('professor')}: {classItem.instructorName}
+            <Ionicons name="person-outline" size={16} color={dynamicStyles.textSecondary.color} />
+            <Text style={[styles.detailText, { color: dynamicStyles.textSecondary.color }]} numberOfLines={1}>
+              {classItem.instructorName || 'Instrutor indefinido'}
             </Text>
           </View>
 
           <View style={styles.detailRow}>
-            <Ionicons name="time-outline" size={18} color={COLORS.gray[500]} />
-            <Text style={styles.detailText}>
+            <Ionicons name="time-outline" size={16} color={dynamicStyles.textSecondary.color} />
+            <Text style={[styles.detailText, { color: dynamicStyles.textSecondary.color }]} numberOfLines={1}>
               {formatSchedule(classItem)}
             </Text>
           </View>
 
           <View style={styles.detailRow}>
-            <Ionicons name="people-outline" size={18} color={COLORS.gray[500]} />
+            <Ionicons name="people-outline" size={16} color={dynamicStyles.textSecondary.color} />
             <Text style={[
               styles.detailText,
-              { color: getCapacityColor(classItem.currentStudents, classItem.maxCapacity) }
+              { color: getCapacityColor(classItem.currentStudents, classItem.maxCapacity), fontWeight: 'bold' }
             ]}>
-              {classItem.currentStudents}/{classItem.maxCapacity || getString('notAvailable')} {getString('students')}
+              {classItem.currentStudents} / {classItem.maxCapacity || '∞'} Alunos
             </Text>
           </View>
 
-          {classItem.location && (
+          {classItem.location ? (
             <View style={styles.detailRow}>
-              <Ionicons name="location-outline" size={18} color={COLORS.gray[500]} />
-              <Text style={styles.detailText}>{classItem.location}</Text>
+              <Ionicons name="location-outline" size={16} color={dynamicStyles.textSecondary.color} />
+              <Text style={[styles.detailText, { color: dynamicStyles.textSecondary.color }]} numberOfLines={1}>{classItem.location}</Text>
             </View>
-          )}
+          ) : null}
         </View>
 
+        {/* Status in a more compact row */}
         <View style={styles.statusRow}>
-          <Chip
-            mode="outlined"
-            style={[
-              styles.statusChip,
-              { borderColor: classItem.isActive !== false ? COLORS.primary[500] : COLORS.error[500] }
-            ]}
-            textStyle={{
-              color: classItem.isActive !== false ? COLORS.primary[500] : COLORS.error[500],
-              fontSize: FONT_SIZE.sm
-            }}
-          >
-            {classItem.isActive !== false ? getString('active') : getString('inactive')}
-          </Chip>
-
+          {!classItem.isActive && (
+            <Chip
+              compact
+              style={[styles.statusChip, { backgroundColor: COLORS.error[50], borderColor: COLORS.error[500] }]}
+              textStyle={{ color: COLORS.error[700], fontSize: 10 }}
+            >
+              Inativo
+            </Chip>
+          )}
           {classItem.currentStudents >= (classItem.maxCapacity || 999) && (
             <Chip
-              mode="outlined"
-              style={[styles.statusChip, { borderColor: COLORS.error[500] }]}
-              textStyle={{ color: COLORS.error[500], fontSize: FONT_SIZE.sm }}
+              compact
+              style={[styles.statusChip, { backgroundColor: COLORS.warning[50], borderColor: COLORS.warning[500] }]}
+              textStyle={{ color: COLORS.warning[700], fontSize: 10 }}
             >
-              {getString('full')}
+              Lotado
             </Chip>
           )}
-
-          {!classItem.instructorId && (
+          {!classItem.instructorId && !classItem.instructorName && (
             <Chip
-              mode="outlined"
-              style={[styles.statusChip, { borderColor: COLORS.warning[500] }]}
-              textStyle={{ color: COLORS.warning[500], fontSize: FONT_SIZE.sm }}
+              compact
+              style={[styles.statusChip, { backgroundColor: COLORS.info[50], borderColor: COLORS.info[500] }]}
+              textStyle={{ color: COLORS.info[700], fontSize: 10 }}
             >
-              {getString('withoutInstructor')}
+              Sem Instrutor
             </Chip>
           )}
         </View>
 
-        <Divider style={styles.divider} />
+        <Divider style={{ marginVertical: 12, backgroundColor: colors.outlineVariant }} />
 
-        <ActionButtonGroup style={styles.classActions}>
+        <View style={styles.actionsContainer}>
           <ActionButton
-            mode="outlined"
             onPress={handleView}
             style={styles.actionButton}
             icon="eye"
-            variant="outline"
+            variant="ghost"
             size="small"
-          >
-            {getString('viewDetails')}
-          </ActionButton>
-
+            label="Detalhes"
+          />
           <ActionButton
-            mode="outlined"
             onPress={handleEdit}
             style={styles.actionButton}
             icon="pencil"
-            variant="primary"
+            variant="ghost"
             size="small"
-          >
-            {getString('edit')}
-          </ActionButton>
-
+            label="Editar"
+          />
           <ActionButton
-            mode="outlined"
             onPress={handlePress}
             style={styles.actionButton}
-            icon="account"
-            variant="success"
+            icon="account-group"
+            variant="primary" // Highlight primary action
             size="small"
-          >
-            {getString('studentsTab')}
-          </ActionButton>
-        </ActionButtonGroup>
+            label="Alunos"
+          />
+        </View>
       </Card.Content>
     </Card>
   );
 }, (prevProps, nextProps) => {
-  // Custom comparison function for better performance
   return (
     prevProps.classItem.id === nextProps.classItem.id &&
     prevProps.classItem.name === nextProps.classItem.name &&
@@ -192,8 +207,7 @@ const ClassListItem = memo(({
     prevProps.classItem.instructorName === nextProps.classItem.instructorName &&
     prevProps.classItem.currentStudents === nextProps.classItem.currentStudents &&
     prevProps.classItem.maxCapacity === nextProps.classItem.maxCapacity &&
-    prevProps.classItem.isActive === nextProps.classItem.isActive &&
-    prevProps.classItem.instructorId === nextProps.classItem.instructorId &&
+    prevProps.classItem.isActive === nextProps.classItem.isActive?.toString() &&
     prevProps.index === nextProps.index
   );
 });
@@ -202,62 +216,56 @@ ClassListItem.displayName = 'ClassListItem';
 
 const styles = StyleSheet.create({
   classCard: {
-    margin: SPACING.md,
+    marginHorizontal: SPACING.md,
+    marginTop: SPACING.sm,
     marginBottom: SPACING.sm,
-    elevation: 2,
-    backgroundColor: COLORS.card.premium.background,
-    borderWidth: 1,
-    borderColor: COLORS.card.premium.border,
   },
   classHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: SPACING.md,
+    marginBottom: SPACING.sm,
   },
   classInfo: {
     flexDirection: 'row',
     alignItems: 'center',
     flex: 1,
-  },
-  className: {
-    fontSize: FONT_SIZE.lg,
-    flex: 1,
-    color: COLORS.card.premium.text,
-    fontWeight: FONT_WEIGHT.semibold,
+    marginRight: 8
   },
   modalityChip: {
     marginLeft: SPACING.sm,
+    backgroundColor: 'transparent',
+    borderWidth: 1
   },
   classDetails: {
-    marginBottom: SPACING.md,
+    marginBottom: SPACING.sm,
+    paddingLeft: 2
   },
   detailRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: SPACING.xs,
+    marginBottom: 6,
   },
   detailText: {
     marginLeft: SPACING.sm,
-    color: COLORS.neutral.light,
+    fontSize: FONT_SIZE.md,
     flex: 1,
   },
   statusRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginBottom: SPACING.md,
+    marginTop: 4,
+    gap: 8
   },
   statusChip: {
-    borderWidth: 2,
-    marginRight: SPACING.sm,
-    marginBottom: SPACING.xs,
+    borderWidth: 1,
+    height: 24,
+    alignItems: 'center'
   },
-  divider: {
-    marginVertical: SPACING.md,
-    backgroundColor: COLORS.border.subtle,
-  },
-  classActions: {
-    marginTop: SPACING.xs,
+  actionsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 12
   },
   actionButton: {
     flex: 1,

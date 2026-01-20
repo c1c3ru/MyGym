@@ -171,14 +171,15 @@ const AdminClasses = ({ navigation }) => {
                       ...classItem,
                       currentStudents: students.length,
                       students: students,
-                      instructorName: instructor?.name || 'Não atribuído'
+                      // Fallback hierárquico: Instrutor encontrado > Nome salvo na turma > userProfile se for o próprio > Não atribuído
+                      instructorName: instructor?.name || classItem.instructorName || (classItem.instructorId === user?.id ? userProfile?.name : 'Não atribuído')
                     };
                   } catch (error) {
                     return {
                       ...classItem,
                       currentStudents: 0,
                       students: [],
-                      instructorName: 'Não atribuído'
+                      instructorName: classItem.instructorName || 'Não atribuído'
                     };
                   }
                 })
