@@ -78,18 +78,19 @@ const InstructorStudents = ({ navigation }) => {
         return;
       }
 
-      // Usar cache inteligente para dados do instrutor
-      const cacheKey = CACHE_KEYS.INSTRUCTOR_STUDENTS(userProfile.academiaId, user.id);
+      // Usar cache inteligente para dados da academia (para view do instrutor)
+      const cacheKey = `instructor_view_data:${userProfile.academiaId}`;
 
       const instructorData = await cacheService.getOrSet(
         cacheKey,
         async () => {
-          console.log('🔍 Buscando dados do instrutor (cache miss):', user.id);
+          console.log('🔍 Buscando dados da academia para instrutor (cache miss):', user.id);
 
           // Usar Promise.all para carregar dados em paralelo
-          const [instructorStudents, instructorClasses, allModalities] = await Promise.all([
-            academyStudentService.getStudentsByInstructor(user.id, userProfile.academiaId).catch(() => []),
-            academyFirestoreService.getWhere('classes', 'instructorId', '==', user.id, userProfile.academiaId).catch(() => []),
+          // Instrutores agora veem TODOS os alunos e TODAS as turmas
+          const [allStudents, allClasses, allModalities] = await Promise.all([
+            academyFirestoreService.getAll('students', userProfile.academiaId).catch(() => []),
+            academyFirestoreService.getAll('classes', userProfile.academiaId).catch(() => []),
             academyFirestoreService.getAll('modalities', userProfile.academiaId).catch(() => [])
           ]);
 
@@ -98,11 +99,11 @@ const InstructorStudents = ({ navigation }) => {
             index === self.findIndex(m => m.id === modality.id || m.name === modality.name)
           );
 
-          console.log(`✅ Dados carregados: ${instructorStudents.length} alunos, ${instructorClasses.length} turmas, ${uniqueModalities.length} modalidades`);
+          console.log(`✅ Dados carregados: ${allStudents.length} alunos, ${allClasses.length} turmas, ${uniqueModalities.length} modalidades`);
 
           return {
-            students: instructorStudents,
-            classes: instructorClasses || [],
+            students: allStudents,
+            classes: allClasses || [],
             modalities: uniqueModalities || []
           };
         },
@@ -149,7 +150,8 @@ const InstructorStudents = ({ navigation }) => {
     setRefreshing(true);
     // Invalidar cache
     if (userProfile?.academiaId) {
-      cacheService.invalidatePattern(`instructor_students:${userProfile.academiaId}:${user.id}`);
+      // Invalida o novo padrão de chave
+      cacheService.invalidatePattern(`instructor_view_data:${userProfile.academiaId}`);
     }
     loadInitialData();
   }, [loadInitialData, userProfile?.academiaId, user.id]);
