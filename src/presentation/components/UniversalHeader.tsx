@@ -7,7 +7,8 @@ import {
     Divider,
     Modal,
     Button,
-    Text
+    Text,
+    Portal
 } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
@@ -230,32 +231,34 @@ const UniversalHeader: React.FC<UniversalHeaderProps> = ({
                 </Appbar.Header>
             </View>
 
-            <Modal
-                visible={logoutModalVisible}
-                onDismiss={cancelLogout}
-                contentContainerStyle={styles.modalContainer}
-            >
-                <View style={styles.modalContent}>
-                    <Text style={styles.modalTitle}>Confirmar Saída</Text>
-                    <Text style={styles.modalMessage}>
-                        Tem certeza que deseja sair da sua conta?
-                    </Text>
-                    <View style={styles.modalButtons}>
-                        <Button
-                            mode="outlined"
-                            onPress={cancelLogout}
-                            style={styles.modalButton}
-                        >{getString('cancel')}</Button>
-                        <Button
-                            mode="contained"
-                            onPress={confirmLogout}
-                            style={[styles.modalButton, styles.logoutButton]}
-                            buttonColor={COLORS.error[500]}
-                            textColor={COLORS.white}
-                        >{getString('logout')}</Button>
+            <Portal>
+                <Modal
+                    visible={logoutModalVisible}
+                    onDismiss={cancelLogout}
+                    contentContainerStyle={[styles.modalContainer, { zIndex: 9999, elevation: 20 }]}
+                >
+                    <View style={styles.modalContent}>
+                        <Text style={styles.modalTitle}>Confirmar Saída</Text>
+                        <Text style={styles.modalMessage}>
+                            Tem certeza que deseja sair da sua conta?
+                        </Text>
+                        <View style={styles.modalButtons}>
+                            <Button
+                                mode="outlined"
+                                onPress={cancelLogout}
+                                style={styles.modalButton}
+                            >{getString('cancel')}</Button>
+                            <Button
+                                mode="contained"
+                                onPress={confirmLogout}
+                                style={[styles.modalButton, styles.logoutButton]}
+                                buttonColor={COLORS.error[500]}
+                                textColor={COLORS.white}
+                            >{getString('logout')}</Button>
+                        </View>
                     </View>
-                </View>
-            </Modal>
+                </Modal>
+            </Portal>
         </>
     );
 };
