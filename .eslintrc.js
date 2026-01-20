@@ -1,7 +1,7 @@
 module.exports = {
   root: true,
   extends: [
-    '@react-native-community',
+    'eslint:recommended',
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
   ],
@@ -35,7 +35,7 @@ module.exports = {
     'react-native/no-raw-text': 'off',
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
-    
+
     // 🎨 REGRAS PARA DESIGN TOKENS - PREVENIR VALORES HARDCODED
     'no-restricted-syntax': [
       'error',
@@ -88,7 +88,7 @@ module.exports = {
         message: '🌍 Use Alert.alert() do React Native e getString() para mensagens',
       },
     ],
-    
+
     // Previne valores de fontSize hardcoded
     'no-magic-numbers': [
       'warn',
@@ -107,6 +107,25 @@ module.exports = {
     },
   },
   overrides: [
+    {
+      // TypeScript files
+      files: ['**/*.ts', '**/*.tsx'],
+      parser: '@typescript-eslint/parser',
+      parserOptions: {
+        ecmaVersion: 2020,
+        sourceType: 'module',
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+      extends: [
+        'plugin:@typescript-eslint/recommended',
+      ],
+      rules: {
+        '@typescript-eslint/no-explicit-any': 'warn',
+        '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+      },
+    },
     {
       // Regras específicas para arquivos de estilo
       files: ['**/styles.js', '**/*.styles.js', '**/theme/**/*.js'],

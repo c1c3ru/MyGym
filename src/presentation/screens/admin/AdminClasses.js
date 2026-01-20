@@ -30,6 +30,8 @@ import FreeGymScheduler from '@components/FreeGymScheduler';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, BORDER_WIDTH, GLASS } from '@presentation/theme/designTokens';
 import { getAuthGradient } from '@presentation/theme/authTheme';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
+import AddClassForm from '@screens/admin/AddClassScreen';
+import EditClassForm from '@screens/admin/EditClassScreen';
 
 const AdminClasses = ({ navigation }) => {
   const { currentTheme } = useThemeToggle();
@@ -53,6 +55,9 @@ const AdminClasses = ({ navigation }) => {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [showCalendarModal, setShowCalendarModal] = useState(false);
+  const [showAddClassModal, setShowAddClassModal] = useState(false);
+  const [showEditClassModal, setShowEditClassModal] = useState(false);
+  const [editingClass, setEditingClass] = useState(null);
 
   // Animações para micro-interações
   const [fadeAnim] = useState(new Animated.Value(0));
@@ -239,27 +244,15 @@ const AdminClasses = ({ navigation }) => {
       cacheService.invalidatePattern(`classes:${academiaId}`);
     }
 
-    navigation.navigate('AddClass');
-  }, [navigation, trackButtonClick, userProfile?.academiaId, academia?.id]);
+    setShowAddClassModal(true); // Abre modal ao invés de navegar
+  }, [trackButtonClick, userProfile?.academiaId, academia?.id]);
 
   const handleEditClass = useCallback((classItem) => {
     trackButtonClick('edit_class', { classId: classItem.id });
+    setEditingClass(classItem);
+    setShowEditClassModal(true);
+  }, [trackButtonClick]);
 
-    // Navegar para o AdminStack pai para acessar EditClass
-    const adminStackNav = navigation.getParent('AdminStack');
-    if (adminStackNav) {
-      adminStackNav.navigate('EditClass', { classId: classItem.id, classData: classItem });
-      return;
-    }
-    // Fallback: tentar navegar pelo parent
-    const parentNav = navigation.getParent && navigation.getParent();
-    if (parentNav && typeof parentNav.navigate === 'function') {
-      parentNav.navigate('EditClass', { classId: classItem.id, classData: classItem });
-      return;
-    }
-    // Fallback final
-    navigation.navigate('EditClass', { classId: classItem.id, classData: classItem });
-  }, [navigation, trackButtonClick]);
 
   // Memoized render functions
   const renderClassItem = useCallback(({ item: classItem, index }) => (
@@ -524,6 +517,73 @@ const AdminClasses = ({ navigation }) => {
                   navigation={navigation}
                 />
               </View>
+            </Modal>
+          </Portal>
+
+          {/* Modal de Adicionar Turma */}
+          <Portal>
+            <Modal
+              visible={showAddClassModal}
+              onDismiss={() => setShowAddClassModal(false)}
+              contentContainerStyle={{
+                backgroundColor: theme.colors.background,
+                margin: '2%',
+                maxHeight: '96%',
+                borderRadius: 12,
+                overflow: 'hidden',
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 4 },
+                shadowOpacity: 0.3,
+                shadowRadius: 8,
+                elevation: 8,
+              }}
+            >
+              <AddClassForm
+                onClose={() => setShowAddClassModal(false)}
+                onSuccess={() => {
+                  setShowAddClassModal(false);
+                  loadClasses();
+                }}
+              />
+            </Modal>
+          </Portal>
+
+          {/* Modal de Editar Turma */}
+          <Portal>
+            <Modal
+              visible={showEditClassModal}
+              onDismiss={() => {
+                setShowEditClassModal(false);
+                setEditingClass(null);
+              }}
+              contentContainerStyle={{
+                backgroundColor: theme.colors.background,
+                margin: '2%',
+                maxHeight: '96%',
+                borderRadius: 12,
+                overflow: 'hidden',
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 4 },
+                shadowOpacity: 0.3,
+                shadowRadius: 8,
+                elevation: 8,
+              }}
+            >
+              {editingClass && (
+                <EditClassForm
+                  classId={editingClass.id}
+                  classData={editingClass}
+                  onClose={() => {
+                    setShowEditClassModal(false);
+                    setEditingClass(null);
+                  }}
+                  onSuccess={() => {
+                    setShowEditClassModal(false);
+                    setEditingClass(null);
+                    loadClasses();
+                  }}
+                />
+              )}
             </Modal>
           </Portal>
         </SafeAreaView>

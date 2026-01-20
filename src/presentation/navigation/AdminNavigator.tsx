@@ -120,7 +120,7 @@ const AdminNavigator = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="AdminTabs" component={AdminTabNavigator} />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="AddClass"
         component={AddClassScreen}
         options={{
@@ -134,7 +134,7 @@ const AdminNavigator = () => {
             />
           ),
         }}
-      />
+      /> */}
 
       <Stack.Screen
         name="ClassStudents"
@@ -166,7 +166,7 @@ const AdminNavigator = () => {
           ),
         }}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="EditClass"
         component={EditClassScreen}
         options={{
@@ -180,7 +180,7 @@ const AdminNavigator = () => {
             />
           ),
         }}
-      />
+      /> */}
       <Stack.Screen
         name="ClassDetails"
         component={ClassDetailsScreen}
@@ -196,7 +196,7 @@ const AdminNavigator = () => {
           ),
         }}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="AddStudent"
         component={AddStudentScreen}
         options={{
@@ -210,8 +210,8 @@ const AdminNavigator = () => {
             />
           ),
         }}
-      />
-      <Stack.Screen
+      /> */}
+      {/* <Stack.Screen
         name="EditStudent"
         component={EditStudentScreen}
         options={{
@@ -225,7 +225,7 @@ const AdminNavigator = () => {
             />
           ),
         }}
-      />
+      /> */}
       <Stack.Screen
         name="StudentDetails"
         component={StudentDetailsScreen}

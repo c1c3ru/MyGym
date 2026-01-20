@@ -4,7 +4,7 @@ import {
   StyleSheet,
   ScrollView,
   Animated,
-  Platform
+  Dimensions
 } from 'react-native';
 import {
   Text,
@@ -55,11 +55,12 @@ const AddClassForm = ({ onClose, onSuccess }: AddClassFormProps) => {
   const [modalities, setModalities] = useState<Modality[]>([]);
   const [snackbar, setSnackbar] = useState({ visible: false, message: '', type: 'info' });
 
-  // Animações
+  // Animação de entrada
   const slideAnim = useMemo(() => new Animated.Value(50), []);
   const fadeAnim = useMemo(() => new Animated.Value(0), []);
 
   const textColor = theme?.colors?.text || COLORS.text.primary;
+
   const styles = useMemo(() => createStyles(colors, textColor), [colors, textColor]);
 
   const ageCategories = [
@@ -86,21 +87,6 @@ const AddClassForm = ({ onClose, onSuccess }: AddClassFormProps) => {
   const [errors, setErrors] = useState<any>({});
 
   useEffect(() => {
-    // Animação de entrada
-    Animated.parallel([
-      Animated.timing(fadeAnim, {
-        toValue: 1,
-        duration: 300,
-        useNativeDriver: true,
-      }),
-      Animated.spring(slideAnim, {
-        toValue: 0,
-        tension: 50,
-        friction: 7,
-        useNativeDriver: true,
-      })
-    ]).start();
-
     loadInstructors();
     loadModalities();
 
@@ -206,7 +192,7 @@ const AddClassForm = ({ onClose, onSuccess }: AddClassFormProps) => {
 
       await academyFirestoreService.create('classes', classData, academiaId);
 
-      setSnackbar({ visible: true, message: '✅ Turma criada com sucesso!', type: 'success' });
+      setSnackbar({ visible: true, message: 'Turma criada!', type: 'success' });
       setTimeout(() => {
         onSuccess?.();
       }, 1000);
@@ -237,14 +223,8 @@ const AddClassForm = ({ onClose, onSuccess }: AddClassFormProps) => {
 
   return (
     <EnhancedErrorBoundary errorContext={{ screen: 'AddClassForm', academiaId: userProfile?.academiaId }}>
-      <Animated.View
-        style={{
-          flex: 1,
-          backgroundColor: colors.background,
-          opacity: fadeAnim,
-          transform: [{ translateY: slideAnim }]
-        }}
-      >
+      <View style={{ flex: 1, backgroundColor: colors.background }}>
+
         {/* Header do Modal */}
         <View style={styles.header}>
           <Text style={styles.headerTitle}>{getString('newClass')}</Text>
@@ -257,7 +237,7 @@ const AddClassForm = ({ onClose, onSuccess }: AddClassFormProps) => {
           showsVerticalScrollIndicator={true}
         >
           <View>
-            <Text style={[styles.sectionTitle, { color: textColor }]}>📋 Informações Básicas</Text>
+            <Text style={[styles.sectionTitle, { color: textColor }]}>Informações Básicas</Text>
 
             <TextInput
               label={getString('className')}
@@ -334,9 +314,7 @@ const AddClassForm = ({ onClose, onSuccess }: AddClassFormProps) => {
             />
             {errors.maxStudents && <HelperText type="error">{errors.maxStudents}</HelperText>}
 
-            <Divider style={{ marginVertical: SPACING.lg }} />
-
-            <Text style={[styles.sectionTitle, { color: textColor }]}>👨‍🏫 {getString('instructor')}</Text>
+            <Text style={[styles.sectionTitle, { color: textColor }]}>{getString('instructor')}</Text>
             <View style={styles.chipContainer}>
               <Chip
                 selected={!formData.instructorId}
@@ -366,25 +344,18 @@ const AddClassForm = ({ onClose, onSuccess }: AddClassFormProps) => {
               </View>
             )}
 
-            <Divider style={{ marginVertical: SPACING.lg }} />
-
-            <Text style={[styles.sectionTitle, { color: textColor }]}>🕐 {getString('scheduleAndPrice')}</Text>
-            <View style={{ marginBottom: SPACING.xl, zIndex: 10 }}>
-              <ImprovedScheduleSelector
-                value={formData.schedule}
-                onScheduleChange={(s) => updateFormData('schedule', s)}
-                duration={60}
-                startHour={6}
-                endHour={22}
-                required={true}
-                style={styles.input}
-                instructorId={formData.instructorId || user?.id}
-              />
-              {errors.schedule && <HelperText type="error">{errors.schedule}</HelperText>}
-            </View>
-
-            {/* Espaçador de segurança */}
-            <View style={{ height: SPACING.md }} />
+            <Text style={[styles.sectionTitle, { color: textColor }]}>{getString('scheduleAndPrice')}</Text>
+            <ImprovedScheduleSelector
+              value={formData.schedule}
+              onScheduleChange={(s) => updateFormData('schedule', s)}
+              duration={60}
+              startHour={6}
+              endHour={22}
+              required={true}
+              style={styles.input}
+              instructorId={formData.instructorId || user?.id}
+            />
+            {errors.schedule && <HelperText type="error">{errors.schedule}</HelperText>}
 
             <TextInput
               label={getString('monthlyPrice')}
@@ -401,13 +372,7 @@ const AddClassForm = ({ onClose, onSuccess }: AddClassFormProps) => {
           </View>
 
           <View style={styles.buttonContainer}>
-            <Button
-              mode="outlined"
-              onPress={onClose}
-              style={styles.button}
-              textColor={textColor}
-              contentStyle={{ paddingVertical: 8 }}
-            >
+            <Button mode="outlined" onPress={onClose} style={styles.button} textColor={textColor}>
               {getString('cancel')}
             </Button>
             <Button
@@ -417,13 +382,11 @@ const AddClassForm = ({ onClose, onSuccess }: AddClassFormProps) => {
               loading={loading}
               disabled={loading}
               buttonColor={COLORS.primary[500]}
-              icon={loading ? undefined : "check-circle"}
-              contentStyle={{ paddingVertical: 8 }}
             >
-              {loading ? 'Salvando...' : getString('createClass')}
+              {getString('createClass')}
             </Button>
           </View>
-          <View style={{ height: 60 }} />
+          <View style={{ height: 40 }} />
         </ScrollView>
 
         {loading && (
@@ -437,14 +400,11 @@ const AddClassForm = ({ onClose, onSuccess }: AddClassFormProps) => {
           visible={snackbar.visible}
           onDismiss={() => setSnackbar(s => ({ ...s, visible: false }))}
           duration={3000}
-          style={{
-            backgroundColor: snackbar.type === 'error' ? COLORS.error[600] : COLORS.success[600],
-            marginBottom: SPACING.lg
-          }}
+          style={{ backgroundColor: snackbar.type === 'error' ? COLORS.error[600] : COLORS.success[600] }}
         >
           {snackbar.message}
         </Snackbar>
-      </Animated.View>
+      </View>
     </EnhancedErrorBoundary>
   );
 };
@@ -454,15 +414,9 @@ const createStyles = (colors: any, textColor: string) => StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: SPACING.lg,
+    padding: SPACING.md,
     borderBottomWidth: 1,
-    borderBottomColor: colors?.divider || COLORS.gray[200],
-    backgroundColor: colors?.surface || COLORS.white,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    borderBottomColor: COLORS.gray[300],
   },
   headerTitle: {
     fontSize: FONT_SIZE.xl,
@@ -473,40 +427,33 @@ const createStyles = (colors: any, textColor: string) => StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    padding: SPACING.lg,
-    paddingBottom: SPACING.xxl,
+    padding: SPACING.md,
   },
   sectionTitle: {
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
-    marginTop: SPACING.md,
+    marginTop: SPACING.lg,
     marginBottom: SPACING.md,
     color: textColor,
   },
   input: {
-    marginBottom: SPACING.lg,
+    marginBottom: SPACING.md,
     backgroundColor: 'transparent',
-    zIndex: 0,
   },
   pickerContainer: {
-    marginBottom: SPACING.lg,
-    zIndex: 1,
+    marginBottom: SPACING.md,
   },
   chipContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 8,
-    marginBottom: SPACING.sm,
   },
   chip: {
     marginBottom: 4,
-    marginRight: 4,
-    borderRadius: BORDER_RADIUS.md,
   },
   chipSelected: {
-    backgroundColor: hexToRgba(COLORS.primary[500], 0.15),
+    backgroundColor: hexToRgba(COLORS.primary[500], 0.1),
     borderColor: COLORS.primary[500],
-    borderWidth: 2,
   },
   fieldLabel: {
     fontSize: FONT_SIZE.md,
@@ -519,16 +466,9 @@ const createStyles = (colors: any, textColor: string) => StyleSheet.create({
     justifyContent: 'space-between',
     marginTop: SPACING.xl,
     gap: SPACING.md,
-    paddingHorizontal: SPACING.sm,
   },
   button: {
     flex: 1,
-    borderRadius: BORDER_RADIUS.lg,
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
   },
   globalLoadingOverlay: {
     ...StyleSheet.absoluteFillObject,

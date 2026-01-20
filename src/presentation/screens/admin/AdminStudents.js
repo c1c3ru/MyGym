@@ -6,8 +6,12 @@ import {
   Searchbar,
   Menu,
   Button,
-  Text
+  Text,
+  Modal,
+  Portal
 } from 'react-native-paper';
+import AddStudentForm from '@screens/admin/AddStudentScreen';
+import EditStudentForm from '@screens/admin/EditStudentScreen';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
@@ -46,6 +50,10 @@ const AdminStudents = ({ navigation }) => {
   const [loading, setLoading] = useState(true);
   const [showDisassociationDialog, setShowDisassociationDialog] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState(null);
+
+  const [showAddStudentModal, setShowAddStudentModal] = useState(false);
+  const [showEditStudentModal, setShowEditStudentModal] = useState(false);
+  const [editingStudent, setEditingStudent] = useState(null);
 
   // Analytics tracking
   useScreenTracking('AdminStudents', {
@@ -164,8 +172,9 @@ const AdminStudents = ({ navigation }) => {
 
   const handleEditStudent = useCallback((student) => {
     trackButtonClick('edit_student', { studentId: student.id });
-    navigation.navigate('EditStudent', { studentId: student.id, studentData: student });
-  }, [trackButtonClick, navigation]);
+    setEditingStudent(student);
+    setShowEditStudentModal(true);
+  }, [trackButtonClick]);
 
   const handleDeleteStudent = useCallback((student) => {
     Alert.alert(
@@ -202,26 +211,8 @@ const AdminStudents = ({ navigation }) => {
 
   const handleAddStudent = useCallback(() => {
     trackButtonClick('add_student');
-    navigation.navigate('AddStudent', {
-      onStudentAdded: (newStudent) => {
-        console.log('🔄 Novo aluno adicionado, atualizando lista:', newStudent.name);
-
-        // Invalidar cache de alunos
-        const academiaId = userProfile?.academiaId || academia?.id;
-        if (academiaId) {
-          cacheService.invalidatePattern(`students:${academiaId})`);
-        }
-
-        // Adicionar o novo aluno à lista imediatamente
-        setStudents(prevStudents => [newStudent, ...prevStudents]);
-
-        // Também recarregar para garantir dados atualizados
-        setTimeout(() => {
-          loadStudents();
-        }, 1000);
-      }
-    });
-  }, [trackButtonClick, navigation, userProfile?.academiaId, academia?.id, loadStudents]);
+    setShowAddStudentModal(true);
+  }, [trackButtonClick]);
 
   // Memoized render function for FlashList
   const renderStudentItem = useCallback(({ item: student, index }) => {
@@ -406,9 +397,76 @@ const AdminStudents = ({ navigation }) => {
           <FAB
             style={styles.fab}
             icon="plus"
-            onPress={() => navigation.navigate('AddStudent')}
+            onPress={handleAddStudent}
             color={COLORS.white}
           />
+
+          {/* Modal de Adicionar Estudante */}
+          <Portal>
+            <Modal
+              visible={showAddStudentModal}
+              onDismiss={() => setShowAddStudentModal(false)}
+              contentContainerStyle={{
+                backgroundColor: theme.colors.background,
+                margin: '2%',
+                maxHeight: '96%',
+                borderRadius: 12,
+                overflow: 'hidden',
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 4 },
+                shadowOpacity: 0.3,
+                shadowRadius: 8,
+                elevation: 8,
+              }}
+            >
+              <AddStudentForm
+                onClose={() => setShowAddStudentModal(false)}
+                onSuccess={(newStudentId) => {
+                  setShowAddStudentModal(false);
+                  loadStudents();
+                }}
+              />
+            </Modal>
+          </Portal>
+
+          {/* Modal de Editar Estudante */}
+          <Portal>
+            <Modal
+              visible={showEditStudentModal}
+              onDismiss={() => {
+                setShowEditStudentModal(false);
+                setEditingStudent(null);
+              }}
+              contentContainerStyle={{
+                backgroundColor: theme.colors.background,
+                margin: '2%',
+                maxHeight: '96%',
+                borderRadius: 12,
+                overflow: 'hidden',
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 4 },
+                shadowOpacity: 0.3,
+                shadowRadius: 8,
+                elevation: 8,
+              }}
+            >
+              {editingStudent && (
+                <EditStudentForm
+                  studentId={editingStudent.id}
+                  studentData={editingStudent}
+                  onClose={() => {
+                    setShowEditStudentModal(false);
+                    setEditingStudent(null);
+                  }}
+                  onSuccess={() => {
+                    setShowEditStudentModal(false);
+                    setEditingStudent(null);
+                    loadStudents();
+                  }}
+                />
+              )}
+            </Modal>
+          </Portal>
 
           <StudentDisassociationDialog
             visible={showDisassociationDialog}
