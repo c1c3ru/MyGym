@@ -12,14 +12,12 @@ import {
   ActivityIndicator,
   Portal,
   Modal,
-  Surface
+  Surface,
+  Paragraph
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import GlassCard from '@components/GlassCard';
-import ModernCard from '@components/modern/ModernCard'; // Still using ModernCard where appropriate or migrate to GlassCard potentially?
-// Let's stick to GlassCard for the main modernization goal, but ModernCard is used extensively in ProfileScreen.
-// The user request was: "Apply a 'Glassmorphism Hybrid' layout to ProfileScreen.tsx".
-// GlassCard is the new standard. I will try to replace ModernCard usage with GlassCard where appropriate for consistency.
+import ModernCard from '@components/modern/ModernCard';
 
 import AnimatedButton from '@components/AnimatedButton';
 import { Ionicons } from '@expo/vector-icons';
@@ -91,6 +89,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
   const [currentPayment, setCurrentPayment] = useState<any>(null);
   const [showPaymentEditor, setShowPaymentEditor] = useState(false);
   const [paymentDueNotification, setPaymentDueNotification] = useState<any>(null);
+  const [showLogoutDialog, setShowLogoutDialog] = useState(false);
 
   // -- Data Loading Logic --
   const loadData = async () => {
@@ -288,14 +287,16 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
   };
 
   const handleLogout = () => {
-    Alert.alert(
-      getString('logout'),
-      getString('confirmLogout'),
-      [
-        { text: getString('cancel'), style: 'cancel' },
-        { text: getString('logout'), style: 'destructive', onPress: signOut }
-      ]
-    );
+    setShowLogoutDialog(true);
+  };
+
+  const confirmLogout = async () => {
+    setShowLogoutDialog(false);
+    try {
+      await signOut();
+    } catch (error) {
+      Alert.alert(getString('error'), getString('logoutError'));
+    }
   };
 
   const getDaysOfWeek = () => {
@@ -568,6 +569,50 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
             </View>
 
           </ScrollView>
+
+          {/* Dialog de Confirmação de Logout */}
+          <Portal>
+            <Modal
+              visible={showLogoutDialog}
+              onDismiss={() => setShowLogoutDialog(false)}
+              contentContainerStyle={{
+                backgroundColor: colors.background,
+                margin: 20,
+                padding: 20,
+                borderRadius: 12,
+                maxWidth: 400,
+                alignSelf: 'center',
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.25,
+                shadowRadius: 4,
+                elevation: 5,
+              }}
+            >
+              <Text style={{ fontSize: FONT_SIZE.xl, fontWeight: FONT_WEIGHT.bold, color: textColor, marginBottom: SPACING.md }}>
+                {getString('logout')}
+              </Text>
+              <Paragraph style={{ color: textColor, marginBottom: SPACING.lg }}>
+                {getString('confirmLogout')}
+              </Paragraph>
+              <View style={{ flexDirection: 'row', justifyContent: 'flex-end', gap: SPACING.sm }}>
+                <Button
+                  onPress={() => setShowLogoutDialog(false)}
+                  textColor={textColor}
+                >
+                  {getString('cancel')}
+                </Button>
+                <Button
+                  onPress={confirmLogout}
+                  textColor={COLORS.white}
+                  mode="contained"
+                  buttonColor={COLORS.error[500]}
+                >
+                  {getString('logout')}
+                </Button>
+              </View>
+            </Modal>
+          </Portal>
         </SafeAreaView>
       </LinearGradient>
     </EnhancedErrorBoundary>

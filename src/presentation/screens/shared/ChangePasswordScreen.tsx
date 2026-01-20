@@ -3,8 +3,7 @@ import {
   View,
   StyleSheet,
   ScrollView,
-  Animated,
-  Alert
+  Animated
 } from 'react-native';
 import {
   Text,

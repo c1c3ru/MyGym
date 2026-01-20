@@ -7,7 +7,8 @@ import {
   Switch,
   Divider,
   Portal,
-  Modal
+  Modal,
+  Paragraph
 } from 'react-native-paper';
 import ModernCard from '@components/modern/ModernCard';
 import ChangePasswordForm from './ChangePasswordScreen';
@@ -35,26 +36,20 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
   const [notifications, setNotifications] = useState<boolean>(true);
   const [autoBackup, setAutoBackup] = useState<boolean>(true);
   const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
+  const [showLogoutDialog, setShowLogoutDialog] = useState(false);
+  const [showDeleteAccountDialog, setShowDeleteAccountDialog] = useState(false);
 
   const handleLogout = (): void => {
-    Alert.alert(
-      getString('logout'),
-      getString('confirmLogoutMessage'),
-      [
-        { text: getString('cancel'), style: 'cancel' },
-        {
-          text: getString('logout'),
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              await logout();
-            } catch (error) {
-              Alert.alert(getString('error'), getString('logoutError'));
-            }
-          }
-        }
-      ]
-    );
+    setShowLogoutDialog(true);
+  };
+
+  const confirmLogout = async () => {
+    setShowLogoutDialog(false);
+    try {
+      await logout();
+    } catch (error) {
+      Alert.alert(getString('error'), getString('logoutError'));
+    }
   };
 
   const handleChangePassword = () => {
@@ -66,20 +61,12 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
   };
 
   const handleDeleteAccount = () => {
-    Alert.alert(
-      getString('deleteAccount'),
-      getString('deleteAccountWarning'),
-      [
-        { text: getString('cancel'), style: 'cancel' },
-        {
-          text: getString('delete'),
-          style: 'destructive',
-          onPress: () => {
-            Alert.alert(getString('inDevelopment'), getString('deleteAccountDevelopment'));
-          }
-        }
-      ]
-    );
+    setShowDeleteAccountDialog(true);
+  };
+
+  const confirmDeleteAccount = () => {
+    setShowDeleteAccountDialog(false);
+    Alert.alert(getString('inDevelopment'), getString('deleteAccountDevelopment'));
   };
 
   return (
@@ -321,6 +308,94 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
                 setShowChangePasswordModal(false);
               }}
             />
+          </Modal>
+        </Portal>
+
+        {/* Dialog de Confirmação de Logout */}
+        <Portal>
+          <Modal
+            visible={showLogoutDialog}
+            onDismiss={() => setShowLogoutDialog(false)}
+            contentContainerStyle={{
+              backgroundColor: theme.colors.background,
+              margin: 20,
+              padding: 20,
+              borderRadius: 12,
+              maxWidth: 400,
+              alignSelf: 'center',
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.25,
+              shadowRadius: 4,
+              elevation: 5,
+            }}
+          >
+            <Text style={{ fontSize: FONT_SIZE.xl, fontWeight: FONT_WEIGHT.bold, color: theme.colors.text, marginBottom: SPACING.md }}>
+              {getString('logout')}
+            </Text>
+            <Paragraph style={{ color: theme.colors.text, marginBottom: SPACING.lg }}>
+              {getString('confirmLogoutMessage')}
+            </Paragraph>
+            <View style={{ flexDirection: 'row', justifyContent: 'flex-end', gap: SPACING.sm }}>
+              <Button
+                onPress={() => setShowLogoutDialog(false)}
+                textColor={theme.colors.text}
+              >
+                {getString('cancel')}
+              </Button>
+              <Button
+                onPress={confirmLogout}
+                textColor={COLORS.white}
+                mode="contained"
+                buttonColor={COLORS.error[500]}
+              >
+                {getString('logout')}
+              </Button>
+            </View>
+          </Modal>
+        </Portal>
+
+        {/* Dialog de Confirmação de Exclusão de Conta */}
+        <Portal>
+          <Modal
+            visible={showDeleteAccountDialog}
+            onDismiss={() => setShowDeleteAccountDialog(false)}
+            contentContainerStyle={{
+              backgroundColor: theme.colors.background,
+              margin: 20,
+              padding: 20,
+              borderRadius: 12,
+              maxWidth: 400,
+              alignSelf: 'center',
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.25,
+              shadowRadius: 4,
+              elevation: 5,
+            }}
+          >
+            <Text style={{ fontSize: FONT_SIZE.xl, fontWeight: FONT_WEIGHT.bold, color: COLORS.error[500], marginBottom: SPACING.md }}>
+              {getString('deleteAccount')}
+            </Text>
+            <Paragraph style={{ color: theme.colors.text, marginBottom: SPACING.lg }}>
+              {getString('deleteAccountWarning')}
+            </Paragraph>
+            <View style={{ flexDirection: 'row', justifyContent: 'flex-end', gap: SPACING.sm }}>
+              <Button
+                onPress={() => setShowDeleteAccountDialog(false)}
+                textColor={theme.colors.text}
+              >
+                {getString('cancel')}
+              </Button>
+              <Button
+                onPress={confirmDeleteAccount}
+                textColor={COLORS.white}
+                mode="contained"
+                buttonColor={COLORS.error[500]}
+              >
+                {getString('delete')}
+              </Button>
+            </View>
           </Modal>
         </Portal>
       </SafeAreaView>
