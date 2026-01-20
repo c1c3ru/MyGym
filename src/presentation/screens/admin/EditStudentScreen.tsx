@@ -40,6 +40,10 @@ const EditStudentForm = ({ studentId, onClose, onSuccess, studentData: initialDa
   const [loading, setLoading] = useState(false);
   const [loadingData, setLoadingData] = useState(!initialData);
 
+  const [availablePlans, setAvailablePlans] = useState<any[]>([]);
+  const [selectedPlanId, setSelectedPlanId] = useState<string>('');
+  const [loadingPlans, setLoadingPlans] = useState(true);
+
   const [snackbar, setSnackbar] = useState({ visible: false, message: '', type: 'info' });
 
   // Animations
@@ -71,12 +75,29 @@ const EditStudentForm = ({ studentId, onClose, onSuccess, studentData: initialDa
       Animated.spring(slideAnim, { toValue: 0, tension: 50, friction: 7, useNativeDriver: true })
     ]).start();
 
+    loadAvailablePlans();
+
     if (initialData) {
       populateForm(initialData);
     } else {
       loadStudentData();
     }
   }, [studentId]);
+
+  const loadAvailablePlans = async () => {
+    try {
+      setLoadingPlans(true);
+      const academiaId = userProfile?.academiaId || academia?.id;
+      if (!academiaId) return;
+
+      const plans = await academyFirestoreService.getAll('plans', academiaId);
+      setAvailablePlans(plans);
+    } catch (error) {
+      console.error('Erro ao carregar planos:', error);
+    } finally {
+      setLoadingPlans(false);
+    }
+  };
 
   const populateForm = (data: any) => {
     setFormData({
@@ -92,6 +113,10 @@ const EditStudentForm = ({ studentId, onClose, onSuccess, studentData: initialDa
       status: data.status || 'active',
       sexo: data.sexo || ''
     });
+    // Tenta usar planId existente, ou deixa vazio por enquanto
+    if (data.planId) {
+      setSelectedPlanId(data.planId);
+    }
     setLoadingData(false);
   };
 
@@ -136,6 +161,8 @@ const EditStudentForm = ({ studentId, onClose, onSuccess, studentData: initialDa
       setLoading(true);
       const academiaId = userProfile?.academiaId || academia?.id;
 
+      const selectedPlanObj = availablePlans.find(p => p.id === selectedPlanId);
+
       const updateData = {
         name: formData.name.trim(),
         email: formData.email.trim().toLowerCase(),
@@ -150,7 +177,9 @@ const EditStudentForm = ({ studentId, onClose, onSuccess, studentData: initialDa
         isActive: formData.status === 'active',
         sexo: formData.sexo,
         updatedAt: new Date(),
-        updatedBy: user?.id
+        updatedBy: user?.id,
+        planId: selectedPlanId || null,
+        currentPlan: selectedPlanObj ? selectedPlanObj.name : null
       };
 
       await academyFirestoreService.update('students', studentId, updateData, academiaId!);
@@ -318,6 +347,31 @@ const EditStudentForm = ({ studentId, onClose, onSuccess, studentData: initialDa
             textColor={textColor}
           />
           {errors.emergencyPhone && <HelperText type="error">{errors.emergencyPhone}</HelperText>}
+
+          <Divider style={{ marginVertical: SPACING.lg }} />
+
+          <Text style={styles.sectionTitle}>💳 Plano</Text>
+          {loadingPlans ? (
+            <ActivityIndicator size="small" color={colors.primary} />
+          ) : availablePlans.length === 0 ? (
+            <Text style={{ color: textColor }}>Nenhum plano disponível.</Text>
+          ) : (
+            <RadioButton.Group onValueChange={v => setSelectedPlanId(v)} value={selectedPlanId}>
+              <View style={{ gap: 8 }}>
+                {availablePlans.map(plan => (
+                  <View key={plan.id} style={[styles.radioItem, { marginBottom: 4 }]}>
+                    <RadioButton value={plan.id} color={colors.primary} />
+                    <View>
+                      <Text style={{ color: textColor, fontWeight: 'bold' }}>{plan.name}</Text>
+                      <Text style={{ color: textColor, fontSize: FONT_SIZE.sm }}>
+                        {plan.price ? `R$ ${plan.price}` : ''} {plan.billingCycle ? `(${plan.billingCycle})` : ''}
+                      </Text>
+                    </View>
+                  </View>
+                ))}
+              </View>
+            </RadioButton.Group>
+          )}
 
           <Divider style={{ marginVertical: SPACING.lg }} />
 

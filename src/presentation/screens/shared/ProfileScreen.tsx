@@ -440,13 +440,13 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
                       maxLength={10}
                     />
                     <View style={styles.inputGroup}>
-                      <Text style={[styles.fieldLabel, { fontSize: FONT_SIZE.sm }]}>{getString('gender')}</Text>
+                      <Text style={[styles.fieldLabel, { fontSize: FONT_SIZE.sm }]}>Gênero</Text>
                       <SegmentedButtons
                         value={formData.gender}
                         onValueChange={(value) => setFormData({ ...formData, gender: value })}
                         buttons={[
-                          { value: 'male', label: getString('male') || 'Masculino' },
-                          { value: 'female', label: getString('female') || 'Feminino' },
+                          { value: 'male', label: 'Masculino' },
+                          { value: 'female', label: 'Feminino' },
                         ]}
                         style={{ marginBottom: SPACING.md }}
                         theme={{ colors: { secondaryContainer: colors?.primary, onSecondaryContainer: COLORS.white } }}
@@ -468,7 +468,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
 
                     <View style={{ flexDirection: 'row', gap: SPACING.sm }}>
                       <TextInput
-                        label={getString('zipCode') || 'CEP'}
+                        label="CEP"
                         value={formData.zipCode}
                         onChangeText={(text) => setFormData({ ...formData, zipCode: text })}
                         mode="outlined"
@@ -478,7 +478,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
                         textColor={textColor}
                       />
                       <TextInput
-                        label={getString('state') || 'UF'}
+                        label="UF"
                         value={formData.state}
                         onChangeText={(text) => setFormData({ ...formData, state: text })}
                         mode="outlined"
@@ -489,7 +489,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
                     </View>
                     {/* More address fields would go here... simplified for brevity but maintaining structure */}
                     <TextInput
-                      label={getString('city') || 'Cidade'}
+                      label="Cidade"
                       value={formData.city}
                       onChangeText={(text) => setFormData({ ...formData, city: text })}
                       mode="outlined"

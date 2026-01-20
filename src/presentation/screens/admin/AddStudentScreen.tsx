@@ -59,10 +59,14 @@ const AddStudentForm = ({ onClose, onSuccess }: AddStudentFormProps) => {
   const [snackbar, setSnackbar] = useState({ visible: false, message: '', type: 'info' });
   const [showValidationBanner, setShowValidationBanner] = useState(false);
 
-  // Classes data
+  // Classes and Plans data
   const [availableClasses, setAvailableClasses] = useState<any[]>([]);
   const [selectedClasses, setSelectedClasses] = useState<any[]>([]);
   const [loadingClasses, setLoadingClasses] = useState(true);
+
+  const [availablePlans, setAvailablePlans] = useState<any[]>([]);
+  const [selectedPlanId, setSelectedPlanId] = useState<string>('');
+  const [loadingPlans, setLoadingPlans] = useState(true);
 
   // Form Validation
   const studentValidationSchema = {
@@ -112,6 +116,7 @@ const AddStudentForm = ({ onClose, onSuccess }: AddStudentFormProps) => {
     ]).start();
 
     loadAvailableClasses();
+    loadAvailablePlans();
   }, [userProfile?.academiaId]);
 
   const loadAvailableClasses = useCallback(async () => {
@@ -124,7 +129,6 @@ const AddStudentForm = ({ onClose, onSuccess }: AddStudentFormProps) => {
         await academyFirestoreService.getAll('classes', userProfile.academiaId);
 
       setAvailableClasses(classes);
-      if (classes.length === 0) showSnackbar('Nenhuma turma encontrada.', 'info');
     } catch (error) {
       console.error('❌ Erro ao carregar turmas:', error);
       showSnackbar('Erro ao carregar turmas disponíveis', 'error');
@@ -133,9 +137,67 @@ const AddStudentForm = ({ onClose, onSuccess }: AddStudentFormProps) => {
     }
   }, [userProfile?.academiaId]);
 
+  const loadAvailablePlans = useCallback(async () => {
+    try {
+      setLoadingPlans(true);
+      if (!userProfile?.academiaId) return;
+
+      const plans = await academyFirestoreService.getAll('plans', userProfile.academiaId);
+      setAvailablePlans(plans);
+    } catch (error) {
+      console.error('❌ Erro ao carregar planos:', error);
+      // Não bloqueia o fluxo se falhar planos
+    } finally {
+      setLoadingPlans(false);
+    }
+  }, [userProfile?.academiaId]);
+
+  const calculateAge = (birthDate: string) => {
+    if (!birthDate || birthDate.length !== 10) return 0;
+    const parts = birthDate.split('/');
+    if (parts.length !== 3) return 0;
+
+    const day = parseInt(parts[0], 10);
+    const month = parseInt(parts[1], 10);
+    const year = parseInt(parts[2], 10);
+
+    if (isNaN(day) || isNaN(month) || isNaN(year)) return 0;
+
+    const today = new Date();
+    let age = today.getFullYear() - year;
+    const m = today.getMonth() + 1 - month;
+    if (m < 0 || (m === 0 && today.getDate() < day)) {
+      age--;
+    }
+    return age;
+  };
+
   const toggleClassSelection = useCallback((classId: string) => {
-    setSelectedClasses(prev => prev.includes(classId) ? prev.filter(id => id !== classId) : [...prev, classId]);
-  }, []);
+    // Se estiver desmarcando, permite sempre
+    if (selectedClasses.includes(classId)) {
+      setSelectedClasses(prev => prev.filter(id => id !== classId));
+      return;
+    }
+
+    // Se estiver marcando, valida idade
+    const targetClass = availableClasses.find(c => c.id === classId);
+    if (!targetClass) return;
+
+    if (formData.birthDate && formData.birthDate.length === 10) {
+      const age = calculateAge(formData.birthDate);
+      const restrictedCategories = ['kids1', 'kids2', 'kids3', 'juvenil'];
+
+      if (age >= 18 && restrictedCategories.includes(targetClass.ageCategory)) {
+        Alert.alert(
+          'Restrição de Idade',
+          `O aluno tem ${age} anos (Maior de 18). Não é permitido matriculá-lo em turmas Infantis ou Juvenis.\n\nTurma: ${targetClass.name} (${targetClass.ageCategory})`
+        );
+        return;
+      }
+    }
+
+    setSelectedClasses(prev => [...prev, classId]);
+  }, [selectedClasses, availableClasses, formData.birthDate]);
 
   const showSnackbar = (message: string, type: string = 'info') => setSnackbar({ visible: true, message, type });
 
@@ -147,10 +209,31 @@ const AddStudentForm = ({ onClose, onSuccess }: AddStudentFormProps) => {
       return;
     }
 
+    // Validação de Idade vs Turmas (Segurança adicional)
+    if (formData.birthDate && formData.birthDate.length === 10) {
+      const age = calculateAge(formData.birthDate);
+      if (age >= 18) {
+        const restrictedCategories = ['kids1', 'kids2', 'kids3', 'juvenil'];
+        const invalidClasses = selectedClasses
+          .map(id => availableClasses.find(c => c.id === id))
+          .filter(c => c && restrictedCategories.includes(c.ageCategory));
+
+        if (invalidClasses.length > 0) {
+          Alert.alert(
+            'Conflito de Idade',
+            `Aluno com ${age} anos não pode ser matriculado nas seguintes turmas infantis/juvenis:\n\n${invalidClasses.map(c => c?.name).join('\n')}\n\nRemova essas turmas ou corrija a data de nascimento.`
+          );
+          return;
+        }
+      }
+    }
+
     const result = await executeStudentCreation(async () => {
       try {
         setLoading(true);
         if (!user?.id) throw new Error('Usuário não autenticado');
+
+        const selectedPlanObj = availablePlans.find(p => p.id === selectedPlanId);
 
         const studentData: any = {
           name: formData.name.trim(),
@@ -164,13 +247,15 @@ const AddStudentForm = ({ onClose, onSuccess }: AddStudentFormProps) => {
           goals: formData.goals.trim(),
           status: formData.status,
           sexo: formData.sexo,
-          isActive: true,
+          isActive: true, // Legacy
           createdBy: user!.id,
           createdAt: new Date(),
           updatedAt: new Date(),
           graduations: [],
           currentGraduation: null,
           classIds: selectedClasses,
+          planId: selectedPlanId || null,
+          currentPlan: selectedPlanObj ? selectedPlanObj.name : null,
           academiaId: userProfile?.academiaId
         };
 
@@ -197,7 +282,7 @@ const AddStudentForm = ({ onClose, onSuccess }: AddStudentFormProps) => {
     });
 
     if (result.blocked) Alert.alert('Ação Bloqueada', 'Muitas criações de aluno. Aguarde.');
-  }, [validateForm, executeStudentCreation, formData, selectedClasses, user, userProfile]);
+  }, [validateForm, executeStudentCreation, formData, selectedClasses, selectedPlanId, availablePlans, user, userProfile]);
 
   const handleFieldChange = (field: string, value: string) => {
     setFieldValue(field, value);
@@ -336,6 +421,31 @@ const AddStudentForm = ({ onClose, onSuccess }: AddStudentFormProps) => {
 
           <Divider style={{ marginVertical: SPACING.lg }} />
 
+          <Text style={styles.sectionTitle}>💳 Plano</Text>
+          {loadingPlans ? (
+            <ActivityIndicator size="small" color={colors.primary} />
+          ) : availablePlans.length === 0 ? (
+            <Text style={{ color: textColor }}>Nenhum plano disponível.</Text>
+          ) : (
+            <RadioButton.Group onValueChange={v => setSelectedPlanId(v)} value={selectedPlanId}>
+              <View style={{ gap: 8 }}>
+                {availablePlans.map(plan => (
+                  <View key={plan.id} style={[styles.radioItem, { marginBottom: 4 }]}>
+                    <RadioButton value={plan.id} color={colors.primary} />
+                    <View>
+                      <Text style={{ color: textColor, fontWeight: 'bold' }}>{plan.name}</Text>
+                      <Text style={{ color: textColor, fontSize: FONT_SIZE.sm }}>
+                        {plan.price ? `R$ ${plan.price}` : ''} {plan.billingCycle ? `(${plan.billingCycle})` : ''}
+                      </Text>
+                    </View>
+                  </View>
+                ))}
+              </View>
+            </RadioButton.Group>
+          )}
+
+          <Divider style={{ marginVertical: SPACING.lg }} />
+
           <Text style={styles.sectionTitle}>🎯 Turmas</Text>
           {loadingClasses ? (
             <ActivityIndicator size="small" color={colors.primary} />
@@ -374,6 +484,7 @@ const AddStudentForm = ({ onClose, onSuccess }: AddStudentFormProps) => {
           </View>
           <View style={{ height: 60 }} />
         </ScrollView>
+
 
         {loading && (
           <View style={styles.globalLoadingOverlay}>

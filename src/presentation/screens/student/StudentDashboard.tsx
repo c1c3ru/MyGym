@@ -35,6 +35,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import EnhancedErrorBoundary from '@components/EnhancedErrorBoundary';
 import StudentDashboardSkeleton from '@components/skeletons/StudentDashboardSkeleton';
 import CheckInModalContent from '@screens/student/CheckInModalContent';
+import { getGraduationEligibility } from '@shared/utils/graduationRules';
 
 import { SPACING, BORDER_RADIUS, FONT_SIZE, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
@@ -151,19 +152,105 @@ const StudentDashboard: React.FC<{ navigation: any }> = ({ navigation }) => {
                         }))
                         .slice(0, 3);
 
+                    // --- INÍCIO: Notificações Automáticas (Client-side) ---
+                    const currentDate = new Date();
+                    const syntheticAnnouncements: any[] = [];
+
+                    // 1. Verificação de Aniversário
+                    if (studentProfile?.birthDate) {
+                        try {
+                            const dob = studentProfile.birthDate.toDate ? studentProfile.birthDate.toDate() : new Date(studentProfile.birthDate);
+
+                            const today = new Date();
+                            today.setHours(0, 0, 0, 0);
+
+                            const thisYearBday = new Date(today.getFullYear(), dob.getMonth(), dob.getDate());
+                            thisYearBday.setHours(0, 0, 0, 0);
+
+                            if (thisYearBday < today) {
+                                thisYearBday.setFullYear(today.getFullYear() + 1);
+                            }
+
+                            const diffTime = thisYearBday.getTime() - today.getTime();
+                            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                            if (diffDays === 0) {
+                                syntheticAnnouncements.push({
+                                    id: 'auto-bday-today',
+                                    title: '🎉 Feliz Aniversário!',
+                                    message: `Parabéns ${userProfile.name}! Toda a equipe deseja um dia incrível e muitas conquistas no tatame! Oss!`,
+                                    date: getString('today'),
+                                    priority: 10,
+                                    isAuto: true
+                                });
+                            } else if (diffDays <= 7) {
+                                syntheticAnnouncements.push({
+                                    id: 'auto-bday-soon',
+                                    title: '🎂 Aniversário Chegando!',
+                                    message: `Faltam ${diffDays} dias para o seu aniversário! Prepare-se para comemorar!`,
+                                    date: thisYearBday.toLocaleDateString('pt-BR'),
+                                    priority: 5,
+                                    isAuto: true
+                                });
+                            }
+                        } catch (e) {
+                            console.error('Erro ao calcular aniversário', e);
+                        }
+                    }
+
+                    // 2. Verificação de Graduação
+                    if (studentProfile?.currentBelt) {
+                        try {
+                            const lastGradDate = studentProfile.lastGraduationDate
+                                ? (studentProfile.lastGraduationDate.toDate ? studentProfile.lastGraduationDate.toDate() : new Date(studentProfile.lastGraduationDate))
+                                : (studentProfile.createdAt?.toDate ? studentProfile.createdAt.toDate() : new Date(studentProfile.createdAt || Date.now()));
+
+                            const modality = studentProfile.modality || (academia as any)?.modality || 'Jiu-Jitsu';
+                            const eligibility = getGraduationEligibility(modality, studentProfile.currentBelt, lastGradDate);
+
+                            if (eligibility) {
+                                if (eligibility.isEligible) {
+                                    syntheticAnnouncements.push({
+                                        id: 'auto-grad-eligible',
+                                        title: '🥋 Nova Faixa à Vista?',
+                                        message: `Segundo as regras da federação, você já cumpriu o tempo na faixa atual. Consulte seu professor!`,
+                                        date: getString('today'),
+                                        priority: 8,
+                                        isAuto: true
+                                    });
+                                } else if (eligibility.isClose) {
+                                    syntheticAnnouncements.push({
+                                        id: 'auto-grad-soon',
+                                        title: '⏳ Quase lá!',
+                                        message: `Falta 1 mês para o tempo mínimo na faixa atual. Foco total!`,
+                                        date: getString('thisMonth'),
+                                        priority: 6,
+                                        isAuto: true
+                                    });
+                                }
+                            }
+                        } catch (e) {
+                            console.error('Erro ao calcular graduação', e);
+                        }
+                    }
+                    // --- FIM: Notificações Automáticas ---
+
                     const formattedAnnouncements = (userAnnouncements as any[]).map((ann: any) => ({
                         id: ann.id,
                         title: ann.title,
-                        message: ann.message,
+                        message: ann.message || ann.content || ann.description || '',
                         date: formatDate(ann.createdAt),
                         priority: ann.priority || 0
                     }));
+
+                    const allAnnouncements = [...syntheticAnnouncements, ...formattedAnnouncements];
+                    allAnnouncements.sort((a, b) => b.priority - a.priority);
 
                     // Filtrar avisos lidos localmente
                     const readAnnouncementsJson = await AsyncStorage.getItem(`read_announcements_${user.id}`);
                     const readAnnouncements = readAnnouncementsJson ? JSON.parse(readAnnouncementsJson) : [];
 
-                    const filteredAnnouncements = formattedAnnouncements.filter((ann: any) => !readAnnouncements.includes(ann.id));
+                    const filteredAnnouncements = allAnnouncements.filter((ann: any) => !readAnnouncements.includes(ann.id));
 
                     const dashboardInfo = {
                         graduationStatus: studentProfile?.currentBelt || studentProfile?.currentGraduation || getString('whiteBelt'),
