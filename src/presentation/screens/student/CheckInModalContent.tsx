@@ -279,7 +279,7 @@ const createStyles = (colors: any) => StyleSheet.create({
         alignItems: 'center',
         padding: SPACING.md,
         borderBottomWidth: 1,
-        borderBottomColor: colors.outlineVariant || '#E0E0E0',
+        borderBottomColor: colors.outlineVariant || COLORS.gray[300],
         backgroundColor: colors.surface
     },
     title: { fontSize: FONT_SIZE.xl, fontWeight: 'bold', color: colors.onSurface },

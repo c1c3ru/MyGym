@@ -43,6 +43,8 @@ import {
   FONT_SIZE,
   BORDER_RADIUS,
   FONT_WEIGHT,
+  OPACITY,
+  GLASS,
 } from "@presentation/theme/designTokens";
 import { hexToRgba } from "@shared/utils/colorUtils";
 import { useOnboarding } from "@components/OnboardingTour";
@@ -468,12 +470,7 @@ const InstructorDashboard = ({ navigation }) => {
       }}
     >
       <LinearGradient
-        colors={[
-          "#2e003e", // Deep Purple
-          "#1a0026", // Darker Purple
-          "#0d0015", // Almost Black
-          "#000000"  // Black
-        ]}
+        colors={COLORS.gradients.deepPurple}
         locations={[0, 0.4, 0.8, 1]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
@@ -1418,7 +1415,7 @@ const styles = StyleSheet.create({
   },
   chipText: {
     fontSize: FONT_SIZE.sm,
-    color: "#64B5F6", // Lighter info color
+    color: COLORS.info[300], // Lighter info color
   },
   timelineDetails: {
     marginBottom: ResponsiveUtils.spacing.sm,
@@ -1459,7 +1456,7 @@ const styles = StyleSheet.create({
   },
   emptyStateSubtext: {
     fontSize: ResponsiveUtils.fontSize.small,
-    color: "rgba(255, 255, 255, 0.4)",
+    color: hexToRgba(COLORS.white, OPACITY.medium),
     textAlign: "center",
     marginTop: SPACING.xs,
   },
@@ -1491,7 +1488,7 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   highPriorityAnnouncement: {
-    backgroundColor: "rgba(255, 152, 0, 0.1)", // Warning color transparent
+    backgroundColor: hexToRgba(COLORS.warning[500], OPACITY.light), // Warning color transparent
     borderRadius: ResponsiveUtils.borderRadius.small,
     marginHorizontal: -ResponsiveUtils.spacing.sm,
     paddingHorizontal: ResponsiveUtils.spacing.sm,
@@ -1502,7 +1499,7 @@ const styles = StyleSheet.create({
   priorityBadge: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "rgba(255, 152, 0, 0.2)",
+    backgroundColor: hexToRgba(COLORS.warning[500], OPACITY.medium),
     paddingHorizontal: ResponsiveUtils.spacing.sm,
     paddingVertical: SPACING.xs,
     borderRadius: BORDER_RADIUS.md,
@@ -1511,7 +1508,7 @@ const styles = StyleSheet.create({
   },
   priorityText: {
     fontSize: FONT_SIZE.sm,
-    color: "#FFB74D", // Lighter warning color
+    color: COLORS.warning[300], // Lighter warning color
     marginLeft: SPACING.xs,
     fontWeight: FONT_WEIGHT.medium,
   },
@@ -1534,7 +1531,7 @@ const styles = StyleSheet.create({
     marginTop: ResponsiveUtils.spacing.xs,
   },
   announcementDate: {
-    color: "rgba(255, 255, 255, 0.5)",
+    color: hexToRgba(COLORS.white, OPACITY.semiopaque),
     fontSize: ResponsiveUtils.fontSize.small,
   },
   announcementDivider: {
@@ -1634,7 +1631,7 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     textAlign: "center",
-    color: "rgba(255, 255, 255, 0.5)",
+    color: hexToRgba(COLORS.white, OPACITY.semiopaque),
     fontStyle: "italic",
     marginVertical: ResponsiveUtils.spacing.md,
   },
@@ -1649,7 +1646,7 @@ const styles = StyleSheet.create({
   // Modal de Avisos
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    backgroundColor: COLORS.overlay.darker,
     justifyContent: 'center',
     alignItems: 'center',
     padding: SPACING.lg,

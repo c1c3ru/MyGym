@@ -406,6 +406,7 @@ export const COLORS = {
     overlay: {
         light: 'rgba(0, 0, 0, 0.1)',
         default: 'rgba(0, 0, 0, 0.3)',
+        medium: 'rgba(0, 0, 0, 0.5)',
         dark: 'rgba(0, 0, 0, 0.5)',
         darker: 'rgba(0, 0, 0, 0.75)',    // Aumentado para melhor contraste
         darkest: 'rgba(0, 0, 0, 0.85)',   // Para modais e overlays críticos
@@ -564,6 +565,10 @@ export const COLORS = {
         success: ['#1A2E1A', '#0F1F0F', '#0B0B0B'],
         // Gradiente de erro escuro
         error: ['#2E1A1A', '#1F0F0F', '#0B0B0B'],
+        // Gradiente Deep Purple to Black (Dark Glass Theme)
+        deepPurple: ['#2e003e', '#1a0026', '#0d0015', '#000000'],
+        // Gradiente Light (para modo claro)
+        lightBackground: ['#F5F5F5', '#FAFAFA', '#FFFFFF'],
     },
 
     // 🎯 Cores Especiais (Status/Badges)

@@ -40,6 +40,8 @@ import {
   BORDER_RADIUS,
   FONT_WEIGHT,
   GLASS,
+  OPACITY,
+  BORDER_WIDTH,
 } from "@presentation/theme/designTokens";
 import { hexToRgba } from "@shared/utils/colorUtils";
 import { useOnboarding } from "@components/OnboardingTour";
@@ -59,12 +61,12 @@ const AdminDashboard = ({ navigation }) => {
   // Dynamic Styles
   const glassStyle = isDarkMode ? GLASS.premium : GLASS.light;
   const textColor = isDarkMode ? COLORS.white : COLORS.black;
-  const secondaryTextColor = isDarkMode ? "rgba(255, 255, 255, 0.7)" : "rgba(0, 0, 0, 0.6)";
+  const secondaryTextColor = isDarkMode ? COLORS.text.secondary : COLORS.gray[800];
 
   // Updated Background Gradient to Deep Purple "Dark Glass" Theme
   const backgroundGradient = isDarkMode
-    ? ['#2e003e', '#1a0026', '#0d0015', '#000000'] // Deep Purple to Black
-    : [COLORS.gray[100], COLORS.gray[50], COLORS.white];
+    ? COLORS.gradients.deepPurple
+    : COLORS.gradients.lightBackground;
 
   // Analytics tracking
   useScreenTracking("AdminDashboard", {
@@ -952,7 +954,7 @@ const styles = StyleSheet.create({
     height: 140,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.03)',
+    backgroundColor: GLASS.subtle.backgroundColor,
   },
   statContent: {
     alignItems: "center",
@@ -962,14 +964,15 @@ const styles = StyleSheet.create({
   statNumber: {
     fontSize: FONT_SIZE.xxl,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.white,
+    color: COLORS.text.primary,
     marginTop: SPACING.sm,
   },
   statLabel: {
     fontSize: FONT_SIZE.sm,
-    color: hexToRgba(COLORS.white, 0.7),
-    marginTop: 4,
+    color: COLORS.text.secondary,
+    marginTop: SPACING.xs,
     textAlign: 'center',
+    fontWeight: FONT_WEIGHT.medium,
   },
   // Header
   headerContainer: {
@@ -987,9 +990,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   avatarModern: {
-    backgroundColor: hexToRgba(COLORS.white, 0.2),
-    borderWidth: 2,
-    borderColor: "rgba(255, 255, 255, 0.3)",
+    backgroundColor: hexToRgba(COLORS.white, OPACITY.medium),
+    borderWidth: BORDER_WIDTH.base,
+    borderColor: hexToRgba(COLORS.white, OPACITY.medium),
   },
   headerTextModern: {
     marginLeft: ResponsiveUtils.spacing.md,
@@ -998,12 +1001,12 @@ const styles = StyleSheet.create({
   welcomeTextModern: {
     fontSize: ResponsiveUtils.fontSize.large,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.white,
+    color: COLORS.text.primary,
     marginBottom: SPACING.xs,
   },
   roleTextModern: {
     fontSize: ResponsiveUtils.fontSize.medium,
-    color: "rgba(255, 255, 255, 0.8)",
+    color: COLORS.text.secondary,
     marginBottom: SPACING.sm,
   },
   statusBadge: {
@@ -1016,7 +1019,7 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
   },
   statusText: {
-    color: COLORS.white,
+    color: COLORS.text.primary,
     fontSize: FONT_SIZE.sm,
     marginLeft: SPACING.xs,
     fontWeight: FONT_WEIGHT.medium,
@@ -1025,14 +1028,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginTop: SPACING.xs,
-    backgroundColor: "rgba(0, 0, 0, 0.3)",
+    backgroundColor: COLORS.overlay.default,
     paddingHorizontal: SPACING.sm,
-    paddingVertical: 4,
+    paddingVertical: SPACING.xs,
     borderRadius: BORDER_RADIUS.sm,
     alignSelf: "flex-start",
   },
   academiaCodeText: {
-    color: "rgba(255, 255, 255, 0.9)",
+    color: COLORS.text.primary,
     fontSize: FONT_SIZE.sm,
     marginLeft: SPACING.xs,
     fontFamily: "monospace",
@@ -1109,7 +1112,7 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: BORDER_RADIUS.full,
-    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    backgroundColor: hexToRgba(COLORS.white, OPACITY.light),
     alignItems: "center",
     justifyContent: "center",
     marginRight: ResponsiveUtils.spacing.md,
@@ -1117,12 +1120,12 @@ const styles = StyleSheet.create({
   modernCardTitle: {
     fontSize: ResponsiveUtils.fontSize.large,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.white,
-    marginBottom: 2,
+    color: COLORS.text.primary,
+    marginBottom: SPACING.xxs,
   },
   modernCardSubtitle: {
     fontSize: ResponsiveUtils.fontSize.small,
-    color: "rgba(255, 255, 255, 0.6)",
+    color: COLORS.text.tertiary,
   },
   // Actions
   modernQuickActions: {
@@ -1145,15 +1148,15 @@ const styles = StyleSheet.create({
   actionTitle: {
     fontSize: ResponsiveUtils.fontSize.medium,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.white,
+    color: COLORS.text.primary,
     marginTop: SPACING.sm,
     textAlign: "center",
   },
   actionSubtitle: {
     fontSize: ResponsiveUtils.fontSize.small,
-    color: "rgba(255, 255, 255, 0.8)",
+    color: COLORS.text.secondary,
     textAlign: "center",
-    marginTop: 4,
+    marginTop: SPACING.xs,
     marginBottom: SPACING.md,
   },
   modernActionButton: {
@@ -1169,15 +1172,15 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.md,
   },
   revenueLabel: {
-    color: "rgba(255, 255, 255, 0.7)",
+    color: COLORS.text.tertiary,
     marginBottom: SPACING.xs,
   },
   revenueValue: {
-    color: COLORS.white,
+    color: COLORS.text.primary,
     fontWeight: FONT_WEIGHT.bold,
   },
   divider: {
-    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    backgroundColor: hexToRgba(COLORS.white, OPACITY.light),
     marginVertical: SPACING.md,
   },
   paymentsRow: {
@@ -1189,15 +1192,15 @@ const styles = StyleSheet.create({
   },
   paymentNumber: {
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.white,
+    color: COLORS.text.primary,
   },
   paymentLabel: {
-    color: "rgba(255, 255, 255, 0.6)",
+    color: COLORS.text.tertiary,
     marginTop: SPACING.xs,
   },
   viewReportsButton: {
-    borderColor: "rgba(255, 255, 255, 0.3)",
-    borderWidth: 1,
+    borderColor: hexToRgba(COLORS.white, OPACITY.medium),
+    borderWidth: BORDER_WIDTH.thin,
   },
   // Activities
   viewAllButton: {
@@ -1209,7 +1212,7 @@ const styles = StyleSheet.create({
     borderColor: hexToRgba(COLORS.warning[500], 0.3),
   },
   alertText: {
-    color: COLORS.white,
+    color: COLORS.text.primary,
     marginBottom: SPACING.xs,
   },
   // Modals
@@ -1233,12 +1236,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: SPACING.md,
     borderBottomWidth: 1,
-    borderBottomColor: "rgba(255, 255, 255, 0.1)",
+    borderBottomColor: hexToRgba(COLORS.white, OPACITY.light),
   },
   calendarModalTitle: {
     fontSize: FONT_SIZE.lg,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.white,
+    color: COLORS.text.primary,
   },
   calendarContainer: {
     flex: 1,

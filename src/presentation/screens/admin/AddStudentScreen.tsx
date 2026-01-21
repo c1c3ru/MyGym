@@ -571,7 +571,7 @@ const createStyles = (colors: any, textColor: string) => StyleSheet.create({
   banner: { marginBottom: SPACING.md, borderRadius: BORDER_RADIUS.md, backgroundColor: COLORS.error[100] },
   globalLoadingOverlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: COLORS.overlay.medium,
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: 1000,

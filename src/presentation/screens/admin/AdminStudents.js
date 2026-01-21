@@ -32,8 +32,8 @@ const AdminStudents = ({ navigation }) => {
 
   // Dynamic Styles
   const backgroundGradient = isDarkMode
-    ? ['#2e003e', '#1a0026', '#0d0015', '#000000']
-    : [COLORS.gray[100], COLORS.gray[50], COLORS.white];
+    ? COLORS.gradients.deepPurple
+    : COLORS.gradients.lightBackground;
 
   const textColor = theme.colors.text;
   const secondaryTextColor = theme.colors.textSecondary;

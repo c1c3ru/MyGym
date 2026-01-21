@@ -29,9 +29,10 @@ import cacheService, { CACHE_KEYS, CACHE_TTL } from '@infrastructure/services/ca
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import InstructorStudentsSkeleton from '@components/skeletons/InstructorStudentsSkeleton';
 import { EnhancedFlashList } from '@components/EnhancedFlashList';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, BORDER_WIDTH } from '@presentation/theme/designTokens';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, BORDER_WIDTH, OPACITY, GLASS } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
 import { useProfileTheme } from '../../../contexts/ProfileThemeContext';
+import { hexToRgba } from '@shared/utils/colorUtils';
 import StudentDetailsModal from '@components/StudentDetailsModal';
 import GlassCard from '@components/GlassCard';
 import SectionHeader from '@components/SectionHeader';
@@ -371,10 +372,10 @@ const InstructorStudents = ({ navigation }) => {
     return (
       <LinearGradient
         colors={[
-          "#2e003e",
-          "#1a0026",
-          "#0d0015",
-          "#000000"
+          COLORS.gradients.deepPurple[0],
+          COLORS.gradients.deepPurple[1],
+          COLORS.gradients.deepPurple[2],
+          COLORS.gradients.deepPurple[3]
         ]}
         locations={[0, 0.4, 0.8, 1]}
         start={{ x: 0, y: 0 }}
@@ -391,10 +392,10 @@ const InstructorStudents = ({ navigation }) => {
   return (
     <LinearGradient
       colors={[
-        "#2e003e", // Deep Purple
-        "#1a0026", // Darker Purple
-        "#0d0015", // Almost Black
-        "#000000"  // Black
+        COLORS.gradients.deepPurple[0], // Deep Purple
+        COLORS.gradients.deepPurple[1], // Darker Purple
+        COLORS.gradients.deepPurple[2], // Almost Black
+        COLORS.gradients.deepPurple[3]  // Black
       ]}
       locations={[0, 0.4, 0.8, 1]}
       start={{ x: 0, y: 0 }}
@@ -850,13 +851,13 @@ const styles = StyleSheet.create({
     elevation: 0,
   },
   glassSearchbar: {
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    backgroundColor: hexToRgba(COLORS.white, OPACITY.light),
     elevation: 0,
     borderRadius: BORDER_RADIUS.lg,
     color: COLORS.white,
     marginBottom: SPACING.sm,
     borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.15)',
+    borderColor: hexToRgba(COLORS.white, 0.15),
   },
   searchbar: {
     elevation: 0,
@@ -925,7 +926,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   glassInput: {
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    backgroundColor: GLASS.subtle.backgroundColor,
   },
   advancedFilterLong: {
     width: '100%',
@@ -976,7 +977,7 @@ const styles = StyleSheet.create({
   graduationsInfo: {
     marginBottom: SPACING.md,
     padding: SPACING.sm,
-    backgroundColor: 'rgba(255, 255, 255, 0.03)',
+    backgroundColor: GLASS.subtle.backgroundColor,
     borderRadius: BORDER_RADIUS.sm,
   },
   graduationsTitle: {
@@ -1051,7 +1052,7 @@ const styles = StyleSheet.create({
   // Modal
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.7)',
+    backgroundColor: COLORS.overlay.darker,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -1066,7 +1067,7 @@ const styles = StyleSheet.create({
     paddingVertical: SPACING.md,
     paddingHorizontal: SPACING.md,
     borderBottomWidth: 1,
-    borderBottomColor: 'rgba(255,255,255,0.1)',
+    borderBottomColor: hexToRgba(COLORS.white, OPACITY.light),
   },
   dropdownItemText: {
     fontSize: FONT_SIZE.md,

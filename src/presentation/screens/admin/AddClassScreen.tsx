@@ -531,7 +531,7 @@ const createStyles = (colors: any, textColor: string) => StyleSheet.create({
   },
   globalLoadingOverlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: COLORS.overlay.medium,
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: 1000,
