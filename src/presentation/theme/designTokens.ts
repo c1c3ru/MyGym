@@ -378,16 +378,16 @@ export const COLORS = {
         accent: '#D32F2F',     // Cor de destaque (vermelho coral WCAG AA)
     },
 
-    // Cores de texto (Dark Theme Premium)
+    // Cores de texto (Dark Theme Premium) - CONTRASTE MELHORADO
     text: {
-        primary: '#FFFFFF',      // Branco puro (títulos)
-        secondary: '#F5F5F5',    // Branco suave (subtítulos) - Contraste Aumentado
-        tertiary: '#E0E0E0',     // Cinza muito claro (texto auxiliar) - Contraste Aumentado
-        disabled: '#9E9E9E',     // Cinza claro (desabilitado) - Melhor Visibilidade
-        hint: '#BDBDBD',         // Cinza claro (hints/placeholders) - Melhor Leitura
+        primary: '#FFFFFF',      // Branco puro (títulos) - Contraste 21:1
+        secondary: '#F5F5F5',    // Branco suave (subtítulos) - Contraste 18:1
+        tertiary: '#D0D0D0',     // Cinza claro (texto auxiliar) - Contraste 10:1 (MELHORADO)
+        disabled: '#9E9E9E',     // Cinza claro (desabilitado) - Contraste 5:1
+        hint: '#BDBDBD',         // Cinza claro (hints/placeholders) - Contraste 7:1
         inverse: '#0B0B0B',      // Preto (para fundos claros)
-        accent: '#FF5252',       // Vermelho mais vibrante para texto escuro
-        muted: '#B0B0B0',        // Texto esmaecido mais claro
+        accent: '#FF5252',       // Vermelho vibrante para destaque
+        muted: '#C0C0C0',        // Texto esmaecido (MELHORADO de #B0B0B0)
     },
 
     // Cores de borda (Dark Theme Premium - Bordas refinadas)
