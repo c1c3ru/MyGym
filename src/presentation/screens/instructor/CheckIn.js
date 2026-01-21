@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   View,
   StyleSheet,
   ScrollView,
   Alert,
   RefreshControl,
-  Platform,
 } from "react-native";
 import {
   Card,
@@ -14,11 +13,8 @@ import {
   List,
   Chip,
   Surface,
-  Divider,
-  FAB,
   Modal,
   Portal,
-  TextInput,
   Searchbar,
   Checkbox,
 } from "react-native-paper";
@@ -31,24 +27,18 @@ import {
   academyFirestoreService,
   academyClassService,
 } from "@infrastructure/services/academyFirestoreService";
-import { ResponsiveUtils } from "@utils/animations";
-import EnhancedErrorBoundary from "@components/EnhancedErrorBoundary";
 import cacheService, {
   CACHE_KEYS,
   CACHE_TTL,
 } from "@infrastructure/services/cacheService";
 import { useScreenTracking, useUserActionTracking } from "@hooks/useAnalytics";
-import CheckInSkeleton from "@components/skeletons/CheckInSkeleton";
-import { EnhancedFlashList } from "@components/EnhancedFlashList";
 import {
   COLORS,
   SPACING,
   FONT_SIZE,
   BORDER_RADIUS,
   FONT_WEIGHT,
-  GLASS,
 } from "@presentation/theme/designTokens";
-import { hexToRgba } from "@shared/utils/colorUtils";
 import { useTheme } from "@contexts/ThemeContext";
 import { useProfileTheme } from "../../../contexts/ProfileThemeContext";
 

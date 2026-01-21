@@ -1,8 +1,8 @@
 import React, { memo } from 'react';
-import { TouchableOpacity, StyleSheet, type StyleProp, type ViewStyle } from 'react-native';
+import { StyleSheet, type StyleProp, type ViewStyle } from 'react-native';
 import { Button as PaperButton, type ButtonProps } from 'react-native-paper';
 import { useAccessibility } from '@presentation/hooks/useAccessibility';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { SPACING, BORDER_RADIUS } from '@presentation/theme/designTokens';
 
 type AccessibleButtonProps = Omit<ButtonProps, 'style' | 'children' | 'onPress' | 'icon'> & {
   children?: React.ReactNode;

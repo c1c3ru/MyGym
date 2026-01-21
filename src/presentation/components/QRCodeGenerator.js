@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Share, Alert, Platform, StyleSheet } from 'react-native';
-import { Card, Text, Button, IconButton, TextInput, Dialog, Portal } from 'react-native-paper';
+import { Card, Text, Button, TextInput, Dialog, Portal } from 'react-native-paper';
 import QRCode from 'react-native-qrcode-svg';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { COLORS, SPACING, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
@@ -308,7 +308,7 @@ MyGym`;
       </Card.Content>
     </Card>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {

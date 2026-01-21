@@ -3,7 +3,6 @@ import { View, StyleSheet, Alert } from 'react-native';
 import { Button, Text, Card, ActivityIndicator } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import locationService from '@infrastructure/services/locationService';
-import { firestoreService } from '@infrastructure/services/firestoreService';
 import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useUserProfile } from '@hooks/useUserProfile';

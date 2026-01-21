@@ -18,7 +18,6 @@ import {
   TextInput,
   List,
   Divider,
-  Surface,
   ProgressBar,
   Text
 } from 'react-native-paper';
@@ -28,7 +27,7 @@ import { useGraduation } from '@hooks/useGraduation';
 import { useAuth } from '@contexts/AuthProvider';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
 import GraduationAlertCard, { GraduationAlert } from '@components/GraduationAlertCard';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { COLORS, SPACING, FONT_SIZE, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 interface SummaryStats {
   totalStudents: number;

@@ -14,7 +14,7 @@ import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useCustomClaims } from '@hooks/useCustomClaims';
 import { useNotification } from '@contexts/NotificationContext';
 import { firestoreService } from '@infrastructure/services/firestoreService';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { COLORS, SPACING, FONT_SIZE, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { Student } from '@presentation/types/student';
 
 

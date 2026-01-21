@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   View,
   StyleSheet,
   RefreshControl,
   Animated,
-  Dimensions,
   Platform,
   TouchableOpacity,
 } from "react-native";
@@ -13,7 +12,6 @@ import {
   Button,
   Avatar,
   Text,
-  List,
   Modal,
   Portal,
   Divider,
@@ -32,7 +30,6 @@ import cacheService, {
   CACHE_KEYS,
   CACHE_TTL,
 } from "@infrastructure/services/cacheService";
-import batchFirestoreService from "@infrastructure/services/batchFirestoreService";
 import { useScreenTracking, useUserActionTracking } from "@hooks/useAnalytics";
 import DashboardSkeleton from "@components/skeletons/DashboardSkeleton";
 import FreeGymScheduler from "@components/FreeGymScheduler";
@@ -48,6 +45,8 @@ import { hexToRgba } from "@shared/utils/colorUtils";
 import { useOnboarding } from "@components/OnboardingTour";
 import { useTheme } from "@contexts/ThemeContext";
 import { useProfileTheme } from "../../../contexts/ProfileThemeContext";
+// Modern Components
+import { GlassCard, SectionHeader, IconContainer } from "@components/modern";
 
 const AdminDashboard = ({ navigation }) => {
   const { getString, isDarkMode, theme } = useTheme();
@@ -61,8 +60,10 @@ const AdminDashboard = ({ navigation }) => {
   const glassStyle = isDarkMode ? GLASS.premium : GLASS.light;
   const textColor = isDarkMode ? COLORS.white : COLORS.black;
   const secondaryTextColor = isDarkMode ? "rgba(255, 255, 255, 0.7)" : "rgba(0, 0, 0, 0.6)";
+
+  // Updated Background Gradient to Deep Purple "Dark Glass" Theme
   const backgroundGradient = isDarkMode
-    ? [COLORS.gray[800], COLORS.gray[900], COLORS.black]
+    ? ['#2e003e', '#1a0026', '#0d0015', '#000000'] // Deep Purple to Black
     : [COLORS.gray[100], COLORS.gray[50], COLORS.white];
 
   // Analytics tracking
@@ -595,245 +596,140 @@ const AdminDashboard = ({ navigation }) => {
 
             {/* Estatísticas principais em cards com gradiente */}
             <View style={styles.statsContainer}>
-              <Animated.View
-                style={[
-                  styles.statCard,
-                  {
-                    opacity: animations.fadeAnim,
-                    backgroundColor: glassStyle.backgroundColor,
-                    borderColor: glassStyle.borderColor,
-                  },
-                ]}
-              >
-                <LinearGradient
-                  colors={[
-                    hexToRgba(COLORS.info[500], 0.8),
-                    hexToRgba(COLORS.info[500], 0.4),
-                  ]}
-                  style={styles.statGradient}
+              <Animated.View style={{ width: '48%', marginBottom: SPACING.md, opacity: animations.fadeAnim }}>
+                <GlassCard
+                  style={styles.glassStatCard}
+                  variant="subtle"
+                  padding={SPACING.md}
                 >
-                  <SafeMaterialCommunityIcons
-                    name="account-group"
-                    size={32}
-                    color={COLORS.white}
-                  />
-                  <Text style={styles.statNumberModern}>
-                    {dashboardData.totalStudents}
-                  </Text>
-                  <Text style={styles.statLabelModern}>
-                    {getString("totalStudents")}
-                  </Text>
-                </LinearGradient>
+                  <View style={styles.statContent}>
+                    <IconContainer
+                      icon="account-group"
+                      family="MaterialCommunityIcons"
+                      color={COLORS.info[400]}
+                      size={24}
+                      containerSize={40}
+                    />
+                    <Text style={styles.statNumber}>
+                      {dashboardData.totalStudents}
+                    </Text>
+                    <Text style={styles.statLabel}>
+                      {getString("totalStudents")}
+                    </Text>
+                  </View>
+                </GlassCard>
               </Animated.View>
 
-              <Animated.View
-                style={[
-                  styles.statCard,
-                  {
-                    opacity: animations.fadeAnim,
-                    backgroundColor: glassStyle.backgroundColor,
-                    borderColor: glassStyle.borderColor,
-                  },
-                ]}
-              >
-                <LinearGradient
-                  colors={[
-                    hexToRgba(COLORS.success[500], 0.8),
-                    hexToRgba(COLORS.success[500], 0.4),
-                  ]}
-                  style={styles.statGradient}
+              <Animated.View style={{ width: '48%', marginBottom: SPACING.md, opacity: animations.fadeAnim }}>
+                <GlassCard
+                  style={styles.glassStatCard}
+                  variant="subtle"
+                  padding={SPACING.md}
                 >
-                  <SafeMaterialCommunityIcons
-                    name="account-check"
-                    size={32}
-                    color={COLORS.white}
-                  />
-                  <Text style={styles.statNumberModern}>
-                    {dashboardData.activeStudents}
-                  </Text>
-                  <Text style={styles.statLabelModern}>
-                    {getString("activeStudents")}
-                  </Text>
-                </LinearGradient>
+                  <View style={styles.statContent}>
+                    <IconContainer
+                      icon="account-check"
+                      family="MaterialCommunityIcons"
+                      color={COLORS.success[400]}
+                      size={24}
+                      containerSize={40}
+                    />
+                    <Text style={styles.statNumber}>
+                      {dashboardData.activeStudents}
+                    </Text>
+                    <Text style={styles.statLabel}>
+                      {getString("activeStudents")}
+                    </Text>
+                  </View>
+                </GlassCard>
               </Animated.View>
 
-              <Animated.View
-                style={[
-                  styles.statCard,
-                  {
-                    opacity: animations.fadeAnim,
-                    backgroundColor: glassStyle.backgroundColor,
-                    borderColor: glassStyle.borderColor,
-                  },
-                ]}
-              >
-                <LinearGradient
-                  colors={[
-                    hexToRgba(COLORS.warning[500], 0.8),
-                    hexToRgba(COLORS.warning[500], 0.4),
-                  ]}
-                  style={styles.statGradient}
+              <Animated.View style={{ width: '48%', marginBottom: SPACING.md, opacity: animations.fadeAnim }}>
+                <GlassCard
+                  style={styles.glassStatCard}
+                  variant="subtle"
+                  padding={SPACING.md}
                 >
-                  <SafeMaterialCommunityIcons
-                    name="school-outline"
-                    size={32}
-                    color={COLORS.white}
-                  />
-                  <Text style={styles.statNumberModern}>
-                    {dashboardData.totalClasses}
-                  </Text>
-                  <Text style={styles.statLabelModern}>
-                    {getString("classes")}
-                  </Text>
-                </LinearGradient>
+                  <View style={styles.statContent}>
+                    <IconContainer
+                      icon="school-outline"
+                      family="MaterialCommunityIcons"
+                      color={COLORS.warning[400]}
+                      size={24}
+                      containerSize={40}
+                    />
+                    <Text style={styles.statNumber}>
+                      {dashboardData.totalClasses}
+                    </Text>
+                    <Text style={styles.statLabel}>
+                      {getString("classes")}
+                    </Text>
+                  </View>
+                </GlassCard>
               </Animated.View>
 
-              <Animated.View
-                style={[
-                  styles.statCard,
-                  {
-                    opacity: animations.fadeAnim,
-                    backgroundColor: glassStyle.backgroundColor,
-                    borderColor: glassStyle.borderColor,
-                  },
-                ]}
-              >
-                <LinearGradient
-                  colors={[
-                    hexToRgba(COLORS.special.premium, 0.8),
-                    hexToRgba(COLORS.special.premium, 0.4),
-                  ]}
-                  style={styles.statGradient}
+              <Animated.View style={{ width: '48%', marginBottom: SPACING.md, opacity: animations.fadeAnim }}>
+                <GlassCard
+                  style={styles.glassStatCard}
+                  variant="subtle"
+                  padding={SPACING.md}
                 >
-                  <SafeMaterialCommunityIcons
-                    name="cash-multiple"
-                    size={32}
-                    color={COLORS.white}
-                  />
-                  <Text style={styles.statNumberModern}>
-                    {dashboardData.pendingPayments}
-                  </Text>
-                  <Text style={styles.statLabelModern}>
-                    {getString("pendingPaymentsCount")}
-                  </Text>
-                </LinearGradient>
+                  <View style={styles.statContent}>
+                    <IconContainer
+                      icon="cash-multiple"
+                      family="MaterialCommunityIcons"
+                      color={COLORS.error[400]}
+                      size={24}
+                      containerSize={40}
+                    />
+                    <Text style={styles.statNumber}>
+                      {dashboardData.pendingPayments}
+                    </Text>
+                    <Text style={styles.statLabel}>
+                      {getString("pendingPaymentsCount")}
+                    </Text>
+                  </View>
+                </GlassCard>
               </Animated.View>
             </View>
 
             {/* Financeiro */}
-            <AnimatedCard
-              delay={200}
-              style={[
-                styles.card,
-                {
-                  backgroundColor: glassStyle.backgroundColor,
-                  borderColor: glassStyle.borderColor,
-                },
-              ]}
-            >
-              <Card.Content>
-                <View style={styles.cardHeader}>
-                  <SafeIonicons
-                    name="cash-outline"
-                    size={24}
-                    color={COLORS.success[400]}
-                  />
-                  <Text
-                    style={[
-                      styles.cardTitle,
-                      {
-                        fontSize: ResponsiveUtils.fontSize.medium,
-                        color: textColor,
-                      },
-                    ]}
-                  >
-                    {getString("monthlyFinancials")}
-                  </Text>
-                </View>
+            {/* Financeiro */}
+            <Animated.View style={{ opacity: animations.fadeAnim, marginBottom: SPACING.lg, transform: [{ translateY: animations.slideAnim }] }}>
+              <GlassCard variant="card" padding={SPACING.lg}>
+                <SectionHeader
+                  emoji="💰"
+                  title={getString("monthlyFinancials")}
+                  textColor={COLORS.white}
+                />
 
                 <View style={styles.financialInfo}>
-                  <Animated.View
-                    style={[
-                      styles.revenueItem,
-                      {
-                        opacity: animations.fadeAnim,
-                        transform: [{ translateY: animations.slideAnim }],
-                      },
-                    ]}
-                  >
-                    <Text
-                      style={[
-                        styles.revenueLabel,
-                        {
-                          fontSize: ResponsiveUtils.fontSize.medium,
-                          color: secondaryTextColor,
-                        },
-                      ]}
-                    >
+                  <View style={styles.revenueItem}>
+                    <Text style={{ fontSize: FONT_SIZE.sm, color: COLORS.gray[400], marginBottom: 4 }}>
                       {getString("monthlyRevenue")}
                     </Text>
-                    <Text
-                      style={[
-                        styles.revenueValue,
-                        {
-                          fontSize: ResponsiveUtils.fontSize.extraLarge,
-                          color: textColor,
-                        },
-                      ]}
-                    >
+                    <Text style={{ fontSize: FONT_SIZE.xxl, color: COLORS.white, fontWeight: 'bold' }}>
                       {formatCurrency(dashboardData.monthlyRevenue)}
                     </Text>
-                  </Animated.View>
+                  </View>
 
-                  <Divider style={[styles.divider, { backgroundColor: isDarkMode ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)" }]} />
+                  <Divider style={{ marginVertical: SPACING.md, backgroundColor: COLORS.gray[800] }} />
 
                   <View style={styles.paymentsRow}>
                     <View style={styles.paymentItem}>
-                      <Text
-                        style={[
-                          styles.paymentNumber,
-                          {
-                            fontSize: ResponsiveUtils.fontSize.large,
-                            color: textColor,
-                          },
-                        ]}
-                      >
+                      <Text style={{ fontSize: FONT_SIZE.xl, color: COLORS.white, fontWeight: 'bold' }}>
                         {dashboardData.pendingPayments}
                       </Text>
-                      <Text
-                        style={[
-                          styles.paymentLabel,
-                          {
-                            fontSize: ResponsiveUtils.fontSize.small,
-                            color: secondaryTextColor,
-                          },
-                        ]}
-                      >
+                      <Text style={{ fontSize: FONT_SIZE.xs, color: COLORS.gray[400] }}>
                         {getString("pendingCount")}
                       </Text>
                     </View>
 
                     <View style={styles.paymentItem}>
-                      <Text
-                        style={[
-                          styles.paymentNumber,
-                          {
-                            color: COLORS.error[400],
-                            fontSize: ResponsiveUtils.fontSize.large,
-                          },
-                        ]}
-                      >
+                      <Text style={{ fontSize: FONT_SIZE.xl, color: COLORS.error[400], fontWeight: 'bold' }}>
                         {dashboardData.overduePayments}
                       </Text>
-                      <Text
-                        style={[
-                          styles.paymentLabel,
-                          {
-                            fontSize: ResponsiveUtils.fontSize.small,
-                            color: secondaryTextColor,
-                          },
-                        ]}
-                      >
+                      <Text style={{ fontSize: FONT_SIZE.xs, color: COLORS.gray[400] }}>
                         {getString("overdueCount")}
                       </Text>
                     </View>
@@ -845,201 +741,117 @@ const AdminDashboard = ({ navigation }) => {
                   onPress={handleNavigateToManagement}
                   style={[
                     styles.viewReportsButton,
-                    { borderColor: isDarkMode ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.2)" }
+                    { borderColor: profileTheme.primary[400], marginTop: SPACING.md }
                   ]}
                   icon="chart-line"
-                  textColor={textColor}
+                  textColor={profileTheme.primary[400]}
                 >
                   {getString("accessManagementReports")}
                 </AnimatedButton>
-              </Card.Content>
-            </AnimatedCard>
+              </GlassCard>
+            </Animated.View>
 
             {/* Ações Rápidas modernas */}
-            <AnimatedCard
-              delay={300}
-              style={[
-                styles.modernCard,
-                {
-                  backgroundColor: glassStyle.backgroundColor,
-                  borderColor: glassStyle.borderColor,
-                },
-              ]}
-            >
-              <Card.Content>
-                <View style={styles.modernCardHeader}>
-                  <View style={styles.headerIconContainer}>
-                    <SafeMaterialCommunityIcons
-                      name="lightning-bolt"
-                      size={24}
-                      color={COLORS.warning[400]}
-                    />
-                  </View>
-                  <View>
-                    <Text style={[styles.modernCardTitle, { color: textColor }]}>
-                      {getString("quickActions")}
-                    </Text>
-                    <Text style={[styles.modernCardSubtitle, { color: secondaryTextColor }]}>
-                      {getString("quickActionsSubtitle")}
-                    </Text>
-                  </View>
-                </View>
+            <Animated.View style={{ opacity: animations.fadeAnim, marginBottom: SPACING.lg }}>
+              <GlassCard variant="card" padding={SPACING.lg}>
+                <SectionHeader
+                  emoji="⚡"
+                  title={getString("quickActions")}
+                  subtitle={getString("quickActionsSubtitle")}
+                  textColor={COLORS.white}
+                  subtitleColor={COLORS.gray[400]}
+                />
 
-                <View style={styles.modernQuickActions}>
+                <View style={[styles.modernQuickActions, { justifyContent: 'space-between' }]}>
                   {[
                     {
                       key: "students",
                       title: getString("students"),
-                      subtitle: getString("manageStudentsSubtitle"),
                       icon: "account-group",
-                      colors: [
-                        "rgba(33, 150, 243, 0.8)",
-                        "rgba(33, 150, 243, 0.4)",
-                      ],
+                      color: COLORS.info[400],
                       onPress: handleNavigateToStudents,
                     },
                     {
                       key: "classes",
                       title: getString("classes"),
-                      subtitle: getString("manageClassesSubtitle"),
                       icon: "school",
-                      colors: [
-                        hexToRgba(COLORS.success[500], 0.8),
-                        hexToRgba(COLORS.success[500], 0.4),
-                      ],
+                      color: COLORS.success[400],
                       onPress: handleNavigateToClasses,
                     },
                     {
                       key: "calendar",
                       title: getString("calendar"),
-                      subtitle: getString("viewSchedule"),
                       icon: "calendar-month",
-                      colors: [
-                        "rgba(156, 39, 176, 0.8)",
-                        "rgba(156, 39, 176, 0.4)",
-                      ],
+                      color: COLORS.secondary[400],
                       onPress: handleShowCalendar,
                     },
                     {
                       key: "settings",
                       title: getString("settings"),
-                      subtitle: getString("settingsManagement"),
                       icon: "cog",
-                      colors: [
-                        hexToRgba(COLORS.warning[500], 0.8),
-                        hexToRgba(COLORS.warning[500], 0.4),
-                      ],
+                      color: COLORS.warning[400],
                       onPress: handleNavigateToManagement,
                     },
-                  ].map((action, idx) => (
-                    <Animated.View
+                  ].map((action) => (
+                    <TouchableOpacity
                       key={action.key}
-                      style={[
-                        styles.actionCard,
-                        {
-                          opacity: animations.fadeAnim,
-                          width: ResponsiveUtils.isTablet() ? "31%" : "48%",
-                        },
-                      ]}
+                      style={{ width: '48%', marginBottom: SPACING.md }}
+                      onPress={action.onPress}
                     >
-                      <LinearGradient
-                        colors={action.colors}
-                        style={styles.actionGradient}
-                      >
-                        <SafeMaterialCommunityIcons
-                          name={action.icon}
+                      <GlassCard variant="subtle" padding={SPACING.md} style={{ alignItems: 'center' }}>
+                        <IconContainer
+                          icon={action.icon}
+                          family="MaterialCommunityIcons"
+                          color={action.color}
                           size={28}
-                          color={COLORS.white}
+                          containerSize={50}
                         />
-                        <Text style={styles.actionTitle}>{action.title}</Text>
-                        <Text style={styles.actionSubtitle}>
-                          {action.subtitle}
+                        <Text style={{ marginTop: SPACING.sm, color: COLORS.white, fontWeight: 'bold', textAlign: 'center' }}>
+                          {action.title}
                         </Text>
-                        <AnimatedButton
-                          mode="contained"
-                          onPress={action.onPress}
-                          style={styles.modernActionButton}
-                          buttonColor={hexToRgba(COLORS.white, 0.2)}
-                          textColor={COLORS.white}
-                          compact
-                        >
-                          {getString("open")}
-                        </AnimatedButton>
-                      </LinearGradient>
-                    </Animated.View>
+                      </GlassCard>
+                    </TouchableOpacity>
                   ))}
                 </View>
-              </Card.Content>
-            </AnimatedCard>
+              </GlassCard>
+            </Animated.View>
 
             {/* Atividades Recentes */}
-            <AnimatedCard
-              delay={400}
-              style={[
-                styles.card,
-                {
-                  backgroundColor: glassStyle.backgroundColor,
-                  borderColor: glassStyle.borderColor,
-                },
-              ]}
-            >
-              <Card.Content>
-                <View style={styles.cardHeader}>
-                  <SafeIonicons
-                    name="time-outline"
-                    size={24}
-                    color={COLORS.gray[400]}
-                  />
-                  <Text
-                    style={[
-                      styles.cardTitle,
-                      {
-                        fontSize: ResponsiveUtils.fontSize.medium,
-                        color: textColor,
-                      },
-                    ]}
-                  >
-                    {getString("recentActivities")}
-                  </Text>
-                </View>
+            <Animated.View style={{ opacity: animations.fadeAnim, marginBottom: SPACING.lg }}>
+              <GlassCard variant="card" padding={SPACING.lg}>
+                <SectionHeader
+                  emoji="🕒"
+                  title={getString("recentActivities")}
+                  textColor={COLORS.white}
+                />
 
                 {dashboardData.recentActivities.map((activity, index) => (
                   <Animated.View
                     key={index}
                     style={{
                       opacity: animations.fadeAnim,
-                      transform: [
-                        {
-                          translateX: animations.slideAnim.interpolate({
-                            inputRange: [-50, 0],
-                            outputRange: [-30, 0],
-                          }),
-                        },
-                      ],
+                      marginBottom: SPACING.md
                     }}
                   >
-                    <List.Item
-                      title={activity.message}
-                      description={activity.time}
-                      titleStyle={{
-                        fontSize: ResponsiveUtils.fontSize.medium,
-                        color: textColor,
-                      }}
-                      descriptionStyle={{
-                        fontSize: ResponsiveUtils.fontSize.small,
-                        color: secondaryTextColor,
-                      }}
-                      left={() => (
-                        <List.Icon
-                          icon={activity.icon || getActivityIcon(activity.type)}
-                          color={
-                            activity.color || getActivityColor(activity.type)
-                          }
-                        />
-                      )}
-                    />
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                      <IconContainer
+                        icon={activity.icon || getActivityIcon(activity.type)}
+                        family="MaterialCommunityIcons"
+                        color={activity.color || getActivityColor(activity.type)} // Use dynamic color
+                        size={20}
+                        containerSize={36}
+                      />
+                      <View style={{ marginLeft: SPACING.md, flex: 1 }}>
+                        <Text style={{ fontSize: FONT_SIZE.md, color: COLORS.white }}>
+                          {activity.message}
+                        </Text>
+                        <Text style={{ fontSize: FONT_SIZE.xs, color: COLORS.gray[400] }}>
+                          {activity.time}
+                        </Text>
+                      </View>
+                    </View>
                     {index < dashboardData.recentActivities.length - 1 && (
-                      <Divider style={[styles.divider, { backgroundColor: isDarkMode ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)" }]} />
+                      <Divider style={{ marginVertical: SPACING.sm, backgroundColor: COLORS.gray[800] }} />
                     )}
                   </Animated.View>
                 ))}
@@ -1050,16 +862,12 @@ const AdminDashboard = ({ navigation }) => {
                     /* Implementar histórico completo */
                   }}
                   style={styles.viewAllButton}
-                  textColor={
-                    isDarkMode
-                      ? profileTheme.primary[400]
-                      : profileTheme.primary[600]
-                  }
+                  textColor={profileTheme.primary[400]}
                 >
                   {getString("viewAllActivities")}
                 </AnimatedButton>
-              </Card.Content>
-            </AnimatedCard>
+              </GlassCard>
+            </Animated.View>
 
             {/* Alertas e Notificações */}
             {(dashboardData.overduePayments > 0 ||
@@ -1127,10 +935,41 @@ const AdminDashboard = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#121212", // Dark background for glassmorphism
+    backgroundColor: "transparent",
   },
   scrollView: {
     flex: 1,
+  },
+  // Stats
+  statsContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    paddingHorizontal: ResponsiveUtils.spacing.md,
+    marginBottom: ResponsiveUtils.spacing.md,
+  },
+  glassStatCard: {
+    height: 140,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.03)',
+  },
+  statContent: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+  },
+  statNumber: {
+    fontSize: FONT_SIZE.xxl,
+    fontWeight: FONT_WEIGHT.bold,
+    color: COLORS.white,
+    marginTop: SPACING.sm,
+  },
+  statLabel: {
+    fontSize: FONT_SIZE.sm,
+    color: hexToRgba(COLORS.white, 0.7),
+    marginTop: 4,
+    textAlign: 'center',
   },
   // Header
   headerContainer: {
@@ -1198,58 +1037,7 @@ const styles = StyleSheet.create({
     marginLeft: SPACING.xs,
     fontFamily: "monospace",
   },
-  // Stats
-  statsContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-    paddingHorizontal: ResponsiveUtils.spacing.md,
-    marginBottom: ResponsiveUtils.spacing.md,
-  },
-  statCard: {
-    width: "48%",
-    marginBottom: ResponsiveUtils.spacing.md,
-    borderRadius: ResponsiveUtils.borderRadius.medium,
-    overflow: "hidden",
-    // Glassmorphism
-    backgroundColor: GLASS.premium.backgroundColor,
-    borderColor: GLASS.premium.borderColor,
-    borderWidth: 1,
-    // Elevação para profundidade
-    ...Platform.select({
-      ios: {
-        shadowColor: GLASS.premium.shadowColor,
-        shadowOffset: { width: 0, height: 6 },
-        shadowOpacity: 0.3,
-        shadowRadius: 12,
-      },
-      android: {
-        elevation: 8,
-      },
-      web: {
-        boxShadow: `0 8px 32px 0 ${GLASS.premium.shadowColor}`,
-        backdropFilter: GLASS.premium.backdropFilter,
-      },
-    }),
-  },
-  statGradient: {
-    padding: ResponsiveUtils.spacing.md,
-    alignItems: "center",
-    minHeight: 120,
-    justifyContent: "center",
-  },
-  statNumberModern: {
-    fontSize: FONT_SIZE.xxl,
-    fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.white,
-    marginTop: SPACING.sm,
-  },
-  statLabelModern: {
-    fontSize: FONT_SIZE.base,
-    color: "rgba(255, 255, 255, 0.7)",
-    textAlign: "center",
-    marginTop: SPACING.xs,
-  },
+
   // Cards
   card: {
     margin: ResponsiveUtils.spacing.md,

@@ -1,6 +1,6 @@
 // Repository interfaces for authentication domain
 
-import { User, UserProfile, Claims, Academia, SignInCredentials, SignUpData, AuthSession } from './entities';
+import { User, UserProfile, Claims, Academia, SignInCredentials, SignUpData } from './entities';
 
 export interface AuthRepository {
   // Authentication methods

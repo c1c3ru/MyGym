@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { View, StyleSheet, Alert } from 'react-native';
+import React, { useMemo } from 'react';
+import { View, StyleSheet } from 'react-native';
 import {
   Card,
   Button,
@@ -12,12 +12,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { FlashList } from '@shopify/flash-list';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '@contexts/AuthProvider';
-import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
-import OptimizedStudentCard from '@components/OptimizedStudentCard';
 import LoadingSpinner from '@components/LoadingSpinner';
 import StudentDisassociationDialog from '@components/StudentDisassociationDialog';
-import { useFocusEffect } from '@react-navigation/native';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
 import { useTheme } from "@contexts/ThemeContext";
 

@@ -7,9 +7,9 @@
 
 import React from 'react';
 import { COLORS } from '@presentation/theme/designTokens';
-import { TouchableOpacity, View, StyleSheet, Platform } from 'react-native';
+import { TouchableOpacity, View, StyleSheet } from 'react-native';
 import { Button, Card, Text, IconButton, FAB, Chip } from 'react-native-paper';
-import { SPACING, BORDER_RADIUS, ELEVATION, getElevation } from '@presentation/theme/designTokens';
+import { SPACING, BORDER_RADIUS, getElevation } from '@presentation/theme/designTokens';
 
 // ============================================
 // ACCESSIBLE BUTTON

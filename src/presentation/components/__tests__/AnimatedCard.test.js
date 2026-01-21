@@ -3,7 +3,6 @@ import { render } from '@testing-library/react-native';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { Animated, Text } from 'react-native';
 import AnimatedCard from '../AnimatedCard';
-import { useThemeToggle } from '@contexts/ThemeToggleContext';
 
 jest.spyOn(Animated, 'timing').mockImplementation(() => ({ start: jest.fn() }));
 

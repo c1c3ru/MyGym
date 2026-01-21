@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, ActivityIndicator, type ButtonProps } from 'react-native-paper';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { COLORS, SPACING } from '@presentation/theme/designTokens';
 import { type StyleProp, type ViewStyle } from 'react-native';
 
 type LoadingButtonProps = Omit<ButtonProps, 'children' | 'loading' | 'style'> & {

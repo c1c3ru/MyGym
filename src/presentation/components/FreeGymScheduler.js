@@ -1,20 +1,16 @@
-import React, { useState, useCallback, useMemo, useEffect, useContext } from 'react';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import { View, StyleSheet, ScrollView, Dimensions } from 'react-native';
 import {
   Card,
   Text,
-  Button,
   Chip,
-  FAB,
-  Portal,
-  Modal
+  FAB
 } from 'react-native-paper';
 import { Calendar } from 'react-native-calendars';
 import { useTheme } from '@contexts/ThemeContext';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useCustomClaims } from '@hooks/useCustomClaims';
 import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
-import { DAY_NAMES } from '@utils/scheduleUtils';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 

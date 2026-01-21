@@ -12,7 +12,6 @@ import {
   Button,
   Chip,
   TextInput,
-  Divider,
   List,
   Checkbox
 } from 'react-native-paper';
@@ -24,7 +23,6 @@ import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
 import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
 import { COLORS, SPACING, FONT_SIZE, FONT_WEIGHT, BORDER_RADIUS } from '@presentation/theme/designTokens';
-import { useThemeToggle } from '@contexts/ThemeToggleContext';
 // import { getAuthGradient } from '@presentation/theme/authTheme';
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
 import { useProfileTheme } from '../../../contexts/ProfileThemeContext';

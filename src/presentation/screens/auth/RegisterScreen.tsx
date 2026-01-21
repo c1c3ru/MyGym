@@ -4,11 +4,8 @@ import {
   StyleSheet,
   ScrollView,
   Animated,
-  Alert,
-  KeyboardAvoidingView,
   Platform,
   Dimensions,
-  TouchableOpacity,
 } from "react-native";
 import {
   TextInput,
@@ -17,7 +14,6 @@ import {
   Divider,
   ActivityIndicator,
   RadioButton,
-  Chip,
   Snackbar,
   HelperText,
   Checkbox,

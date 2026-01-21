@@ -2,7 +2,7 @@
 
 import { BaseUseCase } from './base';
 import { AuthRepository } from '../repositories';
-import { AuthSession, UserType } from '../entities';
+import { AuthSession } from '../entities';
 import { mapFirebaseError } from '../errors';
 import { signUpSchema, SignUpInput } from './schemas';
 

@@ -37,7 +37,7 @@ import StudentDashboardSkeleton from '@components/skeletons/StudentDashboardSkel
 import CheckInModalContent from '@screens/student/CheckInModalContent';
 import { getGraduationEligibility } from '@shared/utils/graduationRules';
 
-import { SPACING, BORDER_RADIUS, FONT_SIZE, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { SPACING, BORDER_RADIUS, FONT_SIZE } from '@presentation/theme/designTokens';
 
 const AnimatedCard: React.FC<{
     children: React.ReactNode;

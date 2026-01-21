@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { View, StyleSheet, RefreshControl, Alert, Platform } from 'react-native';
+import { View, StyleSheet, Alert, Platform } from 'react-native';
 import usePullToRefresh from '@hooks/usePullToRefresh';
 import {
   FAB,
@@ -17,25 +17,22 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
-import firestoreService from '@infrastructure/services/firestoreService';
 import StudentDisassociationDialog from '@components/StudentDisassociationDialog';
 import EnhancedFlashList from '@components/EnhancedFlashList';
 import StudentListItem from '@components/memoized/StudentListItem';
 import EnhancedErrorBoundary from '@components/EnhancedErrorBoundary';
-import batchFirestoreService from '@infrastructure/services/batchFirestoreService';
 import cacheService, { CACHE_KEYS, CACHE_TTL } from '@infrastructure/services/cacheService';
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import StudentListSkeleton from '@components/skeletons/StudentListSkeleton';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, GLASS } from '@presentation/theme/designTokens';
 import { useTheme } from '@contexts/ThemeContext';
-import { getAuthGradient } from '@presentation/theme/authTheme';
 
 const AdminStudents = ({ navigation }) => {
   const { getString, isDarkMode, theme } = useTheme();
 
   // Dynamic Styles
   const backgroundGradient = isDarkMode
-    ? [COLORS.gray[800], COLORS.gray[900], COLORS.black]
+    ? ['#2e003e', '#1a0026', '#0d0015', '#000000']
     : [COLORS.gray[100], COLORS.gray[50], COLORS.white];
 
   const textColor = theme.colors.text;

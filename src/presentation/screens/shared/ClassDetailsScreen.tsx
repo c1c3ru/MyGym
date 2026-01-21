@@ -4,10 +4,7 @@ import {
   Card,
   Text,
   Button,
-  List,
   Divider,
-  Badge,
-  FAB,
   Surface,
   Avatar,
   Chip,
@@ -15,13 +12,11 @@ import {
 } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { LinearGradient } from 'expo-linear-gradient';
 import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
 import { useAuth } from '@contexts/AuthProvider';
 import { useTheme } from '@contexts/ThemeContext';
 import { useCustomClaims } from '@hooks/useCustomClaims';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, GLASS } from '@presentation/theme/designTokens';
-import { getAuthGradient } from '@presentation/theme/authTheme';
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
 
 interface Schedule {

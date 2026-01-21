@@ -18,12 +18,9 @@ import ScheduleClassesScreen from '@screens/instructor/ScheduleClassesScreen';
 
 // Telas Compartilhadas
 import ClassDetailsScreen from '@screens/shared/ClassDetailsScreen';
-import AddClassScreen from '@screens/admin/AddClassScreen';
-import AddStudentScreen from '@screens/admin/AddStudentScreen';
 import StudentProfileScreen from '@screens/shared/StudentProfileScreen';
 import AddGraduationScreen from '@screens/shared/AddGraduationScreen';
 import ProfileScreen from '@screens/shared/ProfileScreen';
-import ChangePasswordScreen from '@screens/shared/ChangePasswordScreen';
 import PhysicalEvaluationScreen from '@screens/shared/PhysicalEvaluationScreen';
 import PhysicalEvaluationHistoryScreen from '@screens/shared/PhysicalEvaluationHistoryScreen';
 import NotificationSettingsScreen from '@screens/shared/NotificationSettingsScreen';
@@ -187,7 +184,7 @@ const InstructorNavigator = () => {
       />
       {/* <Stack.Screen
         name="AddClass"
-        component={AddClassScreen}
+        component={AddClassScreenWrapper}
         options={{
           headerShown: true,
           header: ({ navigation }) => (

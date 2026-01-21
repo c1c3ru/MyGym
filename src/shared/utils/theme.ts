@@ -93,6 +93,8 @@ export const languages: Record<LanguageCode, any> = {
       newClass: 'Nova Turma',
       noModalitiesRegistered: 'Nenhuma modalidade cadastrada',
       noModalityGoToAdmin: 'Nenhuma modalidade cadastrada. Vá em Admin > Modalidades para cadastrar antes de continuar.',
+      noClassesRegistered: 'Nenhuma turma cadastrada',
+      noClassesFound: 'Nenhuma turma encontrada',
 
       // COMMON
       yes: 'Sim',
@@ -360,6 +362,7 @@ export const languages: Record<LanguageCode, any> = {
       upToDate: 'Em Dia',
       withGraduation: 'Com Graduação',
       newStudent: 'Novo Aluno',
+      paymentStatus: 'Status de Pagamento',
 
       // STUDENT DETAILS
       studentDetails: 'Detalhes do Aluno',

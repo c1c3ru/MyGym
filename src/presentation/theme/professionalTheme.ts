@@ -1,12 +1,10 @@
-import { COLORS, FONT_SIZE, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { FONT_SIZE, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import {
   APP_COLORS,
   PROFILE_COLORS,
   STATUS_COLORS,
   TEXT_COLORS,
   getProfileColors,
-  getPrimaryColor,
-  getProfileGradient,
 } from '@shared/constants/colors';
 
 export const PROFESSIONAL_COLORS = {

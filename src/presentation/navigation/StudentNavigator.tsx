@@ -15,7 +15,6 @@ import CheckInScreen from '@screens/student/CheckInScreen';
 
 // Telas Compartilhadas
 import ProfileScreen from '@screens/shared/ProfileScreen';
-import ChangePasswordScreen from '@screens/shared/ChangePasswordScreen';
 import PhysicalEvaluationScreen from '@screens/shared/PhysicalEvaluationScreen';
 import PhysicalEvaluationHistoryScreen from '@screens/shared/PhysicalEvaluationHistoryScreen';
 import NotificationSettingsScreen from '@screens/shared/NotificationSettingsScreen';

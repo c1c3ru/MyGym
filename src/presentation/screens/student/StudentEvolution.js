@@ -2,8 +2,6 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { View, StyleSheet, ScrollView, RefreshControl } from 'react-native';
 import {
   Card,
-  Button,
-  Avatar,
   Chip,
   Divider,
   Text,

@@ -5,8 +5,7 @@
 
 import React from 'react';
 import { Alert } from 'react-native';
-import { render, fireEvent, waitFor } from '@testing-library/react-native';
-import { Provider as PaperProvider } from 'react-native-paper';
+import { fireEvent, waitFor } from '@testing-library/react-native';
 import CheckIn from '../CheckIn';
 
 // Mock dos serviços

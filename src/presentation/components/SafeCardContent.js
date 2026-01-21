@@ -1,6 +1,5 @@
 import React from 'react';
 import { Card, Text } from 'react-native-paper';
-import { COLORS } from '@presentation/theme/designTokens';
 
 const SafeCardContent = ({ children, source = 'Unknown', ...props }) => {
   // Get component display name for better path tracking

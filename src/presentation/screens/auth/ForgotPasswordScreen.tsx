@@ -2,17 +2,14 @@ import React, { useState } from "react";
 import {
   View,
   StyleSheet,
-  Alert,
   ScrollView,
   KeyboardAvoidingView,
   Platform,
-  Dimensions,
 } from "react-native";
 import {
   TextInput,
   Card,
   Button,
-  ActivityIndicator,
   Snackbar,
   HelperText,
   Text,
@@ -22,7 +19,6 @@ import { LinearGradient } from "expo-linear-gradient";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "@infrastructure/services/firebase";
-import AnimatedCard from "@components/AnimatedCard";
 import AnimatedButton from "@components/AnimatedButton";
 import { ResponsiveUtils } from "@utils/animations";
 import { useTheme } from "@contexts/ThemeContext";

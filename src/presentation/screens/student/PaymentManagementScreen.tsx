@@ -10,7 +10,6 @@ import {
   Surface,
   Modal,
   Portal,
-  TextInput,
   RadioButton
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';

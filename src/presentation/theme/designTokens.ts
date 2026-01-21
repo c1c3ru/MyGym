@@ -146,22 +146,25 @@ export const ELEVATION = {
 // ============================================
 // GLASS - Efeitos de vidro (Glassmorphism) - Unified System
 // ============================================
+// ============================================
+// GLASS - Efeitos de vidro (Glassmorphism) - Unified System - Translucidez Ajustada
+// ============================================
 export const GLASS = {
     // Dark theme variants (default)
     dark: {
-        backgroundColor: 'rgba(26, 26, 26, 0.7)',
-        borderColor: 'rgba(255, 255, 255, 0.1)',
-        backdropFilter: 'blur(12px)',
-        shadowColor: 'rgba(0, 0, 0, 0.3)',
+        backgroundColor: 'rgba(10, 10, 15, 0.25)', // Extremely transparent for dark glass
+        borderColor: 'rgba(255, 255, 255, 0.12)',
+        backdropFilter: 'blur(10px)',
+        shadowColor: 'rgba(0, 0, 0, 0.5)',
         borderWidth: 1,
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.3,
-        shadowRadius: 8,
+        shadowRadius: 10,
         elevation: 5,
     },
     // Light theme variants
     light: {
-        backgroundColor: 'rgba(255, 255, 255, 0.7)',
+        backgroundColor: 'rgba(255, 255, 255, 0.6)',
         borderColor: 'rgba(255, 255, 255, 0.5)',
         backdropFilter: 'blur(10px)',
         shadowColor: 'rgba(31, 38, 135, 0.1)',
@@ -173,8 +176,8 @@ export const GLASS = {
     },
     // Medium intensity
     medium: {
-        backgroundColor: 'rgba(255, 255, 255, 0.5)',
-        borderColor: 'rgba(255, 255, 255, 0.3)',
+        backgroundColor: 'rgba(255, 255, 255, 0.2)',
+        borderColor: 'rgba(255, 255, 255, 0.2)',
         backdropFilter: 'blur(15px)',
         shadowColor: 'rgba(31, 38, 135, 0.15)',
         borderWidth: 1,
@@ -183,9 +186,9 @@ export const GLASS = {
         shadowRadius: 6,
         elevation: 3,
     },
-    // Heavy blur effect
+    // Heavy blur effect - Mantido mais opaco para destaque
     heavy: {
-        backgroundColor: 'rgba(20, 20, 20, 0.8)',
+        backgroundColor: 'rgba(15, 15, 20, 0.4)',
         borderColor: 'rgba(255, 255, 255, 0.15)',
         backdropFilter: 'blur(20px)',
         shadowColor: 'rgba(0, 0, 0, 0.4)',
@@ -197,45 +200,45 @@ export const GLASS = {
     },
     // Premium dark with accent
     premium: {
-        backgroundColor: 'rgba(20, 20, 20, 0.7)',
+        backgroundColor: 'rgba(5, 5, 10, 0.2)', // Very transparent
         borderColor: 'rgba(211, 47, 47, 0.3)', // Primary color accent
-        backdropFilter: 'blur(16px)',
+        backdropFilter: 'blur(12px)',
+        shadowColor: 'rgba(0, 0, 0, 0.6)',
+        borderWidth: 1,
+        shadowOffset: { width: 0, height: 8 },
+        shadowOpacity: 0.4,
+        shadowRadius: 16,
+        elevation: 10,
+    },
+    // Card variant - Usado nos boards principais
+    card: {
+        backgroundColor: 'rgba(30, 30, 35, 0.2)', // Significant reduction to remove grey look
+        borderColor: 'rgba(255, 255, 255, 0.1)',
+        backdropFilter: 'blur(8px)',
         shadowColor: 'rgba(0, 0, 0, 0.4)',
         borderWidth: 1,
-        shadowOffset: { width: 0, height: 6 },
-        shadowOpacity: 0.35,
-        shadowRadius: 10,
-        elevation: 6,
-    },
-    // Card variant
-    card: {
-        backgroundColor: 'rgba(30, 30, 30, 0.7)',
-        borderColor: 'rgba(255, 255, 255, 0.08)',
-        backdropFilter: 'blur(12px)',
-        shadowColor: 'rgba(0, 0, 0, 0.3)',
-        borderWidth: 1,
         shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.3,
+        shadowOpacity: 0.25,
         shadowRadius: 8,
-        elevation: 5,
+        elevation: 4,
     },
     // Modal variant
     modal: {
-        backgroundColor: 'rgba(20, 20, 20, 0.85)',
+        backgroundColor: 'rgba(15, 15, 20, 0.65)',
         borderColor: 'rgba(255, 255, 255, 0.1)',
-        backdropFilter: 'blur(25px)',
-        shadowColor: 'rgba(0, 0, 0, 0.5)',
+        backdropFilter: 'blur(20px)',
+        shadowColor: 'rgba(0, 0, 0, 0.7)',
         borderWidth: 1,
-        shadowOffset: { width: 0, height: 10 },
-        shadowOpacity: 0.5,
-        shadowRadius: 20,
-        elevation: 15,
+        shadowOffset: { width: 0, height: 20 },
+        shadowOpacity: 0.6,
+        shadowRadius: 30,
+        elevation: 20,
     },
     // Subtle variant
     subtle: {
-        backgroundColor: 'rgba(255, 255, 255, 0.05)',
-        borderColor: 'rgba(255, 255, 255, 0.2)',
-        backdropFilter: 'blur(5px)',
+        backgroundColor: 'rgba(255, 255, 255, 0.05)', // Almost invisible, just a tint
+        borderColor: 'rgba(255, 255, 255, 0.08)',
+        backdropFilter: 'blur(4px)',
         shadowColor: 'rgba(0, 0, 0, 0.1)',
         borderWidth: 1,
         shadowOffset: { width: 0, height: 2 },

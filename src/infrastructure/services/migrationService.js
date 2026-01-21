@@ -3,14 +3,9 @@ import {
   doc, 
   getDocs,
   getDoc,
-  addDoc, 
-  updateDoc,
-  deleteDoc,
   writeBatch,
   query, 
-  where,
-  orderBy,
-  limit
+  where
 } from 'firebase/firestore';
 import { db } from '@infrastructure/services/firebase';
 

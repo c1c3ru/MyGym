@@ -2,7 +2,7 @@
 
 import { BaseUseCase } from '@auth/usecases/base';
 import { StudentsRepository } from '@domain/repositories';
-import { Student, CreateStudentData } from '@domain/students/entities';
+import { Student } from '@domain/students/entities';
 import { z } from 'zod';
 
 const addressSchema = z.object({

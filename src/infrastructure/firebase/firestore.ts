@@ -1,6 +1,6 @@
 // Firebase Firestore service abstraction
 
-import { getFirestore, initializeFirestore, Firestore } from 'firebase/firestore';
+import { initializeFirestore, Firestore } from 'firebase/firestore';
 import { Platform } from 'react-native';
 import { firebaseApp } from './app';
 

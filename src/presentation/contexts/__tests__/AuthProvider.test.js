@@ -1,7 +1,6 @@
 import React from 'react';
 import { render, waitFor, act } from '@testing-library/react-native';
 import { AuthProvider, useAuth } from '../AuthProvider';
-import { auth } from '@infrastructure/services/firebase';
 
 // Mock Firebase Auth
 const mockSignInWithEmailAndPassword = jest.fn();

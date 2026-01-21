@@ -39,15 +39,33 @@ const graduationRepository = {
   },
 
   async addGraduation(academiaId, studentId, graduationData) {
-    // Salvar como subdocumento do aluno e também em coleção agregada opcional
     try {
+      // 1. Salvar na subcoleção historico do aluno
       await academyCollectionsService.createDocument(academiaId, `students/${studentId}/graduations`, graduationData);
-    } catch (_) {
-      // Caso a subcoleção não exista, salva em coleção geral de "graduations"
+
+      // 2. Salvar na coleção geral de graduações da academia (para exibição no dashboard)
+      // Isso é crucial para que o InstructorDashboard encontre os dados
       await academyCollectionsService.createDocument(academiaId, 'graduations', {
         ...graduationData,
         studentId,
+        studentName: graduationData.studentName // Garantir nome para exibição
       });
+
+      // 3. Atualizar a graduação atual no documento do aluno
+      try {
+        await academyCollectionsService.updateDocument(academiaId, 'students', studentId, {
+          currentGraduation: graduationData.graduation,
+          lastGraduationDate: graduationData.date instanceof Date ? graduationData.date : new Date(),
+          updatedAt: new Date()
+        });
+      } catch (updateError) {
+        console.warn('Erro ao atualizar resumo do aluno:', updateError);
+        // Não falhar o processo inteiro se apenas a atualização do resumo falhar
+      }
+
+    } catch (error) {
+      console.error('Erro ao adicionar graduação:', error);
+      throw error;
     }
   },
 };

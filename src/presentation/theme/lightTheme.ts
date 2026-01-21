@@ -1,4 +1,4 @@
-import { COLORS, SPACING, FONT_SIZE, FONT_WEIGHT, BORDER_RADIUS, ELEVATION } from '@presentation/theme/designTokens';
+import { FONT_SIZE, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 const LIGHT_GLASS = {
   default: {

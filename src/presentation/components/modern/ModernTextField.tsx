@@ -1,7 +1,7 @@
 import React from 'react';
 import { Platform, StyleSheet, ViewStyle } from 'react-native';
 import { TextInput, TextInputProps } from 'react-native-paper';
-import { COLORS, SPACING, FONT_SIZE, FONT_WEIGHT, BORDER_RADIUS, ELEVATION } from '@presentation/theme/designTokens';
+import { BORDER_RADIUS } from '@presentation/theme/designTokens';
 
 export interface ModernTextFieldProps extends TextInputProps {
   containerStyle?: ViewStyle | ViewStyle[];

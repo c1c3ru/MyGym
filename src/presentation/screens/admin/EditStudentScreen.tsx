@@ -15,8 +15,7 @@ import {
   Snackbar,
   ActivityIndicator,
   IconButton,
-  Divider,
-  Banner
+  Divider
 } from 'react-native-paper';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';

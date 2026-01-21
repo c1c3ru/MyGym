@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
-import { Text, Animated } from 'react-native';
+import { Animated } from 'react-native';
 import { 
   StudentCardSkeleton, 
   StudentListSkeleton, 

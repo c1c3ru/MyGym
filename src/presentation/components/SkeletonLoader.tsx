@@ -1,7 +1,7 @@
 import React, { memo, useEffect, useRef } from 'react';
 import { View, StyleSheet, Animated, Dimensions, ViewStyle, StyleProp } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS } from '@presentation/theme/designTokens';
+import { COLORS, SPACING, BORDER_RADIUS } from '@presentation/theme/designTokens';
 
 const { width: screenWidth } = Dimensions.get('window');
 

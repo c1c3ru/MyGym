@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { View, StyleSheet, Alert, Dimensions, Platform, ScrollView, RefreshControl } from 'react-native';
+import { View, StyleSheet, Alert, Dimensions, ScrollView, RefreshControl } from 'react-native';
 import {
   Button,
   Avatar,
@@ -9,20 +9,17 @@ import {
   Chip,
   List,
   SegmentedButtons,
-  ActivityIndicator,
   Portal,
   Modal,
-  Surface,
   Paragraph
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import GlassCard from '@components/GlassCard';
-import ModernCard from '@components/modern/ModernCard';
 
 import AnimatedButton from '@components/AnimatedButton';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import Animated, { FadeInDown, FadeIn } from 'react-native-reanimated';
+import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
 import { useCustomClaims } from '@hooks/useCustomClaims';

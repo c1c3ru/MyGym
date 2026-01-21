@@ -1,9 +1,9 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Card, Text, Button } from 'react-native-paper';
+import { View } from 'react-native';
+import { Card, Text } from 'react-native-paper';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useCustomClaims } from '@hooks/useCustomClaims';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { COLORS, SPACING } from '@presentation/theme/designTokens';
 import { useTheme } from '@contexts/ThemeContext';
 
 /**

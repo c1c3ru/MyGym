@@ -3,8 +3,7 @@ import {
   View,
   StyleSheet,
   ScrollView,
-  RefreshControl,
-  Platform
+  RefreshControl
 } from 'react-native';
 import {
   Text,
@@ -22,7 +21,6 @@ import { academyFirestoreService } from '@infrastructure/services/academyFiresto
 import EnhancedErrorBoundary from '@components/EnhancedErrorBoundary';
 import cacheService, { CACHE_KEYS, CACHE_TTL } from '@infrastructure/services/cacheService';
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
-import ReportsSkeleton from '@components/skeletons/ReportsSkeleton';
 import GlassCard from '@components/GlassCard';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { hexToRgba } from '@shared/utils/colorUtils';

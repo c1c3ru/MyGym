@@ -6,16 +6,13 @@ import {
   TextInput,
   Button,
   Chip,
-  Surface,
   Divider
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { ResponsiveUtils } from '@utils/animations';
-import ImprovedScheduleSelector from '@components/ImprovedScheduleSelector';
-import { createEmptySchedule } from '@utils/scheduleUtils';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { useTheme } from "@contexts/ThemeContext";
 import { useProfileTheme } from "../../../contexts/ProfileThemeContext";
 

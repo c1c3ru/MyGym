@@ -1,4 +1,4 @@
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { COLORS } from '@presentation/theme/designTokens';
 import {
   APP_COLORS,
   PROFILE_COLORS,

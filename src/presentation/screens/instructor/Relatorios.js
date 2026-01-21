@@ -1,12 +1,11 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { View, StyleSheet, ScrollView, Dimensions, RefreshControl } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { View, StyleSheet, ScrollView, RefreshControl } from 'react-native';
 import {
   Card,
   Text,
   Button,
   Chip,
   Surface,
-  Divider,
   SegmentedButtons
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -14,12 +13,11 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { ResponsiveUtils } from '@utils/animations';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
-import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
 import EnhancedErrorBoundary from '@components/EnhancedErrorBoundary';
 import cacheService, { CACHE_KEYS, CACHE_TTL } from '@infrastructure/services/cacheService';
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import ReportsSkeleton from '@components/skeletons/ReportsSkeleton';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { COLORS, SPACING, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { useTheme } from "@contexts/ThemeContext";
 import { useProfileTheme } from "../../../contexts/ProfileThemeContext";
 

@@ -6,7 +6,7 @@
  */
 
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
-import { View, StyleSheet, Modal, Dimensions, TouchableOpacity, Platform } from 'react-native';
+import { View, StyleSheet, Modal, Dimensions, Platform } from 'react-native';
 import {
   Text,
   Button,
@@ -20,9 +20,7 @@ import {
   FONT_SIZE,
   FONT_WEIGHT,
   BORDER_RADIUS,
-  BORDER_WIDTH,
-  Z_INDEX,
-  OPACITY
+  BORDER_WIDTH
 } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
 import { useTheme } from '@contexts/ThemeContext';

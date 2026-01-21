@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 import { Platform, AccessibilityInfo } from 'react-native';
 import { useTheme } from '@contexts/ThemeContext';
 

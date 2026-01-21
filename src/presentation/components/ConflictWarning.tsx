@@ -10,7 +10,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '@contexts/ThemeContext';
 import { DAY_NAMES } from '@utils/scheduleUtils';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, BORDER_WIDTH } from '@presentation/theme/designTokens';
+import { SPACING, FONT_SIZE, FONT_WEIGHT, BORDER_WIDTH } from '@presentation/theme/designTokens';
 
 /**
  * Interface para um dia conflitante

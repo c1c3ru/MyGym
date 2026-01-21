@@ -3,8 +3,6 @@ import {
   View,
   StyleSheet,
   ScrollView,
-  TouchableOpacity,
-  Dimensions,
   Platform,
   Alert
 } from 'react-native';
@@ -20,7 +18,7 @@ import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, BORDER_WIDTH } 
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
 import { useTheme } from '@contexts/ThemeContext';
 import { NavigationProp, RouteProp } from '@react-navigation/native';
-import { UserType, UserProfile } from '@domain/auth/entities';
+import { UserType } from '@domain/auth/entities';
 import { hexToRgba } from '@shared/utils/colorUtils';
 
 interface UserTypeSelectionScreenProps {

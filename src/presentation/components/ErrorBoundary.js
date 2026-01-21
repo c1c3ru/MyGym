@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import { Card, Button, Text } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 import { Logger } from '@utils/logger';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { COLORS, SPACING } from '@presentation/theme/designTokens';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {

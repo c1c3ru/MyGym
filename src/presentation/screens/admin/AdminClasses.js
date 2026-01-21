@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import { View, StyleSheet, RefreshControl, Alert, Animated } from 'react-native';
+import { View, StyleSheet, Alert, Animated } from 'react-native';
 import {
   Card,
   Button,
@@ -16,7 +16,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
-import { academyFirestoreService, academyClassService, academyStudentService } from '@infrastructure/services/academyFirestoreService';
+import { academyFirestoreService, academyStudentService } from '@infrastructure/services/academyFirestoreService';
 import EnhancedFlashList from '@components/EnhancedFlashList';
 import ClassListItem from '@components/memoized/ClassListItem';
 import ClassListSkeleton from '@components/skeletons/ClassListSkeleton';
@@ -28,7 +28,6 @@ import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import { useClassCreationRateLimit } from '@hooks/useRateLimit';
 import FreeGymScheduler from '@components/FreeGymScheduler';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, BORDER_WIDTH, GLASS } from '@presentation/theme/designTokens';
-import { getAuthGradient } from '@presentation/theme/authTheme';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
 import AddClassForm from '@screens/admin/AddClassScreen';
 import EditClassForm from '@screens/admin/EditClassScreen';
@@ -41,7 +40,7 @@ const AdminClasses = ({ navigation }) => {
 
   // Dynamic Styles
   const backgroundGradient = isDarkMode
-    ? [COLORS.gray[800], COLORS.gray[900], COLORS.black]
+    ? ['#2e003e', '#1a0026', '#0d0015', '#000000']
     : [COLORS.gray[100], COLORS.gray[50], COLORS.white];
 
   const textColor = theme.colors.text;

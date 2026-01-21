@@ -1,14 +1,12 @@
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   View,
   StyleSheet,
   ScrollView,
-  Alert,
-  ActivityIndicator,
   Platform,
   RefreshControl,
 } from "react-native";
-import { Card, Text, Button, Avatar, Badge, Divider } from "react-native-paper";
+import { Text, Button, Avatar, Divider } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
@@ -20,7 +18,6 @@ import cacheService, {
   CACHE_KEYS,
   CACHE_TTL,
 } from "@infrastructure/services/cacheService";
-import batchFirestoreService from "@infrastructure/services/batchFirestoreService";
 import { useScreenTracking, useUserActionTracking } from "@hooks/useAnalytics";
 import StudentDetailsSkeleton from "@components/skeletons/StudentDetailsSkeleton";
 import {
@@ -389,7 +386,7 @@ const StudentDetailsScreen: React.FC<StudentDetailsScreenProps> = ({
                       color={COLORS.primary[500]}
                     />
                   </View>
-                  <Text style={styles.infoText}>
+                  <Text style={styles.infoText} numberOfLines={2} ellipsizeMode="tail">
                     {studentInfo?.phone || getString("phoneNotInformed")}
                   </Text>
                 </View>
@@ -402,7 +399,7 @@ const StudentDetailsScreen: React.FC<StudentDetailsScreenProps> = ({
                       color={COLORS.primary[500]}
                     />
                   </View>
-                  <Text style={styles.infoText}>
+                  <Text style={styles.infoText} numberOfLines={3} ellipsizeMode="tail">
                     {studentInfo?.address || getString("addressNotInformed")}
                   </Text>
                 </View>
@@ -415,7 +412,7 @@ const StudentDetailsScreen: React.FC<StudentDetailsScreenProps> = ({
                       color={COLORS.primary[500]}
                     />
                   </View>
-                  <Text style={styles.infoText}>
+                  <Text style={styles.infoText} numberOfLines={2} ellipsizeMode="tail">
                     {getString("registeredAt")}:{" "}
                     {formatDate(studentInfo?.createdAt)}
                   </Text>
@@ -691,7 +688,8 @@ const styles = StyleSheet.create({
   },
   infoRow: {
     flexDirection: "row",
-    alignItems: "center",
+    alignItems: "flex-start",
+    flexWrap: "wrap",
   },
   iconContainer: {
     width: 32,
@@ -706,6 +704,8 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.md,
     color: COLORS.gray[800],
     flex: 1,
+    flexWrap: "wrap",
+    flexShrink: 1,
   },
   cardHeader: {
     flexDirection: "row",

@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import { TouchableOpacity } from 'react-native';
-import { Button as PaperButton, Text } from 'react-native-paper';
+import { Text } from 'react-native-paper';
 import { Logger } from '@utils/logger';
 import styles from './Button.styles';
 import { useTheme } from "@contexts/ThemeContext";

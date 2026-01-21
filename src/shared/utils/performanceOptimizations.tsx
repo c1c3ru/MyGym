@@ -1,6 +1,6 @@
-import React, { useCallback, useMemo, memo, useState, useEffect, useRef } from 'react';
+import React, { useCallback, memo, useState, useEffect, useRef } from 'react';
 import { COLORS } from '@presentation/theme/designTokens';
-import { View, StyleSheet, Image, ActivityIndicator, ImageProps, StyleProp, ViewStyle } from 'react-native';
+import { View, StyleSheet, Image, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 /**

@@ -1,12 +1,12 @@
 import { useTheme } from "@contexts/ThemeContext";
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { View, StyleSheet, Alert, TextStyle } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { Text, FAB, Portal, Dialog, Button } from 'react-native-paper';
 import GraduationBoard from '@components/GraduationBoard';
 import LoadingSpinner from '@components/LoadingSpinner';
 import { useAuth } from '@contexts/AuthProvider';
-import { SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { SPACING, FONT_SIZE, FONT_WEIGHT } from '@presentation/theme/designTokens';
 
 interface Props {
   navigation: any;

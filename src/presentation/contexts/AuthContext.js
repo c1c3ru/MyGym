@@ -7,12 +7,11 @@ import {
   GoogleAuthProvider,
   FacebookAuthProvider,
   OAuthProvider,
-  signInWithCredential,
   signInWithPopup
 } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { auth, db } from '@infrastructure/services/firebase';
-import { getUserClaims, refreshUserToken, needsOnboarding } from '@utils/customClaimsHelper';
+import { getUserClaims, refreshUserToken } from '@utils/customClaimsHelper';
 
 
 const AuthContext = createContext();

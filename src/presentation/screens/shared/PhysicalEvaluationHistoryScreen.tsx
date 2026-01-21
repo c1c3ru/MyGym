@@ -8,9 +8,7 @@ import {
   Platform,
 } from "react-native";
 import {
-  Card,
   Text,
-  Button,
   FAB,
   Chip,
   Divider,

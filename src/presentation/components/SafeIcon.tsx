@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { COLORS } from '@presentation/theme/designTokens';
-import { Platform, type StyleProp, type TextStyle, type ViewStyle } from 'react-native';
+import { type StyleProp, type TextStyle, type ViewStyle } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { IconWithFallback } from '@utils/iconFallback';
 import { useThemeToggle } from '@presentation/contexts/ThemeToggleContext';

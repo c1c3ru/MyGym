@@ -1,9 +1,10 @@
 import React, { memo, useCallback, useMemo } from 'react';
-import { View, StyleSheet, Dimensions } from 'react-native';
-import { Card, Text, Chip, Divider, IconButton, useTheme } from 'react-native-paper';
+import { View, StyleSheet } from 'react-native';
+import { Text, Chip, Divider, IconButton, useTheme } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
-import ActionButton, { ActionButtonGroup } from '@components/ActionButton';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import ActionButton from '@components/ActionButton';
+import { COLORS, SPACING, FONT_SIZE } from '@presentation/theme/designTokens';
+import { GlassCard } from '../modern';
 
 const ClassListItem = memo(({
   classItem,
@@ -17,14 +18,8 @@ const ClassListItem = memo(({
   const { colors } = theme;
 
   // Dynamic styles based on theme
+  // removed card style override since we use GlassCard
   const dynamicStyles = useMemo(() => ({
-    card: {
-      backgroundColor: colors.surface,
-      borderColor: colors.outlineVariant || colors.onSurfaceDisabled,
-      borderWidth: 1,
-      elevation: 2,
-      borderRadius: BORDER_RADIUS.lg
-    },
     title: {
       color: colors.onSurface,
       fontWeight: 'bold',
@@ -82,8 +77,12 @@ const ClassListItem = memo(({
   }, [colors]);
 
   return (
-    <Card style={[styles.classCard, dynamicStyles.card]}>
-      <Card.Content style={{ paddingBottom: 8 }}>
+    <GlassCard
+      variant="card"
+      style={styles.classCard}
+      padding={16}
+    >
+      <View>
         <View style={styles.classHeader}>
           <View style={styles.classInfo}>
             <Text style={dynamicStyles.title} numberOfLines={1}>{classItem.name}</Text>
@@ -196,8 +195,8 @@ const ClassListItem = memo(({
             label="Alunos"
           />
         </View>
-      </Card.Content>
-    </Card>
+      </View>
+    </GlassCard>
   );
 }, (prevProps, nextProps) => {
   return (

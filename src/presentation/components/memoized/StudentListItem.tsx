@@ -1,9 +1,10 @@
 import React, { memo, useCallback, useMemo } from 'react';
-import { View, StyleSheet, Platform } from 'react-native';
-import { Card, Text, Avatar, Chip, Divider, IconButton, useTheme } from 'react-native-paper';
-import ActionButton, { ActionButtonGroup } from '../ActionButton';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { View, StyleSheet } from 'react-native';
+import { Text, Avatar, Chip, Divider, IconButton, useTheme } from 'react-native-paper';
+import ActionButton from '../ActionButton';
+import { COLORS, SPACING, FONT_SIZE } from '@presentation/theme/designTokens';
 import { Student } from '../../types/student';
+import { GlassCard } from '../modern';
 
 /**
  * Propriedades para o componente StudentListItem
@@ -36,16 +37,10 @@ const StudentListItem = memo<StudentListItemProps>(({
 
     // Dynamic styles based on theme
     const dynamicStyles = useMemo(() => ({
-        card: {
-            backgroundColor: colors.surface,
-            borderColor: colors.outlineVariant || colors.onSurfaceDisabled,
-            borderWidth: 1,
-            elevation: 2,
-            borderRadius: BORDER_RADIUS.lg
-        },
+        // Card style removed as GlassCard handles it
         title: {
             color: colors.onSurface,
-            fontWeight: 'bold' as 'bold',
+            fontWeight: 'bold' as const,
             fontSize: FONT_SIZE.md
         },
         textSecondary: {
@@ -58,7 +53,7 @@ const StudentListItem = memo<StudentListItemProps>(({
         },
         avatarText: {
             color: colors.onPrimaryContainer,
-            fontWeight: 'bold' as 'bold'
+            fontWeight: 'bold' as const
         }
     }), [colors]);
 
@@ -100,8 +95,12 @@ const StudentListItem = memo<StudentListItemProps>(({
     const graduationLabel = student.currentGraduation ? (getString?.(student.currentGraduation) || student.currentGraduation) : (getString?.('beginner') || 'Iniciante');
 
     return (
-        <Card style={[styles.card, dynamicStyles.card]}>
-            <Card.Content style={{ paddingBottom: 8 }}>
+        <GlassCard
+            variant="card"
+            style={styles.card}
+            padding={SPACING.md}
+        >
+            <View>
                 <View style={styles.header}>
                     <View style={styles.infoRow}>
                         <Avatar.Text
@@ -193,8 +192,8 @@ const StudentListItem = memo<StudentListItemProps>(({
                         {getString?.('disassociate') || 'Remover'}
                     </ActionButton>
                 </View>
-            </Card.Content>
-        </Card>
+            </View>
+        </GlassCard>
     );
 }, (prevProps, nextProps) => {
     return (

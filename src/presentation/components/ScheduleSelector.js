@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { Text, Card, Chip, Button, Portal, Modal, List, Divider } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';

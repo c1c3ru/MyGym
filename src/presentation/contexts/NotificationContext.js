@@ -1,6 +1,5 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { Platform } from 'react-native';
 import notificationService from '@infrastructure/services/notificationService';
 import useAuthUIStore from '@presentation/stores/AuthUIStore';
 import { firestoreService } from '@infrastructure/services/firestoreService';

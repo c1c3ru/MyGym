@@ -6,7 +6,6 @@ import {
   StyleSheet,
   Dimensions,
   SafeAreaView,
-  Alert,
   Pressable
 } from 'react-native';
 import {
@@ -31,7 +30,6 @@ import { useNotification } from '@contexts/NotificationContext';
 import graduationBoardService from '@infrastructure/services/graduationBoardService';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getAuthGradient } from '@presentation/theme/authTheme';
 import type { NavigationProp } from '@react-navigation/native';
 
 interface GraduationBoardScreenProps {

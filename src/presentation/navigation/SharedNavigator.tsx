@@ -6,7 +6,6 @@ import { SharedStackParamList, UserType } from '@types';
 
 // Telas Compartilhadas
 import ProfileScreen from '@screens/shared/ProfileScreen';
-import ChangePasswordScreen from '@screens/shared/ChangePasswordScreen';
 import PhysicalEvaluationScreen from '@screens/shared/PhysicalEvaluationScreen';
 import PhysicalEvaluationHistoryScreen from '@screens/shared/PhysicalEvaluationHistoryScreen';
 import InjuryScreen from '@screens/shared/InjuryScreen';

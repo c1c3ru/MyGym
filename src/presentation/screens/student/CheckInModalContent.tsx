@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { View, StyleSheet, ScrollView, Alert, Platform, Animated, TouchableOpacity } from 'react-native';
-import { ActivityIndicator, Avatar, Chip, Text, Button, Card, IconButton, Divider } from 'react-native-paper';
+import { View, StyleSheet, ScrollView, Alert, Platform, Animated } from 'react-native';
+import { ActivityIndicator, Avatar, Chip, Text, Button, Card, IconButton } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
 import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
-import { SPACING, FONT_SIZE, BORDER_RADIUS, COLORS } from '@presentation/theme/designTokens';
+import { SPACING, FONT_SIZE, BORDER_RADIUS } from '@presentation/theme/designTokens';
 import EnhancedErrorBoundary from '@components/EnhancedErrorBoundary';
 
 interface CheckInModalProps {

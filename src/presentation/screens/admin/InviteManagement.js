@@ -5,9 +5,7 @@ import {
   Card,
   Button,
   TextInput,
-  List,
   Chip,
-  FAB,
   Modal,
   Portal,
   Divider,
@@ -17,8 +15,7 @@ import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { InviteService } from '@infrastructure/services/inviteService';
 import QRCodeGenerator from '@components/QRCodeGenerator';
 import ActionButton, { ActionButtonGroup } from '@components/ActionButton';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, GLASS } from '@presentation/theme/designTokens';
-import { getAuthGradient } from '@presentation/theme/authTheme';
+import { COLORS, SPACING, BORDER_RADIUS, FONT_WEIGHT, GLASS } from '@presentation/theme/designTokens';
 import { useTheme } from "@contexts/ThemeContext";
 import { LinearGradient } from 'expo-linear-gradient';
 

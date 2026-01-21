@@ -1,6 +1,4 @@
 import { auth as firebaseAuth } from '@infrastructure/services/firebase';
-import { Claims } from '@domain/auth/entities';
-import type { Auth } from 'firebase/auth';
 
 /**
  * Utilitário para gerenciar Custom Claims do Firebase Authentication

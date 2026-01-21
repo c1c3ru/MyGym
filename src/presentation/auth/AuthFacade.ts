@@ -9,7 +9,7 @@ import {
   GetUserSessionUseCase,
   SendPasswordResetEmailUseCase
 } from '@domain/auth/usecases';
-import { SignUpData, AuthSession, UserProfile } from '@domain/auth/entities';
+import { SignUpData, UserProfile } from '@domain/auth/entities';
 import { FirebaseAuthRepository } from '@data/auth';
 import { initializeFirebaseServices } from '@infrastructure/firebase';
 import crashlyticsService from '@infrastructure/services/crashlyticsService';
@@ -595,7 +595,7 @@ export function useAuthFacade() {
 
     authListenerInitialized = true;
 
-    let loadingTimeout = setTimeout(() => {
+    const loadingTimeout = setTimeout(() => {
       setLoading(false);
     }, 10000);
 

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, StyleSheet, RefreshControl } from 'react-native';
+import { StyleSheet, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useAuth } from '@contexts/AuthProvider';
 import { useTheme } from '@contexts/ThemeContext';
 import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
@@ -11,7 +10,6 @@ import cacheService, { CACHE_KEYS, CACHE_TTL } from '@infrastructure/services/ca
 import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import FreeGymScheduler from '@components/FreeGymScheduler';
 import { COLORS } from '@presentation/theme/designTokens';
-import { getAuthGradient } from '@presentation/theme/authTheme';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 interface Class {

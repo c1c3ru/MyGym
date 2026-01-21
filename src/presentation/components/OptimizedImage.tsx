@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, Image, type ImageProps, type StyleProp, type ImageStyle } from 'react-native';
+import { Image, type ImageProps, type StyleProp, type ImageStyle } from 'react-native';
 
 // Componente de imagem otimizado - usando Image padrão por compatibilidade
 // TODO: Adicionar react-native-fast-image quando compatível com React 19

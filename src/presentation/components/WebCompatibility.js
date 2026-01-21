@@ -1,8 +1,7 @@
 
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Platform } from 'react-native';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
-import { COLORS, SPACING, FONT_SIZE, FONT_WEIGHT, BORDER_RADIUS, ELEVATION } from '@presentation/theme/designTokens';
 
 const WebCompatibility = ({ children }) => {
   const { currentTheme } = useThemeToggle();

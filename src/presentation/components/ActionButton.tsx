@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { View, StyleSheet, Platform, ViewStyle, StyleProp, TextStyle } from 'react-native';
+import { View, StyleSheet, Platform, ViewStyle, StyleProp } from 'react-native';
 import { Button, ButtonProps } from 'react-native-paper';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -95,7 +95,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
                 return {
                     contained: ['transparent', 'transparent'],
                     outlined: 'transparent',
-                    text: COLORS.gray[800]
+                    text: COLORS.white // White for dark glass
                 };
             default:
                 return {

@@ -1,10 +1,7 @@
 import { 
   writeBatch, 
   doc, 
-  collection, 
-  deleteDoc,
-  updateDoc,
-  setDoc,
+  collection,
   getDocs,
   query,
   where,

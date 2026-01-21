@@ -1,34 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import { View, ScrollView, Alert, Linking, StyleSheet } from 'react-native';
+import { View, ScrollView, Alert, StyleSheet } from 'react-native';
 import {
   Text,
   Card,
   Button,
   TextInput,
-  List,
   Divider,
   ActivityIndicator,
   Chip,
-  FAB,
   Modal,
   Portal,
   Snackbar
 } from 'react-native-paper';
-import { LinearGradient } from 'expo-linear-gradient';
-import { collection, addDoc, query, where, getDocs, updateDoc, doc } from 'firebase/firestore';
+import { collection, addDoc, query, where, getDocs } from 'firebase/firestore';
 import { db } from '@infrastructure/services/firebase';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
 import { useCustomClaims } from '@hooks/useCustomClaims';
 import { initializeAcademySubcollections } from '@infrastructure/services/academyInitializationService';
 import { InviteService } from '@infrastructure/services/inviteService';
-import { isAdmin, getCanonicalUserType } from '@utils/userTypeHelpers';
 import QRCodeScanner from '@components/QRCodeScanner';
 import CountryStatePicker from '@components/CountryStatePicker';
 import PhonePicker from '@components/PhonePicker';
 import ModalityPicker from '@components/ModalityPicker';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
-import { getAuthGradient } from '@presentation/theme/authTheme';
+import { COLORS, SPACING, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
 
 interface AcademiaSelectionScreenProps {

@@ -2,12 +2,10 @@ import {
   collection, 
   doc, 
   getDocs, 
-  getDoc, 
   addDoc, 
   updateDoc, 
   deleteDoc, 
   query, 
-  where, 
   orderBy 
 } from 'firebase/firestore';
 import { db } from '@infrastructure/services/firebase';

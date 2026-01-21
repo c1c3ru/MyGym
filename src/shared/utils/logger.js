@@ -1,4 +1,4 @@
-import { logger, configLoggerType, consoleTransport } from 'react-native-logs';
+import { logger, consoleTransport } from 'react-native-logs';
 
 const defaultConfig = {
   severity: __DEV__ ? 'debug' : 'error',

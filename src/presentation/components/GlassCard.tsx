@@ -7,12 +7,18 @@ interface GlassCardProps {
     children: React.ReactNode;
     style?: StyleProp<ViewStyle>;
     variant?: 'dark' | 'light' | 'medium' | 'heavy' | 'premium' | 'card' | 'modal' | 'subtle';
+    padding?: number;
+    margin?: number;
+    marginBottom?: number;
 }
 
 export const GlassCard: React.FC<GlassCardProps> = ({
     children,
     style,
-    variant = 'dark'
+    variant = 'dark',
+    padding,
+    margin,
+    marginBottom
 }) => {
     const { isDarkMode } = useTheme();
     const theme = useCurrentTheme(isDarkMode);
@@ -42,6 +48,9 @@ export const GlassCard: React.FC<GlassCardProps> = ({
                 shadowOpacity: glassStyle.shadowOpacity,
                 shadowRadius: glassStyle.shadowRadius,
                 elevation: glassStyle.elevation,
+                padding: padding,
+                margin: margin,
+                marginBottom: marginBottom
             },
             webStyle as any,
             style

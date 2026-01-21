@@ -4,7 +4,6 @@ import {
   StyleSheet,
   ScrollView,
   Animated,
-  Platform,
   Alert
 } from 'react-native';
 import {
@@ -22,7 +21,7 @@ import {
 } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
-import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
+import { academyFirestoreService, academyClassService } from '@infrastructure/services/academyFirestoreService';
 import { refreshManager } from '@utils/refreshManager';
 import EnhancedErrorBoundary from '@components/EnhancedErrorBoundary';
 import { useFormValidation } from '@hooks/useFormValidation';
@@ -125,8 +124,20 @@ const AddStudentForm = ({ onClose, onSuccess }: AddStudentFormProps) => {
       if (!userProfile?.academiaId) return;
 
       const cacheKey = CACHE_KEYS.CLASSES(userProfile.academiaId);
-      const classes = await cacheService.get(cacheKey) ||
-        await academyFirestoreService.getAll('classes', userProfile.academiaId);
+
+      // Check if user is instructor
+      const isInstructor = userProfile?.userType === 'instructor';
+
+      let fetchedClasses;
+      if (isInstructor) {
+        // Instructors only see their own classes
+        fetchedClasses = await academyClassService.getClassesByInstructor(user?.id, userProfile.academiaId);
+      } else {
+        // Admins see all classes
+        fetchedClasses = await academyFirestoreService.getAll('classes', userProfile.academiaId);
+      }
+
+      const classes = await cacheService.get(cacheKey) || fetchedClasses;
 
       setAvailableClasses(classes);
     } catch (error) {
@@ -186,8 +197,9 @@ const AddStudentForm = ({ onClose, onSuccess }: AddStudentFormProps) => {
     if (formData.birthDate && formData.birthDate.length === 10) {
       const age = calculateAge(formData.birthDate);
       const restrictedCategories = ['kids1', 'kids2', 'kids3', 'juvenil'];
+      const targetCategory = (targetClass.ageCategory || '').toLowerCase();
 
-      if (age >= 18 && restrictedCategories.includes(targetClass.ageCategory)) {
+      if (age >= 18 && restrictedCategories.includes(targetCategory)) {
         Alert.alert(
           'Restrição de Idade',
           `O aluno tem ${age} anos (Maior de 18). Não é permitido matriculá-lo em turmas Infantis ou Juvenis.\n\nTurma: ${targetClass.name} (${targetClass.ageCategory})`
@@ -216,7 +228,7 @@ const AddStudentForm = ({ onClose, onSuccess }: AddStudentFormProps) => {
         const restrictedCategories = ['kids1', 'kids2', 'kids3', 'juvenil'];
         const invalidClasses = selectedClasses
           .map(id => availableClasses.find(c => c.id === id))
-          .filter(c => c && restrictedCategories.includes(c.ageCategory));
+          .filter(c => c && restrictedCategories.includes((c.ageCategory || '').toLowerCase()));
 
         if (invalidClasses.length > 0) {
           Alert.alert(

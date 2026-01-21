@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   View,
   StyleSheet,
@@ -10,11 +10,12 @@ import {
   Card,
   Button,
   Chip,
-  Divider,
   Text,
   Paragraph,
   FAB,
   Searchbar,
+  Portal,
+  Modal,
 } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
@@ -22,9 +23,9 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useAuthFacade } from "@presentation/auth/AuthFacade";
 import {
   academyFirestoreService,
-  academyClassService,
   academyStudentService,
 } from "@infrastructure/services/academyFirestoreService";
+import AddClassForm from "@screens/admin/AddClassScreen";
 import EnhancedErrorBoundary from "@components/EnhancedErrorBoundary";
 import cacheService, {
   CACHE_KEYS,
@@ -37,10 +38,8 @@ import {
   COLORS,
   SPACING,
   FONT_SIZE,
-  BORDER_RADIUS,
   FONT_WEIGHT,
 } from "@presentation/theme/designTokens";
-import { hexToRgba } from "@shared/utils/colorUtils";
 import { useTheme } from "@contexts/ThemeContext";
 import { useProfileTheme } from "../../../contexts/ProfileThemeContext";
 
@@ -54,6 +53,7 @@ const InstructorClasses = ({ navigation }) => {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [studentCounts, setStudentCounts] = useState({});
+  const [showAddClassModal, setShowAddClassModal] = useState(false);
 
   // Analytics tracking
   useScreenTracking("InstructorClasses", {
@@ -237,8 +237,14 @@ const InstructorClasses = ({ navigation }) => {
 
   const handleAddClass = useCallback(() => {
     trackButtonClick("instructor_add_class");
-    navigation.navigate("AddClass");
-  }, [navigation, trackButtonClick]);
+
+    // Invalidar cache de turmas
+    if (userProfile?.academiaId) {
+      cacheService.invalidatePattern(`classes:${userProfile.academiaId}`);
+    }
+
+    setShowAddClassModal(true);
+  }, [trackButtonClick, userProfile?.academiaId]);
 
   const formatSchedule = useCallback((classItem) => {
     try {
@@ -430,7 +436,7 @@ const InstructorClasses = ({ navigation }) => {
                   color={profileTheme.text.disabled}
                 />
                 <Text style={[styles.emptyText, { color: profileTheme.text.secondary }]}>
-                  {searchQuery ? "noClassesFound" : "Nenhuma turma cadastrada"}
+                  {searchQuery ? getString("noClassesFound") : getString("noClassesRegistered")}
                 </Text>
                 {!searchQuery && (
                   <Text style={[styles.emptySubtext, { color: profileTheme.text.hint }]}>
@@ -456,6 +462,34 @@ const InstructorClasses = ({ navigation }) => {
             onPress={handleAddClass}
             color={COLORS.white}
           />
+
+          {/* Modal de Adicionar Turma */}
+          <Portal>
+            <Modal
+              visible={showAddClassModal}
+              onDismiss={() => setShowAddClassModal(false)}
+              contentContainerStyle={{
+                backgroundColor: profileTheme.background.paper,
+                margin: '2%',
+                maxHeight: '96%',
+                borderRadius: 12,
+                overflow: 'hidden',
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 4 },
+                shadowOpacity: 0.3,
+                shadowRadius: 8,
+                elevation: 8,
+              }}
+            >
+              <AddClassForm
+                onClose={() => setShowAddClassModal(false)}
+                onSuccess={() => {
+                  setShowAddClassModal(false);
+                  loadClasses();
+                }}
+              />
+            </Modal>
+          </Portal>
         </SafeAreaView>
       </LinearGradient>
     </EnhancedErrorBoundary>

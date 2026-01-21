@@ -11,7 +11,6 @@ import {
   ActivityIndicator,
 } from "react-native";
 import {
-  Button,
   Avatar,
   Chip,
   Divider,
@@ -21,13 +20,11 @@ import {
   Badge,
 } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 
 import { useAuthFacade } from "@presentation/auth/AuthFacade";
 import { useTheme } from "@contexts/ThemeContext";
 import { academyFirestoreService } from "@infrastructure/services/academyFirestoreService";
-import SafeCardContent from "@components/SafeCardContent";
 import AnimatedButton from "@components/AnimatedButton";
 import ModernCard from "@components/modern/ModernCard";
 import EnhancedErrorBoundary from "@components/EnhancedErrorBoundary";
@@ -37,8 +34,6 @@ import {
   SPACING,
   FONT_SIZE,
   BORDER_RADIUS,
-  FONT_WEIGHT,
-  BORDER_WIDTH,
 } from "@presentation/theme/designTokens";
 import { hexToRgba } from "@shared/utils/colorUtils";
 // import { getAuthGradient } from "@presentation/theme/authTheme"; // Removed in favor of theme.gradients

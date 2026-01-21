@@ -5,7 +5,6 @@ import {
   Button,
   List,
   Switch,
-  Divider,
   Portal,
   Modal,
   Paragraph

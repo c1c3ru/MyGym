@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, StyleSheet, ViewStyle, StyleProp } from 'react-native';
 import { Menu, Button, HelperText, Text } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
-import { COLORS, SPACING, FONT_SIZE, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { COLORS, SPACING, FONT_SIZE } from '@presentation/theme/designTokens';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
 
 /**

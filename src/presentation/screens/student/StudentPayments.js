@@ -15,7 +15,7 @@ import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
 import { paymentService, firestoreService } from '@infrastructure/services/firestoreService';
 import { Linking } from 'react-native';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, BORDER_WIDTH } from '@presentation/theme/designTokens';
+import { COLORS, SPACING, FONT_SIZE, FONT_WEIGHT, BORDER_WIDTH } from '@presentation/theme/designTokens';
 
 const StudentPayments = ({ navigation }) => {
   const { user, userProfile, academia } = useAuthFacade();

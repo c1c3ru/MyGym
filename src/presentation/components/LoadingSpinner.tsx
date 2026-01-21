@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, type StyleProp, type ViewStyle } from 'react-native';
 import { ActivityIndicator, Text } from 'react-native-paper';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { COLORS, SPACING, FONT_SIZE } from '@presentation/theme/designTokens';
 import { useTheme } from "@contexts/ThemeContext";
 
 type LoadingSpinnerProps = {

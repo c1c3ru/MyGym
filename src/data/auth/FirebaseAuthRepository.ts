@@ -15,8 +15,7 @@ import {
 import {
   doc,
   getDoc,
-  setDoc,
-  updateDoc
+  setDoc
 } from 'firebase/firestore';
 
 import { AuthRepository } from '@domain/auth/repositories';
