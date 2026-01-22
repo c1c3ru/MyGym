@@ -323,7 +323,7 @@ const StudentDetailsScreen: React.FC<StudentDetailsScreenProps> = ({
             style={styles.scrollView}
             showsVerticalScrollIndicator={true}
             keyboardShouldPersistTaps="handled"
-            contentContainerStyle={[styles.scrollContent, { minHeight: '101%' }]}
+            contentContainerStyle={styles.scrollContent}
             alwaysBounceVertical={true}
             refreshControl={
               <RefreshControl
@@ -778,7 +778,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    paddingBottom: 100,
+    paddingBottom: SPACING.xxl * 3,
   },
 });
 

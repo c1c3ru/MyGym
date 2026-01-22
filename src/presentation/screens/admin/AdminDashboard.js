@@ -547,12 +547,12 @@ const AdminDashboard = ({ navigation }) => {
                       />
                     </Animated.View>
                     <View style={styles.headerTextModern}>
-                      <Text style={styles.welcomeTextModern}>
+                      <Text style={[styles.welcomeTextModern, { color: COLORS.white }]}>
                         {getString("hello")},{" "}
                         {userProfile?.name?.split(" ")[0] || getString("admin")}
                         ! 👋
                       </Text>
-                      <Text style={styles.roleTextModern}>
+                      <Text style={[styles.roleTextModern, { color: hexToRgba(COLORS.white, 0.8) }]}>
                         {getString("academyAdministrator")}
                       </Text>
                       <View style={styles.statusBadge}>
@@ -561,7 +561,7 @@ const AdminDashboard = ({ navigation }) => {
                           size={8}
                           color={COLORS.success[400]}
                         />
-                        <Text style={styles.statusText}>
+                        <Text style={[styles.statusText, { color: COLORS.white }]}>
                           {getString("online")}
                         </Text>
                       </View>
@@ -574,9 +574,9 @@ const AdminDashboard = ({ navigation }) => {
                           <SafeMaterialCommunityIcons
                             name="qrcode"
                             size={16}
-                            color={COLORS.white + "E6"}
+                            color={COLORS.white}
                           />
-                          <Text style={styles.academiaCodeText}>
+                          <Text style={[styles.academiaCodeText, { color: COLORS.white }]}>
                             {getString("code")}: {academia.codigo}
                           </Text>
                         </TouchableOpacity>
@@ -587,7 +587,7 @@ const AdminDashboard = ({ navigation }) => {
                         <SafeMaterialCommunityIcons
                           name="qrcode-scan"
                           size={24}
-                          color={COLORS.white + "D9"}
+                          color={textColor}
                         />
                       </TouchableOpacity>
                     </Animated.View>
@@ -612,10 +612,10 @@ const AdminDashboard = ({ navigation }) => {
                       size={24}
                       containerSize={40}
                     />
-                    <Text style={styles.statNumber}>
+                    <Text style={[styles.statNumber, { color: textColor }]}>
                       {dashboardData.totalStudents}
                     </Text>
-                    <Text style={styles.statLabel}>
+                    <Text style={[styles.statLabel, { color: secondaryTextColor }]}>
                       {getString("totalStudents")}
                     </Text>
                   </View>
@@ -636,10 +636,10 @@ const AdminDashboard = ({ navigation }) => {
                       size={24}
                       containerSize={40}
                     />
-                    <Text style={styles.statNumber}>
+                    <Text style={[styles.statNumber, { color: textColor }]}>
                       {dashboardData.activeStudents}
                     </Text>
-                    <Text style={styles.statLabel}>
+                    <Text style={[styles.statLabel, { color: secondaryTextColor }]}>
                       {getString("activeStudents")}
                     </Text>
                   </View>
@@ -660,10 +660,10 @@ const AdminDashboard = ({ navigation }) => {
                       size={24}
                       containerSize={40}
                     />
-                    <Text style={styles.statNumber}>
+                    <Text style={[styles.statNumber, { color: textColor }]}>
                       {dashboardData.totalClasses}
                     </Text>
-                    <Text style={styles.statLabel}>
+                    <Text style={[styles.statLabel, { color: secondaryTextColor }]}>
                       {getString("classes")}
                     </Text>
                   </View>
@@ -684,10 +684,10 @@ const AdminDashboard = ({ navigation }) => {
                       size={24}
                       containerSize={40}
                     />
-                    <Text style={styles.statNumber}>
+                    <Text style={[styles.statNumber, { color: textColor }]}>
                       {dashboardData.pendingPayments}
                     </Text>
-                    <Text style={styles.statLabel}>
+                    <Text style={[styles.statLabel, { color: secondaryTextColor }]}>
                       {getString("pendingPaymentsCount")}
                     </Text>
                   </View>
@@ -702,15 +702,15 @@ const AdminDashboard = ({ navigation }) => {
                 <SectionHeader
                   emoji="💰"
                   title={getString("monthlyFinancials")}
-                  textColor={COLORS.white}
+                  textColor={textColor}
                 />
 
                 <View style={styles.financialInfo}>
                   <View style={styles.revenueItem}>
-                    <Text style={{ fontSize: FONT_SIZE.sm, color: COLORS.gray[400], marginBottom: 4 }}>
+                    <Text style={{ fontSize: FONT_SIZE.sm, color: secondaryTextColor, marginBottom: 4 }}>
                       {getString("monthlyRevenue")}
                     </Text>
-                    <Text style={{ fontSize: FONT_SIZE.xxl, color: COLORS.white, fontWeight: 'bold' }}>
+                    <Text style={{ fontSize: FONT_SIZE.xxl, color: textColor, fontWeight: 'bold' }}>
                       {formatCurrency(dashboardData.monthlyRevenue)}
                     </Text>
                   </View>
@@ -719,10 +719,10 @@ const AdminDashboard = ({ navigation }) => {
 
                   <View style={styles.paymentsRow}>
                     <View style={styles.paymentItem}>
-                      <Text style={{ fontSize: FONT_SIZE.xl, color: COLORS.white, fontWeight: 'bold' }}>
+                      <Text style={{ fontSize: FONT_SIZE.xl, color: textColor, fontWeight: 'bold' }}>
                         {dashboardData.pendingPayments}
                       </Text>
-                      <Text style={{ fontSize: FONT_SIZE.xs, color: COLORS.gray[400] }}>
+                      <Text style={{ fontSize: FONT_SIZE.xs, color: secondaryTextColor }}>
                         {getString("pendingCount")}
                       </Text>
                     </View>
@@ -731,7 +731,7 @@ const AdminDashboard = ({ navigation }) => {
                       <Text style={{ fontSize: FONT_SIZE.xl, color: COLORS.error[400], fontWeight: 'bold' }}>
                         {dashboardData.overduePayments}
                       </Text>
-                      <Text style={{ fontSize: FONT_SIZE.xs, color: COLORS.gray[400] }}>
+                      <Text style={{ fontSize: FONT_SIZE.xs, color: secondaryTextColor }}>
                         {getString("overdueCount")}
                       </Text>
                     </View>
@@ -760,8 +760,8 @@ const AdminDashboard = ({ navigation }) => {
                   emoji="⚡"
                   title={getString("quickActions")}
                   subtitle={getString("quickActionsSubtitle")}
-                  textColor={COLORS.white}
-                  subtitleColor={COLORS.gray[400]}
+                  textColor={textColor}
+                  subtitleColor={secondaryTextColor}
                 />
 
                 <View style={[styles.modernQuickActions, { justifyContent: 'space-between' }]}>
@@ -788,12 +788,26 @@ const AdminDashboard = ({ navigation }) => {
                       onPress: handleShowCalendar,
                     },
                     {
-                      key: "settings",
-                      title: getString("settings"),
-                      icon: "cog",
+                      key: "reports",
+                      title: getString("reports"),
+                      icon: "chart-bar",
                       color: COLORS.warning[400],
                       onPress: handleNavigateToManagement,
                     },
+                    {
+                      key: "certificates",
+                      title: "Modelos Certif.",
+                      icon: "certificate",
+                      color: COLORS.primary[400],
+                      onPress: () => navigation.navigate('CertificateTemplate'),
+                    },
+                    { /* Se existir navegação para convites */
+                      key: "invites",
+                      title: "Convites",
+                      icon: "email-plus",
+                      color: COLORS.error[400],
+                      onPress: () => navigation.navigate('Invitations'), // Nome da Tab screen definida no AdminNavigator
+                    }
                   ].map((action) => (
                     <TouchableOpacity
                       key={action.key}
@@ -808,7 +822,7 @@ const AdminDashboard = ({ navigation }) => {
                           size={28}
                           containerSize={50}
                         />
-                        <Text style={{ marginTop: SPACING.sm, color: COLORS.white, fontWeight: 'bold', textAlign: 'center' }}>
+                        <Text style={{ marginTop: SPACING.sm, color: textColor, fontWeight: 'bold', textAlign: 'center' }}>
                           {action.title}
                         </Text>
                       </GlassCard>
@@ -824,7 +838,7 @@ const AdminDashboard = ({ navigation }) => {
                 <SectionHeader
                   emoji="🕒"
                   title={getString("recentActivities")}
-                  textColor={COLORS.white}
+                  textColor={textColor}
                 />
 
                 {dashboardData.recentActivities.map((activity, index) => (
@@ -844,10 +858,10 @@ const AdminDashboard = ({ navigation }) => {
                         containerSize={36}
                       />
                       <View style={{ marginLeft: SPACING.md, flex: 1 }}>
-                        <Text style={{ fontSize: FONT_SIZE.md, color: COLORS.white }}>
+                        <Text style={{ fontSize: FONT_SIZE.md, color: textColor }}>
                           {activity.message}
                         </Text>
-                        <Text style={{ fontSize: FONT_SIZE.xs, color: COLORS.gray[400] }}>
+                        <Text style={{ fontSize: FONT_SIZE.xs, color: secondaryTextColor }}>
                           {activity.time}
                         </Text>
                       </View>

@@ -24,6 +24,7 @@ import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import GlassCard from '@components/GlassCard';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { hexToRgba } from '@shared/utils/colorUtils';
+import exportUtils from '@shared/utils/exportUtils';
 import type { NavigationProp } from '@react-navigation/native';
 
 interface ReportsScreenProps {
@@ -221,6 +222,144 @@ const ReportsScreen: React.FC<ReportsScreenProps> = ({ navigation }) => {
       default: return COLORS.gray[400];
     }
   }, []);
+
+  const handleExportPDF = useCallback(async () => {
+    trackButtonClick('export_pdf_report_admin', {});
+
+    try {
+      const date = new Date().toLocaleDateString('pt-BR');
+      const time = new Date().toLocaleTimeString('pt-BR');
+
+      const htmlContent = `
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <meta charset="utf-8">
+            <title>Relatório Gerencial - MyGym</title>
+            <style>
+              body { font-family: 'Helvetica', sans-serif; padding: 20px; color: #333; line-height: 1.6; }
+              h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+              h2 { color: #2980b9; margin-top: 30px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+              .header { margin-bottom: 30px; display: flex; justify-content: space-between; }
+              .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 30px; }
+              .stat-card { background: #f8f9fa; border: 1px solid #ddd; border-radius: 8px; padding: 15px; }
+              .stat-label { font-size: 12px; color: #7f8c8d; text-transform: uppercase; }
+              .stat-value { font-size: 20px; font-weight: bold; color: #2c3e50; margin-top: 5px; }
+              .stat-sub { font-size: 11px; color: #95a5a6; margin-top: 2px; }
+              table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px; }
+              th { background-color: #f1f2f6; text-align: left; padding: 10px; border-bottom: 2px solid #ddd; color: #2c3e50; }
+              td { padding: 10px; border-bottom: 1px solid #eee; }
+              tr:nth-child(even) { background-color: #f9f9f9; }
+              .footer { margin-top: 50px; font-size: 10px; color: #95a5a6; text-align: center; border-top: 1px solid #eee; padding-top: 10px; }
+            </style>
+          </head>
+          <body>
+            <div class="header">
+              <div>
+                <h1>Relatório Gerencial</h1>
+                <div>MyGym Academy Administration</div>
+              </div>
+              <div style="text-align: right; font-size: 12px; color: #7f8c8d;">
+                Gerado em: ${date} às ${time}<br>
+                Solicitante: Admin
+              </div>
+            </div>
+
+            <div class="stats-grid">
+              <div class="stat-card">
+                <div class="stat-label">Total Alunos</div>
+                <div class="stat-value">${stats.totalStudents}</div>
+                <div class="stat-sub">${stats.activeStudents} ativos</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-label">Total Turmas</div>
+                <div class="stat-value">${stats.totalClasses}</div>
+                <div class="stat-sub">${stats.activeClasses} ativas</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-label">Receita Mensal</div>
+                <div class="stat-value">${formatCurrency(stats.monthlyRevenue)}</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-label">Pagamentos Pendentes</div>
+                <div class="stat-value">${stats.pendingPayments}</div>
+              </div>
+            </div>
+
+            <h2>Taxa de Ocupação</h2>
+            <p>
+              Alunos: ${stats.totalStudents > 0 ? Math.round((stats.activeStudents / stats.totalStudents) * 100) : 0}% ativos<br>
+              Turmas: ${stats.totalClasses > 0 ? Math.round((stats.activeClasses / stats.totalClasses) * 100) : 0}% ativas
+            </p>
+
+            <h2>Turmas Populares</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Turma</th>
+                  <th>Modalidade</th>
+                  <th>Alunos</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${topClasses.map(cls => `
+                  <tr>
+                    <td>${cls.name}</td>
+                    <td>${cls.modality}</td>
+                    <td>${cls.studentCount}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+
+            <div class="footer">
+              Relatório confidencial para uso administrativo.
+            </div>
+          </body>
+        </html>
+      `;
+
+      await exportUtils.exportToPDF({
+        title: `Relatório Gerencial - ${date}`,
+        htmlContent
+      });
+    } catch (error) {
+      console.error('Erro ao exportar PDF:', error);
+    }
+  }, [trackButtonClick, stats, topClasses, formatCurrency]);
+
+  const handleExportExcel = useCallback(async () => {
+    trackButtonClick('export_excel_report_admin', {});
+
+    try {
+      const generalStats = [
+        { Categoria: 'Geral', Métrica: 'Total Alunos', Valor: stats.totalStudents },
+        { Categoria: 'Geral', Métrica: 'Alunos Ativos', Valor: stats.activeStudents },
+        { Categoria: 'Geral', Métrica: 'Total Turmas', Valor: stats.totalClasses },
+        { Categoria: 'Geral', Métrica: 'Turmas Ativas', Valor: stats.activeClasses },
+        { Categoria: 'Financeiro', Métrica: 'Receita Mensal', Valor: stats.monthlyRevenue },
+        { Categoria: 'Financeiro', Métrica: 'Receita Total', Valor: stats.totalRevenue },
+        { Categoria: 'Financeiro', Métrica: 'Pagamentos Pendentes', Valor: stats.pendingPayments },
+      ];
+
+      const classesData = topClasses.map(cls => ({
+        Categoria: 'Turma',
+        Métrica: cls.name,
+        Valor: cls.studentCount,
+        Detalhe: cls.modality
+      }));
+
+      const fullData = [...generalStats, ...classesData];
+
+      await exportUtils.exportToExcel({
+        fileName: `relatorio_admin_${new Date().getTime()}`,
+        data: fullData,
+        sheetName: 'Relatório Admin'
+      });
+    } catch (error) {
+      console.error('Erro ao exportar Excel:', error);
+    }
+  }, [trackButtonClick, stats, topClasses]);
 
   if (loading) {
     return (
@@ -440,6 +579,37 @@ const ReportsScreen: React.FC<ReportsScreenProps> = ({ navigation }) => {
                 </Button>
               </View>
             </GlassCard>
+
+            {/* Exportar Relatórios */}
+            <GlassCard style={styles.card} variant={glassVariant}>
+              <View style={[styles.cardHeader, { borderBottomColor: isDarkMode ? hexToRgba(COLORS.white, 0.05) : hexToRgba(COLORS.black, 0.05) }]}>
+                <Text style={[styles.cardTitle, { color: textColor }]}>Exportar Relatórios</Text>
+              </View>
+
+              <View style={styles.actionsContainer}>
+                <Button
+                  mode="outlined"
+                  onPress={handleExportPDF}
+                  style={[styles.actionButton, { borderColor: COLORS.error[500], borderWidth: 1 }]}
+                  contentStyle={styles.actionButtonContent}
+                  textColor={COLORS.error[500]}
+                  icon={({ size, color }) => <MaterialCommunityIcons name="file-pdf-box" size={size} color={color} />}
+                >
+                  PDF
+                </Button>
+
+                <Button
+                  mode="outlined"
+                  onPress={handleExportExcel}
+                  style={[styles.actionButton, { borderColor: COLORS.success[600], borderWidth: 1 }]}
+                  contentStyle={styles.actionButtonContent}
+                  textColor={COLORS.success[600]}
+                  icon={({ size, color }) => <MaterialCommunityIcons name="microsoft-excel" size={size} color={color} />}
+                >
+                  Excel
+                </Button>
+              </View>
+            </GlassCard>
           </ScrollView>
         </SafeAreaView>
       </View>
@@ -460,7 +630,7 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     padding: SPACING.md,
-    paddingBottom: 100,
+    paddingBottom: SPACING.xxl * 3,
   },
   header: {
     marginBottom: SPACING.lg,

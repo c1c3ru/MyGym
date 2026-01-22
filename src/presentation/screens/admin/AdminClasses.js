@@ -28,6 +28,7 @@ import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import { useClassCreationRateLimit } from '@hooks/useRateLimit';
 import FreeGymScheduler from '@components/FreeGymScheduler';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, BORDER_WIDTH, GLASS } from '@presentation/theme/designTokens';
+import { getDayNames } from '@shared/utils/dateHelpers';
 import { useThemeToggle } from '@contexts/ThemeToggleContext';
 import AddClassForm from '@screens/admin/AddClassScreen';
 import EditClassForm from '@screens/admin/EditClassScreen';
@@ -282,7 +283,7 @@ const AdminClasses = ({ navigation }) => {
         </Text>
       </Card.Content>
     </Card>
-  ), [searchQuery, getString]);
+  ), [searchQuery, getString, textColor, secondaryTextColor, glassStyle]);
 
   const renderStatsCard = useCallback(() => {
     if (classes.length === 0) return null;
@@ -294,26 +295,26 @@ const AdminClasses = ({ navigation }) => {
 
           <View style={styles.statsGrid}>
             <View style={styles.statItem}>
-              <Text style={styles.statNumber}>{classes.length}</Text>
+              <Text style={[styles.statNumber, { color: textColor }]}>{classes.length}</Text>
               <Text style={[styles.statLabel, { color: secondaryTextColor }]}>Total</Text>
             </View>
 
             <View style={styles.statItem}>
-              <Text style={styles.statNumber}>
+              <Text style={[styles.statNumber, { color: textColor }]}>
                 {classes.filter(c => c.isActive !== false).length}
               </Text>
               <Text style={[styles.statLabel, { color: secondaryTextColor }]}>Turmas Ativas</Text>
             </View>
 
             <View style={styles.statItem}>
-              <Text style={styles.statNumber}>
+              <Text style={[styles.statNumber, { color: textColor }]}>
                 {classes.reduce((sum, c) => sum + (c.currentStudents || 0), 0)}
               </Text>
               <Text style={[styles.statLabel, { color: secondaryTextColor }]}>Total de Alunos</Text>
             </View>
 
             <View style={styles.statItem}>
-              <Text style={styles.statNumber}>
+              <Text style={[styles.statNumber, { color: textColor }]}>
                 {[...new Set(classes.map(c => c.modality))].length}
               </Text>
               <Text style={[styles.statLabel, { color: secondaryTextColor }]}>{getString('modalities')}</Text>
@@ -322,7 +323,7 @@ const AdminClasses = ({ navigation }) => {
         </Card.Content>
       </Card>
     );
-  }, [classes, getString]);
+  }, [classes, getString, textColor, secondaryTextColor, glassStyle]);
 
   const handleDeleteClass = (classItem) => {
     Alert.alert(
@@ -358,7 +359,7 @@ const AdminClasses = ({ navigation }) => {
     try {
       const schedule = classItem?.schedule;
       if (Array.isArray(schedule) && schedule.length > 0) {
-        const days = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+        const days = getDayNames(getString);
         return schedule.map((s) => {
           const day = typeof s.dayOfWeek === 'number' ? days[s.dayOfWeek] : 'Dia';
           const hour = (s.hour ?? '').toString().padStart(2, '0');

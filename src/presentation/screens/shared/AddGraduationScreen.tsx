@@ -16,7 +16,8 @@ import {
   Dialog,
   Snackbar,
   IconButton,
-  RadioButton
+  RadioButton,
+  Checkbox
 } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useAuth } from '@contexts/AuthProvider';
@@ -24,10 +25,22 @@ import { useTheme } from '@contexts/ThemeContext';
 import { LinearGradient } from 'expo-linear-gradient';
 import SelectionField from '@components/SelectionField';
 import graduationRepository from '@presentation/repositories/graduationRepository';
+import { certificateService } from '@infrastructure/services/certificateService';
+import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, BORDER_WIDTH, FONT_WEIGHT, INPUT_THEME } from '@presentation/theme/designTokens';
 import { hexToRgba } from '@shared/utils/colorUtils';
 import { getAuthGradient } from '@presentation/theme/authTheme';
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
+
+interface AcademyDocument {
+  id: string;
+  name?: string;
+  settings?: {
+    certificateTemplateUrl?: string;
+    updatedAt?: Date;
+  };
+  [key: string]: any;
+}
 
 interface AddGraduationScreenProps {
   navigation: NavigationProp<any>;
@@ -65,6 +78,11 @@ const AddGraduationScreen = ({ route, navigation }: any) => {
   const [snackbarType, setSnackbarType] = useState('success');
   const [showDatePicker, setShowDatePicker] = useState(false);
 
+  // Certificate states
+  const [hasTemplate, setHasTemplate] = useState(false);
+  const [templateUrl, setTemplateUrl] = useState('');
+  const [generateCertificate, setGenerateCertificate] = useState(false);
+
   const defaultGraduationLevels = [
     { id: COLORS.special.belt.white, name: getString('whiteBelt'), color: COLORS.special.belt.white, order: 1 },
     { id: COLORS.warning[500], name: getString('yellowBelt'), color: COLORS.special.belt.yellow, order: 2 },
@@ -94,6 +112,18 @@ const AddGraduationScreen = ({ route, navigation }: any) => {
         console.error(getString('academyIdNotFound'));
         showSnackbar(getString('academyNotFoundLogin'), 'error');
         return;
+      }
+
+      // Check certificate template
+      try {
+        const academyDoc = await academyFirestoreService.getById('academies', academiaId) as AcademyDocument | null;
+        if (academyDoc?.settings?.certificateTemplateUrl) {
+          setHasTemplate(true);
+          setTemplateUrl(academyDoc.settings.certificateTemplateUrl);
+          setGenerateCertificate(true);
+        }
+      } catch (e) {
+        console.warn('Erro ao checar template:', e);
       }
 
       const { modalities, instructors, currentGraduation } = await graduationRepository.loadInitialData(academiaId, studentId);
@@ -298,13 +328,44 @@ const AddGraduationScreen = ({ route, navigation }: any) => {
         return;
       }
 
+      let certUrl = null;
+
+      if (generateCertificate && hasTemplate && templateUrl) {
+        try {
+          // Tentar encontrar nome da graduação nos níveis carregados ou nos defaults
+          const gradLevel = graduationLevels.find(g => g.id === formData.graduation) || defaultGraduationLevels.find(g => g.id === formData.graduation);
+          const gradName = gradLevel?.name || formData.graduation;
+
+          // Encontrar nome do instrutor
+          const instrObj = instructors.find(i => i.id === formData.instructor);
+          const instrName = instrObj?.name || userProfile?.name || '';
+
+          const pdfUri = await certificateService.generateCertificatePdf({
+            studentName,
+            graduationName: gradName,
+            date: formData.date.toLocaleDateString('pt-BR'),
+            instructorName: instrName,
+            academyName: academia?.name || 'MyGym Academy'
+          }, { imageUrl: templateUrl });
+
+          // Upload
+          const tempId = Date.now().toString();
+          certUrl = await certificateService.uploadCertificate(academiaId, studentId, tempId, pdfUri);
+
+        } catch (e) {
+          console.error('Erro ao gerar certificado:', e);
+          showSnackbar('Erro ao gerar certificado, mas a graduação será salva.', 'error');
+        }
+      }
+
       const graduationData = {
         ...formData,
         studentId,
         studentName,
         createdAt: new Date(),
         createdBy: user?.id, // user can be null
-        status: 'active'
+        status: 'active',
+        certificateUrl: certUrl
       };
 
       console.log('Dados da graduação a serem salvos:', graduationData);
@@ -356,7 +417,7 @@ const AddGraduationScreen = ({ route, navigation }: any) => {
 
         <ScrollView
           style={styles.scrollContainer}
-          contentContainerStyle={[styles.contentContainer, { minHeight: '101%' }]}
+          contentContainerStyle={styles.contentContainer}
           showsVerticalScrollIndicator={true}
           alwaysBounceVertical={true}
         >
@@ -471,6 +532,39 @@ const AddGraduationScreen = ({ route, navigation }: any) => {
                   theme={INPUT_THEME}
                 />
               </View>
+
+              {/* Gerador de Certificado Automático */}
+              {hasTemplate && (
+                <TouchableOpacity
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    marginTop: 15,
+                    marginBottom: 5,
+                    backgroundColor: hexToRgba(COLORS.primary[500], 0.1),
+                    padding: 10,
+                    borderRadius: 8,
+                    borderWidth: 1,
+                    borderColor: hexToRgba(COLORS.primary[500], 0.3)
+                  }}
+                  onPress={() => setGenerateCertificate(!generateCertificate)}
+                  activeOpacity={0.7}
+                >
+                  <Checkbox.Android
+                    status={generateCertificate ? 'checked' : 'unchecked'}
+                    onPress={() => setGenerateCertificate(!generateCertificate)}
+                    color={COLORS.primary[500]}
+                  />
+                  <View style={{ flex: 1, marginLeft: 8 }}>
+                    <Text style={{ fontSize: 16, color: COLORS.info[900], fontWeight: 'bold' }}>
+                      Gerar Certificado Digital
+                    </Text>
+                    <Text style={{ fontSize: 12, color: COLORS.gray[600] }}>
+                      Um PDF será gerado com o modelo da academia e anexado à graduação.
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              )}
             </View>
           </View>
 
@@ -677,7 +771,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     padding: SPACING.md,
-    paddingBottom: SPACING.xl,
+    paddingBottom: SPACING.xxl * 3,
     maxWidth: width < 768 ? width : 768, // Limita largura em tablets
     alignSelf: 'center',
     width: '100%',

@@ -347,7 +347,7 @@ const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({
         <SafeAreaView style={styles.container}>
           <ScrollView
             style={styles.scrollView}
-            contentContainerStyle={[styles.scrollContent, { minHeight: '101%' }]}
+            contentContainerStyle={styles.scrollContent}
             alwaysBounceVertical={true}
             refreshControl={
               <RefreshControl
@@ -510,6 +510,23 @@ const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({
                           color={theme?.warning || COLORS.warning[500]}
                         />
                       )}
+                      right={(p) =>
+                        grad.certificateUrl ? (
+                          <IconButton
+                            {...p}
+                            icon="certificate"
+                            iconColor={COLORS.primary[500]}
+                            size={20}
+                            onPress={() => {
+                              if (grad.certificateUrl) {
+                                import('expo-linking').then(({ default: Linking }) => {
+                                  Linking.openURL(grad.certificateUrl);
+                                }).catch(console.error);
+                              }
+                            }}
+                          />
+                        ) : null
+                      }
                     />
                   ))
                 ) : (
@@ -641,7 +658,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   scrollView: { flex: 1 },
-  scrollContent: { padding: SPACING.base, paddingBottom: 150, flexGrow: 1 },
+  scrollContent: { padding: SPACING.base, paddingBottom: SPACING.xxl * 3, flexGrow: 1 },
   headerRow: { flexDirection: "row", alignItems: "center" },
   headerTextContainer: { marginLeft: SPACING.lg, flex: 1 },
   badgeRow: { flexDirection: "row", gap: SPACING.xs },

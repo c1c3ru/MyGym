@@ -40,6 +40,7 @@ import {
   FONT_SIZE,
   FONT_WEIGHT,
 } from "@presentation/theme/designTokens";
+import { getDayNames } from "@shared/utils/dateHelpers";
 import { useTheme } from "@contexts/ThemeContext";
 import { useProfileTheme } from "../../../contexts/ProfileThemeContext";
 
@@ -250,15 +251,7 @@ const InstructorClasses = ({ navigation }) => {
     try {
       const schedule = classItem?.schedule;
       if (Array.isArray(schedule) && schedule.length > 0) {
-        const days = [
-          getString("sunday"),
-          getString("monday"),
-          getString("tuesday"),
-          getString("wednesday"),
-          getString("thursday"),
-          getString("friday"),
-          getString("saturday"),
-        ];
+        const days = getDayNames(getString);
         return schedule
           .map(
             (s) =>
@@ -305,7 +298,7 @@ const InstructorClasses = ({ navigation }) => {
                 ]}
                 textStyle={{ color: COLORS.white, fontSize: FONT_SIZE.sm }}
               >
-                {classItem.status === "active" ? "Ativa" : "Inativa"}
+                {classItem.status === "active" ? getString('active') : getString('inactive')}
               </Chip>
             </View>
 
@@ -334,7 +327,7 @@ const InstructorClasses = ({ navigation }) => {
                   size={16}
                   color={profileTheme.text.secondary}
                 />{" "}
-                {studentCount}/{classItem.maxStudents || 0} alunos
+                {studentCount}/{classItem.maxStudents || 0} {getString('students')}
               </Text>
 
               {classItem.price && (
@@ -363,7 +356,7 @@ const InstructorClasses = ({ navigation }) => {
               style={[styles.actionButton, { borderColor: profileTheme.primary[500] }]}
               textColor={profileTheme.primary[500]}
             >
-              Detalhes
+              {getString('details')}
             </Button>
             <Button
               mode="contained"
@@ -371,7 +364,7 @@ const InstructorClasses = ({ navigation }) => {
               style={styles.actionButton}
               buttonColor={profileTheme.primary[500]}
             >
-              Check-ins
+              {getString('checkIns')}
             </Button>
           </Card.Actions>
         </Card>
@@ -408,7 +401,7 @@ const InstructorClasses = ({ navigation }) => {
       <LinearGradient colors={profileTheme.gradients.hero} style={{ flex: 1 }}>
         <SafeAreaView style={[styles.container, { backgroundColor: 'transparent' }]}>
           <Searchbar
-            placeholder="Buscar turmas..."
+            placeholder={getString('search')}
             onChangeText={setSearchQuery}
             value={searchQuery}
             style={[styles.searchbar, { backgroundColor: profileTheme.background.paper }]}
@@ -440,7 +433,7 @@ const InstructorClasses = ({ navigation }) => {
                 </Text>
                 {!searchQuery && (
                   <Text style={[styles.emptySubtext, { color: profileTheme.text.hint }]}>
-                    Entre em contato com o administrador para criar turmas
+                    {getString('contactAdminToCreateClasses')}
                   </Text>
                 )}
               </View>
@@ -458,7 +451,7 @@ const InstructorClasses = ({ navigation }) => {
           <FAB
             style={[styles.fab, { backgroundColor: profileTheme.secondary[500] }]}
             icon="plus"
-            label="Nova Turma"
+            label={getString('newClass')}
             onPress={handleAddClass}
             color={COLORS.white}
           />

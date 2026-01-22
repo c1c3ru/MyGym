@@ -14,6 +14,7 @@ import AdminClasses from '@screens/admin/AdminClasses';
 import AdminModalities from '@screens/admin/AdminModalities';
 import ReportsScreen from '@screens/admin/ReportsScreen';
 import InviteManagement from '@screens/admin/InviteManagement';
+import CertificateTemplateScreen from '@screens/admin/CertificateTemplateScreen';
 
 // Telas Compartilhadas
 import ClassDetailsScreen from '@screens/shared/ClassDetailsScreen';
@@ -373,6 +374,21 @@ const AdminNavigator = () => {
           header: ({ navigation }) => (
             <UniversalHeader
               title={getString('notificationSettings')}
+              navigation={navigation}
+              showBack={true}
+              backgroundColor={COLORS.primary[500]}
+            />
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="CertificateTemplate"
+        component={CertificateTemplateScreen}
+        options={{
+          headerShown: true,
+          header: ({ navigation }) => (
+            <UniversalHeader
+              title="Modelo de Certificado" // Idealmente getString('certificateTemplate')
               navigation={navigation}
               showBack={true}
               backgroundColor={COLORS.primary[500]}

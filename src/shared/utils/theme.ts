@@ -95,6 +95,9 @@ export const languages: Record<LanguageCode, any> = {
       noModalityGoToAdmin: 'Nenhuma modalidade cadastrada. Vá em Admin > Modalidades para cadastrar antes de continuar.',
       noClassesRegistered: 'Nenhuma turma cadastrada',
       noClassesFound: 'Nenhuma turma encontrada',
+      classFull: 'Turma Cheia',
+      noInstructor: 'Sem Instrutor',
+      contactAdminToCreateClasses: 'Entre em contato com o administrador para criar turmas',
 
       // COMMON
       yes: 'Sim',
@@ -459,6 +462,7 @@ export const languages: Record<LanguageCode, any> = {
       publish: 'Publicar',
       summary: 'Resumo',
       plans: 'Planos',
+      plan: 'Plano',
       paymentPlans: 'Planos de Pagamento',
       activeAnnouncements: 'Avisos Ativos',
       months: 'meses',
@@ -873,6 +877,9 @@ export const languages: Record<LanguageCode, any> = {
       nextEvaluationIn: 'Next evaluation in',
       viewFullCalendar: 'View Full Calendar',
       noClassesScheduled: 'No classes scheduled',
+      classFull: 'Class Full',
+      noInstructor: 'No Instructor',
+      contactAdminToCreateClasses: 'Contact administrator to create classes',
 
       // COMMON
       yes: 'Yes',
@@ -1134,6 +1141,7 @@ export const languages: Record<LanguageCode, any> = {
       publish: 'Publish',
       summary: 'Summary',
       plans: 'Plans',
+      plan: 'Plan',
       paymentPlans: 'Payment Plans',
       activeAnnouncements: 'Active Announcements',
       months: 'months',
@@ -1550,6 +1558,9 @@ export const languages: Record<LanguageCode, any> = {
       newClass: 'Nueva Clase',
       noModalitiesRegistered: 'Ninguna modalidad registrada',
       noModalityGoToAdmin: 'Ninguna modalidad registrada. Vaya a Admin > Modalidades para registrar antes de continuar.',
+      classFull: 'Clase Llena',
+      noInstructor: 'Sin Instructor',
+      contactAdminToCreateClasses: 'Póngase en contacto con el administrador para crear clases',
 
       // COMMON
       yes: 'Sí',

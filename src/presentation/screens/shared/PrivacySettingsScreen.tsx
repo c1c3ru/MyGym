@@ -198,7 +198,10 @@ const PrivacySettingsScreen = ({ navigation }: any) => {
       style={styles.gradient}
     >
       <SafeAreaView style={styles.container}>
-        <ScrollView style={styles.scrollView}>
+        <ScrollView
+          style={styles.scrollView}
+          contentContainerStyle={styles.scrollContent}
+        >
           {/* Status de Conformidade LGPD */}
           <Card style={styles.card}>
             <Card.Content>
@@ -473,6 +476,10 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
+  },
+  scrollContent: {
+    paddingBottom: SPACING.xxl * 3,
+    flexGrow: 1,
   },
   card: {
     margin: SPACING.md,

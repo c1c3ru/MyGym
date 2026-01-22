@@ -326,7 +326,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
             style={{ flex: 1 }}
             contentContainerStyle={{
               padding: SPACING.md,
-              paddingBottom: 100
+              paddingBottom: SPACING.xxl * 3
             }}
             showsVerticalScrollIndicator={true}
             keyboardShouldPersistTaps="handled"

@@ -4,6 +4,7 @@ import { Text, Chip, Divider, IconButton, useTheme } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 import ActionButton from '@components/ActionButton';
 import { COLORS, SPACING, FONT_SIZE } from '@presentation/theme/designTokens';
+import { getShortDayNames } from '@shared/utils/dateHelpers';
 import { GlassCard } from '../modern';
 
 const ClassListItem = memo(({
@@ -48,7 +49,7 @@ const ClassListItem = memo(({
       const schedule = classData?.schedule;
       if (Array.isArray(schedule) && schedule.length > 0) {
         // Simple abbreviations
-        const days = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+        const days = getShortDayNames(getString);
         return schedule.map((s) => {
           const day = typeof s.dayOfWeek === 'number' ? days[s.dayOfWeek] : 'Dia';
           const hour = (s.hour ?? '').toString().padStart(2, '0');
@@ -62,9 +63,9 @@ const ClassListItem = memo(({
       if (typeof classData?.scheduleText === 'string' && classData.scheduleText.trim()) {
         return classData.scheduleText.trim();
       }
-      return 'Horário a definir';
+      return getString('scheduleNotDefined');
     } catch (e) {
-      return 'Horário a definir';
+      return getString('scheduleNotDefined');
     }
   }, []);
 
@@ -107,7 +108,7 @@ const ClassListItem = memo(({
           <View style={styles.detailRow}>
             <Ionicons name="person-outline" size={16} color={dynamicStyles.textSecondary.color} />
             <Text style={[styles.detailText, { color: dynamicStyles.textSecondary.color }]} numberOfLines={1}>
-              {classItem.instructorName || 'Instrutor indefinido'}
+              {classItem.instructorName || getString('unnamedInstructor')}
             </Text>
           </View>
 
@@ -124,7 +125,7 @@ const ClassListItem = memo(({
               styles.detailText,
               { color: getCapacityColor(classItem.currentStudents, classItem.maxCapacity), fontWeight: 'bold' }
             ]}>
-              {classItem.currentStudents} / {classItem.maxCapacity || '∞'} Alunos
+              {classItem.currentStudents} / {classItem.maxCapacity || '∞'} {getString('students')}
             </Text>
           </View>
 
@@ -144,7 +145,7 @@ const ClassListItem = memo(({
               style={[styles.statusChip, { backgroundColor: COLORS.error[50], borderColor: COLORS.error[500] }]}
               textStyle={{ color: COLORS.error[700], fontSize: 10 }}
             >
-              Inativo
+              {getString('inactive')}
             </Chip>
           )}
           {classItem.currentStudents >= (classItem.maxCapacity || 999) && (
@@ -153,7 +154,7 @@ const ClassListItem = memo(({
               style={[styles.statusChip, { backgroundColor: COLORS.warning[50], borderColor: COLORS.warning[500] }]}
               textStyle={{ color: COLORS.warning[700], fontSize: 10 }}
             >
-              Lotado
+              {getString('classFull')}
             </Chip>
           )}
           {!classItem.instructorId && !classItem.instructorName && (
@@ -162,7 +163,7 @@ const ClassListItem = memo(({
               style={[styles.statusChip, { backgroundColor: COLORS.info[50], borderColor: COLORS.info[500] }]}
               textStyle={{ color: COLORS.info[700], fontSize: 10 }}
             >
-              Sem Instrutor
+              {getString('noInstructor')}
             </Chip>
           )}
         </View>
@@ -176,7 +177,7 @@ const ClassListItem = memo(({
             icon="eye"
             variant="ghost"
             size="small"
-            label="Detalhes"
+            label={getString('details')}
           />
           <ActionButton
             onPress={handleEdit}
@@ -184,7 +185,7 @@ const ClassListItem = memo(({
             icon="pencil"
             variant="ghost"
             size="small"
-            label="Editar"
+            label={getString('edit')}
           />
           <ActionButton
             onPress={handlePress}
@@ -192,7 +193,7 @@ const ClassListItem = memo(({
             icon="account-group"
             variant="primary" // Highlight primary action
             size="small"
-            label="Alunos"
+            label={getString('students')}
           />
         </View>
       </View>

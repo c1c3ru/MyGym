@@ -1,8 +1,9 @@
-import { firebaseApp, firebaseAuth, firebaseFirestore } from '@infrastructure/firebase';
+import { firebaseApp, firebaseAuth, firebaseFirestore, firebaseStorage } from '@infrastructure/firebase';
 import { Auth } from 'firebase/auth';
 import { Firestore } from 'firebase/firestore';
 import { FirebaseApp } from 'firebase/app';
 import { Functions, getFunctions } from 'firebase/functions';
+import { FirebaseStorage } from 'firebase/storage';
 
 // Initialize Firebase App first (required before Auth and Firestore)
 let app: FirebaseApp;
@@ -28,6 +29,14 @@ try {
     db = firebaseFirestore.initialize();
 }
 
+// Get or initialize Firebase Storage
+let storage: FirebaseStorage;
+try {
+    storage = firebaseStorage.getStorage();
+} catch (error) {
+    storage = firebaseStorage.initialize();
+}
+
 // Get or initialize Firebase Functions
 let functions: Functions;
 try {
@@ -39,12 +48,13 @@ try {
 }
 
 // Export instances
-export { auth, db, app, functions };
+export { auth, db, app, functions, storage };
 
 // Default export
 export default {
     auth,
     db,
     app,
-    functions
+    functions,
+    storage
 };

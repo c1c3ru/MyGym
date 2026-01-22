@@ -12,11 +12,12 @@ import {
 } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
+import { academyFirestoreService, academyStudentService } from '@infrastructure/services/academyFirestoreService';
 import { useAuth } from '@contexts/AuthProvider';
 import { useTheme } from '@contexts/ThemeContext';
 import { useCustomClaims } from '@hooks/useCustomClaims';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT, GLASS } from '@presentation/theme/designTokens';
+import { getDayNames } from '@shared/utils/dateHelpers';
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
 
 interface Schedule {
@@ -98,11 +99,7 @@ const ClassDetailsScreen: React.FC<ClassDetailsScreenProps> = ({ route, navigati
 
       // Buscar alunos da turma na academia
       console.log('👥 Carregando alunos da turma...');
-      const allStudents = await academyFirestoreService.getAll('students', academiaId) as Student[];
-      const classStudents = allStudents.filter((student: Student) =>
-        student.classIds &&
-        student.classIds.includes(classId)
-      );
+      const classStudents = await academyStudentService.getStudentsByClass(classId, academiaId) as Student[];
       console.log('✅ Alunos da turma encontrados:', classStudents.length);
       setStudents(classStudents);
 
@@ -165,7 +162,7 @@ const ClassDetailsScreen: React.FC<ClassDetailsScreenProps> = ({ route, navigati
 
     // Se for um objeto único com dayOfWeek, minute, hour
     if (!Array.isArray(schedule) && schedule.dayOfWeek !== undefined && schedule.hour !== undefined && schedule.minute !== undefined) {
-      const days = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+      const days = getDayNames(getString);
       const dayName = days[schedule.dayOfWeek] || `${getString('day')} ${schedule.dayOfWeek}`;
       const time = `${schedule.hour.toString().padStart(2, '0')}:${schedule.minute.toString().padStart(2, '0')}`;
       return `${dayName} - ${time}`;
@@ -176,7 +173,7 @@ const ClassDetailsScreen: React.FC<ClassDetailsScreenProps> = ({ route, navigati
       return schedule.map(s => {
         if (typeof s === 'string') return s;
         if (s.dayOfWeek !== undefined && s.hour !== undefined && s.minute !== undefined) {
-          const days = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+          const days = getDayNames(getString);
           const dayName = days[s.dayOfWeek] || `${getString('day')} ${s.dayOfWeek}`;
           const time = `${s.hour.toString().padStart(2, '0')}:${s.minute.toString().padStart(2, '0')}`;
           return `${dayName} - ${time}`;

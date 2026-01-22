@@ -20,6 +20,8 @@ import ReportsSkeleton from '@components/skeletons/ReportsSkeleton';
 import { COLORS, SPACING, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { useTheme } from "@contexts/ThemeContext";
 import { useProfileTheme } from "../../../contexts/ProfileThemeContext";
+import exportUtils from '@shared/utils/exportUtils';
+import GlassCard from '@components/GlassCard';
 
 const Relatorios = ({ navigation }) => {
   const { getString, currentLanguage } = useTheme();
@@ -117,27 +119,173 @@ const Relatorios = ({ navigation }) => {
     loadReportData();
   }, [loadReportData, userProfile?.academiaId, user.id]);
 
-  const handleExportPDF = useCallback(() => {
+  const handleExportPDF = useCallback(async () => {
     trackButtonClick('export_pdf_report', { period: selectedPeriod });
     console.log('Exportar PDF');
-    // Implementar exportação PDF
-  }, [trackButtonClick, selectedPeriod]);
 
-  const handleExportExcel = useCallback(() => {
+    try {
+      const date = new Date().toLocaleDateString('pt-BR');
+
+      const htmlContent = `
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <meta charset="utf-8">
+            <title>Relatório de Desempenho - MyGym</title>
+            <style>
+              body { font-family: 'Helvetica', sans-serif; padding: 20px; color: #333; line-height: 1.6; }
+              h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+              h2 { color: #2980b9; margin-top: 30px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+              .header { margin-bottom: 30px; display: flex; justify-content: space-between; }
+              .card-container { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 30px; }
+              .card { background: #f8f9fa; border: 1px solid #ddd; border-radius: 8px; padding: 15px; flex: 1; min-width: 150px; }
+              .card-title { font-size: 12px; color: #7f8c8d; text-transform: uppercase; margin-bottom: 5px; }
+              .card-value { font-size: 24px; font-weight: bold; color: #2c3e50; }
+              table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px; }
+              th { background-color: #f1f2f6; text-align: left; padding: 10px; border-bottom: 2px solid #ddd; color: #2c3e50; }
+              td { padding: 10px; border-bottom: 1px solid #eee; }
+              tr:nth-child(even) { background-color: #f9f9f9; }
+              .footer { margin-top: 50px; font-size: 10px; color: #95a5a6; text-align: center; border-top: 1px solid #eee; padding-top: 10px; }
+            </style>
+          </head>
+          <body>
+            <div class="header">
+              <div>
+                <h1>Relatório de Desempenho</h1>
+                <div>Período: ${selectedPeriod.toUpperCase()}</div>
+              </div>
+              <div style="text-align: right; font-size: 12px; color: #7f8c8d;">
+                Gerado em: ${date}<br>
+                Instrutor: ${userProfile?.name || 'N/A'}
+              </div>
+            </div>
+
+            <div class="card-container">
+              <div class="card">
+                <div class="card-title">Total de Aulas</div>
+                <div class="card-value">${reportData.totalAulas}</div>
+              </div>
+              <div class="card">
+                <div class="card-title">Alunos Ativos</div>
+                <div class="card-value">${reportData.totalAlunos}</div>
+              </div>
+              <div class="card">
+                <div class="card-title">Frequência Média</div>
+                <div class="card-value">${reportData.frequenciaMedia}%</div>
+              </div>
+              <div class="card">
+                <div class="card-title">Receita Mensal</div>
+                <div class="card-value">R$ ${reportData.receitaMensal.toLocaleString('pt-BR')}</div>
+              </div>
+            </div>
+
+            <h2>Aulas Mais Populares</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Aula</th>
+                  <th>Alunos Matriculados</th>
+                  <th>Frequência</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${reportData.aulasPopulares.map(aula => `
+                  <tr>
+                    <td>${aula.nome}</td>
+                    <td>${aula.alunos}</td>
+                    <td>${aula.frequencia}%</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+
+            <h2>Evolução Mensal</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Mês</th>
+                  <th>Alunos</th>
+                  <th>Receita Estimada</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${reportData.evolucaoMensal.map(mes => `
+                  <tr>
+                    <td>${mes.mes}</td>
+                    <td>${mes.alunos}</td>
+                    <td>R$ ${mes.receita.toLocaleString('pt-BR')}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+
+            <div class="footer">
+              MyGym App - Gestão Inteligente para Academias<br>
+              documento confidencial
+            </div>
+          </body>
+        </html>
+      `;
+
+      await exportUtils.exportToPDF({
+        title: `Relatório MyGym - ${selectedPeriod}`,
+        htmlContent
+      });
+    } catch (error) {
+      console.error('Erro ao gerar PDF:', error);
+      // Aqui idealmente usaríamos um Snackbar ou Alert
+    }
+  }, [trackButtonClick, selectedPeriod, reportData, userProfile]);
+
+  const handleExportExcel = useCallback(async () => {
     trackButtonClick('export_excel_report', { period: selectedPeriod });
     console.log('Exportar Excel');
-    // Implementar exportação Excel
-  }, [trackButtonClick, selectedPeriod]);
+
+    try {
+      // Preparar dados para o Excel
+      // Juntando as informações em uma lista plana para facilitar
+      const evolutionData = reportData.evolucaoMensal.map(item => ({
+        'Categoria': 'Evolução Mensal',
+        'Período': item.mes,
+        'Métrica Primária': item.alunos, // Alunos
+        'Métrica Secundária': item.receita, // Receita
+        'Detalhes': '-'
+      }));
+
+      const classesData = reportData.aulasPopulares.map(item => ({
+        'Categoria': 'Aulas Populares',
+        'Período': selectedPeriod,
+        'Métrica Primária': item.alunos, // Alunos
+        'Métrica Secundária': item.frequencia, // Frequência (%)
+        'Detalhes': item.nome
+      }));
+
+      const overviewData = [
+        { 'Categoria': 'Resumo', 'Período': selectedPeriod, 'Métrica Primária': reportData.totalAlunos, 'Métrica Secundária': reportData.totalAulas, 'Detalhes': 'Total Alunos / Total Aulas' },
+        { 'Categoria': 'Resumo', 'Período': selectedPeriod, 'Métrica Primária': reportData.receitaMensal, 'Métrica Secundária': reportData.frequenciaMedia, 'Detalhes': 'Receita / Frequência' }
+      ];
+
+      const fullData = [...overviewData, ...evolutionData, ...classesData];
+
+      await exportUtils.exportToExcel({
+        fileName: `relatorio_mygym_${selectedPeriod}_${new Date().getTime()}`,
+        data: fullData,
+        sheetName: 'Relatório Geral'
+      });
+    } catch (error) {
+      console.error('Erro ao gerar Excel:', error);
+    }
+  }, [trackButtonClick, selectedPeriod, reportData]);
 
   const StatCard = useCallback(({ icon, title, value, subtitle, color = profileTheme.primary[500] }) => (
-    <Surface style={[styles.statCard, { borderLeftColor: color, backgroundColor: profileTheme.background.default }]}>
+    <GlassCard variant="subtle" style={[styles.statCard, { borderLeftColor: color }]} padding={ResponsiveUtils.spacing.md}>
       <View style={styles.statHeader}>
         <MaterialCommunityIcons name={icon} size={24} color={color} />
         <Text style={[styles.statTitle, { color: profileTheme.text.secondary }]}>{title}</Text>
       </View>
       <Text style={[styles.statValue, { color: profileTheme.text.primary }]}>{value}</Text>
       {subtitle && <Text style={[styles.statSubtitle, { color: profileTheme.text.hint }]}>{subtitle}</Text>}
-    </Surface>
+    </GlassCard>
   ), [profileTheme]);
 
   if (loading) {
@@ -171,158 +319,149 @@ const Relatorios = ({ navigation }) => {
             }
           >
             {/* Período */}
-            <Card style={[styles.card, { backgroundColor: profileTheme.background.paper }]}>
-              <Card.Content>
-                <View style={styles.header}>
-                  <MaterialCommunityIcons name="chart-line" size={32} color={profileTheme.secondary[500]} />
-                  <Text style={[styles.title, styles.title, { color: profileTheme.text.primary }]}>Relatórios e Análises</Text>
-                </View>
+            {/* Período */}
+            <GlassCard variant="card" style={styles.card} padding={SPACING.lg}>
+              <View style={styles.header}>
+                <MaterialCommunityIcons name="chart-line" size={32} color={profileTheme.secondary[500]} />
+                <Text style={[styles.title, styles.title, { color: profileTheme.text.primary }]}>Relatórios e Análises</Text>
+              </View>
 
-                <SegmentedButtons
-                  value={selectedPeriod}
-                  onValueChange={(value) => {
-                    trackButtonClick('change_report_period', { period: value });
-                    setSelectedPeriod(value);
-                  }}
-                  buttons={[
-                    { value: 'semana', label: 'Semana' },
-                    { value: 'mes', label: 'Mês' },
-                    { value: 'ano', label: 'Ano' }
-                  ]}
-                  style={styles.periodSelector}
-                  theme={{
-                    colors: {
-                      secondaryContainer: profileTheme.primary[100],
-                      onSecondaryContainer: profileTheme.primary[700],
-                      outline: profileTheme.primary[500]
-                    }
-                  }}
-                />
-              </Card.Content>
-            </Card>
+              <SegmentedButtons
+                value={selectedPeriod}
+                onValueChange={(value) => {
+                  trackButtonClick('change_report_period', { period: value });
+                  setSelectedPeriod(value);
+                }}
+                buttons={[
+                  { value: 'semana', label: 'Semana' },
+                  { value: 'mes', label: 'Mês' },
+                  { value: 'ano', label: 'Ano' }
+                ]}
+                style={styles.periodSelector}
+                theme={{
+                  colors: {
+                    secondaryContainer: profileTheme.primary[100],
+                    onSecondaryContainer: profileTheme.primary[700],
+                    outline: profileTheme.primary[500]
+                  }
+                }}
+              />
+            </GlassCard>
 
             {/* Estatísticas Gerais */}
-            <Card style={[styles.card, { backgroundColor: profileTheme.background.paper }]}>
-              <Card.Content>
-                <Text style={[styles.sectionTitle, styles.title, { color: profileTheme.text.primary }]}>Visão Geral</Text>
+            <GlassCard variant="card" style={styles.card} padding={SPACING.lg}>
+              <Text style={[styles.sectionTitle, styles.title, { color: profileTheme.text.primary }]}>Visão Geral</Text>
 
-                <View style={styles.statsGrid}>
-                  <StatCard
-                    icon="school"
-                    title="Total de Aulas"
-                    value={reportData.totalAulas}
-                    subtitle="Este mês"
-                    color={profileTheme.primary[500]}
-                  />
+              <View style={styles.statsGrid}>
+                <StatCard
+                  icon="school"
+                  title="Total de Aulas"
+                  value={reportData.totalAulas}
+                  subtitle="Este mês"
+                  color={profileTheme.primary[500]}
+                />
 
-                  <StatCard
-                    icon="account-group"
-                    title="Alunos Ativos"
-                    value={reportData.totalAlunos}
-                    subtitle="+15 este mês"
-                    color={profileTheme.info || COLORS.info[500]}
-                  />
+                <StatCard
+                  icon="account-group"
+                  title="Alunos Ativos"
+                  value={reportData.totalAlunos}
+                  subtitle="+15 este mês"
+                  color={profileTheme.info || COLORS.info[500]}
+                />
 
-                  <StatCard
-                    icon="chart-line"
-                    title="Frequência Média"
-                    value={`${reportData.frequenciaMedia}%`}
-                    subtitle="+3% vs mês anterior"
-                    color={COLORS.warning[500]}
-                  />
+                <StatCard
+                  icon="chart-line"
+                  title="Frequência Média"
+                  value={`${reportData.frequenciaMedia}%`}
+                  subtitle="+3% vs mês anterior"
+                  color={COLORS.warning[500]}
+                />
 
-                  <StatCard
-                    icon="currency-usd"
-                    title="Receita Mensal"
-                    value={`R$ ${reportData.receitaMensal.toLocaleString()}`}
-                    subtitle="+12% crescimento"
-                    color={profileTheme.secondary[500]}
-                  />
-                </View>
-              </Card.Content>
-            </Card>
+                <StatCard
+                  icon="currency-usd"
+                  title="Receita Mensal"
+                  value={`R$ ${reportData.receitaMensal.toLocaleString()}`}
+                  subtitle="+12% crescimento"
+                  color={profileTheme.secondary[500]}
+                />
+              </View>
+            </GlassCard>
 
             {/* Aulas Mais Populares */}
-            <Card style={[styles.card, { backgroundColor: profileTheme.background.paper }]}>
-              <Card.Content>
-                <Text style={[styles.sectionTitle, styles.title, { color: profileTheme.text.primary }]}>Aulas Mais Populares</Text>
+            <GlassCard variant="card" style={styles.card} padding={SPACING.lg}>
+              <Text style={[styles.sectionTitle, styles.title, { color: profileTheme.text.primary }]}>Aulas Mais Populares</Text>
 
-                {reportData.aulasPopulares.map((aula, index) => (
-                  <Surface key={index} style={[styles.aulaItem, { backgroundColor: profileTheme.background.default }]}>
-                    <View style={styles.aulaHeader}>
-                      <Text style={[styles.aulaNome, { color: profileTheme.text.primary }]}>{aula.nome}</Text>
-                      <Chip mode="flat" style={[styles.frequenciaChip, { backgroundColor: profileTheme.secondary[100] }]} textStyle={{ color: profileTheme.secondary[900] }}>
-                        {aula.frequencia}%
-                      </Chip>
-                    </View>
-                    <View style={styles.aulaDetails}>
-                      <MaterialCommunityIcons name="account-multiple" size={16} color={profileTheme.text.secondary} />
-                      <Text style={[styles.aulaAlunos, { color: profileTheme.text.secondary }]}>{aula.alunos} alunos</Text>
-                    </View>
-                    <View style={[styles.progressBar, { backgroundColor: profileTheme.text.disabled }]}>
-                      <View
-                        style={[
-                          styles.progressFill,
-                          { width: `${aula.frequencia}%`, backgroundColor: profileTheme.primary[500] }
-                        ]}
-                      />
-                    </View>
-                  </Surface>
-                ))}
-              </Card.Content>
-            </Card>
+              {reportData.aulasPopulares.map((aula, index) => (
+                <GlassCard variant="subtle" key={index} style={styles.aulaItem} padding={ResponsiveUtils.spacing.md}>
+                  <View style={styles.aulaHeader}>
+                    <Text style={[styles.aulaNome, { color: profileTheme.text.primary }]}>{aula.nome}</Text>
+                    <Chip mode="flat" style={[styles.frequenciaChip, { backgroundColor: profileTheme.secondary[100] }]} textStyle={{ color: profileTheme.secondary[900] }}>
+                      {aula.frequencia}%
+                    </Chip>
+                  </View>
+                  <View style={styles.aulaDetails}>
+                    <MaterialCommunityIcons name="account-multiple" size={16} color={profileTheme.text.secondary} />
+                    <Text style={[styles.aulaAlunos, { color: profileTheme.text.secondary }]}>{aula.alunos} alunos</Text>
+                  </View>
+                  <View style={[styles.progressBar, { backgroundColor: profileTheme.text.disabled }]}>
+                    <View
+                      style={[
+                        styles.progressFill,
+                        { width: `${aula.frequencia}%`, backgroundColor: profileTheme.primary[500] }
+                      ]}
+                    />
+                  </View>
+                </GlassCard>
+              ))}
+            </GlassCard>
 
             {/* Evolução Mensal */}
-            <Card style={[styles.card, { backgroundColor: profileTheme.background.paper }]}>
-              <Card.Content>
-                <Text style={[styles.sectionTitle, styles.title, { color: profileTheme.text.primary }]}>Evolução dos Últimos Meses</Text>
+            <GlassCard variant="card" style={styles.card} padding={SPACING.lg}>
+              <Text style={[styles.sectionTitle, styles.title, { color: profileTheme.text.primary }]}>Evolução dos Últimos Meses</Text>
 
-                {reportData.evolucaoMensal.map((mes, index) => (
-                  <View key={index} style={[styles.evolucaoItem, { borderBottomColor: profileTheme.text.disabled }]}>
-                    <Text style={[styles.evolucaoMes, { color: profileTheme.text.primary }]}>{mes.mes}</Text>
-                    <View style={styles.evolucaoData}>
-                      <View style={styles.evolucaoMetric}>
-                        <MaterialCommunityIcons name="account-group" size={16} color={profileTheme.info || COLORS.info[500]} />
-                        <Text style={[styles.evolucaoValue, { color: profileTheme.text.secondary }]}>{mes.alunos} alunos</Text>
-                      </View>
-                      <View style={styles.evolucaoMetric}>
-                        <MaterialCommunityIcons name="currency-usd" size={16} color={profileTheme.primary[500]} />
-                        <Text style={[styles.evolucaoValue, { color: profileTheme.text.secondary }]}>R$ {mes.receita.toLocaleString()}</Text>
-                      </View>
+              {reportData.evolucaoMensal.map((mes, index) => (
+                <View key={index} style={[styles.evolucaoItem, { borderBottomColor: profileTheme.text.disabled }]}>
+                  <Text style={[styles.evolucaoMes, { color: profileTheme.text.primary }]}>{mes.mes}</Text>
+                  <View style={styles.evolucaoData}>
+                    <View style={styles.evolucaoMetric}>
+                      <MaterialCommunityIcons name="account-group" size={16} color={profileTheme.info || COLORS.info[500]} />
+                      <Text style={[styles.evolucaoValue, { color: profileTheme.text.secondary }]}>{mes.alunos} alunos</Text>
+                    </View>
+                    <View style={styles.evolucaoMetric}>
+                      <MaterialCommunityIcons name="currency-usd" size={16} color={profileTheme.primary[500]} />
+                      <Text style={[styles.evolucaoValue, { color: profileTheme.text.secondary }]}>R$ {mes.receita.toLocaleString()}</Text>
                     </View>
                   </View>
-                ))}
-              </Card.Content>
-            </Card>
+                </View>
+              ))}
+            </GlassCard>
 
             {/* Ações */}
-            <Card style={[styles.card, { backgroundColor: profileTheme.background.paper }]}>
-              <Card.Content>
-                <Text style={[styles.sectionTitle, styles.title, { color: profileTheme.text.primary }]}>Exportar Relatórios</Text>
+            <GlassCard variant="card" style={styles.card} padding={SPACING.lg}>
+              <Text style={[styles.sectionTitle, styles.title, { color: profileTheme.text.primary }]}>Exportar Relatórios</Text>
 
-                <View style={styles.exportButtons}>
-                  <Button
-                    mode="outlined"
-                    icon="file-pdf-box"
-                    onPress={handleExportPDF}
-                    style={[styles.exportButton, { borderColor: profileTheme.primary[500] }]}
-                    textColor={profileTheme.primary[500]}
-                  >
-                    Exportar PDF
-                  </Button>
+              <View style={styles.exportButtons}>
+                <Button
+                  mode="outlined"
+                  icon="file-pdf-box"
+                  onPress={handleExportPDF}
+                  style={[styles.exportButton, { borderColor: profileTheme.primary[500] }]}
+                  textColor={profileTheme.primary[500]}
+                >
+                  Exportar PDF
+                </Button>
 
-                  <Button
-                    mode="outlined"
-                    icon="microsoft-excel"
-                    onPress={handleExportExcel}
-                    style={[styles.exportButton, { borderColor: profileTheme.secondary[500] }]}
-                    textColor={profileTheme.secondary[500]}
-                  >
-                    Exportar Excel
-                  </Button>
-                </View>
-              </Card.Content>
-            </Card>
+                <Button
+                  mode="outlined"
+                  icon="microsoft-excel"
+                  onPress={handleExportExcel}
+                  style={[styles.exportButton, { borderColor: profileTheme.secondary[500] }]}
+                  textColor={profileTheme.secondary[500]}
+                >
+                  Exportar Excel
+                </Button>
+              </View>
+            </GlassCard>
           </ScrollView>
         </SafeAreaView>
       </LinearGradient>

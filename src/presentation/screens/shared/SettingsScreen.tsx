@@ -83,7 +83,7 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
       <SafeAreaView style={[styles.container, { minHeight: 0 }]}>
         <ScrollView
           style={styles.scrollView}
-          contentContainerStyle={[styles.scrollContent, { minHeight: '101%' }]}
+          contentContainerStyle={styles.scrollContent}
           showsVerticalScrollIndicator={true}
           alwaysBounceVertical={true}
         >
@@ -416,7 +416,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   scrollContent: {
-    paddingBottom: SPACING.xxl,
+    paddingBottom: SPACING.xxl * 3,
     paddingHorizontal: SPACING.md,
     flexGrow: 1,
   },

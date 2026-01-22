@@ -265,7 +265,7 @@ const createStyles = (colors: any) => StyleSheet.create({
   gradient: { flex: 1 },
   container: { flex: 1, backgroundColor: colors.background },
   loadingContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-  scrollContent: { padding: SPACING.lg, paddingBottom: 100 },
+  scrollContent: { padding: SPACING.lg, paddingBottom: SPACING.xxl * 3 },
   header: { marginBottom: SPACING.lg },
   title: { fontSize: FONT_SIZE.xxl, fontWeight: 'bold', color: colors.onSurface },
   subtitle: { fontSize: FONT_SIZE.md, color: colors.onSurfaceVariant, marginTop: SPACING.xs },

@@ -1,6 +1,7 @@
 import React, { memo, useCallback, useMemo } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Text, Avatar, Chip, Divider, IconButton, useTheme } from 'react-native-paper';
+import { Text, Avatar, Chip, Divider, IconButton } from 'react-native-paper';
+import { useTheme } from '@contexts/ThemeContext';
 import ActionButton from '../ActionButton';
 import { COLORS, SPACING, FONT_SIZE } from '@presentation/theme/designTokens';
 import { Student } from '../../types/student';
@@ -32,8 +33,8 @@ const StudentListItem = memo<StudentListItemProps>(({
     onView,
     index
 }) => {
-    const theme = useTheme();
-    const { colors, getString } = theme as any; // Cast to any to access getString if not in types
+    const { theme, getString } = useTheme();
+    const { colors } = theme;
 
     // Dynamic styles based on theme
     const dynamicStyles = useMemo(() => ({
@@ -79,9 +80,9 @@ const StudentListItem = memo<StudentListItemProps>(({
     const isInactive = student.status === 'inactive' || (!student.status && !student.isActive);
     const isActive = !isSuspended && !isInactive;
 
-    const statusLabel = isSuspended ? (getString?.('suspended') || 'Suspenso') :
-        isInactive ? (getString?.('inactive') || 'Inativo') :
-            (getString?.('active') || 'Ativo');
+    const statusLabel = isSuspended ? getString('suspended') :
+        isInactive ? getString('inactive') :
+            getString('active');
 
     const statusColor = isSuspended ? COLORS.error[500] :
         isInactive ? COLORS.gray[500] :
@@ -92,7 +93,7 @@ const StudentListItem = memo<StudentListItemProps>(({
             COLORS.success[50];
 
     // Graduação
-    const graduationLabel = student.currentGraduation ? (getString?.(student.currentGraduation) || student.currentGraduation) : (getString?.('beginner') || 'Iniciante');
+    const graduationLabel = student.currentGraduation ? getString(student.currentGraduation) : getString('beginner');
 
     return (
         <GlassCard
@@ -113,7 +114,7 @@ const StudentListItem = memo<StudentListItemProps>(({
                             <Text style={dynamicStyles.title} numberOfLines={1}>{student.name}</Text>
                             <Text style={[styles.email, { color: dynamicStyles.textSecondary.color }]} numberOfLines={1}>{student.email}</Text>
                             <Text style={[styles.phone, { color: dynamicStyles.textSecondary.color }]} numberOfLines={1}>
-                                {student.phone || (getString?.('phoneNotInformed') || 'Telefone não informado')}
+                                {student.phone || getString('phoneNotInformed')}
                             </Text>
                         </View>
                     </View>
@@ -139,14 +140,14 @@ const StudentListItem = memo<StudentListItemProps>(({
                     <View style={{ width: 1, backgroundColor: colors.outlineVariant, height: 20 }} />
 
                     <View style={styles.miniStat}>
-                        <Text style={{ fontSize: 10, color: dynamicStyles.textSecondary.color }}>Graduação</Text>
+                        <Text style={{ fontSize: 10, color: dynamicStyles.textSecondary.color }}>{getString('graduation')}</Text>
                         <Text style={{ fontSize: 12, fontWeight: 'bold', color: colors.onSurface }}>{graduationLabel}</Text>
                     </View>
 
                     <View style={{ width: 1, backgroundColor: colors.outlineVariant, height: 20 }} />
 
                     <View style={styles.miniStat}>
-                        <Text style={{ fontSize: 10, color: dynamicStyles.textSecondary.color }}>Modalidades</Text>
+                        <Text style={{ fontSize: 10, color: dynamicStyles.textSecondary.color }}>{getString('modalities')}</Text>
                         <Text style={{ fontSize: 12, fontWeight: 'bold', color: colors.onSurface }}>{student.modalities?.length || 0}</Text>
                     </View>
                 </View>
@@ -154,7 +155,7 @@ const StudentListItem = memo<StudentListItemProps>(({
                 {/* Info about plan (New) */}
                 {student.currentPlan && (
                     <View style={{ marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>
-                        <Text style={{ fontSize: 11, color: dynamicStyles.textSecondary.color, marginRight: 4 }}>Plano:</Text>
+                        <Text style={{ fontSize: 11, color: dynamicStyles.textSecondary.color, marginRight: 4 }}>{getString('plan')}:</Text>
                         <Text style={{ fontSize: 11, fontWeight: 'bold', color: colors.primary }}>{student.currentPlan}</Text>
                     </View>
                 )}
@@ -170,7 +171,7 @@ const StudentListItem = memo<StudentListItemProps>(({
                         variant="ghost"
                         size="small"
                     >
-                        {getString?.('viewDetails') || 'Detalhes'}
+                        {getString('viewDetails')}
                     </ActionButton>
                     <ActionButton
                         onPress={handleEdit}
@@ -179,7 +180,7 @@ const StudentListItem = memo<StudentListItemProps>(({
                         variant="ghost"
                         size="small"
                     >
-                        {getString?.('edit') || 'Editar'}
+                        {getString('edit')}
                     </ActionButton>
                     <ActionButton
                         onPress={handleDelete}
@@ -189,7 +190,7 @@ const StudentListItem = memo<StudentListItemProps>(({
                         mode="text"
                         size="small"
                     >
-                        {getString?.('disassociate') || 'Remover'}
+                        {getString('disassociate')}
                     </ActionButton>
                 </View>
             </View>

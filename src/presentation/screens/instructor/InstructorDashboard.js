@@ -46,6 +46,7 @@ import {
   OPACITY,
   GLASS,
 } from "@presentation/theme/designTokens";
+import { getDayNames } from "@shared/utils/dateHelpers";
 import { hexToRgba } from "@shared/utils/colorUtils";
 import { useOnboarding } from "@components/OnboardingTour";
 import { useProfileTheme } from "../../../contexts/ProfileThemeContext";
@@ -430,15 +431,7 @@ const InstructorDashboard = ({ navigation }) => {
   };
 
   const getDayName = (dayNumber) => {
-    const days = [
-      getString("sunday"),
-      getString("monday"),
-      getString("tuesday"),
-      getString("wednesday"),
-      getString("thursday"),
-      getString("friday"),
-      getString("saturday"),
-    ];
+    const days = getDayNames(getString);
     return days[dayNumber] || getString("notAvailable");
   };
 
@@ -524,11 +517,11 @@ const InstructorDashboard = ({ navigation }) => {
                       />
                     </Animated.View>
                     <View style={styles.headerText}>
-                      <Text style={styles.welcomeText}>
+                      <Text style={[styles.welcomeText, { color: COLORS.white }]}>
                         {getString("hello")},{" "}
                         {userProfile?.name?.split(" ")[0] || "Professor"}! 👋
                       </Text>
-                      <Text style={styles.roleText}>
+                      <Text style={[styles.roleText, { color: hexToRgba(COLORS.white, 0.8) }]}>
                         {userProfile?.specialties?.join(" • ") ||
                           getString("martialArtsInstructor")}
                       </Text>
@@ -538,7 +531,7 @@ const InstructorDashboard = ({ navigation }) => {
                           size={8}
                           color={profileTheme.primary[500]}
                         />
-                        <Text style={styles.statusText}>
+                        <Text style={[styles.statusText, { color: COLORS.white }]}>
                           {getString("online")}
                         </Text>
                       </View>
@@ -571,10 +564,10 @@ const InstructorDashboard = ({ navigation }) => {
                       size={24}
                       containerSize={40}
                     />
-                    <Text style={styles.statNumber}>
+                    <Text style={[styles.statNumber, { color: profileTheme.text.primary }]}>
                       {dashboardData.myClasses.length}
                     </Text>
-                    <Text style={styles.statLabel}>{getString("myClasses")}</Text>
+                    <Text style={[styles.statLabel, { color: profileTheme.text.secondary }]}>{getString("myClasses")}</Text>
                   </View>
                 </GlassCard>
               </Animated.View>
@@ -594,10 +587,10 @@ const InstructorDashboard = ({ navigation }) => {
                       size={24}
                       containerSize={40}
                     />
-                    <Text style={styles.statNumber}>
+                    <Text style={[styles.statNumber, { color: profileTheme.text.primary }]}>
                       {dashboardData.totalStudents}
                     </Text>
-                    <Text style={styles.statLabel}>
+                    <Text style={[styles.statLabel, { color: profileTheme.text.secondary }]}>
                       {getString("totalStudents")}
                     </Text>
                   </View>
@@ -619,10 +612,10 @@ const InstructorDashboard = ({ navigation }) => {
                       size={24}
                       containerSize={40}
                     />
-                    <Text style={styles.statNumber}>
+                    <Text style={[styles.statNumber, { color: profileTheme.text.primary }]}>
                       {dashboardData.todayClasses.length}
                     </Text>
-                    <Text style={styles.statLabel}>
+                    <Text style={[styles.statLabel, { color: profileTheme.text.secondary }]}>
                       {getString("classesToday")}
                     </Text>
                   </View>
@@ -644,10 +637,10 @@ const InstructorDashboard = ({ navigation }) => {
                       size={24}
                       containerSize={40}
                     />
-                    <Text style={styles.statNumber}>
+                    <Text style={[styles.statNumber, { color: profileTheme.text.primary }]}>
                       {dashboardData.activeCheckIns}
                     </Text>
-                    <Text style={styles.statLabel}>{getString("checkIns")}</Text>
+                    <Text style={[styles.statLabel, { color: profileTheme.text.secondary }]}>{getString("checkIns")}</Text>
                   </View>
                 </GlassCard>
               </Animated.View>
@@ -660,8 +653,8 @@ const InstructorDashboard = ({ navigation }) => {
                   emoji="🕒"
                   title={getString("todaySchedule")}
                   subtitle={`${dashboardData.todayClasses.length} ${getString("classesScheduled")}`}
-                  textColor={COLORS.white}
-                  subtitleColor={COLORS.gray[300]}
+                  textColor={profileTheme.text.primary}
+                  subtitleColor={profileTheme.text.secondary}
                 />
 
                 {dashboardData.todayClasses.length > 0 ? (
@@ -677,7 +670,7 @@ const InstructorDashboard = ({ navigation }) => {
                         <View style={styles.timelineDot} />
                         <View style={styles.timelineContent}>
                           <View style={styles.timelineHeader}>
-                            <Text style={styles.timelineTitle}>
+                            <Text style={[styles.timelineTitle, { color: profileTheme.text.primary }]}>
                               {classItem.name}
                             </Text>
                             <Chip
@@ -694,9 +687,9 @@ const InstructorDashboard = ({ navigation }) => {
                               <MaterialCommunityIcons
                                 name="clock"
                                 size={16}
-                                color={COLORS.gray[400]}
+                                color={profileTheme.text.secondary}
                               />
-                              <Text style={styles.timelineText}>
+                              <Text style={[styles.timelineText, { color: profileTheme.text.secondary }]}>
                                 {classItem.schedule
                                   ?.map(
                                     (s) => `${formatTime(s.hour, s.minute)}`,
@@ -709,9 +702,9 @@ const InstructorDashboard = ({ navigation }) => {
                               <MaterialCommunityIcons
                                 name="account-multiple"
                                 size={16}
-                                color={COLORS.gray[400]}
+                                color={profileTheme.text.secondary}
                               />
-                              <Text style={styles.timelineText}>
+                              <Text style={[styles.timelineText, { color: profileTheme.text.secondary }]}>
                                 {classItem.currentStudents || 0}/
                                 {classItem.maxCapacity ||
                                   getString("notAvailable")}{" "}
@@ -748,10 +741,10 @@ const InstructorDashboard = ({ navigation }) => {
                       size={48}
                       color={COLORS.gray[600]}
                     />
-                    <Text style={styles.emptyStateText}>
+                    <Text style={[styles.emptyStateText, { color: profileTheme.text.secondary }]}>
                       {getString("noClassesToday")}
                     </Text>
-                    <Text style={styles.emptyStateSubtext}>
+                    <Text style={[styles.emptyStateSubtext, { color: profileTheme.text.disabled }]}>
                       {getString("planNextClasses")}
                     </Text>
                   </View>
@@ -766,8 +759,8 @@ const InstructorDashboard = ({ navigation }) => {
                   emoji="⚡"
                   title={getString("quickActions")}
                   subtitle={getString("directAccessFunctionalities")}
-                  textColor={COLORS.white}
-                  subtitleColor={COLORS.gray[300]}
+                  textColor={profileTheme.text.primary}
+                  subtitleColor={profileTheme.text.secondary}
                 />
 
                 <View style={styles.modernQuickActions}>
@@ -781,10 +774,10 @@ const InstructorDashboard = ({ navigation }) => {
                           size={28}
                           containerSize={48}
                         />
-                        <Text style={styles.actionTitle}>
+                        <Text style={[styles.actionTitle, { color: profileTheme.text.primary }]}>
                           {getString("scheduleClasses")}
                         </Text>
-                        <Text style={styles.actionSubtitle}>
+                        <Text style={[styles.actionSubtitle, { color: profileTheme.text.secondary }]}>
                           {getString("addClassesToYourClasses")}
                         </Text>
                       </View>

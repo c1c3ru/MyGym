@@ -316,7 +316,7 @@ const createStyles = (colors: any, textColor: string) => StyleSheet.create({
     color: textColor,
   },
   scrollView: { flex: 1 },
-  scrollContent: { padding: SPACING.lg, paddingBottom: 100 },
+  scrollContent: { padding: SPACING.lg, paddingBottom: SPACING.xxl * 3 },
   subtitle: {
     fontSize: FONT_SIZE.md,
     color: textColor,

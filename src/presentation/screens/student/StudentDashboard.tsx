@@ -39,6 +39,8 @@ import { getGraduationEligibility } from '@shared/utils/graduationRules';
 
 import { SPACING, BORDER_RADIUS, FONT_SIZE } from '@presentation/theme/designTokens';
 
+import GlassCard from '@presentation/components/GlassCard';
+
 const AnimatedCard: React.FC<{
     children: React.ReactNode;
     delay?: number;
@@ -73,11 +75,13 @@ const AnimatedCard: React.FC<{
                 marginBottom: SPACING.md
             }}
         >
-            <Card style={[{ borderRadius: BORDER_RADIUS.md, elevation: 2 }, { backgroundColor: colors.surface }, style]}>
-                <Card.Content>
-                    {children}
-                </Card.Content>
-            </Card>
+            <GlassCard
+                variant="default"
+                padding={SPACING.md}
+                style={[{ borderRadius: BORDER_RADIUS.md }, style]}
+            >
+                {children}
+            </GlassCard>
         </Animated.View>
     );
 };

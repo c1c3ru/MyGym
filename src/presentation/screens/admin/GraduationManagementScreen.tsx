@@ -417,7 +417,7 @@ const GraduationManagementScreen: React.FC<{ navigation: any }> = ({ navigation 
 
       <ScrollView
         style={styles.content}
-        contentContainerStyle={{ paddingBottom: 100, minHeight: '101%' }}
+        contentContainerStyle={styles.scrollContent}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={refreshGraduationBoard} />
         }
@@ -469,6 +469,9 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     padding: SPACING.md,
+  },
+  scrollContent: {
+    paddingBottom: SPACING.xxl * 3,
   },
   loadingContainer: {
     flex: 1,
