@@ -19,6 +19,8 @@ import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@present
 import { getAuthGradient } from '@presentation/theme/authTheme';
 import ThemeToggleSwitch from '@components/ThemeToggleSwitch';
 import { useTheme } from '@contexts/ThemeContext';
+import AppearanceModal from '@components/modals/AppearanceModal';
+import PreferencesModal from '@components/modals/PreferencesModal';
 import type { NavigationProp } from '@react-navigation/native';
 
 interface SettingsScreenProps {
@@ -37,6 +39,8 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
   const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
   const [showDeleteAccountDialog, setShowDeleteAccountDialog] = useState(false);
+  const [showAppearanceModal, setShowAppearanceModal] = useState(false);
+  const [showPreferencesModal, setShowPreferencesModal] = useState(false);
 
   const handleLogout = (): void => {
     setShowLogoutDialog(true);
@@ -131,8 +135,27 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
             </View>
           </ModernCard>
 
-          {/* Alternância de Temas */}
-          <ThemeToggleSwitch />
+          {/* Aparência */}
+          <ModernCard variant="card" style={styles.card}>
+            <View>
+              <View style={styles.cardHeader}>
+                <Ionicons name="color-palette" size={24} color={COLORS.primary[500]} />
+                <Text variant="headlineSmall" style={[styles.cardTitle, { color: theme.colors.text }]}>
+                  {getString('appearance')}
+                </Text>
+              </View>
+
+              <List.Item
+                title={getString('theme')}
+                description={isDarkMode ? 'Tema Escuro' : 'Tema Claro'}
+                left={() => <Ionicons name="color-palette" size={20} color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
+                right={() => <List.Icon icon="chevron-right" color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
+                onPress={() => setShowAppearanceModal(true)}
+                titleStyle={{ color: theme.colors.text }}
+                descriptionStyle={{ color: theme.colors.textSecondary }}
+              />
+            </View>
+          </ModernCard>
 
 
 
@@ -147,31 +170,11 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
               </View>
 
               <List.Item
-                title={getString('notifications')}
-                description={getString('receivePushNotifications')}
-                left={() => <Ionicons name="notifications" size={20} color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
-                right={() => (
-                  <Switch
-                    value={notifications}
-                    onValueChange={setNotifications}
-                    trackColor={{ false: COLORS.gray[600], true: COLORS.info[500] }}
-                  />
-                )}
-                titleStyle={{ color: theme.colors.text }}
-                descriptionStyle={{ color: theme.colors.textSecondary }}
-              />
-
-              <List.Item
-                title={getString('autoBackup')}
-                description={getString('autoBackupDescription')}
-                left={() => <Ionicons name="cloud-upload" size={20} color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
-                right={() => (
-                  <Switch
-                    value={autoBackup}
-                    onValueChange={setAutoBackup}
-                    trackColor={{ false: COLORS.gray[600], true: COLORS.info[500] }}
-                  />
-                )}
+                title={getString('managePreferences')}
+                description={getString('notificationsAndBackup')}
+                left={() => <Ionicons name="options" size={20} color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
+                right={() => <List.Icon icon="chevron-right" color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
+                onPress={() => setShowPreferencesModal(true)}
                 titleStyle={{ color: theme.colors.text }}
                 descriptionStyle={{ color: theme.colors.textSecondary }}
               />
@@ -397,6 +400,16 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
             </View>
           </Modal>
         </Portal>
+
+        <AppearanceModal
+          visible={showAppearanceModal}
+          onDismiss={() => setShowAppearanceModal(false)}
+        />
+
+        <PreferencesModal
+          visible={showPreferencesModal}
+          onDismiss={() => setShowPreferencesModal(false)}
+        />
       </SafeAreaView>
     </LinearGradient>
   );

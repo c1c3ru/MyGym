@@ -1,6 +1,7 @@
 import * as Print from 'expo-print';
 import * as Sharing from 'expo-sharing';
 import * as FileSystem from 'expo-file-system';
+import { Platform } from 'react-native';
 import XLSX from 'xlsx';
 
 /**
@@ -94,23 +95,11 @@ export const exportUtils = {
         throw new Error('Conteúdo HTML ou dados não fornecidos para exportação PDF');
       }
 
-      if (typeof window !== 'undefined' && (window as any).navigator && (window as any).navigator.userAgent && /chrome|safari|firefox|edge/i.test((window as any).navigator.userAgent)) {
-        // Web: Abrir em nova janela para impressão
-        console.log('🌐 Exportando PDF via Web Print...');
-        const printWindow = window.open('', '_blank');
-        if (printWindow) {
-          printWindow.document.write(content);
-          printWindow.document.close();
-
-          printWindow.onload = () => {
-            setTimeout(() => {
-              printWindow.print();
-            }, 500);
-          };
-          return true;
-        } else {
-          throw new Error('Pop-ups bloqueados. Por favor, permita pop-ups para exportar o PDF.');
-        }
+      if (Platform.OS === 'web') {
+        // No Web, printAsync é a forma mais robusta e oficial do Expo
+        // Ele lida com a criação do contexto de impressão isolado (iframe env)
+        await Print.printAsync({ html: content });
+        return true;
       } else {
         // Mobile (ou ambientes sem window)
         const result = await Print.printToFileAsync({ html: content });

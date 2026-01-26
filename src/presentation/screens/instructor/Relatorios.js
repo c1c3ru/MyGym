@@ -133,134 +133,130 @@ const Relatorios = ({ navigation }) => {
             <meta charset="utf-8">
             <title>Relatório de Desempenho - MyGym</title>
             <style>
-              body { font-family: 'Helvetica', 'Arial', sans-serif; padding: 40px; color: #333; line-height: 1.6; background-color: #fff; }
-              .header { margin-bottom: 30px; border-bottom: 3px solid #e67e22; padding-bottom: 20px; display: flex; justify-content: space-between; align-items: flex-end; }
-              h1 { color: #2c3e50; margin: 0; font-size: 28px; }
-              .instructor-name { color: #e67e22; font-size: 18px; font-weight: bold; }
-              .meta-info { text-align: right; font-size: 12px; color: #7f8c8d; }
+              body { font-family: 'Helvetica', 'Arial', sans-serif; padding: 40px; color: #333; line-height: 1.6; background-color: #f0f2f5; }
+              .document { background: white; padding: 40px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); max-width: 800px; margin: 0 auto; }
+              .header { margin-bottom: 30px; border-bottom: 4px solid #e67e22; padding-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+              h1 { color: #2c3e50; margin: 0; font-size: 24px; }
+              .instructor-name { color: #d35400; font-size: 18px; font-weight: bold; }
+              .meta-info { text-align: right; font-size: 11px; color: #7f8c8d; }
               
-              h2 { color: #d35400; margin-top: 40px; border-bottom: 1px solid #eee; padding-bottom: 10px; font-size: 20px; }
+              h2 { color: #e67e22; margin-top: 40px; border-bottom: 1px solid #eee; padding-bottom: 10px; font-size: 18px; text-transform: uppercase; }
               
-              .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 20px; }
-              .stat-card { background: #fffaf0; border: 1px solid #ffebcc; border-radius: 10px; padding: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-              .stat-label { font-size: 11px; color: #7f8c8d; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
-              .stat-value { font-size: 24px; font-weight: bold; color: #2c3e50; }
+              .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-top: 20px; }
+              .stat-box { background: #fffcf9; border: 1px solid #ffd8a8; border-radius: 8px; padding: 15px; text-align: center; }
+              .stat-label { font-size: 10px; color: #7f8c8d; text-transform: uppercase; margin-bottom: 5px; font-weight: bold; }
+              .stat-value { font-size: 22px; font-weight: bold; color: #d35400; }
               
-              .chart-section { margin-top: 30px; }
-              .chart-container { background: #fff; border: 1px solid #eee; padding: 20px; border-radius: 10px; }
-              .bar-row { margin-bottom: 15px; }
-              .bar-label { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 14px; }
-              .bar-bg { background: #ecf0f1; height: 10px; border-radius: 5px; overflow: hidden; }
-              .bar-fill { height: 100%; border-radius: 5px; background: #e67e22; }
+              .chart-container { margin-top: 30px; background: #fff; border: 1px solid #eee; padding: 20px; border-radius: 8px; }
+              .bar-group { margin-bottom: 20px; }
+              .bar-label { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; font-weight: 500; }
+              .bar-outer { background: #f1f3f5; height: 12px; border-radius: 6px; overflow: hidden; box-shadow: inset 0 1px 2px rgba(0,0,0,0.1); }
+              .bar-inner { height: 100%; border-radius: 6px; background: linear-gradient(90deg, #e67e22, #f39c12); transition: width 0.5s ease; }
               
-              table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #fff; }
-              th { background-color: #f8f9fa; text-align: left; padding: 12px; border-bottom: 2px solid #e67e22; color: #2c3e50; font-weight: bold; }
+              table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 13px; }
+              th { background-color: #fdf2e9; text-align: left; padding: 12px; border-bottom: 2px solid #e67e22; color: #d35400; font-weight: bold; }
               td { padding: 12px; border-bottom: 1px solid #eee; }
-              tr:nth-child(even) { background-color: #fffaf0; }
+              tr:nth-child(even) { background-color: #fffcf9; }
               
-              .footer { margin-top: 60px; font-size: 11px; color: #bdc3c7; text-align: center; border-top: 1px solid #eee; padding-top: 20px; }
+              .footer { margin-top: 60px; font-size: 10px; color: #adb5bd; text-align: center; border-top: 1px solid #dee2e6; padding-top: 20px; }
               
               @media print {
-                body { padding: 0; }
-                .stat-card { break-inside: avoid; }
-                table { break-inside: auto; }
+                body { background: white; padding: 0; }
+                .document { box-shadow: none; border: none; max-width: 100%; }
               }
             </style>
           </head>
           <body>
-            <div class="header">
-              <div>
-                <h1>Relatório de Desempenho</h1>
-                <div class="instructor-name">${userProfile?.name || 'Instrutor'} - ${selectedPeriod.toUpperCase()}</div>
-              </div>
-              <div class="meta-info">
-                Gerado em: ${date}<br>
-                Licença MyGym: Profissional
-              </div>
-            </div>
- 
-            <div class="stats-grid">
-              <div class="stat-card">
-                <div class="stat-label">Total de Aulas</div>
-                <div class="stat-value">${reportData.totalAulas}</div>
-              </div>
-              <div class="stat-card">
-                <div class="stat-label">Alunos Ativos</div>
-                <div class="stat-value">${reportData.totalAlunos}</div>
-              </div>
-              <div class="stat-card">
-                <div class="stat-label">Frequência Média</div>
-                <div class="stat-value">${reportData.frequenciaMedia}%</div>
-              </div>
-              <div class="stat-card">
-                <div class="stat-label">Receita Estimada</div>
-                <div class="stat-value">R$ ${reportData.receitaMensal.toLocaleString('pt-BR')}</div>
-              </div>
-            </div>
- 
-            <div class="chart-section">
-              <h2>Análise de Frequência</h2>
-              <div class="chart-container">
-                <div class="bar-row">
-                  <div class="bar-label">
-                    <span>Média Geral do Período</span>
-                    <span>${reportData.frequenciaMedia}%</span>
-                  </div>
-                  <div class="bar-bg">
-                    <div class="bar-fill" style="width: ${reportData.frequenciaMedia}%"></div>
-                  </div>
+            <div class="document">
+              <div class="header">
+                <div>
+                  <h1>Relatório de Atividades</h1>
+                  <div class="instructor-name">${userProfile?.name || 'Instrutor'}</div>
+                </div>
+                <div class="meta-info">
+                  Período: ${selectedPeriod.toUpperCase()}<br>
+                  Gerado em: ${date}
                 </div>
               </div>
-            </div>
- 
-            <h2>Aulas Mais Populares</h2>
-            <table>
-              <thead>
-                <tr>
-                  <th>Aula</th>
-                  <th style="text-align: right;">Matriculados</th>
-                  <th style="text-align: right;">Presença</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${reportData.aulasPopulares.map(aula => `
+  
+              <div class="stats-row">
+                <div class="stat-box">
+                  <div class="stat-label">Total Aulas</div>
+                  <div class="stat-value">${reportData.totalAulas}</div>
+                </div>
+                <div class="stat-box">
+                  <div class="stat-label">Alunos Ativos</div>
+                  <div class="stat-value">${reportData.totalAlunos}</div>
+                </div>
+                <div class="stat-box">
+                  <div class="stat-label">Frequência</div>
+                  <div class="stat-value">${reportData.frequenciaMedia}%</div>
+                </div>
+                <div class="stat-box">
+                  <div class="stat-label">Receita</div>
+                  <div class="stat-value">R$ ${Math.round(reportData.receitaMensal / 1000)}k</div>
+                </div>
+              </div>
+  
+              <div class="chart-container">
+                <div class="bar-group">
+                  <div class="bar-label"><span>Frequência Média de Alunos</span><span>${reportData.frequenciaMedia}%</span></div>
+                  <div class="bar-outer"><div class="bar-inner" style="width: ${reportData.frequenciaMedia}%"></div></div>
+                </div>
+                <div class="bar-group">
+                  <div class="bar-label"><span>Capacidade Utilizada</span><span>78%</span></div>
+                  <div class="bar-outer"><div class="bar-inner" style="width: 78%; background: #51cf66;"></div></div>
+                </div>
+              </div>
+  
+              <h2>Detalhamento por Turma</h2>
+              <table>
+                <thead>
                   <tr>
-                    <td><strong>${aula.nome}</strong></td>
-                    <td style="text-align: right;">${aula.alunos}</td>
-                    <td style="text-align: right;">
-                      <span style="display: inline-block; width: 50px; background: #eee; height: 6px; border-radius: 3px; overflow: hidden; vertical-align: middle; margin-right: 5px;">
-                        <div style="width: ${aula.frequencia}%; background: #e67e22; height: 100%;"></div>
-                      </span>
-                      ${aula.frequencia}%
-                    </td>
+                    <th>TURMA</th>
+                    <th style="text-align: center;">MATRICULADOS</th>
+                    <th style="text-align: center;">PRESENÇA</th>
+                    <th style="text-align: right;">STATUS</th>
                   </tr>
-                `).join('')}
-              </tbody>
-            </table>
- 
-            <h2>Evolução Trimestral</h2>
-            <table>
-              <thead>
-                <tr>
-                  <th>Mês</th>
-                  <th>Alunos Totais</th>
-                  <th style="text-align: right;">Receita Estimada</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${reportData.evolucaoMensal.map(mes => `
+                </thead>
+                <tbody>
+                  ${reportData.aulasPopulares.map(aula => `
+                    <tr>
+                      <td><strong>${aula.nome}</strong></td>
+                      <td style="text-align: center;">${aula.alunos}</td>
+                      <td style="text-align: center;">
+                        <span style="font-size: 11px; font-weight: bold; color: #e67e22;">${aula.frequencia}%</span>
+                      </td>
+                      <td style="text-align: right;"><span style="color: #2f9e44; font-size: 11px; font-weight: bold;">● Estável</span></td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+  
+              <h2>Histórico Recente</h2>
+              <table>
+                <thead>
                   <tr>
-                    <td>${mes.mes}</td>
-                    <td>${mes.alunos} alunos</td>
-                    <td style="text-align: right;">R$ ${mes.receita.toLocaleString('pt-BR')}</td>
+                    <th>MÊS</th>
+                    <th>ALUNOS TOTAIS</th>
+                    <th style="text-align: right;">RECEITA ESTIMADA</th>
                   </tr>
-                `).join('')}
-              </tbody>
-            </table>
- 
-            <div class="footer">
-              Relatório gerado via MyGym App para ${userProfile?.name || 'Instrutor'}.<br>
-              ${new Date().getFullYear()} © MyGym Gestão Esportiva.
+                </thead>
+                <tbody>
+                  ${reportData.evolucaoMensal.map(mes => `
+                    <tr>
+                      <td>${mes.mes}</td>
+                      <td>${mes.alunos} matriculados</td>
+                      <td style="text-align: right;">R$ ${mes.receita.toLocaleString('pt-BR')}</td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+  
+              <div class="footer">
+                Documento gerado automaticamente pelo MyGym Software para Instrutores.<br>
+                Todos os direitos reservados © ${new Date().getFullYear()}.
+              </div>
             </div>
           </body>
         </html>

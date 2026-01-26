@@ -28,6 +28,8 @@ import type { NavigationProp } from '@react-navigation/native';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { hexToRgba } from '@shared/utils/colorUtils';
 import EnhancedErrorBoundary from '@components/EnhancedErrorBoundary';
+import AppearanceModal from '@components/modals/AppearanceModal';
+import PreferencesModal from '@components/modals/PreferencesModal';
 
 interface ProfileScreenProps {
   navigation: NavigationProp<any>;
@@ -87,6 +89,8 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
   const [showPaymentEditor, setShowPaymentEditor] = useState(false);
   const [paymentDueNotification, setPaymentDueNotification] = useState<any>(null);
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
+  const [showAppearanceModal, setShowAppearanceModal] = useState(false);
+  const [showPreferencesModal, setShowPreferencesModal] = useState(false);
 
   // -- Data Loading Logic --
   const loadData = async () => {
@@ -553,6 +557,34 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
               </Animated.View>
             )}
 
+            {/* App Settings */}
+            <Animated.View entering={FadeInDown.delay(500).springify()}>
+              <GlassCard variant={glassVariant} style={styles.card}>
+                <View style={styles.cardHeader}>
+                  <Ionicons name="settings-outline" size={24} color={colors?.primary} />
+                  <Text style={styles.cardTitle}>{getString('appSettings') || 'Configurações do App'}</Text>
+                </View>
+                <List.Item
+                  title={getString('appearance') || 'Aparência'}
+                  description={getString('customizeTheme') || 'Tema claro ou escuro'}
+                  left={() => <List.Icon icon="palette" color={colors?.primary} />}
+                  right={() => <List.Icon icon="chevron-right" color={secondaryTextColor} />}
+                  onPress={() => setShowAppearanceModal(true)}
+                  titleStyle={{ color: textColor }}
+                  descriptionStyle={{ color: secondaryTextColor }}
+                />
+                <List.Item
+                  title={getString('preferences') || 'Preferências'}
+                  description={getString('notificationsAndBackup') || 'Notificações e sincronização'}
+                  left={() => <List.Icon icon="tune" color={colors?.primary} />}
+                  right={() => <List.Icon icon="chevron-right" color={secondaryTextColor} />}
+                  onPress={() => setShowPreferencesModal(true)}
+                  titleStyle={{ color: textColor }}
+                  descriptionStyle={{ color: secondaryTextColor }}
+                />
+              </GlassCard>
+            </Animated.View>
+
             <View style={{ marginTop: SPACING.xl, marginBottom: SPACING.lg }}>
               <Button
                 mode="outlined"
@@ -610,6 +642,16 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
               </View>
             </Modal>
           </Portal>
+
+          <AppearanceModal
+            visible={showAppearanceModal}
+            onDismiss={() => setShowAppearanceModal(false)}
+          />
+
+          <PreferencesModal
+            visible={showPreferencesModal}
+            onDismiss={() => setShowPreferencesModal(false)}
+          />
         </SafeAreaView>
       </LinearGradient>
     </EnhancedErrorBoundary>

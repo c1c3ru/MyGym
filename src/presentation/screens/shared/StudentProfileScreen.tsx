@@ -28,6 +28,8 @@ import { academyFirestoreService } from "@infrastructure/services/academyFiresto
 import AnimatedButton from "@components/AnimatedButton";
 import ModernCard from "@components/modern/ModernCard";
 import EnhancedErrorBoundary from "@components/EnhancedErrorBoundary";
+import AppearanceModal from "@components/modals/AppearanceModal";
+import PreferencesModal from "@components/modals/PreferencesModal";
 
 import {
   COLORS,
@@ -146,6 +148,8 @@ const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({
   const [graduations, setGraduations] = useState<GraduationData[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const [showAppearanceModal, setShowAppearanceModal] = useState(false);
+  const [showPreferencesModal, setShowPreferencesModal] = useState(false);
 
   useEffect(() => {
     if (studentId) {
@@ -620,6 +624,34 @@ const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({
               </View>
             </AnimatedModernCard>
 
+            {/* App Settings */}
+            <AnimatedModernCard delay={450}>
+              <View>
+                <Text style={dynamicStyles.sectionTitle}>
+                  {getString("appSettings") || "Configurações do App"}
+                </Text>
+                <List.Item
+                  title={getString("appearance") || "Aparência"}
+                  description={getString("customizeTheme") || "Tema claro ou escuro"}
+                  left={(p) => <List.Icon {...p} icon="palette" color={theme?.primary?.[500] || COLORS.primary[500]} />}
+                  right={(p) => <List.Icon {...p} icon="chevron-right" color={theme?.text?.secondary || COLORS.gray[500]} />}
+                  onPress={() => setShowAppearanceModal(true)}
+                  titleStyle={{ color: theme?.text?.primary }}
+                  descriptionStyle={{ color: theme?.text?.secondary }}
+                />
+                <Divider style={styles.divider} />
+                <List.Item
+                  title={getString("preferences") || "Preferências"}
+                  description={getString("notificationsAndBackup") || "Notificações e sincronização"}
+                  left={(p) => <List.Icon {...p} icon="tune" color={theme?.primary?.[500] || COLORS.primary[500]} />}
+                  right={(p) => <List.Icon {...p} icon="chevron-right" color={theme?.text?.secondary || COLORS.gray[500]} />}
+                  onPress={() => setShowPreferencesModal(true)}
+                  titleStyle={{ color: theme?.text?.primary }}
+                  descriptionStyle={{ color: theme?.text?.secondary }}
+                />
+              </View>
+            </AnimatedModernCard>
+
             {/* Actions */}
             <View style={styles.footerActions}>
               <AnimatedButton
@@ -637,6 +669,16 @@ const StudentProfileScreen: React.FC<StudentProfileScreenProps> = ({
               </AnimatedButton>
             </View>
           </ScrollView>
+
+          <AppearanceModal
+            visible={showAppearanceModal}
+            onDismiss={() => setShowAppearanceModal(false)}
+          />
+
+          <PreferencesModal
+            visible={showPreferencesModal}
+            onDismiss={() => setShowPreferencesModal(false)}
+          />
         </SafeAreaView>
       </LinearGradient>
     </EnhancedErrorBoundary>
