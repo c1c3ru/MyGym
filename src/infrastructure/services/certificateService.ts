@@ -203,17 +203,25 @@ function generateCertificateHTML(data: CertificateData, templateInfo: TemplateIn
           @page { size: A4 landscape; margin: 0; }
           
           html, body { 
-            width: 297mm; height: 210mm; margin: 0; padding: 0; overflow: hidden;
+            margin: 0; padding: 0;
+            background-color: #525659; /* Dark background like PDF viewers */
           }
           
           body { 
-            position: relative; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
             font-family: ${globalFont};
-            background-color: #f5f5f5;
           }
           
           .certificate-container {
-            width: 100%; height: 100%; position: relative; background-color: white;
+            width: 297mm; 
+            height: 210mm; 
+            position: relative; 
+            background-color: white;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5); /* Drop shadow to simulate paper */
+            overflow: hidden;
           }
           
           .background { 
@@ -225,8 +233,8 @@ function generateCertificateHTML(data: CertificateData, templateInfo: TemplateIn
           .element-student-name { ${studentNameCSS} }
           .element-body-text { 
             ${bodyTextCSS} 
-            white-space: pre-wrap; /* Keeps line breaks from textarea */
-            word-wrap: break-word; /* Prevents overflow */
+            white-space: pre-wrap;
+            word-wrap: break-word;
             overflow-wrap: break-word;
           }
           .element-date-location { ${dateLocationCSS} }
@@ -241,7 +249,21 @@ function generateCertificateHTML(data: CertificateData, templateInfo: TemplateIn
             display: block;
           }
 
-          @media print { body { background-color: white; } }
+          @media print { 
+            html, body {
+              background-color: white;
+              width: 297mm;
+              height: 210mm;
+              display: block;
+            }
+            .certificate-container {
+              box-shadow: none;
+              width: 100%;
+              height: 100%;
+              page-break-after: always;
+            }
+            @page { size: A4 landscape; margin: 0; }
+          }
         </style>
       </head>
       <body>
