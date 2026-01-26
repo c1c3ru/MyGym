@@ -246,7 +246,7 @@ function generateCertificateHTML(data: CertificateData, templateInfo: TemplateIn
       </head>
       <body>
         <div class="certificate-container">
-          <img src="${bgUrl}" class="background" alt="Background" crossorigin="anonymous" />
+          <img src="${bgUrl}" class="background" alt="Background" />
           
           <div class="element-student-name">
             ${data.studentName}
@@ -303,33 +303,8 @@ export const certificateService = {
   async generateCertificatePdf(data: CertificateData, templateInfo: TemplateInfo): Promise<string> {
     console.log('🎨 Gerando certificado para:', data.studentName);
 
-    // Ensure image is loaded properly (handle CORS for Web)
-    let processedBgUrl = templateInfo.config?.imageUrl || templateInfo.imageUrl;
-
-    if (Platform.OS === 'web' && processedBgUrl && processedBgUrl.startsWith('http')) {
-      try {
-        console.log('🔄 Convertendo imagem para Base64 para evitar CORS...');
-        const response = await fetch(processedBgUrl);
-        const blob = await response.blob();
-        const base64 = await new Promise<string>((resolve) => {
-          const reader = new FileReader();
-          reader.onloadend = () => resolve(reader.result as string);
-          reader.readAsDataURL(blob);
-        });
-        processedBgUrl = base64;
-      } catch (e) {
-        console.warn('⚠️ Falha ao converter imagem para base64, tentando URL direta:', e);
-      }
-    }
-
-    // Update template info locally for generation
-    const processedTemplate = {
-      ...templateInfo,
-      imageUrl: processedBgUrl,
-      config: templateInfo.config ? { ...templateInfo.config, imageUrl: processedBgUrl } : undefined
-    };
-
-    const html = generateCertificateHTML(data, processedTemplate);
+    // Na Web, usamos a URL direta. O atributo crossorigin deve ser removido do HTML para permitir carregamento opaco sem headers CORS.
+    const html = generateCertificateHTML(data, templateInfo);
 
     try {
       // Mobile: usar expo-print
