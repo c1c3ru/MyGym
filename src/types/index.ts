@@ -170,6 +170,8 @@ export type AdminStackParamList = {
   NotificationSettings: undefined;
   PrivacySettings: undefined;
   Settings: undefined;
+  CertificateTemplate: undefined;
+  CertificateGallery: undefined;
 };
 
 // Tipos para formulários

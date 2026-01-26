@@ -15,6 +15,7 @@ import AdminModalities from '@screens/admin/AdminModalities';
 import ReportsScreen from '@screens/admin/ReportsScreen';
 import InviteManagement from '@screens/admin/InviteManagement';
 import CertificateTemplateScreen from '@screens/admin/CertificateTemplateScreen';
+import CertificateGalleryScreen from '@screens/shared/CertificateGalleryScreen';
 
 // Telas Compartilhadas
 import ClassDetailsScreen from '@screens/shared/ClassDetailsScreen';
@@ -394,6 +395,13 @@ const AdminNavigator = () => {
               backgroundColor={COLORS.primary[500]}
             />
           ),
+        }}
+      />
+      <Stack.Screen
+        name="CertificateGallery"
+        component={CertificateGalleryScreen}
+        options={{
+          headerShown: false
         }}
       />
       <Stack.Screen

@@ -38,7 +38,12 @@ const PrivacySettingsScreen = ({ navigation }: any) => {
   const { currentTheme } = useThemeToggle();
 
   const { user, userProfile, updateUserProfile } = useAuth();
-  const { getString, isDarkMode } = useTheme();
+  const { getString, isDarkMode, theme } = useTheme();
+
+  // Dynamic text colors
+  const textColor = theme.colors.text;
+  const secondaryTextColor = theme.colors.textSecondary || theme.colors.onSurfaceVariant;
+
   const [loading, setLoading] = useState(false);
   const [settings, setSettings] = useState<PrivacySettings>({
     // Consentimentos LGPD
@@ -207,7 +212,7 @@ const PrivacySettingsScreen = ({ navigation }: any) => {
             <Card.Content>
               <View style={styles.cardHeader}>
                 <Ionicons name="shield-checkmark-outline" size={24} color={COLORS.primary[500]} />
-                <Text style={[styles.cardTitle, styles.title]}>{getString('lgpdStatus')}</Text>
+                <Text style={[styles.cardTitle, { color: textColor }]}>{getString('lgpdStatus')}</Text>
                 <Chip
                   mode="outlined"
                   style={styles.statusChip}
@@ -217,12 +222,12 @@ const PrivacySettingsScreen = ({ navigation }: any) => {
                 </Chip>
               </View>
 
-              <Text style={[styles.lgpdInfo, styles.paragraph]}>
+              <Text style={[styles.lgpdInfo, { color: secondaryTextColor }]}>
                 {getString('lgpdInfo')}
               </Text>
 
               {settings.consentDate && (
-                <Text style={styles.consentDate}>
+                <Text style={[styles.consentDate, { color: secondaryTextColor }]}>
                   {getString('consentGivenOn')} {new Date(settings.consentDate).toLocaleDateString('pt-BR')}
                 </Text>
               )}
@@ -234,7 +239,7 @@ const PrivacySettingsScreen = ({ navigation }: any) => {
             <Card.Content>
               <View style={styles.cardHeader}>
                 <Ionicons name="document-text-outline" size={24} color={COLORS.info[500]} />
-                <Text style={[styles.cardTitle, styles.title]}>{getString('consents')}</Text>
+                <Text style={[styles.cardTitle, { color: textColor }]}>{getString('consents')}</Text>
               </View>
 
               <List.Item
@@ -295,7 +300,7 @@ const PrivacySettingsScreen = ({ navigation }: any) => {
             <Card.Content>
               <View style={styles.cardHeader}>
                 <Ionicons name="eye-outline" size={24} color={COLORS.warning[500]} />
-                <Text style={[styles.cardTitle, styles.title]}>{getString('profileVisibility')}</Text>
+                <Text style={[styles.cardTitle, { color: textColor }]}>{getString('profileVisibility')}</Text>
               </View>
 
               <List.Item
@@ -350,7 +355,7 @@ const PrivacySettingsScreen = ({ navigation }: any) => {
             <Card.Content>
               <View style={styles.cardHeader}>
                 <Ionicons name="call-outline" size={24} color={COLORS.secondary[500]} />
-                <Text style={[styles.cardTitle, styles.title]}>{getString('contactMethods')}</Text>
+                <Text style={[styles.cardTitle, { color: textColor }]}>{getString('contactMethods')}</Text>
               </View>
 
               <List.Item
@@ -398,7 +403,7 @@ const PrivacySettingsScreen = ({ navigation }: any) => {
             <Card.Content>
               <View style={styles.cardHeader}>
                 <Ionicons name="person-outline" size={24} color={COLORS.error[500]} />
-                <Text style={[styles.cardTitle, styles.title]}>{getString('yourRights')}</Text>
+                <Text style={[styles.cardTitle, { color: textColor }]}>{getString('yourRights')}</Text>
               </View>
 
               <List.Item
@@ -433,17 +438,17 @@ const PrivacySettingsScreen = ({ navigation }: any) => {
           {/* Informações Importantes */}
           <Card style={styles.card}>
             <Card.Content>
-              <Text style={[styles.cardTitle, styles.title]}>{getString('importantInfo')}</Text>
-              <Text style={styles.infoText}>
+              <Text style={[styles.cardTitle, { color: textColor }]}>{getString('importantInfo')}</Text>
+              <Text style={[styles.infoText, { color: secondaryTextColor }]}>
                 {getString('infoChangeConsents')}
               </Text>
-              <Text style={styles.infoText}>
+              <Text style={[styles.infoText, { color: secondaryTextColor }]}>
                 {getString('infoRequiredConsents')}
               </Text>
-              <Text style={styles.infoText}>
+              <Text style={[styles.infoText, { color: secondaryTextColor }]}>
                 {getString('infoProcessingTime')}
               </Text>
-              <Text style={styles.infoText}>
+              <Text style={[styles.infoText, { color: secondaryTextColor }]}>
                 {getString('infoContact')}
               </Text>
             </Card.Content>

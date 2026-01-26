@@ -302,6 +302,16 @@ const GraduationManagementScreen: React.FC<{ navigation: any }> = ({ navigation 
           <Divider />
 
           <List.Item
+            title="Galeria de Certificados"
+            description="Visualizar e reenviar certificados"
+            left={props => <List.Icon {...props} icon="certificate" />}
+            right={props => <List.Icon {...props} icon="chevron-right" />}
+            onPress={() => navigation.navigate('CertificateGallery')}
+          />
+
+          <Divider />
+
+          <List.Item
             title="Histórico de Exames"
             description="Ver exames anteriores e resultados"
             left={props => <List.Icon {...props} icon="history" />}

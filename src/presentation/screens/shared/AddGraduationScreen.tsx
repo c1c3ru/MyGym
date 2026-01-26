@@ -26,6 +26,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import SelectionField from '@components/SelectionField';
 import graduationRepository from '@presentation/repositories/graduationRepository';
 import { certificateService } from '@infrastructure/services/certificateService';
+import { CertificateDeliveryService } from '@infrastructure/services/certificateDeliveryService';
 import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, BORDER_WIDTH, FONT_WEIGHT, INPUT_THEME } from '@presentation/theme/designTokens';
 import { hexToRgba } from '@shared/utils/colorUtils';
@@ -37,8 +38,18 @@ interface AcademyDocument {
   name?: string;
   settings?: {
     certificateTemplateUrl?: string;
+    certificateLocation?: string;
+    certificateTextTemplate?: string;
     updatedAt?: Date;
   };
+  [key: string]: any;
+}
+
+interface StudentDocument {
+  id: string;
+  name?: string;
+  email?: string;
+  phone?: string;
   [key: string]: any;
 }
 
@@ -82,6 +93,11 @@ const AddGraduationScreen = ({ route, navigation }: any) => {
   const [hasTemplate, setHasTemplate] = useState(false);
   const [templateUrl, setTemplateUrl] = useState('');
   const [generateCertificate, setGenerateCertificate] = useState(false);
+  const [sendByEmail, setSendByEmail] = useState(false);
+  const [sendByWhatsApp, setSendByWhatsApp] = useState(false);
+  const [studentEmail, setStudentEmail] = useState('');
+  const [studentPhone, setStudentPhone] = useState('');
+  const [certificateLocation, setCertificateLocation] = useState('');
 
   const defaultGraduationLevels = [
     { id: COLORS.special.belt.white, name: getString('whiteBelt'), color: COLORS.special.belt.white, order: 1 },
@@ -114,7 +130,7 @@ const AddGraduationScreen = ({ route, navigation }: any) => {
         return;
       }
 
-      // Check certificate template
+      // Check certificate template and load student data
       try {
         const academyDoc = await academyFirestoreService.getById('academies', academiaId) as AcademyDocument | null;
         if (academyDoc?.settings?.certificateTemplateUrl) {
@@ -122,8 +138,26 @@ const AddGraduationScreen = ({ route, navigation }: any) => {
           setTemplateUrl(academyDoc.settings.certificateTemplateUrl);
           setGenerateCertificate(true);
         }
+        // Load certificate location from academy settings
+        if (academyDoc?.settings?.certificateLocation) {
+          setCertificateLocation(academyDoc.settings.certificateLocation);
+        }
       } catch (e) {
         console.warn('Erro ao checar template:', e);
+      }
+
+      // Load student contact info
+      try {
+        const studentDoc = await academyFirestoreService.getById(
+          `academies/${academiaId}/students`,
+          studentId
+        ) as StudentDocument | null;
+        if (studentDoc) {
+          setStudentEmail(studentDoc.email || '');
+          setStudentPhone(studentDoc.phone || '');
+        }
+      } catch (e) {
+        console.warn('Erro ao carregar dados do aluno:', e);
       }
 
       const { modalities, instructors, currentGraduation } = await graduationRepository.loadInitialData(academiaId, studentId);
@@ -344,6 +378,7 @@ const AddGraduationScreen = ({ route, navigation }: any) => {
             studentName,
             graduationName: gradName,
             date: formData.date.toLocaleDateString('pt-BR'),
+            location: certificateLocation || 'Brasil',
             instructorName: instrName,
             academyName: academia?.name || 'MyGym Academy'
           }, { imageUrl: templateUrl });
@@ -351,6 +386,33 @@ const AddGraduationScreen = ({ route, navigation }: any) => {
           // Upload
           const tempId = Date.now().toString();
           certUrl = await certificateService.uploadCertificate(academiaId, studentId, tempId, pdfUri);
+
+          // Send certificate via email/WhatsApp if requested
+          if (certUrl && (sendByEmail || sendByWhatsApp)) {
+            const deliveryData = {
+              studentName,
+              studentEmail: sendByEmail ? studentEmail : undefined,
+              studentPhone: sendByWhatsApp ? studentPhone : undefined,
+              graduationName: gradName,
+              academyName: academia?.name || 'MyGym Academy',
+              certificateUrl: certUrl,
+              date: formData.date.toLocaleDateString('pt-BR'),
+            };
+
+            try {
+              if (sendByEmail && studentEmail) {
+                await CertificateDeliveryService.sendCertificateByEmail(deliveryData);
+                console.log('✅ Certificado enviado por email');
+              }
+              if (sendByWhatsApp && studentPhone) {
+                await CertificateDeliveryService.sendCertificateByWhatsApp(deliveryData);
+                console.log('✅ Certificado enviado via WhatsApp');
+              }
+            } catch (deliveryError) {
+              console.error('Erro ao enviar certificado:', deliveryError);
+              // Não bloqueia o salvamento da graduação
+            }
+          }
 
         } catch (e) {
           console.error('Erro ao gerar certificado:', e);
@@ -535,35 +597,98 @@ const AddGraduationScreen = ({ route, navigation }: any) => {
 
               {/* Gerador de Certificado Automático */}
               {hasTemplate && (
-                <TouchableOpacity
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    marginTop: 15,
-                    marginBottom: 5,
-                    backgroundColor: hexToRgba(COLORS.primary[500], 0.1),
-                    padding: 10,
-                    borderRadius: 8,
-                    borderWidth: 1,
-                    borderColor: hexToRgba(COLORS.primary[500], 0.3)
-                  }}
-                  onPress={() => setGenerateCertificate(!generateCertificate)}
-                  activeOpacity={0.7}
-                >
-                  <Checkbox.Android
-                    status={generateCertificate ? 'checked' : 'unchecked'}
+                <View style={{ marginTop: 15 }}>
+                  <TouchableOpacity
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      marginBottom: 5,
+                      backgroundColor: hexToRgba(COLORS.primary[500], 0.1),
+                      padding: 10,
+                      borderRadius: 8,
+                      borderWidth: 1,
+                      borderColor: hexToRgba(COLORS.primary[500], 0.3)
+                    }}
                     onPress={() => setGenerateCertificate(!generateCertificate)}
-                    color={COLORS.primary[500]}
-                  />
-                  <View style={{ flex: 1, marginLeft: 8 }}>
-                    <Text style={{ fontSize: 16, color: COLORS.info[900], fontWeight: 'bold' }}>
-                      Gerar Certificado Digital
-                    </Text>
-                    <Text style={{ fontSize: 12, color: COLORS.gray[600] }}>
-                      Um PDF será gerado com o modelo da academia e anexado à graduação.
-                    </Text>
-                  </View>
-                </TouchableOpacity>
+                    activeOpacity={0.7}
+                  >
+                    <Checkbox.Android
+                      status={generateCertificate ? 'checked' : 'unchecked'}
+                      onPress={() => setGenerateCertificate(!generateCertificate)}
+                      color={COLORS.primary[500]}
+                    />
+                    <View style={{ flex: 1, marginLeft: 8 }}>
+                      <Text style={{ fontSize: 16, color: COLORS.info[900], fontWeight: 'bold' }}>
+                        Gerar Certificado Digital
+                      </Text>
+                      <Text style={{ fontSize: 12, color: COLORS.gray[600] }}>
+                        Um PDF será gerado com o modelo da academia e anexado à graduação.
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+
+                  {/* Opções de envio */}
+                  {generateCertificate && (
+                    <View style={{ marginTop: 10, paddingLeft: 10 }}>
+                      {studentEmail && (
+                        <TouchableOpacity
+                          style={{
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            marginBottom: 8,
+                            padding: 8,
+                            backgroundColor: hexToRgba(COLORS.info[500], 0.05),
+                            borderRadius: 6,
+                          }}
+                          onPress={() => setSendByEmail(!sendByEmail)}
+                          activeOpacity={0.7}
+                        >
+                          <Checkbox.Android
+                            status={sendByEmail ? 'checked' : 'unchecked'}
+                            onPress={() => setSendByEmail(!sendByEmail)}
+                            color={COLORS.info[500]}
+                          />
+                          <View style={{ flex: 1, marginLeft: 8 }}>
+                            <Text style={{ fontSize: 14, color: COLORS.info[900], fontWeight: '600' }}>
+                              📧 Enviar por Email
+                            </Text>
+                            <Text style={{ fontSize: 11, color: COLORS.gray[600] }}>
+                              {studentEmail}
+                            </Text>
+                          </View>
+                        </TouchableOpacity>
+                      )}
+
+                      {studentPhone && Platform.OS !== 'web' && (
+                        <TouchableOpacity
+                          style={{
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            padding: 8,
+                            backgroundColor: hexToRgba(COLORS.success[500], 0.05),
+                            borderRadius: 6,
+                          }}
+                          onPress={() => setSendByWhatsApp(!sendByWhatsApp)}
+                          activeOpacity={0.7}
+                        >
+                          <Checkbox.Android
+                            status={sendByWhatsApp ? 'checked' : 'unchecked'}
+                            onPress={() => setSendByWhatsApp(!sendByWhatsApp)}
+                            color={COLORS.success[500]}
+                          />
+                          <View style={{ flex: 1, marginLeft: 8 }}>
+                            <Text style={{ fontSize: 14, color: COLORS.info[900], fontWeight: '600' }}>
+                              💬 Compartilhar via WhatsApp
+                            </Text>
+                            <Text style={{ fontSize: 11, color: COLORS.gray[600] }}>
+                              {studentPhone}
+                            </Text>
+                          </View>
+                        </TouchableOpacity>
+                      )}
+                    </View>
+                  )}
+                </View>
               )}
             </View>
           </View>
