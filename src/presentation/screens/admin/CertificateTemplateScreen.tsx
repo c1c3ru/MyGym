@@ -597,10 +597,11 @@ const CertificateTemplateScreen: React.FC<CertificateTemplateScreenProps> = ({ n
                                                         left: `${elementsConfig.bodyText.x || 10}%`,
                                                         width: `${elementsConfig.bodyText.width || 80}%`,
                                                         fontSize: (elementsConfig.bodyText.fontSize || 10) * 0.4,
-                                                        textAlign: elementsConfig.bodyText.textAlign || 'center'
+                                                        textAlign: elementsConfig.bodyText.textAlign || 'center',
+                                                        flexWrap: 'wrap', // IMPORTANT: Forces text to wrap within width
                                                     } as any
                                                 ]}
-                                                numberOfLines={3}
+                                                numberOfLines={6} // Increased to allow more lines in preview
                                                 ellipsizeMode="tail"
                                             >
                                                 {textTemplate.replace(/\$tag\w+/g, '...')}
@@ -1124,12 +1125,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     imageWrapper: {
-        width: '100%',
         height: '100%',
+        aspectRatio: 297 / 210, // Force A4 Landscape ratio
         position: 'relative',
         borderRadius: BORDER_RADIUS.md,
         overflow: 'hidden',
         backgroundColor: '#fff', // Fundo branco pra imagem
+        // width: '100%' removed to let aspect ratio drive width
     },
     templateImage: {
         width: '100%',
