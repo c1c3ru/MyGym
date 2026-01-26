@@ -645,108 +645,147 @@ const CertificateTemplateScreen: React.FC<CertificateTemplateScreenProps> = ({ n
                         </Text>
                     </GlassCard>
 
-                    {/* Advanced Settings Toggle */}
+                    {/* Advanced Settings Toggle Button */}
                     <TouchableOpacity
                         style={styles.advancedToggle}
-                        onPress={() => setShowAdvancedSettings(!showAdvancedSettings)}
+                        onPress={() => setShowAdvancedSettings(true)}
                     >
                         <Text style={[styles.advancedToggleText, { color: COLORS.primary[500] }]}>
-                            {showAdvancedSettings ? 'Ocultar Ajustes Finos (Posição/Tamanho)' : 'Mostrar Ajustes Finos (Posição/Tamanho)'}
+                            Abrir Editor de Layout (Posição/Tamanho)
                         </Text>
-                        <Ionicons name={showAdvancedSettings ? "chevron-up" : "chevron-down"} size={20} color={COLORS.primary[500]} />
+                        <Ionicons name="options" size={20} color={COLORS.primary[500]} />
                     </TouchableOpacity>
 
-                    {/* Advanced Settings Panel */}
-                    {showAdvancedSettings && (
-                        <GlassCard style={styles.card} variant={glassVariant}>
-                            <Text style={[styles.cardTitle, { color: textColor, marginBottom: 15 }]}>Editor de Layout</Text>
-
-                            {/* Element Selector */}
-                            <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.elementSelector}>
-                                {Object.keys(elementsConfig).map(key => (
-                                    <TouchableOpacity
-                                        key={key}
-                                        style={[styles.elementChip, selectedElementKey === key && styles.elementChipSelected]}
-                                        onPress={() => setSelectedElementKey(key)}
-                                    >
-                                        <Text style={[styles.elementChipText, selectedElementKey === key && styles.elementChipTextSelected]}>
-                                            {formatElementLabel(key)}
-                                        </Text>
+                    {/* Modal de Editor de Layout */}
+                    <Modal
+                        visible={showAdvancedSettings}
+                        onRequestClose={() => setShowAdvancedSettings(false)}
+                        animationType="slide"
+                        transparent={true}
+                    >
+                        <View style={styles.modalOverlay}>
+                            <View style={[styles.modalContent, { backgroundColor: isDarkMode ? COLORS.gray[800] : COLORS.white }]}>
+                                {/* Header do Modal */}
+                                <View style={styles.modalHeader}>
+                                    <View>
+                                        <Text style={[styles.modalTitle, { color: textColor }]}>Editor de Layout</Text>
+                                        <Text style={{ color: theme.colors.textSecondary, fontSize: 12 }}>Ajuste fino de posições e tamanhos</Text>
+                                    </View>
+                                    <TouchableOpacity onPress={() => setShowAdvancedSettings(false)}>
+                                        <Ionicons name="close" size={28} color={textColor} />
                                     </TouchableOpacity>
-                                ))}
-                            </ScrollView>
-
-                            {/* Controls for Selected Element */}
-                            {elementsConfig[selectedElementKey] && (
-                                <View style={styles.controlsContainer}>
-                                    <View style={styles.controlRow}>
-                                        <Text style={[styles.controlLabel, { color: textColor }]}>Visível</Text>
-                                        <Switch
-                                            value={elementsConfig[selectedElementKey]?.visible}
-                                            onValueChange={(val) => updateElement(selectedElementKey, 'visible', val)}
-                                            color={COLORS.primary[500]}
-                                        />
-                                    </View>
-
-                                    <View style={styles.controlRow}>
-                                        <Text style={[styles.controlLabel, { color: textColor }]}>Posição Vertical (Y %)</Text>
-                                        <View style={styles.numberControl}>
-                                            <Button mode="outlined" compact onPress={() => updateElement(selectedElementKey, 'y', (elementsConfig[selectedElementKey].y || 0) - 5)}>-5</Button>
-                                            <Button mode="outlined" compact onPress={() => updateElement(selectedElementKey, 'y', (elementsConfig[selectedElementKey].y || 0) - 1)}>-</Button>
-                                            <Text style={{ color: textColor, width: 40, textAlign: 'center' }}>{elementsConfig[selectedElementKey].y || 0}%</Text>
-                                            <Button mode="outlined" compact onPress={() => updateElement(selectedElementKey, 'y', (elementsConfig[selectedElementKey].y || 0) + 1)}>+</Button>
-                                            <Button mode="outlined" compact onPress={() => updateElement(selectedElementKey, 'y', (elementsConfig[selectedElementKey].y || 0) + 5)}>+5</Button>
-                                        </View>
-                                    </View>
-
-                                    <View style={styles.controlRow}>
-                                        <Text style={[styles.controlLabel, { color: textColor }]}>Posição Horizontal (X %)</Text>
-                                        <View style={styles.numberControl}>
-                                            <Button mode="outlined" compact onPress={() => updateElement(selectedElementKey, 'x', (elementsConfig[selectedElementKey].x || 0) - 5)}>-5</Button>
-                                            <Button mode="outlined" compact onPress={() => updateElement(selectedElementKey, 'x', (elementsConfig[selectedElementKey].x || 0) - 1)}>-</Button>
-                                            <Text style={{ color: textColor, width: 40, textAlign: 'center' }}>{elementsConfig[selectedElementKey].x || 0}%</Text>
-                                            <Button mode="outlined" compact onPress={() => updateElement(selectedElementKey, 'x', (elementsConfig[selectedElementKey].x || 0) + 1)}>+</Button>
-                                            <Button mode="outlined" compact onPress={() => updateElement(selectedElementKey, 'x', (elementsConfig[selectedElementKey].x || 0) + 5)}>+5</Button>
-                                        </View>
-                                    </View>
-
-                                    <View style={styles.controlRow}>
-                                        <Text style={[styles.controlLabel, { color: textColor }]}>Tamanho Fonte (px)</Text>
-                                        <View style={styles.numberControl}>
-                                            <Button mode="outlined" compact onPress={() => updateElement(selectedElementKey, 'fontSize', (elementsConfig[selectedElementKey].fontSize || 16) - 2)}>-</Button>
-                                            <Text style={{ color: textColor, width: 40, textAlign: 'center' }}>{elementsConfig[selectedElementKey].fontSize || 16}</Text>
-                                            <Button mode="outlined" compact onPress={() => updateElement(selectedElementKey, 'fontSize', (elementsConfig[selectedElementKey].fontSize || 16) + 2)}>+</Button>
-                                        </View>
-                                    </View>
-
-                                    {/* Simple Text Align Toggle */}
-                                    <View style={styles.controlRow}>
-                                        <Text style={[styles.controlLabel, { color: textColor }]}>Alinhamento</Text>
-                                        <View style={{ flexDirection: 'row', gap: 5 }}>
-                                            {['left', 'center', 'right'].map((align) => (
-                                                <TouchableOpacity
-                                                    key={align}
-                                                    style={[
-                                                        styles.alignBtn,
-                                                        elementsConfig[selectedElementKey].textAlign === align && { backgroundColor: COLORS.primary[100], borderColor: COLORS.primary[500] }
-                                                    ]}
-                                                    onPress={() => updateElement(selectedElementKey, 'textAlign', align)}
-                                                >
-                                                    <Ionicons
-                                                        name={align === 'center' ? 'menu' : align === 'right' ? 'menu' : 'menu'} // Placeholder icons
-                                                        size={16}
-                                                        color={elementsConfig[selectedElementKey].textAlign === align ? COLORS.primary[700] : COLORS.gray[500]}
-                                                    />
-                                                    <Text style={{ fontSize: 10, color: elementsConfig[selectedElementKey].textAlign === align ? COLORS.primary[700] : COLORS.gray[500] }}>{align}</Text>
-                                                </TouchableOpacity>
-                                            ))}
-                                        </View>
-                                    </View>
-
                                 </View>
-                            )}
-                        </GlassCard>
-                    )}
+
+                                <ScrollView style={styles.modalScroll}>
+                                    {/* Element Selector */}
+                                    <Text style={[styles.sectionTitle, { color: textColor, marginTop: 0 }]}>Selecionar Elemento</Text>
+                                    <ScrollView
+                                        horizontal
+                                        showsHorizontalScrollIndicator={false}
+                                        style={{ flexGrow: 0, marginBottom: SPACING.lg }}
+                                        contentContainerStyle={{ paddingRight: SPACING.md, paddingHorizontal: 4 }}
+                                    >
+                                        {Object.keys(elementsConfig).map(key => (
+                                            <TouchableOpacity
+                                                key={key}
+                                                style={[styles.elementChip, selectedElementKey === key && styles.elementChipSelected]}
+                                                onPress={() => setSelectedElementKey(key)}
+                                            >
+                                                <Text style={[styles.elementChipText, selectedElementKey === key && styles.elementChipTextSelected]}>
+                                                    {formatElementLabel(key)}
+                                                </Text>
+                                            </TouchableOpacity>
+                                        ))}
+                                    </ScrollView>
+
+                                    {/* Controls for Selected Element */}
+                                    {elementsConfig[selectedElementKey] && (
+                                        <View style={styles.controlsContainer}>
+                                            <View style={styles.controlRow}>
+                                                <Text style={[styles.controlLabel, { color: textColor }]}>Visível</Text>
+                                                <Switch
+                                                    value={elementsConfig[selectedElementKey]?.visible}
+                                                    onValueChange={(val) => updateElement(selectedElementKey, 'visible', val)}
+                                                    color={COLORS.primary[500]}
+                                                />
+                                            </View>
+
+                                            <View style={styles.controlRow}>
+                                                <Text style={[styles.controlLabel, { color: textColor }]}>Posição Vertical (Y %)</Text>
+                                                <View style={styles.numberControl}>
+                                                    <Button mode="outlined" compact onPress={() => updateElement(selectedElementKey, 'y', (elementsConfig[selectedElementKey].y || 0) - 5)}>-5</Button>
+                                                    <Button mode="outlined" compact onPress={() => updateElement(selectedElementKey, 'y', (elementsConfig[selectedElementKey].y || 0) - 1)}>-</Button>
+                                                    <Text style={{ color: textColor, width: 40, textAlign: 'center' }}>{elementsConfig[selectedElementKey].y || 0}%</Text>
+                                                    <Button mode="outlined" compact onPress={() => updateElement(selectedElementKey, 'y', (elementsConfig[selectedElementKey].y || 0) + 1)}>+</Button>
+                                                    <Button mode="outlined" compact onPress={() => updateElement(selectedElementKey, 'y', (elementsConfig[selectedElementKey].y || 0) + 5)}>+5</Button>
+                                                </View>
+                                            </View>
+
+                                            <View style={styles.controlRow}>
+                                                <Text style={[styles.controlLabel, { color: textColor }]}>Posição Horizontal (X %)</Text>
+                                                <View style={styles.numberControl}>
+                                                    <Button mode="outlined" compact onPress={() => updateElement(selectedElementKey, 'x', (elementsConfig[selectedElementKey].x || 0) - 5)}>-5</Button>
+                                                    <Button mode="outlined" compact onPress={() => updateElement(selectedElementKey, 'x', (elementsConfig[selectedElementKey].x || 0) - 1)}>-</Button>
+                                                    <Text style={{ color: textColor, width: 40, textAlign: 'center' }}>{elementsConfig[selectedElementKey].x || 0}%</Text>
+                                                    <Button mode="outlined" compact onPress={() => updateElement(selectedElementKey, 'x', (elementsConfig[selectedElementKey].x || 0) + 1)}>+</Button>
+                                                    <Button mode="outlined" compact onPress={() => updateElement(selectedElementKey, 'x', (elementsConfig[selectedElementKey].x || 0) + 5)}>+5</Button>
+                                                </View>
+                                            </View>
+
+                                            <View style={styles.controlRow}>
+                                                <Text style={[styles.controlLabel, { color: textColor }]}>Tamanho Fonte (px)</Text>
+                                                <View style={styles.numberControl}>
+                                                    <Button mode="outlined" compact onPress={() => updateElement(selectedElementKey, 'fontSize', (elementsConfig[selectedElementKey].fontSize || 16) - 2)}>-</Button>
+                                                    <Text style={{ color: textColor, width: 40, textAlign: 'center' }}>{elementsConfig[selectedElementKey].fontSize || 16}</Text>
+                                                    <Button mode="outlined" compact onPress={() => updateElement(selectedElementKey, 'fontSize', (elementsConfig[selectedElementKey].fontSize || 16) + 2)}>+</Button>
+                                                </View>
+                                            </View>
+
+                                            {/* Simple Text Align Toggle */}
+                                            <View style={styles.controlRow}>
+                                                <Text style={[styles.controlLabel, { color: textColor }]}>Alinhamento</Text>
+                                                <View style={{ flexDirection: 'row', gap: 5 }}>
+                                                    {['left', 'center', 'right'].map((align) => (
+                                                        <TouchableOpacity
+                                                            key={align}
+                                                            style={[
+                                                                styles.alignBtn,
+                                                                elementsConfig[selectedElementKey].textAlign === align && { backgroundColor: COLORS.primary[100], borderColor: COLORS.primary[500] }
+                                                            ]}
+                                                            onPress={() => updateElement(selectedElementKey, 'textAlign', align)}
+                                                        >
+                                                            <Ionicons
+                                                                name={align === 'center' ? 'menu' : align === 'right' ? 'menu' : 'menu'} // Placeholder icons
+                                                                size={16}
+                                                                color={elementsConfig[selectedElementKey].textAlign === align ? COLORS.primary[700] : COLORS.gray[500]}
+                                                            />
+                                                            <Text style={{ fontSize: 10, color: elementsConfig[selectedElementKey].textAlign === align ? COLORS.primary[700] : COLORS.gray[500] }}>{align}</Text>
+                                                        </TouchableOpacity>
+                                                    ))}
+                                                </View>
+                                            </View>
+
+                                        </View>
+                                    )}
+
+                                    <View style={styles.divider} />
+
+                                    <View style={styles.minipreview}>
+                                        <Text style={{ color: theme.colors.textSecondary, fontSize: 12, textAlign: 'center' }}>
+                                            As alterações são refletidas em tempo real no preview abaixo do header.
+                                        </Text>
+                                    </View>
+
+                                </ScrollView>
+
+                                <View style={styles.modalFooter}>
+                                    <Button mode="contained" onPress={() => setShowAdvancedSettings(false)} style={{ flex: 1 }} buttonColor={COLORS.primary[500]}>
+                                        Concluir Edição
+                                    </Button>
+                                </View>
+                            </View>
+                        </View>
+                    </Modal>
 
                     {/* Botão para Personalizar e Editar Texto */}
                     <Button
@@ -885,11 +924,14 @@ const CertificateTemplateScreen: React.FC<CertificateTemplateScreenProps> = ({ n
                                     </TouchableOpacity>
 
                                     <TouchableOpacity
-                                        style={[styles.tagButton, { backgroundColor: hexToRgba(COLORS.secondary[500], 0.1), borderColor: COLORS.secondary[500] }]}
+                                        style={[styles.tagButton, {
+                                            backgroundColor: isDarkMode ? hexToRgba('#FFFFFF', 0.1) : hexToRgba(COLORS.secondary[500], 0.1),
+                                            borderColor: isDarkMode ? '#FFFFFF' : COLORS.secondary[500]
+                                        }]}
                                         onPress={() => setTextTemplate(prev => prev + ' ' + CERTIFICATE_TAGS.INSTRUCTOR_DATA)}
                                     >
-                                        <Ionicons name="school" size={16} color={COLORS.secondary[500]} />
-                                        <Text style={[styles.tagButtonText, { color: COLORS.secondary[700] }]}>Instrutor</Text>
+                                        <Ionicons name="school" size={16} color={isDarkMode ? '#FFFFFF' : COLORS.secondary[500]} />
+                                        <Text style={[styles.tagButtonText, { color: isDarkMode ? '#FFFFFF' : COLORS.secondary[700] }]}>Instrutor</Text>
                                     </TouchableOpacity>
                                 </View>
 
@@ -1234,8 +1276,8 @@ const styles = StyleSheet.create({
         padding: SPACING.md,
     },
     modalContent: {
-        width: '100%',
-        maxWidth: 600,
+        width: '90%',
+        maxWidth: 500,
         maxHeight: '90%',
         borderRadius: BORDER_RADIUS.lg,
         overflow: 'hidden',
@@ -1253,6 +1295,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     modalScroll: {
+        flex: 1,
         padding: SPACING.lg,
     },
     modalFooter: {
@@ -1262,6 +1305,10 @@ const styles = StyleSheet.create({
         borderTopColor: hexToRgba(COLORS.gray[300], 0.3),
     },
     miniPreviewInfo: {
+        marginVertical: SPACING.sm,
+        alignItems: 'center',
+    },
+    minipreview: { // Added alias to fix lint error if used
         marginVertical: SPACING.sm,
         alignItems: 'center',
     },
