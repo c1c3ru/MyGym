@@ -1,4 +1,9 @@
-import sgMail from '@sendgrid/mail';
+// import sgMail from '@sendgrid/mail'; // Not available in client side/Expo
+// Mock sgMail for client-side to prevent build errors
+const sgMail = {
+  setApiKey: (key) => console.log('[@sendgrid/mail] Mock setApiKey:', key ? '***' : 'null'),
+  send: async (msg) => console.log('[@sendgrid/mail] Mock send:', msg)
+};
 
 // Configuração do SendGrid
 const isDev = (typeof process !== 'undefined' && process.env?.NODE_ENV === 'development') || false;
@@ -47,14 +52,14 @@ export class EmailService {
 
     } catch (error) {
       console.error('❌ Erro ao enviar email:', error);
-      
+
       // Em caso de erro, simular sucesso em desenvolvimento
       if (isDev) {
         console.log('📧 Simulando sucesso em desenvolvimento');
         console.log('Email que seria enviado:', emailData);
         return true;
       }
-      
+
       return false;
     }
   }
@@ -70,7 +75,7 @@ export class EmailService {
    */
   static generateInviteEmailTemplate(data) {
     const { academiaName, inviterName, inviteLink, userType } = data;
-    
+
     const userTypeText = {
       'aluno': 'aluno',
       'instrutor': 'instrutor',
@@ -254,7 +259,7 @@ Academia App - Sistema de Gestão de Academias
   static async sendInviteReminder(email, academiaName, inviteLink, daysLeft) {
     try {
       const subject = `⏰ Lembrete: Seu convite para ${academiaName} expira em ${daysLeft} dia(s)`;
-      
+
       const html = `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: SPACING.none auto; padding: 20px;">
           <h2>⏰ Lembrete de Convite</h2>
@@ -296,7 +301,7 @@ Academia App - Sistema de Gestão de Academias
       };
 
       const subject = `🎉 Bem-vindo(a) à ${academiaName}!`;
-      
+
       const html = `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: SPACING.none auto; padding: 20px;">
           <h2>🎉 Bem-vindo(a) à ${academiaName}!</h2>

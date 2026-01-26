@@ -92,6 +92,7 @@ const AddGraduationScreen = ({ route, navigation }: any) => {
   // Certificate states
   const [hasTemplate, setHasTemplate] = useState(false);
   const [templateUrl, setTemplateUrl] = useState('');
+  const [textTemplate, setTextTemplate] = useState('');
   const [generateCertificate, setGenerateCertificate] = useState(false);
   const [sendByEmail, setSendByEmail] = useState(false);
   const [sendByWhatsApp, setSendByWhatsApp] = useState(false);
@@ -136,6 +137,9 @@ const AddGraduationScreen = ({ route, navigation }: any) => {
         if (academyDoc?.settings?.certificateTemplateUrl) {
           setHasTemplate(true);
           setTemplateUrl(academyDoc.settings.certificateTemplateUrl);
+          if (academyDoc.settings.certificateTextTemplate) {
+            setTextTemplate(academyDoc.settings.certificateTextTemplate);
+          }
           setGenerateCertificate(true);
         }
         // Load certificate location from academy settings
@@ -381,7 +385,7 @@ const AddGraduationScreen = ({ route, navigation }: any) => {
             location: certificateLocation || 'Brasil',
             instructorName: instrName,
             academyName: academia?.name || 'MyGym Academy'
-          }, { imageUrl: templateUrl });
+          }, { imageUrl: templateUrl, textTemplate: textTemplate || undefined });
 
           // Upload
           const tempId = Date.now().toString();

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, ScrollView, Image, Alert, TouchableOpacity, Modal, Switch } from 'react-native';
-import { Text, Button, ActivityIndicator, Snackbar, ProgressBar, Portal } from 'react-native-paper';
+import { View, StyleSheet, ScrollView, Image, Alert, TouchableOpacity, Modal } from 'react-native';
+import { Text, Button, ActivityIndicator, Snackbar, ProgressBar, Portal, Switch, Chip } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as ImagePicker from 'expo-image-picker';
@@ -10,11 +10,32 @@ import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
 import GlassCard from '@components/GlassCard';
 import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
+import academyCollectionsService from '@infrastructure/services/academyCollectionsService';
 import certificateService, { CERTIFICATE_TAGS, DEFAULT_CERTIFICATE_TEXT, FONT_FAMILIES, ElementStyle } from '@infrastructure/services/certificateService';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS } from '@presentation/theme/designTokens';
 import { hexToRgba } from '@shared/utils/colorUtils';
 import type { NavigationProp } from '@react-navigation/native';
 import { TextInput as RNTextInput } from 'react-native';
+
+interface Modality {
+    id: string;
+    name: string;
+}
+
+interface CertificateTemplateConfig {
+    id: string;
+    name: string;
+    imageUrl: string;
+    textTemplate: string;
+    elements: {
+        studentName: any; // ElementStyle type
+        bodyText: any;
+        dateLocation: any;
+        instructorName: any;
+        graduationName: any;
+    };
+    createdAt: number;
+}
 
 interface AcademyDocument {
     id: string;
@@ -29,20 +50,11 @@ interface AcademyDocument {
         certificateFontStyle?: 'classic' | 'modern' | 'handwritten'; // Legacy
 
         // New Unified Config
-        certificateConfig?: {
-            id: string;
-            name: string;
-            imageUrl: string;
-            textTemplate: string;
-            elements: {
-                studentName: any; // ElementStyle type
-                bodyText: any;
-                dateLocation: any;
-                instructorName: any;
-                graduationName: any;
-            };
-            createdAt: number;
-        };
+        certificateConfig?: CertificateTemplateConfig;
+
+        // Modality Specific Configs
+        modalityTemplates?: Record<string, CertificateTemplateConfig>;
+
         updatedAt?: Date;
     };
     [key: string]: any;
@@ -65,6 +77,11 @@ const CertificateTemplateScreen: React.FC<CertificateTemplateScreenProps> = ({ n
     const [nameColor, setNameColor] = useState<string>('#1a1a1a');
     const [bodyColor, setBodyColor] = useState<string>('#2c2c2c');
     const [fontStyle, setFontStyle] = useState<'classic' | 'modern' | 'handwritten' | 'elegant' | 'roboto' | 'openSans'>('classic');
+
+    // Estado para configuração avançada de elementos e múltiplas modalidades
+    const [modalities, setModalities] = useState<Modality[]>([]);
+    const [selectedModalityId, setSelectedModalityId] = useState<string | null>(null); // null = Padrão
+    const [configCache, setConfigCache] = useState<Record<string, any>>({});
 
     // Estado para configuração avançada de elementos
     const [showAdvancedSettings, setShowAdvancedSettings] = useState(false);
@@ -109,62 +126,88 @@ const CertificateTemplateScreen: React.FC<CertificateTemplateScreenProps> = ({ n
     ];
 
     useEffect(() => {
-        loadCurrentTemplate();
-    }, []);
+        if (userProfile?.academiaId) {
+            loadInitialData();
+        }
+    }, [userProfile?.academiaId]);
 
-    const loadCurrentTemplate = async () => {
+    const loadInitialData = async () => {
         try {
             setLoading(true);
             const academiaId = userProfile?.academiaId;
-            if (!academiaId) {
-                setLoading(false);
-                return;
+            if (!academiaId) return;
+
+            // 1. Carregar Modalidades
+            try {
+                // @ts-ignore
+                const mods = await academyCollectionsService.getModalities(academiaId);
+                const uniqueModalities = (mods as Modality[]).filter((modality, index, self) =>
+                    index === self.findIndex(m => m.id === modality.id)
+                );
+                setModalities(uniqueModalities);
+            } catch (e) {
+                console.log('Erro ao carregar modalidades:', e);
             }
 
-            // Buscar configurações da academia
+            // 2. Buscar configurações da academia
             const academia = await academyFirestoreService.getById('gyms', academiaId) as AcademyDocument | null;
 
-            if (academia?.settings?.certificateTemplateUrl) {
-                setCurrentTemplateUrl(academia.settings.certificateTemplateUrl);
-                showSnackbar('Template carregado com sucesso', 'success');
+            if (!academia?.settings) return;
+
+            // Pre-popular cache com configurações salvas
+            const newCache: Record<string, any> = {};
+
+            // Config Padrão (Default)
+            if (academia.settings.certificateConfig) {
+                newCache['default'] = academia.settings.certificateConfig;
             } else {
-                showSnackbar('Nenhum template configurado. Adicione um para começar!', 'info');
+                // Tentar migrar legacy para config object
+                newCache['default'] = {
+                    imageUrl: academia.settings.certificateTemplateUrl,
+                    textTemplate: academia.settings.certificateTextTemplate,
+                    elements: academia.settings.certificateColors ? {
+                        studentName: {
+                            visible: true, y: 40, x: 0, fontSize: 52,
+                            color: academia.settings.certificateColors.studentName || nameColor,
+                            fontFamily: academia.settings.certificateFontStyle
+                        },
+                        bodyText: {
+                            visible: true, y: 55, x: 10, width: 80, fontSize: 22,
+                            color: academia.settings.certificateColors.bodyText || bodyColor
+                        }
+                    } : null
+                };
             }
 
-            // Carregar template de texto e local
-            if (academia?.settings?.certificateTextTemplate) {
-                setTextTemplate(academia.settings.certificateTextTemplate);
+            // Configs por Modalidade
+            if (academia.settings.modalityTemplates) {
+                Object.entries(academia.settings.modalityTemplates).forEach(([modId, config]) => {
+                    newCache[modId] = config;
+                });
             }
+
+            setConfigCache(newCache);
+
+            // 3. Aplicar Config atual (Default)
+            if (newCache['default']) {
+                applyConfigToState(newCache['default']);
+                if (newCache['default'].elements) {
+                    showSnackbar('Template carregado com sucesso', 'success');
+                } else {
+                    showSnackbar('Nenhum template configurado. Adicione um para começar!', 'info');
+                }
+            }
+
+            // Carregar Location (ainda global)
             if (academia?.settings?.certificateLocation) {
                 setLocation(academia.settings.certificateLocation);
             }
 
-            // Carregar cores personalizadas
-            if (academia?.settings?.certificateColors) {
-                if (academia.settings.certificateColors.studentName) {
-                    setNameColor(academia.settings.certificateColors.studentName);
-                }
-                if (academia.settings.certificateColors.bodyText) {
-                    setBodyColor(academia.settings.certificateColors.bodyText);
-                }
-            }
 
-            // Carregar estilo de fonte
-            if (academia?.settings?.certificateFontStyle) {
-                setFontStyle(academia.settings.certificateFontStyle as any);
-            }
 
-            // Carregar configuração avançada se existir
-            if (academia?.settings?.certificateConfig?.elements) {
-                setElementsConfig(academia.settings.certificateConfig.elements);
-                // Sincronizar estados legados para UI consistente
-                const config = academia.settings.certificateConfig;
-                if (config.elements.studentName?.color) setNameColor(config.elements.studentName.color);
-                if (config.elements.bodyText?.color) setBodyColor(config.elements.bodyText.color);
 
-                // Tenta inferir o estilo da fonte baseado no map (simplificado)
-                // Se houver config.elements.studentName.fontFamily... mas por enquanto mantemos o fontStyle global como principal seletor de "Tema"
-            }
+
+
         } catch (error) {
             console.error('Erro ao carregar template:', error);
             showSnackbar('Erro ao carregar template', 'error');
@@ -187,6 +230,16 @@ const CertificateTemplateScreen: React.FC<CertificateTemplateScreenProps> = ({ n
                 [field]: value
             }
         }));
+    };
+
+    const handleColorChange = (type: 'studentName' | 'bodyText', color: string) => {
+        if (type === 'studentName') {
+            setNameColor(color);
+            updateElement('studentName', 'color', color);
+        } else {
+            setBodyColor(color);
+            updateElement('bodyText', 'color', color);
+        }
     };
 
     const formatElementLabel = (key: string) => {
@@ -218,6 +271,49 @@ const CertificateTemplateScreen: React.FC<CertificateTemplateScreenProps> = ({ n
         }
     };
 
+    const applyConfigToState = (config: any) => {
+        setCurrentTemplateUrl(config.imageUrl || null);
+        setTextTemplate(config.textTemplate || DEFAULT_CERTIFICATE_TEXT);
+
+        // Se houver config de elementos completa
+        if (config.elements) {
+            setElementsConfig(prev => ({
+                ...prev,
+                ...config.elements
+            }));
+
+            // Sincronizar legacy states para UI
+            if (config.elements.studentName?.color) setNameColor(config.elements.studentName.color);
+            if (config.elements.bodyText?.color) setBodyColor(config.elements.bodyText.color);
+            if (config.elements.studentName?.fontFamily) setFontStyle(config.elements.studentName.fontFamily);
+        }
+    };
+
+    // Função para trocar de contexto (Modality Switch)
+    const handleModalityChange = (modalityId: string | null) => {
+        // 1. Salvar estado atual no cache antes de trocar
+        const currentKey = selectedModalityId || 'default';
+        const currentState = {
+            imageUrl: selectedImage || currentTemplateUrl,
+            textTemplate,
+            elements: { ...elementsConfig, studentName: { ...elementsConfig.studentName, color: nameColor, fontFamily: fontStyle }, bodyText: { ...elementsConfig.bodyText, color: bodyColor } },
+        };
+
+        setConfigCache(prev => ({ ...prev, [currentKey]: currentState }));
+
+        // 2. Trocar ID
+        setSelectedModalityId(modalityId);
+
+        // 3. Carregar novo estado do cache (ou vazio se nunca editado)
+        const nextKey = modalityId || 'default';
+        // Se a chave existir no cache (editado recentemente), use-a.
+        // Se NÃO existir no cache, precisamos ver se existe no carregamento inicial (que eu ainda não implementei o loadInitialData completo, mas vamos assumir que configCache será populado no load)
+        const nextConfig = configCache[nextKey] || {};
+
+        setSelectedImage(null);
+        applyConfigToState(nextConfig);
+    };
+
     const handleSave = async () => {
         if (!selectedImage && !textTemplate && !location) {
             showSnackbar('Nada para salvar', 'info');
@@ -246,37 +342,52 @@ const CertificateTemplateScreen: React.FC<CertificateTemplateScreenProps> = ({ n
                 setUploadProgress(0.95);
             }
 
-            // Atualizar documento da academia com todos os campos
+            const configToSave: CertificateTemplateConfig = {
+                id: `cfg_${Date.now()}`,
+                name: selectedModalityId ? `Template ${selectedModalityId}` : 'Custom Template',
+                imageUrl: downloadUrl || currentTemplateUrl || '',
+                textTemplate: textTemplate,
+                elements: {
+                    studentName: { ...elementsConfig.studentName, color: nameColor, fontFamily: fontStyle },
+                    bodyText: { ...elementsConfig.bodyText, color: bodyColor },
+                    dateLocation: elementsConfig.dateLocation || { visible: true },
+                    instructorName: elementsConfig.instructorName || { visible: true },
+                    graduationName: elementsConfig.graduationName || { visible: false }
+                },
+                createdAt: Date.now()
+            };
+
             const updates: any = {
-                'settings.certificateTextTemplate': textTemplate,
-                'settings.certificateLocation': location,
-                'settings.certificateColors': {
-                    studentName: elementsConfig.studentName?.color || nameColor,
-                    bodyText: elementsConfig.bodyText?.color || bodyColor
-                },
-                'settings.certificateFontStyle': fontStyle,
-                // Salvar Configuração Completa
-                'settings.certificateConfig': {
-                    id: `cfg_${Date.now()}`,
-                    name: 'Custom Template',
-                    imageUrl: downloadUrl || currentTemplateUrl || '',
-                    textTemplate: textTemplate,
-                    elements: {
-                        studentName: { ...elementsConfig.studentName, color: nameColor, fontFamily: fontStyle },
-                        bodyText: { ...elementsConfig.bodyText, color: bodyColor },
-                        // Ensure other required keys exist by merging whatever is in config or defaults
-                        dateLocation: elementsConfig.dateLocation || { visible: true },
-                        instructorName: elementsConfig.instructorName || { visible: true },
-                        graduationName: elementsConfig.graduationName || { visible: false }
-                    } as any,
-                    createdAt: Date.now()
-                },
                 'settings.updatedAt': new Date()
             };
 
-            if (downloadUrl) {
-                updates['settings.certificateTemplateUrl'] = downloadUrl;
+            if (!selectedModalityId) {
+                // Padrão: Atualiza legado e config unificada
+                updates['settings.certificateTextTemplate'] = textTemplate;
+                updates['settings.certificateLocation'] = location; // Location ainda é global, mas salvamos aqui
+                updates['settings.certificateColors'] = {
+                    studentName: nameColor,
+                    bodyText: bodyColor
+                };
+                updates['settings.certificateFontStyle'] = fontStyle;
+                updates['settings.certificateConfig'] = configToSave;
+
+                if (downloadUrl) {
+                    updates['settings.certificateTemplateUrl'] = downloadUrl;
+                }
+            } else {
+                // Modalidade específica
+                updates[`settings.modalityTemplates.${selectedModalityId}`] = configToSave;
+
+                // Location ainda é global, então salvamos se for editado
+                updates['settings.certificateLocation'] = location;
             }
+
+            // Precisamos atualizar o cache local para refletir a mudança sem reload
+            setConfigCache(prev => ({
+                ...prev,
+                [selectedModalityId || 'default']: configToSave
+            }));
 
             await academyFirestoreService.update('gyms', academiaId, updates);
 
@@ -399,6 +510,44 @@ const CertificateTemplateScreen: React.FC<CertificateTemplateScreenProps> = ({ n
                         </Text>
                     </View>
 
+                    {/* Seletor de Modalidade */}
+                    <View style={{ marginBottom: SPACING.md }}>
+                        <ScrollView
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                            contentContainerStyle={{ gap: 8, paddingHorizontal: 4, paddingBottom: 4 }}
+                            style={{ flexGrow: 0 }} /* Important for horizontal scroll in nested views */
+                        >
+                            <Chip
+                                mode={selectedModalityId === null ? 'flat' : 'outlined'}
+                                selected={selectedModalityId === null}
+                                onPress={() => handleModalityChange(null)}
+                                style={{ backgroundColor: selectedModalityId === null ? COLORS.primary[500] : undefined }}
+                                textStyle={{ color: selectedModalityId === null ? COLORS.white : (isDarkMode ? COLORS.white : COLORS.black) }}
+                            >
+                                Padrão Geral
+                            </Chip>
+
+                            {modalities.map(mod => (
+                                <Chip
+                                    key={mod.id}
+                                    mode={selectedModalityId === mod.id ? 'flat' : 'outlined'}
+                                    selected={selectedModalityId === mod.id}
+                                    onPress={() => handleModalityChange(mod.id)}
+                                    style={{ backgroundColor: selectedModalityId === mod.id ? COLORS.primary[500] : undefined }}
+                                    textStyle={{ color: selectedModalityId === mod.id ? COLORS.white : (isDarkMode ? COLORS.white : COLORS.black) }}
+                                >
+                                    {mod.name}
+                                </Chip>
+                            ))}
+                        </ScrollView>
+                        <Text style={{ fontSize: 12, color: theme.colors.textSecondary, marginTop: 4, marginLeft: 4 }}>
+                            {selectedModalityId
+                                ? `Editando template exclusivo para ${modalities.find(m => m.id === selectedModalityId)?.name}`
+                                : "Editando template padrão para todas as modalidades"}
+                        </Text>
+                    </View>
+
                     <GlassCard style={styles.card} variant={glassVariant}>
                         <View style={styles.cardHeader}>
                             <Text style={[styles.cardTitle, { color: textColor }]}>Template Atual</Text>
@@ -410,8 +559,53 @@ const CertificateTemplateScreen: React.FC<CertificateTemplateScreenProps> = ({ n
                                     <Image source={{ uri: activeImage }} style={styles.templateImage} resizeMode="contain" />
                                     {/* Overlay simulando texto para dar ideia de como fica */}
                                     <View style={styles.overlay}>
-                                        <Text style={[styles.overlayTextName, { color: nameColor }]}>NOME DO ALUNO</Text>
-                                        <Text style={[styles.overlayTextGrad, { color: bodyColor }]}>GRADUAÇÃO</Text>
+                                        {elementsConfig.studentName?.visible && (
+                                            <Text style={[
+                                                styles.overlayTextName,
+                                                {
+                                                    color: nameColor,
+                                                    top: `${elementsConfig.studentName.y || 40}%`,
+                                                    left: `${elementsConfig.studentName.x || 0}%`,
+                                                    fontSize: (elementsConfig.studentName.fontSize || 20) * 0.4, // Scale down for preview
+                                                    width: `${elementsConfig.studentName.width || 100}%`,
+                                                    textAlign: elementsConfig.studentName.textAlign || 'center'
+                                                } as any
+                                            ]}>NOME DO ALUNO</Text>
+                                        )}
+
+                                        {elementsConfig.graduationName?.visible && (
+                                            <Text style={[
+                                                styles.overlayTextGrad,
+                                                {
+                                                    color: bodyColor,
+                                                    top: `${elementsConfig.graduationName.y || 50}%`,
+                                                    left: `${elementsConfig.graduationName.x || 0}%`,
+                                                    fontSize: (elementsConfig.graduationName.fontSize || 14) * 0.4,
+                                                    width: `${elementsConfig.graduationName.width || 100}%`,
+                                                    textAlign: elementsConfig.graduationName.textAlign || 'center'
+                                                } as any
+                                            ]}>GRADUAÇÃO</Text>
+                                        )}
+
+                                        {elementsConfig.bodyText?.visible && (
+                                            <Text
+                                                style={[
+                                                    styles.overlayTextBody,
+                                                    {
+                                                        color: bodyColor,
+                                                        top: `${elementsConfig.bodyText.y || 55}%`,
+                                                        left: `${elementsConfig.bodyText.x || 10}%`,
+                                                        width: `${elementsConfig.bodyText.width || 80}%`,
+                                                        fontSize: (elementsConfig.bodyText.fontSize || 10) * 0.4,
+                                                        textAlign: elementsConfig.bodyText.textAlign || 'center'
+                                                    } as any
+                                                ]}
+                                                numberOfLines={3}
+                                                ellipsizeMode="tail"
+                                            >
+                                                {textTemplate.replace(/\$tag\w+/g, '...')}
+                                            </Text>
+                                        )}
                                     </View>
                                 </View>
                             ) : (
@@ -755,7 +949,10 @@ const CertificateTemplateScreen: React.FC<CertificateTemplateScreenProps> = ({ n
                                                     styles.fontButton,
                                                     fontStyle === font.id && { backgroundColor: hexToRgba(COLORS.primary[500], 0.1), borderColor: COLORS.primary[500] }
                                                 ]}
-                                                onPress={() => setFontStyle(font.id as any)}
+                                                onPress={() => {
+                                                    setFontStyle(font.id as any);
+                                                    updateElement('studentName', 'fontFamily', font.id);
+                                                }}
                                             >
                                                 <Ionicons name={font.icon as any} size={16} color={fontStyle === font.id ? COLORS.primary[500] : theme.colors.textSecondary} />
                                                 <Text style={[
@@ -779,7 +976,7 @@ const CertificateTemplateScreen: React.FC<CertificateTemplateScreenProps> = ({ n
                                                     nameColor === color && styles.selectedColorOption,
                                                     nameColor === color && { borderColor: textColor }
                                                 ]}
-                                                onPress={() => setNameColor(color)}
+                                                onPress={() => handleColorChange('studentName', color)}
                                             >
                                                 {nameColor === color && <Ionicons name="checkmark" size={16} color={color === '#FFFFFF' ? '#000' : '#FFF'} />}
                                             </TouchableOpacity>
@@ -799,7 +996,7 @@ const CertificateTemplateScreen: React.FC<CertificateTemplateScreenProps> = ({ n
                                                     bodyColor === color && styles.selectedColorOption,
                                                     bodyColor === color && { borderColor: textColor }
                                                 ]}
-                                                onPress={() => setBodyColor(color)}
+                                                onPress={() => handleColorChange('bodyText', color)}
                                             >
                                                 {bodyColor === color && <Ionicons name="checkmark" size={16} color={color === '#FFFFFF' ? '#000' : '#FFF'} />}
                                             </TouchableOpacity>
@@ -924,6 +1121,14 @@ const styles = StyleSheet.create({
         color: 'rgba(0,0,0,0.5)',
         position: 'absolute',
         top: '55%',
+    },
+    overlayTextBody: {
+        fontSize: 10,
+        color: 'rgba(0,0,0,0.5)',
+        position: 'absolute',
+        top: '65%',
+        width: '80%',
+        textAlign: 'center',
     },
     actions: {
         flexDirection: 'row',

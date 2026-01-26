@@ -46,9 +46,9 @@ assim como sua dedicação aos valores da nossa equipe e ao Jiu-Jitsu.
 
 ### Fase 2: Configurações Avançadas (EM ANDAMENTO)
 - [x] Campo para cidade/local
-- [ ] Escolher posicionamento de elementos
+- [x] Escolher posicionamento de elementos
 - [x] Escolher fontes e cores
-- [ ] Múltiplos templates por modalidade
+- [x] Múltiplos templates por modalidade
 
 ### Fase 3: Geração de Certificados ✅ CONCLUÍDO
 - [x] Integrar com AddGraduationScreen
@@ -95,8 +95,8 @@ assim como sua dedicação aos valores da nossa equipe e ao Jiu-Jitsu.
 ## 📚 Arquivos Modificados
 
 - ✅ `certificateService.ts` - Sistema de tags e geração de PDF
-- ⏳ `CertificateTemplateScreen.tsx` - Editor de template (próximo)
-- ⏳ `AddGraduationScreen.tsx` - Integração com geração (próximo)
+- ✅ `CertificateTemplateScreen.tsx` - Editor de template visual
+- ✅ `AddGraduationScreen.tsx` - Integração com geração
 
 ## 🎯 Benefícios
 
