@@ -237,83 +237,139 @@ const ReportsScreen: React.FC<ReportsScreenProps> = ({ navigation }) => {
             <meta charset="utf-8">
             <title>Relatório Gerencial - MyGym</title>
             <style>
-              body { font-family: 'Helvetica', sans-serif; padding: 20px; color: #333; line-height: 1.6; }
-              h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
-              h2 { color: #2980b9; margin-top: 30px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
-              .header { margin-bottom: 30px; display: flex; justify-content: space-between; }
-              .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 30px; }
-              .stat-card { background: #f8f9fa; border: 1px solid #ddd; border-radius: 8px; padding: 15px; }
-              .stat-label { font-size: 12px; color: #7f8c8d; text-transform: uppercase; }
-              .stat-value { font-size: 20px; font-weight: bold; color: #2c3e50; margin-top: 5px; }
-              .stat-sub { font-size: 11px; color: #95a5a6; margin-top: 2px; }
-              table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px; }
-              th { background-color: #f1f2f6; text-align: left; padding: 10px; border-bottom: 2px solid #ddd; color: #2c3e50; }
-              td { padding: 10px; border-bottom: 1px solid #eee; }
+              body { font-family: 'Helvetica', 'Arial', sans-serif; padding: 40px; color: #333; line-height: 1.6; background-color: #fff; }
+              .header { margin-bottom: 30px; border-bottom: 3px solid #3498db; padding-bottom: 20px; display: flex; justify-content: space-between; align-items: flex-end; }
+              h1 { color: #2c3e50; margin: 0; font-size: 28px; }
+              .academia-name { color: #3498db; font-size: 18px; font-weight: bold; }
+              .meta-info { text-align: right; font-size: 12px; color: #7f8c8d; }
+              
+              h2 { color: #2980b9; margin-top: 40px; border-bottom: 1px solid #eee; padding-bottom: 10px; font-size: 20px; }
+              
+              .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 20px; }
+              .stat-card { background: #f8f9fa; border: 1px solid #e1e8ed; border-radius: 10px; padding: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+              .stat-label { font-size: 12px; color: #7f8c8d; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+              .stat-value { font-size: 24px; font-weight: bold; color: #2c3e50; }
+              .stat-sub { font-size: 12px; color: #95a5a6; margin-top: 5px; }
+              
+              .chart-section { margin-top: 30px; }
+              .chart-container { background: #fff; border: 1px solid #eee; padding: 20px; border-radius: 10px; }
+              .bar-row { margin-bottom: 15px; }
+              .bar-label { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 14px; }
+              .bar-bg { background: #ecf0f1; height: 12px; border-radius: 6px; overflow: hidden; }
+              .bar-fill { height: 100%; border-radius: 6px; }
+              .fill-primary { background: #3498db; }
+              .fill-success { background: #27ae60; }
+              .fill-warning { background: #f1c40f; }
+              
+              table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #fff; }
+              th { background-color: #f8f9fa; text-align: left; padding: 12px; border-bottom: 2px solid #3498db; color: #2c3e50; font-weight: bold; }
+              td { padding: 12px; border-bottom: 1px solid #eee; }
               tr:nth-child(even) { background-color: #f9f9f9; }
-              .footer { margin-top: 50px; font-size: 10px; color: #95a5a6; text-align: center; border-top: 1px solid #eee; padding-top: 10px; }
+              
+              .footer { margin-top: 60px; font-size: 11px; color: #bdc3c7; text-align: center; border-top: 1px solid #eee; padding-top: 20px; }
+              
+              @media print {
+                body { padding: 0; }
+                .stat-card { break-inside: avoid; }
+                table { break-inside: auto; }
+                tr { break-inside: avoid; break-after: auto; }
+              }
             </style>
           </head>
           <body>
             <div class="header">
               <div>
                 <h1>Relatório Gerencial</h1>
-                <div>MyGym Academy Administration</div>
+                <div class="academia-name">${academia?.name || 'MyGym Academy'}</div>
               </div>
-              <div style="text-align: right; font-size: 12px; color: #7f8c8d;">
+              <div class="meta-info">
                 Gerado em: ${date} às ${time}<br>
-                Solicitante: Admin
+                Identificador: #${Math.floor(Math.random() * 1000000)}
               </div>
             </div>
-
+ 
+            <h2>Visão Geral</h2>
             <div class="stats-grid">
               <div class="stat-card">
-                <div class="stat-label">Total Alunos</div>
+                <div class="stat-label">Engajamento de Alunos</div>
                 <div class="stat-value">${stats.totalStudents}</div>
-                <div class="stat-sub">${stats.activeStudents} ativos</div>
+                <div class="stat-sub">${stats.activeStudents} alunos ativos (${stats.totalStudents > 0 ? Math.round((stats.activeStudents / stats.totalStudents) * 100) : 0}%)</div>
               </div>
               <div class="stat-card">
-                <div class="stat-label">Total Turmas</div>
+                <div class="stat-label">Capacidade de Turmas</div>
                 <div class="stat-value">${stats.totalClasses}</div>
-                <div class="stat-sub">${stats.activeClasses} ativas</div>
+                <div class="stat-sub">${stats.activeClasses} turmas em operação</div>
               </div>
               <div class="stat-card">
                 <div class="stat-label">Receita Mensal</div>
                 <div class="stat-value">${formatCurrency(stats.monthlyRevenue)}</div>
+                <div class="stat-sub">Referente ao mês atual</div>
               </div>
               <div class="stat-card">
-                <div class="stat-label">Pagamentos Pendentes</div>
+                <div class="stat-label">Adimplência</div>
                 <div class="stat-value">${stats.pendingPayments}</div>
+                <div class="stat-sub">Pagamentos aguardando quitação</div>
               </div>
             </div>
-
-            <h2>Taxa de Ocupação</h2>
-            <p>
-              Alunos: ${stats.totalStudents > 0 ? Math.round((stats.activeStudents / stats.totalStudents) * 100) : 0}% ativos<br>
-              Turmas: ${stats.totalClasses > 0 ? Math.round((stats.activeClasses / stats.totalClasses) * 100) : 0}% ativas
-            </p>
-
-            <h2>Turmas Populares</h2>
+ 
+            <div class="chart-section">
+              <h2>Indicadores de Performance</h2>
+              <div class="chart-container">
+                <div class="bar-row">
+                  <div class="bar-label">
+                    <span>Taxa de Retenção (Alunos Ativos)</span>
+                    <span>${stats.totalStudents > 0 ? Math.round((stats.activeStudents / stats.totalStudents) * 100) : 0}%</span>
+                  </div>
+                  <div class="bar-bg">
+                    <div class="bar-fill fill-primary" style="width: ${stats.totalStudents > 0 ? Math.round((stats.activeStudents / stats.totalStudents) * 100) : 0}%"></div>
+                  </div>
+                </div>
+                
+                <div class="bar-row">
+                  <div class="bar-label">
+                    <span>Ocupação de Turmas</span>
+                    <span>${stats.totalClasses > 0 ? Math.round((stats.activeClasses / stats.totalClasses) * 100) : 0}%</span>
+                  </div>
+                  <div class="bar-bg">
+                    <div class="bar-fill fill-success" style="width: ${stats.totalClasses > 0 ? Math.round((stats.activeClasses / stats.totalClasses) * 100) : 0}%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+ 
+            <h2>Ranking de Turmas Populares</h2>
             <table>
               <thead>
                 <tr>
                   <th>Turma</th>
                   <th>Modalidade</th>
-                  <th>Alunos</th>
+                  <th style="text-align: right;">Total de Alunos</th>
+                  <th style="text-align: right;">Popularidade</th>
                 </tr>
               </thead>
               <tbody>
-                ${topClasses.map(cls => `
-                  <tr>
-                    <td>${cls.name}</td>
-                    <td>${cls.modality}</td>
-                    <td>${cls.studentCount}</td>
-                  </tr>
-                `).join('')}
+                ${topClasses.map(cls => {
+        const percentage = stats.totalStudents > 0 ? Math.round((cls.studentCount / stats.totalStudents) * 100) : 0;
+        return `
+                    <tr>
+                      <td><strong>${cls.name}</strong></td>
+                      <td>${cls.modality}</td>
+                      <td style="text-align: right;">${cls.studentCount}</td>
+                      <td style="text-align: right;">
+                        <span style="display: inline-block; width: 60px; background: #eee; height: 8px; border-radius: 4px; overflow: hidden; vertical-align: middle; margin-right: 5px;">
+                          <div style="width: ${percentage}%; background: #3498db; height: 100%;"></div>
+                        </span>
+                        ${percentage}%
+                      </td>
+                    </tr>
+                  `;
+      }).join('')}
               </tbody>
             </table>
-
+ 
             <div class="footer">
-              Relatório confidencial para uso administrativo.
+              Este relatório é um documento oficial da ${academia?.name || 'MyGym Academy'}.<br>
+              Gerado automaticamente pelo sistema de gestão MyGym em ${date}.
             </div>
           </body>
         </html>

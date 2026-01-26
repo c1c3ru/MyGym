@@ -133,95 +133,134 @@ const Relatorios = ({ navigation }) => {
             <meta charset="utf-8">
             <title>Relatório de Desempenho - MyGym</title>
             <style>
-              body { font-family: 'Helvetica', sans-serif; padding: 20px; color: #333; line-height: 1.6; }
-              h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
-              h2 { color: #2980b9; margin-top: 30px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
-              .header { margin-bottom: 30px; display: flex; justify-content: space-between; }
-              .card-container { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 30px; }
-              .card { background: #f8f9fa; border: 1px solid #ddd; border-radius: 8px; padding: 15px; flex: 1; min-width: 150px; }
-              .card-title { font-size: 12px; color: #7f8c8d; text-transform: uppercase; margin-bottom: 5px; }
-              .card-value { font-size: 24px; font-weight: bold; color: #2c3e50; }
-              table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px; }
-              th { background-color: #f1f2f6; text-align: left; padding: 10px; border-bottom: 2px solid #ddd; color: #2c3e50; }
-              td { padding: 10px; border-bottom: 1px solid #eee; }
-              tr:nth-child(even) { background-color: #f9f9f9; }
-              .footer { margin-top: 50px; font-size: 10px; color: #95a5a6; text-align: center; border-top: 1px solid #eee; padding-top: 10px; }
+              body { font-family: 'Helvetica', 'Arial', sans-serif; padding: 40px; color: #333; line-height: 1.6; background-color: #fff; }
+              .header { margin-bottom: 30px; border-bottom: 3px solid #e67e22; padding-bottom: 20px; display: flex; justify-content: space-between; align-items: flex-end; }
+              h1 { color: #2c3e50; margin: 0; font-size: 28px; }
+              .instructor-name { color: #e67e22; font-size: 18px; font-weight: bold; }
+              .meta-info { text-align: right; font-size: 12px; color: #7f8c8d; }
+              
+              h2 { color: #d35400; margin-top: 40px; border-bottom: 1px solid #eee; padding-bottom: 10px; font-size: 20px; }
+              
+              .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 20px; }
+              .stat-card { background: #fffaf0; border: 1px solid #ffebcc; border-radius: 10px; padding: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+              .stat-label { font-size: 11px; color: #7f8c8d; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+              .stat-value { font-size: 24px; font-weight: bold; color: #2c3e50; }
+              
+              .chart-section { margin-top: 30px; }
+              .chart-container { background: #fff; border: 1px solid #eee; padding: 20px; border-radius: 10px; }
+              .bar-row { margin-bottom: 15px; }
+              .bar-label { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 14px; }
+              .bar-bg { background: #ecf0f1; height: 10px; border-radius: 5px; overflow: hidden; }
+              .bar-fill { height: 100%; border-radius: 5px; background: #e67e22; }
+              
+              table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #fff; }
+              th { background-color: #f8f9fa; text-align: left; padding: 12px; border-bottom: 2px solid #e67e22; color: #2c3e50; font-weight: bold; }
+              td { padding: 12px; border-bottom: 1px solid #eee; }
+              tr:nth-child(even) { background-color: #fffaf0; }
+              
+              .footer { margin-top: 60px; font-size: 11px; color: #bdc3c7; text-align: center; border-top: 1px solid #eee; padding-top: 20px; }
+              
+              @media print {
+                body { padding: 0; }
+                .stat-card { break-inside: avoid; }
+                table { break-inside: auto; }
+              }
             </style>
           </head>
           <body>
             <div class="header">
               <div>
                 <h1>Relatório de Desempenho</h1>
-                <div>Período: ${selectedPeriod.toUpperCase()}</div>
+                <div class="instructor-name">${userProfile?.name || 'Instrutor'} - ${selectedPeriod.toUpperCase()}</div>
               </div>
-              <div style="text-align: right; font-size: 12px; color: #7f8c8d;">
+              <div class="meta-info">
                 Gerado em: ${date}<br>
-                Instrutor: ${userProfile?.name || 'N/A'}
+                Licença MyGym: Profissional
               </div>
             </div>
-
-            <div class="card-container">
-              <div class="card">
-                <div class="card-title">Total de Aulas</div>
-                <div class="card-value">${reportData.totalAulas}</div>
+ 
+            <div class="stats-grid">
+              <div class="stat-card">
+                <div class="stat-label">Total de Aulas</div>
+                <div class="stat-value">${reportData.totalAulas}</div>
               </div>
-              <div class="card">
-                <div class="card-title">Alunos Ativos</div>
-                <div class="card-value">${reportData.totalAlunos}</div>
+              <div class="stat-card">
+                <div class="stat-label">Alunos Ativos</div>
+                <div class="stat-value">${reportData.totalAlunos}</div>
               </div>
-              <div class="card">
-                <div class="card-title">Frequência Média</div>
-                <div class="card-value">${reportData.frequenciaMedia}%</div>
+              <div class="stat-card">
+                <div class="stat-label">Frequência Média</div>
+                <div class="stat-value">${reportData.frequenciaMedia}%</div>
               </div>
-              <div class="card">
-                <div class="card-title">Receita Mensal</div>
-                <div class="card-value">R$ ${reportData.receitaMensal.toLocaleString('pt-BR')}</div>
+              <div class="stat-card">
+                <div class="stat-label">Receita Estimada</div>
+                <div class="stat-value">R$ ${reportData.receitaMensal.toLocaleString('pt-BR')}</div>
               </div>
             </div>
-
+ 
+            <div class="chart-section">
+              <h2>Análise de Frequência</h2>
+              <div class="chart-container">
+                <div class="bar-row">
+                  <div class="bar-label">
+                    <span>Média Geral do Período</span>
+                    <span>${reportData.frequenciaMedia}%</span>
+                  </div>
+                  <div class="bar-bg">
+                    <div class="bar-fill" style="width: ${reportData.frequenciaMedia}%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+ 
             <h2>Aulas Mais Populares</h2>
             <table>
               <thead>
                 <tr>
                   <th>Aula</th>
-                  <th>Alunos Matriculados</th>
-                  <th>Frequência</th>
+                  <th style="text-align: right;">Matriculados</th>
+                  <th style="text-align: right;">Presença</th>
                 </tr>
               </thead>
               <tbody>
                 ${reportData.aulasPopulares.map(aula => `
                   <tr>
-                    <td>${aula.nome}</td>
-                    <td>${aula.alunos}</td>
-                    <td>${aula.frequencia}%</td>
+                    <td><strong>${aula.nome}</strong></td>
+                    <td style="text-align: right;">${aula.alunos}</td>
+                    <td style="text-align: right;">
+                      <span style="display: inline-block; width: 50px; background: #eee; height: 6px; border-radius: 3px; overflow: hidden; vertical-align: middle; margin-right: 5px;">
+                        <div style="width: ${aula.frequencia}%; background: #e67e22; height: 100%;"></div>
+                      </span>
+                      ${aula.frequencia}%
+                    </td>
                   </tr>
                 `).join('')}
               </tbody>
             </table>
-
-            <h2>Evolução Mensal</h2>
+ 
+            <h2>Evolução Trimestral</h2>
             <table>
               <thead>
                 <tr>
                   <th>Mês</th>
-                  <th>Alunos</th>
-                  <th>Receita Estimada</th>
+                  <th>Alunos Totais</th>
+                  <th style="text-align: right;">Receita Estimada</th>
                 </tr>
               </thead>
               <tbody>
                 ${reportData.evolucaoMensal.map(mes => `
                   <tr>
                     <td>${mes.mes}</td>
-                    <td>${mes.alunos}</td>
-                    <td>R$ ${mes.receita.toLocaleString('pt-BR')}</td>
+                    <td>${mes.alunos} alunos</td>
+                    <td style="text-align: right;">R$ ${mes.receita.toLocaleString('pt-BR')}</td>
                   </tr>
                 `).join('')}
               </tbody>
             </table>
-
+ 
             <div class="footer">
-              MyGym App - Gestão Inteligente para Academias<br>
-              documento confidencial
+              Relatório gerado via MyGym App para ${userProfile?.name || 'Instrutor'}.<br>
+              ${new Date().getFullYear()} © MyGym Gestão Esportiva.
             </div>
           </body>
         </html>

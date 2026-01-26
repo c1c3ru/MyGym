@@ -7,47 +7,47 @@ import XLSX from 'xlsx';
  * Utilitários para exportação de dados (PDF e Excel)
  */
 export const exportUtils = {
-    /**
-     * Exporta dados para PDF
-     * @param title Título do relatório
-     * @param htmlContent Conteúdo HTML opcional (se não fornecido, gera tabela básica com os dados)
-     * @param data Dados para tabela (array de objetos) - opcional se htmlContent for fornecido
-     * @param columns Colunas a exibir (chaves do objeto data) - opcional
-     */
-    async exportToPDF({
-        title,
-        htmlContent,
-        data,
-        columns
-    }: {
-        title: string;
-        htmlContent?: string;
-        data?: any[];
-        columns?: { key: string; label: string }[]
-    }) {
-        try {
-            let content = htmlContent;
+  /**
+   * Exporta dados para PDF
+   * @param title Título do relatório
+   * @param htmlContent Conteúdo HTML opcional (se não fornecido, gera tabela básica com os dados)
+   * @param data Dados para tabela (array de objetos) - opcional se htmlContent for fornecido
+   * @param columns Colunas a exibir (chaves do objeto data) - opcional
+   */
+  async exportToPDF({
+    title,
+    htmlContent,
+    data,
+    columns
+  }: {
+    title: string;
+    htmlContent?: string;
+    data?: any[];
+    columns?: { key: string; label: string }[]
+  }) {
+    try {
+      let content = htmlContent;
 
-            if (!content && data && columns) {
-                // Gerar tabela HTML simples
-                const tableHeader = columns.map(col => `<th style="text-align: left; padding: 8px; border-bottom: 1px solid #ddd;">${col.label}</th>`).join('');
+      if (!content && data && columns) {
+        // Gerar tabela HTML simples
+        const tableHeader = columns.map(col => `<th style="text-align: left; padding: 8px; border-bottom: 1px solid #ddd;">${col.label}</th>`).join('');
 
-                const tableRows = data.map(item => {
-                    const cells = columns.map(col => {
-                        const value = item[col.key];
-                        // Formatação básica
-                        const displayValue = value instanceof Date ? value.toLocaleDateString('pt-BR') :
-                            typeof value === 'number' && col.key.toLowerCase().includes('receita') ?
-                                `R$ ${value.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}` :
-                                value;
-                        return `<td style="padding: 8px; border-bottom: 1px solid #eee;">${displayValue || '-'}</td>`;
-                    }).join('');
-                    return `<tr>${cells}</tr>`;
-                }).join('');
+        const tableRows = data.map(item => {
+          const cells = columns.map(col => {
+            const value = item[col.key];
+            // Formatação básica
+            const displayValue = value instanceof Date ? value.toLocaleDateString('pt-BR') :
+              typeof value === 'number' && col.key.toLowerCase().includes('receita') ?
+                `R$ ${value.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}` :
+                value;
+            return `<td style="padding: 8px; border-bottom: 1px solid #eee;">${displayValue || '-'}</td>`;
+          }).join('');
+          return `<tr>${cells}</tr>`;
+        }).join('');
 
-                const date = new Date().toLocaleDateString('pt-BR');
+        const date = new Date().toLocaleDateString('pt-BR');
 
-                content = `
+        content = `
           <!DOCTYPE html>
           <html>
             <head>
@@ -88,58 +88,83 @@ export const exportUtils = {
             </body>
           </html>
         `;
-            }
+      }
 
-            if (!content) {
-                throw new Error('Conteúdo HTML ou dados não fornecidos para exportação PDF');
-            }
+      if (!content) {
+        throw new Error('Conteúdo HTML ou dados não fornecidos para exportação PDF');
+      }
 
-            const { uri } = await Print.printToFileAsync({ html: content });
-            await Sharing.shareAsync(uri, { UTI: '.pdf', mimeType: 'application/pdf' });
-            return true;
+      if (typeof window !== 'undefined' && (window as any).navigator && (window as any).navigator.userAgent && /chrome|safari|firefox|edge/i.test((window as any).navigator.userAgent)) {
+        // Web: Abrir em nova janela para impressão
+        console.log('🌐 Exportando PDF via Web Print...');
+        const printWindow = window.open('', '_blank');
+        if (printWindow) {
+          printWindow.document.write(content);
+          printWindow.document.close();
 
-        } catch (error) {
-            console.error('Erro ao exportar PDF:', error);
-            throw error;
+          printWindow.onload = () => {
+            setTimeout(() => {
+              printWindow.print();
+            }, 500);
+          };
+          return true;
+        } else {
+          throw new Error('Pop-ups bloqueados. Por favor, permita pop-ups para exportar o PDF.');
         }
-    },
+      } else {
+        // Mobile (ou ambientes sem window)
+        const result = await Print.printToFileAsync({ html: content });
 
-    /**
-     * Exporta dados para Excel (.xlsx)
-     */
-    async exportToExcel({
-        fileName,
-        data,
-        sheetName = 'Relatório'
-    }: {
-        fileName: string;
-        data: any[];
-        sheetName?: string;
-    }) {
-        try {
-            const ws = XLSX.utils.json_to_sheet(data);
-            const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, sheetName);
-
-            const wbout = XLSX.write(wb, { type: 'base64', bookType: 'xlsx' });
-            const uri = FileSystem.cacheDirectory + `${fileName}.xlsx`;
-
-            await FileSystem.writeAsStringAsync(uri, wbout, {
-                encoding: FileSystem.EncodingType.Base64
-            });
-
-            await Sharing.shareAsync(uri, {
-                mimeType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                dialogTitle: 'Exportar dados para Excel',
-                UTI: 'com.microsoft.excel.xlsx'
-            });
-            return true;
-
-        } catch (error) {
-            console.error('Erro ao exportar Excel:', error);
-            throw error;
+        if (result && result.uri) {
+          await Sharing.shareAsync(result.uri, { UTI: '.pdf', mimeType: 'application/pdf' });
+          return true;
+        } else {
+          throw new Error('Falha ao gerar o arquivo PDF.');
         }
+      }
+
+    } catch (error) {
+      console.error('Erro ao exportar PDF:', error);
+      throw error;
     }
+  },
+
+  /**
+   * Exporta dados para Excel (.xlsx)
+   */
+  async exportToExcel({
+    fileName,
+    data,
+    sheetName = 'Relatório'
+  }: {
+    fileName: string;
+    data: any[];
+    sheetName?: string;
+  }) {
+    try {
+      const ws = XLSX.utils.json_to_sheet(data);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, sheetName);
+
+      const wbout = XLSX.write(wb, { type: 'base64', bookType: 'xlsx' });
+      const uri = FileSystem.cacheDirectory + `${fileName}.xlsx`;
+
+      await FileSystem.writeAsStringAsync(uri, wbout, {
+        encoding: FileSystem.EncodingType.Base64
+      });
+
+      await Sharing.shareAsync(uri, {
+        mimeType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        dialogTitle: 'Exportar dados para Excel',
+        UTI: 'com.microsoft.excel.xlsx'
+      });
+      return true;
+
+    } catch (error) {
+      console.error('Erro ao exportar Excel:', error);
+      throw error;
+    }
+  }
 };
 
 export default exportUtils;
