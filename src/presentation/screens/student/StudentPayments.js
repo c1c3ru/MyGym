@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { View, StyleSheet, ScrollView, RefreshControl, Alert } from 'react-native';
+import { View, StyleSheet, ScrollView, RefreshControl, Alert, useWindowDimensions } from 'react-native';
 import {
   Card,
   Button,
@@ -15,8 +15,9 @@ import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
 import { paymentService, firestoreService } from '@infrastructure/services/firestoreService';
 import academyCollectionsService from '@infrastructure/services/academyCollectionsService';
-import { Linking } from 'react-native';
-import { COLORS, SPACING, FONT_SIZE, FONT_WEIGHT, BORDER_WIDTH } from '@presentation/theme/designTokens';
+import { Linking, Platform, TouchableOpacity } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { COLORS, SPACING, FONT_SIZE, FONT_WEIGHT, BORDER_WIDTH, BORDER_RADIUS } from '@presentation/theme/designTokens';
 
 const StudentPayments = ({ navigation }) => {
   const { user, userProfile, academia } = useAuthFacade();
@@ -119,6 +120,35 @@ const StudentPayments = ({ navigation }) => {
     } catch (error) {
       console.error('Erro ao abrir WhatsApp:', error);
       Alert.alert(getString('error'), getString('cannotOpenWhatsapp') || 'Não foi possível abrir o WhatsApp');
+    }
+  };
+
+  const handleRequestPlan = async (plan) => {
+    try {
+      let phoneNumber = academia?.phone;
+      if (!phoneNumber && academia?.ownerId) {
+        const adminProfile = await firestoreService.getById('users', academia.ownerId);
+        if (adminProfile?.phone) phoneNumber = adminProfile.phone;
+      }
+
+      if (!phoneNumber) {
+        Alert.alert(getString('attention'), getString('whatsappNotFound'));
+        return;
+      }
+
+      const cleanPhone = phoneNumber.replace(/\D/g, '');
+      const countryCode = cleanPhone.length <= 11 ? '55' : '';
+      const fullPhone = `${countryCode}${cleanPhone}`;
+
+      const message = encodeURIComponent(`Olá! Sou ${userProfile?.name || 'um aluno'} e tenho interesse no plano *${plan.name}* (${formatCurrency(plan.value)}). Como faço para assinar?`);
+
+      const url = Platform.OS === 'web'
+        ? `https://wa.me/${fullPhone}?text=${message}`
+        : `whatsapp://send?phone=${fullPhone}&text=${message}`;
+
+      await Linking.openURL(url).catch(() => Linking.openURL(`https://wa.me/${fullPhone}?text=${message}`));
+    } catch (error) {
+      console.error('Erro ao solicitar plano:', error);
     }
   };
 
@@ -256,39 +286,105 @@ const StudentPayments = ({ navigation }) => {
           </Card.Content>
         </Card>
 
-        {/* Planos Disponíveis */}
-        <Card style={styles.card}>
-          <Card.Content>
-            <View style={styles.cardHeader}>
-              <Ionicons name="pricetags-outline" size={24} color={colors.primary} />
-              <Text style={[styles.cardTitle, styles.title]}>Planos Disponíveis</Text>
-            </View>
+        {/* Planos Disponíveis - Visual Premium */}
+        <View style={styles.plansSection}>
+          <View style={styles.cardHeader}>
+            <Ionicons name="pricetags-outline" size={24} color={colors.primary} />
+            <Text style={[styles.cardTitle, styles.title]}>Planos Disponíveis</Text>
+          </View>
 
-            {plans.length > 0 ? (
-              plans.map((plan, index) => (
-                <View key={plan.id || index}>
-                  <List.Item
-                    title={plan.name}
-                    titleStyle={{ color: colors.onSurface, fontWeight: 'bold' }}
-                    description={plan.description || formatCurrency(plan.value)}
-                    descriptionStyle={{ color: colors.onSurfaceVariant }}
-                    left={() => <List.Icon icon="star-outline" color={colors.primary} />}
-                    right={() => (
-                      <Chip style={{ backgroundColor: colors.primary, height: 32 }} textStyle={{ color: colors.onPrimary }}>
-                        {formatCurrency(plan.value)}
-                      </Chip>
-                    )}
-                  />
-                  {index < plans.length - 1 && <Divider />}
-                </View>
-              ))
+          {plans.length > 0 ? (
+            Platform.OS === 'web' ? (
+              <View style={styles.webPlansGrid}>
+                {plans.map((plan, index) => (
+                  <View key={plan.id || index} style={styles.webPlanWrapper}>
+                    <Card style={styles.planPremiumCard}>
+                      <LinearGradient
+                        colors={index % 2 === 0
+                          ? [colors.primary, '#8E2DE2']
+                          : ['#8E2DE2', '#4A00E0']}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 1 }}
+                        style={styles.planGradient}
+                      >
+                        <View style={styles.planCardContent}>
+                          <Text style={styles.planNamePremium}>{plan.name}</Text>
+                          <View style={styles.planPriceContainer}>
+                            <Text style={styles.planCurrency}>{getString('currency')}</Text>
+                            <Text style={styles.planValuePremium}>
+                              {plan.value?.toString().split(',')[0] || plan.value}
+                            </Text>
+                            <Text style={styles.planPeriod}>/{plan.duration || 1}m</Text>
+                          </View>
+
+                          <Text style={styles.planDescriptionPremium} numberOfLines={2}>
+                            {plan.description || "Ideal para quem busca evolução constante no tatame."}
+                          </Text>
+
+                          <TouchableOpacity
+                            style={styles.subscribeButtonPremium}
+                            onPress={() => handleRequestPlan(plan)}
+                          >
+                            <Text style={styles.subscribeButtonText}>Quero Assinar</Text>
+                            <Ionicons name="arrow-forward" size={16} color={colors.primary} />
+                          </TouchableOpacity>
+                        </View>
+                      </LinearGradient>
+                    </Card>
+                  </View>
+                ))}
+              </View>
             ) : (
-              <Text style={[styles.emptyText, styles.paragraph]}>
-                Nenhum plano disponível
-              </Text>
-            )}
-          </Card.Content>
-        </Card>
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={styles.plansHorizontalScroll}
+              >
+                {plans.map((plan, index) => (
+                  <Card key={plan.id || index} style={styles.planPremiumCard}>
+                    <LinearGradient
+                      colors={index % 2 === 0
+                        ? [colors.primary, '#8E2DE2']
+                        : ['#8E2DE2', '#4A00E0']}
+                      start={{ x: 0, y: 0 }}
+                      end={{ x: 1, y: 1 }}
+                      style={styles.planGradient}
+                    >
+                      <View style={styles.planCardContent}>
+                        <Text style={styles.planNamePremium}>{plan.name}</Text>
+                        <View style={styles.planPriceContainer}>
+                          <Text style={styles.planCurrency}>{getString('currency')}</Text>
+                          <Text style={styles.planValuePremium}>
+                            {plan.value?.toString().split(',')[0] || plan.value}
+                          </Text>
+                          <Text style={styles.planPeriod}>/{plan.duration || 1}m</Text>
+                        </View>
+
+                        <Text style={styles.planDescriptionPremium} numberOfLines={2}>
+                          {plan.description || "Ideal para quem busca evolução constante no tatame."}
+                        </Text>
+
+                        <TouchableOpacity
+                          style={styles.subscribeButtonPremium}
+                          onPress={() => handleRequestPlan(plan)}
+                        >
+                          <Text style={styles.subscribeButtonText}>Quero Assinar</Text>
+                          <Ionicons name="arrow-forward" size={16} color={colors.primary} />
+                        </TouchableOpacity>
+                      </View>
+                    </LinearGradient>
+                  </Card>
+                ))}
+              </ScrollView>
+            )
+          ) : (
+            <Card style={styles.card}>
+              <Card.Content>
+                <Text style={styles.emptyText}>Nenhum plano disponível</Text>
+              </Card.Content>
+            </Card>
+          )}
+        </View>
 
         {/* Informações Adicionais */}
         <Card style={styles.card}>
@@ -397,6 +493,90 @@ const createStyles = (colors) => StyleSheet.create({
     right: 0,
     bottom: 0,
     backgroundColor: colors.tertiary,
+  },
+  plansSection: {
+    marginVertical: SPACING.md,
+    paddingHorizontal: SPACING.md,
+  },
+  plansHorizontalScroll: {
+    paddingRight: SPACING.xl,
+    paddingVertical: SPACING.sm,
+  },
+  planPremiumCard: {
+    width: 200,
+    height: 220,
+    marginRight: SPACING.md,
+    borderRadius: BORDER_RADIUS.lg,
+    overflow: 'hidden',
+    elevation: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+  },
+  planGradient: {
+    flex: 1,
+    padding: SPACING.md,
+  },
+  planCardContent: {
+    flex: 1,
+    justifyContent: 'space-between',
+  },
+  planNamePremium: {
+    color: '#FFF',
+    fontSize: FONT_SIZE.lg,
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+  },
+  planPriceContainer: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+  },
+  planCurrency: {
+    color: 'rgba(255,255,255,0.7)',
+    fontSize: FONT_SIZE.sm,
+    marginRight: 2,
+  },
+  planValuePremium: {
+    color: '#FFF',
+    fontSize: 28,
+    fontWeight: '900',
+  },
+  planPeriod: {
+    color: 'rgba(255,255,255,0.7)',
+    fontSize: FONT_SIZE.sm,
+  },
+  planDescriptionPremium: {
+    color: 'rgba(255,255,255,0.9)',
+    fontSize: 12,
+    lineHeight: 16,
+    marginVertical: SPACING.sm,
+  },
+  subscribeButtonPremium: {
+    backgroundColor: '#FFF',
+    borderRadius: BORDER_RADIUS.md,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 4,
+  },
+  subscribeButtonText: {
+    color: colors.primary,
+    fontWeight: 'bold',
+    fontSize: 12,
+  },
+  webPlansGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: SPACING.md,
+    marginTop: SPACING.sm,
+  },
+  webPlanWrapper: {
+    width: '16%', // Aproximadamente 6 por linha considerando o gap
+    minWidth: 180,
+    marginBottom: SPACING.md,
   },
 });
 
