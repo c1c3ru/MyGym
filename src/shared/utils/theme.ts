@@ -2250,8 +2250,8 @@ export const getThemeForUserType = (
       accent: isDarkMode ? COLORS.info[300] : COLORS.info[500],
     },
     instructor: {
-      primary: isDarkMode ? COLORS.secondary[400] : COLORS.secondary[600],
-      accent: isDarkMode ? COLORS.secondary[300] : COLORS.secondary[500],
+      primary: isDarkMode ? COLORS.primary[400] : COLORS.primary[500],
+      accent: isDarkMode ? COLORS.primary[300] : COLORS.primary[600],
     },
     admin: {
       primary: isDarkMode ? COLORS.primary[400] : COLORS.primary[700],

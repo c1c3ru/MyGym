@@ -4,6 +4,7 @@ import { Text, Chip, Card, ActivityIndicator } from 'react-native-paper';
 import useAuthMigration from '@hooks/useAuthMigration';
 import academyCollectionsService from '@infrastructure/services/academyCollectionsService';
 import { COLORS, SPACING, FONT_SIZE, FONT_WEIGHT } from '@presentation/theme/designTokens';
+import { useThemeToggle } from '@contexts/ThemeToggleContext';
 import { useTheme } from "@contexts/ThemeContext";
 
 /**
@@ -36,6 +37,7 @@ const ModalityPicker: React.FC<ModalityPickerProps> = ({
     label = "Modalidades Oferecidas"
 }) => {
     const { getString } = useTheme();
+    const { currentTheme } = useThemeToggle();
     const [availableModalities, setAvailableModalities] = useState<Modality[]>([]);
     const [loading, setLoading] = useState(true);
     const { userProfile } = useAuthMigration() as any;
@@ -125,7 +127,7 @@ const ModalityPicker: React.FC<ModalityPickerProps> = ({
                 {label}
             </Text>
 
-            <Card style={styles.card}>
+            <Card style={[styles.card, { backgroundColor: currentTheme.background.paper }]}>
                 <Card.Content>
                     <ScrollView
                         horizontal
@@ -146,7 +148,8 @@ const ModalityPicker: React.FC<ModalityPickerProps> = ({
                                     onPress={() => handleModalityToggle(modality.id)}
                                     style={[
                                         styles.chip,
-                                        selectedModalities.includes(modality.id) && styles.selectedChip,
+                                        { backgroundColor: currentTheme.background.elevated },
+                                        selectedModalities.includes(modality.id) && { backgroundColor: currentTheme.primary[500] },
                                         index === availableModalities.length - 1 && styles.lastChip
                                     ]}
                                     textStyle={[
@@ -172,8 +175,6 @@ const ModalityPicker: React.FC<ModalityPickerProps> = ({
                                         mode="flat"
                                         selected
                                         onClose={() => handleModalityToggle(modalityId)}
-                                        style={styles.selectedChip}
-                                        textStyle={styles.selectedChipText}
                                     >
                                         {getModalityName(modalityId)}
                                     </Chip>

@@ -19,13 +19,13 @@ import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import ReportsSkeleton from '@components/skeletons/ReportsSkeleton';
 import { COLORS, SPACING, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { useTheme } from "@contexts/ThemeContext";
-import { useProfileTheme } from "@contexts/ProfileThemeContext";
+// import { useProfileTheme } from "@contexts/ProfileThemeContext";
 import exportUtils from '@shared/utils/exportUtils';
 import GlassCard from '@components/GlassCard';
 
 const Relatorios = ({ navigation }) => {
-  const { getString, currentLanguage } = useTheme();
-  const { theme: profileTheme } = useProfileTheme();
+  const { getString, currentLanguage, theme: profileTheme } = useTheme();
+  // const { theme: profileTheme } = useProfileTheme(); // Removido: Contexto inexistente
   const { user, userProfile } = useAuthFacade();
   const [selectedPeriod, setSelectedPeriod] = useState('mes');
   const [reportData, setReportData] = useState({

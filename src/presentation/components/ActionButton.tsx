@@ -56,9 +56,9 @@ const ActionButton: React.FC<ActionButtonProps> = ({
         switch (variant) {
             case 'primary':
                 return {
-                    contained: [COLORS.primary[500], COLORS.primary[700]],
-                    outlined: COLORS.primary[600],
-                    text: mode === 'contained' ? COLORS.white : COLORS.primary[700]
+                    contained: [currentTheme.primary[500], currentTheme.primary[700]],
+                    outlined: currentTheme.primary[600],
+                    text: mode === 'contained' ? COLORS.white : currentTheme.primary[700]
                 };
             case 'success':
                 return {
@@ -80,9 +80,9 @@ const ActionButton: React.FC<ActionButtonProps> = ({
                 };
             case 'secondary':
                 return {
-                    contained: [COLORS.gray[600], COLORS.gray[800]],
-                    outlined: COLORS.gray[600],
-                    text: mode === 'contained' ? COLORS.white : COLORS.gray[800]
+                    contained: [currentTheme.secondary[500], currentTheme.secondary[700]],
+                    outlined: currentTheme.secondary[600],
+                    text: mode === 'contained' ? COLORS.white : currentTheme.secondary[800]
                 };
             case 'outline':
             case 'info':
@@ -99,9 +99,9 @@ const ActionButton: React.FC<ActionButtonProps> = ({
                 };
             default:
                 return {
-                    contained: [COLORS.primary[500], COLORS.primary[700]],
-                    outlined: COLORS.primary[600],
-                    text: mode === 'contained' ? COLORS.white : COLORS.primary[700]
+                    contained: [currentTheme.primary[500], currentTheme.primary[700]],
+                    outlined: currentTheme.primary[600],
+                    text: mode === 'contained' ? COLORS.white : currentTheme.primary[700]
                 };
         }
     };
@@ -249,13 +249,15 @@ interface FloatingActionButtonProps {
  * Componente para botão de ação flutuante melhorado com gradiente
  */
 export const FloatingActionButton: React.FC<FloatingActionButtonProps> = ({ icon, label, onPress, variant = 'primary', style }) => {
+    const { currentTheme } = useThemeToggle();
+
     const getColors = () => {
         switch (variant) {
             case 'success': return [COLORS.success[500], COLORS.success[700]];
             case 'warning': return [COLORS.warning[500], COLORS.warning[700]];
             case 'danger': return [COLORS.error[500], COLORS.error[700]];
-            case 'secondary': return [COLORS.gray[600], COLORS.gray[800]];
-            default: return [COLORS.primary[500], COLORS.primary[700]];
+            case 'secondary': return [currentTheme.secondary[600], currentTheme.secondary[800]];
+            default: return [currentTheme.primary[500], currentTheme.primary[700]];
         }
     };
 

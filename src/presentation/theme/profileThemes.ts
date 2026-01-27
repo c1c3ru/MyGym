@@ -75,38 +75,38 @@ export const STUDENT_THEME = {
 // Paleta: Roxo Profissional + Verde Crescimento
 // ============================================
 export const INSTRUCTOR_THEME = {
-    name: 'Instructor - Autoridade & Expertise',
+    name: 'Instructor - Autoridade & Energia',
 
     primary: {
-        50: '#F3E5F5',   // Roxo muito claro
-        100: '#E1BEE7',  // Roxo claro
-        200: '#CE93D8',  // Roxo suave
-        300: '#BA68C8',  // Roxo médio
-        400: '#AB47BC',  // Roxo vibrante
-        500: '#9C27B0',  // 🎯 PRINCIPAL - Roxo autoridade
-        600: '#8E24AA',  // Roxo escuro
-        700: '#7B1FA2',  // Roxo intenso
-        800: '#6A1B9A',  // Roxo profundo
-        900: '#4A148C',  // Roxo muito escuro
+        50: '#FFEBEE',   // Vermelho muito claro
+        100: '#FFCDD2',  // Vermelho claro
+        200: '#EF9A9A',  // Vermelho suave
+        300: '#E57373',  // Vermelho médio
+        400: '#EF5350',  // Vermelho vibrante
+        500: '#D32F2F',  // 🎯 PRINCIPAL - Vermelho instrutor (MyGym Red)
+        600: '#C62828',  // Vermelho escuro
+        700: '#B71C1C',  // Vermelho intenso
+        800: '#A50E0E',  // Vermelho profundo
+        900: '#880E4F',  // Vermelho muito escuro (menos rosa, mais vinho)
     },
 
     secondary: {
-        50: '#E8F5E9',   // Verde muito claro
-        100: '#C8E6C9',  // Verde claro
-        200: '#A5D6A7',  // Verde suave
-        300: '#81C784',  // Verde médio
-        400: '#66BB6A',  // Verde vibrante
-        500: '#4CAF50',  // 🎯 SECUNDÁRIA - Verde crescimento
-        600: '#43A047',  // Verde escuro
-        700: '#388E3C',  // Verde intenso
-        800: '#2E7D32',  // Verde profundo
-        900: '#1B5E20',  // Verde muito escuro
+        50: '#FAFAFA',   // Cinza muito claro
+        100: '#F5F5F5',  // Cinza claro
+        200: '#EEEEEE',  // Cinza suave
+        300: '#E0E0E0',  // Cinza médio
+        400: '#BDBDBD',  // Cinza vibrante
+        500: '#9E9E9E',  // 🎯 SECUNDÁRIA - Cinza neutro
+        600: '#757575',  // Cinza escuro
+        700: '#616161',  // Cinza intenso
+        800: '#424242',  // Cinza profundo
+        900: '#212121',  // Cinza muito escuro
     },
 
-    accent: '#7B1FA2',      // Roxo intenso para CTAs
+    accent: '#D32F2F',      // Vermelho intenso para CTAs
     success: '#66BB6A',     // Verde crescimento
     warning: '#FFA726',     // Laranja aviso
-    error: '#EF5350',       // Vermelho suave
+    error: '#B71C1C',       // Vermelho erro
     info: '#42A5F5',        // Azul informação
 
     background: {
@@ -123,13 +123,13 @@ export const INSTRUCTOR_THEME = {
     },
 
     gradients: {
-        primary: ['#9C27B0', '#7B1FA2'],           // Roxo autoridade
-        secondary: ['#4CAF50', '#2E7D32'],         // Verde crescimento
-        hero: ['#F3E5F5', '#E1BEE7', '#CE93D8'],   // Gradiente hero SUAVE (Light)
-        card: ['#F3E5F5', '#FFFFFF'],              // Card suave
+        primary: ['#D32F2F', '#B71C1C'],           // Vermelho instrutor
+        secondary: ['#757575', '#424242'],         // Cinza profissional
+        hero: ['#FFEBEE', '#FFCDD2', '#EF9A9A'],   // Gradiente hero SUAVE (Light)
+        card: ['#FFEBEE', '#FFFFFF'],              // Card suave
     },
 
-    description: 'Paleta profissional e confiável. Roxo transmite sabedoria, autoridade e expertise. Verde representa crescimento e desenvolvimento.',
+    description: 'Paleta padronizada e energética. Vermelho transmite liderança, energia e força. Cinza traz profissionalismo e equilíbrio.',
 };
 
 // ============================================
@@ -209,8 +209,8 @@ export const STUDENT_THEME_DARK = {
     },
 
     text: {
-        primary: '#FFFFFF',     // Branco puro
-        secondary: '#F5F5F5',   // Branco suave
+        primary: '#F2F2F2',     // Off-white (evita vibração/halos)
+        secondary: '#E0E0E0',   // Cinza claro suave
         disabled: '#9E9E9E',    // Cinza claro
         hint: '#BDBDBD',        // Cinza hint
     },
@@ -225,7 +225,7 @@ export const STUDENT_THEME_DARK = {
 
 export const INSTRUCTOR_THEME_DARK = {
     ...INSTRUCTOR_THEME,
-    name: 'Instructor Dark - Autoridade Noturna',
+    name: 'Instructor Dark - Liderança Noturna',
 
     background: {
         default: '#121212',     // Preto premium
@@ -234,16 +234,16 @@ export const INSTRUCTOR_THEME_DARK = {
     },
 
     text: {
-        primary: '#FFFFFF',     // Branco puro
-        secondary: '#B0B0B0',   // Cinza claro
+        primary: '#F2F2F2',     // Off-white (evita vibração/halos)
+        secondary: '#E0E0E0',   // Cinza claro suave
         disabled: '#6B6B6B',    // Cinza escuro
         hint: '#8B8B8B',        // Cinza hint
     },
 
     gradients: {
-        primary: ['#9C27B0', '#4A148C'],           // Roxo escuro
-        secondary: ['#388E3C', '#1B5E20'],         // Verde escuro
-        hero: ['#121212', '#9C27B0', '#4A148C'],   // Hero dark
+        primary: ['#D32F2F', '#880E4F'],           // Vermelho intenso para escuro
+        secondary: ['#616161', '#212121'],         // Cinza escuro
+        hero: ['#121212', '#D32F2F', '#880E4F'],   // Hero dark
         card: ['#1E1E1E', '#2A2A2A'],              // Card dark
     },
 };
@@ -259,8 +259,8 @@ export const ADMIN_THEME_DARK = {
     },
 
     text: {
-        primary: '#FFFFFF',     // Branco puro
-        secondary: '#B0B0B0',   // Cinza claro
+        primary: '#F2F2F2',     // Off-white (evita vibração/halos)
+        secondary: '#E0E0E0',   // Cinza claro suave
         disabled: '#6B6B6B',    // Cinza escuro
         hint: '#8B8B8B',        // Cinza hint
     },
@@ -297,10 +297,10 @@ export const THEME_COMPARISON = {
         use_case: 'Alunos que buscam motivação e energia para treinar',
     },
     instructor: {
-        emotion: 'Autoridade, Expertise, Crescimento',
-        colors: 'Roxo + Verde',
-        personality: 'Profissional, Confiável, Mentor',
-        use_case: 'Instrutores que precisam transmitir conhecimento e autoridade',
+        emotion: 'Liderança, Energia, Profissionalismo',
+        colors: 'Vermelho + Cinza',
+        personality: 'Forte, Decidido, Mentor',
+        use_case: 'Instrutores que lideram e inspiram alunos',
     },
     admin: {
         emotion: 'Poder, Controle, Eficiência',

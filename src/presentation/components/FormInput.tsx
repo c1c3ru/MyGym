@@ -3,6 +3,7 @@ import { View, StyleSheet, TextInputProps as RNTextInputProps } from 'react-nati
 import { TextInput, HelperText } from 'react-native-paper';
 import { formatters } from '@utils/validation';
 import { COLORS, SPACING, FONT_SIZE } from '@presentation/theme/designTokens';
+import { useThemeToggle } from '@contexts/ThemeToggleContext';
 
 /**
  * Propriedades para o componente FormInput
@@ -40,6 +41,7 @@ const FormInput: React.FC<FormInputProps> = ({
     maxLength,
     ...props
 }) => {
+    const { currentTheme } = useThemeToggle();
     const [isFocused, setIsFocused] = useState(false);
 
     const handleChangeText = (text: string) => {
@@ -81,15 +83,18 @@ const FormInput: React.FC<FormInputProps> = ({
                 error={hasError}
                 style={[
                     styles.input,
-                    hasError && styles.inputError,
+                    { backgroundColor: currentTheme.background.paper },
+                    hasError && { borderColor: currentTheme.error[500] },
                     isFocused && styles.inputFocused
                 ]}
                 theme={{
                     colors: {
-                        primary: hasError ? COLORS.error[500] : COLORS.info[500],
-                        error: COLORS.error[500]
+                        primary: hasError ? currentTheme.error[500] : currentTheme.primary[500],
+                        error: currentTheme.error[500],
+                        onSurfaceVariant: currentTheme.text.secondary // Label color
                     }
                 }}
+                textColor={currentTheme.text.primary}
                 {...(props as any)}
             />
 

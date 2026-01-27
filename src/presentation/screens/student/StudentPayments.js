@@ -14,6 +14,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
 import { paymentService, firestoreService } from '@infrastructure/services/firestoreService';
+import academyCollectionsService from '@infrastructure/services/academyCollectionsService';
 import { Linking } from 'react-native';
 import { COLORS, SPACING, FONT_SIZE, FONT_WEIGHT, BORDER_WIDTH } from '@presentation/theme/designTokens';
 
@@ -24,6 +25,7 @@ const StudentPayments = ({ navigation }) => {
   const styles = useMemo(() => createStyles(colors), [colors]);
 
   const [payments, setPayments] = useState([]);
+  const [plans, setPlans] = useState([]);
   const [currentPayment, setCurrentPayment] = useState(null);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -37,6 +39,12 @@ const StudentPayments = ({ navigation }) => {
       setLoading(true);
       const userPayments = await paymentService.getPaymentsByStudent(user.id, academia?.id);
       setPayments(userPayments);
+
+      // Carregar planos disponíveis
+      if (academia?.id) {
+        const availablePlans = await academyCollectionsService.getPlans(academia.id);
+        setPlans(availablePlans || []);
+      }
 
       // Encontrar pagamento atual (mais recente)
       const current = userPayments.find(p => p.status === 'pending') || userPayments[0];
@@ -248,6 +256,40 @@ const StudentPayments = ({ navigation }) => {
           </Card.Content>
         </Card>
 
+        {/* Planos Disponíveis */}
+        <Card style={styles.card}>
+          <Card.Content>
+            <View style={styles.cardHeader}>
+              <Ionicons name="pricetags-outline" size={24} color={colors.primary} />
+              <Text style={[styles.cardTitle, styles.title]}>Planos Disponíveis</Text>
+            </View>
+
+            {plans.length > 0 ? (
+              plans.map((plan, index) => (
+                <View key={plan.id || index}>
+                  <List.Item
+                    title={plan.name}
+                    titleStyle={{ color: colors.onSurface, fontWeight: 'bold' }}
+                    description={plan.description || formatCurrency(plan.value)}
+                    descriptionStyle={{ color: colors.onSurfaceVariant }}
+                    left={() => <List.Icon icon="star-outline" color={colors.primary} />}
+                    right={() => (
+                      <Chip style={{ backgroundColor: colors.primary, height: 32 }} textStyle={{ color: colors.onPrimary }}>
+                        {formatCurrency(plan.value)}
+                      </Chip>
+                    )}
+                  />
+                  {index < plans.length - 1 && <Divider />}
+                </View>
+              ))
+            ) : (
+              <Text style={[styles.emptyText, styles.paragraph]}>
+                Nenhum plano disponível
+              </Text>
+            )}
+          </Card.Content>
+        </Card>
+
         {/* Informações Adicionais */}
         <Card style={styles.card}>
           <Card.Content>
@@ -274,7 +316,7 @@ const StudentPayments = ({ navigation }) => {
         color={colors.onTertiaryContainer}
         theme={{ colors: { primary: colors.tertiaryContainer } }}
       />
-    </SafeAreaView>
+    </SafeAreaView >
   );
 };
 

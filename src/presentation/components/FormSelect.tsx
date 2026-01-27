@@ -84,19 +84,20 @@ const FormSelect: React.FC<FormSelectProps> = ({
                         disabled={disabled}
                         style={[
                             styles.button,
-                            hasError && styles.buttonError,
-                            disabled && styles.buttonDisabled
+                            { backgroundColor: currentTheme.background.paper, borderColor: currentTheme.border.default },
+                            hasError && { borderColor: currentTheme.error[500] },
+                            disabled && { backgroundColor: currentTheme.background.section || currentTheme.gray[100] }
                         ]}
                         contentStyle={styles.buttonContent}
                         labelStyle={[
                             styles.buttonLabel,
-                            !value && styles.placeholderText
+                            { color: value ? currentTheme.text.primary : currentTheme.text.hint }
                         ]}
                         icon={() => (
                             <Ionicons
                                 name={visible ? "chevron-up" : "chevron-down"}
                                 size={20}
-                                color={hasError ? COLORS.error[500] : COLORS.gray[500]}
+                                color={hasError ? currentTheme.error[500] : currentTheme.gray[500]}
                             />
                         )}
                     >
@@ -109,7 +110,7 @@ const FormSelect: React.FC<FormSelectProps> = ({
                         key={option.value.toString()}
                         onPress={() => handleSelect(option.value)}
                         title={option.label}
-                        titleStyle={value === option.value ? styles.selectedOption : undefined}
+                        titleStyle={value === option.value ? { color: currentTheme.text.primary, fontWeight: 'bold' } : { color: currentTheme.text.primary }}
                     />
                 ))}
             </Menu>
