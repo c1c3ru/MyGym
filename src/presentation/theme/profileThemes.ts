@@ -63,7 +63,7 @@ export const STUDENT_THEME = {
     gradients: {
         primary: ['#FF9800', '#FF6F00'],           // Laranja energia
         secondary: ['#2196F3', '#1565C0'],         // Azul confiança
-        hero: ['#FF9800', '#FF6F00', '#E65100'],   // Gradiente hero
+        hero: ['#FFF3E0', '#FFE0B2', '#FFCC80'],   // Gradiente hero SUAVE (Light)
         card: ['#FFF3E0', '#FFFFFF'],              // Card suave
     },
 
@@ -125,7 +125,7 @@ export const INSTRUCTOR_THEME = {
     gradients: {
         primary: ['#9C27B0', '#7B1FA2'],           // Roxo autoridade
         secondary: ['#4CAF50', '#2E7D32'],         // Verde crescimento
-        hero: ['#9C27B0', '#7B1FA2', '#4A148C'],   // Gradiente hero
+        hero: ['#F3E5F5', '#E1BEE7', '#CE93D8'],   // Gradiente hero SUAVE (Light)
         card: ['#F3E5F5', '#FFFFFF'],              // Card suave
     },
 
@@ -187,7 +187,7 @@ export const ADMIN_THEME = {
     gradients: {
         primary: ['#1976D2', '#0D47A1'],           // Azul corporativo
         secondary: ['#F44336', '#D32F2F'],         // Vermelho ação
-        hero: ['#1976D2', '#0D47A1', '#063381'],   // Gradiente hero
+        hero: ['#E3F2FD', '#BBDEFB', '#90CAF9'],   // Gradiente hero SUAVE (Light)
         card: ['#E3F2FD', '#FFFFFF'],              // Card suave
     },
 

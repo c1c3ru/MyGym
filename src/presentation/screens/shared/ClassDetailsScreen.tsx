@@ -418,6 +418,9 @@ const ClassDetailsScreen: React.FC<ClassDetailsScreenProps> = ({ route, navigati
             </Button>
           </Card.Content>
         </Card>
+
+        {/* Spacer para garantir scroll final */}
+        <View style={{ height: 120 }} />
       </ScrollView>
 
       <Snackbar
@@ -430,7 +433,7 @@ const ClassDetailsScreen: React.FC<ClassDetailsScreenProps> = ({ route, navigati
       >
         {snackbar.message}
       </Snackbar>
-    </SafeAreaView>
+    </SafeAreaView >
   );
 };
 
@@ -440,7 +443,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
   },
   scrollContent: {
-    paddingBottom: 20,
+    paddingBottom: 100,
   },
   loadingContainer: {
     flex: 1,

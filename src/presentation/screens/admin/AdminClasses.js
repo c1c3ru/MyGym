@@ -172,14 +172,14 @@ const AdminClasses = ({ navigation }) => {
                       currentStudents: students.length,
                       students: students,
                       // Fallback hierárquico: Instrutor encontrado > Nome salvo na turma > userProfile se for o próprio > Não atribuído
-                      instructorName: instructor?.name || classItem.instructorName || (classItem.instructorId === user?.id ? userProfile?.name : 'Não atribuído')
+                      instructorName: instructor?.name || classItem.instructorName || (classItem.instructorId === user?.id ? userProfile?.name : getString('noInstructor'))
                     };
                   } catch (error) {
                     return {
                       ...classItem,
                       currentStudents: 0,
                       students: [],
-                      instructorName: classItem.instructorName || 'Não atribuído'
+                      instructorName: classItem.instructorName || getString('noInstructor')
                     };
                   }
                 })
@@ -205,7 +205,7 @@ const AdminClasses = ({ navigation }) => {
 
     } catch (error) {
       console.error(getString('loadClassesError'), error);
-      Alert.alert('Erro', 'Erro ao carregar turmas');
+      Alert.alert(getString('error'), getString('errorLoadingData'));
     } finally {
       setLoading(false);
       setRefreshing(false);
@@ -274,11 +274,11 @@ const AdminClasses = ({ navigation }) => {
     <Card style={[styles.emptyCard, { backgroundColor: glassStyle.backgroundColor, borderColor: glassStyle.borderColor, borderWidth: 1 }]}>
       <Card.Content style={styles.emptyContent}>
         <Ionicons name="school-outline" size={48} color={secondaryTextColor} />
-        <Text style={[styles.emptyTitle, styles.title, { color: textColor }]}>Nenhuma turma encontrada</Text>
+        <Text style={[styles.emptyTitle, styles.title, { color: textColor }]}>{getString('noClassesFound')}</Text>
         <Text style={[styles.emptyText, styles.paragraph, { color: secondaryTextColor }]}>
           {searchQuery ?
-            'noMatchingClasses' :
-            'Nenhuma turma registrada'
+            getString('noClassesFound') :
+            getString('noClassesRegistered')
           }
         </Text>
       </Card.Content>
@@ -291,26 +291,26 @@ const AdminClasses = ({ navigation }) => {
     return (
       <Card style={[styles.statsCard, { backgroundColor: glassStyle.backgroundColor, borderColor: glassStyle.borderColor, borderWidth: 1 }]}>
         <Card.Content>
-          <Text style={[styles.statsTitle, styles.title, { color: textColor }]}>Estatísticas das Turmas</Text>
+          <Text style={[styles.statsTitle, styles.title, { color: textColor }]}>{getString('statsClassStats')}</Text>
 
           <View style={styles.statsGrid}>
             <View style={styles.statItem}>
               <Text style={[styles.statNumber, { color: textColor }]}>{classes.length}</Text>
-              <Text style={[styles.statLabel, { color: secondaryTextColor }]}>Total</Text>
+              <Text style={[styles.statLabel, { color: secondaryTextColor }]}>{getString('total')}</Text>
             </View>
 
             <View style={styles.statItem}>
               <Text style={[styles.statNumber, { color: textColor }]}>
                 {classes.filter(c => c.isActive !== false).length}
               </Text>
-              <Text style={[styles.statLabel, { color: secondaryTextColor }]}>Turmas Ativas</Text>
+              <Text style={[styles.statLabel, { color: secondaryTextColor }]}>{getString('statsActiveClasses')}</Text>
             </View>
 
             <View style={styles.statItem}>
               <Text style={[styles.statNumber, { color: textColor }]}>
                 {classes.reduce((sum, c) => sum + (c.currentStudents || 0), 0)}
               </Text>
-              <Text style={[styles.statLabel, { color: secondaryTextColor }]}>Total de Alunos</Text>
+              <Text style={[styles.statLabel, { color: secondaryTextColor }]}>{getString('totalStudents')}</Text>
             </View>
 
             <View style={styles.statItem}>
@@ -327,26 +327,25 @@ const AdminClasses = ({ navigation }) => {
 
   const handleDeleteClass = (classItem) => {
     Alert.alert(
-      'Confirmar Exclusão',
-      'Tem certeza que deseja excluir a turma {className}?'.replace('{className}', classItem.name),
+      getString('confirmDeleteClass'),
+      getString('confirmDeleteClassWithName', { className: classItem.name }),
       [
-        { text: 'Cancelar', style: 'cancel' },
+        { text: getString('cancel'), style: 'cancel' },
         {
-          text: 'Excluir',
+          text: getString('delete'),
           style: 'destructive',
           onPress: async () => {
             try {
               // Remoção otimista da UI
               setClasses(prev => prev.filter(c => c.id !== classItem.id));
-              setFilteredClasses(prev => prev.filter(c => c.id !== classItem.id));
               await firestoreService.delete('classes', classItem.id);
               // Garantir sincronização com servidor
               loadClasses();
-              Alert.alert('Sucesso', 'Turma excluída com sucesso');
+              Alert.alert(getString('success'), getString('classDeletedSuccess'));
             } catch (error) {
               // Em caso de erro, recarregar lista para reverter remoção otimista
               loadClasses();
-              Alert.alert('Erro', 'Erro ao excluir turma');
+              Alert.alert(getString('error'), getString('classDeleteError'));
             }
           }
         }
@@ -361,7 +360,7 @@ const AdminClasses = ({ navigation }) => {
       if (Array.isArray(schedule) && schedule.length > 0) {
         const days = getDayNames(getString);
         return schedule.map((s) => {
-          const day = typeof s.dayOfWeek === 'number' ? days[s.dayOfWeek] : 'Dia';
+          const day = typeof s.dayOfWeek === 'number' ? days[s.dayOfWeek] : getString('day');
           const hour = (s.hour ?? '').toString().padStart(2, '0');
           const minute = (s.minute ?? 0).toString().padStart(2, '0');
           return `${day} ${hour}:${minute}`;
@@ -373,9 +372,9 @@ const AdminClasses = ({ navigation }) => {
       if (typeof classItem?.scheduleText === 'string' && classItem.scheduleText.trim()) {
         return classItem.scheduleText.trim();
       }
-      return 'Horário não definido';
+      return getString('scheduleNotDefined');
     } catch (e) {
-      return 'Horário não definido';
+      return getString('scheduleNotDefined');
     }
   };
 
@@ -389,14 +388,14 @@ const AdminClasses = ({ navigation }) => {
 
   const getFilterText = (filter) => {
     const filters = {
-      'all': 'Todas as Turmas',
-      'active': 'Turmas Ativas',
-      'inactive': 'Turmas Inativas',
-      'full': 'Turmas Cheias',
-      'empty': 'Turmas Vazias',
-      'no_instructor': 'Sem Instrutor'
+      'all': getString('filterAllClasses'),
+      'active': getString('filterActiveClasses'),
+      'inactive': getString('filterInactiveClasses'),
+      'full': getString('filterFullClasses'),
+      'empty': getString('filterEmptyClasses'),
+      'no_instructor': getString('filterNoInstructor')
     };
-    return filters[filter] || 'Todas as Turmas';
+    return filters[filter] || getString('filterAllClasses');
   };
 
   return (
@@ -413,7 +412,7 @@ const AdminClasses = ({ navigation }) => {
         <SafeAreaView style={styles.safeArea}>
           <View style={styles.header}>
             <Searchbar
-              placeholder="Buscar turmas"
+              placeholder={getString('search')}
               onChangeText={setSearchQuery}
               value={searchQuery}
               style={[styles.searchbar, {
@@ -444,12 +443,12 @@ const AdminClasses = ({ navigation }) => {
                   </Button>
                 }
               >
-                <Menu.Item onPress={() => { setSelectedFilter('all'); setFilterVisible(false); }} title="Todas as Turmas" />
-                <Menu.Item onPress={() => { setSelectedFilter('active'); setFilterVisible(false); }} title="Turmas Ativas" />
-                <Menu.Item onPress={() => { setSelectedFilter('inactive'); setFilterVisible(false); }} title="Turmas Inativas" />
-                <Menu.Item onPress={() => { setSelectedFilter('full'); setFilterVisible(false); }} title="Turmas Cheias" />
-                <Menu.Item onPress={() => { setSelectedFilter('empty'); setFilterVisible(false); }} title="Turmas Vazias" />
-                <Menu.Item onPress={() => { setSelectedFilter('no_instructor'); setFilterVisible(false); }} title="Sem Instrutor" />
+                <Menu.Item onPress={() => { setSelectedFilter('all'); setFilterVisible(false); }} title={getString('filterAllClasses')} />
+                <Menu.Item onPress={() => { setSelectedFilter('active'); setFilterVisible(false); }} title={getString('filterActiveClasses')} />
+                <Menu.Item onPress={() => { setSelectedFilter('inactive'); setFilterVisible(false); }} title={getString('filterInactiveClasses')} />
+                <Menu.Item onPress={() => { setSelectedFilter('full'); setFilterVisible(false); }} title={getString('filterFullClasses')} />
+                <Menu.Item onPress={() => { setSelectedFilter('empty'); setFilterVisible(false); }} title={getString('filterEmptyClasses')} />
+                <Menu.Item onPress={() => { setSelectedFilter('no_instructor'); setFilterVisible(false); }} title={getString('filterNoInstructor')} />
               </Menu>
             </View>
           </View>
@@ -466,7 +465,7 @@ const AdminClasses = ({ navigation }) => {
               onRefresh={onRefresh}
               ListEmptyComponent={renderEmptyList}
               ListFooterComponent={renderStatsCard}
-              emptyMessage="Nenhuma turma encontrada"
+              emptyMessage={getString('noClassesFound')}
               contentContainerStyle={styles.listContainer}
               showsVerticalScrollIndicator={true}
               accessible={true}
@@ -477,7 +476,7 @@ const AdminClasses = ({ navigation }) => {
           <FAB
             style={styles.fab}
             icon="plus"
-            label="Nova Turma"
+            label={getString('newClass')}
             onPress={handleAddClass}
           />
 
@@ -496,8 +495,8 @@ const AdminClasses = ({ navigation }) => {
               dismissable={true}
             >
               <View style={styles.calendarModalHeader}>
-                <Text style={styles.calendarModalTitle}>Cronograma das Turmas</Text>
-                <Button onPress={() => setShowCalendarModal(false)}>Fechar</Button>
+                <Text style={styles.calendarModalTitle}>{getString('classSchedule')}</Text>
+                <Button onPress={() => setShowCalendarModal(false)}>{getString('close')}</Button>
               </View>
               <View style={styles.calendarContainer}>
                 <FreeGymScheduler

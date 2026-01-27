@@ -19,7 +19,7 @@ import { useScreenTracking, useUserActionTracking } from '@hooks/useAnalytics';
 import ReportsSkeleton from '@components/skeletons/ReportsSkeleton';
 import { COLORS, SPACING, BORDER_RADIUS, FONT_WEIGHT } from '@presentation/theme/designTokens';
 import { useTheme } from "@contexts/ThemeContext";
-import { useProfileTheme } from "../../../contexts/ProfileThemeContext";
+import { useProfileTheme } from "@contexts/ProfileThemeContext";
 import exportUtils from '@shared/utils/exportUtils';
 import GlassCard from '@components/GlassCard';
 
@@ -202,39 +202,43 @@ const Relatorios = ({ navigation }) => {
     console.log('Exportar PDF');
 
     try {
-      const date = new Date().toLocaleDateString('pt-BR');
+      const date = new Date().toLocaleDateString(currentLanguage === 'en' ? 'en-US' : 'pt-BR');
+      const primaryColor = profileTheme.primary[500];
+      const secondaryColor = profileTheme.secondary[500];
+      const textColor = '#333333'; // Core text color for PDF readability
+      const lightBg = '#f0f2f5';
 
       const htmlContent = `
         <!DOCTYPE html>
         <html>
           <head>
             <meta charset="utf-8">
-            <title>Relatório de Desempenho - MyGym</title>
+            <title>${getString('reportsExportTitle')}</title>
             <style>
-              body { font-family: 'Helvetica', 'Arial', sans-serif; padding: 40px; color: #333; line-height: 1.6; background-color: #f0f2f5; }
+              body { font-family: 'Helvetica', 'Arial', sans-serif; padding: 40px; color: ${textColor}; line-height: 1.6; background-color: ${lightBg}; }
               .document { background: white; padding: 40px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); max-width: 800px; margin: 0 auto; }
-              .header { margin-bottom: 30px; border-bottom: 4px solid #e67e22; padding-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+              .header { margin-bottom: 30px; border-bottom: 4px solid ${primaryColor}; padding-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
               h1 { color: #2c3e50; margin: 0; font-size: 24px; }
-              .instructor-name { color: #d35400; font-size: 18px; font-weight: bold; }
+              .instructor-name { color: ${secondaryColor}; font-size: 18px; font-weight: bold; }
               .meta-info { text-align: right; font-size: 11px; color: #7f8c8d; }
               
-              h2 { color: #e67e22; margin-top: 40px; border-bottom: 1px solid #eee; padding-bottom: 10px; font-size: 18px; text-transform: uppercase; }
+              h2 { color: ${primaryColor}; margin-top: 40px; border-bottom: 1px solid #eee; padding-bottom: 10px; font-size: 18px; text-transform: uppercase; }
               
               .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-top: 20px; }
-              .stat-box { background: #fffcf9; border: 1px solid #ffd8a8; border-radius: 8px; padding: 15px; text-align: center; }
+              .stat-box { background: #fffcf9; border: 1px solid ${primaryColor}40; border-radius: 8px; padding: 15px; text-align: center; }
               .stat-label { font-size: 10px; color: #7f8c8d; text-transform: uppercase; margin-bottom: 5px; font-weight: bold; }
-              .stat-value { font-size: 22px; font-weight: bold; color: #d35400; }
+              .stat-value { font-size: 22px; font-weight: bold; color: ${secondaryColor}; }
               
               .chart-container { margin-top: 30px; background: #fff; border: 1px solid #eee; padding: 20px; border-radius: 8px; }
               .bar-group { margin-bottom: 20px; }
               .bar-label { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; font-weight: 500; }
               .bar-outer { background: #f1f3f5; height: 12px; border-radius: 6px; overflow: hidden; box-shadow: inset 0 1px 2px rgba(0,0,0,0.1); }
-              .bar-inner { height: 100%; border-radius: 6px; background: linear-gradient(90deg, #e67e22, #f39c12); transition: width 0.5s ease; }
+              .bar-inner { height: 100%; border-radius: 6px; background: linear-gradient(90deg, ${primaryColor}, ${secondaryColor}); transition: width 0.5s ease; }
               
               table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 13px; }
-              th { background-color: #fdf2e9; text-align: left; padding: 12px; border-bottom: 2px solid #e67e22; color: #d35400; font-weight: bold; }
+              th { background-color: ${primaryColor}10; text-align: left; padding: 12px; border-bottom: 2px solid ${primaryColor}; color: ${secondaryColor}; font-weight: bold; }
               td { padding: 12px; border-bottom: 1px solid #eee; }
-              tr:nth-child(even) { background-color: #fffcf9; }
+              tr:nth-child(even) { background-color: #f9f9f9; }
               
               .footer { margin-top: 60px; font-size: 10px; color: #adb5bd; text-align: center; border-top: 1px solid #dee2e6; padding-top: 20px; }
               
@@ -248,53 +252,53 @@ const Relatorios = ({ navigation }) => {
             <div class="document">
               <div class="header">
                 <div>
-                  <h1>Relatório de Atividades</h1>
-                  <div class="instructor-name">${userProfile?.name || 'Instrutor'}</div>
+                  <h1>${getString('reportsActivityReport')}</h1>
+                  <div class="instructor-name">${userProfile?.name || getString('instructor')}</div>
                 </div>
                 <div class="meta-info">
-                  Período: ${selectedPeriod.toUpperCase()}<br>
-                  Gerado em: ${date}
+                  ${getString('reportsPeriod')}: ${selectedPeriod.toUpperCase()}<br>
+                  ${getString('reportsGeneratedAt')} ${date}
                 </div>
               </div>
   
               <div class="stats-row">
                 <div class="stat-box">
-                  <div class="stat-label">Total Aulas</div>
+                  <div class="stat-label">${getString('reportsTotalClasses')}</div>
                   <div class="stat-value">${reportData.totalAulas}</div>
                 </div>
                 <div class="stat-box">
-                  <div class="stat-label">Alunos Ativos</div>
+                  <div class="stat-label">${getString('reportsActiveStudents')}</div>
                   <div class="stat-value">${reportData.totalAlunos}</div>
                 </div>
                 <div class="stat-box">
-                  <div class="stat-label">Frequência</div>
+                  <div class="stat-label">${getString('reportsFrequency')}</div>
                   <div class="stat-value">${reportData.frequenciaMedia}%</div>
                 </div>
                 <div class="stat-box">
-                  <div class="stat-label">Receita</div>
+                  <div class="stat-label">${getString('reportsRevenue')}</div>
                   <div class="stat-value">R$ ${Math.round(reportData.receitaMensal / 1000)}k</div>
                 </div>
               </div>
   
               <div class="chart-container">
                 <div class="bar-group">
-                  <div class="bar-label"><span>Frequência Média de Alunos</span><span>${reportData.frequenciaMedia}%</span></div>
+                  <div class="bar-label"><span>${getString('reportsAvgStudentFrequency')}</span><span>${reportData.frequenciaMedia}%</span></div>
                   <div class="bar-outer"><div class="bar-inner" style="width: ${reportData.frequenciaMedia}%"></div></div>
                 </div>
                 <div class="bar-group">
-                  <div class="bar-label"><span>Capacidade Utilizada</span><span>78%</span></div>
+                  <div class="bar-label"><span>${getString('reportsCapacityUsed')}</span><span>78%</span></div>
                   <div class="bar-outer"><div class="bar-inner" style="width: 78%; background: #51cf66;"></div></div>
                 </div>
               </div>
   
-              <h2>Detalhamento por Turma</h2>
+              <h2>${getString('reportsClassDetail')}</h2>
               <table>
                 <thead>
                   <tr>
-                    <th>TURMA</th>
-                    <th style="text-align: center;">MATRICULADOS</th>
-                    <th style="text-align: center;">PRESENÇA</th>
-                    <th style="text-align: right;">STATUS</th>
+                    <th>${getString('reportsClassTableClass')}</th>
+                    <th style="text-align: center;">${getString('reportsClassTableEnrolled')}</th>
+                    <th style="text-align: center;">${getString('reportsClassTablePresence')}</th>
+                    <th style="text-align: right;">${getString('reportsClassTableStatus')}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -303,37 +307,37 @@ const Relatorios = ({ navigation }) => {
                       <td><strong>${aula.nome}</strong></td>
                       <td style="text-align: center;">${aula.alunos}</td>
                       <td style="text-align: center;">
-                        <span style="font-size: 11px; font-weight: bold; color: #e67e22;">${aula.frequencia}%</span>
+                        <span style="font-size: 11px; font-weight: bold; color: ${secondaryColor};">${aula.frequencia}%</span>
                       </td>
-                      <td style="text-align: right;"><span style="color: #2f9e44; font-size: 11px; font-weight: bold;">● Estável</span></td>
+                      <td style="text-align: right;"><span style="color: #2f9e44; font-size: 11px; font-weight: bold;">● ${getString('reportsStable')}</span></td>
                     </tr>
                   `).join('')}
                 </tbody>
               </table>
   
-              <h2>Histórico Recente</h2>
+              <h2>${getString('reportsRecentHistory')}</h2>
               <table>
                 <thead>
                   <tr>
-                    <th>MÊS</th>
-                    <th>ALUNOS TOTAIS</th>
-                    <th style="text-align: right;">RECEITA ESTIMADA</th>
+                    <th>${getString('reportsMonthTableMonth')}</th>
+                    <th>${getString('reportsMonthTableTotalStudents')}</th>
+                    <th style="text-align: right;">${getString('reportsMonthTableEstimatedRevenue')}</th>
                   </tr>
                 </thead>
                 <tbody>
                   ${reportData.evolucaoMensal.map(mes => `
                     <tr>
                       <td>${mes.mes}</td>
-                      <td>${mes.alunos} matriculados</td>
-                      <td style="text-align: right;">R$ ${mes.receita.toLocaleString('pt-BR')}</td>
+                      <td>${mes.alunos} ${getString('reportsEnrolledLower')}</td>
+                      <td style="text-align: right;">R$ ${mes.receita.toLocaleString(currentLanguage === 'en' ? 'en-US' : 'pt-BR')}</td>
                     </tr>
                   `).join('')}
                 </tbody>
               </table>
   
               <div class="footer">
-                Documento gerado automaticamente pelo MyGym Software para Instrutores.<br>
-                Todos os direitos reservados © ${new Date().getFullYear()}.
+                ${getString('reportsGeneratedBy')}<br>
+                ${getString('reportsAllRightsReserved')} ${new Date().getFullYear()}.
               </div>
             </div>
           </body>
@@ -358,24 +362,24 @@ const Relatorios = ({ navigation }) => {
       // Preparar dados para o Excel
       // Juntando as informações em uma lista plana para facilitar
       const evolutionData = reportData.evolucaoMensal.map(item => ({
-        'Categoria': 'Evolução Mensal',
-        'Período': item.mes,
-        'Métrica Primária': item.alunos, // Alunos
-        'Métrica Secundária': item.receita, // Receita
-        'Detalhes': '-'
+        [getString('reportsCategory')]: getString('reportsEvolutionMonthly'),
+        [getString('reportsPeriod')]: item.mes,
+        [getString('reportsPrimaryMetric')]: item.alunos, // Alunos
+        [getString('reportsSecondaryMetric')]: item.receita, // Receita
+        [getString('reportsDetails')]: '-'
       }));
 
       const classesData = reportData.aulasPopulares.map(item => ({
-        'Categoria': 'Aulas Populares',
-        'Período': selectedPeriod,
-        'Métrica Primária': item.alunos, // Alunos
-        'Métrica Secundária': item.frequencia, // Frequência (%)
-        'Detalhes': item.nome
+        [getString('reportsCategory')]: getString('reportsPopularClasses'),
+        [getString('reportsPeriod')]: selectedPeriod,
+        [getString('reportsPrimaryMetric')]: item.alunos, // Alunos
+        [getString('reportsSecondaryMetric')]: item.frequencia, // Frequência (%)
+        [getString('reportsDetails')]: item.nome
       }));
 
       const overviewData = [
-        { 'Categoria': 'Resumo', 'Período': selectedPeriod, 'Métrica Primária': reportData.totalAlunos, 'Métrica Secundária': reportData.totalAulas, 'Detalhes': 'Total Alunos / Total Aulas' },
-        { 'Categoria': 'Resumo', 'Período': selectedPeriod, 'Métrica Primária': reportData.receitaMensal, 'Métrica Secundária': reportData.frequenciaMedia, 'Detalhes': 'Receita / Frequência' }
+        { [getString('reportsCategory')]: getString('reportsSummary'), [getString('reportsPeriod')]: selectedPeriod, [getString('reportsPrimaryMetric')]: reportData.totalAlunos, [getString('reportsSecondaryMetric')]: reportData.totalAulas, [getString('reportsDetails')]: 'Total Alunos / Total Aulas' },
+        { [getString('reportsCategory')]: getString('reportsSummary'), [getString('reportsPeriod')]: selectedPeriod, [getString('reportsPrimaryMetric')]: reportData.receitaMensal, [getString('reportsSecondaryMetric')]: reportData.frequenciaMedia, [getString('reportsDetails')]: 'Receita / Frequência' }
       ];
 
       const fullData = [...overviewData, ...evolutionData, ...classesData];
@@ -383,7 +387,7 @@ const Relatorios = ({ navigation }) => {
       await exportUtils.exportToExcel({
         fileName: `relatorio_mygym_${selectedPeriod}_${new Date().getTime()}`,
         data: fullData,
-        sheetName: 'Relatório Geral'
+        sheetName: getString('reportsSheetGeneral')
       });
     } catch (error) {
       console.error('Erro ao gerar Excel:', error);
@@ -436,7 +440,7 @@ const Relatorios = ({ navigation }) => {
             <GlassCard variant="card" style={styles.card} padding={SPACING.lg}>
               <View style={styles.header}>
                 <MaterialCommunityIcons name="chart-line" size={32} color={profileTheme.secondary[500]} />
-                <Text style={[styles.title, styles.title, { color: profileTheme.text.primary }]}>Relatórios e Análises</Text>
+                <Text style={[styles.title, styles.title, { color: profileTheme.text.primary }]}>{getString('reportsAnalyzesAndReports')}</Text>
               </View>
 
               <SegmentedButtons
@@ -446,9 +450,9 @@ const Relatorios = ({ navigation }) => {
                   setSelectedPeriod(value);
                 }}
                 buttons={[
-                  { value: 'semana', label: 'Semana' },
-                  { value: 'mes', label: 'Mês' },
-                  { value: 'ano', label: 'Ano' }
+                  { value: 'semana', label: getString('reportsWeek') },
+                  { value: 'mes', label: getString('reportsMonth') },
+                  { value: 'ano', label: getString('reportsYear') }
                 ]}
                 style={styles.periodSelector}
                 theme={{
@@ -463,38 +467,38 @@ const Relatorios = ({ navigation }) => {
 
             {/* Estatísticas Gerais */}
             <GlassCard variant="card" style={styles.card} padding={SPACING.lg}>
-              <Text style={[styles.sectionTitle, styles.title, { color: profileTheme.text.primary }]}>Visão Geral</Text>
+              <Text style={[styles.sectionTitle, styles.title, { color: profileTheme.text.primary }]}>{getString('reportsOverview')}</Text>
 
               <View style={styles.statsGrid}>
                 <StatCard
                   icon="school"
-                  title="Total de Aulas"
+                  title={getString('reportsTotalClasses')}
                   value={reportData.totalAulas}
-                  subtitle="Este mês"
+                  subtitle={getString('reportsThisMonth')}
                   color={profileTheme.primary[500]}
                 />
 
                 <StatCard
                   icon="account-group"
-                  title="Alunos Ativos"
+                  title={getString('reportsActiveStudents')}
                   value={reportData.totalAlunos}
-                  subtitle="+15 este mês"
+                  subtitle={`+15 ${getString('reportsThisMonth')}`}
                   color={profileTheme.info || COLORS.info[500]}
                 />
 
                 <StatCard
                   icon="chart-line"
-                  title="Frequência Média"
+                  title={getString('reportsFrequency')}
                   value={`${reportData.frequenciaMedia}%`}
-                  subtitle="+3% vs mês anterior"
+                  subtitle={`+3% ${getString('reportsGrowth')}`}
                   color={COLORS.warning[500]}
                 />
 
                 <StatCard
                   icon="currency-usd"
-                  title="Receita Mensal"
+                  title={getString('reportsRevenue')}
                   value={`R$ ${reportData.receitaMensal.toLocaleString()}`}
-                  subtitle="+12% crescimento"
+                  subtitle={`+12% ${getString('reportsGrowth')}`}
                   color={profileTheme.secondary[500]}
                 />
               </View>
@@ -502,7 +506,7 @@ const Relatorios = ({ navigation }) => {
 
             {/* Aulas Mais Populares */}
             <GlassCard variant="card" style={styles.card} padding={SPACING.lg}>
-              <Text style={[styles.sectionTitle, styles.title, { color: profileTheme.text.primary }]}>Aulas Mais Populares</Text>
+              <Text style={[styles.sectionTitle, styles.title, { color: profileTheme.text.primary }]}>{getString('reportsMostPopularClasses')}</Text>
 
               {reportData.aulasPopulares.map((aula, index) => (
                 <GlassCard variant="subtle" key={index} style={styles.aulaItem} padding={ResponsiveUtils.spacing.md}>
@@ -514,7 +518,7 @@ const Relatorios = ({ navigation }) => {
                   </View>
                   <View style={styles.aulaDetails}>
                     <MaterialCommunityIcons name="account-multiple" size={16} color={profileTheme.text.secondary} />
-                    <Text style={[styles.aulaAlunos, { color: profileTheme.text.secondary }]}>{aula.alunos} alunos</Text>
+                    <Text style={[styles.aulaAlunos, { color: profileTheme.text.secondary }]}>{aula.alunos} {getString('reportsStudentsLower')}</Text>
                   </View>
                   <View style={[styles.progressBar, { backgroundColor: profileTheme.text.disabled }]}>
                     <View
@@ -530,7 +534,7 @@ const Relatorios = ({ navigation }) => {
 
             {/* Evolução Mensal */}
             <GlassCard variant="card" style={styles.card} padding={SPACING.lg}>
-              <Text style={[styles.sectionTitle, styles.title, { color: profileTheme.text.primary }]}>Evolução dos Últimos Meses</Text>
+              <Text style={[styles.sectionTitle, styles.title, { color: profileTheme.text.primary }]}>{getString('reportsLastMonthsEvolution')}</Text>
 
               {reportData.evolucaoMensal.map((mes, index) => (
                 <View key={index} style={[styles.evolucaoItem, { borderBottomColor: profileTheme.text.disabled }]}>
@@ -538,7 +542,7 @@ const Relatorios = ({ navigation }) => {
                   <View style={styles.evolucaoData}>
                     <View style={styles.evolucaoMetric}>
                       <MaterialCommunityIcons name="account-group" size={16} color={profileTheme.info || COLORS.info[500]} />
-                      <Text style={[styles.evolucaoValue, { color: profileTheme.text.secondary }]}>{mes.alunos} alunos</Text>
+                      <Text style={[styles.evolucaoValue, { color: profileTheme.text.secondary }]}>{mes.alunos} {getString('reportsStudentsLower')}</Text>
                     </View>
                     <View style={styles.evolucaoMetric}>
                       <MaterialCommunityIcons name="currency-usd" size={16} color={profileTheme.primary[500]} />
@@ -551,7 +555,7 @@ const Relatorios = ({ navigation }) => {
 
             {/* Ações */}
             <GlassCard variant="card" style={styles.card} padding={SPACING.lg}>
-              <Text style={[styles.sectionTitle, styles.title, { color: profileTheme.text.primary }]}>Exportar Relatórios</Text>
+              <Text style={[styles.sectionTitle, styles.title, { color: profileTheme.text.primary }]}>{getString('reportsExportReports')}</Text>
 
               <View style={styles.exportButtons}>
                 <Button
@@ -561,7 +565,7 @@ const Relatorios = ({ navigation }) => {
                   style={[styles.exportButton, { borderColor: profileTheme.primary[500] }]}
                   textColor={profileTheme.primary[500]}
                 >
-                  Exportar PDF
+                  {getString('reportsExportPDF')}
                 </Button>
 
                 <Button
@@ -571,7 +575,7 @@ const Relatorios = ({ navigation }) => {
                   style={[styles.exportButton, { borderColor: profileTheme.secondary[500] }]}
                   textColor={profileTheme.secondary[500]}
                 >
-                  Exportar Excel
+                  {getString('reportsExportExcel')}
                 </Button>
               </View>
             </GlassCard>

@@ -6,6 +6,7 @@ import {
   RefreshControl,
   Alert,
   FlatList,
+  Platform,
 } from "react-native";
 import {
   Card,
@@ -337,13 +338,27 @@ const InstructorClasses = ({ navigation }) => {
     }
   }, [getString]);
 
+  /* 
+   * Renderização do Card de Turma
+   * Restaurada com correções de segurança para evitar 'Unexpected text node' 
+   */
   const renderClassCard = useCallback(
     (classItem) => {
       const studentCount =
         studentCounts[classItem.id] || classItem.currentStudents || 0;
 
+      const cardStyle = Platform.OS === 'web'
+        ? {
+          backgroundColor: 'rgba(255, 255, 255, 0.75)',
+          backdropFilter: 'blur(12px)',
+          borderColor: 'rgba(255, 255, 255, 0.5)',
+          borderWidth: 1,
+          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)', // Sombra suave web
+        }
+        : { backgroundColor: profileTheme.background.paper };
+
       return (
-        <Card key={classItem.id} style={[styles.card, { backgroundColor: profileTheme.background.paper }]}>
+        <Card key={classItem.id} style={[styles.card, cardStyle]}>
           <Card.Content>
             <View style={styles.cardHeader}>
               <Text style={[styles.className, { color: profileTheme.text.primary }]}>
@@ -365,51 +380,64 @@ const InstructorClasses = ({ navigation }) => {
               </Chip>
             </View>
 
-            <Text variant="bodyMedium" style={[styles.modalityText, { color: profileTheme.text.secondary }]}>
+            {/* Modalidade */}
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: SPACING.md }}>
               <Ionicons
                 name="fitness-outline"
                 size={16}
                 color={profileTheme.text.secondary}
                 style={{ marginRight: 4 }}
               />
-              {classItem.modality}
-            </Text>
+              <Text variant="bodyMedium" style={{ color: profileTheme.text.secondary }}>
+                {classItem.modality}
+              </Text>
+            </View>
 
             <View style={styles.classInfo}>
-              <Text style={[styles.infoItem, { color: profileTheme.text.secondary }]}>
+              {/* Horário */}
+              <View style={styles.infoItem}>
                 <Ionicons
                   name="time-outline"
                   size={16}
                   color={profileTheme.text.secondary}
                   style={{ marginRight: 4 }}
                 />
-                {formatSchedule(classItem)}
-              </Text>
+                <Text style={{ color: profileTheme.text.secondary }}>
+                  {formatSchedule(classItem)}
+                </Text>
+              </View>
 
-              <Text style={[styles.infoItem, { color: profileTheme.text.secondary }]}>
+              {/* Alunos */}
+              <View style={styles.infoItem}>
                 <Ionicons
                   name="people-outline"
                   size={16}
                   color={profileTheme.text.secondary}
                   style={{ marginRight: 4 }}
                 />
-                {studentCount}/{classItem.maxStudents || 0} {getString('students')}
-              </Text>
+                <Text style={{ color: profileTheme.text.secondary }}>
+                  {`${studentCount}/${classItem.maxStudents || 0} ${getString('students')}`}
+                </Text>
+              </View>
 
-              {!!classItem.price && classItem.price > 0 && (
-                <Text style={[styles.infoItem, { color: profileTheme.text.secondary }]}>
+              {/* Preço (Proteção contra 0) */}
+              {(!!classItem.price && classItem.price > 0) && (
+                <View style={styles.infoItem}>
                   <Ionicons
                     name="card-outline"
                     size={16}
                     color={profileTheme.text.secondary}
                     style={{ marginRight: 4 }}
                   />
-                  R$ {classItem.price.toFixed(2)}
-                </Text>
+                  <Text style={{ color: profileTheme.text.secondary }}>
+                    R$ {classItem.price.toFixed(2)}
+                  </Text>
+                </View>
               )}
             </View>
 
-            {classItem.description && (
+            {/* Descrição */}
+            {!!classItem.description && (
               <Text style={[styles.description, { color: profileTheme.text.hint }]}>
                 {classItem.description}
               </Text>
@@ -437,7 +465,7 @@ const InstructorClasses = ({ navigation }) => {
         </Card>
       );
     },
-    [studentCounts, formatSchedule, handleClassPress, handleCheckIns, profileTheme],
+    [studentCounts, formatSchedule, handleClassPress, handleCheckIns, profileTheme, getString],
   );
 
   if (loading) {
@@ -468,10 +496,20 @@ const InstructorClasses = ({ navigation }) => {
       <LinearGradient colors={profileTheme.gradients.hero} style={{ flex: 1 }}>
         <SafeAreaView style={[styles.container, { backgroundColor: 'transparent' }]}>
           {/* Header informativo */}
-          <View style={[styles.headerInfo, { backgroundColor: profileTheme.background.paper }]}>
+          <View style={[
+            styles.headerInfo,
+            Platform.OS === 'web'
+              ? {
+                backgroundColor: 'rgba(255, 255, 255, 0.7)',
+                backdropFilter: 'blur(10px)',
+                borderWidth: 1,
+                borderColor: 'rgba(255, 255, 255, 0.4)',
+              }
+              : { backgroundColor: profileTheme.background.paper }
+          ]}>
             <Ionicons name="information-circle-outline" size={20} color={profileTheme.primary[500]} />
             <Text style={[styles.headerInfoText, { color: profileTheme.text.secondary }]}>
-              Visualizando todas as turmas da academia
+              {getString('viewingAllClasses')}
             </Text>
           </View>
 
@@ -479,7 +517,18 @@ const InstructorClasses = ({ navigation }) => {
             placeholder={getString('search')}
             onChangeText={setSearchQuery}
             value={searchQuery}
-            style={[styles.searchbar, { backgroundColor: profileTheme.background.paper }]}
+            style={[
+              styles.searchbar,
+              Platform.OS === 'web'
+                ? {
+                  backgroundColor: 'rgba(255, 255, 255, 0.7)',
+                  backdropFilter: 'blur(10px)',
+                  borderWidth: 1,
+                  borderColor: 'rgba(255, 255, 255, 0.4)',
+                  boxShadow: 'none',
+                }
+                : { backgroundColor: profileTheme.background.paper }
+            ]}
             iconColor={profileTheme.text.secondary}
             inputStyle={{ color: profileTheme.text.primary }}
           />
@@ -504,12 +553,12 @@ const InstructorClasses = ({ navigation }) => {
                   color={profileTheme.text.disabled}
                 />
                 <Text style={[styles.emptyText, { color: profileTheme.text.secondary }]}>
-                  {searchQuery ? getString("noClassesFound") : "Nenhuma turma encontrada"}
+                  {searchQuery ? getString("noClassesFound") : getString("noClassesFound")}
                 </Text>
                 {!searchQuery && (
                   <>
                     <Text style={[styles.emptySubtext, { color: profileTheme.text.hint }]}>
-                      As turmas criadas pelo administrador aparecerão aqui.
+                      {getString('classesCreatedByAdmin')}
                     </Text>
                     <Button
                       mode="contained"
@@ -517,7 +566,7 @@ const InstructorClasses = ({ navigation }) => {
                       style={{ marginTop: SPACING.md }}
                       buttonColor={profileTheme.primary[500]}
                     >
-                      Atualizar
+                      {getString('refresh')}
                     </Button>
                   </>
                 )}

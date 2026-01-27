@@ -122,10 +122,9 @@ export type InstructorStackParamList = {
   InstructorTabs: undefined;
   NovaAula: undefined;
   ScheduleClasses: undefined;
-  checkIn: undefined;
+  CheckIn: { classId?: string; className?: string } | undefined;
   Relatorios: undefined;
-  classDetailsScreen: { classId: string };
-  CheckIns: undefined;
+  ClassDetails: { classId: string; classData?: any };
   AddClass: undefined;
   AddStudent: undefined;
   StudentProfile: { studentId: string };

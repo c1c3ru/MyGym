@@ -123,7 +123,7 @@ const InstructorNavigator = () => {
         }}
       />
       <Stack.Screen
-        name="checkIn"
+        name="CheckIn"
         component={CheckIn}
         options={{
           headerShown: true,
@@ -153,28 +153,13 @@ const InstructorNavigator = () => {
         }}
       />
       <Stack.Screen
-        name="classDetailsScreen"
+        name="ClassDetails"
         component={ClassDetailsScreen}
         options={{
           headerShown: true,
           header: ({ navigation }) => (
             <UniversalHeader
               title={getString('classDetails')}
-              navigation={navigation}
-              showBack={true}
-              backgroundColor={COLORS.secondary[500]}
-            />
-          ),
-        }}
-      />
-      <Stack.Screen
-        name="CheckIns"
-        component={CheckIn}
-        options={{
-          headerShown: true,
-          header: ({ navigation }) => (
-            <UniversalHeader
-              title={getString('checkIns')}
               navigation={navigation}
               showBack={true}
               backgroundColor={COLORS.secondary[500]}
