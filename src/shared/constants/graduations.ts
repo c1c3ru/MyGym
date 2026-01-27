@@ -63,10 +63,11 @@ export const GRADUATION_PROGRESSIONS = {
     'Default': {
         federation: 'Standard',
         levels: [
-            { id: 'beg', label: 'Iniciante', color: 'gray' },
-            { id: 'int', label: 'Intermediário', color: 'blue' },
-            { id: 'adv', label: 'Avançado', color: 'red' },
-            { id: 'mas', label: 'Mestre', color: 'black' },
+            { id: 'white', label: 'Branca', color: 'white' },
+            { id: 'blue', label: 'Azul', color: 'blue' },
+            { id: 'purple', label: 'Roxa', color: 'purple' },
+            { id: 'brown', label: 'Marrom', color: 'brown' },
+            { id: 'black', label: 'Preta', color: 'black' },
         ]
     }
 };

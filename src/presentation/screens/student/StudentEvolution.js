@@ -105,16 +105,26 @@ const StudentEvolution = ({ navigation }) => {
       const timeInCurrent = currentGrad ?
         Math.floor((new Date() - new Date(currentGrad.date)) / (1000 * 60 * 60 * 24)) : 0;
 
-      const modalities = [...new Set(userGraduations.map(g => g.modality))];
+      // 0. Obter modalidades do perfil do aluno (matrícula)
+      const profileModalities = userProfile?.modalities || [];
+      const graduationModalities = userGraduations.map(g => g.modality);
+
+      // Combinar e remover duplicatas
+      const allModalities = [...new Set([...profileModalities, ...graduationModalities])].filter(Boolean);
+
+      const defaultModality = allModalities[0] || 'Jiu-Jitsu';
+      const progression = getProgressionForModality(defaultModality);
+      const defaultGraduationLabel = progression.levels[0]?.label || getString('beginner');
 
       setStats({
         totalGraduations: userGraduations.length,
-        currentGraduation: currentGrad?.graduation || getString('beginner'),
+        currentGraduation: currentGrad?.graduation || defaultGraduationLabel,
         timeInCurrentGraduation: timeInCurrent,
-        modalities,
-        beltsByModality: modalities.reduce((acc, mod) => {
+        modalities: allModalities,
+        beltsByModality: allModalities.reduce((acc, mod) => {
           const modGrads = sortedGraduations.filter(g => g.modality === mod);
-          acc[mod] = modGrads[0]?.graduation || getString('beginner');
+          acc[mod] = modGrads[0]?.graduation ||
+            (getProgressionForModality(mod).levels[0]?.label || getString('beginner'));
           return acc;
         }, {})
       });
@@ -135,13 +145,15 @@ const StudentEvolution = ({ navigation }) => {
     if (selectedModality === 'All') {
       if (graduations.length === 0) {
         // Fallback para mostrar a trilha mesmo sem dados (Gamificação)
-        const progression = getProgressionForModality('Default');
-        timelineItems = progression.levels.map(level => ({
+        // Tenta pegar a primeira modalidade da academia se disponível, senão Default (agora com faixas)
+        const academicModality = stats.modalities[0] || 'Jiu-Jitsu';
+        const progression = getProgressionForModality(academicModality);
+        timelineItems = progression.levels.map((level, idx) => ({
           graduation: level.label,
-          modality: 'Geral',
+          modality: academicModality,
           color: level.color,
-          isLocked: true,
-          isCurrent: level.label === getString('beginner')
+          isLocked: idx > 0, // Apenas a primeira fica "desbloqueada" como início
+          isCurrent: idx === 0 // A primeira é a atual
         }));
       } else {
         // Se tem graduações, pega a mais recente para decidir qual trilha completa mostrar
