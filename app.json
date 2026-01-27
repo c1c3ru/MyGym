@@ -12,7 +12,9 @@
       "backgroundColor": "#2196F3"
     },
     "description": "Transforme seu corpo com o MyGym - seu personal trainer virtual para treinos, nutrição e acompanhamento de progresso.",
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.mygym.fitness",
@@ -29,8 +31,13 @@
         "backgroundColor": "#2196F3"
       },
       "package": "com.mygym.fitness",
+      "versionCode": 1,
       "newArchEnabled": true,
-      "permissions": ["CAMERA", "READ_EXTERNAL_STORAGE", "ACCESS_FINE_LOCATION"]
+      "permissions": [
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "ACCESS_FINE_LOCATION"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png",

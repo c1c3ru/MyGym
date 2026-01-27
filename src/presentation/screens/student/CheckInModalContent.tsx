@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
 import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
-import { SPACING, FONT_SIZE, BORDER_RADIUS } from '@presentation/theme/designTokens';
+import { SPACING, FONT_SIZE, BORDER_RADIUS, COLORS } from '@presentation/theme/designTokens';
 import EnhancedErrorBoundary from '@components/EnhancedErrorBoundary';
 
 interface CheckInModalProps {

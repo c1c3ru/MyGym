@@ -5,13 +5,13 @@ import {
   ScrollView,
   RefreshControl,
   Alert,
+  FlatList,
 } from "react-native";
 import {
   Card,
   Button,
   Chip,
   Text,
-  Paragraph,
   FAB,
   Searchbar,
   Portal,
@@ -33,7 +33,6 @@ import cacheService, {
 } from "@infrastructure/services/cacheService";
 import { useScreenTracking, useUserActionTracking } from "@hooks/useAnalytics";
 import InstructorClassesSkeleton from "@components/skeletons/InstructorClassesSkeleton";
-import EnhancedFlashList from "@components/EnhancedFlashList";
 import {
   COLORS,
   SPACING,
@@ -366,14 +365,15 @@ const InstructorClasses = ({ navigation }) => {
               </Chip>
             </View>
 
-            <Paragraph style={[styles.modalityText, { color: profileTheme.text.secondary }]}>
+            <Text variant="bodyMedium" style={[styles.modalityText, { color: profileTheme.text.secondary }]}>
               <Ionicons
                 name="fitness-outline"
                 size={16}
                 color={profileTheme.text.secondary}
-              />{" "}
+                style={{ marginRight: 4 }}
+              />
               {classItem.modality}
-            </Paragraph>
+            </Text>
 
             <View style={styles.classInfo}>
               <Text style={[styles.infoItem, { color: profileTheme.text.secondary }]}>
@@ -381,7 +381,8 @@ const InstructorClasses = ({ navigation }) => {
                   name="time-outline"
                   size={16}
                   color={profileTheme.text.secondary}
-                />{" "}
+                  style={{ marginRight: 4 }}
+                />
                 {formatSchedule(classItem)}
               </Text>
 
@@ -390,17 +391,19 @@ const InstructorClasses = ({ navigation }) => {
                   name="people-outline"
                   size={16}
                   color={profileTheme.text.secondary}
-                />{" "}
+                  style={{ marginRight: 4 }}
+                />
                 {studentCount}/{classItem.maxStudents || 0} {getString('students')}
               </Text>
 
-              {classItem.price && (
+              {!!classItem.price && classItem.price > 0 && (
                 <Text style={[styles.infoItem, { color: profileTheme.text.secondary }]}>
                   <Ionicons
                     name="card-outline"
                     size={16}
                     color={profileTheme.text.secondary}
-                  />{" "}
+                    style={{ marginRight: 4 }}
+                  />
                   R$ {classItem.price.toFixed(2)}
                 </Text>
               )}
@@ -520,11 +523,10 @@ const InstructorClasses = ({ navigation }) => {
                 )}
               </View>
             ) : (
-              <EnhancedFlashList
+              <FlatList
                 data={filteredClasses}
                 renderItem={({ item }) => renderClassCard(item)}
                 keyExtractor={(item) => item.id}
-                estimatedItemSize={200}
                 contentContainerStyle={{ padding: SPACING.md }}
               />
             )}
