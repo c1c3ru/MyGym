@@ -176,5 +176,4 @@ function EnhancedFlashListInner<T>({
 
 const EnhancedFlashList = memo(EnhancedFlashListInner) as typeof EnhancedFlashListInner;
 
-
 export default EnhancedFlashList;

@@ -33,7 +33,7 @@ import cacheService, {
 } from "@infrastructure/services/cacheService";
 import { useScreenTracking, useUserActionTracking } from "@hooks/useAnalytics";
 import InstructorClassesSkeleton from "@components/skeletons/InstructorClassesSkeleton";
-import { EnhancedFlashList } from "@components/EnhancedFlashList";
+import EnhancedFlashList from "@components/EnhancedFlashList";
 import {
   COLORS,
   SPACING,
@@ -64,75 +64,15 @@ const InstructorClasses = ({ navigation }) => {
   });
   const { trackButtonClick, trackFeatureUsage } = useUserActionTracking();
 
-  useEffect(() => {
-    loadClasses();
-  }, []);
-
-  useEffect(() => {
-    filterClasses();
-  }, [searchQuery, classes]);
-
-  const loadClasses = useCallback(async () => {
-    try {
-      setLoading(true);
-      console.log("📚 Carregando turmas do instrutor:", user.id);
-
-      if (!userProfile?.academiaId) {
-        console.warn("⚠️ Usuário sem academiaId definido");
-        setClasses([]);
-        return;
-      }
-
-      // Verificar se user está disponível
-      if (!user?.uid || !userProfile?.academiaId) {
-        console.warn("⚠️ User ou userProfile não disponível ainda");
-        setClasses([]);
-        setLoading(false);
-        return;
-      }
-
-      // Usar cache de todas as turmas da academia
-      const cacheKey = CACHE_KEYS.CLASSES(userProfile.academiaId);
-
-      const classesData = await cacheService.getOrSet(
-        cacheKey,
-        async () => {
-          console.log("🔍 Buscando todas as turmas da academia para instrutor:", user.id);
-          return await academyFirestoreService.getAll('classes', userProfile.academiaId);
-        },
-        CACHE_TTL.MEDIUM, // Cache por 5 minutos
-      );
-
-      const validClasses = Array.isArray(classesData) ? classesData : [];
-      setClasses(validClasses);
-      console.log("✅", validClasses.length, "turmas encontradas");
-
-      // Carregar contagem de alunos para cada turma
-      await loadStudentCounts(validClasses);
-
-      // Track analytics
-      trackFeatureUsage("instructor_classes_loaded", {
-        academiaId: userProfile.academiaId,
-        instructorId: user.id,
-        classesCount: validClasses.length,
-      });
-    } catch (error) {
-      console.error("❌ Erro ao carregar turmas:", error);
-      setClasses([]);
-      Alert.alert(getString("error"), "Não foi possível carregar as turmas.");
-    } finally {
-      setLoading(false);
-      setRefreshing(false);
-    }
-  }, [user.id, userProfile?.academiaId, user?.email, trackFeatureUsage, getString]);
-
+  // 1. Definir loadStudentCounts primeiro (usado por loadClasses)
   const loadStudentCounts = useCallback(
     async (classes) => {
       try {
-        if (!userProfile?.academiaId) return;
+        const academiaId = userProfile?.academiaId || user?.academiaId;
+        if (!academiaId) return;
 
         // Usar cache para contagens de alunos (global da academia)
-        const cacheKey = `class_student_counts:${userProfile.academiaId}`;
+        const cacheKey = `class_student_counts:${academiaId}`;
 
         const counts = await cacheService.getOrSet(
           cacheKey,
@@ -145,7 +85,7 @@ const InstructorClasses = ({ navigation }) => {
               try {
                 const students = await academyStudentService.getStudentsByClass(
                   classItem.id,
-                  userProfile.academiaId,
+                  academiaId,
                 );
                 return {
                   classId: classItem.id,
@@ -175,9 +115,83 @@ const InstructorClasses = ({ navigation }) => {
         console.error("❌ Erro ao carregar contagens de alunos:", error);
       }
     },
-    [userProfile?.academiaId, user.id],
+    [userProfile?.academiaId, user?.academiaId],
   );
 
+  // 2. Definir loadClasses (usa loadStudentCounts)
+  const loadClasses = useCallback(async () => {
+    try {
+      setLoading(true);
+      console.log("📚 [INSTRUTOR] Carregando TODAS as turmas da academia");
+
+      // Tentar obter academiaId de múltiplas fontes
+      const academiaId = userProfile?.academiaId || user?.academiaId;
+      console.log("🏢 Academia ID:", academiaId);
+
+      if (!academiaId) {
+        console.warn("⚠️ AcademiaId não disponível em userProfile nem em user");
+
+        // Se não tem academiaId, mostrar estado vazio
+        setClasses([]);
+        setLoading(false);
+        return;
+      }
+
+      console.log("✅ AcademiaId encontrado:", academiaId);
+
+      // Usar cache de todas as turmas da academia
+      const cacheKey = CACHE_KEYS.CLASSES(academiaId);
+      console.log("🔑 Cache key:", cacheKey);
+
+      const classesData = await cacheService.getOrSet(
+        cacheKey,
+        async () => {
+          console.log("🔍 [CACHE MISS] Buscando TODAS as turmas da academia:", academiaId);
+          const allClasses = await academyFirestoreService.getAll('classes', academiaId);
+          console.log("📊 Turmas retornadas do Firestore:", allClasses?.length || 0);
+
+          if (allClasses && allClasses.length > 0) {
+            console.log("📋 Lista de turmas encontradas:");
+            allClasses.forEach((c, idx) => {
+              console.log(`  ${idx + 1}. ${c.name} (ID: ${c.id}) - Instrutor: ${c.instructorId || 'N/A'}`);
+            });
+          } else {
+            console.warn("⚠️ Nenhuma turma retornada do Firestore para academia:", academiaId);
+          }
+
+          return allClasses;
+        },
+        CACHE_TTL.MEDIUM, // Cache por 5 minutos
+      );
+
+      const validClasses = Array.isArray(classesData) ? classesData : [];
+      console.log("✅ Total de turmas válidas:", validClasses.length);
+
+      setClasses(validClasses);
+
+      // Carregar contagem de alunos para cada turma
+      await loadStudentCounts(validClasses);
+
+      // Track analytics apenas se tiver user.id
+      if (user?.id) {
+        trackFeatureUsage("instructor_classes_loaded", {
+          academiaId: academiaId,
+          instructorId: user.id,
+          classesCount: validClasses.length,
+        });
+      }
+    } catch (error) {
+      console.error("❌ Erro ao carregar turmas:", error);
+      console.error("❌ Stack trace:", error.stack);
+      setClasses([]);
+      Alert.alert(getString("error"), "Não foi possível carregar as turmas.");
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
+  }, [user?.id, user?.academiaId, userProfile?.academiaId, trackFeatureUsage, getString, loadStudentCounts]);
+
+  // 3. Definir filterClasses
   const filterClasses = useCallback(() => {
     if (!searchQuery) {
       setFilteredClasses(classes);
@@ -200,19 +214,69 @@ const InstructorClasses = ({ navigation }) => {
     }
   }, [searchQuery, classes, trackFeatureUsage]);
 
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    // Invalidar caches
-    if (userProfile?.academiaId) {
-      cacheService.invalidatePattern(
-        `instructor_classes:${userProfile.academiaId}:${user.id}`,
-      );
-      cacheService.invalidatePattern(
-        `class_student_counts:${userProfile.academiaId}`,
-      );
+  // 4. Efeitos
+  // Log inicial para debug
+  useEffect(() => {
+    console.log("🔍 [MOUNT] InstructorClasses montado");
+    console.log("👤 User disponível:", !!user?.uid, "UID:", user?.uid);
+    console.log("📋 UserProfile disponível:", !!userProfile);
+    console.log("🏢 AcademiaId disponível:", userProfile?.academiaId);
+  }, [user?.uid, userProfile]);
+
+  // Carregar turmas quando userProfile.academiaId ou user.academiaId estiver disponível
+  useEffect(() => {
+    const academiaId = userProfile?.academiaId || user?.academiaId;
+
+    // Removida dependência estrita de user.uid se já temos academiaId
+    if (academiaId) {
+      console.log("✅ [EFFECT] AcademiaId encontrado, carregando turmas...");
+      console.log("   AcademiaId:", academiaId, "de", userProfile?.academiaId ? "userProfile" : "user");
+      loadClasses();
+    } else {
+      console.log("⏳ [EFFECT] Aguardando AcademiaId:", {
+        userProfileAcademiaId: userProfile?.academiaId,
+        userAcademiaId: user?.academiaId
+      });
     }
+  }, [userProfile?.academiaId, user?.academiaId, loadClasses]);
+
+  // Timeout de segurança para evitar loading infinito
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (loading) {
+        console.log("⏰ Timeout de carregamento - forçando fim do loading");
+        setLoading(false);
+      }
+    }, 10000); // 10 segundos
+
+    return () => clearTimeout(timer);
+  }, [loading]);
+
+  useEffect(() => {
+    filterClasses();
+  }, [searchQuery, classes, filterClasses]);
+
+  const onRefresh = useCallback(() => {
+    console.log("🔄 [REFRESH] Forçando atualização das turmas");
+    setRefreshing(true);
+
+    // Invalidar todos os caches relacionados
+    if (userProfile?.academiaId) {
+      const cacheKey = CACHE_KEYS.CLASSES(userProfile.academiaId);
+      console.log("🗑️ Invalidando cache:", cacheKey);
+
+      // Usar remove para a chave específica
+      cacheService.remove(cacheKey);
+
+      // Invalidar também caches de contagem de alunos usando pattern
+      cacheService.invalidatePattern(`class_student_counts:${userProfile.academiaId}`);
+
+      // Invalidar caches antigos se existirem
+      cacheService.invalidatePattern(`instructor_classes:${userProfile.academiaId}`);
+    }
+
     loadClasses();
-  }, [loadClasses, userProfile?.academiaId, user.id]);
+  }, [loadClasses, userProfile?.academiaId]);
 
   const handleClassPress = useCallback(
     (classItem) => {
@@ -400,6 +464,14 @@ const InstructorClasses = ({ navigation }) => {
     >
       <LinearGradient colors={profileTheme.gradients.hero} style={{ flex: 1 }}>
         <SafeAreaView style={[styles.container, { backgroundColor: 'transparent' }]}>
+          {/* Header informativo */}
+          <View style={[styles.headerInfo, { backgroundColor: profileTheme.background.paper }]}>
+            <Ionicons name="information-circle-outline" size={20} color={profileTheme.primary[500]} />
+            <Text style={[styles.headerInfoText, { color: profileTheme.text.secondary }]}>
+              Visualizando todas as turmas da academia
+            </Text>
+          </View>
+
           <Searchbar
             placeholder={getString('search')}
             onChangeText={setSearchQuery}
@@ -429,12 +501,22 @@ const InstructorClasses = ({ navigation }) => {
                   color={profileTheme.text.disabled}
                 />
                 <Text style={[styles.emptyText, { color: profileTheme.text.secondary }]}>
-                  {searchQuery ? getString("noClassesFound") : getString("noClassesRegistered")}
+                  {searchQuery ? getString("noClassesFound") : "Nenhuma turma encontrada"}
                 </Text>
                 {!searchQuery && (
-                  <Text style={[styles.emptySubtext, { color: profileTheme.text.hint }]}>
-                    {getString('contactAdminToCreateClasses')}
-                  </Text>
+                  <>
+                    <Text style={[styles.emptySubtext, { color: profileTheme.text.hint }]}>
+                      As turmas criadas pelo administrador aparecerão aqui.
+                    </Text>
+                    <Button
+                      mode="contained"
+                      onPress={onRefresh}
+                      style={{ marginTop: SPACING.md }}
+                      buttonColor={profileTheme.primary[500]}
+                    >
+                      Atualizar
+                    </Button>
+                  </>
                 )}
               </View>
             ) : (
@@ -491,6 +573,20 @@ const InstructorClasses = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+  },
+  headerInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: SPACING.md,
+    paddingVertical: SPACING.sm,
+    marginHorizontal: SPACING.md,
+    marginTop: SPACING.sm,
+    borderRadius: 8,
+    gap: SPACING.xs,
+  },
+  headerInfoText: {
+    fontSize: FONT_SIZE.sm,
     flex: 1,
   },
   searchbar: {

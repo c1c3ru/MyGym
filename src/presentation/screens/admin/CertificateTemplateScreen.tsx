@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, ScrollView, Image, Alert, TouchableOpacity, Modal } from 'react-native';
+import { View, StyleSheet, ScrollView, Image, Alert, TouchableOpacity, Modal, Platform } from 'react-native';
 import { Text, Button, ActivityIndicator, Snackbar, ProgressBar, Portal, Switch, Chip } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -512,35 +512,68 @@ const CertificateTemplateScreen: React.FC<CertificateTemplateScreenProps> = ({ n
 
                     {/* Seletor de Modalidade */}
                     <View style={{ marginBottom: SPACING.md }}>
-                        <ScrollView
-                            horizontal
-                            showsHorizontalScrollIndicator={false}
-                            contentContainerStyle={{ gap: 8, paddingHorizontal: 4, paddingBottom: 4 }}
-                            style={{ flexGrow: 0 }} /* Important for horizontal scroll in nested views */
-                        >
-                            <Chip
-                                mode={selectedModalityId === null ? 'flat' : 'outlined'}
-                                selected={selectedModalityId === null}
-                                onPress={() => handleModalityChange(null)}
-                                style={{ backgroundColor: selectedModalityId === null ? COLORS.primary[500] : undefined }}
-                                textStyle={{ color: selectedModalityId === null ? COLORS.white : (isDarkMode ? COLORS.white : COLORS.black) }}
-                            >
-                                Padrão Geral
-                            </Chip>
-
-                            {modalities.map(mod => (
+                        {Platform.OS === 'web' ? (
+                            <View style={styles.modalityChipsWeb}>
                                 <Chip
-                                    key={mod.id}
-                                    mode={selectedModalityId === mod.id ? 'flat' : 'outlined'}
-                                    selected={selectedModalityId === mod.id}
-                                    onPress={() => handleModalityChange(mod.id)}
-                                    style={{ backgroundColor: selectedModalityId === mod.id ? COLORS.primary[500] : undefined }}
-                                    textStyle={{ color: selectedModalityId === mod.id ? COLORS.white : (isDarkMode ? COLORS.white : COLORS.black) }}
+                                    mode={selectedModalityId === null ? 'flat' : 'outlined'}
+                                    selected={selectedModalityId === null}
+                                    onPress={() => handleModalityChange(null)}
+                                    style={[
+                                        { backgroundColor: selectedModalityId === null ? COLORS.primary[500] : undefined },
+                                        Platform.OS === 'web' && { width: '9%', minWidth: 80, maxWidth: 120 } as any
+                                    ]}
+                                    textStyle={{ color: selectedModalityId === null ? COLORS.white : (isDarkMode ? COLORS.white : COLORS.black) }}
                                 >
-                                    {mod.name}
+                                    Padrão Geral
                                 </Chip>
-                            ))}
-                        </ScrollView>
+
+                                {modalities.map(mod => (
+                                    <Chip
+                                        key={mod.id}
+                                        mode={selectedModalityId === mod.id ? 'flat' : 'outlined'}
+                                        selected={selectedModalityId === mod.id}
+                                        onPress={() => handleModalityChange(mod.id)}
+                                        style={[
+                                            { backgroundColor: selectedModalityId === mod.id ? COLORS.primary[500] : undefined },
+                                            Platform.OS === 'web' && { width: '9%', minWidth: 80, maxWidth: 120 } as any
+                                        ]}
+                                        textStyle={{ color: selectedModalityId === mod.id ? COLORS.white : (isDarkMode ? COLORS.white : COLORS.black) }}
+                                    >
+                                        {mod.name}
+                                    </Chip>
+                                ))}
+                            </View>
+                        ) : (
+                            <ScrollView
+                                horizontal
+                                showsHorizontalScrollIndicator={false}
+                                contentContainerStyle={{ gap: 8, paddingHorizontal: 4, paddingBottom: 4 }}
+                                style={{ flexGrow: 0 }}
+                            >
+                                <Chip
+                                    mode={selectedModalityId === null ? 'flat' : 'outlined'}
+                                    selected={selectedModalityId === null}
+                                    onPress={() => handleModalityChange(null)}
+                                    style={{ backgroundColor: selectedModalityId === null ? COLORS.primary[500] : undefined }}
+                                    textStyle={{ color: selectedModalityId === null ? COLORS.white : (isDarkMode ? COLORS.white : COLORS.black) }}
+                                >
+                                    Padrão Geral
+                                </Chip>
+
+                                {modalities.map(mod => (
+                                    <Chip
+                                        key={mod.id}
+                                        mode={selectedModalityId === mod.id ? 'flat' : 'outlined'}
+                                        selected={selectedModalityId === mod.id}
+                                        onPress={() => handleModalityChange(mod.id)}
+                                        style={{ backgroundColor: selectedModalityId === mod.id ? COLORS.primary[500] : undefined }}
+                                        textStyle={{ color: selectedModalityId === mod.id ? COLORS.white : (isDarkMode ? COLORS.white : COLORS.black) }}
+                                    >
+                                        {mod.name}
+                                    </Chip>
+                                ))}
+                            </ScrollView>
+                        )}
                         <Text style={{ fontSize: 12, color: theme.colors.textSecondary, marginTop: 4, marginLeft: 4 }}>
                             {selectedModalityId
                                 ? `Editando template exclusivo para ${modalities.find(m => m.id === selectedModalityId)?.name}`
@@ -680,24 +713,44 @@ const CertificateTemplateScreen: React.FC<CertificateTemplateScreenProps> = ({ n
                                 <ScrollView style={styles.modalScroll}>
                                     {/* Element Selector */}
                                     <Text style={[styles.sectionTitle, { color: textColor, marginTop: 0 }]}>Selecionar Elemento</Text>
-                                    <ScrollView
-                                        horizontal
-                                        showsHorizontalScrollIndicator={false}
-                                        style={{ flexGrow: 0, marginBottom: SPACING.lg }}
-                                        contentContainerStyle={{ paddingRight: SPACING.md, paddingHorizontal: 4 }}
-                                    >
-                                        {Object.keys(elementsConfig).map(key => (
-                                            <TouchableOpacity
-                                                key={key}
-                                                style={[styles.elementChip, selectedElementKey === key && styles.elementChipSelected]}
-                                                onPress={() => setSelectedElementKey(key)}
-                                            >
-                                                <Text style={[styles.elementChipText, selectedElementKey === key && styles.elementChipTextSelected]}>
-                                                    {formatElementLabel(key)}
-                                                </Text>
-                                            </TouchableOpacity>
-                                        ))}
-                                    </ScrollView>
+                                    {Platform.OS === 'web' ? (
+                                        <View style={styles.elementChipsWeb}>
+                                            {Object.keys(elementsConfig).map(key => (
+                                                <TouchableOpacity
+                                                    key={key}
+                                                    style={[
+                                                        styles.elementChip,
+                                                        selectedElementKey === key && styles.elementChipSelected,
+                                                        Platform.OS === 'web' && { width: '23%', minWidth: 100, maxWidth: 200 } as any
+                                                    ]}
+                                                    onPress={() => setSelectedElementKey(key)}
+                                                >
+                                                    <Text style={[styles.elementChipText, selectedElementKey === key && styles.elementChipTextSelected]}>
+                                                        {formatElementLabel(key)}
+                                                    </Text>
+                                                </TouchableOpacity>
+                                            ))}
+                                        </View>
+                                    ) : (
+                                        <ScrollView
+                                            horizontal
+                                            showsHorizontalScrollIndicator={false}
+                                            style={{ flexGrow: 0, marginBottom: SPACING.lg }}
+                                            contentContainerStyle={{ paddingRight: SPACING.md, paddingHorizontal: 4 }}
+                                        >
+                                            {Object.keys(elementsConfig).map(key => (
+                                                <TouchableOpacity
+                                                    key={key}
+                                                    style={[styles.elementChip, selectedElementKey === key && styles.elementChipSelected]}
+                                                    onPress={() => setSelectedElementKey(key)}
+                                                >
+                                                    <Text style={[styles.elementChipText, selectedElementKey === key && styles.elementChipTextSelected]}>
+                                                        {formatElementLabel(key)}
+                                                    </Text>
+                                                </TouchableOpacity>
+                                            ))}
+                                        </ScrollView>
+                                    )}
 
                                     {/* Controls for Selected Element */}
                                     {elementsConfig[selectedElementKey] && (
@@ -1418,6 +1471,19 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         alignItems: 'center',
         minWidth: 40
+    },
+    modalityChipsWeb: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        gap: 8,
+        paddingHorizontal: 4,
+        paddingBottom: 4,
+    },
+    elementChipsWeb: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        gap: SPACING.sm,
+        marginBottom: SPACING.lg,
     }
 });
 

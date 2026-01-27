@@ -517,11 +517,11 @@ const InstructorDashboard = ({ navigation }) => {
                       />
                     </Animated.View>
                     <View style={styles.headerText}>
-                      <Text style={[styles.welcomeText, { color: COLORS.white }]}>
+                      <Text style={[styles.welcomeText, { color: profileTheme.text.primary }]}>
                         {getString("hello")},{" "}
                         {userProfile?.name?.split(" ")[0] || "Professor"}! 👋
                       </Text>
-                      <Text style={[styles.roleText, { color: hexToRgba(COLORS.white, 0.8) }]}>
+                      <Text style={[styles.roleText, { color: profileTheme.text.secondary }]}>
                         {userProfile?.specialties?.join(" • ") ||
                           getString("martialArtsInstructor")}
                       </Text>
@@ -531,7 +531,7 @@ const InstructorDashboard = ({ navigation }) => {
                           size={8}
                           color={profileTheme.primary[500]}
                         />
-                        <Text style={[styles.statusText, { color: COLORS.white }]}>
+                        <Text style={[styles.statusText, { color: profileTheme.text.primary }]}>
                           {getString("online")}
                         </Text>
                       </View>
@@ -540,7 +540,7 @@ const InstructorDashboard = ({ navigation }) => {
                       <MaterialCommunityIcons
                         name="account-star"
                         size={24}
-                        color={COLORS.white}
+                        color={profileTheme.text.primary}
                       />
                     </Animated.View>
                   </View>
@@ -723,7 +723,7 @@ const InstructorDashboard = ({ navigation }) => {
                             style={styles.timelineButton}
                             compact
                             buttonColor={profileTheme.primary[600]}
-                            textColor={COLORS.white}
+                            textColor={profileTheme.background.paper}
                           >
                             {getString("manageClass")}
                           </AnimatedButton>
@@ -739,7 +739,7 @@ const InstructorDashboard = ({ navigation }) => {
                     <MaterialCommunityIcons
                       name="calendar-blank"
                       size={48}
-                      color={COLORS.gray[600]}
+                      color={profileTheme.text.disabled}
                     />
                     <Text style={[styles.emptyStateText, { color: profileTheme.text.secondary }]}>
                       {getString("noClassesToday")}
@@ -914,50 +914,68 @@ const InstructorDashboard = ({ navigation }) => {
                 ) : announcements.length > 0 ? (
                   <View style={styles.announcementsContainer}>
                     {announcements.map((announcement, index) => (
-                      <TouchableOpacity
+                      <View
                         key={announcement.id}
-                        onPress={() => handleAnnouncementPress(announcement)}
                         style={[
                           styles.announcementItem,
                           announcement.priority > 0 &&
                           styles.highPriorityAnnouncement,
                         ]}
-                        activeOpacity={0.7}
                       >
-                        {announcement.priority > 0 && (
-                          <View style={styles.priorityBadge}>
-                            <MaterialCommunityIcons
-                              name="alert-circle"
-                              size={16}
-                              color={COLORS.warning[400]}
-                            />
-                            <Text style={styles.priorityText}>
-                              {getString("important")}
-                            </Text>
-                          </View>
-                        )}
-                        <Text style={styles.announcementTitle}>
-                          {announcement.title}
-                        </Text>
-                        <Text style={styles.announcementMessage}>
-                          {announcement.message}
-                        </Text>
-                        <View style={styles.announcementFooter}>
-                          <Text style={styles.announcementDate}>
-                            {announcement.date}
-                          </Text>
-                          {announcement.isRead && (
-                            <MaterialCommunityIcons
-                              name="check-all"
-                              size={16}
-                              color={profileTheme.primary[400]}
-                            />
+                        <TouchableOpacity
+                          onPress={() => handleAnnouncementPress(announcement)}
+                          style={{ flex: 1 }}
+                          activeOpacity={0.7}
+                        >
+                          {announcement.priority > 0 && (
+                            <View style={styles.priorityBadge}>
+                              <MaterialCommunityIcons
+                                name="alert-circle"
+                                size={16}
+                                color={COLORS.warning[400]}
+                              />
+                              <Text style={styles.priorityText}>
+                                {getString("important")}
+                              </Text>
+                            </View>
                           )}
-                        </View>
+                          <Text style={[styles.announcementTitle, { color: profileTheme.text.primary }]}>
+                            {announcement.title}
+                          </Text>
+                          <Text style={[styles.announcementMessage, { color: profileTheme.text.secondary }]} numberOfLines={2}>
+                            {announcement.message}
+                          </Text>
+                          <View style={styles.announcementFooter}>
+                            <Text style={[styles.announcementDate, { color: profileTheme.text.hint }]}>
+                              {announcement.date}
+                            </Text>
+                            {announcement.isRead && (
+                              <MaterialCommunityIcons
+                                name="check-all"
+                                size={16}
+                                color={profileTheme.primary[400]}
+                              />
+                            )}
+                          </View>
+                        </TouchableOpacity>
+
+                        {/* Botão de exclusão rápida */}
+                        <TouchableOpacity
+                          onPress={() => handleDeleteAnnouncement(announcement.id)}
+                          style={styles.deleteAnnouncementButton}
+                          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                        >
+                          <MaterialCommunityIcons
+                            name="delete-outline"
+                            size={20}
+                            color={COLORS.error[400]}
+                          />
+                        </TouchableOpacity>
+
                         {index < announcements.length - 1 && (
                           <Divider style={styles.announcementDivider} />
                         )}
-                      </TouchableOpacity>
+                      </View>
                     ))}
                   </View>
                 ) : (
@@ -1279,25 +1297,22 @@ const styles = StyleSheet.create({
   welcomeText: {
     fontSize: ResponsiveUtils.fontSize.large,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.white,
     marginBottom: SPACING.xs,
   },
   roleText: {
     fontSize: ResponsiveUtils.fontSize.medium,
-    color: hexToRgba(COLORS.white, 0.8),
     marginBottom: SPACING.sm,
   },
   statusBadge: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: hexToRgba(COLORS.white, 0.2),
+    backgroundColor: hexToRgba(COLORS.white, 0.15),
     paddingHorizontal: SPACING.sm,
     paddingVertical: SPACING.xs,
     borderRadius: BORDER_RADIUS.md,
     alignSelf: "flex-start",
   },
   statusText: {
-    color: COLORS.white,
     fontSize: FONT_SIZE.sm,
     marginLeft: SPACING.xs,
     fontWeight: FONT_WEIGHT.medium,
@@ -1326,12 +1341,10 @@ const styles = StyleSheet.create({
   statNumber: {
     fontSize: FONT_SIZE.xxl,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.white,
     marginTop: SPACING.sm,
   },
   statLabel: {
     fontSize: FONT_SIZE.sm,
-    color: hexToRgba(COLORS.white, 0.7),
     textAlign: "center",
     marginTop: SPACING.xs,
   },
@@ -1345,13 +1358,11 @@ const styles = StyleSheet.create({
   actionTitle: {
     fontSize: FONT_SIZE.md,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.white,
     marginTop: SPACING.sm,
     textAlign: "center",
   },
   actionSubtitle: {
     fontSize: FONT_SIZE.sm,
-    color: hexToRgba(COLORS.white, 0.6),
     textAlign: "center",
     marginBottom: SPACING.sm,
   },
@@ -1398,7 +1409,6 @@ const styles = StyleSheet.create({
   timelineTitle: {
     fontSize: ResponsiveUtils.fontSize.medium,
     fontWeight: FONT_WEIGHT.bold,
-    color: COLORS.white,
     flex: 1,
   },
   modernChip: {
@@ -1420,7 +1430,6 @@ const styles = StyleSheet.create({
   },
   timelineText: {
     fontSize: FONT_SIZE.base,
-    color: hexToRgba(COLORS.white, 0.7),
     marginLeft: SPACING.xs,
   },
   timelineButton: {
@@ -1433,7 +1442,7 @@ const styles = StyleSheet.create({
     top: 18,
     bottom: -ResponsiveUtils.spacing.md,
     width: 2,
-    backgroundColor: hexToRgba(COLORS.white, 0.1),
+    backgroundColor: hexToRgba(COLORS.gray[500], 0.2),
   },
 
   // Estados vazios
@@ -1444,12 +1453,10 @@ const styles = StyleSheet.create({
   emptyStateText: {
     fontSize: ResponsiveUtils.fontSize.medium,
     fontWeight: FONT_WEIGHT.bold,
-    color: hexToRgba(COLORS.white, 0.6),
     marginTop: ResponsiveUtils.spacing.sm,
   },
   emptyStateSubtext: {
     fontSize: ResponsiveUtils.fontSize.small,
-    color: hexToRgba(COLORS.white, OPACITY.medium),
     textAlign: "center",
     marginTop: SPACING.xs,
   },
@@ -1469,7 +1476,6 @@ const styles = StyleSheet.create({
   },
   loadingText: {
     marginTop: SPACING.sm,
-    color: hexToRgba(COLORS.white, 0.6),
     fontSize: ResponsiveUtils.fontSize.small,
   },
   announcementsContainer: {
@@ -1479,9 +1485,19 @@ const styles = StyleSheet.create({
   announcementItem: {
     paddingVertical: ResponsiveUtils.spacing.sm,
     position: "relative",
+    flexDirection: "row",
+    alignItems: "flex-start",
+    gap: SPACING.sm,
+  },
+  deleteAnnouncementButton: {
+    padding: SPACING.xs,
+    borderRadius: BORDER_RADIUS.md,
+    backgroundColor: hexToRgba(COLORS.error[500], 0.1),
+    alignSelf: "flex-start",
+    marginTop: SPACING.xs,
   },
   highPriorityAnnouncement: {
-    backgroundColor: hexToRgba(COLORS.warning[500], OPACITY.light), // Warning color transparent
+    backgroundColor: hexToRgba(COLORS.warning[500], OPACITY.light),
     borderRadius: ResponsiveUtils.borderRadius.small,
     marginHorizontal: -ResponsiveUtils.spacing.sm,
     paddingHorizontal: ResponsiveUtils.spacing.sm,
@@ -1501,18 +1517,16 @@ const styles = StyleSheet.create({
   },
   priorityText: {
     fontSize: FONT_SIZE.sm,
-    color: COLORS.warning[300], // Lighter warning color
+    color: COLORS.warning[300],
     marginLeft: SPACING.xs,
     fontWeight: FONT_WEIGHT.medium,
   },
   announcementTitle: {
     fontWeight: FONT_WEIGHT.semibold,
-    color: COLORS.white,
     marginBottom: ResponsiveUtils.spacing.xs,
     fontSize: ResponsiveUtils.fontSize.medium,
   },
   announcementMessage: {
-    color: hexToRgba(COLORS.white, 0.7),
     marginBottom: ResponsiveUtils.spacing.xs,
     fontSize: ResponsiveUtils.fontSize.small,
     lineHeight: 20,
@@ -1524,12 +1538,11 @@ const styles = StyleSheet.create({
     marginTop: ResponsiveUtils.spacing.xs,
   },
   announcementDate: {
-    color: hexToRgba(COLORS.white, OPACITY.semiopaque),
     fontSize: ResponsiveUtils.fontSize.small,
   },
   announcementDivider: {
     marginTop: ResponsiveUtils.spacing.md,
-    backgroundColor: hexToRgba(COLORS.white, 0.1),
+    backgroundColor: hexToRgba(COLORS.gray[500], 0.2),
   },
 
   // Estilos legados mantidos para compatibilidade (atualizados para dark)
@@ -1537,8 +1550,8 @@ const styles = StyleSheet.create({
     margin: ResponsiveUtils.spacing.md,
     marginBottom: ResponsiveUtils.spacing.sm,
     borderRadius: ResponsiveUtils.borderRadius.medium,
-    backgroundColor: hexToRgba(COLORS.white, 0.05),
-    borderColor: hexToRgba(COLORS.white, 0.1),
+    backgroundColor: hexToRgba(COLORS.gray[500], 0.05),
+    borderColor: hexToRgba(COLORS.gray[500], 0.1),
     borderWidth: 1,
   },
   cardHeader: {
@@ -1550,12 +1563,11 @@ const styles = StyleSheet.create({
     marginLeft: ResponsiveUtils.spacing.sm,
     fontWeight: FONT_WEIGHT.bold,
     marginBottom: ResponsiveUtils.spacing.xs,
-    color: COLORS.white,
   },
   classItem: {
     marginBottom: ResponsiveUtils.spacing.md,
     padding: ResponsiveUtils.spacing.sm,
-    backgroundColor: hexToRgba(COLORS.white, 0.05),
+    backgroundColor: hexToRgba(COLORS.gray[500], 0.05),
     borderRadius: ResponsiveUtils.borderRadius.small,
   },
   classHeader: {
@@ -1567,7 +1579,6 @@ const styles = StyleSheet.create({
   className: {
     fontWeight: FONT_WEIGHT.bold,
     flex: 1,
-    color: COLORS.white,
   },
   modalityChip: {
     marginLeft: ResponsiveUtils.spacing.sm,
@@ -1576,11 +1587,9 @@ const styles = StyleSheet.create({
     marginBottom: ResponsiveUtils.spacing.sm,
   },
   classTime: {
-    color: hexToRgba(COLORS.white, 0.6),
     marginBottom: ResponsiveUtils.spacing.xs,
   },
   classCapacity: {
-    color: hexToRgba(COLORS.white, 0.6),
   },
   classButton: {
     marginTop: ResponsiveUtils.spacing.sm,
@@ -1608,7 +1617,7 @@ const styles = StyleSheet.create({
   upcomingClass: {
     marginBottom: ResponsiveUtils.spacing.sm,
     padding: ResponsiveUtils.spacing.sm,
-    backgroundColor: hexToRgba(COLORS.white, 0.05),
+    backgroundColor: hexToRgba(COLORS.gray[500], 0.05),
     borderRadius: ResponsiveUtils.borderRadius.small,
     borderLeftWidth: 3,
     borderLeftColor: COLORS.warning[500],
@@ -1616,21 +1625,18 @@ const styles = StyleSheet.create({
   upcomingClassName: {
     fontWeight: FONT_WEIGHT.bold,
     marginBottom: ResponsiveUtils.spacing.xs,
-    color: COLORS.white,
   },
   upcomingClassInfo: {
-    color: hexToRgba(COLORS.white, 0.6),
     marginBottom: ResponsiveUtils.spacing.sm,
   },
   emptyText: {
     textAlign: "center",
-    color: hexToRgba(COLORS.white, OPACITY.semiopaque),
     fontStyle: "italic",
     marginVertical: ResponsiveUtils.spacing.md,
   },
   divider: {
     marginVertical: ResponsiveUtils.spacing.sm,
-    backgroundColor: hexToRgba(COLORS.white, 0.1),
+    backgroundColor: hexToRgba(COLORS.gray[500], 0.2),
   },
   viewAllButton: {
     marginTop: ResponsiveUtils.spacing.sm,
@@ -1662,7 +1668,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: SPACING.lg,
     borderBottomWidth: 1,
-    borderBottomColor: hexToRgba(COLORS.white, 0.1),
+    borderBottomColor: hexToRgba(COLORS.gray[500], 0.2),
   },
   modalHeaderLeft: {
     flexDirection: 'row',
@@ -1707,7 +1713,7 @@ const styles = StyleSheet.create({
     marginTop: SPACING.md,
     paddingTop: SPACING.md,
     borderTopWidth: 1,
-    borderTopColor: hexToRgba(COLORS.white, 0.1),
+    borderTopColor: hexToRgba(COLORS.gray[500], 0.2),
   },
   metadataItem: {
     flexDirection: 'row',
@@ -1722,7 +1728,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: SPACING.lg,
     borderTopWidth: 1,
-    borderTopColor: hexToRgba(COLORS.white, 0.1),
+    borderTopColor: hexToRgba(COLORS.gray[500], 0.2),
     gap: SPACING.md,
   },
   modalButton: {
