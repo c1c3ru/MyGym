@@ -371,12 +371,7 @@ const InstructorStudents = ({ navigation }) => {
   if (loading) {
     return (
       <LinearGradient
-        colors={[
-          COLORS.gradients.deepPurple[0],
-          COLORS.gradients.deepPurple[1],
-          COLORS.gradients.deepPurple[2],
-          COLORS.gradients.deepPurple[3]
-        ]}
+        colors={COLORS.gradients.deepPurple}
         locations={[0, 0.4, 0.8, 1]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
@@ -391,8 +386,8 @@ const InstructorStudents = ({ navigation }) => {
 
   return (
     <LinearGradient
-      colors={isDark ? COLORS.gradients.deepPurple : COLORS.gradients.lightBackground || ['#F5F5F5', '#FFFFFF']}
-      locations={isDark ? [0, 0.4, 0.8, 1] : [0, 1]}
+      colors={isDark ? COLORS.gradients.deepPurple : COLORS.gradients.lightBackground}
+      locations={isDark ? [0, 0.4, 0.8, 1] : [0, 0.5, 1]}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
       style={{ flex: 1 }}

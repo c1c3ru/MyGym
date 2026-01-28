@@ -463,7 +463,7 @@ const InstructorDashboard = ({ navigation }) => {
       }}
     >
       <LinearGradient
-        colors={isDark ? COLORS.gradients.deepPurple : (COLORS.gradients.lightBackground || ['#F5F5F5', '#FFFFFF'])}
+        colors={isDark ? COLORS.gradients.deepPurple : COLORS.gradients.lightBackground}
         locations={isDark ? [0, 0.4, 0.8, 1] : [0, 0.5, 1]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}

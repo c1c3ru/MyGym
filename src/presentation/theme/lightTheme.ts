@@ -245,6 +245,9 @@ export const LIGHT_THEME = {
     background: ['#FAFBFC', '#F5F6F7'],
     // Gradiente para headers
     header: ['#E3F2FD', '#BBDEFB'],
+    // Gradientes de compatibilidade
+    deepPurple: ['#5E35B1', '#4527A0'], // Roxo adaptado para light theme
+    lightBackground: ['#FAFBFC', '#FFFFFF'],
   },
 
   // Sombras bem definidas (elementos gráficos)

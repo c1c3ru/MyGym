@@ -78,9 +78,8 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
       style={[
         styles.gradient,
         {
-          minHeight: 0,
-          height: Platform.OS === 'web' ? '100vh' : '100%',
-          overflow: 'hidden'
+          flex: 1,
+          ...(Platform.OS === 'web' ? { height: '100vh', maxHeight: '100vh', overflow: 'hidden' } : {})
         } as any
       ]}
     >
@@ -284,6 +283,8 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
               </Button>
             </View>
           </ModernCard>
+
+          <View style={{ height: 120 }} />
         </ScrollView>
 
         {/* Modal de Alterar Senha */}
@@ -429,7 +430,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   scrollContent: {
-    paddingBottom: SPACING.xxl * 3,
+    paddingBottom: 350,
     paddingHorizontal: SPACING.md,
     flexGrow: 1,
   },
