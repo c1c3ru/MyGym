@@ -34,9 +34,16 @@ const FreeGymScheduler = ({
   onDatePress,
   onCreateClass,
   navigation,
+  theme, // Tema passado via prop
   refreshControl
 }) => {
-  const { colors, getString } = useTheme();
+  const themeContext = useTheme();
+
+  // Priorizar tema passado via prop, fallback para contexto
+  const colors = theme?.colors || themeContext.colors;
+  const getString = theme?.getString || themeContext.getString;
+  // Se theme não tiver getString, pode causar erro, então garantir fallback
+  const safeGetString = getString || ((key) => key);
 
   // Usa useAuthFacade para autenticação
   const { user, userProfile, academia } = useAuthFacade();
@@ -241,7 +248,10 @@ const FreeGymScheduler = ({
     Object.entries(allEvents).forEach(([date, events]) => {
       const eventCount = events.length;
       const hasMultipleEvents = eventCount > 1;
-      const primaryColor = events[0]?.color || colors?.primary;
+      const hasCheckin = events.some(e => e.type === 'checkin');
+
+      // Se tiver check-in, cor de sucesso, senão cor primária (agendado)
+      const primaryColor = hasCheckin ? COLORS.success[500] : (events[0]?.color || colors?.primary);
 
       marked[date] = {
         marked: true,
@@ -249,14 +259,15 @@ const FreeGymScheduler = ({
         selectedColor: primaryColor,
         customStyles: {
           container: {
-            backgroundColor: hasMultipleEvents ? primaryColor : `${primaryColor}20`,
-            borderRadius: BORDER_RADIUS.md,
-            borderWidth: hasMultipleEvents ? 2 : 1,
-            borderColor: primaryColor
+            backgroundColor: hasCheckin ? COLORS.success[100] : (hasMultipleEvents ? primaryColor : `${primaryColor}20`),
+            borderRadius: BORDER_RADIUS.full, // Círculo completo para destaque
+            borderWidth: hasCheckin ? 2 : (hasMultipleEvents ? 2 : 1),
+            borderColor: primaryColor,
+            elevation: hasCheckin ? 2 : 0 // Sombra leve para checkins
           },
           text: {
-            color: hasMultipleEvents ? getString('colorWhite') : primaryColor,
-            fontWeight: hasMultipleEvents ? 'bold' : 'normal'
+            color: hasCheckin ? COLORS.success[700] : (hasMultipleEvents ? getString('colorWhite') : primaryColor),
+            fontWeight: (hasMultipleEvents || hasCheckin) ? 'bold' : 'normal'
           }
         }
       };
@@ -532,10 +543,10 @@ const FreeGymScheduler = ({
   );
 };
 
-const styles = StyleSheet.create({
+const createStyles = (colors) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.gray[100]
+    backgroundColor: colors?.background
   },
   filtersCard: {
     margin: SPACING.md,

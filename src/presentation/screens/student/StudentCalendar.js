@@ -97,11 +97,11 @@ const StudentCalendar = ({ navigation }) => {
       <FreeGymScheduler
         classes={classes}
         checkins={checkins}
+        theme={theme}
         onClassPress={handleClassPress}
         onDatePress={handleDatePress}
         onCreateClass={null} // Alunos não podem criar turmas
         navigation={navigation}
-        theme={theme} // Pass theme if FreeGymScheduler supports it, otherwise reliance on context or defaults
       />
     </SafeAreaView>
   );
