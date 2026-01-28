@@ -305,12 +305,12 @@ const StudentEvolution = ({ navigation }) => {
       if (level && level.color) {
         const colorMap = {
           'white': COLORS.special.belt.white,
-          'yellow': COLORS.yellow[500],
-          'orange': COLORS.orange[500],
-          'green': COLORS.green[500],
-          'blue': COLORS.blue[500],
-          'purple': COLORS.purple[500],
-          'brown': COLORS.brown[500],
+          'yellow': COLORS.special.belt.yellow,
+          'orange': COLORS.special.belt.orange,
+          'green': COLORS.special.belt.green,
+          'blue': COLORS.special.belt.blue,
+          'purple': COLORS.special.belt.purple,
+          'brown': COLORS.special.belt.brown,
           'black': COLORS.special.belt.black,
           'red': COLORS.special.belt.red,
           'gray': COLORS.gray[500],
