@@ -1,0 +1,41 @@
+{
+    "displayName": "Integration Tests",
+    "testMatch": [
+        "**/tests/integration/**/*.test.js"
+    ],
+    "testEnvironment": "node",
+    "setupFilesAfterEnv": [
+        "<rootDir>/tests/integration/setupEmulators.js"
+    ],
+    "testTimeout": 30000,
+    "moduleNameMapper": {
+        "^@infrastructure/(.*)$": "<rootDir>/src/infrastructure/$1",
+        "^@domain/(.*)$": "<rootDir>/src/domain/$1",
+        "^@presentation/(.*)$": "<rootDir>/src/presentation/$1",
+        "^@shared/(.*)$": "<rootDir>/src/shared/$1"
+    },
+    "transform": {
+        "^.+\\.(js|jsx|ts|tsx)$": [
+            "babel-jest",
+            {
+                "presets": [
+                    "@babel/preset-env"
+                ]
+            }
+        ]
+    },
+    "collectCoverageFrom": [
+        "src/infrastructure/services/**/*.js",
+        "src/domain/**/*.{js,ts}",
+        "!src/**/*.test.{js,ts}",
+        "!src/**/__tests__/**"
+    ],
+    "coverageThreshold": {
+        "global": {
+            "statements": 70,
+            "branches": 70,
+            "functions": 70,
+            "lines": 70
+        }
+    }
+}

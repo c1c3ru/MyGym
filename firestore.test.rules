@@ -1,0 +1,11 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // OPEN RULES FOR TESTING - DO NOT USE IN PRODUCTION
+    // This file is used ONLY for Firebase Emulator during integration tests
+    
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}

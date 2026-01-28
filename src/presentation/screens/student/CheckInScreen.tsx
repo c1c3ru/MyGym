@@ -7,6 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useAuthFacade } from '@presentation/auth/AuthFacade';
 import { useTheme } from '@contexts/ThemeContext';
 import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
+import { checkInService } from '@infrastructure/services/checkInService';
 import { SPACING, FONT_SIZE, BORDER_RADIUS } from '@presentation/theme/designTokens';
 import EnhancedErrorBoundary from '@components/EnhancedErrorBoundary';
 
@@ -36,6 +37,7 @@ interface ClassInfo {
   modality: string;
   schedule?: ClassSchedule[];
   days?: string[]; // Legacy support or simplified view
+  instructorId?: string;
   instructorName?: string;
 }
 
@@ -95,9 +97,17 @@ const CheckInScreen: React.FC<CheckInScreenProps> = ({ navigation }) => {
   useEffect(() => {
     const loadData = async () => {
       try {
+        console.log('📊 [Fase 3] Carregando dados do aluno (localização global)...');
+
         if (user?.id) {
-          const history = await academyFirestoreService.getCheckInHistory(user.id, academia?.id) as CheckIn[];
+          // Usar novo serviço unificado (Fase 3: Query global)
+          const history = await checkInService.getByStudent(
+            user.id,
+            academia?.id || '',
+            20 // Últimos 20 check-ins
+          );
           setCheckIns(history);
+          console.log('✅ [Fase 3] Histórico carregado:', history.length);
         }
 
         if (academia?.id) {
@@ -105,7 +115,7 @@ const CheckInScreen: React.FC<CheckInScreenProps> = ({ navigation }) => {
           setAvailableClasses(classes);
         }
       } catch (error) {
-        console.error('Erro ao carregar dados de check-in:', error);
+        console.error('❌ [Fase 3] Erro ao carregar dados de check-in:', error);
       } finally {
         setInitialLoading(false);
       }
@@ -118,23 +128,31 @@ const CheckInScreen: React.FC<CheckInScreenProps> = ({ navigation }) => {
     if (!user?.id) return;
     setLoading(true);
     try {
-      await academyFirestoreService.create('checkIns', {
+      console.log('🎯 [Student] Iniciando check-in...');
+
+      // Usar novo serviço unificado (Fase 1: Dual-write)
+      const checkInId = await checkInService.create({
         studentId: user.id,
-        academiaId: academia?.id || '',
+        studentName: user.displayName || user.email || 'Aluno',
         classId: classInfo?.id || '',
         className: classInfo?.name || getString('singleClass') || 'Aula Avulsa',
-        date: new Date(),
-        status: 'completed'
-      }, academia?.id);
+        instructorId: classInfo?.instructorId || '',
+        instructorName: classInfo?.instructorName || '',
+        type: 'manual', // Pode ser 'qr' ou 'geo' dependendo do método
+        verified: true
+      }, academia?.id || '');
+
+      console.log('✅ [Student] Check-in criado:', checkInId);
 
       Alert.alert(getString('success'), getString('checkInSuccess'));
 
+      // Recarregar histórico
       if (user?.id) {
-        const history = await academyFirestoreService.getCheckInHistory(user.id, academia?.id) as CheckIn[];
+        const history = await checkInService.getByStudent(user.id, academia?.id || '', 20);
         setCheckIns(history);
       }
     } catch (error) {
-      console.error('Erro ao realizar check-in:', error);
+      console.error('❌ [Student] Erro ao realizar check-in:', error);
       Alert.alert(getString('error'), getString('checkInError'));
     } finally {
       setLoading(false);

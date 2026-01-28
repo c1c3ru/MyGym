@@ -1,17 +1,18 @@
 // Firebase Firestore service abstraction
 
-import { initializeFirestore, Firestore } from 'firebase/firestore';
+import { initializeFirestore, Firestore, connectFirestoreEmulator } from 'firebase/firestore';
 import { Platform } from 'react-native';
 import { firebaseApp } from './app';
 
 const isWeb = Platform.OS === 'web';
+const isTest = process.env.NODE_ENV === 'test' || process.env.JEST_WORKER_ID !== undefined;
 
 export class FirebaseFirestoreService {
   private static instance: FirebaseFirestoreService;
   private db: Firestore | null = null;
   private initialized = false;
 
-  private constructor() {}
+  private constructor() { }
 
   static getInstance(): FirebaseFirestoreService {
     if (!FirebaseFirestoreService.instance) {
@@ -27,7 +28,7 @@ export class FirebaseFirestoreService {
 
     try {
       console.log('🔥 Initializing Firebase Firestore...');
-      
+
       // Ensure Firebase App is initialized
       const app = firebaseApp.getApp();
 
@@ -49,8 +50,20 @@ export class FirebaseFirestoreService {
       }
 
       this.initialized = true;
+
+      // Connect to emulator in test environment
+      if (isTest && this.db) {
+        try {
+          connectFirestoreEmulator(this.db, 'localhost', 8080);
+          console.log('🧪 Connected to Firestore Emulator at localhost:8080');
+        } catch (error) {
+          // Emulator might already be connected, ignore error
+          console.warn('⚠️ Emulator connection warning:', error instanceof Error ? error.message : error);
+        }
+      }
+
       console.log('🎉 Firebase Firestore initialized successfully for', Platform.OS);
-      
+
       return this.db;
     } catch (error) {
       console.error('❌ Error initializing Firebase Firestore:', error);

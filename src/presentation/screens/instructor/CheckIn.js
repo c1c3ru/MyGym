@@ -27,6 +27,7 @@ import {
   academyFirestoreService,
   academyClassService,
 } from "@infrastructure/services/academyFirestoreService";
+import { checkInService } from "@infrastructure/services/checkInService";
 import cacheService, {
   CACHE_KEYS,
   CACHE_TTL,
@@ -235,47 +236,30 @@ const CheckIn = ({ navigation }) => {
 
   const loadRecentCheckIns = async () => {
     try {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
+      console.log('📊 [Fase 3] Carregando check-ins recentes (localização global)...');
 
-      let allCheckIns = [];
+      const today = new Date().toISOString().split('T')[0];
 
-      // Para cada turma do instrutor, buscar check-ins na subcoleção
-      for (const classItem of classes) {
-        try {
-          const classCheckIns =
-            await academyFirestoreService.getSubcollectionDocuments(
-              "classes",
-              classItem.id,
-              "checkIns",
-              userProfile.academiaId,
-              [{ field: "date", operator: ">=", value: today }],
-              { field: "createdAt", direction: "desc" },
-              10,
-            );
+      // Usar novo serviço unificado (Fase 3: Query global)
+      const allCheckIns = await checkInService.getByInstructor(
+        user.id,
+        userProfile.academiaId,
+        today
+      );
 
-          // Adicionar informações da turma aos check-ins
-          const enrichedCheckIns = classCheckIns.map((checkIn) => ({
-            ...checkIn,
-            className: classItem.name,
-            classId: classItem.id,
-          }));
+      // Ordenar por timestamp e limitar a 10
+      const sorted = allCheckIns
+        .sort((a, b) => {
+          const aTime = a.timestamp?.seconds ? a.timestamp.seconds : new Date(a.timestamp || 0).getTime() / 1000;
+          const bTime = b.timestamp?.seconds ? b.timestamp.seconds : new Date(b.timestamp || 0).getTime() / 1000;
+          return bTime - aTime;
+        })
+        .slice(0, 10);
 
-          allCheckIns = [...allCheckIns, ...enrichedCheckIns];
-        } catch (error) {
-          console.error(
-            `❌ Erro ao carregar check-ins da turma ${classItem.id}:`,
-            error,
-          );
-        }
-      }
-
-      // Ordenar por data de criação e limitar a 10
-      allCheckIns.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-      setRecentCheckIns(allCheckIns.slice(0, 10));
-      console.log("📋 Check-ins recentes carregados:", allCheckIns.length);
+      setRecentCheckIns(sorted);
+      console.log('✅ [Fase 3] Check-ins recentes carregados:', sorted.length);
     } catch (error) {
-      console.error("❌ Erro ao carregar check-ins recentes:", error);
+      console.error('❌ [Fase 3] Erro ao carregar check-ins recentes:', error);
       setRecentCheckIns([]);
     }
   };
@@ -408,46 +392,34 @@ const CheckIn = ({ navigation }) => {
 
   const handleManualCheckIn = async (studentId, studentName) => {
     try {
-      // Debug: verificar token do usuário
-      const token = await user.getIdTokenResult();
-      console.log("🔍 Debug - Token claims:", token.claims);
-      console.log("🔍 Debug - User role:", token.claims.role);
-      console.log("🔍 Debug - Academia ID:", token.claims.academiaId);
-      console.log("🔍 Debug - User profile:", userProfile);
+      console.log("🎯 [Instructor] Iniciando check-in manual...");
 
       if (!selectedClass) {
         Alert.alert(getString("error"), getString("selectClassFirst"));
         return;
       }
 
-      // Usar academiaId do token (que é usado pelas regras do Firestore)
+      // Obter academiaId do token
+      const token = await user.getIdTokenResult();
       const tokenAcademiaId = token.claims.academiaId;
 
-      const checkInData = {
+      console.log("🔍 Debug - Academia ID:", tokenAcademiaId);
+      console.log("🔍 Debug - Turma selecionada:", selectedClass.name);
+      console.log("🔍 Debug - Aluno:", studentName);
+
+      // Usar novo serviço unificado (Fase 1: Dual-write)
+      const checkInId = await checkInService.create({
         studentId,
         studentName,
         classId: selectedClass.id,
         className: selectedClass.name,
         instructorId: user.id,
         instructorName: userProfile?.name || user.email,
-        academiaId: tokenAcademiaId,
         type: "manual",
-        date: new Date().toISOString().split("T")[0], // Formato YYYY-MM-DD
-        timestamp: new Date(),
-        createdAt: new Date(),
-      };
+        verified: true
+      }, tokenAcademiaId);
 
-      console.log("🔍 Debug - Usando academiaId do token:", tokenAcademiaId);
-      console.log("🔍 Debug - CheckIn data:", checkInData);
-
-      // Usar subcoleção de check-ins dentro da turma selecionada
-      await academyFirestoreService.addSubcollectionDocument(
-        "classes",
-        selectedClass.id,
-        "checkIns",
-        checkInData,
-        tokenAcademiaId,
-      );
+      console.log("✅ [Instructor] Check-in criado:", checkInId);
 
       Alert.alert(
         getString("success"),
@@ -458,7 +430,7 @@ const CheckIn = ({ navigation }) => {
       await loadRecentCheckIns();
       await loadTodayCheckIns();
     } catch (error) {
-      console.error("❌ Erro no check-in manual:", error);
+      console.error("❌ [Instructor] Erro no check-in manual:", error);
       Alert.alert(getString("error"), "Não foi possível realizar o check-in");
     }
   };
@@ -481,24 +453,25 @@ const CheckIn = ({ navigation }) => {
     if (!selectedClass || !userProfile?.academiaId) return;
 
     try {
+      console.log('📊 [Fase 3] Carregando check-ins de hoje (localização global)...');
+
       const today = new Date().toISOString().split("T")[0];
 
-      const todayCheckIns =
-        await academyFirestoreService.getSubcollectionDocuments(
-          "classes",
-          selectedClass.id,
-          "checkIns",
-          userProfile.academiaId,
-          [{ field: "date", operator: "==", value: today }],
-        );
+      // Usar novo serviço unificado (Fase 3: Query global)
+      const todayCheckIns = await checkInService.getByClass(
+        selectedClass.id,
+        userProfile.academiaId,
+        today
+      );
 
       const checkedInStudentIds = new Set(
         todayCheckIns.map((checkIn) => checkIn.studentId),
       );
 
       setStudentsWithCheckIn(checkedInStudentIds);
+      console.log('✅ [Fase 3] Check-ins de hoje carregados:', todayCheckIns.length);
     } catch (error) {
-      console.error("❌ Erro ao carregar check-ins de hoje:", error);
+      console.error("❌ [Fase 3] Erro ao carregar check-ins de hoje:", error);
     }
   }, [selectedClass, userProfile?.academiaId]);
 
@@ -558,48 +531,36 @@ const CheckIn = ({ navigation }) => {
       const token = await user.getIdTokenResult();
       const tokenAcademiaId = token.claims.academiaId;
 
-      console.log("🔍 Debug - Academia ID:", tokenAcademiaId);
-      console.log("🔍 Debug - User ID:", user.id);
+      console.log("🔍 [Batch] Academia ID:", tokenAcademiaId);
+      console.log("🔍 [Batch] Alunos selecionados:", selectedStudents.size);
 
       const checkInPromises = Array.from(selectedStudents).map(
         async (studentId) => {
           const student = students.find((s) => s.id === studentId);
 
-          console.log("✅ Criando check-in para:", student?.name);
+          console.log("✅ [Batch] Criando check-in para:", student?.name);
 
-          const checkInData = {
+          // Usar novo serviço unificado (Fase 1: Dual-write)
+          return checkInService.create({
             studentId,
             studentName: student?.name || getString("nameNotInformed"),
             classId: selectedClass.id,
             className: selectedClass.name,
             instructorId: user.id,
             instructorName: userProfile?.name || user.email,
-            academiaId: tokenAcademiaId,
             type: "manual",
-            date: new Date().toISOString().split("T")[0],
-            timestamp: new Date(),
-            createdAt: new Date(),
-          };
-
-          console.log("📝 Dados do check-in:", checkInData);
-
-          return academyFirestoreService.addSubcollectionDocument(
-            "classes",
-            selectedClass.id,
-            "checkIns",
-            checkInData,
-            tokenAcademiaId,
-          );
+            verified: true
+          }, tokenAcademiaId);
         },
       );
 
       console.log(
-        "⏳ Aguardando conclusão de",
+        "⏳ [Batch] Aguardando conclusão de",
         checkInPromises.length,
         "check-ins...",
       );
       await Promise.all(checkInPromises);
-      console.log("✅ Todos os check-ins concluídos!");
+      console.log("✅ [Batch] Todos os check-ins concluídos!");
 
       Alert.alert(
         getString("successCheck"),
@@ -611,7 +572,7 @@ const CheckIn = ({ navigation }) => {
       await loadRecentCheckIns();
       await loadTodayCheckIns();
     } catch (error) {
-      console.error("❌ Erro no check-in em lote:", error);
+      console.error("❌ [Batch] Erro no check-in em lote:", error);
       Alert.alert(
         getString("error"),
         "Falha ao realizar check-in em lote. Tente novamente.",

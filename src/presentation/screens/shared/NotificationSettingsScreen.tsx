@@ -32,6 +32,12 @@ const NotificationSettingsScreen = ({ navigation }: any) => {
     announcementNotifications: true,
     evaluationReminders: true,
 
+    // Notificações de Check-in (Fase 4)
+    checkInNotifications: true,
+    studentCheckInAlert: true,  // Instrutor recebe quando aluno faz check-in
+    checkInConfirmation: true,  // Aluno recebe confirmação de check-in
+    dailyCheckInSummary: false, // Admin recebe resumo diário
+
     // Configurações de tempo
     paymentReminderDays: 3,
     classReminderMinutes: 30,
@@ -101,6 +107,10 @@ const NotificationSettingsScreen = ({ navigation }: any) => {
               classReminders: true,
               announcementNotifications: true,
               evaluationReminders: true,
+              checkInNotifications: true,
+              studentCheckInAlert: true,
+              checkInConfirmation: true,
+              dailyCheckInSummary: false,
               paymentReminderDays: 3,
               classReminderMinutes: 30,
               quietHoursEnabled: false,
@@ -216,6 +226,72 @@ const NotificationSettingsScreen = ({ navigation }: any) => {
                   />
                 )}
               />
+            </Card.Content>
+          </Card>
+
+          {/* Notificações de Check-in (Fase 4) */}
+          <Card style={styles.card}>
+            <Card.Content>
+              <View style={styles.cardHeader}>
+                <Ionicons name="checkmark-circle-outline" size={24} color={COLORS.success[500]} />
+                <Text style={[styles.cardTitle, styles.title]}>Check-in</Text>
+              </View>
+
+              <List.Item
+                title="Notificações de Check-in"
+                description="Ativar/desativar todas as notificações de check-in"
+                left={() => <List.Icon icon="bell" />}
+                right={() => (
+                  <Switch
+                    value={settings.checkInNotifications}
+                    onValueChange={(value) => updateSetting('checkInNotifications', value)}
+                  />
+                )}
+              />
+
+              {settings.checkInNotifications && (
+                <>
+                  <Divider />
+                  <List.Item
+                    title="Alerta de Check-in de Aluno"
+                    description="Instrutor recebe quando aluno faz check-in (Fase 4)"
+                    left={() => <List.Icon icon="account-check" />}
+                    right={() => (
+                      <Switch
+                        value={settings.studentCheckInAlert}
+                        onValueChange={(value) => updateSetting('studentCheckInAlert', value)}
+                        disabled={!settings.checkInNotifications}
+                      />
+                    )}
+                  />
+                  <Divider />
+                  <List.Item
+                    title="Confirmação de Check-in"
+                    description="Aluno recebe confirmação após fazer check-in"
+                    left={() => <List.Icon icon="check-circle" />}
+                    right={() => (
+                      <Switch
+                        value={settings.checkInConfirmation}
+                        onValueChange={(value) => updateSetting('checkInConfirmation', value)}
+                        disabled={!settings.checkInNotifications}
+                      />
+                    )}
+                  />
+                  <Divider />
+                  <List.Item
+                    title="Resumo Diário"
+                    description="Admin recebe resumo de check-ins do dia"
+                    left={() => <List.Icon icon="chart-bar" />}
+                    right={() => (
+                      <Switch
+                        value={settings.dailyCheckInSummary}
+                        onValueChange={(value) => updateSetting('dailyCheckInSummary', value)}
+                        disabled={!settings.checkInNotifications}
+                      />
+                    )}
+                  />
+                </>
+              )}
             </Card.Content>
           </Card>
 

@@ -831,7 +831,7 @@ const InstructorDashboard = ({ navigation }) => {
                       </View>
                       <AnimatedButton
                         mode="contained"
-                        onPress={() => navigation.navigate("checkIn")}
+                        onPress={() => navigation.navigate("CheckIn")}
                         style={styles.modernActionButton}
                         buttonColor={COLORS.info[600]}
                         textColor={COLORS.white}
