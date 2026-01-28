@@ -24,7 +24,7 @@ import exportUtils from '@shared/utils/exportUtils';
 import GlassCard from '@components/GlassCard';
 
 const Relatorios = ({ navigation }) => {
-  const { getString, currentLanguage, theme: profileTheme } = useTheme();
+  const { getString, currentLanguage, theme: profileTheme, isDark } = useTheme();
   // const { theme: profileTheme } = useProfileTheme(); // Removido: Contexto inexistente
   const { user, userProfile } = useAuthFacade();
   const [selectedPeriod, setSelectedPeriod] = useState('mes');
@@ -407,7 +407,11 @@ const Relatorios = ({ navigation }) => {
 
   if (loading) {
     return (
-      <LinearGradient colors={profileTheme.gradients.hero} style={{ flex: 1 }}>
+      <LinearGradient
+        colors={isDark ? COLORS.gradients.deepPurple : (COLORS.gradients.lightBackground || ['#F5F5F5', '#FFFFFF'])}
+        locations={isDark ? [0, 0.4, 0.8, 1] : [0, 0.5, 1]}
+        style={{ flex: 1 }}
+      >
         <SafeAreaView style={styles.container}>
           <ReportsSkeleton />
         </SafeAreaView>
@@ -422,7 +426,11 @@ const Relatorios = ({ navigation }) => {
       }}
       errorContext={{ screen: 'InstructorReports', academiaId: userProfile?.academiaId, instructorId: user?.uid }}
     >
-      <LinearGradient colors={profileTheme.gradients.hero} style={{ flex: 1 }}>
+      <LinearGradient
+        colors={isDark ? COLORS.gradients.deepPurple : (COLORS.gradients.lightBackground || ['#F5F5F5', '#FFFFFF'])}
+        locations={isDark ? [0, 0.4, 0.8, 1] : [0, 0.5, 1]}
+        style={{ flex: 1 }}
+      >
         <SafeAreaView style={[styles.container, { backgroundColor: 'transparent' }]}>
           <ScrollView
             style={styles.scrollView}

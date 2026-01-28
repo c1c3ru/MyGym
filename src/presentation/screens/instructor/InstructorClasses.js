@@ -45,7 +45,7 @@ import { useTheme } from "@contexts/ThemeContext";
 import { useProfileTheme } from "../../../contexts/ProfileThemeContext";
 
 const InstructorClasses = ({ navigation }) => {
-  const { getString } = useTheme();
+  const { getString, isDark } = useTheme();
   const { theme: profileTheme } = useProfileTheme();
   const { user, userProfile } = useAuthFacade();
   const [classes, setClasses] = useState([]);
@@ -349,13 +349,13 @@ const InstructorClasses = ({ navigation }) => {
 
       const cardStyle = Platform.OS === 'web'
         ? {
-          backgroundColor: 'rgba(255, 255, 255, 0.75)',
-          backdropFilter: 'blur(12px)',
-          borderColor: 'rgba(255, 255, 255, 0.5)',
+          backgroundColor: isDark ? 'rgba(30, 30, 40, 0.7)' : 'rgba(245, 247, 250, 0.65)', // Cinza glass translúcido
+          backdropFilter: 'blur(16px)',
+          borderColor: isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(255, 255, 255, 0.6)',
           borderWidth: 1,
-          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)', // Sombra suave web
+          boxShadow: isDark ? '0 8px 32px rgba(0, 0, 0, 0.3)' : '0 8px 20px rgba(0, 0, 0, 0.08)', // Sombra mais marcada
         }
-        : { backgroundColor: profileTheme.background.paper };
+        : { backgroundColor: isDark ? profileTheme.background.paper : '#F8F9FA' };
 
       return (
         <Card key={classItem.id} style={[styles.card, cardStyle]}>
@@ -470,7 +470,11 @@ const InstructorClasses = ({ navigation }) => {
 
   if (loading) {
     return (
-      <LinearGradient colors={profileTheme.gradients.hero} style={{ flex: 1 }}>
+      <LinearGradient
+        colors={isDark ? COLORS.gradients.deepPurple : (COLORS.gradients.lightBackground || ['#F5F5F5', '#FFFFFF'])}
+        locations={isDark ? [0, 0.4, 0.8, 1] : [0, 0.5, 1]}
+        style={{ flex: 1 }}
+      >
         <SafeAreaView style={styles.container}>
           <InstructorClassesSkeleton />
         </SafeAreaView>
@@ -493,7 +497,11 @@ const InstructorClasses = ({ navigation }) => {
         instructorId: user?.uid,
       }}
     >
-      <LinearGradient colors={profileTheme.gradients.hero} style={{ flex: 1 }}>
+      <LinearGradient
+        colors={isDark ? COLORS.gradients.deepPurple : (COLORS.gradients.lightBackground || ['#F5F5F5', '#FFFFFF'])}
+        locations={isDark ? [0, 0.4, 0.8, 1] : [0, 0.5, 1]}
+        style={{ flex: 1 }}
+      >
         <SafeAreaView style={[styles.container, { backgroundColor: 'transparent' }]}>
           {/* Header informativo */}
           <View style={[
@@ -660,6 +668,7 @@ const styles = StyleSheet.create({
   card: {
     marginBottom: SPACING.md,
     elevation: 4,
+    borderRadius: 16,
   },
   cardHeader: {
     flexDirection: "row",

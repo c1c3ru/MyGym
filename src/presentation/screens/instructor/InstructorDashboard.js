@@ -57,7 +57,7 @@ import IconContainer from "@components/IconContainer";
 const InstructorDashboard = ({ navigation }) => {
   const { theme: profileTheme } = useProfileTheme(); // 🎨 Tema Roxo/Verde
   const { user, userProfile } = useAuthFacade();
-  const { getString } = useTheme();
+  const { getString, colors: themeColors, isDark } = useTheme();
   const { animations, startEntryAnimation } = useAnimation();
   const scrollY = new Animated.Value(0);
 
@@ -463,8 +463,8 @@ const InstructorDashboard = ({ navigation }) => {
       }}
     >
       <LinearGradient
-        colors={COLORS.gradients.deepPurple}
-        locations={[0, 0.4, 0.8, 1]}
+        colors={isDark ? COLORS.gradients.deepPurple : (COLORS.gradients.lightBackground || ['#F5F5F5', '#FFFFFF'])}
+        locations={isDark ? [0, 0.4, 0.8, 1] : [0, 0.5, 1]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={{ flex: 1 }}
@@ -486,7 +486,7 @@ const InstructorDashboard = ({ navigation }) => {
                 onRefresh={onRefresh}
                 colors={[profileTheme.primary[400]]}
                 tintColor={profileTheme.primary[400]}
-                progressBackgroundColor={COLORS.gray[900]}
+                progressBackgroundColor={isDark ? COLORS.gray[900] : COLORS.white}
               />
             }
             contentContainerStyle={{ paddingBottom: SPACING.xl }}
@@ -553,7 +553,7 @@ const InstructorDashboard = ({ navigation }) => {
               <Animated.View style={{ width: '48%', opacity: animations.fadeAnim }}>
                 <GlassCard
                   style={styles.glassStatCard}
-                  variant="subtle"
+                  variant="card"
                   padding={SPACING.md}
                   marginBottom={SPACING.md}
                 >
@@ -567,7 +567,7 @@ const InstructorDashboard = ({ navigation }) => {
                     <Text style={[styles.statNumber, { color: profileTheme.text.primary }]}>
                       {dashboardData.myClasses.length}
                     </Text>
-                    <Text style={[styles.statLabel, { color: profileTheme.text.secondary }]}>{getString("myClasses")}</Text>
+                    <Text style={[styles.statLabel, { color: isDark ? profileTheme.text.secondary : COLORS.gray[700] }]}>{getString("myClasses")}</Text>
                   </View>
                 </GlassCard>
               </Animated.View>
@@ -575,7 +575,7 @@ const InstructorDashboard = ({ navigation }) => {
               <Animated.View style={{ width: '48%', opacity: animations.fadeAnim }}>
                 <GlassCard
                   style={styles.glassStatCard}
-                  variant="subtle"
+                  variant="card"
                   padding={SPACING.md}
                   marginBottom={SPACING.md}
                 >
@@ -590,7 +590,7 @@ const InstructorDashboard = ({ navigation }) => {
                     <Text style={[styles.statNumber, { color: profileTheme.text.primary }]}>
                       {dashboardData.totalStudents}
                     </Text>
-                    <Text style={[styles.statLabel, { color: profileTheme.text.secondary }]}>
+                    <Text style={[styles.statLabel, { color: isDark ? profileTheme.text.secondary : COLORS.gray[700] }]}>
                       {getString("totalStudents")}
                     </Text>
                   </View>
@@ -600,7 +600,7 @@ const InstructorDashboard = ({ navigation }) => {
               <Animated.View style={{ width: '48%', opacity: animations.fadeAnim }}>
                 <GlassCard
                   style={styles.glassStatCard}
-                  variant="subtle"
+                  variant="card"
                   padding={SPACING.md}
                   marginBottom={SPACING.md}
                 >
@@ -615,7 +615,7 @@ const InstructorDashboard = ({ navigation }) => {
                     <Text style={[styles.statNumber, { color: profileTheme.text.primary }]}>
                       {dashboardData.todayClasses.length}
                     </Text>
-                    <Text style={[styles.statLabel, { color: profileTheme.text.secondary }]}>
+                    <Text style={[styles.statLabel, { color: isDark ? profileTheme.text.secondary : COLORS.gray[700] }]}>
                       {getString("classesToday")}
                     </Text>
                   </View>
@@ -625,7 +625,7 @@ const InstructorDashboard = ({ navigation }) => {
               <Animated.View style={{ width: '48%', opacity: animations.fadeAnim }}>
                 <GlassCard
                   style={styles.glassStatCard}
-                  variant="subtle"
+                  variant="card"
                   padding={SPACING.md}
                   marginBottom={SPACING.md}
                 >
@@ -640,7 +640,7 @@ const InstructorDashboard = ({ navigation }) => {
                     <Text style={[styles.statNumber, { color: profileTheme.text.primary }]}>
                       {dashboardData.activeCheckIns}
                     </Text>
-                    <Text style={[styles.statLabel, { color: profileTheme.text.secondary }]}>{getString("checkIns")}</Text>
+                    <Text style={[styles.statLabel, { color: isDark ? profileTheme.text.secondary : COLORS.gray[700] }]}>{getString("checkIns")}</Text>
                   </View>
                 </GlassCard>
               </Animated.View>
@@ -648,7 +648,7 @@ const InstructorDashboard = ({ navigation }) => {
 
             {/* Timeline de Aulas Hoje */}
             <Animated.View style={{ opacity: animations.fadeAnim, transform: [{ translateY: animations.fadeAnim.interpolate({ inputRange: [0, 1], outputRange: [20, 0] }) }] }}>
-              <GlassCard variant="card" padding={SPACING.lg} marginBottom={SPACING.lg}>
+              <GlassCard variant="card" padding={SPACING.lg} marginBottom={SPACING.lg} style={styles.cardShadow} marginHorizontal={SPACING.md}>
                 <SectionHeader
                   emoji="🕒"
                   title={getString("todaySchedule")}
@@ -754,7 +754,7 @@ const InstructorDashboard = ({ navigation }) => {
 
             {/* Ações Rápidas Modernizadas */}
             <Animated.View style={{ opacity: animations.fadeAnim, transform: [{ translateY: animations.fadeAnim.interpolate({ inputRange: [0, 1], outputRange: [20, 0] }) }] }}>
-              <GlassCard variant="card" padding={SPACING.lg} marginBottom={SPACING.lg}>
+              <GlassCard variant="card" padding={SPACING.lg} marginBottom={SPACING.lg} style={styles.cardShadow} marginHorizontal={SPACING.md}>
                 <SectionHeader
                   emoji="⚡"
                   title={getString("quickActions")}
@@ -877,7 +877,7 @@ const InstructorDashboard = ({ navigation }) => {
 
             {/* Avisos e Comunicados */}
             <Animated.View style={{ opacity: animations.fadeAnim, transform: [{ translateY: animations.fadeAnim.interpolate({ inputRange: [0, 1], outputRange: [20, 0] }) }] }}>
-              <GlassCard variant="card" padding={SPACING.lg} marginBottom={SPACING.lg}>
+              <GlassCard variant="card" padding={SPACING.lg} marginBottom={SPACING.lg} style={styles.cardShadow} marginHorizontal={SPACING.md}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: SPACING.sm }}>
                   <SectionHeader
                     emoji="📢"
@@ -999,7 +999,7 @@ const InstructorDashboard = ({ navigation }) => {
             {/* Graduações Recentes */}
 
             <Animated.View style={{ opacity: animations.fadeAnim, transform: [{ translateY: animations.fadeAnim.interpolate({ inputRange: [0, 1], outputRange: [20, 0] }) }] }}>
-              <GlassCard variant="card" padding={SPACING.lg} marginBottom={SPACING.lg}>
+              <GlassCard variant="card" padding={SPACING.lg} marginBottom={SPACING.lg} style={styles.cardShadow} marginHorizontal={SPACING.md}>
                 <SectionHeader
                   emoji="🏆"
                   title={getString("recentGraduations")}
@@ -1071,7 +1071,7 @@ const InstructorDashboard = ({ navigation }) => {
 
             {/* Próximas Aulas */}
             <Animated.View style={{ opacity: animations.fadeAnim, transform: [{ translateY: animations.fadeAnim.interpolate({ inputRange: [0, 1], outputRange: [20, 0] }) }] }}>
-              <GlassCard variant="card" padding={SPACING.lg} marginBottom={SPACING.lg}>
+              <GlassCard variant="card" padding={SPACING.lg} marginBottom={SPACING.lg} style={styles.cardShadow} marginHorizontal={SPACING.md}>
                 <SectionHeader
                   emoji="📅"
                   title={getString("upcomingClasses")}
@@ -1273,13 +1273,13 @@ const styles = StyleSheet.create({
   // Header moderno
   headerContainer: {
     margin: ResponsiveUtils.spacing.md,
-    marginBottom: ResponsiveUtils.spacing.lg,
     borderRadius: ResponsiveUtils.borderRadius.large,
     overflow: "hidden",
     ...ResponsiveUtils.elevation,
   },
   headerGradient: {
     padding: ResponsiveUtils.spacing.lg,
+    paddingBottom: SPACING.xl * 2, // Extend gradient area
   },
   headerContent: {
     flexDirection: "row",
@@ -1324,14 +1324,33 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "space-between",
     paddingHorizontal: ResponsiveUtils.spacing.md,
+    marginTop: 0, // Remove overlapping
+    zIndex: 1,
     marginBottom: ResponsiveUtils.spacing.md,
+  },
+  cardShadow: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.2, // um pouco mais suave que os stats para hierarquia, ou igual
+    shadowRadius: 10,
+    elevation: 6,
   },
   glassStatCard: {
     height: 140,
     justifyContent: 'center',
     alignItems: 'center',
-    // Background controlled by GlassCard variant
-    // backgroundColor: Platform.OS === 'web' ? 'rgba(20, 20, 30, 0.4)' : 'rgba(255, 255, 255, 0.05)',
+    // Sombra para profundidade mantendo o glass
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 8,
+    },
+    shadowOpacity: 0.3, // Mais visível
+    shadowRadius: 12,
+    elevation: 8,
   },
   statContent: {
     alignItems: "center",

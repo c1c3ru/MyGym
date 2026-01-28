@@ -44,7 +44,7 @@ const InstructorStudents = ({ navigation }) => {
   const { theme: profileTheme } = useProfileTheme();
 
   const { user, userProfile, academia } = useAuthFacade();
-  const { getString } = useTheme();
+  const { getString, isDark, colors: themeColors = {} } = useTheme();
   const [students, setStudents] = useState([]);
   const [filteredStudents, setFilteredStudents] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -391,13 +391,8 @@ const InstructorStudents = ({ navigation }) => {
 
   return (
     <LinearGradient
-      colors={[
-        COLORS.gradients.deepPurple[0], // Deep Purple
-        COLORS.gradients.deepPurple[1], // Darker Purple
-        COLORS.gradients.deepPurple[2], // Almost Black
-        COLORS.gradients.deepPurple[3]  // Black
-      ]}
-      locations={[0, 0.4, 0.8, 1]}
+      colors={isDark ? COLORS.gradients.deepPurple : COLORS.gradients.lightBackground || ['#F5F5F5', '#FFFFFF']}
+      locations={isDark ? [0, 0.4, 0.8, 1] : [0, 1]}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
       style={{ flex: 1 }}
@@ -407,18 +402,18 @@ const InstructorStudents = ({ navigation }) => {
           <SectionHeader
             title={getString('students')}
             subtitle={getString('manageYourStudents')}
-            textColor={COLORS.white}
-            subtitleColor={COLORS.gray[300]}
+            textColor={isDark ? COLORS.white : (themeColors?.onBackground || COLORS.black)}
+            subtitleColor={isDark ? COLORS.gray[300] : (themeColors?.onSurfaceVariant || COLORS.gray[600])}
             marginTop={0}
           />
           <Searchbar
             placeholder={getString('searchStudents')}
             onChangeText={setSearchQuery}
             value={searchQuery}
-            style={[styles.glassSearchbar]}
-            iconColor={COLORS.gray[300]}
-            inputStyle={{ color: COLORS.white }}
-            placeholderTextColor={COLORS.gray[400]}
+            style={[styles.glassSearchbar, !isDark && { backgroundColor: themeColors?.surfaceVariant || COLORS.gray[100] }]}
+            iconColor={isDark ? COLORS.gray[300] : (themeColors?.onSurfaceVariant || COLORS.gray[600])}
+            inputStyle={{ color: isDark ? COLORS.white : (themeColors?.onSurface || COLORS.black) }}
+            placeholderTextColor={isDark ? COLORS.gray[400] : (themeColors?.onSurfaceVariant || COLORS.gray[400])}
           />
 
           {/* Filtros Avançados - Linha 1 */}

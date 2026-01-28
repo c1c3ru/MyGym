@@ -147,7 +147,7 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
 
               <List.Item
                 title={getString('theme')}
-                description={isDarkMode ? 'Tema Escuro' : 'Tema Claro'}
+                description={isDarkMode ? getString('darkTheme') : getString('lightTheme')}
                 left={() => <Ionicons name="color-palette" size={20} color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
                 right={() => <List.Icon icon="chevron-right" color={isDarkMode ? COLORS.gray[400] : COLORS.gray[600]} />}
                 onPress={() => setShowAppearanceModal(true)}
