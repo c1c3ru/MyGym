@@ -63,14 +63,22 @@ const BaseBottomSheet: React.FC<BaseBottomSheetProps> = ({
 
 const styles = StyleSheet.create({
     modalContainer: {
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        borderTopLeftRadius: BORDER_RADIUS.xl,
-        borderTopRightRadius: BORDER_RADIUS.xl,
+        ...(Platform.OS === 'web' ? {
+            width: '90%',
+            maxWidth: 500,
+            borderRadius: BORDER_RADIUS.xl,
+            borderWidth: 1,
+            alignSelf: 'center',
+        } : {
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            borderTopLeftRadius: BORDER_RADIUS.xl,
+            borderTopRightRadius: BORDER_RADIUS.xl,
+            borderTopWidth: 1,
+        }),
         paddingBottom: Platform.OS === 'ios' ? 40 : 20,
-        borderTopWidth: 1,
         maxHeight: SCREEN_HEIGHT * 0.8,
     },
     header: {
@@ -82,6 +90,7 @@ const styles = StyleSheet.create({
         height: 4,
         borderRadius: 2,
         marginBottom: SPACING.sm,
+        ...(Platform.OS === 'web' ? { display: 'none' } : {}), // Hide handle on web/center modal
     },
     titleRow: {
         flexDirection: 'row',
@@ -99,8 +108,9 @@ const styles = StyleSheet.create({
         paddingTop: SPACING.md,
     },
     modal: {
-        justifyContent: 'flex-end',
+        justifyContent: Platform.OS === 'web' ? 'center' : 'flex-end',
         margin: 0,
+        ...(Platform.OS === 'web' ? { alignItems: 'center' } : {}),
     },
 });
 
