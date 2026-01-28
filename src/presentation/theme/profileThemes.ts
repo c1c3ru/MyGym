@@ -243,7 +243,7 @@ export const INSTRUCTOR_THEME_DARK = {
     gradients: {
         primary: ['#D32F2F', '#880E4F'],           // Vermelho intenso para escuro
         secondary: ['#616161', '#212121'],         // Cinza escuro
-        hero: ['#121212', '#D32F2F', '#880E4F'],   // Hero dark
+        hero: ['#2e003e', '#1a0026', '#0d0015', '#000000'],   // Hero dark (Deep Purple)
         card: ['#1E1E1E', '#2A2A2A'],              // Card dark
     },
 };

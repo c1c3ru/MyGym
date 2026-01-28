@@ -45,6 +45,8 @@ const FreeGymScheduler = ({
   // Se theme não tiver getString, pode causar erro, então garantir fallback
   const safeGetString = getString || ((key) => key);
 
+  const styles = useMemo(() => createStyles(colors), [colors]);
+
   // Usa useAuthFacade para autenticação
   const { user, userProfile, academia } = useAuthFacade();
 
