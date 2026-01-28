@@ -223,7 +223,7 @@ const StudentEvolution = ({ navigation }) => {
                 <View style={[
                   styles.snakeConnector,
                   {
-                    backgroundColor: item.isLocked ? colors.outline : getGraduationColor(item.graduation),
+                    backgroundColor: item.isLocked ? colors.outline : getGraduationColor(item.graduation, item.modality),
                     opacity: item.isLocked ? 0.2 : 0.6,
                     height: 120,
                   }
@@ -241,8 +241,8 @@ const StudentEvolution = ({ navigation }) => {
                 <Animated.View style={[
                   styles.milestoneCircle,
                   {
-                    borderColor: getGraduationColor(item.graduation),
-                    backgroundColor: item.isLocked ? 'rgba(255,255,255,0.05)' : getGraduationColor(item.graduation),
+                    borderColor: getGraduationColor(item.graduation, item.modality),
+                    backgroundColor: item.isLocked ? 'rgba(255,255,255,0.05)' : getGraduationColor(item.graduation, item.modality),
                     transform: item.isCurrent ? [{ scale: pulseAnim }] : []
                   }
                 ]}>
@@ -259,7 +259,7 @@ const StudentEvolution = ({ navigation }) => {
                   {item.isCurrent && (
                     <Animated.View style={[
                       styles.pulseCircle,
-                      { borderColor: getGraduationColor(item.graduation) }
+                      { borderColor: getGraduationColor(item.graduation, item.modality) }
                     ]} />
                   )}
                 </Animated.View>
@@ -292,10 +292,34 @@ const StudentEvolution = ({ navigation }) => {
     return new Date(date).toLocaleDateString('pt-BR');
   };
 
-  const getGraduationColor = (graduation) => {
+  const getGraduationColor = (graduation, modality) => {
     if (!graduation) return colors.primary;
 
-    // Normalizar: remover 'Faixa ', converter para minúsculas e tirar espaços
+    // 1. Tentar obter a cor diretamente da definição da modalidade se disponível
+    if (modality) {
+      const progression = getProgressionForModality(modality);
+      const level = progression.levels.find(l =>
+        l.label.toLowerCase().includes(graduation.toLowerCase()) ||
+        graduation.toLowerCase().includes(l.label.toLowerCase())
+      );
+      if (level && level.color) {
+        const colorMap = {
+          'white': COLORS.special.belt.white,
+          'yellow': COLORS.yellow[500],
+          'orange': COLORS.orange[500],
+          'green': COLORS.green[500],
+          'blue': COLORS.blue[500],
+          'purple': COLORS.purple[500],
+          'brown': COLORS.brown[500],
+          'black': COLORS.special.belt.black,
+          'red': COLORS.special.belt.red,
+          'gray': COLORS.gray[500],
+        };
+        if (colorMap[level.color]) return colorMap[level.color];
+      }
+    }
+
+    // 2. Fallback para mapeamento por string (compatibilidade)
     const normalized = graduation.replace(/Faixa\s+/i, '').toLowerCase().trim();
 
     const beltColors = {
@@ -310,9 +334,7 @@ const StudentEvolution = ({ navigation }) => {
       'preta': COLORS.special.belt.black,
       'coral': COLORS.special.belt.red,
       'vermelha': COLORS.special.belt.red,
-      // Mapeamento em inglês caso os dados venham assim
       'white': COLORS.special.belt.white,
-      'gray': COLORS.gray[500],
       'yellow': COLORS.special.belt.yellow,
       'orange': COLORS.special.belt.orange,
       'green': COLORS.special.belt.green,
@@ -322,6 +344,12 @@ const StudentEvolution = ({ navigation }) => {
       'black': COLORS.special.belt.black,
       'red': COLORS.special.belt.red,
     };
+
+    // Busca parcial se não encontrar exato
+    if (!beltColors[normalized]) {
+      const key = Object.keys(beltColors).find(k => normalized.includes(k));
+      if (key) return beltColors[key];
+    }
 
     return beltColors[normalized] || colors.primary;
   };
@@ -333,7 +361,13 @@ const StudentEvolution = ({ navigation }) => {
       'Boxe': 'hand-right-outline',
       'MMA': 'shield-outline',
       'Karatê': 'body-outline',
-      'Judô': 'person-outline'
+      'Judô': 'person-outline',
+      'Taekwondo': 'flash-outline',
+      'Kickboxing': 'walk-outline',
+      'Capoeira': 'repeat-outline',
+      'Krav Maga': 'shield-half-outline',
+      'Aikido': 'infinite-outline',
+      'Sanda': 'fist-outline'
     };
     return icons[modality] || 'medal-outline';
   };
@@ -401,8 +435,8 @@ const StudentEvolution = ({ navigation }) => {
                   <Text style={styles.modalityName}>{mod}:</Text>
                   <Chip
                     compact
-                    style={[styles.smallChip, { borderColor: getGraduationColor(stats.beltsByModality[mod]) }]}
-                    textStyle={{ color: getGraduationColor(stats.beltsByModality[mod]), fontSize: 12 }}
+                    style={[styles.smallChip, { borderColor: getGraduationColor(stats.beltsByModality[mod], mod) }]}
+                    textStyle={{ color: getGraduationColor(stats.beltsByModality[mod], mod), fontSize: 12 }}
                   >
                     {stats.beltsByModality[mod]}
                   </Chip>
@@ -457,7 +491,7 @@ const StudentEvolution = ({ navigation }) => {
               {selectedMilestone && (
                 <View>
                   <View style={styles.modalHeader}>
-                    <View style={[styles.modalBeltIcon, { backgroundColor: getGraduationColor(selectedMilestone.graduation) }]}>
+                    <View style={[styles.modalBeltIcon, { backgroundColor: getGraduationColor(selectedMilestone.graduation, selectedMilestone.modality) }]}>
                       <Ionicons name="medal" size={32} color={selectedMilestone.color === 'white' ? '#000' : '#FFF'} />
                     </View>
                     <View style={{ flex: 1, marginLeft: SPACING.md }}>

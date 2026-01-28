@@ -6,6 +6,8 @@ import { useTheme } from '@contexts/ThemeContext';
 import { academyFirestoreService } from '@infrastructure/services/academyFirestoreService';
 import FreeGymScheduler from '@components/FreeGymScheduler';
 import { useCustomClaims } from '@hooks/useCustomClaims';
+import { firestoreService } from '@infrastructure/services/firestoreService';
+import TrainingGoalHeader from '@components/TrainingGoalHeader';
 
 /**
  * Calendário do Aluno usando FreeGymScheduler
@@ -16,6 +18,7 @@ const StudentCalendar = ({ navigation }) => {
   const { getString, theme } = useTheme();
   const { isStudent } = useCustomClaims();
   const [classes, setClasses] = useState([]);
+  const [checkins, setCheckins] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -41,7 +44,17 @@ const StudentCalendar = ({ navigation }) => {
       );
 
       setClasses(studentClasses);
+      setClasses(studentClasses);
       console.log('✅ Turmas do aluno carregadas:', studentClasses.length);
+
+      // Carregar check-ins do aluno (Histórico)
+      const userCheckins = await firestoreService.getDocumentsWithFilters(
+        `gyms/${userProfile.academiaId}/checkins`,
+        [{ field: 'studentId', operator: '==', value: user.id || user.uid }]
+      );
+
+      setCheckins(userCheckins);
+      console.log('✅ Check-ins carregados:', userCheckins.length);
 
     } catch (error) {
       console.error('❌ Erro ao carregar turmas do aluno:', error);
@@ -76,8 +89,14 @@ const StudentCalendar = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <TrainingGoalHeader
+        checkins={checkins}
+        theme={theme}
+        weeklyGoal={userProfile?.weeklyGoal || 3}
+      />
       <FreeGymScheduler
         classes={classes}
+        checkins={checkins}
         onClassPress={handleClassPress}
         onDatePress={handleDatePress}
         onCreateClass={null} // Alunos não podem criar turmas

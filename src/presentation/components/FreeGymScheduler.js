@@ -29,6 +29,7 @@ const { width } = Dimensions.get('window');
  */
 const FreeGymScheduler = ({
   classes = [],
+  checkins = null, // Propriedade opcional para histórico de check-ins
   onClassPress,
   onDatePress,
   onCreateClass,
@@ -101,6 +102,11 @@ const FreeGymScheduler = ({
   const generateRecurringEvents = useCallback((classData) => {
     const events = {};
     const today = new Date();
+    // Reset time to start of today for accurate comparison
+    const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+    // Para alunos (com checkins), geramos apenas do futuro. Para outros, mantemos histórico.
+    // Mas a lógica de 3 meses permanece para o futuro.
     const endDate = new Date(today.getFullYear(), today.getMonth() + 3, today.getDate());
 
     // Verificar se a turma tem schedule definido
@@ -123,15 +129,21 @@ const FreeGymScheduler = ({
         const eventDate = new Date(today);
         eventDate.setDate(today.getDate() + (week * 7) + (dayIndex - today.getDay()));
 
-        if (eventDate <= endDate && eventDate >= today) {
-          const dateString = eventDate.toISOString().split('T')[0];
+        // Normalizar data do evento
+        const eventDateString = eventDate.toISOString().split('T')[0];
+        const eventDateObj = new Date(eventDate.getFullYear(), eventDate.getMonth(), eventDate.getDate());
 
+        // Se tivermos checkins (visão aluno), só mostramos schedule futuro (>= hoje)
+        const isFuture = eventDateObj >= startOfToday;
+        const shouldInclude = checkins ? isFuture : true;
+
+        if (eventDate <= endDate && shouldInclude) {
           hours.forEach(time => {
-            const eventId = `${classData.id}-${dateString}-${time}`;
+            const eventId = `${classData.id}-${eventDateString}-${time}`;
 
-            if (!events[dateString]) events[dateString] = [];
+            if (!events[eventDateString]) events[eventDateString] = [];
 
-            events[dateString].push({
+            events[eventDateString].push({
               id: eventId,
               classId: classData.id,
               title: classData.name,
@@ -143,9 +155,10 @@ const FreeGymScheduler = ({
               maxStudents: classData.maxStudents || 0,
               enrolledStudents: classData.students?.length || 0,
               color: modalityColors[classData.modality?.toLowerCase()] || modalityColors.default,
-              date: dateString,
+              date: eventDateString,
               ageCategory: classData.ageCategory,
-              status: classData.status
+              status: classData.status,
+              type: 'scheduled' // Marcador de tipo
             });
           });
         }
@@ -153,12 +166,13 @@ const FreeGymScheduler = ({
     });
 
     return events;
-  }, [modalityColors]);
+  }, [modalityColors, checkins]);
 
   // Gerar todos os eventos de todas as turmas
   const allEvents = useMemo(() => {
     let events = {};
 
+    // 1. Gerar eventos agendados (Schedule)
     classes.forEach(classData => {
       const classEvents = generateRecurringEvents(classData);
 
@@ -167,6 +181,40 @@ const FreeGymScheduler = ({
         events[date].push(...dayEvents);
       });
     });
+
+    // 2. Se houver check-ins (Histórico), adicionar como eventos passados
+    if (checkins && Array.isArray(checkins)) {
+      checkins.forEach(checkin => {
+        // Garantir formato de data YYYY-MM-DD
+        let checkinDate = checkin.date;
+        if (checkin.date && typeof checkin.date === 'object' && checkin.date.toDate) {
+          checkinDate = checkin.date.toDate().toISOString().split('T')[0];
+        } else if (checkin.date && typeof checkin.date === 'string' && checkin.date.includes('T')) {
+          checkinDate = checkin.date.split('T')[0];
+        }
+
+        if (checkinDate) {
+          if (!events[checkinDate]) events[checkinDate] = [];
+
+          // Tentar encontrar dados da turma original se possível
+          const originalClass = classes.find(c => c.id === checkin.classId) || {};
+
+          events[checkinDate].push({
+            id: checkin.id,
+            classId: checkin.classId,
+            title: checkin.className || originalClass.name || 'Treino Realizado',
+            time: checkin.time || '00:00',
+            duration: 60, // Estimado se não tiver
+            instructor: checkin.instructorName || originalClass.instructorName || '-',
+            modality: checkin.modality || originalClass.modality || 'Treino',
+            color: modalityColors[(checkin.modality || originalClass.modality || '').toLowerCase()] || COLORS.success[500],
+            date: checkinDate,
+            type: 'checkin', // Marcador de tipo
+            status: checkin.status || 'present'
+          });
+        }
+      });
+    }
 
     // Aplicar filtros
     if (filterInstructor || filterModality) {
@@ -184,7 +232,7 @@ const FreeGymScheduler = ({
     }
 
     return events;
-  }, [classes, generateRecurringEvents, filterInstructor, filterModality]);
+  }, [classes, generateRecurringEvents, filterInstructor, filterModality, checkins]);
 
   // Marcar datas no calendário
   const markedDates = useMemo(() => {
@@ -267,26 +315,52 @@ const FreeGymScheduler = ({
             c.event1.id === event.id || c.event2.id === event.id
           );
 
+          const isCheckin = event.type === 'checkin';
+
           return (
             <Card
               key={event.id}
               style={[
                 styles.eventCard,
-                { backgroundColor: colors?.surface },
-                hasConflict && { borderColor: colors?.error, borderWidth: 2 }
+                { backgroundColor: isCheckin ? colors?.elevation?.level2 : colors?.surface },
+                isCheckin && { borderLeftWidth: 4, borderLeftColor: COLORS.success[500] },
+                hasConflict && !isCheckin && { borderColor: colors?.error, borderWidth: 2 }
               ]}
               onPress={() => onClassPress && onClassPress(event)}
             >
               <Card.Content style={styles.eventContent}>
                 <View style={styles.eventHeader}>
-                  <View style={[styles.colorIndicator, { backgroundColor: event.color }]} />
-                  <Text style={[styles.eventTitle, { color: colors?.onSurface }]}>
-                    {event.title}
+                  {!isCheckin && <View style={[styles.colorIndicator, { backgroundColor: event.color }]} />}
+
+                  <Text style={[styles.eventTitle, { color: colors?.onSurface, fontWeight: isCheckin ? 'bold' : '600' }]}>
+                    {isCheckin ? '✅ ' : ''}{event.title}
                   </Text>
-                  {hasConflict && (
+
+                  {isCheckin && (
                     <Chip
                       compact
-                      style={{ backgroundColor: colors?.errorContainer }}
+                      style={{ backgroundColor: COLORS.success[100], height: 24 }}
+                      textStyle={{ color: COLORS.success[700], fontSize: 10, lineHeight: 10 }}
+                    >
+                      Realizado
+                    </Chip>
+                  )}
+
+                  {!isCheckin && (
+                    <Chip
+                      compact
+                      mode="outlined"
+                      style={{ height: 24, borderColor: colors?.outline }}
+                      textStyle={{ color: colors?.onSurfaceVariant, fontSize: 10, lineHeight: 10 }}
+                    >
+                      Agendado
+                    </Chip>
+                  )}
+
+                  {hasConflict && !isCheckin && (
+                    <Chip
+                      compact
+                      style={{ backgroundColor: colors?.errorContainer, marginLeft: 4 }}
                       textStyle={{ color: colors?.onErrorContainer, fontSize: FONT_SIZE.xxs }}
                     >
                       ⚠️ Conflito
@@ -294,9 +368,9 @@ const FreeGymScheduler = ({
                   )}
                 </View>
 
-                <View style={styles.eventDetails}>
-                  <Text style={[styles.eventTime, { color: colors?.primary }]}>
-                    {event.time} - {addMinutesToTime(event.time, event.duration)}
+                <View style={[styles.eventDetails, isCheckin && { marginLeft: 0 }]}>
+                  <Text style={[styles.eventTime, { color: isCheckin ? colors?.onSurface : colors?.primary }]}>
+                    🕒 {event.time} - {addMinutesToTime(event.time, event.duration)}
                   </Text>
                   <Text style={[styles.eventInstructor, { color: colors?.onSurfaceVariant }]}>
                     👤 {event.instructor}
@@ -304,9 +378,11 @@ const FreeGymScheduler = ({
                   <Text style={[styles.eventModality, { color: colors?.onSurfaceVariant }]}>
                     🥋 {event.modality}
                   </Text>
-                  <Text style={[styles.eventCapacity, { color: colors?.onSurfaceVariant }]}>
-                    👥 {event.enrolledStudents}/{event.maxStudents} alunos
-                  </Text>
+                  {!isCheckin && (
+                    <Text style={[styles.eventCapacity, { color: colors?.onSurfaceVariant }]}>
+                      👥 {event.enrolledStudents}/{event.maxStudents} alunos
+                    </Text>
+                  )}
                 </View>
               </Card.Content>
             </Card>
